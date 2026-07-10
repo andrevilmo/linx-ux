@@ -1,0 +1,42 @@
+﻿<div class="topo-container">
+    <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header' }-->
+        <!--/ko-->
+    </div>
+</div>
+
+
+<main role="main">
+    <section id="tab" class="is--fixed">
+        <ul class="breadcrumb__list">
+            <li class="breadcrumb-item">
+                <a href="#">Developer Mode</a>
+            </li>
+        </ul>
+    </section>
+    <section id="content">
+        <article class="aba-content" style="display:block">
+            <div class="container-fluid">
+                <div class="row" data-bind="foreach: MENUS_VM">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <!-- ko if: isTransaction -->
+                        <div class="card view">                           
+                            <div class="card-block" data-bind="click: function () { $root.card_click(urlLink) }">
+                                <p class="cardicon-view">
+                                    <i data-bind="attr: { class: 'fa fa-' + iconName }" aria-hidden="true"></i>
+                                </p>
+                                <p class="module-name truncate" data-bind="text: displayName, title: displayName"></p>
+                            </div>
+                            <p class="actions-view txt-center">
+                                <i class="fa fa-plus-circle" aria-hidden="true" data-bind="click: function () { $root.UI_linkModoInclusao_Click(urlLink) }"></i>
+                                <i class="fa fa-search" aria-hidden="true" title="Modo pesquisa" data-bind="click: function () { $root.card_click(urlLink) }"></i>
+                            </p>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+</main>
+

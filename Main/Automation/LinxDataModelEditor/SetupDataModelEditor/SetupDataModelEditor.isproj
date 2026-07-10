@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Project ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<!-- Select a Product Configuration -->
+		<InstallShieldProductConfiguration>Express</InstallShieldProductConfiguration>
+		<!-- Select a Visual Studio Configuration / InstallShield Release -->
+		<Configuration>Debug</Configuration>
+		<InstallShieldRelease>$(Configuration)</InstallShieldRelease>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- The InstallShieldProject item selects the project to build -->
+		<InstallShieldProject Include="$(MSBuildProjectDirectory)\$(MSBuildProjectName).isl"/>
+		<!-- The InstallShieldReleaseFlags sets Release Flags -->
+		<!--<InstallShieldReleaseFlags Include=""/>-->
+		<!-- The InstallShieldMergeModulePath specifies what directories are
+		searched for Merge Modules -->
+		<!--<InstallShieldMergeModulePath Include=""/>-->
+	</ItemGroup>
+	<ItemGroup>
+		<!-- The ProjectReference items refer to any Visual Studio solutions you want to automatically probe for Project Output Groups.  -->
+	</ItemGroup>
+	<ItemGroup>
+		<!-- The TaggedOutputs items allow you to explicitly add extra files to output groups. Each item must include both Name and OutputGroup, as well as TargetPath metadata values. -->
+		<!--<TaggedOutputs Include="C:\My Test Exe.exe">
+			<Name>My Test Project</Name>
+			<OutputGroup>Primary output</OutputGroup>
+			<TargetPath>My Test Exe.exe</TargetPath>
+		</TaggedOutputs> -->
+	</ItemGroup>
+	<Import Project="$(MSBuildExtensionsPath32)\InstallShield\2015Limited\InstallShield.targets"/>
+	<ItemGroup>
+		<ProjectReference Include="..\Extend\Samples\CSharp\DataModelProject\Src\DataModelProject.csproj">
+			<Name>DataModelProject</Name>
+			<Project>{F4ADEBDB-CD20-4532-B4E3-FE7424F5369C}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\DSL\LinxDMD\DslPackage\DslPackage.csproj">
+			<Name>DslPackage</Name>
+			<Project>{88D543E1-D8E2-4542-B96A-9B9F3D913B71}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\Editors\JsEditor\JsEditor.csproj">
+			<Name>JsEditor</Name>
+			<Project>{9B3BC44C-C4AD-4382-8E01-6060BD05493B}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\LinxDataModelEditor\LinxDataModelEditor\LinxDataModelEditor.vcxproj">
+			<Name>LinxDataModelEditor</Name>
+			<Project>{8D089BBF-77B3-4AD1-88CD-DBCEEB9E7520}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\LinxDataModelEditor\LinxDataModelEditor.AboutBoxPackage\LinxDataModelEditor.AboutBoxPackage.csproj">
+			<Name>LinxDataModelEditor.AboutBoxPackage</Name>
+			<Project>{5EB55285-5818-4B8E-90FC-50812FD24A9F}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\LinxDataModelEditor\LinxDataModelEditorUI\LinxDataModelEditorUI.vcxproj">
+			<Name>LinxDataModelEditorUI</Name>
+			<Project>{D355EF8A-9EAF-49D0-80D2-0BF1A35A6368}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\DSL\LinxDMD\ModelBusAdapter\ModelBusAdapter.csproj">
+			<Name>ModelBusAdapter</Name>
+			<Project>{4FAC072C-B03D-4E77-A403-5E131EB85DC4}</Project>
+		</ProjectReference>
+	</ItemGroup>
+</Project>

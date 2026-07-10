@@ -1,0 +1,649 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="Recursos_formViewer" class="panelTransaition">
+            <figure id="Recursos_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.Recursos().viewType() === 'Main' ? '' : 'none' }">
+                                       <div id="Recursos_gbCliente" data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_gbCliente'), visible: $root.Recursos().getLayoutVisible('Recursos_gbCliente')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.Recursos().getLayoutDisplayName('Recursos_gbCliente')"><i class="icon-reorder"></i></div>
+                   </div>
+                   <div id="Recursos_gbCliente_body" class="portlet-body" >
+                       <div data-bind="with: $root.Recursos().getWithBinding(currentDataItem, $root.Recursos().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_btnDownload'), visible: $root.Recursos().getLayoutVisible('Recursos_btnDownload')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divDownload" class="" >
+                                           <button id="Recursos_btnDownload" class="form-control btn-block btn-press ellipsis " data-bind="text: $root.Recursos().getLayoutDisplayName('Recursos_btnDownload'), attr: {title: $root.Recursos().getLayoutDisplayName('Recursos_btnDownload')}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_btnDownload') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_btnDownload') : (!isEmptyEntityFn($data) && true) }, enable: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_btnDownload') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_btnDownload') : (!isEmptyEntityFn($data) && true), click:function(){ if (typeof $root.Recursos().Download_Click == 'function') $root.Recursos().Download_Click(); if ($root.Recursos().custom) $root.Recursos().custom.Download_Click({viewModel: $root.Recursos()}); }"></button>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ntxBigIntCliente'), visible: $root.Recursos().getLayoutVisible('Recursos_ntxBigIntCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divBigIntCliente" class="" >
+                                           <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_ntxBigIntCliente')}, text: $root.Recursos().getLayoutDisplayName('Recursos_ntxBigIntCliente')" id="Recursos_lblBigIntCliente" for="Recursos_ntxBigIntCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="Recursos_ntxBigIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntCliente', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxBigIntCliente') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxBigIntCliente') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, igNumericEditor: { value: BigIntCliente, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxBigIntCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxBigIntCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_ClienteBigIntCliente(), 'icon-ok': $root.Recursos().entitySearchRange.has_ClienteBigIntCliente(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgBigIntCliente', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcBigIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="Recursos_rgBigIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Recursos_ntxbBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteBigIntCliente_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#Recursos_ntxBigIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Recursos_ntxeBigIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#Recursos_ntxeBigIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Recursos_ntxeBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteBigIntCliente_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#Recursos_ntxBigIntCliente').igNumericEditor('option', 'readOnly', ($('#Recursos_ntxbBigIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Recursos_ntxbBigIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_cmbComboboxCliente'), visible: $root.Recursos().getLayoutVisible('Recursos_cmbComboboxCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divComboboxCliente" class="" >
+                                           <label data-bind="css: { 'content-required': $root.Recursos().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_cmbComboboxCliente')}, text: $root.Recursos().getLayoutDisplayName('Recursos_cmbComboboxCliente')" id="Recursos_lblComboboxCliente" for="Recursos_cmbComboboxCliente" class="control-label ellipsis">
+                                           </label>
+                                           <span id="Recursos_cmbComboboxCliente" class="form-control " data-bind="validatedField: 'ComboboxCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_cmbComboboxCliente') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_cmbComboboxCliente') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), igCombo: {
+                                              selectedItems: ComboboxCliente,
+                                              dataSource:  $root.Recursos().dataDomains.getItems('LX_CLIENTE', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.Recursos(), 'Recursos_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ckBitCliente'), visible: $root.Recursos().getLayoutVisible('Recursos_ckBitCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divBitCliente" class="" >
+                                           <label class="">
+                                             <input id="Recursos_ckBitCliente" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ckBitCliente') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ckBitCliente') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ckBitCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ckBitCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), nullableChecked: BitCliente" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblRecursos_ckBitCliente" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_dtDatetimeCliente'), visible: $root.Recursos().getLayoutVisible('Recursos_dtDatetimeCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divDatetimeCliente" class="" >
+                                           <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_dtDatetimeCliente')}, text: $root.Recursos().getLayoutDisplayName('Recursos_dtDatetimeCliente')" id="Recursos_lblDatetimeCliente" for="Recursos_dtDatetimeCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="Recursos_dtDatetimeCliente" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeCliente', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_dtDatetimeCliente') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_dtDatetimeCliente') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()) },  igDatePicker: { value: DatetimeCliente, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="Recursos_rgbtnDatetimeCliente"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_ClienteDatetimeCliente(), 'icon-ok': $root.Recursos().entitySearchRange.has_ClienteDatetimeCliente(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgDatetimeCliente', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcDatetimeCliente', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="Recursos_rgDatetimeCliente" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="checked:ClienteDatetimeCliente_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:ClienteDatetimeCliente_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="Recursos_divrgDatetimeCliente" >
+                                                      <div class="filterByRange" data-bind="visible: ClienteDatetimeCliente_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="Recursos_dtbDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteDatetimeCliente_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#Recursos_dtDatetimeCliente').igDatePicker('option', 'readOnly', (ui.value != null || $('#Recursos_dteDatetimeCliente').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#Recursos_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#Recursos_dteDatetimeCliente').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#Recursos_dtbDatetimeCliente').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="Recursos_dteDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteDatetimeCliente_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#Recursos_dtDatetimeCliente').igDatePicker('option', 'readOnly', ($('#Recursos_dtbDatetimeCliente').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#Recursos_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#Recursos_dteDatetimeCliente').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#Recursos_dteDatetimeCliente').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: ClienteDatetimeCliente_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ClienteDatetimeCliente_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: ClienteDatetimeCliente_predefFilter() != null && ClienteDatetimeCliente_predefFilter()[0] && ClienteDatetimeCliente_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ClienteDatetimeCliente_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ntxDecimalCliente'), visible: $root.Recursos().getLayoutVisible('Recursos_ntxDecimalCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divDecimalCliente" class="" >
+                                           <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_ntxDecimalCliente')}, text: $root.Recursos().getLayoutDisplayName('Recursos_ntxDecimalCliente')" id="Recursos_lblDecimalCliente" for="Recursos_ntxDecimalCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="Recursos_ntxDecimalCliente" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalCliente', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxDecimalCliente') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxDecimalCliente') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, igNumericEditor: { value: DecimalCliente, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxDecimalCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxDecimalCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_ClienteDecimalCliente(), 'icon-ok': $root.Recursos().entitySearchRange.has_ClienteDecimalCliente(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgDecimalCliente', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcDecimalCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="Recursos_rgDecimalCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Recursos_ntxbDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#Recursos_ntxDecimalCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Recursos_ntxeDecimalCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#Recursos_ntxeDecimalCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Recursos_ntxeDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#Recursos_ntxDecimalCliente').igNumericEditor('option', 'readOnly', ($('#Recursos_ntxbDecimalCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Recursos_ntxbDecimalCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ntxIdCliente'), visible: $root.Recursos().getLayoutVisible('Recursos_ntxIdCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divIdCliente" class="" >
+                                           <label data-bind="css: { 'content-required': $root.Recursos().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_ntxIdCliente')}, text: $root.Recursos().getLayoutDisplayName('Recursos_ntxIdCliente')" id="Recursos_lblIdCliente" for="Recursos_ntxIdCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="Recursos_ntxIdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxIdCliente') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxIdCliente') : (!isEmptyEntityFn($data) && $root.Recursos().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdCliente, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxIdCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxIdCliente') : (isEmptyEntityFn($data) || !($root.Recursos().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_ClienteIdCliente(), 'icon-ok': $root.Recursos().entitySearchRange.has_ClienteIdCliente(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgIdCliente', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcIdCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="Recursos_rgIdCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Recursos_ntxbIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Recursos_ntxIdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Recursos_ntxeIdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#Recursos_ntxeIdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Recursos_ntxeIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Recursos_ntxIdCliente').igNumericEditor('option', 'readOnly', ($('#Recursos_ntxbIdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Recursos_ntxbIdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_lUpIdEstado'), visible: $root.Recursos().getLayoutVisible('Recursos_lUpIdEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divIdEstado" class="" >
+                                           <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_lUpIdEstado')}, text: $root.Recursos().getLayoutDisplayName('Recursos_lUpIdEstado')" id="Recursos_lblIdEstado" for="Recursos_lUpIdEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div id="Recursos_lUpIdEstado" class="form-control input-group " data-bind="validatedField: 'IdEstado', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_lUpIdEstado') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_lUpIdEstado') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, lookupControl: { vm: $root.Recursos(), value: IdEstado, maxLength: 12,lookupName: 'LookUpEstado', isMultiSelection: false, multiSelectionValue: $root.Recursos().entitySearchRange.IdEstado, fieldName: 'IdEstado', disabled:ctrl.hasCustomEnable($root.Recursos(), 'Recursos_lUpIdEstado') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_lUpIdEstado') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ntxIntCliente'), visible: $root.Recursos().getLayoutVisible('Recursos_ntxIntCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divIntCliente" class="" >
+                                           <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_ntxIntCliente')}, text: $root.Recursos().getLayoutDisplayName('Recursos_ntxIntCliente')" id="Recursos_lblIntCliente" for="Recursos_ntxIntCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="Recursos_ntxIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IntCliente', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxIntCliente') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxIntCliente') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, igNumericEditor: { value: IntCliente, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxIntCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxIntCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_ClienteIntCliente(), 'icon-ok': $root.Recursos().entitySearchRange.has_ClienteIntCliente(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgIntCliente', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="Recursos_rgIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Recursos_ntxbIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Recursos_ntxIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Recursos_ntxeIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#Recursos_ntxeIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Recursos_ntxeIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Recursos_ntxIntCliente').igNumericEditor('option', 'readOnly', ($('#Recursos_ntxbIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Recursos_ntxbIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ntxSmallIntCliente'), visible: $root.Recursos().getLayoutVisible('Recursos_ntxSmallIntCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divSmallIntCliente" class="" >
+                                           <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_ntxSmallIntCliente')}, text: $root.Recursos().getLayoutDisplayName('Recursos_ntxSmallIntCliente')" id="Recursos_lblSmallIntCliente" for="Recursos_ntxSmallIntCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="Recursos_ntxSmallIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntCliente', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxSmallIntCliente') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxSmallIntCliente') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, igNumericEditor: { value: SmallIntCliente, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxSmallIntCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxSmallIntCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_ClienteSmallIntCliente(), 'icon-ok': $root.Recursos().entitySearchRange.has_ClienteSmallIntCliente(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgSmallIntCliente', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcSmallIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="Recursos_rgSmallIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Recursos_ntxbSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteSmallIntCliente_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#Recursos_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Recursos_ntxeSmallIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#Recursos_ntxeSmallIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Recursos_ntxeSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteSmallIntCliente_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#Recursos_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', ($('#Recursos_ntxbSmallIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Recursos_ntxbSmallIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_tbStringCliente'), visible: $root.Recursos().getLayoutVisible('Recursos_tbStringCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divStringCliente" class="" >
+                                           <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_tbStringCliente')}, text: $root.Recursos().getLayoutDisplayName('Recursos_tbStringCliente')" id="Recursos_lblStringCliente" for="Recursos_tbStringCliente" class="control-label ellipsis">
+                                           </label>
+                                           <input id="Recursos_tbStringCliente" class="form-control ellipsis" data-bind="attr: { title: StringCliente }, validatedField: 'StringCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_tbStringCliente') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_tbStringCliente') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringCliente, readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_tbStringCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_tbStringCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_tbStringEstado'), visible: $root.Recursos().getLayoutVisible('Recursos_tbStringEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="Recursos_divStringEstado" class="" >
+                                           <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_tbStringEstado')}, text: $root.Recursos().getLayoutDisplayName('Recursos_tbStringEstado')" id="Recursos_lblStringEstado" for="Recursos_tbStringEstado" class="control-label ellipsis">
+                                           </label>
+                                           <input id="Recursos_tbStringEstado" class="form-control ellipsis" data-bind="attr: { title: StringEstado }, validatedField: 'StringEstado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_tbStringEstado') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_tbStringEstado') : (!isEmptyEntityFn($data) && $root.Recursos().status() === 'C') }, igTextEditor: { maxLength: 50, value: StringEstado, readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_tbStringEstado') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_tbStringEstado') : (isEmptyEntityFn($data) || $root.Recursos().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+           <div id="Recursos_tcClienteTabControl"  data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_tcClienteTabControl'), visible: $root.Recursos().getLayoutVisible('Recursos_tcClienteTabControl')"  class="tabbable tabbable-custom box" >
+              <div class="container-tab">
+                 <div id="Recursos_tcClienteTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                 <div id="Recursos_tcClienteTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                 <div id="Recursos_tcClienteTabControl_wrapper" class="wrapper">
+                    <ul id="Recursos_tcClienteTabControl_list" class="nav nav-tabs list">
+                       <li id="Recursos_tiVendaTabItem" class="active"><a data-bind="text: $root.Recursos().getLayoutDisplayName('Recursos_tiVendaTabItem'), attr: {title: $root.Recursos().getLayoutDisplayName('Recursos_tiVendaTabItem')}" href="#Recursos_tabVendaTabItem" data-toggle="tab"></a></li>
+                    </ul>
+                    </div>
+                 </div>
+              <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="Recursos_tabVendaTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+                       <div id="Recursos_dGridVenda_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.Recursos().getWithBinding(currentDataItem, $root.Recursos().rootDataTypeName)">
+                           <button id="Recursos_dGridVenda_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.Recursos().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.Recursos().createAndNotifyVenda($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="Recursos_dGridVenda_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.Recursos().status() === 'E', 
+                           click: function () {
+                              $root.Recursos().deleteGrid('#Recursos_dGridVenda', 'Venda', 'vm.currentDataItem().currentVenda;vm.currentDataItem().VendaList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="Recursos_dGridVenda_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.Recursos().openEditor('#Recursos_dGridVenda', 'Venda', 'vm.currentDataItem().currentVenda;vm.currentDataItem().VendaList', 'Venda;vm.currentDataItem()', 'Venda(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="Recursos_dGridVenda_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.Recursos().openEditor('#Recursos_dGridVenda', 'Venda', 'vm.currentDataItem().currentVenda;vm.currentDataItem().VendaList', 'Venda;vm.currentDataItem()', 'Venda(vm.currentDataItem())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="Recursos_dGridVenda_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#Recursos_dGridVenda_templateLayout', vm: function(){return $root.Recursos().gridSaveStates['Recursos_dGridVenda'];}, ctrlName: 'Recursos_dGridVenda_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                           <script id="Recursos_dGridVenda_templateLayout" type="text/html" tabindex="-1">
+                               <div id="Recursos_dGridVenda_gb" class="layout-popover">
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                           <div class="col-md-10">
+                                               <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                           </div>
+                                           <div  class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="col-md-10">
+                                               <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                           </div>
+                                           <div class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </script>
+                           <button id="Recursos_dGridVenda_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.Recursos().dataToolbar.canGridExport(), click: function () {$root.Recursos().exportDataDetails($data, 'Venda', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="Recursos_dGridVenda" data-bind="css: { IsEditableStyle: $root.Recursos().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+
+                   <div id="dialogVenda"  class="toolbar-dialog-template" title='' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegVenda" onClick="$(this).backRegVenda();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberVenda">0</label><label>/</label><label id="totalNumberVenda">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegVenda" onClick="$(this).nextRegVenda();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegVenda" onClick="$(this).addRegVenda();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegVenda" onClick="$(this).delRegVenda();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegVenda" onClick="$(this).okRegVenda();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="Recursos_templateVenda" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.Recursos().getWithBinding(currentDataItem, $root.Recursos().rootDataTypeName)"><div data-bind="with: $root.Recursos().getWithBinding(currentVenda, 'Venda')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ntxVenda_BigIntVenda'), visible: $root.Recursos().getLayoutVisible('Recursos_ntxVenda_BigIntVenda')" class="">
+                               <div class="form-group">
+                                   <div id="Recursos_divVenda_BigIntVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_ntxVenda_BigIntVenda')}, text: $root.Recursos().getLayoutDisplayName('Recursos_ntxVenda_BigIntVenda')" id="Recursos_lblVenda_BigIntVenda" for="Recursos_ntxVenda_BigIntVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="Recursos_ntxVenda_BigIntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntVenda', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxVenda_BigIntVenda') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxVenda_BigIntVenda') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, igNumericEditor: { value: BigIntVenda, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxVenda_BigIntVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxVenda_BigIntVenda') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_VendaBigIntVenda(), 'icon-ok': $root.Recursos().entitySearchRange.has_VendaBigIntVenda(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgVenda_BigIntVenda', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcVenda_BigIntVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="Recursos_rgVenda_BigIntVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Recursos_ntxbVenda_BigIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaBigIntVenda_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#Recursos_ntxVenda_BigIntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Recursos_ntxeVenda_BigIntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#Recursos_ntxeVenda_BigIntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Recursos_ntxeVenda_BigIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaBigIntVenda_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#Recursos_ntxVenda_BigIntVenda').igNumericEditor('option', 'readOnly', ($('#Recursos_ntxbVenda_BigIntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Recursos_ntxbVenda_BigIntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ckVenda_BitVenda'), visible: $root.Recursos().getLayoutVisible('Recursos_ckVenda_BitVenda')" class="">
+                               <div class="form-group">
+                                   <div id="Recursos_divVenda_BitVendaTemplate" class="" >
+                                       <label class="">
+                                         <input id="Recursos_ckVenda_BitVenda" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ckVenda_BitVenda') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ckVenda_BitVenda') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ckVenda_BitVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ckVenda_BitVenda') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), nullableChecked: BitVenda" title="Clique para marcar/desmarcar"/> 
+                                         <span id="lblRecursos_ckVenda_BitVenda" class="align-label-checkbox"></span>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_cmbVenda_ComboboxVenda'), visible: $root.Recursos().getLayoutVisible('Recursos_cmbVenda_ComboboxVenda')" class="">
+                               <div class="form-group">
+                                   <div id="Recursos_divVenda_ComboboxVendaTemplate" class="" >
+                                       <label data-bind="css: { 'content-required': $root.Recursos().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_cmbVenda_ComboboxVenda')}, text: $root.Recursos().getLayoutDisplayName('Recursos_cmbVenda_ComboboxVenda')" id="Recursos_lblVenda_ComboboxVenda" for="Recursos_cmbVenda_ComboboxVenda" class="control-label ellipsis">
+                                       </label>
+                                       <span id="Recursos_cmbVenda_ComboboxVenda" class="form-control " data-bind="validatedField: 'ComboboxVenda', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_cmbVenda_ComboboxVenda') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_cmbVenda_ComboboxVenda') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_cmbVenda_ComboboxVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_cmbVenda_ComboboxVenda') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_cmbVenda_ComboboxVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_cmbVenda_ComboboxVenda') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), igCombo: {
+                                          selectedItems: ComboboxVenda,
+                                          dataSource:  $root.Recursos().dataDomains.getItems('LX_VENDA', ''),
+                                          textKey: 'name',
+                                          valueKey: 'id',
+                                          allowCustomValue : true,
+                                          enableSelectionChangedUpdate: true,
+                                          enableClearButton: false,
+                                          dropDownOnFocus: true,
+                                          disabled: (ctrl.hasCustomEnable($root.Recursos(), 'Recursos_cmbVenda_ComboboxVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_cmbVenda_ComboboxVenda') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing())),
+                                          mode: 'editable',
+                                          width:'100%'
+                                       }"></span>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_dtVenda_DatetimeVenda'), visible: $root.Recursos().getLayoutVisible('Recursos_dtVenda_DatetimeVenda')" class="">
+                               <div class="form-group">
+                                   <div id="Recursos_divVenda_DatetimeVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_dtVenda_DatetimeVenda')}, text: $root.Recursos().getLayoutDisplayName('Recursos_dtVenda_DatetimeVenda')" id="Recursos_lblVenda_DatetimeVenda" for="Recursos_dtVenda_DatetimeVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group" >
+                                           <span id="Recursos_dtVenda_DatetimeVenda" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVenda', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_dtVenda_DatetimeVenda') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_dtVenda_DatetimeVenda') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_dtVenda_DatetimeVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_dtVenda_DatetimeVenda') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()) },  igDatePicker: { value: DatetimeVenda, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_dtVenda_DatetimeVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_dtVenda_DatetimeVenda') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                           <span class="input-group-btn" title="Filtro de datas">
+                                              <button id="Recursos_rgbtnVenda_DatetimeVenda"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_VendaDatetimeVenda(), 'icon-ok': $root.Recursos().entitySearchRange.has_VendaDatetimeVenda(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgVenda_DatetimeVenda', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcVenda_DatetimeVenda', headerText:'Filtro de datas' }"  /></span>
+                                              <script id="Recursos_rgVenda_DatetimeVenda" type="text/html" tabindex="-1">
+                                              <div class="range-radio-group">
+                                                  <input type="radio" data-bind="checked:VendaDatetimeVenda_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                  <input type="radio" data-bind="checked:VendaDatetimeVenda_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                              </div>
+                                              <div class="range-input-group" id="Recursos_divrgVenda_DatetimeVenda" >
+                                                  <div class="filterByRange" data-bind="visible: VendaDatetimeVenda_typeRange() == 'R'">
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="Recursos_dtbVenda_DatetimeVenda" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaDatetimeVenda_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#Recursos_dtVenda_DatetimeVenda').igDatePicker('option', 'readOnly', (ui.value != null || $('#Recursos_dteVenda_DatetimeVenda').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#Recursos_dtbVenda_DatetimeVenda').igDatePicker('value'); var valorMax = $('#Recursos_dteVenda_DatetimeVenda').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#Recursos_dtbVenda_DatetimeVenda').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="Recursos_dteVenda_DatetimeVenda" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaDatetimeVenda_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#Recursos_dtVenda_DatetimeVenda').igDatePicker('option', 'readOnly', ($('#Recursos_dtbVenda_DatetimeVenda').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#Recursos_dtbVenda_DatetimeVenda').igDatePicker('value'); var valorMax = $('#Recursos_dteVenda_DatetimeVenda').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#Recursos_dteVenda_DatetimeVenda').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                  </div>
+                                                  <div class="filterByPredefined " data-bind="visible: VendaDatetimeVenda_typeRange() == 'P'">
+                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaDatetimeVenda_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                      <div class="row predefValue" data-bind="visible: VendaDatetimeVenda_predefFilter() != null && VendaDatetimeVenda_predefFilter()[0] && VendaDatetimeVenda_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaDatetimeVenda_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                  </div>
+                                              </div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ntxVenda_DecimalVenda'), visible: $root.Recursos().getLayoutVisible('Recursos_ntxVenda_DecimalVenda')" class="">
+                               <div class="form-group">
+                                   <div id="Recursos_divVenda_DecimalVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_ntxVenda_DecimalVenda')}, text: $root.Recursos().getLayoutDisplayName('Recursos_ntxVenda_DecimalVenda')" id="Recursos_lblVenda_DecimalVenda" for="Recursos_ntxVenda_DecimalVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="Recursos_ntxVenda_DecimalVenda" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVenda', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxVenda_DecimalVenda') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxVenda_DecimalVenda') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, igNumericEditor: { value: DecimalVenda, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxVenda_DecimalVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxVenda_DecimalVenda') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_VendaDecimalVenda(), 'icon-ok': $root.Recursos().entitySearchRange.has_VendaDecimalVenda(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgVenda_DecimalVenda', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcVenda_DecimalVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="Recursos_rgVenda_DecimalVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Recursos_ntxbVenda_DecimalVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaDecimalVenda_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#Recursos_ntxVenda_DecimalVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Recursos_ntxeVenda_DecimalVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#Recursos_ntxeVenda_DecimalVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Recursos_ntxeVenda_DecimalVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaDecimalVenda_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#Recursos_ntxVenda_DecimalVenda').igNumericEditor('option', 'readOnly', ($('#Recursos_ntxbVenda_DecimalVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Recursos_ntxbVenda_DecimalVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_lUpVenda_IdCliente'), visible: $root.Recursos().getLayoutVisible('Recursos_lUpVenda_IdCliente')" class="">
+                               <div class="form-group">
+                                   <div id="Recursos_divVenda_IdClienteTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_lUpVenda_IdCliente')}, text: $root.Recursos().getLayoutDisplayName('Recursos_lUpVenda_IdCliente')" id="Recursos_lblVenda_IdCliente" for="Recursos_lUpVenda_IdCliente" class="control-label ellipsis">
+                                       </label>
+                                       <div id="Recursos_lUpVenda_IdCliente" class="form-control input-group " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_lUpVenda_IdCliente') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_lUpVenda_IdCliente') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, lookupControl: { vm: $root.Recursos(), value: IdCliente, maxLength: 12,lookupName: '', isMultiSelection: false, multiSelectionValue: $root.Recursos().entitySearchRange.IdCliente, fieldName: 'IdCliente', disabled:ctrl.hasCustomEnable($root.Recursos(), 'Recursos_lUpVenda_IdCliente') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_lUpVenda_IdCliente') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_lUpVenda_IdLoja'), visible: $root.Recursos().getLayoutVisible('Recursos_lUpVenda_IdLoja')" class="">
+                               <div class="form-group">
+                                   <div id="Recursos_divVenda_IdLojaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_lUpVenda_IdLoja')}, text: $root.Recursos().getLayoutDisplayName('Recursos_lUpVenda_IdLoja')" id="Recursos_lblVenda_IdLoja" for="Recursos_lUpVenda_IdLoja" class="control-label ellipsis">
+                                       </label>
+                                       <div id="Recursos_lUpVenda_IdLoja" class="form-control input-group " data-bind="validatedField: 'IdLoja', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_lUpVenda_IdLoja') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_lUpVenda_IdLoja') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, lookupControl: { vm: $root.Recursos(), value: IdLoja, maxLength: 12,lookupName: '', isMultiSelection: false, multiSelectionValue: $root.Recursos().entitySearchRange.IdLoja, fieldName: 'IdLoja', disabled:ctrl.hasCustomEnable($root.Recursos(), 'Recursos_lUpVenda_IdLoja') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_lUpVenda_IdLoja') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ntxVenda_IdVenda'), visible: $root.Recursos().getLayoutVisible('Recursos_ntxVenda_IdVenda')" class="">
+                               <div class="form-group">
+                                   <div id="Recursos_divVenda_IdVendaTemplate" class="" >
+                                       <label data-bind="css: { 'content-required': $root.Recursos().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_ntxVenda_IdVenda')}, text: $root.Recursos().getLayoutDisplayName('Recursos_ntxVenda_IdVenda')" id="Recursos_lblVenda_IdVenda" for="Recursos_ntxVenda_IdVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="Recursos_ntxVenda_IdVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxVenda_IdVenda') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxVenda_IdVenda') : (!isEmptyEntityFn($data) && $root.Recursos().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVenda, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxVenda_IdVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxVenda_IdVenda') : (isEmptyEntityFn($data) || !($root.Recursos().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_VendaIdVenda(), 'icon-ok': $root.Recursos().entitySearchRange.has_VendaIdVenda(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgVenda_IdVenda', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcVenda_IdVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="Recursos_rgVenda_IdVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Recursos_ntxbVenda_IdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Recursos_ntxVenda_IdVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Recursos_ntxeVenda_IdVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#Recursos_ntxeVenda_IdVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Recursos_ntxeVenda_IdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Recursos_ntxVenda_IdVenda').igNumericEditor('option', 'readOnly', ($('#Recursos_ntxbVenda_IdVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Recursos_ntxbVenda_IdVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ntxVenda_IntVenda'), visible: $root.Recursos().getLayoutVisible('Recursos_ntxVenda_IntVenda')" class="">
+                               <div class="form-group">
+                                   <div id="Recursos_divVenda_IntVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_ntxVenda_IntVenda')}, text: $root.Recursos().getLayoutDisplayName('Recursos_ntxVenda_IntVenda')" id="Recursos_lblVenda_IntVenda" for="Recursos_ntxVenda_IntVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="Recursos_ntxVenda_IntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IntVenda', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxVenda_IntVenda') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxVenda_IntVenda') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, igNumericEditor: { value: IntVenda, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxVenda_IntVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxVenda_IntVenda') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_VendaIntVenda(), 'icon-ok': $root.Recursos().entitySearchRange.has_VendaIntVenda(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgVenda_IntVenda', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcVenda_IntVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="Recursos_rgVenda_IntVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Recursos_ntxbVenda_IntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIntVenda_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Recursos_ntxVenda_IntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Recursos_ntxeVenda_IntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#Recursos_ntxeVenda_IntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Recursos_ntxeVenda_IntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIntVenda_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Recursos_ntxVenda_IntVenda').igNumericEditor('option', 'readOnly', ($('#Recursos_ntxbVenda_IntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Recursos_ntxbVenda_IntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_ntxVenda_SmallIntVenda'), visible: $root.Recursos().getLayoutVisible('Recursos_ntxVenda_SmallIntVenda')" class="">
+                               <div class="form-group">
+                                   <div id="Recursos_divVenda_SmallIntVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_ntxVenda_SmallIntVenda')}, text: $root.Recursos().getLayoutDisplayName('Recursos_ntxVenda_SmallIntVenda')" id="Recursos_lblVenda_SmallIntVenda" for="Recursos_ntxVenda_SmallIntVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="Recursos_ntxVenda_SmallIntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntVenda', css: { vmEditing: $root.Recursos().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxVenda_SmallIntVenda') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxVenda_SmallIntVenda') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, igNumericEditor: { value: SmallIntVenda, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_ntxVenda_SmallIntVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_ntxVenda_SmallIntVenda') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Recursos().entitySearchRange.has_VendaSmallIntVenda(), 'icon-ok': $root.Recursos().entitySearchRange.has_VendaSmallIntVenda(), hide: $root.Recursos().status() !== 'C' }, popoverWithBind: { template: '#Recursos_rgVenda_SmallIntVenda', vm: $root.Recursos().entitySearchRange, ctrlName: 'Recursos_rgcVenda_SmallIntVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="Recursos_rgVenda_SmallIntVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Recursos_ntxbVenda_SmallIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaSmallIntVenda_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#Recursos_ntxVenda_SmallIntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Recursos_ntxeVenda_SmallIntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#Recursos_ntxeVenda_SmallIntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Recursos_ntxeVenda_SmallIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaSmallIntVenda_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#Recursos_ntxVenda_SmallIntVenda').igNumericEditor('option', 'readOnly', ($('#Recursos_ntxbVenda_SmallIntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Recursos_ntxbVenda_SmallIntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.Recursos().getLayoutColumnSpan('Recursos_tbVenda_StringVenda'), visible: $root.Recursos().getLayoutVisible('Recursos_tbVenda_StringVenda')" class="">
+                               <div class="form-group">
+                                   <div id="Recursos_divVenda_StringVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.Recursos().getLayoutDisplayName('Recursos_tbVenda_StringVenda')}, text: $root.Recursos().getLayoutDisplayName('Recursos_tbVenda_StringVenda')" id="Recursos_lblVenda_StringVenda" for="Recursos_tbVenda_StringVenda" class="control-label ellipsis">
+                                       </label>
+                                       <input id="Recursos_tbVenda_StringVenda" class="form-control ellipsis" data-bind="attr: { title: StringVenda }, validatedField: 'StringVenda', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_tbVenda_StringVenda') ? ctrl.getCustomEnable($root.Recursos(), 'Recursos_tbVenda_StringVenda') : (!isEmptyEntityFn($data) && $root.Recursos().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVenda, readOnly: ctrl.hasCustomEnable($root.Recursos(), 'Recursos_tbVenda_StringVenda') ? !ctrl.getCustomEnable($root.Recursos(), 'Recursos_tbVenda_StringVenda') : (isEmptyEntityFn($data) || !$root.Recursos().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+           </div>
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="Recursos_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.Recursos().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyRecursos_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyRecursos_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyRecursos_dGrid_templateLayout', vm: function(){return $root.Recursos().gridSaveStates['scyRecursos_dGrid'];}, ctrlName: 'scyRecursos_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyRecursos_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyRecursos_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyRecursos_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.Recursos().dataToolbar.canExport(), click: function () {$root.Recursos().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyRecursos_dGrid" data-bind="css: { IsEditableStyle: $root.Recursos().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<businessModelDesignerRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="15d61a18-33d3-4bd8-ab81-6e116e9248f1" name="" documentName="DepositoLocalizacao.bmd" targetNamespace="Linx.Operacional.BM" documentPath="C:\Linx Workspace\Linx\Linx UX\Dev\5.X\BM\Linx.Operacional.BM\Linx.Operacional.BM" noCode="false" dataContextName="DepositoLocalizacao" removeAutomaticIndexes="false" removeRequiredAttributes="false" setIdLinxWithIdGpecon="false" forceDynamicForeignKeyNames="false" controlIdLinxByApplicative="false" xmlns="http://schemas.microsoft.com/dsltools/BusinessModelDesigner">
+  <types>
+    <modelClass Id="2525fa76-0cdb-469d-a42d-f2c4c6332bae" name="STK_LOCALIZACAO" schema="LX_STK" primaryKeyConstraintName="XPK_STK_LOCALIZACAO" notMapped="false" hideAssociations="false" isDimensionFilter="true" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="3008e037-e04d-416b-bb9d-75b9308f35a7" name="ID_LINX" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="8c55d3fc-4d3b-4360-a87a-b772df4ba4cc" name="ID_STK_LOCALIZACAO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="e81fc487-be30-4908-a222-b75346813d68" name="ID_STK_DEPOSITO" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="b0c9b463-1ce5-410c-86c0-78ea2edf6322.ID_STK_DEPOSITO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="61a73248-435f-45b7-a274-8460b413fd4b" name="ID_STK_LOCALIZACAO_SUPERIOR" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_STK_LOCALIZACAO_2.ID_STK_LOCALIZACAO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="647d05a9-568c-46aa-a4b9-fbc69e8928e7" name="DESC_LOCALIZACAO" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="a309533b-3fbd-42e9-9281-c8b9db07d82c" name="LOCALIZACAO_MOVEL" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="414ec8a2-c7b7-4fe5-b059-49d973820055" name="SEQUENCIA_DE_SEPARACAO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="12" sqlDefault="((1))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="3b12b0ff-ecea-4065-8150-2c09651cff7b" name="COORDENADA_A" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="12" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="ebeaa1cb-0f93-47be-a812-46831726ca64" name="COORDENADA_B" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="5" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="ddfb93c2-9977-43c7-99dc-59544fb89e73" name="COORDENADA_C" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="5" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="1b70ae06-b578-4e79-9123-f0f9863f99ab" name="COORDENADA_D" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="5" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="365bac16-a0e8-45e1-a22f-8611c0ebe4c7">
+          <modelIndex Id="98bee0b0-adc4-47cf-9d60-914d49e4eada" name="XAK1_STK_LOCALIZACAO" properties="ID_LINX,ID_STK_DEPOSITO,DESC_LOCALIZACAO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="a446a547-f450-4deb-b6cf-65bd8c3d893d" targetMultiplicity="ZeroMany" targetPropertyNameToSource="LOCALIZACAO_SUPERIOR" foreignKeyConstraintName="XFK_STK_LOCALIZACAO_2" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//STK_LOCALIZACAO" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <referenceModelClass Id="d63b6541-2176-45d1-918c-94618b0e652f" name="STK_DEPOSITO" schema="LX_STK" primaryKeyConstraintName="XPK_STK_DEPOSITO" notMapped="false" hideAssociations="false" isDimensionFilter="true" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" modelClassReference="modelbus://Linx.BusinessModelDesigner.BusinessModelDesignerAdapter/Deposito/STK_DEPOSITO/.\Deposito.bmd%2f339c1f48-22dd-4228-b3e4-8610312a81b1" hasReferenceError="false">
+      <attributes>
+        <modelAttribute Id="3aa87c4a-aeb1-4fb1-8257-1d2bd08f673e" name="ID_LINX" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="c818a18b-2ac0-4a51-bc96-e2771184da0f" name="ID_STK_DEPOSITO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="b5b6c3a0-3501-4f58-a6b7-28d6fb212673" name="ID_FILIAL_PFJ" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="668810f7-480b-4b1b-9daa-b7fab12ce29e.ID_FILIAL_PFJ" notMapped="false" isComputed="false" isDimensionFilterSuggestion="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="ddcc6b40-2641-4b71-9a33-daa69244b383" name="ID_LOJA" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" foreignKey="c98a7777-32cb-4110-bb61-a91ec905ae51.ID_LOJA" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="27f2cc98-9ad9-49bd-9eff-c82389792eb4" name="COD_DEPOSITO" dataType="StringChar" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="6" isDimensionFilterSuggestion="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="cfab1568-ae77-4319-bce1-6f62a120bc65" name="DESC_DEPOSITO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="ba1542dd-5dc3-40e6-bf1e-721861918798" name="CTRL_STK_LOCALIZACAO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="28d765ec-b142-4ec2-8828-aaa4f65fc52d" name="CTRL_STK_LOTE" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="48957f67-d265-444c-8227-a79bb585e0f6" name="DESC_COORDENADA_A" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="39e28400-a910-4f78-aeb0-15c332f6c600" name="DESC_COORDENADA_B" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="3192c8d6-5a19-4ba8-a02a-d40a485f1889" name="DESC_COORDENADA_C" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="22fddf7b-a66d-4acf-9a95-01120f74c791" name="DESC_COORDENADA_D" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="017b6023-3fb1-4e26-abbe-02ae89bffccb" name="PERMITE_SALDO_NEGATIVO" dataType="Boolean" defaultValue="false" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="6cf50ba9-302e-4d52-ab24-5bcaeed5205c" name="INATIVO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="5c94fd17-2fed-43cd-a9d6-cc7b9759dfb1">
+          <modelIndex Id="820128a8-9a61-45b0-9ef5-77f1f5e14db7" name="XAK1_STK_DEPOSITO" properties="ID_LINX,ID_FILIAL_PFJ,COD_DEPOSITO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="b0c9b463-1ce5-410c-86c0-78ea2edf6322" targetMultiplicity="ZeroMany" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//STK_LOCALIZACAO" />
+        </association>
+      </targetModelClasses>
+    </referenceModelClass>
+  </types>
+</businessModelDesignerRoot>

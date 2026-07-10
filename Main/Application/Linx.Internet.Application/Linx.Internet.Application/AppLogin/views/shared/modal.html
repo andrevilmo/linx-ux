@@ -1,0 +1,17 @@
+﻿<!--<div class="modal fade in">-->
+    <div data-bind="attr: { class: modalTypeClass }">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-bind="click: UI_Close_Click" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title" data-bind="text: $root.title"></h4>
+            </div>
+            <div class="modal-body modal-app">
+                <!--ko compose: { model: $root.viewModelName, view: $root.viewModel, activationData: { parentVM: $root, uiSettings: $root.parentDataContext }, preserveContext: false }-->
+                <!--/ko-->
+            </div>
+            <div class="modal-footer" data-bind="foreach: options">
+                <button class="btn" data-bind="click: function () {$parent.UI_selectOption($data); }, text: $data, css: { 'btn-ok': $index() == 0, 'btn-close': $index() > 0, autofocus: $index() == 0 }"></button>
+            </div>
+        </div>
+    </div>
+<!--</div>-->

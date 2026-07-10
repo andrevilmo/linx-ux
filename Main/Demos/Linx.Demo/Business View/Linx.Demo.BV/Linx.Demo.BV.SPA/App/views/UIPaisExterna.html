@@ -1,0 +1,228 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="UIPaisExterna_formViewer" class="panelTransaition">
+            <figure id="UIPaisExterna_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.UIPaisExterna().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="UIPaisExterna_gbPais" data-bind="css: $root.UIPaisExterna().getLayoutColumnSpan('UIPaisExterna_gbPais'), visible: $root.UIPaisExterna().getLayoutVisible('UIPaisExterna_gbPais')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.UIPaisExterna().getLayoutDisplayName('UIPaisExterna_gbPais')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="UIPaisExterna_gbPais_anchor" href="#UIPaisExterna_gbPais_body" role="button" data-toggle="collapse" data-parent="#UIPaisExterna_gbPais" aria-controls="#UIPaisExterna_gbPais_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="UIPaisExterna_gbPais_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.UIPaisExterna().getWithBinding(currentDataItem, $root.UIPaisExterna().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UIPaisExterna().getLayoutColumnSpan('UIPaisExterna_cmbComboboxPais'), visible: $root.UIPaisExterna().getLayoutVisible('UIPaisExterna_cmbComboboxPais')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaisExterna_divComboboxPais" class="" >
+                                           <label data-bind="css: { 'content-required': $root.UIPaisExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIPaisExterna().getLayoutDisplayName('UIPaisExterna_cmbComboboxPais')}, text: $root.UIPaisExterna().getLayoutDisplayName('UIPaisExterna_cmbComboboxPais')" id="UIPaisExterna_lblComboboxPais" for="UIPaisExterna_cmbComboboxPais" class="control-label ellipsis">
+                                           </label>
+                                           <span id="UIPaisExterna_cmbComboboxPais" class="form-control " data-bind="validatedField: 'ComboboxPais', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_cmbComboboxPais') ? ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_cmbComboboxPais') : (!isEmptyEntityFn($data) && $root.UIPaisExterna().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_cmbComboboxPais') ? !ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_cmbComboboxPais') : (isEmptyEntityFn($data) || !$root.UIPaisExterna().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_cmbComboboxPais') ? !ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_cmbComboboxPais') : (isEmptyEntityFn($data) || !$root.UIPaisExterna().enabledForEditing()), igCombo: {
+                                              selectedItems: ComboboxPais,
+                                              dataSource:  $root.UIPaisExterna().dataDomains.getItems('LX_COMBOBOX_PAIS', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_cmbComboboxPais') ? !ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_cmbComboboxPais') : (isEmptyEntityFn($data) || !$root.UIPaisExterna().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaisExterna().getLayoutColumnSpan('UIPaisExterna_dtDateTimePais'), visible: $root.UIPaisExterna().getLayoutVisible('UIPaisExterna_dtDateTimePais')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaisExterna_divDateTimePais" class="" >
+                                           <label data-bind="attr: { title: $root.UIPaisExterna().getLayoutDisplayName('UIPaisExterna_dtDateTimePais')}, text: $root.UIPaisExterna().getLayoutDisplayName('UIPaisExterna_dtDateTimePais')" id="UIPaisExterna_lblDateTimePais" for="UIPaisExterna_dtDateTimePais" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="UIPaisExterna_dtDateTimePais" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DateTimePais', css: { vmEditing: $root.UIPaisExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_dtDateTimePais') ? ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_dtDateTimePais') : (!isEmptyEntityFn($data) && $root.UIPaisExterna().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_dtDateTimePais') ? !ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_dtDateTimePais') : (isEmptyEntityFn($data) || !$root.UIPaisExterna().enabledForEditing()) },  igDatePicker: { value: DateTimePais, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.UIPaisExterna().entitySearchRange.has_PaisDateTimePais()?true:ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_dtDateTimePais') ? !ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_dtDateTimePais') : (isEmptyEntityFn($data) || !$root.UIPaisExterna().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="UIPaisExterna_rgbtnDateTimePais"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaisExterna().entitySearchRange.has_PaisDateTimePais(), 'icon-ok': $root.UIPaisExterna().entitySearchRange.has_PaisDateTimePais(), hide: $root.UIPaisExterna().status() !== 'C' }, popoverWithBind: { template: '#UIPaisExterna_rgDateTimePais', vm: $root.UIPaisExterna().entitySearchRange, ctrlName: 'UIPaisExterna_rgcDateTimePais', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="UIPaisExterna_rgDateTimePais" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="enable: !has_PaisDateTimePais(), checked:PaisDateTimePais_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="enable: !has_PaisDateTimePais(), checked:PaisDateTimePais_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="UIPaisExterna_divrgDateTimePais" >
+                                                      <div class="filterByRange" data-bind="visible: PaisDateTimePais_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UIPaisExterna_dtbDateTimePais" class="IsEditableStyle date" data-bind="igDatePicker: { value: PaisDateTimePais_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIPaisExterna_dtDateTimePais').igDatePicker('option', 'readOnly', (ui.value != null || $('#UIPaisExterna_dteDateTimePais').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UIPaisExterna_dtbDateTimePais').igDatePicker('value'); var valorMax = $('#UIPaisExterna_dteDateTimePais').igDatePicker('value');if (valorMax != null && valorMin > valorMax){PaisDateTimePais_begin(valorMax); $('#UIPaisExterna_dtbDateTimePais').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UIPaisExterna_dteDateTimePais" class="IsEditableStyle date" data-bind="igDatePicker: { value: PaisDateTimePais_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIPaisExterna_dtDateTimePais').igDatePicker('option', 'readOnly', ($('#UIPaisExterna_dtbDateTimePais').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UIPaisExterna_dtbDateTimePais').igDatePicker('value'); var valorMax = $('#UIPaisExterna_dteDateTimePais').igDatePicker('value');if (valorMin != null && valorMax < valorMin){PaisDateTimePais_end(valorMin); $('#UIPaisExterna_dteDateTimePais').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: PaisDateTimePais_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: PaisDateTimePais_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: PaisDateTimePais_predefFilter() != null && PaisDateTimePais_predefFilter()[0] && PaisDateTimePais_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: PaisDateTimePais_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaisExterna().getLayoutColumnSpan('UIPaisExterna_ntxDecimalPais'), visible: $root.UIPaisExterna().getLayoutVisible('UIPaisExterna_ntxDecimalPais')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaisExterna_divDecimalPais" class="" >
+                                           <label data-bind="attr: { title: $root.UIPaisExterna().getLayoutDisplayName('UIPaisExterna_ntxDecimalPais')}, text: $root.UIPaisExterna().getLayoutDisplayName('UIPaisExterna_ntxDecimalPais')" id="UIPaisExterna_lblDecimalPais" for="UIPaisExterna_ntxDecimalPais" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UIPaisExterna_ntxDecimalPais" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalPais', css: { vmEditing: $root.UIPaisExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_ntxDecimalPais') ? ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_ntxDecimalPais') : (!isEmptyEntityFn($data) && $root.UIPaisExterna().enabledForEditing()) }, igNumericEditor: { value: DecimalPais, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_ntxDecimalPais') ? !ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_ntxDecimalPais') : (isEmptyEntityFn($data) || !$root.UIPaisExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaisExterna().entitySearchRange.has_PaisDecimalPais(), 'icon-ok': $root.UIPaisExterna().entitySearchRange.has_PaisDecimalPais(), hide: $root.UIPaisExterna().status() !== 'C' }, popoverWithBind: { template: '#UIPaisExterna_rgDecimalPais', vm: $root.UIPaisExterna().entitySearchRange, ctrlName: 'UIPaisExterna_rgcDecimalPais', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UIPaisExterna_rgDecimalPais" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaisExterna_ntxbDecimalPais" class="IsEditableStyle" data-bind="igNumericEditor: { value: PaisDecimalPais_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIPaisExterna_ntxDecimalPais').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaisExterna_ntxeDecimalPais').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaisExterna_ntxeDecimalPais').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaisExterna_ntxeDecimalPais" class="IsEditableStyle" data-bind="igNumericEditor: { value: PaisDecimalPais_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIPaisExterna_ntxDecimalPais').igNumericEditor('option', 'readOnly', ($('#UIPaisExterna_ntxbDecimalPais').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaisExterna_ntxbDecimalPais').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UIPaisExterna().getLayoutColumnSpan('UIPaisExterna_ntxIdPais'), visible: $root.UIPaisExterna().getLayoutVisible('UIPaisExterna_ntxIdPais')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaisExterna_divIdPais" class="" >
+                                           <label data-bind="css: { 'content-required': $root.UIPaisExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIPaisExterna().getLayoutDisplayName('UIPaisExterna_ntxIdPais')}, text: $root.UIPaisExterna().getLayoutDisplayName('UIPaisExterna_ntxIdPais')" id="UIPaisExterna_lblIdPais" for="UIPaisExterna_ntxIdPais" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UIPaisExterna_ntxIdPais" class="form-control numericFilterRange " data-bind="validatedField: 'IdPais', css: { vmEditing: $root.UIPaisExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_ntxIdPais') ? ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_ntxIdPais') : (!isEmptyEntityFn($data) && $root.UIPaisExterna().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdPais, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_ntxIdPais') ? !ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_ntxIdPais') : (isEmptyEntityFn($data) || !($root.UIPaisExterna().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaisExterna().entitySearchRange.has_PaisIdPais(), 'icon-ok': $root.UIPaisExterna().entitySearchRange.has_PaisIdPais(), hide: $root.UIPaisExterna().status() !== 'C' }, popoverWithBind: { template: '#UIPaisExterna_rgIdPais', vm: $root.UIPaisExterna().entitySearchRange, ctrlName: 'UIPaisExterna_rgcIdPais', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UIPaisExterna_rgIdPais" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaisExterna_ntxbIdPais" class="IsEditableStyle" data-bind="igNumericEditor: { value: PaisIdPais_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaisExterna_ntxIdPais').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaisExterna_ntxeIdPais').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaisExterna_ntxeIdPais').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaisExterna_ntxeIdPais" class="IsEditableStyle" data-bind="igNumericEditor: { value: PaisIdPais_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaisExterna_ntxIdPais').igNumericEditor('option', 'readOnly', ($('#UIPaisExterna_ntxbIdPais').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaisExterna_ntxbIdPais').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaisExterna().getLayoutColumnSpan('UIPaisExterna_tbNomePais'), visible: $root.UIPaisExterna().getLayoutVisible('UIPaisExterna_tbNomePais')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaisExterna_divNomePais" class="" >
+                                           <label data-bind="attr: { title: $root.UIPaisExterna().getLayoutDisplayName('UIPaisExterna_tbNomePais')}, text: $root.UIPaisExterna().getLayoutDisplayName('UIPaisExterna_tbNomePais')" id="UIPaisExterna_lblNomePais" for="UIPaisExterna_tbNomePais" class="control-label ellipsis">
+                                           </label>
+                                           <input id="UIPaisExterna_tbNomePais" class="form-control ellipsis" data-bind="attr: { title: NomePais }, validatedField: 'NomePais', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_tbNomePais') ? ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_tbNomePais') : (!isEmptyEntityFn($data) && $root.UIPaisExterna().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: NomePais, readOnly: ctrl.hasCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_tbNomePais') ? !ctrl.getCustomEnable($root.UIPaisExterna(), 'UIPaisExterna_tbNomePais') : (isEmptyEntityFn($data) || !$root.UIPaisExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="UIPaisExterna_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.UIPaisExterna().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyUIPaisExterna_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyUIPaisExterna_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyUIPaisExterna_dGrid_templateLayout', vm: function(){return $root.UIPaisExterna().gridSaveStates['scyUIPaisExterna_dGrid'];}, ctrlName: 'scyUIPaisExterna_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyUIPaisExterna_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyUIPaisExterna_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyUIPaisExterna_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UIPaisExterna().dataToolbar.canExport(), click: function () {$root.UIPaisExterna().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyUIPaisExterna_dGrid" data-bind="css: { IsEditableStyle: $root.UIPaisExterna().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

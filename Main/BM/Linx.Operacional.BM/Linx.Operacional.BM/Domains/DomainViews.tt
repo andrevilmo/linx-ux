@@ -1,0 +1,97 @@
+<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension=".shared.cs" #>
+<#@ include file = "..\Includes\DynamicModels.ttinclude"#>
+<#@ import namespace = "System.Collections.Generic" #>
+<#@ import namespace = "System.Linq" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="Linx.Tools" #>
+<#@ import namespace = "Linx.Tools" #>
+<# 
+List<BusinessModelDesignerRoot> models = GetModels();	
+List<string> domains = new List<string>();
+
+if (models.Count > 0)
+{
+#>
+using System;
+using System.IO;
+using System.Configuration;
+using System.Collections.Generic;
+using Linx.Tools; 
+    
+namespace <#= models[0].TargetNamespace#>.Domains
+{
+
+<#  
+  
+  foreach(BusinessModelDesignerRoot model in models)
+  {	 
+	  foreach (var domainRef in model.GetAllDomains())
+	  {
+		if (!domains.Contains(domainRef.Name))
+		{
+			domains.Add(domainRef.Name);   
+#>
+			
+    public partial class <#= domainRef.Name #>
+    {
+				
+			public static Dictionary<string, string> GetValues()
+			{
+					Dictionary<string, string> result = new Dictionary<string, string>();				
+				<#
+					foreach(var domainValue in domainRef.DomainValues)
+					{
+					#>
+
+					result.Add("<#=domainValue.Value.Replace("\"", "").Replace("'", "")#>", "<#=domainValue.DisplayName#>"); 
+				    <#
+					}
+				#>
+
+					return result;
+			}
+
+			public static Dictionary<string, string> GetNames()
+			{
+					Dictionary<string, string> result = new Dictionary<string, string>();				
+				<#
+					foreach(var domainValue in domainRef.DomainValues)
+					{
+					#>
+
+					result.Add("<#=domainValue.Value.Replace("\"", "").Replace("'", "")#>", "<#=domainValue.Name#>"); 
+				    <#
+					}
+				#>
+
+					return result;
+			}
+
+			#region properties
+			<#
+					foreach(var domainValue in domainRef.DomainValues)
+					{
+					#>
+
+					private static DomainKeyPair _<#=domainValue.Name#> = new DomainKeyPair() { Value = "<#=domainValue.Value.Replace("\"", "").Replace("'", "")#>", DisplayName = "<#=domainValue.DisplayName#>" };
+					[<#=@"FunctionalPoint(""Value[" + domainValue.Value.Replace("\"", "\\\"") + "];DisplayName[" + domainValue.DisplayName + @"]"")"#>]
+					public static DomainKeyPair <#=domainValue.Name#> { get { return _<#=domainValue.Name#>; } }
+				    <#
+					}
+			#>
+
+			#endregion properties
+
+		
+
+	}    
+<#    
+		}
+	  }
+  }
+  
+}  
+#>
+
+}

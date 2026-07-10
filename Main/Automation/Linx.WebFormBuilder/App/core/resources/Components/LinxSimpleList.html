@@ -1,0 +1,20 @@
+{{#if options.odata}}
+<ul class="list">
+    <li class="item" ng-repeat="item in vm.dataBusiness.currentDataItem().{{options.repeater}}List">
+        <p ng-bind="item.{{ options.headerPropertie }}"></p>
+        <p ng-bind="item.{{ options.legendPropertie }}"></p>
+    </li>
+</ul>
+
+{{else}}
+
+<ion-list ng-if="{{options.ngiflist}}">
+  <ion-item
+    collection-repeat="{{options.repeater}}"
+    collection-item-width="'100%'"
+    collection-item-height="60"
+    ng-class="{{options.ngclass}}"
+    ng-click="{{options.customFunction}}"> {{options.headerPropertie}} </ion-item>
+</ion-list>
+
+{{/if}}

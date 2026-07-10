@@ -1,0 +1,44 @@
+﻿<!--oData tab-->
+<div role="tabpanel" class="tab-pane fade in active" id="oData">
+    <div class="clearfix">&nbsp;</div>
+
+    <div class="input-group">
+        <input type="url" class="form-control" placeholder="URL metadados" ng-model="vm.urlOdata">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="vm.search()">
+                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
+            </button>
+        </span>
+    </div>
+
+    <div class="clearfix">&nbsp;</div>
+
+    <div class="alert" ng-class="vm.messageClass" ng-show="vm.showMessage">{{ vm.message }}</div>
+
+    <div ng-show="vm.showConfirmation">
+        <button class="btn btn-success btn-sm pull-right" ng-click="vm.createFormBuilder('ok')">Criar</button>
+        <button class="btn btn-warning btn-sm" ng-click="vm.createFormBuilder('cancel')">Cancelar</button>
+    </div>
+
+    <div ng-show="vm.showDetails" class="oData-list">
+        <ul class="list-group" ng-repeat="entity in vm.entities">
+            <li class="list-group-item list-group-item-info">{{ entity.DisplayName }}</li>
+            
+            <li style="cursor:pointer" class="list-group-item" ng-repeat="property in entity.Properties" ng-show="property.Name" data-drag="true" data-jqyoui-options="{revert: 'invalid', helper: 'clone'}" ng-model="vm.propertiesData" jqyoui-draggable="{index: {{$index}}, animate: false, placeholder: 'keep'}">
+                {{ property.Name }}
+                <span class="glyphicon glyphicon-ok form-control-feedback pull-right hidden-xs hidden-sm" aria-hidden="true" ng-show="property.isSelected"></span>
+            </li>
+        </ul>
+
+        <!--<ul class="list-group">
+            
+            <li class="list-group-item list-group-item-info">{{ vm.entityName }}</li>
+            
+            <li style="cursor:pointer" class="list-group-item" ng-repeat="property in vm.propertiesData" ng-show="property.Name" data-drag="true" data-jqyoui-options="{revert: 'invalid', helper: 'clone'}" ng-model="vm.propertiesData" jqyoui-draggable="{index: {{$index}}, animate: false, placeholder: 'keep'}">
+                {{ property.Name }}
+                <span class="glyphicon glyphicon-ok form-control-feedback pull-right hidden-xs hidden-sm" aria-hidden="true" ng-show="property.isSelected"></span>
+            </li>
+
+        </ul>-->
+    </div>
+</div>      

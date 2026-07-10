@@ -1,0 +1,41 @@
+﻿<div class="modal-dialog modal-dialog-large modal-console">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" id="btnOK" data-bind="click: $root.UI_btnOK_Click" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title" data-bind="text: 'Total ' + $root.titleModal() + ': ' + $root.EVENTS().length"></h4>
+        </div>
+
+        <div class="modal-body tabbable-custom box">
+            <div class="tasklist" data-bind="foreach: $root.EVENTS">
+                <div class="" data-bind="attr: { class: className }, visible: visible()">
+                    <!--<h3 data-bind="text: position">&nbsp;</h3>-->
+
+                    <dl>
+                        <!-- ko if:  displayStack.length == 0 -->
+                        <dt data-bind="text: displayName"></dt>
+                        <!--/ko-->
+                        
+                        <!-- ko if:  displayStack.length > 0 -->        
+                        <dt class="ico-adicao" data-bind="click: $root.UI_btnMostrarDetalhesErros_Click, text: displayName"></dt>
+
+                        <dd class="lista-oculta">
+                            <ul data-bind="foreach: displayStack" class="list-erros">
+                                <li data-bind="text: $data"/>
+                            </ul>
+                        </dd>
+                        <!--/ko-->
+                    </dl>
+
+                </div>
+            </div>
+           
+            <!-- ko if:  $root.EVENTS().length > 1 -->        
+            <button class="btn btn-mais-erros" id="btnMostrar" data-bind="click: $root.UI_btnMostrar_Click, text: 'Mostrar +'"></button>
+            <!--/ko-->
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-close" id="btnClose" data-bind="click: $root.UI_btnOK_Click">Fechar</button>
+        </div>
+    </div>
+</div>

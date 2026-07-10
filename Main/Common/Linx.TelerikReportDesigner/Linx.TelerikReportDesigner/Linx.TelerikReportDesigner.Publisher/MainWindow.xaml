@@ -1,0 +1,35 @@
+﻿<Window x:Class="Linx.TelerikReportDesigner.Publisher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Linx Publish" Height="532.894" Width="947.368" Loaded="Window_Loaded" 
+        ResizeMode="CanMinimize">
+    <Grid>
+        <Grid HorizontalAlignment="Left" Height="416" Margin="10,10,0,0" VerticalAlignment="Top" Width="919">
+            <ListView SelectionMode="Multiple" ItemsSource="{Binding}" Name="lbxResourcesOprions" HorizontalAlignment="Left" Height="293" Margin="10,113,0,0" VerticalAlignment="Top" Width="329">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListView>
+            <ListView SelectionMode="Multiple" ItemsSource="{Binding}" x:Name="lbxResourcesSelected" HorizontalAlignment="Left" Height="293" Margin="580,113,0,0" VerticalAlignment="Top" Width="329">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListView>
+            <Button Content="&gt;" Name="btnAdd" HorizontalAlignment="Left" Margin="443,165,0,0" VerticalAlignment="Top" Width="39" Click="btnAdd_Click"/>
+            <Button Content="&lt;" Name="btnRemove" HorizontalAlignment="Left" Margin="443,233,0,0" VerticalAlignment="Top" Width="39" Click="btnRemove_Click"/>
+            <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="62" Margin="10,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="899"/>
+            <TextBox HorizontalAlignment="Left"
+                     Text=""
+                     Name="txtSelectedFolder" Height="26" Margin="30,28,0,362" TextWrapping="Wrap" VerticalAlignment="Center" Width="708"  />
+            <Button Name="btnSelectFolder" Content="Pasta" HorizontalAlignment="Left" Margin="754,27,0,0" VerticalAlignment="Top" Width="144" Height="27" Click="btnSelectFolder_Click"/>
+            <Button Content="Todos" x:Name="btnAll" HorizontalAlignment="Left" Margin="443,300,0,0" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.513,3.95" Click="btnAll_Click"/>
+        </Grid>
+        <Button Cursor="Hand" Content="Publicar" Name="btnPublish" HorizontalAlignment="Left" Margin="778,449,0,0" VerticalAlignment="Top" Width="139" Height="27" Click="btnPublish_Click"/>
+        <CheckBox Content="Publicar em ambiente de desenvolvimento?" Visibility="Hidden" Name="ckbDevPublish" HorizontalAlignment="Left" Margin="23,456,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

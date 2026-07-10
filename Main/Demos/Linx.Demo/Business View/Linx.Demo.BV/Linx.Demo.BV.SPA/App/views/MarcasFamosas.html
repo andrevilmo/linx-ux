@@ -1,0 +1,161 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="MarcasFamosas_formViewer" class="panelTransaition">
+            <figure id="MarcasFamosas_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.MarcasFamosas().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="MarcasFamosas_gbTesteCkbView" data-bind="css: $root.MarcasFamosas().getLayoutColumnSpan('MarcasFamosas_gbTesteCkbView'), visible: $root.MarcasFamosas().getLayoutVisible('MarcasFamosas_gbTesteCkbView')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.MarcasFamosas().getLayoutDisplayName('MarcasFamosas_gbTesteCkbView')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="MarcasFamosas_gbTesteCkbView_anchor" href="#MarcasFamosas_gbTesteCkbView_body" role="button" data-toggle="collapse" data-parent="#MarcasFamosas_gbTesteCkbView" aria-controls="#MarcasFamosas_gbTesteCkbView_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="MarcasFamosas_gbTesteCkbView_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.MarcasFamosas().getWithBinding(currentDataItem, $root.MarcasFamosas().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.MarcasFamosas().getLayoutColumnSpan('MarcasFamosas_ntxIdQualquer'), visible: $root.MarcasFamosas().getLayoutVisible('MarcasFamosas_ntxIdQualquer')" class="">
+                                   <div class="form-group">
+                                       <div id="MarcasFamosas_divIdQualquer" class="" >
+                                           <label data-bind="css: { 'content-required': $root.MarcasFamosas().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.MarcasFamosas().getLayoutDisplayName('MarcasFamosas_ntxIdQualquer')}, text: $root.MarcasFamosas().getLayoutDisplayName('MarcasFamosas_ntxIdQualquer')" id="MarcasFamosas_lblIdQualquer" for="MarcasFamosas_ntxIdQualquer" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="MarcasFamosas_ntxIdQualquer" class="form-control numericFilterRange " data-bind="validatedField: 'IdQualquer', css: { vmEditing: $root.MarcasFamosas().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ntxIdQualquer') ? ctrl.getCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ntxIdQualquer') : (!isEmptyEntityFn($data) && $root.MarcasFamosas().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdQualquer, maxValue: null,  maxLength: 0,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ntxIdQualquer') ? !ctrl.getCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ntxIdQualquer') : (isEmptyEntityFn($data) || !($root.MarcasFamosas().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.MarcasFamosas().entitySearchRange.has_TesteCkbViewIdQualquer(), 'icon-ok': $root.MarcasFamosas().entitySearchRange.has_TesteCkbViewIdQualquer(), hide: $root.MarcasFamosas().status() !== 'C' }, popoverWithBind: { template: '#MarcasFamosas_rgIdQualquer', vm: $root.MarcasFamosas().entitySearchRange, ctrlName: 'MarcasFamosas_rgcIdQualquer', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="MarcasFamosas_rgIdQualquer" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="MarcasFamosas_ntxbIdQualquer" class="IsEditableStyle" data-bind="igNumericEditor: { value: TesteCkbViewIdQualquer_begin, dataMode: 'int', valueChanged: function (evt, ui) {$('#MarcasFamosas_ntxIdQualquer').igNumericEditor('option', 'readOnly', (ui.value != null || $('#MarcasFamosas_ntxeIdQualquer').igNumericEditor('option', 'value') != null ? true : false)); $('#MarcasFamosas_ntxeIdQualquer').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="MarcasFamosas_ntxeIdQualquer" class="IsEditableStyle" data-bind="igNumericEditor: { value: TesteCkbViewIdQualquer_end, dataMode: 'int', valueChanged: function (evt, ui) {$('#MarcasFamosas_ntxIdQualquer').igNumericEditor('option', 'readOnly', ($('#MarcasFamosas_ntxbIdQualquer').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#MarcasFamosas_ntxbIdQualquer').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.MarcasFamosas().getLayoutColumnSpan('MarcasFamosas_ckNaoObrigatorio'), visible: $root.MarcasFamosas().getLayoutVisible('MarcasFamosas_ckNaoObrigatorio')" class="">
+                                   <div class="form-group">
+                                       <div id="MarcasFamosas_divNaoObrigatorio" class="" >
+                                           <label class="">
+                                             <input id="MarcasFamosas_ckNaoObrigatorio" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ckNaoObrigatorio') ? ctrl.getCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ckNaoObrigatorio') : (!isEmptyEntityFn($data) && $root.MarcasFamosas().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ckNaoObrigatorio') ? !ctrl.getCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ckNaoObrigatorio') : (isEmptyEntityFn($data) || !$root.MarcasFamosas().enabledForEditing()), nullableChecked: NaoObrigatorio" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblMarcasFamosas_ckNaoObrigatorio" data-bind="text: $root.MarcasFamosas().getLayoutDisplayName('MarcasFamosas_ckNaoObrigatorio'), attr: {title: $root.MarcasFamosas().getLayoutDisplayName('MarcasFamosas_ckNaoObrigatorio')}" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.MarcasFamosas().getLayoutColumnSpan('MarcasFamosas_ckObrigatorio'), visible: $root.MarcasFamosas().getLayoutVisible('MarcasFamosas_ckObrigatorio')" class="">
+                                   <div class="form-group">
+                                       <div id="MarcasFamosas_divObrigatorio" class="" >
+                                           <label class="">
+                                             <input id="MarcasFamosas_ckObrigatorio" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ckObrigatorio') ? ctrl.getCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ckObrigatorio') : (!isEmptyEntityFn($data) && $root.MarcasFamosas().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ckObrigatorio') ? !ctrl.getCustomEnable($root.MarcasFamosas(), 'MarcasFamosas_ckObrigatorio') : (isEmptyEntityFn($data) || !$root.MarcasFamosas().enabledForEditing()), nullableChecked: Obrigatorio" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblMarcasFamosas_ckObrigatorio" data-bind="text: $root.MarcasFamosas().getLayoutDisplayName('MarcasFamosas_ckObrigatorio'), attr: {title: $root.MarcasFamosas().getLayoutDisplayName('MarcasFamosas_ckObrigatorio')}, css: { 'content-required-checkbox': $root.MarcasFamosas().status() === 'E'}" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="MarcasFamosas_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.MarcasFamosas().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyMarcasFamosas_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyMarcasFamosas_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyMarcasFamosas_dGrid_templateLayout', vm: function(){return $root.MarcasFamosas().gridSaveStates['scyMarcasFamosas_dGrid'];}, ctrlName: 'scyMarcasFamosas_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyMarcasFamosas_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyMarcasFamosas_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyMarcasFamosas_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.MarcasFamosas().dataToolbar.canExport(), click: function () {$root.MarcasFamosas().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyMarcasFamosas_dGrid" data-bind="css: { IsEditableStyle: $root.MarcasFamosas().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

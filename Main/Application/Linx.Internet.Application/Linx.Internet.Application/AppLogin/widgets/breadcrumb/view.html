@@ -1,0 +1,23 @@
+﻿<div>
+    <!-- ko if: BREADCRUMB_VM().length > 0 -->
+    <div id="mainBreadCrumd" class="pull-left">
+        <div class="bread navbread-fixed-top">
+                <!-- BEGIN BREADCRUMB-->
+                <ul class="page-breadcrumb breadcrumb" data-bind="foreach: BREADCRUMB_VM">
+                    <li>
+                        <!-- ko if: IsFirst -->
+                        <i class="fa fa-home"></i>
+                        <!-- /ko -->
+
+                        <a data-bind="attr: { href: urlLink }, html: displayName"></a>
+                        
+                        <!-- ko ifnot: IsLast -->
+                        &nbsp;::&nbsp;
+                        <!-- /ko -->
+                    </li>
+                </ul>
+                <!-- END BREADCRUMB-->
+        </div>
+    </div>
+    <!-- /ko -->
+</div>

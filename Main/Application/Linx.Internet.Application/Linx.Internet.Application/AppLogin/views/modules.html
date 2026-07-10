@@ -1,0 +1,113 @@
+﻿<div class="topo-container">
+    <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header' }-->
+        <!--/ko-->
+    </div>
+
+</div>
+
+<div class="clearfix">
+</div>
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container nobread">
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- BEGIN PAGE CONTENT-->
+        <div class="col-md-12" data-bind="foreach: managerAuth.loginInfo.Ambientes">
+            <div class="row">
+                <h4 class="title-environment">
+                    <i class="fa fa-th-list"></i>
+                    <span data-bind="text: DescricaoAplicativo + ' - ' + DescricaoAmbiente + ' - ' + DescricaoEmpresa"></span>
+                </h4>
+
+                <div id="gb_modules" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element">
+                    <div class="portlet box row">
+                        <div class="portlet-title">
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="display: block;">
+                            <h4 class="title-environment">
+                            </h4>
+                            <div class="col-md-12" data-bind="foreach: $root.getVMByEnvironment(IdTcsAmbiente)">
+                                <div class="tiles">
+                                    <a data-bind="attr: { href: urlLink, id: nameLink }">
+                                        <div data-bind="attr: { class: classType, id: nameContainer }" class="titleCotainer">
+                                            <div class="corner" data-bind="click: $root.UI_openListOptions">
+                                                <span>&nbsp;</span>
+                                                <ul>
+                                                    <!-- ko if: isModuleFavorite == false -->
+                                                    <!-- ko if: isFavorite == false -->
+                                                    <li>
+                                                        <span data-bind="click: function () { $root.UI_linkFavAdd_Click(moduleKey, moduleKey, false, objRef) }"><i class="fa fa-star"></i>adicionar</span>
+                                                    </li>
+                                                    <!-- /ko -->
+
+                                                    <!-- ko if: isFavorite == true -->
+                                                    <li>
+                                                        <span data-bind="click: function () { $root.UI_linkFavDel_Click(moduleKey, moduleKey, false, objRef) }"><i class="fa fa-star-o"></i>remover</span>
+                                                    </li>
+                                                    <!-- /ko -->
+                                                    <!-- /ko -->
+
+                                                    <!-- ko if: isHome == false -->
+                                                    <li>
+                                                        <span data-bind="    click: function () { $root.UI_linkHomeAdd_Click(objRef) }"><i class="fa fa-home"></i>adicionar home</span>
+                                                    </li>
+                                                    <!-- /ko -->
+
+                                                    <!-- ko if: isHome == true -->
+                                                    <li>
+                                                        <span data-bind="    click: function () { $root.UI_linkHomeDel_Click(objRef) }"><i class="fa fa-ban"></i>remover home</span>
+                                                    </li>
+                                                    <!-- /ko -->
+                                                </ul>
+                                            </div>
+
+                                            <span class="position-incons">
+                                                <!-- ko if: isFavorite == true -->
+                                                <i class="fa fa-star"></i>
+                                                <!-- /ko -->
+
+                                                <!-- ko if: isHome == true -->
+                                                <i class="fa fa-home"></i>
+                                                <!-- /ko -->
+                                            </span>
+
+                                            <div class="tile-body modules-prod">
+
+                                                <!-- ko if: iconName.length == 0 -->
+                                                <img data-bind="attr: { src: $root.managerAuth.buildUrl(imagePath, 64) }" src="#" width="64" height="64" alt="" class="pull-right" />
+                                                <!-- /ko -->
+
+                                                <!-- ko if: iconName.length > 0 -->
+                                                <i data-bind="attr: { class: iconName }"></i>
+                                                <!-- /ko -->
+
+                                            </div>
+
+                                            <div class="tile-object">
+                                                <div class="name">
+                                                    <div class="name" data-bind="text: displayName"></div>
+                                                </div>
+                                                <!--div class="number">
+									6
+								</div>-->
+                                            </div>
+
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT-->
+        </div>
+        <!-- END PAGE -->
+    </div>
+</div>
+<!-- END CONTAINER -->

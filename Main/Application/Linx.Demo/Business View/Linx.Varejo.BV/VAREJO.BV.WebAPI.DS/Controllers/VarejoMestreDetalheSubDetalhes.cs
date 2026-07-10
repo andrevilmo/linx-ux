@@ -1,0 +1,32 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Linx.Tools;
+using System.Linq;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.Composition;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using VAREJO.BV.MestreDetalheSubDetalhes;
+using VAREJO.BM;
+
+namespace VAREJO.BV.WebAPI.DS.Controllers
+{
+    
+    ////////////////////////////////////////////////////////////////////////////
+    /////////////////////////// Business Api Controller ////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    public partial class VarejoMestreDetalheSubDetalhesController
+    {
+        [Route("WebApiAction1")]
+        [HttpGet()]
+        [VarejoMestreDetalheSubDetalhesControllerAuthorize()]
+        public void WebApiAction1()
+        {
+        
+        }
+    }
+}

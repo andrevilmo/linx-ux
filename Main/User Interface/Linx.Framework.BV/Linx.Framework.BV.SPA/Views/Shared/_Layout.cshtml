@@ -1,0 +1,157 @@
+@using System;
+@using System.Configuration;
+@using System.Web
+@using System.Web.Optimization;
+@using ServiceStack.Html;
+@using Linx.Internet.Application;
+@using Linx.Internet.Application.Helpers;
+@using StackExchange.Profiling;
+
+@{
+    var Shell_CombineAndMinifyCssJs_Enabled = BaseHelpers.GetShellCombineAndMinifyCssJsMode();    
+    var AtributoManifesto = (BaseHelpers.CheckApplicationCache() ? "manifest=\"lia.appcache\" type=\"text/cache-manifest\"" : string.Empty);
+}
+
+<!DOCTYPE html>
+<html class="no-js" @Html.Raw(@AtributoManifesto)>
+
+<!-- BEGIN HEAD -->
+<head>
+    @Html.MetaAppMode()
+    @Html.MetaAppTitle()
+    @Html.MetaAppTrace()
+    @Html.MetaHash()
+    @Html.MetaVersion()
+    @Html.MetaDateVersion()
+    @Html.MetaLabelVersion()
+    @Html.MetaRoot()
+    @Html.MetaModuleId()
+    @Html.MetaOffline()
+    @Html.MetaMin()
+    @Html.MetaTimeOut()
+    @Html.MetaLoginMode()
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <meta name="MobileOptimized" content="320">
+    <meta http-equiv='content-Type' content='text/html; charset=iso-8859-1' />
+
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" />
+    @*<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">*@
+
+    @if (Shell_CombineAndMinifyCssJs_Enabled == false)
+    { 
+        <text>
+            @Styles.Render(Url.UrlWithModuleId("/lib/core.css"))
+            <link rel="stylesheet" type="text/css" href="@Url.RelativePath( string.Format("lib/theme-css-{0}.css", "default") )" id="style_color"/>
+        </text>
+    }
+    else
+    { 
+        @*@Html.EmbedBase64(Linx.Internet.Application.Helpers.HtmlHelper.EnumTypeFile.Css, Url.ContentWithModuleId("core.css"))*@
+        @*@Html.EmbedBase64(Linx.Internet.Application.Helpers.HtmlHelper.EnumTypeFile.Css, Url.RelativePath(string.Format("styles/theme-css-{0}.less", Url.ThemeName())), "style_color")*@
+        <link rel="stylesheet" type="text/css" href="@Url.RelativePath( "lib/core.css" )"/>
+        <link rel="stylesheet" type="text/css" href="@Url.RelativePath( string.Format("lib/theme-css-{0}.css", "default") )" id="style_color"/>
+    }
+
+</head>
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-footer-fixed page-header-fixed page-quick-sidebar-over-content preloading @Url.ThemeName()">
+
+    <div id="applicationHost" class="page-full-width">
+        <div class="clearfix"></div>
+
+        <!-- BEGIN CONTAINER -->
+        <div class="page-container">
+            @RenderBody()
+        </div>
+        <!-- END CONTAINER -->
+    </div>
+
+    @* Footer must stay outside #applicationHost — Durandal setRoot replaces that element's contents. *@
+    @Html.Partial("_Footer")
+
+    <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+    <script>
+        (function () {
+            function applyFooterVisibility() {
+                var footers = document.querySelectorAll('body > .footer, .footer');
+                for (var i = 0; i < footers.length; i++) {
+                    var f = footers[i];
+                    f.style.setProperty('background-color', '#333', 'important');
+                    f.style.setProperty('color', '#fff', 'important');
+                    f.style.setProperty('z-index', '2147483000', 'important');
+                    f.style.setProperty('position', 'fixed', 'important');
+                    f.style.setProperty('bottom', '0', 'important');
+                    f.style.setProperty('left', '0', 'important');
+                    f.style.setProperty('right', '0', 'important');
+                    f.style.setProperty('width', '100%', 'important');
+                    f.style.setProperty('min-height', '36px', 'important');
+                    f.style.setProperty('height', '36px', 'important');
+                    f.style.setProperty('padding', '8px 20px', 'important');
+                    f.style.setProperty('display', 'block', 'important');
+                    f.style.setProperty('visibility', 'visible', 'important');
+                    f.style.setProperty('opacity', '1', 'important');
+                    f.style.setProperty('margin', '0', 'important');
+                }
+            }
+
+            var label = document.getElementById('labelVersion');
+            if (label) {
+                var versionMeta = document.getElementsByName('linx-internet-application-version')[0];
+                var dateMeta = document.getElementsByName('linx-internet-application-date-version')[0];
+                var version = versionMeta ? versionMeta.content : '';
+                var dateVersion = dateMeta ? dateMeta.content : '';
+                if (version || dateVersion) {
+                    label.innerText = label.innerText + ' [' + version + (version && dateVersion ? ' :: ' : '') + dateVersion + ']';
+                }
+            }
+
+            applyFooterVisibility();
+            setTimeout(applyFooterVisibility, 500);
+            setTimeout(applyFooterVisibility, 2000);
+            setTimeout(applyFooterVisibility, 5000);
+        })();
+    </script>
+
+    
+
+    @Html.EmbedBase64(Linx.Internet.Application.Helpers.HtmlHelper.EnumTypeFile.Js, Url.ContentWithModuleId("start.js"))
+
+    @if (Shell_CombineAndMinifyCssJs_Enabled == false)
+    { 
+        <text>
+            @Scripts.Render(Url.UrlWithModuleId("/scripts/core.js"))
+        </text>
+    }
+
+    @RenderSection("scripts", required: false)
+    <!-- END JAVASCRIPTS -->
+
+    <!-- BEGIN TEMPLATES -->
+    <script type="text/html" id="EmptyTemplate"></script>
+
+    <script type="text/html" id="no-image-template-form">
+            <img class="lx_linkimg_noimage" data-bind="attr: { src: $root.common.getUrlNoImage() }"/>
+    </script>
+    <script type="text/html" id="image-template-form">
+            <img class="lazy lx_linkimg" data-bind="attr: { src: $root.common.getUrlLoadingImage() }" />
+    </script>
+
+
+    <script type="text/html" id="no-image-template-grid">
+            <img class="lx_grid_linkimg_noimage" data-bind="attr: { src: $root.common.getUrlNoImage() }"/>
+    </script>
+    <script type="text/html" id="image-template-grid">
+            <img class="lazy lx_grid_linkimg" data-bind="attr: { src: $root.common.getUrlLoadingImage(), tableName: $data.tableName, key: $data.key, 'data-src': url }" />
+    </script>
+
+    <!-- END TEMPLATES -->
+     @MiniProfiler.RenderIncludes()
+</body>
+<!-- END BODY -->
+</html>

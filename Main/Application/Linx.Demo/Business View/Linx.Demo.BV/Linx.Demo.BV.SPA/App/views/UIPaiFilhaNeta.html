@@ -1,0 +1,1243 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="UIPaiFilhaNeta_formViewer" class="panelTransaition">
+            <figure id="UIPaiFilhaNeta_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.UIPaiFilhaNeta().viewType() === 'Main' ? '' : 'none' }">
+                                       <div id="UIPaiFilhaNeta_gbCliente" data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_gbCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_gbCliente')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_gbCliente')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="UIPaiFilhaNeta_gbCliente_anchor" href="#UIPaiFilhaNeta_gbCliente_body" role="button" data-toggle="collapse" data-parent="#UIPaiFilhaNeta_gbCliente" aria-controls="#UIPaiFilhaNeta_gbCliente_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="UIPaiFilhaNeta_gbCliente_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentDataItem, $root.UIPaiFilhaNeta().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxBigIntCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxBigIntCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaiFilhaNeta_divBigIntCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxBigIntCliente')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxBigIntCliente')" id="UIPaiFilhaNeta_lblBigIntCliente" for="UIPaiFilhaNeta_ntxBigIntCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UIPaiFilhaNeta_ntxBigIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntCliente', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxBigIntCliente') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxBigIntCliente') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: BigIntCliente, minValue: 0, maxValue: 9007199254740992,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxBigIntCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxBigIntCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_ClienteBigIntCliente(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_ClienteBigIntCliente(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgBigIntCliente', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcBigIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UIPaiFilhaNeta_rgBigIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteBigIntCliente_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxBigIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeBigIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeBigIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteBigIntCliente_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxBigIntCliente').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbBigIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbBigIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ckBitCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ckBitCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaiFilhaNeta_divBitCliente" class="" >
+                                           <label class="">
+                                             <input id="UIPaiFilhaNeta_ckBitCliente" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckBitCliente') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckBitCliente') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckBitCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckBitCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), nullableChecked: BitCliente" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblUIPaiFilhaNeta_ckBitCliente" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_cmbComboboxCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_cmbComboboxCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaiFilhaNeta_divComboboxCliente" class="" >
+                                           <label data-bind="css: { 'content-required': $root.UIPaiFilhaNeta().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_cmbComboboxCliente')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_cmbComboboxCliente')" id="UIPaiFilhaNeta_lblComboboxCliente" for="UIPaiFilhaNeta_cmbComboboxCliente" class="control-label ellipsis">
+                                           </label>
+                                           <span id="UIPaiFilhaNeta_cmbComboboxCliente" class="form-control " data-bind="validatedField: 'ComboboxCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbComboboxCliente') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbComboboxCliente') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), igCombo: {
+                                              selectedItems: ComboboxCliente,
+                                              dataSource:  $root.UIPaiFilhaNeta().dataDomains.getItems('LX_CLIENTE', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_dtDatetimeCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_dtDatetimeCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaiFilhaNeta_divDatetimeCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_dtDatetimeCliente')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_dtDatetimeCliente')" id="UIPaiFilhaNeta_lblDatetimeCliente" for="UIPaiFilhaNeta_dtDatetimeCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="UIPaiFilhaNeta_dtDatetimeCliente" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeCliente', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtDatetimeCliente') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtDatetimeCliente') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()) },  igDatePicker: { value: DatetimeCliente, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="UIPaiFilhaNeta_rgbtnDatetimeCliente"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_ClienteDatetimeCliente(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_ClienteDatetimeCliente(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgDatetimeCliente', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcDatetimeCliente', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="UIPaiFilhaNeta_rgDatetimeCliente" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="checked:ClienteDatetimeCliente_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:ClienteDatetimeCliente_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="UIPaiFilhaNeta_divrgDatetimeCliente" >
+                                                      <div class="filterByRange" data-bind="visible: ClienteDatetimeCliente_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UIPaiFilhaNeta_dtbDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteDatetimeCliente_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_dtDatetimeCliente').igDatePicker('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_dteDatetimeCliente').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UIPaiFilhaNeta_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#UIPaiFilhaNeta_dteDatetimeCliente').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#UIPaiFilhaNeta_dtbDatetimeCliente').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UIPaiFilhaNeta_dteDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteDatetimeCliente_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_dtDatetimeCliente').igDatePicker('option', 'readOnly', ($('#UIPaiFilhaNeta_dtbDatetimeCliente').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UIPaiFilhaNeta_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#UIPaiFilhaNeta_dteDatetimeCliente').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#UIPaiFilhaNeta_dteDatetimeCliente').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: ClienteDatetimeCliente_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ClienteDatetimeCliente_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: ClienteDatetimeCliente_predefFilter() != null && ClienteDatetimeCliente_predefFilter()[0] && ClienteDatetimeCliente_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ClienteDatetimeCliente_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxDecimalCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxDecimalCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaiFilhaNeta_divDecimalCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxDecimalCliente')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxDecimalCliente')" id="UIPaiFilhaNeta_lblDecimalCliente" for="UIPaiFilhaNeta_ntxDecimalCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UIPaiFilhaNeta_ntxDecimalCliente" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalCliente', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxDecimalCliente') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxDecimalCliente') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: DecimalCliente, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxDecimalCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxDecimalCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_ClienteDecimalCliente(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_ClienteDecimalCliente(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgDecimalCliente', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcDecimalCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UIPaiFilhaNeta_rgDecimalCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxDecimalCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeDecimalCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeDecimalCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxDecimalCliente').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbDecimalCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbDecimalCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxIdCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxIdCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaiFilhaNeta_divIdCliente" class="" >
+                                           <label data-bind="css: { 'content-required': $root.UIPaiFilhaNeta().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxIdCliente')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxIdCliente')" id="UIPaiFilhaNeta_lblIdCliente" for="UIPaiFilhaNeta_ntxIdCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UIPaiFilhaNeta_ntxIdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxIdCliente') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxIdCliente') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdCliente, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxIdCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxIdCliente') : (isEmptyEntityFn($data) || !($root.UIPaiFilhaNeta().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_ClienteIdCliente(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_ClienteIdCliente(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgIdCliente', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcIdCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UIPaiFilhaNeta_rgIdCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxIdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeIdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeIdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxIdCliente').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbIdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbIdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_lUpIdEstado'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_lUpIdEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaiFilhaNeta_divIdEstado" class="" >
+                                           <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_lUpIdEstado')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_lUpIdEstado')" id="UIPaiFilhaNeta_lblIdEstado" for="UIPaiFilhaNeta_lUpIdEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div id="UIPaiFilhaNeta_lUpIdEstado" class="form-control input-group " data-bind="validatedField: 'IdEstado', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpIdEstado') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpIdEstado') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, lookupControl: { vm: $root.UIPaiFilhaNeta(), value: IdEstado, maxLength: 12,lookupName: 'LookUpEstado', isMultiSelection: false, multiSelectionValue: $root.UIPaiFilhaNeta().entitySearchRange.IdEstado, fieldName: 'IdEstado', disabled:ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpIdEstado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpIdEstado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxIntCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxIntCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaiFilhaNeta_divIntCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxIntCliente')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxIntCliente')" id="UIPaiFilhaNeta_lblIntCliente" for="UIPaiFilhaNeta_ntxIntCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UIPaiFilhaNeta_ntxIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IntCliente', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxIntCliente') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxIntCliente') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: IntCliente, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxIntCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxIntCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_ClienteIntCliente(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_ClienteIntCliente(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgIntCliente', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UIPaiFilhaNeta_rgIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxIntCliente').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxSmallIntCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxSmallIntCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaiFilhaNeta_divSmallIntCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxSmallIntCliente')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxSmallIntCliente')" id="UIPaiFilhaNeta_lblSmallIntCliente" for="UIPaiFilhaNeta_ntxSmallIntCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UIPaiFilhaNeta_ntxSmallIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntCliente', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxSmallIntCliente') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxSmallIntCliente') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: SmallIntCliente, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxSmallIntCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxSmallIntCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_ClienteSmallIntCliente(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_ClienteSmallIntCliente(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgSmallIntCliente', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcSmallIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UIPaiFilhaNeta_rgSmallIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteSmallIntCliente_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeSmallIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeSmallIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteSmallIntCliente_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbSmallIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbSmallIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_tbStringCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_tbStringCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaiFilhaNeta_divStringCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tbStringCliente')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tbStringCliente')" id="UIPaiFilhaNeta_lblStringCliente" for="UIPaiFilhaNeta_tbStringCliente" class="control-label ellipsis">
+                                           </label>
+                                           <input id="UIPaiFilhaNeta_tbStringCliente" class="form-control ellipsis" data-bind="attr: { title: StringCliente }, validatedField: 'StringCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbStringCliente') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbStringCliente') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringCliente, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbStringCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbStringCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_tbStringEstado'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_tbStringEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="UIPaiFilhaNeta_divStringEstado" class="" >
+                                           <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tbStringEstado')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tbStringEstado')" id="UIPaiFilhaNeta_lblStringEstado" for="UIPaiFilhaNeta_tbStringEstado" class="control-label ellipsis">
+                                           </label>
+                                           <input id="UIPaiFilhaNeta_tbStringEstado" class="form-control ellipsis" data-bind="attr: { title: StringEstado }, validatedField: 'StringEstado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbStringEstado') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbStringEstado') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().status() === 'C') }, igTextEditor: { maxLength: 50, value: StringEstado, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbStringEstado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbStringEstado') : (isEmptyEntityFn($data) || $root.UIPaiFilhaNeta().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+           <div id="UIPaiFilhaNeta_tcClienteTabControl"  data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_tcClienteTabControl'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_tcClienteTabControl')"  class="tabbable tabbable-custom box" >
+              <div class="container-tab">
+                 <div id="UIPaiFilhaNeta_tcClienteTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                 <div id="UIPaiFilhaNeta_tcClienteTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                 <div id="UIPaiFilhaNeta_tcClienteTabControl_wrapper" class="wrapper">
+                    <ul id="UIPaiFilhaNeta_tcClienteTabControl_list" class="nav nav-tabs list">
+                       <li id="UIPaiFilhaNeta_tiVendaTabItem" class="active"><a data-bind="text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tiVendaTabItem'), attr: {title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tiVendaTabItem')}" href="#UIPaiFilhaNeta_tabVendaTabItem" data-toggle="tab"></a></li>
+                       <li id="UIPaiFilhaNeta_tiVendaItemTabItem" class=""><a data-bind="text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tiVendaItemTabItem'), attr: {title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tiVendaItemTabItem')}" href="#UIPaiFilhaNeta_tabVendaItemTabItem" data-toggle="tab"></a></li>
+                       <li id="UIPaiFilhaNeta_tiVendaAtacadoTabItem" class=""><a data-bind="text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tiVendaAtacadoTabItem'), attr: {title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tiVendaAtacadoTabItem')}" href="#UIPaiFilhaNeta_tabVendaAtacadoTabItem" data-toggle="tab"></a></li>
+                    </ul>
+                    </div>
+                 </div>
+              <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="UIPaiFilhaNeta_tabVendaTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+                       <div id="UIPaiFilhaNeta_dGridVenda_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentDataItem, $root.UIPaiFilhaNeta().rootDataTypeName)">
+                           <button id="UIPaiFilhaNeta_dGridVenda_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.UIPaiFilhaNeta().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.UIPaiFilhaNeta().createAndNotifyVenda($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVenda_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.UIPaiFilhaNeta().status() === 'E', 
+                           click: function () {
+                              $root.UIPaiFilhaNeta().deleteGrid('#UIPaiFilhaNeta_dGridVenda', 'Venda', 'vm.currentDataItem().currentVenda;vm.currentDataItem().VendaList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVenda_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.UIPaiFilhaNeta().openEditor('#UIPaiFilhaNeta_dGridVenda', 'Venda', 'vm.currentDataItem().currentVenda;vm.currentDataItem().VendaList', 'Venda;vm.currentDataItem()', 'Venda(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVenda_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.UIPaiFilhaNeta().openEditor('#UIPaiFilhaNeta_dGridVenda', 'Venda', 'vm.currentDataItem().currentVenda;vm.currentDataItem().VendaList', 'Venda;vm.currentDataItem()', 'Venda(vm.currentDataItem())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVenda_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#UIPaiFilhaNeta_dGridVenda_templateLayout', vm: function(){return $root.UIPaiFilhaNeta().gridSaveStates['UIPaiFilhaNeta_dGridVenda'];}, ctrlName: 'UIPaiFilhaNeta_dGridVenda_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                           <script id="UIPaiFilhaNeta_dGridVenda_templateLayout" type="text/html" tabindex="-1">
+                               <div id="UIPaiFilhaNeta_dGridVenda_gb" class="layout-popover">
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                           <div class="col-md-10">
+                                               <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                           </div>
+                                           <div  class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="col-md-10">
+                                               <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                           </div>
+                                           <div class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </script>
+                           <button id="UIPaiFilhaNeta_dGridVenda_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UIPaiFilhaNeta().dataToolbar.canGridExport(), click: function () {$root.UIPaiFilhaNeta().exportDataDetails($data, 'Venda', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="UIPaiFilhaNeta_dGridVenda" data-bind="css: { IsEditableStyle: $root.UIPaiFilhaNeta().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+
+                   <div id="dialogVenda"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegVenda" onClick="$(this).backRegVenda();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberVenda">0</label><label>/</label><label id="totalNumberVenda">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegVenda" onClick="$(this).nextRegVenda();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegVenda" onClick="$(this).addRegVenda();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegVenda" onClick="$(this).delRegVenda();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegVenda" onClick="$(this).okRegVenda();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="UIPaiFilhaNeta_templateVenda" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentDataItem, $root.UIPaiFilhaNeta().rootDataTypeName)"><div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentVenda, 'Venda')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVenda_BigIntVenda'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVenda_BigIntVenda')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVenda_BigIntVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_BigIntVenda')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_BigIntVenda')" id="UIPaiFilhaNeta_lblVenda_BigIntVenda" for="UIPaiFilhaNeta_ntxVenda_BigIntVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVenda_BigIntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntVenda', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_BigIntVenda') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_BigIntVenda') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: BigIntVenda, minValue: 0, maxValue: 9007199254740992,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_BigIntVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_BigIntVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaBigIntVenda(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaBigIntVenda(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVenda_BigIntVenda', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVenda_BigIntVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVenda_BigIntVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVenda_BigIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaBigIntVenda_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_BigIntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVenda_BigIntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVenda_BigIntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVenda_BigIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaBigIntVenda_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_BigIntVenda').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVenda_BigIntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVenda_BigIntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ckVenda_BitVenda'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ckVenda_BitVenda')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVenda_BitVendaTemplate" class="" >
+                                       <label class="">
+                                         <input id="UIPaiFilhaNeta_ckVenda_BitVenda" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVenda_BitVenda') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVenda_BitVenda') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVenda_BitVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVenda_BitVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), nullableChecked: BitVenda" title="Clique para marcar/desmarcar"/> 
+                                         <span id="lblUIPaiFilhaNeta_ckVenda_BitVenda" class="align-label-checkbox"></span>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_cmbVenda_ComboboxVenda'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_cmbVenda_ComboboxVenda')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVenda_ComboboxVendaTemplate" class="" >
+                                       <label data-bind="css: { 'content-required': $root.UIPaiFilhaNeta().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_cmbVenda_ComboboxVenda')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_cmbVenda_ComboboxVenda')" id="UIPaiFilhaNeta_lblVenda_ComboboxVenda" for="UIPaiFilhaNeta_cmbVenda_ComboboxVenda" class="control-label ellipsis">
+                                       </label>
+                                       <span id="UIPaiFilhaNeta_cmbVenda_ComboboxVenda" class="form-control " data-bind="validatedField: 'ComboboxVenda', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVenda_ComboboxVenda') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVenda_ComboboxVenda') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVenda_ComboboxVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVenda_ComboboxVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVenda_ComboboxVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVenda_ComboboxVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), igCombo: {
+                                          selectedItems: ComboboxVenda,
+                                          dataSource:  $root.UIPaiFilhaNeta().dataDomains.getItems('LX_VENDA', ''),
+                                          textKey: 'name',
+                                          valueKey: 'id',
+                                          allowCustomValue : true,
+                                          enableSelectionChangedUpdate: true,
+                                          enableClearButton: false,
+                                          dropDownOnFocus: true,
+                                          disabled: (ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVenda_ComboboxVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVenda_ComboboxVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing())),
+                                          mode: 'editable',
+                                          width:'100%'
+                                       }"></span>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_dtVenda_DatetimeVenda'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_dtVenda_DatetimeVenda')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVenda_DatetimeVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_dtVenda_DatetimeVenda')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_dtVenda_DatetimeVenda')" id="UIPaiFilhaNeta_lblVenda_DatetimeVenda" for="UIPaiFilhaNeta_dtVenda_DatetimeVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group" >
+                                           <span id="UIPaiFilhaNeta_dtVenda_DatetimeVenda" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVenda', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVenda_DatetimeVenda') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVenda_DatetimeVenda') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVenda_DatetimeVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVenda_DatetimeVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()) },  igDatePicker: { value: DatetimeVenda, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVenda_DatetimeVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVenda_DatetimeVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                           <span class="input-group-btn" title="Filtro de datas">
+                                              <button id="UIPaiFilhaNeta_rgbtnVenda_DatetimeVenda"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaDatetimeVenda(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaDatetimeVenda(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVenda_DatetimeVenda', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVenda_DatetimeVenda', headerText:'Filtro de datas' }"  /></span>
+                                              <script id="UIPaiFilhaNeta_rgVenda_DatetimeVenda" type="text/html" tabindex="-1">
+                                              <div class="range-radio-group">
+                                                  <input type="radio" data-bind="checked:VendaDatetimeVenda_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                  <input type="radio" data-bind="checked:VendaDatetimeVenda_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                              </div>
+                                              <div class="range-input-group" id="UIPaiFilhaNeta_divrgVenda_DatetimeVenda" >
+                                                  <div class="filterByRange" data-bind="visible: VendaDatetimeVenda_typeRange() == 'R'">
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UIPaiFilhaNeta_dtbVenda_DatetimeVenda" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaDatetimeVenda_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_dtVenda_DatetimeVenda').igDatePicker('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_dteVenda_DatetimeVenda').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UIPaiFilhaNeta_dtbVenda_DatetimeVenda').igDatePicker('value'); var valorMax = $('#UIPaiFilhaNeta_dteVenda_DatetimeVenda').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#UIPaiFilhaNeta_dtbVenda_DatetimeVenda').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UIPaiFilhaNeta_dteVenda_DatetimeVenda" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaDatetimeVenda_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_dtVenda_DatetimeVenda').igDatePicker('option', 'readOnly', ($('#UIPaiFilhaNeta_dtbVenda_DatetimeVenda').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UIPaiFilhaNeta_dtbVenda_DatetimeVenda').igDatePicker('value'); var valorMax = $('#UIPaiFilhaNeta_dteVenda_DatetimeVenda').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#UIPaiFilhaNeta_dteVenda_DatetimeVenda').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                  </div>
+                                                  <div class="filterByPredefined " data-bind="visible: VendaDatetimeVenda_typeRange() == 'P'">
+                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaDatetimeVenda_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                      <div class="row predefValue" data-bind="visible: VendaDatetimeVenda_predefFilter() != null && VendaDatetimeVenda_predefFilter()[0] && VendaDatetimeVenda_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaDatetimeVenda_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                  </div>
+                                              </div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVenda_DecimalVenda'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVenda_DecimalVenda')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVenda_DecimalVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_DecimalVenda')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_DecimalVenda')" id="UIPaiFilhaNeta_lblVenda_DecimalVenda" for="UIPaiFilhaNeta_ntxVenda_DecimalVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVenda_DecimalVenda" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVenda', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_DecimalVenda') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_DecimalVenda') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: DecimalVenda, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_DecimalVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_DecimalVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaDecimalVenda(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaDecimalVenda(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVenda_DecimalVenda', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVenda_DecimalVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVenda_DecimalVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVenda_DecimalVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaDecimalVenda_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_DecimalVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVenda_DecimalVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVenda_DecimalVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVenda_DecimalVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaDecimalVenda_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_DecimalVenda').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVenda_DecimalVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVenda_DecimalVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVenda_IdCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVenda_IdCliente')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVenda_IdClienteTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_IdCliente')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_IdCliente')" id="UIPaiFilhaNeta_lblVenda_IdCliente" for="UIPaiFilhaNeta_ntxVenda_IdCliente" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVenda_IdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IdCliente') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IdCliente') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: IdCliente, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IdCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IdCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaIdCliente(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaIdCliente(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVenda_IdCliente', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVenda_IdCliente', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVenda_IdCliente" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVenda_IdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdCliente_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_IdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVenda_IdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVenda_IdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVenda_IdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdCliente_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_IdCliente').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVenda_IdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVenda_IdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_lUpVenda_IdLoja'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_lUpVenda_IdLoja')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVenda_IdLojaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_lUpVenda_IdLoja')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_lUpVenda_IdLoja')" id="UIPaiFilhaNeta_lblVenda_IdLoja" for="UIPaiFilhaNeta_lUpVenda_IdLoja" class="control-label ellipsis">
+                                       </label>
+                                       <div id="UIPaiFilhaNeta_lUpVenda_IdLoja" class="form-control input-group " data-bind="validatedField: 'IdLoja', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVenda_IdLoja') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVenda_IdLoja') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, lookupControl: { vm: $root.UIPaiFilhaNeta(), value: IdLoja, maxLength: 12,lookupName: 'LookUpLoja', isMultiSelection: false, multiSelectionValue: $root.UIPaiFilhaNeta().entitySearchRange.IdLoja, fieldName: 'IdLoja', disabled:ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVenda_IdLoja') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVenda_IdLoja') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVenda_IdVenda'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVenda_IdVenda')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVenda_IdVendaTemplate" class="" >
+                                       <label data-bind="css: { 'content-required': $root.UIPaiFilhaNeta().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_IdVenda')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_IdVenda')" id="UIPaiFilhaNeta_lblVenda_IdVenda" for="UIPaiFilhaNeta_ntxVenda_IdVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVenda_IdVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IdVenda') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IdVenda') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVenda, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IdVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IdVenda') : (isEmptyEntityFn($data) || !($root.UIPaiFilhaNeta().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaIdVenda(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaIdVenda(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVenda_IdVenda', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVenda_IdVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVenda_IdVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVenda_IdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_IdVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVenda_IdVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVenda_IdVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVenda_IdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_IdVenda').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVenda_IdVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVenda_IdVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVenda_IntVenda'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVenda_IntVenda')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVenda_IntVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_IntVenda')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_IntVenda')" id="UIPaiFilhaNeta_lblVenda_IntVenda" for="UIPaiFilhaNeta_ntxVenda_IntVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVenda_IntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IntVenda', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IntVenda') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IntVenda') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: IntVenda, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IntVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_IntVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaIntVenda(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaIntVenda(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVenda_IntVenda', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVenda_IntVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVenda_IntVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVenda_IntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIntVenda_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_IntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVenda_IntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVenda_IntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVenda_IntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIntVenda_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_IntVenda').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVenda_IntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVenda_IntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVenda_SmallIntVenda'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVenda_SmallIntVenda')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVenda_SmallIntVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_SmallIntVenda')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVenda_SmallIntVenda')" id="UIPaiFilhaNeta_lblVenda_SmallIntVenda" for="UIPaiFilhaNeta_ntxVenda_SmallIntVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVenda_SmallIntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntVenda', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_SmallIntVenda') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_SmallIntVenda') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: SmallIntVenda, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_SmallIntVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVenda_SmallIntVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaSmallIntVenda(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaSmallIntVenda(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVenda_SmallIntVenda', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVenda_SmallIntVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVenda_SmallIntVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVenda_SmallIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaSmallIntVenda_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_SmallIntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVenda_SmallIntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVenda_SmallIntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVenda_SmallIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaSmallIntVenda_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVenda_SmallIntVenda').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVenda_SmallIntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVenda_SmallIntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_tbVenda_StringVenda'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_tbVenda_StringVenda')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVenda_StringVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tbVenda_StringVenda')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tbVenda_StringVenda')" id="UIPaiFilhaNeta_lblVenda_StringVenda" for="UIPaiFilhaNeta_tbVenda_StringVenda" class="control-label ellipsis">
+                                       </label>
+                                       <input id="UIPaiFilhaNeta_tbVenda_StringVenda" class="form-control ellipsis" data-bind="attr: { title: StringVenda }, validatedField: 'StringVenda', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVenda_StringVenda') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVenda_StringVenda') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVenda, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVenda_StringVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVenda_StringVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+
+                   <div id="dialogVendaItem"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegVendaItem" onClick="$(this).backRegVendaItem();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberVendaItem">0</label><label>/</label><label id="totalNumberVendaItem">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegVendaItem" onClick="$(this).nextRegVendaItem();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegVendaItem" onClick="$(this).addRegVendaItem();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegVendaItem" onClick="$(this).delRegVendaItem();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegVendaItem" onClick="$(this).okRegVendaItem();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="UIPaiFilhaNeta_templateVendaItem" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentDataItem, $root.UIPaiFilhaNeta().rootDataTypeName)"><div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentVenda, 'Venda')"><div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentVendaItem, 'VendaItem')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaItem_BigIntVendaItemTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem')" id="UIPaiFilhaNeta_lblVendaItem_BigIntVendaItem" for="UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntVendaItem', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: BigIntVendaItem, minValue: 0, maxValue: 9007199254740992,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemBigIntVendaItem(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemBigIntVendaItem(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaItem_BigIntVendaItem', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaItem_BigIntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVendaItem_BigIntVendaItem" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVendaItem_BigIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemBigIntVendaItem_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVendaItem_BigIntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVendaItem_BigIntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVendaItem_BigIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemBigIntVendaItem_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaItem_BigIntVendaItem').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVendaItem_BigIntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVendaItem_BigIntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ckVendaItem_BitVendaItem'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ckVendaItem_BitVendaItem')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaItem_BitVendaItemTemplate" class="" >
+                                       <label class="">
+                                         <input id="UIPaiFilhaNeta_ckVendaItem_BitVendaItem" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVendaItem_BitVendaItem') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVendaItem_BitVendaItem') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVendaItem_BitVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVendaItem_BitVendaItem') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), nullableChecked: BitVendaItem" title="Clique para marcar/desmarcar"/> 
+                                         <span id="lblUIPaiFilhaNeta_ckVendaItem_BitVendaItem" class="align-label-checkbox"></span>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaItem_ComboboxVendaItemTemplate" class="" >
+                                       <label data-bind="css: { 'content-required': $root.UIPaiFilhaNeta().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem')" id="UIPaiFilhaNeta_lblVendaItem_ComboboxVendaItem" for="UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem" class="control-label ellipsis">
+                                       </label>
+                                       <span id="UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem" class="form-control " data-bind="validatedField: 'ComboboxVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), igCombo: {
+                                          selectedItems: ComboboxVendaItem,
+                                          dataSource:  $root.UIPaiFilhaNeta().dataDomains.getItems('LX_VENDA_ITEM', ''),
+                                          textKey: 'name',
+                                          valueKey: 'id',
+                                          allowCustomValue : true,
+                                          enableSelectionChangedUpdate: true,
+                                          enableClearButton: false,
+                                          dropDownOnFocus: true,
+                                          disabled: (ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaItem_ComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing())),
+                                          mode: 'editable',
+                                          width:'100%'
+                                       }"></span>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaItem_DatetimeVendaItemTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem')" id="UIPaiFilhaNeta_lblVendaItem_DatetimeVendaItem" for="UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group" >
+                                           <span id="UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVendaItem', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()) },  igDatePicker: { value: DatetimeVendaItem, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                           <span class="input-group-btn" title="Filtro de datas">
+                                              <button id="UIPaiFilhaNeta_rgbtnVendaItem_DatetimeVendaItem"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemDatetimeVendaItem(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemDatetimeVendaItem(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaItem_DatetimeVendaItem', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaItem_DatetimeVendaItem', headerText:'Filtro de datas' }"  /></span>
+                                              <script id="UIPaiFilhaNeta_rgVendaItem_DatetimeVendaItem" type="text/html" tabindex="-1">
+                                              <div class="range-radio-group">
+                                                  <input type="radio" data-bind="checked:VendaItemDatetimeVendaItem_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                  <input type="radio" data-bind="checked:VendaItemDatetimeVendaItem_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                              </div>
+                                              <div class="range-input-group" id="UIPaiFilhaNeta_divrgVendaItem_DatetimeVendaItem" >
+                                                  <div class="filterByRange" data-bind="visible: VendaItemDatetimeVendaItem_typeRange() == 'R'">
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UIPaiFilhaNeta_dtbVendaItem_DatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemDatetimeVendaItem_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem').igDatePicker('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_dteVendaItem_DatetimeVendaItem').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UIPaiFilhaNeta_dtbVendaItem_DatetimeVendaItem').igDatePicker('value'); var valorMax = $('#UIPaiFilhaNeta_dteVendaItem_DatetimeVendaItem').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#UIPaiFilhaNeta_dtbVendaItem_DatetimeVendaItem').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UIPaiFilhaNeta_dteVendaItem_DatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemDatetimeVendaItem_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_dtVendaItem_DatetimeVendaItem').igDatePicker('option', 'readOnly', ($('#UIPaiFilhaNeta_dtbVendaItem_DatetimeVendaItem').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UIPaiFilhaNeta_dtbVendaItem_DatetimeVendaItem').igDatePicker('value'); var valorMax = $('#UIPaiFilhaNeta_dteVendaItem_DatetimeVendaItem').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#UIPaiFilhaNeta_dteVendaItem_DatetimeVendaItem').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                  </div>
+                                                  <div class="filterByPredefined " data-bind="visible: VendaItemDatetimeVendaItem_typeRange() == 'P'">
+                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaItemDatetimeVendaItem_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                      <div class="row predefValue" data-bind="visible: VendaItemDatetimeVendaItem_predefFilter() != null && VendaItemDatetimeVendaItem_predefFilter()[0] && VendaItemDatetimeVendaItem_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaItemDatetimeVendaItem_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                  </div>
+                                              </div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaItem_DecimalVendaItemTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem')" id="UIPaiFilhaNeta_lblVendaItem_DecimalVendaItem" for="UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVendaItem', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: DecimalVendaItem, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemDecimalVendaItem(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemDecimalVendaItem(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaItem_DecimalVendaItem', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaItem_DecimalVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVendaItem_DecimalVendaItem" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVendaItem_DecimalVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemDecimalVendaItem_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVendaItem_DecimalVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVendaItem_DecimalVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVendaItem_DecimalVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemDecimalVendaItem_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaItem_DecimalVendaItem').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVendaItem_DecimalVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVendaItem_DecimalVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_lUpVendaItem_IdVenda'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_lUpVendaItem_IdVenda')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaItem_IdVendaTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_lUpVendaItem_IdVenda')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_lUpVendaItem_IdVenda')" id="UIPaiFilhaNeta_lblVendaItem_IdVenda" for="UIPaiFilhaNeta_lUpVendaItem_IdVenda" class="control-label ellipsis">
+                                       </label>
+                                       <div id="UIPaiFilhaNeta_lUpVendaItem_IdVenda" class="form-control input-group " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVendaItem_IdVenda') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVendaItem_IdVenda') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, lookupControl: { vm: $root.UIPaiFilhaNeta(), value: IdVenda, maxLength: 12,lookupName: '', isMultiSelection: false, multiSelectionValue: $root.UIPaiFilhaNeta().entitySearchRange.IdVenda, fieldName: 'IdVenda', disabled:ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVendaItem_IdVenda') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVendaItem_IdVenda') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVendaItem_IdVendaItem'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVendaItem_IdVendaItem')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaItem_IdVendaItemTemplate" class="" >
+                                       <label data-bind="css: { 'content-required': $root.UIPaiFilhaNeta().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaItem_IdVendaItem')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaItem_IdVendaItem')" id="UIPaiFilhaNeta_lblVendaItem_IdVendaItem" for="UIPaiFilhaNeta_ntxVendaItem_IdVendaItem" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVendaItem_IdVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'IdVendaItem', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_IdVendaItem') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_IdVendaItem') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVendaItem, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_IdVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_IdVendaItem') : (isEmptyEntityFn($data) || !($root.UIPaiFilhaNeta().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemIdVendaItem(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemIdVendaItem(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaItem_IdVendaItem', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaItem_IdVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVendaItem_IdVendaItem" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVendaItem_IdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVendaItem_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaItem_IdVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVendaItem_IdVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVendaItem_IdVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVendaItem_IdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVendaItem_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaItem_IdVendaItem').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVendaItem_IdVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVendaItem_IdVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVendaItem_IntVendaItem'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVendaItem_IntVendaItem')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaItem_IntVendaItemTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaItem_IntVendaItem')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaItem_IntVendaItem')" id="UIPaiFilhaNeta_lblVendaItem_IntVendaItem" for="UIPaiFilhaNeta_ntxVendaItem_IntVendaItem" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVendaItem_IntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'IntVendaItem', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_IntVendaItem') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_IntVendaItem') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: IntVendaItem, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_IntVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_IntVendaItem') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemIntVendaItem(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemIntVendaItem(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaItem_IntVendaItem', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaItem_IntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVendaItem_IntVendaItem" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVendaItem_IntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIntVendaItem_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaItem_IntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVendaItem_IntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVendaItem_IntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVendaItem_IntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIntVendaItem_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaItem_IntVendaItem').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVendaItem_IntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVendaItem_IntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaItem_SmallIntVendaItemTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem')" id="UIPaiFilhaNeta_lblVendaItem_SmallIntVendaItem" for="UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntVendaItem', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: SmallIntVendaItem, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemSmallIntVendaItem(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaItemSmallIntVendaItem(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaItem_SmallIntVendaItem', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaItem_SmallIntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVendaItem_SmallIntVendaItem" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVendaItem_SmallIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemSmallIntVendaItem_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVendaItem_SmallIntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVendaItem_SmallIntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVendaItem_SmallIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemSmallIntVendaItem_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaItem_SmallIntVendaItem').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVendaItem_SmallIntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVendaItem_SmallIntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_tbVendaItem_StringVendaItem'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_tbVendaItem_StringVendaItem')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaItem_StringVendaItemTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tbVendaItem_StringVendaItem')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tbVendaItem_StringVendaItem')" id="UIPaiFilhaNeta_lblVendaItem_StringVendaItem" for="UIPaiFilhaNeta_tbVendaItem_StringVendaItem" class="control-label ellipsis">
+                                       </label>
+                                       <input id="UIPaiFilhaNeta_tbVendaItem_StringVendaItem" class="form-control ellipsis" data-bind="attr: { title: StringVendaItem }, validatedField: 'StringVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVendaItem_StringVendaItem') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVendaItem_StringVendaItem') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVendaItem, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVendaItem_StringVendaItem') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVendaItem_StringVendaItem') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div></div>
+               </div>
+
+
+
+                   <div id="dialogVendaAtacado"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegVendaAtacado" onClick="$(this).backRegVendaAtacado();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberVendaAtacado">0</label><label>/</label><label id="totalNumberVendaAtacado">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegVendaAtacado" onClick="$(this).nextRegVendaAtacado();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegVendaAtacado" onClick="$(this).addRegVendaAtacado();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegVendaAtacado" onClick="$(this).delRegVendaAtacado();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegVendaAtacado" onClick="$(this).okRegVendaAtacado();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="UIPaiFilhaNeta_templateVendaAtacado" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentDataItem, $root.UIPaiFilhaNeta().rootDataTypeName)"><div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentVendaAtacado, 'VendaAtacado')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_lUpVendaAtacado_IdCliente'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_lUpVendaAtacado_IdCliente')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaAtacado_IdClienteTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_lUpVendaAtacado_IdCliente')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_lUpVendaAtacado_IdCliente')" id="UIPaiFilhaNeta_lblVendaAtacado_IdCliente" for="UIPaiFilhaNeta_lUpVendaAtacado_IdCliente" class="control-label ellipsis">
+                                       </label>
+                                       <div id="UIPaiFilhaNeta_lUpVendaAtacado_IdCliente" class="form-control input-group " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVendaAtacado_IdCliente') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVendaAtacado_IdCliente') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, lookupControl: { vm: $root.UIPaiFilhaNeta(), value: IdCliente, maxLength: 12,lookupName: '', isMultiSelection: false, multiSelectionValue: $root.UIPaiFilhaNeta().entitySearchRange.IdCliente, fieldName: 'IdCliente', disabled:ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVendaAtacado_IdCliente') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_lUpVendaAtacado_IdCliente') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaAtacado_IdVendaAtacadoTemplate" class="" >
+                                       <label data-bind="css: { 'content-required': $root.UIPaiFilhaNeta().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado')" id="UIPaiFilhaNeta_lblVendaAtacado_IdVendaAtacado" for="UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado" class="form-control numericFilterRange " data-bind="validatedField: 'IdVendaAtacado', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVendaAtacado, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado') : (isEmptyEntityFn($data) || !($root.UIPaiFilhaNeta().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoIdVendaAtacado(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoIdVendaAtacado(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaAtacado_IdVendaAtacado', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaAtacado_IdVendaAtacado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVendaAtacado_IdVendaAtacado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVendaAtacado_IdVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoIdVendaAtacado_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVendaAtacado_IdVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoIdVendaAtacado_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaAtacado_BigIntVendaAtacadoTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado')" id="UIPaiFilhaNeta_lblVendaAtacado_BigIntVendaAtacado" for="UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntVendaAtacado', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: BigIntVendaAtacado, minValue: 0, maxValue: 9007199254740992,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoBigIntVendaAtacado(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoBigIntVendaAtacado(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaAtacado_BigIntVendaAtacado', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaAtacado_BigIntVendaAtacado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVendaAtacado_BigIntVendaAtacado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVendaAtacado_BigIntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoBigIntVendaAtacado_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVendaAtacado_BigIntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoBigIntVendaAtacado_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ckVendaAtacado_BitVendaAtacado'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ckVendaAtacado_BitVendaAtacado')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaAtacado_BitVendaAtacadoTemplate" class="" >
+                                       <label class="">
+                                         <input id="UIPaiFilhaNeta_ckVendaAtacado_BitVendaAtacado" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVendaAtacado_BitVendaAtacado') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVendaAtacado_BitVendaAtacado') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVendaAtacado_BitVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ckVendaAtacado_BitVendaAtacado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), nullableChecked: BitVendaAtacado" title="Clique para marcar/desmarcar"/> 
+                                         <span id="lblUIPaiFilhaNeta_ckVendaAtacado_BitVendaAtacado" class="align-label-checkbox"></span>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaAtacado_ComboboxVendaAtacadoTemplate" class="" >
+                                       <label data-bind="css: { 'content-required': $root.UIPaiFilhaNeta().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado')" id="UIPaiFilhaNeta_lblVendaAtacado_ComboboxVendaAtacado" for="UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado" class="control-label ellipsis">
+                                       </label>
+                                       <span id="UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado" class="form-control " data-bind="validatedField: 'ComboboxVendaAtacado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), igCombo: {
+                                          selectedItems: ComboboxVendaAtacado,
+                                          dataSource:  $root.UIPaiFilhaNeta().dataDomains.getItems('LX_VENDA_ATACADO', ''),
+                                          textKey: 'name',
+                                          valueKey: 'id',
+                                          allowCustomValue : true,
+                                          enableSelectionChangedUpdate: true,
+                                          enableClearButton: false,
+                                          dropDownOnFocus: true,
+                                          disabled: (ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_cmbVendaAtacado_ComboboxVendaAtacado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing())),
+                                          mode: 'editable',
+                                          width:'100%'
+                                       }"></span>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaAtacado_DatetimeVendaAtacadoTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado')" id="UIPaiFilhaNeta_lblVendaAtacado_DatetimeVendaAtacado" for="UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group" >
+                                           <span id="UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVendaAtacado', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()) },  igDatePicker: { value: DatetimeVendaAtacado, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                           <span class="input-group-btn" title="Filtro de datas">
+                                              <button id="UIPaiFilhaNeta_rgbtnVendaAtacado_DatetimeVendaAtacado"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoDatetimeVendaAtacado(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoDatetimeVendaAtacado(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaAtacado_DatetimeVendaAtacado', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaAtacado_DatetimeVendaAtacado', headerText:'Filtro de datas' }"  /></span>
+                                              <script id="UIPaiFilhaNeta_rgVendaAtacado_DatetimeVendaAtacado" type="text/html" tabindex="-1">
+                                              <div class="range-radio-group">
+                                                  <input type="radio" data-bind="checked:VendaAtacadoDatetimeVendaAtacado_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                  <input type="radio" data-bind="checked:VendaAtacadoDatetimeVendaAtacado_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                              </div>
+                                              <div class="range-input-group" id="UIPaiFilhaNeta_divrgVendaAtacado_DatetimeVendaAtacado" >
+                                                  <div class="filterByRange" data-bind="visible: VendaAtacadoDatetimeVendaAtacado_typeRange() == 'R'">
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UIPaiFilhaNeta_dtbVendaAtacado_DatetimeVendaAtacado" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaAtacadoDatetimeVendaAtacado_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_dteVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UIPaiFilhaNeta_dtbVendaAtacado_DatetimeVendaAtacado').igDatePicker('value'); var valorMax = $('#UIPaiFilhaNeta_dteVendaAtacado_DatetimeVendaAtacado').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#UIPaiFilhaNeta_dtbVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UIPaiFilhaNeta_dteVendaAtacado_DatetimeVendaAtacado" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaAtacadoDatetimeVendaAtacado_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_dtVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'readOnly', ($('#UIPaiFilhaNeta_dtbVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UIPaiFilhaNeta_dtbVendaAtacado_DatetimeVendaAtacado').igDatePicker('value'); var valorMax = $('#UIPaiFilhaNeta_dteVendaAtacado_DatetimeVendaAtacado').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#UIPaiFilhaNeta_dteVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                  </div>
+                                                  <div class="filterByPredefined " data-bind="visible: VendaAtacadoDatetimeVendaAtacado_typeRange() == 'P'">
+                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaAtacadoDatetimeVendaAtacado_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                      <div class="row predefValue" data-bind="visible: VendaAtacadoDatetimeVendaAtacado_predefFilter() != null && VendaAtacadoDatetimeVendaAtacado_predefFilter()[0] && VendaAtacadoDatetimeVendaAtacado_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaAtacadoDatetimeVendaAtacado_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                  </div>
+                                              </div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaAtacado_DecimalVendaAtacadoTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado')" id="UIPaiFilhaNeta_lblVendaAtacado_DecimalVendaAtacado" for="UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVendaAtacado', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: DecimalVendaAtacado, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoDecimalVendaAtacado(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoDecimalVendaAtacado(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaAtacado_DecimalVendaAtacado', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaAtacado_DecimalVendaAtacado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVendaAtacado_DecimalVendaAtacado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVendaAtacado_DecimalVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoDecimalVendaAtacado_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVendaAtacado_DecimalVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoDecimalVendaAtacado_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaAtacado_IntVendaAtacadoTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado')" id="UIPaiFilhaNeta_lblVendaAtacado_IntVendaAtacado" for="UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado" class="form-control numericFilterRange " data-bind="validatedField: 'IntVendaAtacado', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: IntVendaAtacado, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoIntVendaAtacado(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoIntVendaAtacado(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaAtacado_IntVendaAtacado', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaAtacado_IntVendaAtacado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVendaAtacado_IntVendaAtacado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVendaAtacado_IntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoIntVendaAtacado_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVendaAtacado_IntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoIntVendaAtacado_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaAtacado_SmallIntVendaAtacadoTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado')" id="UIPaiFilhaNeta_lblVendaAtacado_SmallIntVendaAtacado" for="UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntVendaAtacado', css: { vmEditing: $root.UIPaiFilhaNeta().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igNumericEditor: { value: SmallIntVendaAtacado, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoSmallIntVendaAtacado(), 'icon-ok': $root.UIPaiFilhaNeta().entitySearchRange.has_VendaAtacadoSmallIntVendaAtacado(), hide: $root.UIPaiFilhaNeta().status() !== 'C' }, popoverWithBind: { template: '#UIPaiFilhaNeta_rgVendaAtacado_SmallIntVendaAtacado', vm: $root.UIPaiFilhaNeta().entitySearchRange, ctrlName: 'UIPaiFilhaNeta_rgcVendaAtacado_SmallIntVendaAtacado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIPaiFilhaNeta_rgVendaAtacado_SmallIntVendaAtacado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxbVendaAtacado_SmallIntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoSmallIntVendaAtacado_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIPaiFilhaNeta_ntxeVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'value') != null ? true : false)); $('#UIPaiFilhaNeta_ntxeVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIPaiFilhaNeta_ntxeVendaAtacado_SmallIntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoSmallIntVendaAtacado_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIPaiFilhaNeta_ntxVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'readOnly', ($('#UIPaiFilhaNeta_ntxbVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIPaiFilhaNeta_ntxbVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIPaiFilhaNeta().getLayoutColumnSpan('UIPaiFilhaNeta_tbVendaAtacado_StringVendaAtacado'), visible: $root.UIPaiFilhaNeta().getLayoutVisible('UIPaiFilhaNeta_tbVendaAtacado_StringVendaAtacado')" class="">
+                               <div class="form-group">
+                                   <div id="UIPaiFilhaNeta_divVendaAtacado_StringVendaAtacadoTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tbVendaAtacado_StringVendaAtacado')}, text: $root.UIPaiFilhaNeta().getLayoutDisplayName('UIPaiFilhaNeta_tbVendaAtacado_StringVendaAtacado')" id="UIPaiFilhaNeta_lblVendaAtacado_StringVendaAtacado" for="UIPaiFilhaNeta_tbVendaAtacado_StringVendaAtacado" class="control-label ellipsis">
+                                       </label>
+                                       <input id="UIPaiFilhaNeta_tbVendaAtacado_StringVendaAtacado" class="form-control ellipsis" data-bind="attr: { title: StringVendaAtacado }, validatedField: 'StringVendaAtacado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVendaAtacado_StringVendaAtacado') ? ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVendaAtacado_StringVendaAtacado') : (!isEmptyEntityFn($data) && $root.UIPaiFilhaNeta().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVendaAtacado, readOnly: ctrl.hasCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVendaAtacado_StringVendaAtacado') ? !ctrl.getCustomEnable($root.UIPaiFilhaNeta(), 'UIPaiFilhaNeta_tbVendaAtacado_StringVendaAtacado') : (isEmptyEntityFn($data) || !$root.UIPaiFilhaNeta().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+
+
+               <div class="tab-pane fade" id="UIPaiFilhaNeta_tabVendaItemTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+                       <div id="UIPaiFilhaNeta_dGridVendaItem_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentDataItem, $root.UIPaiFilhaNeta().rootDataTypeName)"><div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentVenda, 'Venda')">
+                           <button id="UIPaiFilhaNeta_dGridVendaItem_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.UIPaiFilhaNeta().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.UIPaiFilhaNeta().createAndNotifyVendaItem($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVendaItem_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.UIPaiFilhaNeta().status() === 'E', 
+                           click: function () {
+                              $root.UIPaiFilhaNeta().deleteGrid('#UIPaiFilhaNeta_dGridVendaItem', 'VendaItem', 'vm.currentDataItem().currentVenda().currentVendaItem;vm.currentDataItem().currentVenda().VendaItemList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVendaItem_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.UIPaiFilhaNeta().openEditor('#UIPaiFilhaNeta_dGridVendaItem', 'VendaItem', 'vm.currentDataItem().currentVenda().currentVendaItem;vm.currentDataItem().currentVenda().VendaItemList', 'VendaItem;vm.currentDataItem().currentVenda()', 'VendaItem(vm.currentDataItem().currentVenda())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVendaItem_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.UIPaiFilhaNeta().openEditor('#UIPaiFilhaNeta_dGridVendaItem', 'VendaItem', 'vm.currentDataItem().currentVenda().currentVendaItem;vm.currentDataItem().currentVenda().VendaItemList', 'VendaItem;vm.currentDataItem().currentVenda()', 'VendaItem(vm.currentDataItem().currentVenda())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVendaItem_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#UIPaiFilhaNeta_dGridVendaItem_templateLayout', vm: function(){return $root.UIPaiFilhaNeta().gridSaveStates['UIPaiFilhaNeta_dGridVendaItem'];}, ctrlName: 'UIPaiFilhaNeta_dGridVendaItem_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                           <script id="UIPaiFilhaNeta_dGridVendaItem_templateLayout" type="text/html" tabindex="-1">
+                               <div id="UIPaiFilhaNeta_dGridVendaItem_gb" class="layout-popover">
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                           <div class="col-md-10">
+                                               <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                           </div>
+                                           <div  class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="col-md-10">
+                                               <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                           </div>
+                                           <div class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </script>
+                           <button id="UIPaiFilhaNeta_dGridVendaItem_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UIPaiFilhaNeta().dataToolbar.canGridExport(), click: function () {$root.UIPaiFilhaNeta().exportDataDetails($data, 'VendaItem', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div></div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="UIPaiFilhaNeta_dGridVendaItem" data-bind="css: { IsEditableStyle: $root.UIPaiFilhaNeta().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+
+
+               <div class="tab-pane fade" id="UIPaiFilhaNeta_tabVendaAtacadoTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+                       <div id="UIPaiFilhaNeta_dGridVendaAtacado_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.UIPaiFilhaNeta().getWithBinding(currentDataItem, $root.UIPaiFilhaNeta().rootDataTypeName)">
+                           <button id="UIPaiFilhaNeta_dGridVendaAtacado_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.UIPaiFilhaNeta().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.UIPaiFilhaNeta().createAndNotifyVendaAtacado($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVendaAtacado_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.UIPaiFilhaNeta().status() === 'E', 
+                           click: function () {
+                              $root.UIPaiFilhaNeta().deleteGrid('#UIPaiFilhaNeta_dGridVendaAtacado', 'VendaAtacado', 'vm.currentDataItem().currentVendaAtacado;vm.currentDataItem().VendaAtacadoList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVendaAtacado_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.UIPaiFilhaNeta().openEditor('#UIPaiFilhaNeta_dGridVendaAtacado', 'VendaAtacado', 'vm.currentDataItem().currentVendaAtacado;vm.currentDataItem().VendaAtacadoList', 'VendaAtacado;vm.currentDataItem()', 'VendaAtacado(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVendaAtacado_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.UIPaiFilhaNeta().openEditor('#UIPaiFilhaNeta_dGridVendaAtacado', 'VendaAtacado', 'vm.currentDataItem().currentVendaAtacado;vm.currentDataItem().VendaAtacadoList', 'VendaAtacado;vm.currentDataItem()', 'VendaAtacado(vm.currentDataItem())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="UIPaiFilhaNeta_dGridVendaAtacado_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#UIPaiFilhaNeta_dGridVendaAtacado_templateLayout', vm: function(){return $root.UIPaiFilhaNeta().gridSaveStates['UIPaiFilhaNeta_dGridVendaAtacado'];}, ctrlName: 'UIPaiFilhaNeta_dGridVendaAtacado_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                           <script id="UIPaiFilhaNeta_dGridVendaAtacado_templateLayout" type="text/html" tabindex="-1">
+                               <div id="UIPaiFilhaNeta_dGridVendaAtacado_gb" class="layout-popover">
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                           <div class="col-md-10">
+                                               <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                           </div>
+                                           <div  class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="col-md-10">
+                                               <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                           </div>
+                                           <div class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </script>
+                           <button id="UIPaiFilhaNeta_dGridVendaAtacado_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UIPaiFilhaNeta().dataToolbar.canGridExport(), click: function () {$root.UIPaiFilhaNeta().exportDataDetails($data, 'VendaAtacado', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="UIPaiFilhaNeta_dGridVendaAtacado" data-bind="css: { IsEditableStyle: $root.UIPaiFilhaNeta().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+           </div>
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="UIPaiFilhaNeta_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.UIPaiFilhaNeta().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyUIPaiFilhaNeta_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyUIPaiFilhaNeta_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyUIPaiFilhaNeta_dGrid_templateLayout', vm: function(){return $root.UIPaiFilhaNeta().gridSaveStates['scyUIPaiFilhaNeta_dGrid'];}, ctrlName: 'scyUIPaiFilhaNeta_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyUIPaiFilhaNeta_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyUIPaiFilhaNeta_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyUIPaiFilhaNeta_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UIPaiFilhaNeta().dataToolbar.canExport(), click: function () {$root.UIPaiFilhaNeta().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyUIPaiFilhaNeta_dGrid" data-bind="css: { IsEditableStyle: $root.UIPaiFilhaNeta().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

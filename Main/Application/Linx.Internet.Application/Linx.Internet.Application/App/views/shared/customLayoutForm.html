@@ -1,0 +1,57 @@
+﻿<div class="modal-dialog modal-dialog-large">
+    <div class="modal-content ">
+        <div class="modal-header">
+            <button type="button" data-bind="click: cancel_Click" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title" data-bind="text: title"></h4>
+        </div>
+        <div class="modal-body modal-app">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="hack-padding">
+                    <div id="customExportTabControl" style="height: 400px" class="tabbable box col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ul class="nav nav-tabs">
+                            <li id="customExport_FontesSalvasListItem" class="active"><a href="#customExport_FontesSalvasTabItem" data-toggle="tab" title="Fontes Salvas">Layouts</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="customExport_FontesSalvasTabItem">
+                                <div class="ui-helper-clearfix">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label class="control-label ellipsis">
+                                                    Layout salvos:
+                                                </label>
+                                                <div>
+                                                    <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: layoutsLoaded, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: false, width:'100%'}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <button class="form-control btn-block btn-press ellipsis" data-bind="click: function(){ applyLayout(); }">Aplicar Layout</button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="form-control btn-block btn-press ellipsis" data-bind="click: function(){ ediLayout(); }">Editar Layout</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="group-buttons">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-close" data-bind="click: cancel_Click">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+{{#if isAutoGen}}
+//------------------------------------------------------------------------------
+//  Auto Generated
+//    This code was generated from a template.
+//
+//    Manual changes to this file may cause unexpected behavior in your application.
+//    Manual changes to this file will be overwritten if the code is regenerated.
+{{/if}}
+//------------------------------------------------------------------------------
+//  Creation date: {{date}}
+//  User name: {{user}}
+//------------------------------------------------------------------------------
+//  Linx AppBuilder: {{appBuilderVersion}}
+//  Linx AppBuilder Designer: {{appBuilderDesignerVersion}}
+//  Linx AppBuilder Service: {{appBuilderServiceVersion}}
+//------------------------------------------------------------------------------
+
+'use strict'; 
+
+function {{className}}Controller($scope, $state, $stateParams{{#if (hasValue injectNameCore)}}, $controller{{/if}}{{#each dependencies}}, {{this}}{{/each}}) {
+    var vm = this;
+    {{#if (hasValue injectNameCore)}}		  
+        angular.extend(vm, $controller('{{injectNameCore}}Controller', {$scope: $scope}));
+	{{else}}
+		vm.title = $state.current.displayName;
+    {{/if}}
+    {{#if (ne isAutoGen true)}}
+        vm.init = init;
+
+        function init() { }
+    {{/if}}
+
+    {{#if (hasValue dependencies)}}
+    vm.dataBusiness = {{dependencies.[0]}};
+    {{/if}}
+    {{#if (hasValue components)}}
+    vm.controls = {};
+    {{/if}}
+    {{#each components}}  
+
+    vm.controls.{{properties.lxName}} = {};
+    {{#each properties}}
+    {{#if (hasValue this.click)}}
+    vm.controls.{{../properties.lxName}}.{{@key}} = {
+        "click": $scope.{{{this.click}}},
+        "arguments": [{{{this.arguments}}}]
+    };
+    {{else}}
+    vm.controls.{{../properties.lxName}}.{{@key}} = {{{formatType this}}};
+    {{/if}}
+    {{/each}} 
+    {{/each}}
+
+    
+    {{#each events}}  
+
+    function {{@key}} ({{this.params}}) { 
+        {{{formatJSON this.fn}}}
+    }; 
+    {{/each}}
+}
+
+module.exports = function (appModule) {
+    appModule.controller('{{injectName}}Controller', {{className}}Controller);
+};

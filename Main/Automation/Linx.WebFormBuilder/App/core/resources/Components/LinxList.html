@@ -1,0 +1,101 @@
+<!--{{#if options.odata}}
+{{#ifvalue options.type value="simple"}}
+<ul class="list">
+    <li class="item" ng-repeat="item in vm.dataBusiness.currentDataItem().{{options.repeater}}List">
+        <p ng-bind="item.{{ options.headerPropertie }}"></p>
+        <p ng-bind="item.{{ options.legendPropertie }}"></p>
+    </li>
+</ul>
+{{/ifvalue}}
+
+{{#ifvalue options.type value="card"}}
+<div class="list">
+
+    <a class="item item-thumbnail-left" ng-repeat="item in vm.dataBusiness.currentDataItem().{{options.repeater}}List" href="{{options.routeLink}}">
+        <img src="http://handlebarsjs.com/images/handlebars_logo.png">
+        <h2 ng-bind="item.{{ options.headerPropertie }}"></h2>
+        <p ng-bind="item.{{ options.legendPropertie }}"></p>
+    </a>
+
+</div>
+{{/ifvalue}}
+
+{{#ifvalue options.type value="buttons"}}
+<ion-list can-swipe="true">
+    <ion-item ng-repeat="item in vm.dataBusiness.currentDataItem().{{options.repeater}}List">
+        <p ng-bind="item.{{ options.headerPropertie }}"></p>
+
+        {{#ifvalue options.excludeButton value="true"}}
+        <ion-option-button class="button-assertive" ng-click="{{options.excludeFunction}}">
+            Excluir
+        </ion-option-button>
+        {{/ifvalue}}
+
+        {{#ifvalue options.editButton value="true"}}
+        <ion-option-button class="button-positive" ng-click="{{options.editFunction}}">
+            Editar
+        </ion-option-button>
+        {{/ifvalue}}
+
+        {{#ifvalue options.customButton value="true"}}
+        <ion-option-button class="button-calm" ng-click="{{options.customFunction}}">
+            {{options.customLabel}}
+        </ion-option-button>
+        {{/ifvalue}}
+
+    </ion-item>
+</ion-list>
+{{/ifvalue}}
+
+{{else}}
+
+{{#ifvalue options.type value="simple"}}
+<ion-list ng-if="{{options.ngiflist}}">
+  <ion-item
+    collection-repeat="{{options.repeater}}"
+    collection-item-width="'100%'"
+    collection-item-height="60"
+    ng-class="{{options.ngclass}}"
+    ng-click="{{options.customFunction}}"> {{options.headerPropertie}} </ion-item>
+</ion-list>
+{{/ifvalue}}
+
+{{#ifvalue options.type value="card"}}
+<div class="list">
+
+    <a class="item item-thumbnail-left" ng-repeat="item in {{options.repeater}}" href="{{options.routeLink}}">
+        <img src="http://handlebarsjs.com/images/handlebars_logo.png">
+        <h2 ng-bind="item.{{ options.headerPropertie }}"></h2>
+        <p ng-bind="item.{{ options.legendPropertie }}"></p>
+    </a>
+
+</div>
+{{/ifvalue}}
+
+{{#ifvalue options.type value="buttons"}}
+<ion-list can-swipe="true">
+    <ion-item ng-repeat="item in {{options.repeater}}">
+        <p ng-bind="item.{{ options.headerPropertie }}"></p>
+
+        {{#ifvalue options.excludeButton value="true"}}
+        <ion-option-button class="button-assertive" ng-click="{{options.excludeFunction}}">
+            Excluir
+        </ion-option-button>
+        {{/ifvalue}}
+
+        {{#ifvalue options.editButton value="true"}}
+        <ion-option-button class="button-positive" ng-click="{{options.editFunction}}">
+            Editar
+        </ion-option-button>
+        {{/ifvalue}}
+
+        {{#ifvalue options.customButton value="true"}}
+        <ion-option-button class="button-calm" ng-click="{{options.customFunction}}">
+            {{options.customLabel}}
+        </ion-option-button>
+        {{/ifvalue}}
+
+    </ion-item>
+</ion-list>
+{{/ifvalue}}
+{{/if}}-->

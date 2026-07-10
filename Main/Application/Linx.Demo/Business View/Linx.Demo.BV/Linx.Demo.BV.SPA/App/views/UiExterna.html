@@ -1,0 +1,313 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="UiExterna_formViewer" class="panelTransaition">
+            <figure id="UiExterna_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.UiExterna().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="UiExterna_gbCliente" data-bind="css: $root.UiExterna().getLayoutColumnSpan('UiExterna_gbCliente'), visible: $root.UiExterna().getLayoutVisible('UiExterna_gbCliente')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.UiExterna().getLayoutDisplayName('UiExterna_gbCliente')"><i class="icon-reorder"></i></div>
+                   </div>
+                   <div id="UiExterna_gbCliente_body" class="portlet-body" >
+                       <div data-bind="with: $root.UiExterna().getWithBinding(currentDataItem, $root.UiExterna().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UiExterna().getLayoutColumnSpan('UiExterna_ntxBigIntCliente'), visible: $root.UiExterna().getLayoutVisible('UiExterna_ntxBigIntCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UiExterna_divBigIntCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UiExterna().getLayoutDisplayName('UiExterna_ntxBigIntCliente')}, text: $root.UiExterna().getLayoutDisplayName('UiExterna_ntxBigIntCliente')" id="UiExterna_lblBigIntCliente" for="UiExterna_ntxBigIntCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UiExterna_ntxBigIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntCliente', css: { vmEditing: $root.UiExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ntxBigIntCliente') ? ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ntxBigIntCliente') : (!isEmptyEntityFn($data) && $root.UiExterna().enabledForEditing()) }, igNumericEditor: { value: BigIntCliente, minValue: 0, maxValue: 9007199254740992,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ntxBigIntCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ntxBigIntCliente') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UiExterna().entitySearchRange.has_ClienteBigIntCliente(), 'icon-ok': $root.UiExterna().entitySearchRange.has_ClienteBigIntCliente(), hide: $root.UiExterna().status() !== 'C' }, popoverWithBind: { template: '#UiExterna_rgBigIntCliente', vm: $root.UiExterna().entitySearchRange, ctrlName: 'UiExterna_rgcBigIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UiExterna_rgBigIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UiExterna_ntxbBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteBigIntCliente_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UiExterna_ntxBigIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UiExterna_ntxeBigIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UiExterna_ntxeBigIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UiExterna_ntxeBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteBigIntCliente_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UiExterna_ntxBigIntCliente').igNumericEditor('option', 'readOnly', ($('#UiExterna_ntxbBigIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UiExterna_ntxbBigIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UiExterna().getLayoutColumnSpan('UiExterna_ckBitCliente'), visible: $root.UiExterna().getLayoutVisible('UiExterna_ckBitCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UiExterna_divBitCliente" class="" >
+                                           <label class="">
+                                             <input id="UiExterna_ckBitCliente" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ckBitCliente') ? ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ckBitCliente') : (!isEmptyEntityFn($data) && $root.UiExterna().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ckBitCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ckBitCliente') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing()), nullableChecked: BitCliente" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblUiExterna_ckBitCliente" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UiExterna().getLayoutColumnSpan('UiExterna_cmbComboboxCliente'), visible: $root.UiExterna().getLayoutVisible('UiExterna_cmbComboboxCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UiExterna_divComboboxCliente" class="" >
+                                           <label data-bind="css: { 'content-required': $root.UiExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UiExterna().getLayoutDisplayName('UiExterna_cmbComboboxCliente')}, text: $root.UiExterna().getLayoutDisplayName('UiExterna_cmbComboboxCliente')" id="UiExterna_lblComboboxCliente" for="UiExterna_cmbComboboxCliente" class="control-label ellipsis">
+                                           </label>
+                                           <span id="UiExterna_cmbComboboxCliente" class="form-control " data-bind="validatedField: 'ComboboxCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_cmbComboboxCliente') ? ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_cmbComboboxCliente') : (!isEmptyEntityFn($data) && $root.UiExterna().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing()), igCombo: {
+                                              selectedItems: ComboboxCliente,
+                                              dataSource:  $root.UiExterna().dataDomains.getItems('LX_CLIENTE', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UiExterna().getLayoutColumnSpan('UiExterna_dtDatetimeCliente'), visible: $root.UiExterna().getLayoutVisible('UiExterna_dtDatetimeCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UiExterna_divDatetimeCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UiExterna().getLayoutDisplayName('UiExterna_dtDatetimeCliente')}, text: $root.UiExterna().getLayoutDisplayName('UiExterna_dtDatetimeCliente')" id="UiExterna_lblDatetimeCliente" for="UiExterna_dtDatetimeCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="UiExterna_dtDatetimeCliente" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeCliente', css: { vmEditing: $root.UiExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_dtDatetimeCliente') ? ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_dtDatetimeCliente') : (!isEmptyEntityFn($data) && $root.UiExterna().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing()) },  igDatePicker: { value: DatetimeCliente, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="UiExterna_rgbtnDatetimeCliente"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UiExterna().entitySearchRange.has_ClienteDatetimeCliente(), 'icon-ok': $root.UiExterna().entitySearchRange.has_ClienteDatetimeCliente(), hide: $root.UiExterna().status() !== 'C' }, popoverWithBind: { template: '#UiExterna_rgDatetimeCliente', vm: $root.UiExterna().entitySearchRange, ctrlName: 'UiExterna_rgcDatetimeCliente', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="UiExterna_rgDatetimeCliente" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="checked:ClienteDatetimeCliente_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:ClienteDatetimeCliente_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="UiExterna_divrgDatetimeCliente" >
+                                                      <div class="filterByRange" data-bind="visible: ClienteDatetimeCliente_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UiExterna_dtbDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteDatetimeCliente_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UiExterna_dtDatetimeCliente').igDatePicker('option', 'readOnly', (ui.value != null || $('#UiExterna_dteDatetimeCliente').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UiExterna_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#UiExterna_dteDatetimeCliente').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#UiExterna_dtbDatetimeCliente').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UiExterna_dteDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteDatetimeCliente_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UiExterna_dtDatetimeCliente').igDatePicker('option', 'readOnly', ($('#UiExterna_dtbDatetimeCliente').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UiExterna_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#UiExterna_dteDatetimeCliente').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#UiExterna_dteDatetimeCliente').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: ClienteDatetimeCliente_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ClienteDatetimeCliente_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: ClienteDatetimeCliente_predefFilter() != null && ClienteDatetimeCliente_predefFilter()[0] && ClienteDatetimeCliente_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ClienteDatetimeCliente_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UiExterna().getLayoutColumnSpan('UiExterna_ntxDecimalCliente'), visible: $root.UiExterna().getLayoutVisible('UiExterna_ntxDecimalCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UiExterna_divDecimalCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UiExterna().getLayoutDisplayName('UiExterna_ntxDecimalCliente')}, text: $root.UiExterna().getLayoutDisplayName('UiExterna_ntxDecimalCliente')" id="UiExterna_lblDecimalCliente" for="UiExterna_ntxDecimalCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UiExterna_ntxDecimalCliente" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalCliente', css: { vmEditing: $root.UiExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ntxDecimalCliente') ? ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ntxDecimalCliente') : (!isEmptyEntityFn($data) && $root.UiExterna().enabledForEditing()) }, igNumericEditor: { value: DecimalCliente, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ntxDecimalCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ntxDecimalCliente') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UiExterna().entitySearchRange.has_ClienteDecimalCliente(), 'icon-ok': $root.UiExterna().entitySearchRange.has_ClienteDecimalCliente(), hide: $root.UiExterna().status() !== 'C' }, popoverWithBind: { template: '#UiExterna_rgDecimalCliente', vm: $root.UiExterna().entitySearchRange, ctrlName: 'UiExterna_rgcDecimalCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UiExterna_rgDecimalCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UiExterna_ntxbDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UiExterna_ntxDecimalCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UiExterna_ntxeDecimalCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UiExterna_ntxeDecimalCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UiExterna_ntxeDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UiExterna_ntxDecimalCliente').igNumericEditor('option', 'readOnly', ($('#UiExterna_ntxbDecimalCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UiExterna_ntxbDecimalCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UiExterna().getLayoutColumnSpan('UiExterna_ntxIdCliente'), visible: $root.UiExterna().getLayoutVisible('UiExterna_ntxIdCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UiExterna_divIdCliente" class="" >
+                                           <label data-bind="css: { 'content-required': $root.UiExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UiExterna().getLayoutDisplayName('UiExterna_ntxIdCliente')}, text: $root.UiExterna().getLayoutDisplayName('UiExterna_ntxIdCliente')" id="UiExterna_lblIdCliente" for="UiExterna_ntxIdCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UiExterna_ntxIdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.UiExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ntxIdCliente') ? ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ntxIdCliente') : (!isEmptyEntityFn($data) && $root.UiExterna().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdCliente, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ntxIdCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ntxIdCliente') : (isEmptyEntityFn($data) || !($root.UiExterna().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UiExterna().entitySearchRange.has_ClienteIdCliente(), 'icon-ok': $root.UiExterna().entitySearchRange.has_ClienteIdCliente(), hide: $root.UiExterna().status() !== 'C' }, popoverWithBind: { template: '#UiExterna_rgIdCliente', vm: $root.UiExterna().entitySearchRange, ctrlName: 'UiExterna_rgcIdCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UiExterna_rgIdCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UiExterna_ntxbIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UiExterna_ntxIdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UiExterna_ntxeIdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UiExterna_ntxeIdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UiExterna_ntxeIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UiExterna_ntxIdCliente').igNumericEditor('option', 'readOnly', ($('#UiExterna_ntxbIdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UiExterna_ntxbIdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UiExterna().getLayoutColumnSpan('UiExterna_lUpIdEstado'), visible: $root.UiExterna().getLayoutVisible('UiExterna_lUpIdEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="UiExterna_divIdEstado" class="" >
+                                           <label data-bind="attr: { title: $root.UiExterna().getLayoutDisplayName('UiExterna_lUpIdEstado')}, text: $root.UiExterna().getLayoutDisplayName('UiExterna_lUpIdEstado')" id="UiExterna_lblIdEstado" for="UiExterna_lUpIdEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div id="UiExterna_lUpIdEstado" class="form-control input-group " data-bind="validatedField: 'IdEstado', css: { vmEditing: $root.UiExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_lUpIdEstado') ? ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_lUpIdEstado') : (!isEmptyEntityFn($data) && $root.UiExterna().enabledForEditing()) }, lookupControl: { vm: $root.UiExterna(), value: IdEstado, maxLength: 12,lookupName: 'LookUpEstado', isMultiSelection: false, multiSelectionValue: $root.UiExterna().entitySearchRange.IdEstado, fieldName: 'IdEstado', disabled:ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_lUpIdEstado') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_lUpIdEstado') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UiExterna().getLayoutColumnSpan('UiExterna_ntxIntCliente'), visible: $root.UiExterna().getLayoutVisible('UiExterna_ntxIntCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UiExterna_divIntCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UiExterna().getLayoutDisplayName('UiExterna_ntxIntCliente')}, text: $root.UiExterna().getLayoutDisplayName('UiExterna_ntxIntCliente')" id="UiExterna_lblIntCliente" for="UiExterna_ntxIntCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UiExterna_ntxIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IntCliente', css: { vmEditing: $root.UiExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ntxIntCliente') ? ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ntxIntCliente') : (!isEmptyEntityFn($data) && $root.UiExterna().enabledForEditing()) }, igNumericEditor: { value: IntCliente, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ntxIntCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ntxIntCliente') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UiExterna().entitySearchRange.has_ClienteIntCliente(), 'icon-ok': $root.UiExterna().entitySearchRange.has_ClienteIntCliente(), hide: $root.UiExterna().status() !== 'C' }, popoverWithBind: { template: '#UiExterna_rgIntCliente', vm: $root.UiExterna().entitySearchRange, ctrlName: 'UiExterna_rgcIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UiExterna_rgIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UiExterna_ntxbIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UiExterna_ntxIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UiExterna_ntxeIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UiExterna_ntxeIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UiExterna_ntxeIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UiExterna_ntxIntCliente').igNumericEditor('option', 'readOnly', ($('#UiExterna_ntxbIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UiExterna_ntxbIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UiExterna().getLayoutColumnSpan('UiExterna_ntxSmallIntCliente'), visible: $root.UiExterna().getLayoutVisible('UiExterna_ntxSmallIntCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UiExterna_divSmallIntCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UiExterna().getLayoutDisplayName('UiExterna_ntxSmallIntCliente')}, text: $root.UiExterna().getLayoutDisplayName('UiExterna_ntxSmallIntCliente')" id="UiExterna_lblSmallIntCliente" for="UiExterna_ntxSmallIntCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UiExterna_ntxSmallIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntCliente', css: { vmEditing: $root.UiExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ntxSmallIntCliente') ? ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ntxSmallIntCliente') : (!isEmptyEntityFn($data) && $root.UiExterna().enabledForEditing()) }, igNumericEditor: { value: SmallIntCliente, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_ntxSmallIntCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_ntxSmallIntCliente') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UiExterna().entitySearchRange.has_ClienteSmallIntCliente(), 'icon-ok': $root.UiExterna().entitySearchRange.has_ClienteSmallIntCliente(), hide: $root.UiExterna().status() !== 'C' }, popoverWithBind: { template: '#UiExterna_rgSmallIntCliente', vm: $root.UiExterna().entitySearchRange, ctrlName: 'UiExterna_rgcSmallIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UiExterna_rgSmallIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UiExterna_ntxbSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteSmallIntCliente_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UiExterna_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UiExterna_ntxeSmallIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UiExterna_ntxeSmallIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UiExterna_ntxeSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteSmallIntCliente_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UiExterna_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', ($('#UiExterna_ntxbSmallIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UiExterna_ntxbSmallIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UiExterna().getLayoutColumnSpan('UiExterna_tbStringCliente'), visible: $root.UiExterna().getLayoutVisible('UiExterna_tbStringCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="UiExterna_divStringCliente" class="" >
+                                           <label data-bind="attr: { title: $root.UiExterna().getLayoutDisplayName('UiExterna_tbStringCliente')}, text: $root.UiExterna().getLayoutDisplayName('UiExterna_tbStringCliente')" id="UiExterna_lblStringCliente" for="UiExterna_tbStringCliente" class="control-label ellipsis">
+                                           </label>
+                                           <input id="UiExterna_tbStringCliente" class="form-control ellipsis" data-bind="attr: { title: StringCliente }, validatedField: 'StringCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_tbStringCliente') ? ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_tbStringCliente') : (!isEmptyEntityFn($data) && $root.UiExterna().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringCliente, readOnly: ctrl.hasCustomEnable($root.UiExterna(), 'UiExterna_tbStringCliente') ? !ctrl.getCustomEnable($root.UiExterna(), 'UiExterna_tbStringCliente') : (isEmptyEntityFn($data) || !$root.UiExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="UiExterna_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.UiExterna().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyUiExterna_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyUiExterna_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyUiExterna_dGrid_templateLayout', vm: function(){return $root.UiExterna().gridSaveStates['scyUiExterna_dGrid'];}, ctrlName: 'scyUiExterna_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyUiExterna_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyUiExterna_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyUiExterna_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UiExterna().dataToolbar.canExport(), click: function () {$root.UiExterna().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyUiExterna_dGrid" data-bind="css: { IsEditableStyle: $root.UiExterna().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

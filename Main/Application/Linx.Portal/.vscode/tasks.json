@@ -1,0 +1,89 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Deploy Portal (views + DLLs)",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/Application/Linx.Portal/.vscode/deploy-portal-views.ps1"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/Application/Linx.Portal"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy Portal Views (all cshtml)",
+      "dependsOn": "Deploy Portal (views + DLLs)",
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy Current Portal File",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/Application/Linx.Portal/.vscode/deploy-portal-views.ps1",
+        "-File",
+        "${file}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/Application/Linx.Portal"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy Current Portal View (cshtml)",
+      "dependsOn": "Deploy Current Portal File",
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy Portal DLLs (updated only)",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/Application/Linx.Portal/.vscode/deploy-portal-views.ps1",
+        "-DllsOnly"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/Application/Linx.Portal"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy Linx.Portal.dll",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/Application/Linx.Portal/.vscode/deploy-portal-views.ps1",
+        "-Dll",
+        "Linx.Portal.dll",
+        "-DllsOnly"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/Application/Linx.Portal"
+      },
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

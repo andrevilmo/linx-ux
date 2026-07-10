@@ -1,0 +1,244 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="ExAutoComp_formViewer" class="panelTransaition">
+            <figure id="ExAutoComp_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.ExAutoComp().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="ExAutoComp_gbTbnmcompleto" data-bind="css: $root.ExAutoComp().getLayoutColumnSpan('ExAutoComp_gbTbnmcompleto'), visible: $root.ExAutoComp().getLayoutVisible('ExAutoComp_gbTbnmcompleto')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_gbTbnmcompleto')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="ExAutoComp_gbTbnmcompleto_anchor" href="#ExAutoComp_gbTbnmcompleto_body" role="button" data-toggle="collapse" data-parent="#ExAutoComp_gbTbnmcompleto" aria-controls="#ExAutoComp_gbTbnmcompleto_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="ExAutoComp_gbTbnmcompleto_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.ExAutoComp().getWithBinding(currentDataItem, $root.ExAutoComp().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.ExAutoComp().getLayoutColumnSpan('ExAutoComp_ntxidNomeCompleto'), visible: $root.ExAutoComp().getLayoutVisible('ExAutoComp_ntxidNomeCompleto')" class="">
+                                   <div class="form-group">
+                                       <div id="ExAutoComp_dividNomeCompleto" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ExAutoComp().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_ntxidNomeCompleto')}, text: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_ntxidNomeCompleto')" id="ExAutoComp_lblidNomeCompleto" for="ExAutoComp_ntxidNomeCompleto" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="ExAutoComp_ntxidNomeCompleto" class="form-control numericFilterRange " data-bind="validatedField: 'idNomeCompleto', css: { vmEditing: $root.ExAutoComp().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_ntxidNomeCompleto') ? ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_ntxidNomeCompleto') : (!isEmptyEntityFn($data) && $root.ExAutoComp().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: idNomeCompleto, maxValue: null,  maxLength: 10,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_ntxidNomeCompleto') ? !ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_ntxidNomeCompleto') : (isEmptyEntityFn($data) || !($root.ExAutoComp().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ExAutoComp().entitySearchRange.has_TbnmcompletoidNomeCompleto(), 'icon-ok': $root.ExAutoComp().entitySearchRange.has_TbnmcompletoidNomeCompleto(), hide: $root.ExAutoComp().status() !== 'C' }, popoverWithBind: { template: '#ExAutoComp_rgidNomeCompleto', vm: $root.ExAutoComp().entitySearchRange, ctrlName: 'ExAutoComp_rgcidNomeCompleto', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="ExAutoComp_rgidNomeCompleto" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="ExAutoComp_ntxbidNomeCompleto" class="IsEditableStyle" data-bind="igNumericEditor: { value: TbnmcompletoidNomeCompleto_begin, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#ExAutoComp_ntxidNomeCompleto').igNumericEditor('option', 'readOnly', (ui.value != null || $('#ExAutoComp_ntxeidNomeCompleto').igNumericEditor('option', 'value') != null ? true : false)); $('#ExAutoComp_ntxeidNomeCompleto').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="ExAutoComp_ntxeidNomeCompleto" class="IsEditableStyle" data-bind="igNumericEditor: { value: TbnmcompletoidNomeCompleto_end, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#ExAutoComp_ntxidNomeCompleto').igNumericEditor('option', 'readOnly', ($('#ExAutoComp_ntxbidNomeCompleto').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#ExAutoComp_ntxbidNomeCompleto').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ExAutoComp().getLayoutColumnSpan('ExAutoComp_tbNomeCompleto'), visible: $root.ExAutoComp().getLayoutVisible('ExAutoComp_tbNomeCompleto')" class="">
+                                   <div class="form-group">
+                                       <div id="ExAutoComp_divNomeCompleto" class="" >
+                                           <label data-bind="attr: { title: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_tbNomeCompleto')}, text: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_tbNomeCompleto')" id="ExAutoComp_lblNomeCompleto" for="ExAutoComp_tbNomeCompleto" class="control-label ellipsis">
+                                           </label>
+                                           <input id="ExAutoComp_tbNomeCompleto" class="form-control ellipsis" data-bind="attr: { title: NomeCompleto }, validatedField: 'NomeCompleto', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_tbNomeCompleto') ? ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_tbNomeCompleto') : (!isEmptyEntityFn($data) && $root.ExAutoComp().enabledForEditing()) }, igTextEditor: { maxLength: 100, value: NomeCompleto, readOnly: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_tbNomeCompleto') ? !ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_tbNomeCompleto') : (isEmptyEntityFn($data) || !$root.ExAutoComp().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ExAutoComp().getLayoutColumnSpan('ExAutoComp_lUpIdNome'), visible: $root.ExAutoComp().getLayoutVisible('ExAutoComp_lUpIdNome')" class="">
+                                   <div class="form-group">
+                                       <div id="ExAutoComp_divIdNome" class="" >
+                                           <label data-bind="attr: { title: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpIdNome')}, text: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpIdNome')" id="ExAutoComp_lblIdNome" for="ExAutoComp_lUpIdNome" class="control-label ellipsis">
+                                           </label>
+                                           <div id="ExAutoComp_lUpIdNome" class="form-control input-group " data-bind="validatedField: 'IdNome', css: { vmEditing: $root.ExAutoComp().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpIdNome') ? ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpIdNome') : (!isEmptyEntityFn($data) && $root.ExAutoComp().enabledForEditing()) }, lookupControl: { vm: $root.ExAutoComp(), value: IdNome, maxLength: 10,lookupName: 'LookUpTbnome', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ExAutoComp().entitySearchRange.IdNome, fieldName: 'IdNome', disabled:ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpIdNome') ? !ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpIdNome') : (isEmptyEntityFn($data) || !$root.ExAutoComp().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 10, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ExAutoComp().getLayoutColumnSpan('ExAutoComp_lUpidnomeMeio'), visible: $root.ExAutoComp().getLayoutVisible('ExAutoComp_lUpidnomeMeio')" class="">
+                                   <div class="form-group">
+                                       <div id="ExAutoComp_dividnomeMeio" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ExAutoComp().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpidnomeMeio')}, text: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpidnomeMeio')" id="ExAutoComp_lblidnomeMeio" for="ExAutoComp_lUpidnomeMeio" class="control-label ellipsis">
+                                           </label>
+                                           <div id="ExAutoComp_lUpidnomeMeio" class="form-control input-group " data-bind="validatedField: 'idnomeMeio', css: { vmEditing: $root.ExAutoComp().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpidnomeMeio') ? ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpidnomeMeio') : (!isEmptyEntityFn($data) && $root.ExAutoComp().enabledForEditing()) }, lookupControl: { vm: $root.ExAutoComp(), value: idnomeMeio, maxLength: 10,lookupName: 'LookUpTbnmmeio', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ExAutoComp().entitySearchRange.idnomeMeio, fieldName: 'idnomeMeio', disabled:ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpidnomeMeio') ? !ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpidnomeMeio') : (isEmptyEntityFn($data) || !$root.ExAutoComp().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 10, defaultValue: 0}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ExAutoComp().getLayoutColumnSpan('ExAutoComp_lUpIdSobrenome'), visible: $root.ExAutoComp().getLayoutVisible('ExAutoComp_lUpIdSobrenome')" class="">
+                                   <div class="form-group">
+                                       <div id="ExAutoComp_divIdSobrenome" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ExAutoComp().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpIdSobrenome')}, text: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpIdSobrenome')" id="ExAutoComp_lblIdSobrenome" for="ExAutoComp_lUpIdSobrenome" class="control-label ellipsis">
+                                           </label>
+                                           <div id="ExAutoComp_lUpIdSobrenome" class="form-control input-group " data-bind="validatedField: 'IdSobrenome', css: { vmEditing: $root.ExAutoComp().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpIdSobrenome') ? ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpIdSobrenome') : (!isEmptyEntityFn($data) && $root.ExAutoComp().enabledForEditing()) }, lookupControl: { vm: $root.ExAutoComp(), value: IdSobrenome, maxLength: 10,lookupName: 'LookUpTbsobrenm', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ExAutoComp().entitySearchRange.IdSobrenome, fieldName: 'IdSobrenome', disabled:ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpIdSobrenome') ? !ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpIdSobrenome') : (isEmptyEntityFn($data) || !$root.ExAutoComp().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 10, defaultValue: 0}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.ExAutoComp().getLayoutColumnSpan('ExAutoComp_lUpNome'), visible: $root.ExAutoComp().getLayoutVisible('ExAutoComp_lUpNome')" class="">
+                                   <div class="form-group">
+                                       <div id="ExAutoComp_divNome" class="" >
+                                           <label data-bind="attr: { title: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpNome')}, text: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpNome')" id="ExAutoComp_lblNome" for="ExAutoComp_lUpNome" class="control-label ellipsis">
+                                           </label>
+                                           <div id="ExAutoComp_lUpNome" class="form-control input-group " data-bind="validatedField: 'Nome', css: { vmEditing: $root.ExAutoComp().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpNome') ? ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpNome') : (!isEmptyEntityFn($data) && $root.ExAutoComp().enabledForEditing()) }, lookupControl: { vm: $root.ExAutoComp(), value: Nome, maxLength: 100,lookupName: 'LookUpTbnome', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ExAutoComp().entitySearchRange.Nome, fieldName: 'Nome', disabled:ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpNome') ? !ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpNome') : (isEmptyEntityFn($data) || !$root.ExAutoComp().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 100, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ExAutoComp().getLayoutColumnSpan('ExAutoComp_lUpNomedomeio'), visible: $root.ExAutoComp().getLayoutVisible('ExAutoComp_lUpNomedomeio')" class="">
+                                   <div class="form-group">
+                                       <div id="ExAutoComp_divNomedomeio" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ExAutoComp().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpNomedomeio')}, text: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpNomedomeio')" id="ExAutoComp_lblNomedomeio" for="ExAutoComp_lUpNomedomeio" class="control-label ellipsis">
+                                           </label>
+                                           <div id="ExAutoComp_lUpNomedomeio" class="form-control input-group " data-bind="validatedField: 'Nomedomeio', css: { vmEditing: $root.ExAutoComp().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpNomedomeio') ? ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpNomedomeio') : (!isEmptyEntityFn($data) && $root.ExAutoComp().enabledForEditing()) }, lookupControl: { vm: $root.ExAutoComp(), value: Nomedomeio, maxLength: 100,lookupName: 'LookUpTbnmmeio', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ExAutoComp().entitySearchRange.Nomedomeio, fieldName: 'Nomedomeio', disabled:ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpNomedomeio') ? !ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpNomedomeio') : (isEmptyEntityFn($data) || !$root.ExAutoComp().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 100, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ExAutoComp().getLayoutColumnSpan('ExAutoComp_lUpSobreNome'), visible: $root.ExAutoComp().getLayoutVisible('ExAutoComp_lUpSobreNome')" class="">
+                                   <div class="form-group">
+                                       <div id="ExAutoComp_divSobreNome" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ExAutoComp().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpSobreNome')}, text: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_lUpSobreNome')" id="ExAutoComp_lblSobreNome" for="ExAutoComp_lUpSobreNome" class="control-label ellipsis">
+                                           </label>
+                                           <div id="ExAutoComp_lUpSobreNome" class="form-control input-group " data-bind="validatedField: 'SobreNome', css: { vmEditing: $root.ExAutoComp().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpSobreNome') ? ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpSobreNome') : (!isEmptyEntityFn($data) && $root.ExAutoComp().enabledForEditing()) }, lookupControl: { vm: $root.ExAutoComp(), value: SobreNome, maxLength: 100,lookupName: 'LookUpTbsobrenm', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ExAutoComp().entitySearchRange.SobreNome, fieldName: 'SobreNome', disabled:ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpSobreNome') ? !ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_lUpSobreNome') : (isEmptyEntityFn($data) || !$root.ExAutoComp().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 100, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ExAutoComp().getLayoutColumnSpan('ExAutoComp_ntxIdCliente'), visible: $root.ExAutoComp().getLayoutVisible('ExAutoComp_ntxIdCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="ExAutoComp_divIdCliente" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ExAutoComp().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_ntxIdCliente')}, text: $root.ExAutoComp().getLayoutDisplayName('ExAutoComp_ntxIdCliente')" id="ExAutoComp_lblIdCliente" for="ExAutoComp_ntxIdCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="ExAutoComp_ntxIdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.ExAutoComp().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_ntxIdCliente') ? ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_ntxIdCliente') : (!isEmptyEntityFn($data) && $root.ExAutoComp().enabledForEditing()) }, igNumericEditor: { value: IdCliente, minValue: 0, maxValue: null,  maxLength: 10,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.ExAutoComp(), 'ExAutoComp_ntxIdCliente') ? !ctrl.getCustomEnable($root.ExAutoComp(), 'ExAutoComp_ntxIdCliente') : (isEmptyEntityFn($data) || !$root.ExAutoComp().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ExAutoComp().entitySearchRange.has_TbnmcompletoIdCliente(), 'icon-ok': $root.ExAutoComp().entitySearchRange.has_TbnmcompletoIdCliente(), hide: $root.ExAutoComp().status() !== 'C' }, popoverWithBind: { template: '#ExAutoComp_rgIdCliente', vm: $root.ExAutoComp().entitySearchRange, ctrlName: 'ExAutoComp_rgcIdCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="ExAutoComp_rgIdCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="ExAutoComp_ntxbIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: TbnmcompletoIdCliente_begin, minValue: 0, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#ExAutoComp_ntxIdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#ExAutoComp_ntxeIdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#ExAutoComp_ntxeIdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="ExAutoComp_ntxeIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: TbnmcompletoIdCliente_end, minValue: 0, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#ExAutoComp_ntxIdCliente').igNumericEditor('option', 'readOnly', ($('#ExAutoComp_ntxbIdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#ExAutoComp_ntxbIdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="ExAutoComp_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.ExAutoComp().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyExAutoComp_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyExAutoComp_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyExAutoComp_dGrid_templateLayout', vm: function(){return $root.ExAutoComp().gridSaveStates['scyExAutoComp_dGrid'];}, ctrlName: 'scyExAutoComp_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyExAutoComp_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyExAutoComp_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyExAutoComp_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.ExAutoComp().dataToolbar.canExport(), click: function () {$root.ExAutoComp().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyExAutoComp_dGrid" data-bind="css: { IsEditableStyle: $root.ExAutoComp().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

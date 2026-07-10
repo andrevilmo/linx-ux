@@ -1,0 +1,210 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="TelaPreenchimentoPIVOT_formViewer" class="panelTransaition">
+            <figure id="TelaPreenchimentoPIVOT_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.TelaPreenchimentoPIVOT().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="TelaPreenchimentoPIVOT_gbTestePIVOTView" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="TestePIVOTView"><i class="icon-reorder"></i>TestePIVOTView</div>
+                       <div class="tools">
+                           <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div class="portlet-body" style="display:block ;">
+                       <div data-bind="with: $root.TelaPreenchimentoPIVOT().getWithBinding(currentDataItem, $root.TelaPreenchimentoPIVOT().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaPreenchimentoPIVOT_divBolean" class="" >
+                                           <div class="controls">
+                                               <div class="input-small">
+                                                   <label class="input-small">
+                                                     <input id="TelaPreenchimentoPIVOT_ckBolean" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_ckBolean') ? ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_ckBolean') : (!isEmptyEntityFn($data) && $root.TelaPreenchimentoPIVOT().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_ckBolean') ? ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_ckBolean') : (!isEmptyEntityFn($data) && $root.TelaPreenchimentoPIVOT().enabledForEditing()), nullableChecked: Bolean" title="Clique para marcar/desmarcar"/> 
+                                                     <span id="lblTelaPreenchimentoPIVOT_ckBolean" class="align-label-checkbox">Bolean</span>
+                                                   </label>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaPreenchimentoPIVOT_divData" class="" >
+                                           <label id="TelaPreenchimentoPIVOT_lblData" for="TelaPreenchimentoPIVOT_dtData" class="control-label ellipsis" title="Data">Data
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small" >
+                                                       <span id="TelaPreenchimentoPIVOT_dtData" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'Data', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_dtData') ? ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_dtData') : (!isEmptyEntityFn($data) && $root.TelaPreenchimentoPIVOT().enabledForEditing())},  igDatePicker: { value: Data, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_dtData') ? !ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_dtData') : (isEmptyEntityFn($data) || !$root.TelaPreenchimentoPIVOT().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_dtData') ? !ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_dtData') : (isEmptyEntityFn($data) || !$root.TelaPreenchimentoPIVOT().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                       <span class="input-group-btn" title="Filtro de datas">
+                                                          <button id="TelaPreenchimentoPIVOT_rgbtnData"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaPreenchimentoPIVOT().entitySearchRange.has_TestePIVOTViewData(), 'icon-ok': $root.TelaPreenchimentoPIVOT().entitySearchRange.has_TestePIVOTViewData(), hide: $root.TelaPreenchimentoPIVOT().status() !== 'C' }, popoverWithBind: { template: '#TelaPreenchimentoPIVOT_rgData', vm: $root.TelaPreenchimentoPIVOT().entitySearchRange, ctrlName: 'TelaPreenchimentoPIVOT_rgcData', headerText:'Filtro de datas' }"  /></span>
+                                                       <script id="TelaPreenchimentoPIVOT_rgData" type="text/html" tabindex="-1">
+                                                          <input type="radio" data-bind="checked:TestePIVOTViewData_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="checked:TestePIVOTViewData_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                          <div id="TelaPreenchimentoPIVOT_divrgData" >
+                                                              <div class="filterByRange" data-bind="visible: TestePIVOTViewData_typeRange() == 'R'">
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TelaPreenchimentoPIVOT_dtbData" class="IsEditableStyle" data-bind="igDatePicker: { value: TestePIVOTViewData_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaPreenchimentoPIVOT_dtData').igDatePicker('option', 'readOnly', (ui.value != null || $('#TelaPreenchimentoPIVOT_dteData').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TelaPreenchimentoPIVOT_dtbData').igDatePicker('value'); var valorMax = $('#TelaPreenchimentoPIVOT_dteData').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TelaPreenchimentoPIVOT_dtbData').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                                  <p></p>
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TelaPreenchimentoPIVOT_dteData" class="IsEditableStyle" data-bind="igDatePicker: { value: TestePIVOTViewData_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaPreenchimentoPIVOT_dtData').igDatePicker('option', 'readOnly', ($('#TelaPreenchimentoPIVOT_dtbData').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TelaPreenchimentoPIVOT_dtbData').igDatePicker('value'); var valorMax = $('#TelaPreenchimentoPIVOT_dteData').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TelaPreenchimentoPIVOT_dteData').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                              </div>
+                                                              <div class="filterByPredefined " data-bind="visible: TestePIVOTViewData_typeRange() == 'P'">
+                                                                  <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TestePIVOTViewData_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                                  <p/>
+                                                                  <div class="row predefValue" data-bind="visible: TestePIVOTViewData_predefFilter() != null && TestePIVOTViewData_predefFilter()[0] && TestePIVOTViewData_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TestePIVOTViewData_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                              </div>
+                                                          </div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaPreenchimentoPIVOT_divDecimal" class="" >
+                                           <label id="TelaPreenchimentoPIVOT_lblDecimal" for="TelaPreenchimentoPIVOT_ntxDecimal" data-bind="css: { 'content-required': $root.TelaPreenchimentoPIVOT().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Decimal">Decimal
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small">
+                                                       <input id="TelaPreenchimentoPIVOT_ntxDecimal" class="form-control numericFilterRange input-small" data-bind="validatedField: 'Decimal', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxDecimal') ? ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxDecimal') : (!isEmptyEntityFn($data) && $root.TelaPreenchimentoPIVOT().enabledForEditing()) }, igNumericEditor: { value: Decimal, minValue: 0, maxValue: 99999999.99,  maxLength: 11,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxDecimal') ? !ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxDecimal') : (isEmptyEntityFn($data) || !$root.TelaPreenchimentoPIVOT().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxDecimal') ? !ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxDecimal') : (isEmptyEntityFn($data) || !$root.TelaPreenchimentoPIVOT().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaPreenchimentoPIVOT().entitySearchRange.has_TestePIVOTViewDecimal(), 'icon-ok': $root.TelaPreenchimentoPIVOT().entitySearchRange.has_TestePIVOTViewDecimal(), hide: $root.TelaPreenchimentoPIVOT().status() !== 'C' }, popoverWithBind: { template: '#TelaPreenchimentoPIVOT_rgDecimal', vm: $root.TelaPreenchimentoPIVOT().entitySearchRange, ctrlName: 'TelaPreenchimentoPIVOT_rgcDecimal', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaPreenchimentoPIVOT_rgDecimal" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaPreenchimentoPIVOT_ntxbDecimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: TestePIVOTViewDecimal_begin, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaPreenchimentoPIVOT_ntxDecimal').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaPreenchimentoPIVOT_ntxeDecimal').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaPreenchimentoPIVOT_ntxeDecimal').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaPreenchimentoPIVOT_ntxeDecimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: TestePIVOTViewDecimal_end, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaPreenchimentoPIVOT_ntxDecimal').igNumericEditor('option', 'readOnly', ($('#TelaPreenchimentoPIVOT_ntxbDecimal').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaPreenchimentoPIVOT_ntxbDecimal').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaPreenchimentoPIVOT_divInteiro" class="" >
+                                           <label id="TelaPreenchimentoPIVOT_lblInteiro" for="TelaPreenchimentoPIVOT_ntxInteiro" data-bind="css: { 'content-required': $root.TelaPreenchimentoPIVOT().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Inteiro">Inteiro
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-min-medium">
+                                                   <div class="input-group box-input-min-medium">
+                                                       <input id="TelaPreenchimentoPIVOT_ntxInteiro" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'Inteiro', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxInteiro') ? ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxInteiro') : (!isEmptyEntityFn($data) && $root.TelaPreenchimentoPIVOT().enabledForEditing()) }, igNumericEditor: { value: Inteiro, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxInteiro') ? !ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxInteiro') : (isEmptyEntityFn($data) || !$root.TelaPreenchimentoPIVOT().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxInteiro') ? !ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_ntxInteiro') : (isEmptyEntityFn($data) || !$root.TelaPreenchimentoPIVOT().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaPreenchimentoPIVOT().entitySearchRange.has_TestePIVOTViewInteiro(), 'icon-ok': $root.TelaPreenchimentoPIVOT().entitySearchRange.has_TestePIVOTViewInteiro(), hide: $root.TelaPreenchimentoPIVOT().status() !== 'C' }, popoverWithBind: { template: '#TelaPreenchimentoPIVOT_rgInteiro', vm: $root.TelaPreenchimentoPIVOT().entitySearchRange, ctrlName: 'TelaPreenchimentoPIVOT_rgcInteiro', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaPreenchimentoPIVOT_rgInteiro" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaPreenchimentoPIVOT_ntxbInteiro" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TestePIVOTViewInteiro_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaPreenchimentoPIVOT_ntxInteiro').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaPreenchimentoPIVOT_ntxeInteiro').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaPreenchimentoPIVOT_ntxeInteiro').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaPreenchimentoPIVOT_ntxeInteiro" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TestePIVOTViewInteiro_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaPreenchimentoPIVOT_ntxInteiro').igNumericEditor('option', 'readOnly', ($('#TelaPreenchimentoPIVOT_ntxbInteiro').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaPreenchimentoPIVOT_ntxbInteiro').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaPreenchimentoPIVOT_divString" class="" >
+                                           <label id="TelaPreenchimentoPIVOT_lblString" for="TelaPreenchimentoPIVOT_tbString" class="control-label ellipsis" title="String">String
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-xlarge">
+                                                   <input id="TelaPreenchimentoPIVOT_tbString" class="form-control ellipsis input-xlarge" data-bind="attr: { title: String }, validatedField: 'String', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_tbString') ? ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_tbString') : (!isEmptyEntityFn($data) && $root.TelaPreenchimentoPIVOT().enabledForEditing()) }, igTextEditor: { maxLength: 40, value: String, readOnly: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_tbString') ? !ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_tbString') : (isEmptyEntityFn($data) || !$root.TelaPreenchimentoPIVOT().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaPreenchimentoPIVOT_tbString') ? !ctrl.getCustomEnable($root, 'TelaPreenchimentoPIVOT_tbString') : (isEmptyEntityFn($data) || !$root.TelaPreenchimentoPIVOT().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="TelaPreenchimentoPIVOT_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.TelaPreenchimentoPIVOT().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyTelaPreenchimentoPIVOT_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyTelaPreenchimentoPIVOT_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.TelaPreenchimentoPIVOT().dataToolbar.canExport(), click: function () {$root.TelaPreenchimentoPIVOT().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyTelaPreenchimentoPIVOT_dGrid" data-bind="css: { IsEditableStyle: $root.TelaPreenchimentoPIVOT().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

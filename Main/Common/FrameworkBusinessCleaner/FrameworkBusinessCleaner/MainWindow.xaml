@@ -1,0 +1,73 @@
+﻿<Window x:Class="FrameworkBusinessCleaner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FrameworkBusinessCleaner"
+        mc:Ignorable="d"
+        Title="Framework Business Cleaner" Height="450" Width="525" ResizeMode="NoResize" Icon="Linx.ico">
+    <StackPanel >
+        <StackPanel>
+            <TextBlock Text="Business Model: " Margin="5, 5, 5, 2"></TextBlock>
+            <Grid>
+                <TextBox Grid.Column="0" x:Name="txBM" Text="{Binding BusinessModelPath}" Margin="5,5,2,0" IsReadOnly="True" ></TextBox>
+            </Grid>
+        </StackPanel>
+        <StackPanel>
+            <TextBlock Text="Business View: " Margin="5, 5, 5, 2"></TextBlock>
+            <Grid>
+                <TextBox Grid.Column="0" x:Name="txBV" Text="{Binding BusinessViewPath}" Margin="5,5,2,0" IsReadOnly="True" ></TextBox>
+            </Grid>
+        </StackPanel>
+        <StackPanel>
+            <TextBlock Text="Service Bus: " Margin="5, 5, 5, 2"></TextBlock>
+            <Grid>                
+                <TextBox Grid.Column="0" x:Name="txServiceBus" Text="{Binding ServiceBusPath}" Margin="5,5,2,0" IsReadOnly="True" ></TextBox>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="User Interfaces: " Margin="5, 5, 5, 2"></TextBlock>
+            <Grid>
+                <TextBox Grid.Column="0" x:Name="txUserInterface" Text="{Binding UserInterfacePath}" Margin="5,5,2,0" IsReadOnly="True" ></TextBox>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="Web Apis: " Margin="5, 5, 5, 2"></TextBlock>
+            <Grid>
+                <TextBox Grid.Column="0" x:Name="txWebApi" Text="{Binding WebApiPath}" Margin="5,5,2,0" IsReadOnly="True" ></TextBox>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="Web Api Clients: " Margin="5, 5, 5, 2"></TextBlock>
+            <Grid>
+                <TextBox Grid.Column="0" x:Name="txWebApiClient" Text="{Binding WebApiClientPath}" Margin="5,5,2,0" IsReadOnly="True" ></TextBox>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="Nuget BMs: " Margin="5, 5, 5, 2"></TextBlock>
+            <Grid>
+                <TextBox Grid.Column="0" x:Name="txNugetBM" Text="{Binding NugetBMPath}" Margin="5,5,2,0" IsReadOnly="True" ></TextBox>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="Nuget BVs: " Margin="5, 5, 5, 2"></TextBlock>
+            <Grid>
+                <TextBox Grid.Column="0" x:Name="txNugetBV" Text="{Binding NugetBvPath}" Margin="5,5,2,0" IsReadOnly="True" ></TextBox>
+            </Grid>
+        </StackPanel>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="502*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ProgressBar Grid.Column="0" Margin="10, 15, 10, 0" Maximum="9" Value="0" x:Name="progress" ></ProgressBar>
+            <Button Grid.Column="1" HorizontalAlignment="Right" Margin="0,15,5,0" Width="100" x:Name="btClean" Click="btClean_Click">Clean Now...</Button>
+        </Grid>
+    </StackPanel>
+</Window>

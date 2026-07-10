@@ -1,0 +1,828 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="TelaNullBV_formViewer" class="panelTransaition">
+            <figure id="TelaNullBV_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.TelaNullBV().viewType() === 'Main' ? '' : 'none' }">
+                                       <div id="TelaNullBV_gbTiposCamposView" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="TiposCamposView"><i class="icon-reorder"></i>TiposCamposView</div>
+                       <div class="tools">
+                           <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div class="portlet-body" style="display:block ;">
+                       <div data-bind="with: $root.TelaNullBV().getWithBinding(currentDataItem, $root.TelaNullBV().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divBoolean" class="" >
+                                           <div class="controls">
+                                               <div class="input-small">
+                                                   <label class="input-small">
+                                                     <input id="TelaNullBV_ckBoolean" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ckBoolean') ? ctrl.getCustomEnable($root, 'TelaNullBV_ckBoolean') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TelaNullBV_ckBoolean') ? ctrl.getCustomEnable($root, 'TelaNullBV_ckBoolean') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()), nullableChecked: Boolean" title="Clique para marcar/desmarcar"/> 
+                                                     <span id="lblTelaNullBV_ckBoolean" class="align-label-checkbox">Boolean</span>
+                                                   </label>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divByte" class="" >
+                                           <label id="TelaNullBV_lblByte" for="TelaNullBV_ntxByte" class="control-label ellipsis" title="Byte">Byte
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-mini">
+                                                   <div class="input-group box-input-mini">
+                                                       <input id="TelaNullBV_ntxByte" class="form-control numericFilterRange input-mini" data-bind="validatedField: 'Byte', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxByte') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxByte') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igNumericEditor: { value: Byte, minValue: 0, maxValue: null,  maxLength: 3,  dataMode: 'byte', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxByte') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxByte') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxByte') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxByte') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposViewByte(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposViewByte(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgByte', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcByte', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBV_rgByte" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbByte" class="IsEditableStyle input-mini" data-bind="igNumericEditor: { value: TiposCamposViewByte_begin, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxByte').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeByte').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeByte').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeByte" class="IsEditableStyle input-mini" data-bind="igNumericEditor: { value: TiposCamposViewByte_end, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxByte').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbByte').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbByte').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divByteArray" class="" >
+                                           <label id="TelaNullBV_lblByteArray" for="TelaNullBV_tbByteArray" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ByteArray">ByteArray
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-xmedium">
+                                                   <input id="TelaNullBV_tbByteArray" class="form-control ellipsis input-xmedium" data-bind="attr: { title: ByteArray }, validatedField: 'ByteArray', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_tbByteArray') ? ctrl.getCustomEnable($root, 'TelaNullBV_tbByteArray') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igTextEditor: { maxLength: 3, value: ByteArray, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_tbByteArray') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbByteArray') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_tbByteArray') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbByteArray') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divDateTime" class="" >
+                                           <label id="TelaNullBV_lblDateTime" for="TelaNullBV_dtDateTime" class="control-label ellipsis" title="DateTime">DateTime
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small" >
+                                                       <span id="TelaNullBV_dtDateTime" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'DateTime', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_dtDateTime') ? ctrl.getCustomEnable($root, 'TelaNullBV_dtDateTime') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing())},  igDatePicker: { value: DateTime, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_dtDateTime') ? !ctrl.getCustomEnable($root, 'TelaNullBV_dtDateTime') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_dtDateTime') ? !ctrl.getCustomEnable($root, 'TelaNullBV_dtDateTime') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                       <span class="input-group-btn" title="Filtro de datas">
+                                                          <button id="TelaNullBV_rgbtnDateTime"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposViewDateTime(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposViewDateTime(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgDateTime', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcDateTime', headerText:'Filtro de datas' }"  /></span>
+                                                       <script id="TelaNullBV_rgDateTime" type="text/html" tabindex="-1">
+                                                          <input type="radio" data-bind="checked:TiposCamposViewDateTime_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="checked:TiposCamposViewDateTime_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                          <div id="TelaNullBV_divrgDateTime" >
+                                                              <div class="filterByRange" data-bind="visible: TiposCamposViewDateTime_typeRange() == 'R'">
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TelaNullBV_dtbDateTime" class="IsEditableStyle" data-bind="igDatePicker: { value: TiposCamposViewDateTime_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBV_dtDateTime').igDatePicker('option', 'readOnly', (ui.value != null || $('#TelaNullBV_dteDateTime').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TelaNullBV_dtbDateTime').igDatePicker('value'); var valorMax = $('#TelaNullBV_dteDateTime').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TelaNullBV_dtbDateTime').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                                  <p></p>
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TelaNullBV_dteDateTime" class="IsEditableStyle" data-bind="igDatePicker: { value: TiposCamposViewDateTime_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBV_dtDateTime').igDatePicker('option', 'readOnly', ($('#TelaNullBV_dtbDateTime').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TelaNullBV_dtbDateTime').igDatePicker('value'); var valorMax = $('#TelaNullBV_dteDateTime').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TelaNullBV_dteDateTime').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                              </div>
+                                                              <div class="filterByPredefined " data-bind="visible: TiposCamposViewDateTime_typeRange() == 'P'">
+                                                                  <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TiposCamposViewDateTime_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                                  <p/>
+                                                                  <div class="row predefValue" data-bind="visible: TiposCamposViewDateTime_predefFilter() != null && TiposCamposViewDateTime_predefFilter()[0] && TiposCamposViewDateTime_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TiposCamposViewDateTime_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                              </div>
+                                                          </div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divDateTimeOffset" class="" >
+                                           <label id="TelaNullBV_lblDateTimeOffset" for="TelaNullBV_dtDateTimeOffset" class="control-label ellipsis" title="DateTimeOffset">DateTimeOffset
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small" >
+                                                       <span id="TelaNullBV_dtDateTimeOffset" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'DateTimeOffset', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_dtDateTimeOffset') ? ctrl.getCustomEnable($root, 'TelaNullBV_dtDateTimeOffset') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing())},  igDatePicker: { value: DateTimeOffset, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_dtDateTimeOffset') ? !ctrl.getCustomEnable($root, 'TelaNullBV_dtDateTimeOffset') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_dtDateTimeOffset') ? !ctrl.getCustomEnable($root, 'TelaNullBV_dtDateTimeOffset') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                       <span class="input-group-btn" title="Filtro de datas">
+                                                          <button id="TelaNullBV_rgbtnDateTimeOffset"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposViewDateTimeOffset(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposViewDateTimeOffset(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgDateTimeOffset', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcDateTimeOffset', headerText:'Filtro de datas' }"  /></span>
+                                                       <script id="TelaNullBV_rgDateTimeOffset" type="text/html" tabindex="-1">
+                                                          <input type="radio" data-bind="checked:TiposCamposViewDateTimeOffset_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="checked:TiposCamposViewDateTimeOffset_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                          <div id="TelaNullBV_divrgDateTimeOffset" >
+                                                              <div class="filterByRange" data-bind="visible: TiposCamposViewDateTimeOffset_typeRange() == 'R'">
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TelaNullBV_dtbDateTimeOffset" class="IsEditableStyle" data-bind="igDatePicker: { value: TiposCamposViewDateTimeOffset_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBV_dtDateTimeOffset').igDatePicker('option', 'readOnly', (ui.value != null || $('#TelaNullBV_dteDateTimeOffset').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TelaNullBV_dtbDateTimeOffset').igDatePicker('value'); var valorMax = $('#TelaNullBV_dteDateTimeOffset').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TelaNullBV_dtbDateTimeOffset').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                                  <p></p>
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TelaNullBV_dteDateTimeOffset" class="IsEditableStyle" data-bind="igDatePicker: { value: TiposCamposViewDateTimeOffset_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBV_dtDateTimeOffset').igDatePicker('option', 'readOnly', ($('#TelaNullBV_dtbDateTimeOffset').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TelaNullBV_dtbDateTimeOffset').igDatePicker('value'); var valorMax = $('#TelaNullBV_dteDateTimeOffset').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TelaNullBV_dteDateTimeOffset').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                              </div>
+                                                              <div class="filterByPredefined " data-bind="visible: TiposCamposViewDateTimeOffset_typeRange() == 'P'">
+                                                                  <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TiposCamposViewDateTimeOffset_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                                  <p/>
+                                                                  <div class="row predefValue" data-bind="visible: TiposCamposViewDateTimeOffset_predefFilter() != null && TiposCamposViewDateTimeOffset_predefFilter()[0] && TiposCamposViewDateTimeOffset_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TiposCamposViewDateTimeOffset_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                              </div>
+                                                          </div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divDecimal" class="" >
+                                           <label id="TelaNullBV_lblDecimal" for="TelaNullBV_ntxDecimal" class="control-label ellipsis" title="Decimal">Decimal
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small">
+                                                       <input id="TelaNullBV_ntxDecimal" class="form-control numericFilterRange input-small" data-bind="validatedField: 'Decimal', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxDecimal') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxDecimal') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igNumericEditor: { value: Decimal, minValue: 0, maxValue: 99999999.99,  maxLength: 11,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxDecimal') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxDecimal') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxDecimal') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxDecimal') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposViewDecimal(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposViewDecimal(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgDecimal', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcDecimal', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBV_rgDecimal" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbDecimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: TiposCamposViewDecimal_begin, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaNullBV_ntxDecimal').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeDecimal').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeDecimal').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeDecimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: TiposCamposViewDecimal_end, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaNullBV_ntxDecimal').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbDecimal').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbDecimal').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divIDTiposCampos" class="" >
+                                           <label id="TelaNullBV_lblIDTiposCampos" for="TelaNullBV_ntxIDTiposCampos" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID TiposCampos">ID TiposCampos
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-min-medium">
+                                                   <div class="input-group box-input-min-medium">
+                                                       <input id="TelaNullBV_ntxIDTiposCampos" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'IDTiposCampos', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxIDTiposCampos') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxIDTiposCampos') : (!isEmptyEntityFn($data) && $root.TelaNullBV().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IDTiposCampos, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxIDTiposCampos') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxIDTiposCampos') : (isEmptyEntityFn($data) || !($root.TelaNullBV().status() === 'C' || ($data.isAdded && $data.isAdded()))), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxIDTiposCampos') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxIDTiposCampos') : (isEmptyEntityFn($data) || !($root.TelaNullBV().status() === 'C' || ($data.isAdded && $data.isAdded()))) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposViewIDTiposCampos(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposViewIDTiposCampos(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgIDTiposCampos', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcIDTiposCampos', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBV_rgIDTiposCampos" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbIDTiposCampos" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposViewIDTiposCampos_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxIDTiposCampos').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeIDTiposCampos').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeIDTiposCampos').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeIDTiposCampos" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposViewIDTiposCampos_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxIDTiposCampos').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbIDTiposCampos').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbIDTiposCampos').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divInt" class="" >
+                                           <label id="TelaNullBV_lblInt" for="TelaNullBV_ntxInt" class="control-label ellipsis" title="Int">Int
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-min-medium">
+                                                   <div class="input-group box-input-min-medium">
+                                                       <input id="TelaNullBV_ntxInt" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'Int', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxInt') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxInt') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igNumericEditor: { value: Int, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxInt') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxInt') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxInt') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxInt') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposViewInt(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposViewInt(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgInt', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcInt', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBV_rgInt" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbInt" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposViewInt_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxInt').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeInt').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeInt').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeInt" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposViewInt_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxInt').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbInt').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbInt').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divLong" class="" >
+                                           <label id="TelaNullBV_lblLong" for="TelaNullBV_ntxLong" class="control-label ellipsis" title="Long">Long
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-xmedium">
+                                                   <div class="input-group box-input-xmedium">
+                                                       <input id="TelaNullBV_ntxLong" class="form-control numericFilterRange input-xmedium" data-bind="validatedField: 'Long', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxLong') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxLong') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igNumericEditor: { value: Long, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxLong') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxLong') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxLong') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxLong') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposViewLong(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposViewLong(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgLong', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcLong', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBV_rgLong" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbLong" class="IsEditableStyle input-xmedium" data-bind="igNumericEditor: { value: TiposCamposViewLong_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxLong').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeLong').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeLong').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeLong" class="IsEditableStyle input-xmedium" data-bind="igNumericEditor: { value: TiposCamposViewLong_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxLong').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbLong').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbLong').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divShort" class="" >
+                                           <label id="TelaNullBV_lblShort" for="TelaNullBV_ntxShort" class="control-label ellipsis" title="Short">Short
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-xsmall">
+                                                   <div class="input-group box-input-xsmall">
+                                                       <input id="TelaNullBV_ntxShort" class="form-control numericFilterRange input-xsmall" data-bind="validatedField: 'Short', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxShort') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxShort') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igNumericEditor: { value: Short, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxShort') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxShort') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxShort') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxShort') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposViewShort(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposViewShort(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgShort', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcShort', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBV_rgShort" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbShort" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: TiposCamposViewShort_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxShort').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeShort').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeShort').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeShort" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: TiposCamposViewShort_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxShort').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbShort').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbShort').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divString" class="" >
+                                           <label id="TelaNullBV_lblString" for="TelaNullBV_tbString" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="String">String
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-small">
+                                                   <input id="TelaNullBV_tbString" class="form-control ellipsis input-small" data-bind="attr: { title: String }, validatedField: 'String', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_tbString') ? ctrl.getCustomEnable($root, 'TelaNullBV_tbString') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: String, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_tbString') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbString') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_tbString') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbString') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divStringChar" class="" >
+                                           <label id="TelaNullBV_lblStringChar" for="TelaNullBV_tbStringChar" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="StringChar">StringChar
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-small">
+                                                   <input id="TelaNullBV_tbStringChar" class="form-control ellipsis input-small" data-bind="attr: { title: StringChar }, validatedField: 'StringChar', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_tbStringChar') ? ctrl.getCustomEnable($root, 'TelaNullBV_tbStringChar') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: StringChar, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_tbStringChar') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbStringChar') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_tbStringChar') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbStringChar') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divStringText" class="" >
+                                           <label id="TelaNullBV_lblStringText" for="TelaNullBV_edStringText" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="StringText">StringText
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-xmedium">
+                                                   <textarea id="TelaNullBV_edStringText" class="form-control input-xmedium"  data-bind="validatedField: 'StringText', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_edStringText') ? ctrl.getCustomEnable($root, 'TelaNullBV_edStringText') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TelaNullBV_edStringText') ? ctrl.getCustomEnable($root, 'TelaNullBV_edStringText') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()), value: StringText" rows="2"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBV_divTimestamp" class="" >
+                                           <label id="TelaNullBV_lblTimestamp" for="TelaNullBV_tbTimestamp" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Timestamp">Timestamp
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-xmedium">
+                                                   <input id="TelaNullBV_tbTimestamp" class="form-control ellipsis input-xmedium" data-bind="attr: { title: Timestamp }, validatedField: 'Timestamp', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTimestamp') ? ctrl.getCustomEnable($root, 'TelaNullBV_tbTimestamp') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igTextEditor: { maxLength: 3, value: Timestamp, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTimestamp') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbTimestamp') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTimestamp') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbTimestamp') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+           <div id="TelaNullBV_tcTiposCamposViewTabControl" class="tabbable tabbable-custom box col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+              <div class="container-tab">
+                 <div id="TelaNullBV_tcTiposCamposViewTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                 <div id="TelaNullBV_tcTiposCamposViewTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                 <div id="TelaNullBV_tcTiposCamposViewTabControl_wrapper" class="wrapper">
+                    <ul id="TelaNullBV_tcTiposCamposViewTabControl_list" class="nav nav-tabs list">
+                       <li id="TelaNullBV_tiTiposCamposFilhaViewTabItem" class="active"><a href="#TelaNullBV_tabTiposCamposFilhaViewTabItem" data-toggle="tab" title="TiposCamposFilhaView">TiposCamposFilhaView</a></li>
+                    </ul>
+                    </div>
+                 </div>
+              <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="TelaNullBV_tabTiposCamposFilhaViewTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+                       <div id="TelaNullBV_dGridTiposCamposFilhaView_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.TelaNullBV().getWithBinding(currentDataItem, $root.TelaNullBV().rootDataTypeName)">
+                           <button id="TelaNullBV_dGridTiposCamposFilhaView_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.TelaNullBV().status() === 'E', click: function () { $root.TelaNullBV().createAndNotifyTiposCamposFilhaView($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="TelaNullBV_dGridTiposCamposFilhaView_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.TelaNullBV().status() === 'E', 
+                           click: function () {
+                              $root.TelaNullBV().deleteGrid('#TelaNullBV_dGridTiposCamposFilhaView', 'TiposCamposFilhaView', 'vm.currentDataItem().currentTiposCamposFilhaView;vm.currentDataItem().TiposCamposFilhaViewList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="TelaNullBV_dGridTiposCamposFilhaView_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.TelaNullBV().openEditor('#TelaNullBV_dGridTiposCamposFilhaView', 'TiposCamposFilhaView', 'vm.currentDataItem().currentTiposCamposFilhaView;vm.currentDataItem().TiposCamposFilhaViewList', 'TiposCamposFilhaView;vm.currentDataItem()', 'TiposCamposFilhaView(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="TelaNullBV_dGridTiposCamposFilhaView_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.TelaNullBV().openEditor('#TelaNullBV_dGridTiposCamposFilhaView', 'TiposCamposFilhaView', 'vm.currentDataItem().currentTiposCamposFilhaView;vm.currentDataItem().TiposCamposFilhaViewList', 'TiposCamposFilhaView;vm.currentDataItem()', 'TiposCamposFilhaView(vm.currentDataItem())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="TelaNullBV_dGridTiposCamposFilhaView_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.TelaNullBV().dataToolbar.canGridExport(), click: function () {$root.TelaNullBV().exportDataDetails($data, 'TiposCamposFilhaView', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="TelaNullBV_dGridTiposCamposFilhaView" data-bind="css: { IsEditableStyle: $root.TelaNullBV().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+
+                   <div id="dialogTiposCamposFilhaView"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegTiposCamposFilhaView" onClick="$(this).backRegTiposCamposFilhaView();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberTiposCamposFilhaView">0</label><label>/</label><label id="totalNumberTiposCamposFilhaView">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegTiposCamposFilhaView" onClick="$(this).nextRegTiposCamposFilhaView();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegTiposCamposFilhaView" onClick="$(this).addRegTiposCamposFilhaView();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegTiposCamposFilhaView" onClick="$(this).delRegTiposCamposFilhaView();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTiposCamposFilhaView" onClick="$(this).okRegTiposCamposFilhaView();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="TelaNullBV_templateTiposCamposFilhaView" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.TelaNullBV().getWithBinding(currentDataItem, $root.TelaNullBV().rootDataTypeName)"><div data-bind="with: $root.TelaNullBV().getWithBinding(currentTiposCamposFilhaView, 'TiposCamposFilhaView')">
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_BooleanTemplate" class="" >
+                                       <div class="controls">
+                                           <div class="input-small">
+                                               <label class="input-small">
+                                                 <input id="TelaNullBV_ckTiposCamposFilhaView_Boolean" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ckTiposCamposFilhaView_Boolean') ? ctrl.getCustomEnable($root, 'TelaNullBV_ckTiposCamposFilhaView_Boolean') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TelaNullBV_ckTiposCamposFilhaView_Boolean') ? ctrl.getCustomEnable($root, 'TelaNullBV_ckTiposCamposFilhaView_Boolean') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()), nullableChecked: Boolean" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lblTelaNullBV_ckTiposCamposFilhaView_Boolean" class="align-label-checkbox">Boolean</span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_ByteTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_Byte" for="TelaNullBV_ntxTiposCamposFilhaView_Byte" class="control-label ellipsis" title="Byte">Byte
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-mini">
+                                               <div class="input-group box-input-mini">
+                                                   <input id="TelaNullBV_ntxTiposCamposFilhaView_Byte" class="form-control numericFilterRange input-mini" data-bind="validatedField: 'Byte', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Byte') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Byte') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igNumericEditor: { value: Byte, minValue: 0, maxValue: null,  maxLength: 3,  dataMode: 'byte', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Byte') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Byte') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Byte') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Byte') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewByte(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewByte(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgTiposCamposFilhaView_Byte', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcTiposCamposFilhaView_Byte', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBV_rgTiposCamposFilhaView_Byte" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbTiposCamposFilhaView_Byte" class="IsEditableStyle input-mini" data-bind="igNumericEditor: { value: TiposCamposFilhaViewByte_begin, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_Byte').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeTiposCamposFilhaView_Byte').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeTiposCamposFilhaView_Byte').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeTiposCamposFilhaView_Byte" class="IsEditableStyle input-mini" data-bind="igNumericEditor: { value: TiposCamposFilhaViewByte_end, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_Byte').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbTiposCamposFilhaView_Byte').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbTiposCamposFilhaView_Byte').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_ByteArrayTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_ByteArray" for="TelaNullBV_tbTiposCamposFilhaView_ByteArray" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ByteArray">ByteArray
+                                       </label>
+                                       <div class="controls">
+                                           <div class="input-xmedium">
+                                               <input id="TelaNullBV_tbTiposCamposFilhaView_ByteArray" class="form-control ellipsis input-xmedium" data-bind="attr: { title: ByteArray }, validatedField: 'ByteArray', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_ByteArray') ? ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_ByteArray') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igTextEditor: { maxLength: 3, value: ByteArray, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_ByteArray') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_ByteArray') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_ByteArray') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_ByteArray') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing())  }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_DateTimeTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_DateTime" for="TelaNullBV_dtTiposCamposFilhaView_DateTime" class="control-label ellipsis" title="DateTime">DateTime
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-small">
+                                               <div class="input-group box-input-small" >
+                                                   <span id="TelaNullBV_dtTiposCamposFilhaView_DateTime" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'DateTime', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTime') ? ctrl.getCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTime') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing())},  igDatePicker: { value: DateTime, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTime') ? !ctrl.getCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTime') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTime') ? !ctrl.getCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTime') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="TelaNullBV_rgbtnTiposCamposFilhaView_DateTime"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewDateTime(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewDateTime(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgTiposCamposFilhaView_DateTime', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcTiposCamposFilhaView_DateTime', headerText:'Filtro de datas' }"  /></span>
+                                                   <script id="TelaNullBV_rgTiposCamposFilhaView_DateTime" type="text/html" tabindex="-1">
+                                                      <input type="radio" data-bind="checked:TiposCamposFilhaViewDateTime_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:TiposCamposFilhaViewDateTime_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      <div id="TelaNullBV_divrgTiposCamposFilhaView_DateTime" >
+                                                          <div class="filterByRange" data-bind="visible: TiposCamposFilhaViewDateTime_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TelaNullBV_dtbTiposCamposFilhaView_DateTime" class="IsEditableStyle" data-bind="igDatePicker: { value: TiposCamposFilhaViewDateTime_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBV_dtTiposCamposFilhaView_DateTime').igDatePicker('option', 'readOnly', (ui.value != null || $('#TelaNullBV_dteTiposCamposFilhaView_DateTime').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TelaNullBV_dtbTiposCamposFilhaView_DateTime').igDatePicker('value'); var valorMax = $('#TelaNullBV_dteTiposCamposFilhaView_DateTime').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TelaNullBV_dtbTiposCamposFilhaView_DateTime').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                              <p></p>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TelaNullBV_dteTiposCamposFilhaView_DateTime" class="IsEditableStyle" data-bind="igDatePicker: { value: TiposCamposFilhaViewDateTime_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBV_dtTiposCamposFilhaView_DateTime').igDatePicker('option', 'readOnly', ($('#TelaNullBV_dtbTiposCamposFilhaView_DateTime').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TelaNullBV_dtbTiposCamposFilhaView_DateTime').igDatePicker('value'); var valorMax = $('#TelaNullBV_dteTiposCamposFilhaView_DateTime').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TelaNullBV_dteTiposCamposFilhaView_DateTime').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: TiposCamposFilhaViewDateTime_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TiposCamposFilhaViewDateTime_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <p/>
+                                                              <div class="row predefValue" data-bind="visible: TiposCamposFilhaViewDateTime_predefFilter() != null && TiposCamposFilhaViewDateTime_predefFilter()[0] && TiposCamposFilhaViewDateTime_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TiposCamposFilhaViewDateTime_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_DateTimeOffsetTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_DateTimeOffset" for="TelaNullBV_dtTiposCamposFilhaView_DateTimeOffset" class="control-label ellipsis" title="DateTimeOffset">DateTimeOffset
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-small">
+                                               <div class="input-group box-input-small" >
+                                                   <span id="TelaNullBV_dtTiposCamposFilhaView_DateTimeOffset" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'DateTimeOffset', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTimeOffset') ? ctrl.getCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTimeOffset') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing())},  igDatePicker: { value: DateTimeOffset, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTimeOffset') ? !ctrl.getCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTimeOffset') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTimeOffset') ? !ctrl.getCustomEnable($root, 'TelaNullBV_dtTiposCamposFilhaView_DateTimeOffset') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="TelaNullBV_rgbtnTiposCamposFilhaView_DateTimeOffset"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewDateTimeOffset(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewDateTimeOffset(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgTiposCamposFilhaView_DateTimeOffset', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcTiposCamposFilhaView_DateTimeOffset', headerText:'Filtro de datas' }"  /></span>
+                                                   <script id="TelaNullBV_rgTiposCamposFilhaView_DateTimeOffset" type="text/html" tabindex="-1">
+                                                      <input type="radio" data-bind="checked:TiposCamposFilhaViewDateTimeOffset_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:TiposCamposFilhaViewDateTimeOffset_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      <div id="TelaNullBV_divrgTiposCamposFilhaView_DateTimeOffset" >
+                                                          <div class="filterByRange" data-bind="visible: TiposCamposFilhaViewDateTimeOffset_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TelaNullBV_dtbTiposCamposFilhaView_DateTimeOffset" class="IsEditableStyle" data-bind="igDatePicker: { value: TiposCamposFilhaViewDateTimeOffset_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBV_dtTiposCamposFilhaView_DateTimeOffset').igDatePicker('option', 'readOnly', (ui.value != null || $('#TelaNullBV_dteTiposCamposFilhaView_DateTimeOffset').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TelaNullBV_dtbTiposCamposFilhaView_DateTimeOffset').igDatePicker('value'); var valorMax = $('#TelaNullBV_dteTiposCamposFilhaView_DateTimeOffset').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TelaNullBV_dtbTiposCamposFilhaView_DateTimeOffset').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                              <p></p>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TelaNullBV_dteTiposCamposFilhaView_DateTimeOffset" class="IsEditableStyle" data-bind="igDatePicker: { value: TiposCamposFilhaViewDateTimeOffset_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBV_dtTiposCamposFilhaView_DateTimeOffset').igDatePicker('option', 'readOnly', ($('#TelaNullBV_dtbTiposCamposFilhaView_DateTimeOffset').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TelaNullBV_dtbTiposCamposFilhaView_DateTimeOffset').igDatePicker('value'); var valorMax = $('#TelaNullBV_dteTiposCamposFilhaView_DateTimeOffset').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TelaNullBV_dteTiposCamposFilhaView_DateTimeOffset').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: TiposCamposFilhaViewDateTimeOffset_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TiposCamposFilhaViewDateTimeOffset_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <p/>
+                                                              <div class="row predefValue" data-bind="visible: TiposCamposFilhaViewDateTimeOffset_predefFilter() != null && TiposCamposFilhaViewDateTimeOffset_predefFilter()[0] && TiposCamposFilhaViewDateTimeOffset_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TiposCamposFilhaViewDateTimeOffset_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_DecimalTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_Decimal" for="TelaNullBV_ntxTiposCamposFilhaView_Decimal" class="control-label ellipsis" title="Decimal">Decimal
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-small">
+                                               <div class="input-group box-input-small">
+                                                   <input id="TelaNullBV_ntxTiposCamposFilhaView_Decimal" class="form-control numericFilterRange input-small" data-bind="validatedField: 'Decimal', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Decimal') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Decimal') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igNumericEditor: { value: Decimal, minValue: 0, maxValue: 99999999.99,  maxLength: 11,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Decimal') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Decimal') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Decimal') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Decimal') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewDecimal(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewDecimal(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgTiposCamposFilhaView_Decimal', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcTiposCamposFilhaView_Decimal', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBV_rgTiposCamposFilhaView_Decimal" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbTiposCamposFilhaView_Decimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: TiposCamposFilhaViewDecimal_begin, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_Decimal').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeTiposCamposFilhaView_Decimal').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeTiposCamposFilhaView_Decimal').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeTiposCamposFilhaView_Decimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: TiposCamposFilhaViewDecimal_end, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_Decimal').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbTiposCamposFilhaView_Decimal').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbTiposCamposFilhaView_Decimal').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_IDTiposCamposTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_IDTiposCampos" for="TelaNullBV_lUpTiposCamposFilhaView_IDTiposCampos" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID TiposCampos">ID TiposCampos
+                                       </label>
+                                       <div class="">
+                                           <div id="TelaNullBV_lUpTiposCamposFilhaView_IDTiposCampos" class="form-control box-input-min-medium pull-left input-group " data-bind="validatedField: 'IDTiposCampos', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_lUpTiposCamposFilhaView_IDTiposCampos') ? ctrl.getCustomEnable($root, 'TelaNullBV_lUpTiposCamposFilhaView_IDTiposCampos') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, lookupControl: { value: IDTiposCampos, maxLength: 12,lookupName: '', inputClass:'input-min-medium', isMultiSelection: false, multiSelectionValue: $root.TelaNullBV().entitySearchRange.IDTiposCampos, fieldName: 'IDTiposCampos', disabled:ctrl.hasCustomEnable($root, 'TelaNullBV_lUpTiposCamposFilhaView_IDTiposCampos') ? !ctrl.getCustomEnable($root, 'TelaNullBV_lUpTiposCamposFilhaView_IDTiposCampos') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: 0}" />
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_IDTiposCamposFilhaTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_IDTiposCamposFilha" for="TelaNullBV_ntxTiposCamposFilhaView_IDTiposCamposFilha" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID TiposCamposFilha">ID TiposCamposFilha
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-min-medium">
+                                               <div class="input-group box-input-min-medium">
+                                                   <input id="TelaNullBV_ntxTiposCamposFilhaView_IDTiposCamposFilha" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'IDTiposCamposFilha', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_IDTiposCamposFilha') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_IDTiposCamposFilha') : (!isEmptyEntityFn($data) && $root.TelaNullBV().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IDTiposCamposFilha, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_IDTiposCamposFilha') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_IDTiposCamposFilha') : (isEmptyEntityFn($data) || !($root.TelaNullBV().status() === 'C' || ($data.isAdded && $data.isAdded()))), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_IDTiposCamposFilha') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_IDTiposCamposFilha') : (isEmptyEntityFn($data) || !($root.TelaNullBV().status() === 'C' || ($data.isAdded && $data.isAdded()))) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewIDTiposCamposFilha(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewIDTiposCamposFilha(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgTiposCamposFilhaView_IDTiposCamposFilha', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcTiposCamposFilhaView_IDTiposCamposFilha', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBV_rgTiposCamposFilhaView_IDTiposCamposFilha" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbTiposCamposFilhaView_IDTiposCamposFilha" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposFilhaViewIDTiposCamposFilha_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_IDTiposCamposFilha').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeTiposCamposFilhaView_IDTiposCamposFilha').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeTiposCamposFilhaView_IDTiposCamposFilha').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeTiposCamposFilhaView_IDTiposCamposFilha" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposFilhaViewIDTiposCamposFilha_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_IDTiposCamposFilha').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbTiposCamposFilhaView_IDTiposCamposFilha').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbTiposCamposFilhaView_IDTiposCamposFilha').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_IntTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_Int" for="TelaNullBV_ntxTiposCamposFilhaView_Int" class="control-label ellipsis" title="Int">Int
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-min-medium">
+                                               <div class="input-group box-input-min-medium">
+                                                   <input id="TelaNullBV_ntxTiposCamposFilhaView_Int" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'Int', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Int') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Int') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igNumericEditor: { value: Int, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Int') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Int') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Int') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Int') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewInt(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewInt(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgTiposCamposFilhaView_Int', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcTiposCamposFilhaView_Int', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBV_rgTiposCamposFilhaView_Int" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbTiposCamposFilhaView_Int" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposFilhaViewInt_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_Int').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeTiposCamposFilhaView_Int').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeTiposCamposFilhaView_Int').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeTiposCamposFilhaView_Int" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposFilhaViewInt_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_Int').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbTiposCamposFilhaView_Int').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbTiposCamposFilhaView_Int').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_LongTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_Long" for="TelaNullBV_ntxTiposCamposFilhaView_Long" class="control-label ellipsis" title="Long">Long
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-xmedium">
+                                               <div class="input-group box-input-xmedium">
+                                                   <input id="TelaNullBV_ntxTiposCamposFilhaView_Long" class="form-control numericFilterRange input-xmedium" data-bind="validatedField: 'Long', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Long') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Long') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igNumericEditor: { value: Long, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Long') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Long') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Long') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Long') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewLong(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewLong(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgTiposCamposFilhaView_Long', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcTiposCamposFilhaView_Long', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBV_rgTiposCamposFilhaView_Long" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbTiposCamposFilhaView_Long" class="IsEditableStyle input-xmedium" data-bind="igNumericEditor: { value: TiposCamposFilhaViewLong_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_Long').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeTiposCamposFilhaView_Long').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeTiposCamposFilhaView_Long').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeTiposCamposFilhaView_Long" class="IsEditableStyle input-xmedium" data-bind="igNumericEditor: { value: TiposCamposFilhaViewLong_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_Long').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbTiposCamposFilhaView_Long').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbTiposCamposFilhaView_Long').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_ShortTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_Short" for="TelaNullBV_ntxTiposCamposFilhaView_Short" class="control-label ellipsis" title="Short">Short
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-xsmall">
+                                               <div class="input-group box-input-xsmall">
+                                                   <input id="TelaNullBV_ntxTiposCamposFilhaView_Short" class="form-control numericFilterRange input-xsmall" data-bind="validatedField: 'Short', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Short') ? ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Short') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igNumericEditor: { value: Short, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Short') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Short') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Short') ? !ctrl.getCustomEnable($root, 'TelaNullBV_ntxTiposCamposFilhaView_Short') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewShort(), 'icon-ok': $root.TelaNullBV().entitySearchRange.has_TiposCamposFilhaViewShort(), hide: $root.TelaNullBV().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBV_rgTiposCamposFilhaView_Short', vm: $root.TelaNullBV().entitySearchRange, ctrlName: 'TelaNullBV_rgcTiposCamposFilhaView_Short', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBV_rgTiposCamposFilhaView_Short" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBV_ntxbTiposCamposFilhaView_Short" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: TiposCamposFilhaViewShort_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_Short').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBV_ntxeTiposCamposFilhaView_Short').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBV_ntxeTiposCamposFilhaView_Short').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBV_ntxeTiposCamposFilhaView_Short" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: TiposCamposFilhaViewShort_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaNullBV_ntxTiposCamposFilhaView_Short').igNumericEditor('option', 'readOnly', ($('#TelaNullBV_ntxbTiposCamposFilhaView_Short').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBV_ntxbTiposCamposFilhaView_Short').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_StringTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_String" for="TelaNullBV_tbTiposCamposFilhaView_String" class="control-label ellipsis" title="String">String
+                                       </label>
+                                       <div class="controls">
+                                           <div class="input-small">
+                                               <input id="TelaNullBV_tbTiposCamposFilhaView_String" class="form-control ellipsis input-small" data-bind="attr: { title: String }, validatedField: 'String', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_String') ? ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_String') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: String, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_String') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_String') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_String') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_String') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing())  }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_StringCharTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_StringChar" for="TelaNullBV_tbTiposCamposFilhaView_StringChar" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="StringChar">StringChar
+                                       </label>
+                                       <div class="controls">
+                                           <div class="input-small">
+                                               <input id="TelaNullBV_tbTiposCamposFilhaView_StringChar" class="form-control ellipsis input-small" data-bind="attr: { title: StringChar }, validatedField: 'StringChar', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_StringChar') ? ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_StringChar') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: StringChar, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_StringChar') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_StringChar') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_StringChar') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_StringChar') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing())  }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_StringTextTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_StringText" for="TelaNullBV_edTiposCamposFilhaView_StringText" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="StringText">StringText
+                                       </label>
+                                       <div class="controls">
+                                           <div class="input-xmedium">
+                                               <textarea id="TelaNullBV_edTiposCamposFilhaView_StringText" class="form-control input-xmedium"  data-bind="validatedField: 'StringText', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_edTiposCamposFilhaView_StringText') ? ctrl.getCustomEnable($root, 'TelaNullBV_edTiposCamposFilhaView_StringText') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TelaNullBV_edTiposCamposFilhaView_StringText') ? ctrl.getCustomEnable($root, 'TelaNullBV_edTiposCamposFilhaView_StringText') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()), value: StringText" rows="2"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBV_divTiposCamposFilhaView_TimestampTemplate" class="" >
+                                       <label id="TelaNullBV_lblTiposCamposFilhaView_Timestamp" for="TelaNullBV_tbTiposCamposFilhaView_Timestamp" data-bind="css: { 'content-required': $root.TelaNullBV().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Timestamp">Timestamp
+                                       </label>
+                                       <div class="controls">
+                                           <div class="input-xmedium">
+                                               <input id="TelaNullBV_tbTiposCamposFilhaView_Timestamp" class="form-control ellipsis input-xmedium" data-bind="attr: { title: Timestamp }, validatedField: 'Timestamp', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_Timestamp') ? ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_Timestamp') : (!isEmptyEntityFn($data) && $root.TelaNullBV().enabledForEditing()) }, igTextEditor: { maxLength: 3, value: Timestamp, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_Timestamp') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_Timestamp') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_Timestamp') ? !ctrl.getCustomEnable($root, 'TelaNullBV_tbTiposCamposFilhaView_Timestamp') : (isEmptyEntityFn($data) || !$root.TelaNullBV().enabledForEditing())  }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+           </div>
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="TelaNullBV_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.TelaNullBV().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyTelaNullBV_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyTelaNullBV_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.TelaNullBV().dataToolbar.canExport(), click: function () {$root.TelaNullBV().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyTelaNullBV_dGrid" data-bind="css: { IsEditableStyle: $root.TelaNullBV().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

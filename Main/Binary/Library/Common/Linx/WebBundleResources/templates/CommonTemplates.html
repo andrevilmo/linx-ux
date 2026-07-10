@@ -1,0 +1,73 @@
+﻿<script type="text/html" id="EmptyTemplate">
+</script>
+
+<script type="text/html" id="DataToolbarTemplate">
+
+    <ul class="breadcrumb center">
+        <li>
+            <div class="btn-group hidden-phone">
+                <button class="btn tooltips" data-placement="top" data-original-title="Primeiro" data-bind="enable: canGoFirst, click: goFirst"><i class="icon-fast-backward"></i></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="Anterior" data-bind="enable: canGoBack, click: goBack"><i class="icon-backward"></i></button>
+                <button class="btn" data-bind="enable: canViewInfo, click: viewInfo"><span class="caption" data-bind="    text: currentRecordInfo"></span></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="Próximo" data-bind="enable: canGoForward, click: goForward"><i class="icon-forward"></i></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="ùltimo" data-bind="enable: canGoLast, click: goLast"><i class="icon-fast-forward"></i></button>
+            </div>
+        </li>
+        <li>
+            <div class="btn-group hidden-phone">
+                <button class="btn tooltips" data-placement="top" data-original-title="Limpar" data-bind="visible: canClear, click: clear"><i class=" icon-file"></i></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="Pesquisar" data-bind="visible: canQuery, click: query"><i class=" icon-search"></i></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="Novo Registro" data-bind="visible: canAddNew, click: addNew"><i class="icon-plus"></i></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="Remover Registro" data-bind="visible: canRemove, click: remove"><i class="icon-trash"></i></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="Editar" data-bind="visible: canEdit, click: edit"><i class="icon-edit"></i></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="Salvar" data-bind="visible: canSave, click: save"><i class="icon-save"></i></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="Cancelar Alterações" data-bind="visible: canUndo, click: undo"><i class="icon-undo"></i></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="Imprimir" data-bind="visible: canPrint, click: print"><i class="icon-print"></i></button>
+            </div>
+        </li>
+        <li>
+            <div style="width: 8px; height: 8px; align-self: flex-end" data-bind="css: { active: isBusy }"
+                class="pull-left loader">
+                <i class="icon-spinner icon-2x icon-spin"></i>
+            </div>
+            <!-- </li></li> -->
+    </ul>
+
+</script>
+
+<script type="text/html" id="BreadcrumbTemplate">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="/#/modules">Início</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <a href="/#/menus">Menus</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <div data-bind="text: $root.config.currentMenu"></div>
+        </li>
+    </ul>
+</script>
+
+<script type="text/html" id="MenuTemplate">
+    <ol class="dd-list" data-bind="foreach: $data.menus">
+        <li class="dd-item dd3-item">
+            <!-- ko template: {if: !isTransaction} -->           
+                <b class="dd3-content" data-bind="text: displayName"></b>
+            <!-- /ko -->
+
+            <!-- ko template: {if: isTransaction} -->
+            <a href="#" data-bind="click: activate" class="dd3-content"><span data-bind="    text: displayName"></span><i class="icon-play"></i></a>
+            <!-- /ko -->
+
+            <!-- ko template: {name: 'MenuTemplate', if: hasSubmenus()} -->
+            <!-- /ko -->
+        </li>
+    </ol>
+</script>
+
+
+

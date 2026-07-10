@@ -1,0 +1,342 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+        <div class="col-md-12 remove-pl remove-pr">
+            <section>
+                <div class="screen-view">
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="UIVendaexternaGRID_dGridVenda_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="UIVendaexternaGRID_dGridVenda_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.UIVendaexternaGRID().hideToolbar() && $root.UIVendaexternaGRID().status() === 'E', click: function () { $root.UIVendaexternaGRID().dataToolbar.addNew(); }"><i class="fa fa-plus"></i></button>
+                   <button id="UIVendaexternaGRID_dGridVenda_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                   data-bind="visible: $root.UIVendaexternaGRID().status() === 'E', 
+                   click: function () { 
+                      $root.UIVendaexternaGRID().deleteGrid('#UIVendaexternaGRID_dGridVenda', 'Venda', 'vm.currentDataItem;vm.dataView', true);
+                   }"> 
+                   <i class="fa fa-trash-o"></i></button>
+                   <button id="UIVendaexternaGRID_dGridVenda_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                    data-bind="click:function () { 
+                      $root.UIVendaexternaGRID().openEditor('#UIVendaexternaGRID_dGridVenda', 'Venda', 'vm.currentDataItem;vm.dataView', ';vm', 'Venda()', false)
+                   }"><i class="fa fa-th"></i></button>
+                   <button id="UIVendaexternaGRID_dGridVenda_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                    data-bind="click:function () { 
+                      $root.UIVendaexternaGRID().openEditor('#UIVendaexternaGRID_dGridVenda', 'Venda', 'vm.currentDataItem;vm.dataView', ';vm', 'Venda()', true)
+                   }"><i class="fa fa-th-large"></i></button>
+                   <button id="UIVendaexternaGRID_dGridVenda_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#UIVendaexternaGRID_dGridVenda_templateLayout', vm: function(){return $root.UIVendaexternaGRID().gridSaveStates['UIVendaexternaGRID_dGridVenda'];}, ctrlName: 'UIVendaexternaGRID_dGridVenda_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="UIVendaexternaGRID_dGridVenda_templateLayout" type="text/html" tabindex="-1">
+                       <div id="UIVendaexternaGRID_dGridVenda_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="UIVendaexternaGRID_dGridVenda_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UIVendaexternaGRID().dataToolbar.canExport(), click: function () {$root.UIVendaexternaGRID().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="UIVendaexternaGRID_dGridVenda" data-bind="css: { IsEditableStyle: $root.UIVendaexternaGRID().enabledForEditing }"  />
+               </div>
+
+           </div>
+
+           <div id="dialogVenda"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+              <button class="btn btn-sm btn-default backReg " id="backRegVenda" onClick="$(this).backRegVenda();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+              <span class="caption"><label id="currentNumberVenda">0</label><label>/</label><label id="totalNumberVenda">0</label></span>
+              <button class="btn btn-sm btn-default nextReg " id="nextRegVenda" onClick="$(this).nextRegVenda();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+              <button class="btn btn-sm btn-default addReg " id="addRegVenda" onClick="$(this).addRegVenda();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+              <button class="btn btn-sm btn-default delReg " id="delRegVenda" onClick="$(this).delRegVenda();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+              <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegVenda" onClick="$(this).okRegVenda();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+           <div id="UIVendaexternaGRID_templateVenda" class="" style="width: 100%; height: 100%;" >
+               <div data-bind="with: $root.UIVendaexternaGRID().getWithBinding(currentDataItem, $root.UIVendaexternaGRID().rootDataTypeName)">
+
+               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_ntxBigIntVenda'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_ntxBigIntVenda')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divBigIntVendaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxBigIntVenda')}, text: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxBigIntVenda')" id="UIVendaexternaGRID_lblBigIntVenda" for="UIVendaexternaGRID_ntxBigIntVenda" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="UIVendaexternaGRID_ntxBigIntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntVenda', css: { vmEditing: $root.UIVendaexternaGRID().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxBigIntVenda') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxBigIntVenda') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().enabledForEditing()) }, igNumericEditor: { value: BigIntVenda, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxBigIntVenda') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxBigIntVenda') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIVendaexternaGRID().entitySearchRange.has_VendaBigIntVenda(), 'icon-ok': $root.UIVendaexternaGRID().entitySearchRange.has_VendaBigIntVenda(), hide: $root.UIVendaexternaGRID().status() !== 'C' }, popoverWithBind: { template: '#UIVendaexternaGRID_rgBigIntVenda', vm: $root.UIVendaexternaGRID().entitySearchRange, ctrlName: 'UIVendaexternaGRID_rgcBigIntVenda', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="UIVendaexternaGRID_rgBigIntVenda" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxbBigIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaBigIntVenda_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxBigIntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIVendaexternaGRID_ntxeBigIntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#UIVendaexternaGRID_ntxeBigIntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxeBigIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaBigIntVenda_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxBigIntVenda').igNumericEditor('option', 'readOnly', ($('#UIVendaexternaGRID_ntxbBigIntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIVendaexternaGRID_ntxbBigIntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_ckBitVenda'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_ckBitVenda')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divBitVendaTemplate" class="" >
+                               <label class="">
+                                 <input id="UIVendaexternaGRID_ckBitVenda" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ckBitVenda') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ckBitVenda') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ckBitVenda') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ckBitVenda') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()), nullableChecked: BitVenda" title="Clique para marcar/desmarcar"/> 
+                                 <span id="lblUIVendaexternaGRID_ckBitVenda" class="align-label-checkbox"></span>
+                               </label>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_cmbComboboxVenda'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_cmbComboboxVenda')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divComboboxVendaTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.UIVendaexternaGRID().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_cmbComboboxVenda')}, text: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_cmbComboboxVenda')" id="UIVendaexternaGRID_lblComboboxVenda" for="UIVendaexternaGRID_cmbComboboxVenda" class="control-label ellipsis">
+                               </label>
+                               <span id="UIVendaexternaGRID_cmbComboboxVenda" class="form-control " data-bind="validatedField: 'ComboboxVenda', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_cmbComboboxVenda') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_cmbComboboxVenda') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_cmbComboboxVenda') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_cmbComboboxVenda') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_cmbComboboxVenda') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_cmbComboboxVenda') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()), igCombo: {
+                                  selectedItems: ComboboxVenda,
+                                  dataSource:  $root.UIVendaexternaGRID().dataDomains.getItems('LX_VENDA', ''),
+                                  textKey: 'name',
+                                  valueKey: 'id',
+                                  allowCustomValue : true,
+                                  enableSelectionChangedUpdate: true,
+                                  enableClearButton: false,
+                                  dropDownOnFocus: true,
+                                  disabled: (ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_cmbComboboxVenda') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_cmbComboboxVenda') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing())),
+                                  mode: 'editable',
+                                  width:'100%'
+                               }"></span>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_dtDatetimeVenda'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_dtDatetimeVenda')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divDatetimeVendaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_dtDatetimeVenda')}, text: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_dtDatetimeVenda')" id="UIVendaexternaGRID_lblDatetimeVenda" for="UIVendaexternaGRID_dtDatetimeVenda" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group" >
+                                   <span id="UIVendaexternaGRID_dtDatetimeVenda" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVenda', css: { vmEditing: $root.UIVendaexternaGRID().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_dtDatetimeVenda') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_dtDatetimeVenda') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_dtDatetimeVenda') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_dtDatetimeVenda') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()) },  igDatePicker: { value: DatetimeVenda, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.UIVendaexternaGRID().entitySearchRange.has_VendaDatetimeVenda()?true:ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_dtDatetimeVenda') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_dtDatetimeVenda') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                   <span class="input-group-btn" title="Filtro de datas">
+                                      <button id="UIVendaexternaGRID_rgbtnDatetimeVenda"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIVendaexternaGRID().entitySearchRange.has_VendaDatetimeVenda(), 'icon-ok': $root.UIVendaexternaGRID().entitySearchRange.has_VendaDatetimeVenda(), hide: $root.UIVendaexternaGRID().status() !== 'C' }, popoverWithBind: { template: '#UIVendaexternaGRID_rgDatetimeVenda', vm: $root.UIVendaexternaGRID().entitySearchRange, ctrlName: 'UIVendaexternaGRID_rgcDatetimeVenda', headerText:'Filtro de datas' }"  /></span>
+                                      <script id="UIVendaexternaGRID_rgDatetimeVenda" type="text/html" tabindex="-1">
+                                      <div class="range-radio-group">
+                                          <input type="radio" data-bind="enable: !has_VendaDatetimeVenda(), checked:VendaDatetimeVenda_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                          <input type="radio" data-bind="enable: !has_VendaDatetimeVenda(), checked:VendaDatetimeVenda_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                      </div>
+                                      <div class="range-input-group" id="UIVendaexternaGRID_divrgDatetimeVenda" >
+                                          <div class="filterByRange" data-bind="visible: VendaDatetimeVenda_typeRange() == 'R'">
+                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UIVendaexternaGRID_dtbDatetimeVenda" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaDatetimeVenda_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_dtDatetimeVenda').igDatePicker('option', 'readOnly', (ui.value != null || $('#UIVendaexternaGRID_dteDatetimeVenda').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UIVendaexternaGRID_dtbDatetimeVenda').igDatePicker('value'); var valorMax = $('#UIVendaexternaGRID_dteDatetimeVenda').igDatePicker('value');if (valorMax != null && valorMin > valorMax){VendaDatetimeVenda_begin(valorMax); $('#UIVendaexternaGRID_dtbDatetimeVenda').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UIVendaexternaGRID_dteDatetimeVenda" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaDatetimeVenda_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_dtDatetimeVenda').igDatePicker('option', 'readOnly', ($('#UIVendaexternaGRID_dtbDatetimeVenda').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UIVendaexternaGRID_dtbDatetimeVenda').igDatePicker('value'); var valorMax = $('#UIVendaexternaGRID_dteDatetimeVenda').igDatePicker('value');if (valorMin != null && valorMax < valorMin){VendaDatetimeVenda_end(valorMin); $('#UIVendaexternaGRID_dteDatetimeVenda').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                          </div>
+                                          <div class="filterByPredefined " data-bind="visible: VendaDatetimeVenda_typeRange() == 'P'">
+                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaDatetimeVenda_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                              <div class="row predefValue" data-bind="visible: VendaDatetimeVenda_predefFilter() != null && VendaDatetimeVenda_predefFilter()[0] && VendaDatetimeVenda_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaDatetimeVenda_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                          </div>
+                                      </div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_lUpIdVendedor'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_lUpIdVendedor')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divIdVendedorTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_lUpIdVendedor')}, text: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_lUpIdVendedor')" id="UIVendaexternaGRID_lblIdVendedor" for="UIVendaexternaGRID_lUpIdVendedor" class="control-label ellipsis">
+                               </label>
+                               <div id="UIVendaexternaGRID_lUpIdVendedor" class="form-control input-group " data-bind="validatedField: 'IdVendedor', css: { vmEditing: $root.UIVendaexternaGRID().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdVendedor') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdVendedor') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().enabledForEditing()) }, lookupControl: { vm: $root.UIVendaexternaGRID(), value: IdVendedor, maxLength: 12,lookupName: 'LookUpVendedor', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.UIVendaexternaGRID().entitySearchRange.IdVendedor, fieldName: 'IdVendedor', disabled:ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdVendedor') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdVendedor') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_ntxDecimalVenda'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_ntxDecimalVenda')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divDecimalVendaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxDecimalVenda')}, text: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxDecimalVenda')" id="UIVendaexternaGRID_lblDecimalVenda" for="UIVendaexternaGRID_ntxDecimalVenda" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="UIVendaexternaGRID_ntxDecimalVenda" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVenda', css: { vmEditing: $root.UIVendaexternaGRID().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxDecimalVenda') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxDecimalVenda') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().enabledForEditing()) }, igNumericEditor: { value: DecimalVenda, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxDecimalVenda') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxDecimalVenda') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIVendaexternaGRID().entitySearchRange.has_VendaDecimalVenda(), 'icon-ok': $root.UIVendaexternaGRID().entitySearchRange.has_VendaDecimalVenda(), hide: $root.UIVendaexternaGRID().status() !== 'C' }, popoverWithBind: { template: '#UIVendaexternaGRID_rgDecimalVenda', vm: $root.UIVendaexternaGRID().entitySearchRange, ctrlName: 'UIVendaexternaGRID_rgcDecimalVenda', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="UIVendaexternaGRID_rgDecimalVenda" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxbDecimalVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaDecimalVenda_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxDecimalVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIVendaexternaGRID_ntxeDecimalVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#UIVendaexternaGRID_ntxeDecimalVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxeDecimalVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaDecimalVenda_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxDecimalVenda').igNumericEditor('option', 'readOnly', ($('#UIVendaexternaGRID_ntxbDecimalVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIVendaexternaGRID_ntxbDecimalVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+               </div>
+
+               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_lUpIdFormaPagamento'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_lUpIdFormaPagamento')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divIdFormaPagamentoTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_lUpIdFormaPagamento')}, text: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_lUpIdFormaPagamento')" id="UIVendaexternaGRID_lblIdFormaPagamento" for="UIVendaexternaGRID_lUpIdFormaPagamento" class="control-label ellipsis">
+                               </label>
+                               <div id="UIVendaexternaGRID_lUpIdFormaPagamento" class="form-control input-group " data-bind="validatedField: 'IdFormaPagamento', css: { vmEditing: $root.UIVendaexternaGRID().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdFormaPagamento') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdFormaPagamento') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().enabledForEditing()) }, lookupControl: { vm: $root.UIVendaexternaGRID(), value: IdFormaPagamento, maxLength: 12,lookupName: 'LookUpFormaPagamento', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.UIVendaexternaGRID().entitySearchRange.IdFormaPagamento, fieldName: 'IdFormaPagamento', disabled:ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdFormaPagamento') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdFormaPagamento') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_lUpIdLoja'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_lUpIdLoja')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divIdLojaTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.UIVendaexternaGRID().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_lUpIdLoja')}, text: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_lUpIdLoja')" id="UIVendaexternaGRID_lblIdLoja" for="UIVendaexternaGRID_lUpIdLoja" class="control-label ellipsis">
+                               </label>
+                               <div id="UIVendaexternaGRID_lUpIdLoja" class="form-control input-group " data-bind="validatedField: 'IdLoja', css: { vmEditing: $root.UIVendaexternaGRID().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdLoja') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdLoja') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().enabledForEditing()) }, lookupControl: { vm: $root.UIVendaexternaGRID(), value: IdLoja, maxLength: 12,lookupName: 'LookUpLoja', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.UIVendaexternaGRID().entitySearchRange.IdLoja, fieldName: 'IdLoja', disabled:ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdLoja') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_lUpIdLoja') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: 0}" />
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_ntxIdVenda'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_ntxIdVenda')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divIdVendaTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.UIVendaexternaGRID().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxIdVenda')}, text: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxIdVenda')" id="UIVendaexternaGRID_lblIdVenda" for="UIVendaexternaGRID_ntxIdVenda" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="UIVendaexternaGRID_ntxIdVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.UIVendaexternaGRID().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxIdVenda') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxIdVenda') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVenda, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxIdVenda') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxIdVenda') : (isEmptyEntityFn($data) || !($root.UIVendaexternaGRID().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIVendaexternaGRID().entitySearchRange.has_VendaIdVenda(), 'icon-ok': $root.UIVendaexternaGRID().entitySearchRange.has_VendaIdVenda(), hide: $root.UIVendaexternaGRID().status() !== 'C' }, popoverWithBind: { template: '#UIVendaexternaGRID_rgIdVenda', vm: $root.UIVendaexternaGRID().entitySearchRange, ctrlName: 'UIVendaexternaGRID_rgcIdVenda', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="UIVendaexternaGRID_rgIdVenda" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxbIdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxIdVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIVendaexternaGRID_ntxeIdVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#UIVendaexternaGRID_ntxeIdVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxeIdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxIdVenda').igNumericEditor('option', 'readOnly', ($('#UIVendaexternaGRID_ntxbIdVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIVendaexternaGRID_ntxbIdVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_ntxIntVenda'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_ntxIntVenda')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divIntVendaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxIntVenda')}, text: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxIntVenda')" id="UIVendaexternaGRID_lblIntVenda" for="UIVendaexternaGRID_ntxIntVenda" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="UIVendaexternaGRID_ntxIntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IntVenda', css: { vmEditing: $root.UIVendaexternaGRID().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxIntVenda') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxIntVenda') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().enabledForEditing()) }, igNumericEditor: { value: IntVenda, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxIntVenda') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxIntVenda') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIVendaexternaGRID().entitySearchRange.has_VendaIntVenda(), 'icon-ok': $root.UIVendaexternaGRID().entitySearchRange.has_VendaIntVenda(), hide: $root.UIVendaexternaGRID().status() !== 'C' }, popoverWithBind: { template: '#UIVendaexternaGRID_rgIntVenda', vm: $root.UIVendaexternaGRID().entitySearchRange, ctrlName: 'UIVendaexternaGRID_rgcIntVenda', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="UIVendaexternaGRID_rgIntVenda" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxbIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIntVenda_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxIntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIVendaexternaGRID_ntxeIntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#UIVendaexternaGRID_ntxeIntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxeIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIntVenda_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxIntVenda').igNumericEditor('option', 'readOnly', ($('#UIVendaexternaGRID_ntxbIntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIVendaexternaGRID_ntxbIntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_ntxSmallIntVenda'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_ntxSmallIntVenda')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divSmallIntVendaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxSmallIntVenda')}, text: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxSmallIntVenda')" id="UIVendaexternaGRID_lblSmallIntVenda" for="UIVendaexternaGRID_ntxSmallIntVenda" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="UIVendaexternaGRID_ntxSmallIntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntVenda', css: { vmEditing: $root.UIVendaexternaGRID().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxSmallIntVenda') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxSmallIntVenda') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().enabledForEditing()) }, igNumericEditor: { value: SmallIntVenda, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxSmallIntVenda') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxSmallIntVenda') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIVendaexternaGRID().entitySearchRange.has_VendaSmallIntVenda(), 'icon-ok': $root.UIVendaexternaGRID().entitySearchRange.has_VendaSmallIntVenda(), hide: $root.UIVendaexternaGRID().status() !== 'C' }, popoverWithBind: { template: '#UIVendaexternaGRID_rgSmallIntVenda', vm: $root.UIVendaexternaGRID().entitySearchRange, ctrlName: 'UIVendaexternaGRID_rgcSmallIntVenda', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="UIVendaexternaGRID_rgSmallIntVenda" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxbSmallIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaSmallIntVenda_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxSmallIntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIVendaexternaGRID_ntxeSmallIntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#UIVendaexternaGRID_ntxeSmallIntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxeSmallIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaSmallIntVenda_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxSmallIntVenda').igNumericEditor('option', 'readOnly', ($('#UIVendaexternaGRID_ntxbSmallIntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIVendaexternaGRID_ntxbSmallIntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIVendaexternaGRID().getLayoutColumnSpan('UIVendaexternaGRID_ntxValorTotal'), visible: $root.UIVendaexternaGRID().getLayoutVisible('UIVendaexternaGRID_ntxValorTotal')" class="">
+                       <div class="form-group">
+                           <div id="UIVendaexternaGRID_divValorTotalTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxValorTotal')}, text: $root.UIVendaexternaGRID().getLayoutDisplayName('UIVendaexternaGRID_ntxValorTotal')" id="UIVendaexternaGRID_lblValorTotal" for="UIVendaexternaGRID_ntxValorTotal" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="UIVendaexternaGRID_ntxValorTotal" class="form-control numericFilterRange " data-bind="validatedField: 'ValorTotal', css: { vmEditing: $root.UIVendaexternaGRID().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxValorTotal') ? ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxValorTotal') : (!isEmptyEntityFn($data) && $root.UIVendaexternaGRID().enabledForEditing()) }, igNumericEditor: { value: ValorTotal, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxValorTotal') ? !ctrl.getCustomEnable($root.UIVendaexternaGRID(), 'UIVendaexternaGRID_ntxValorTotal') : (isEmptyEntityFn($data) || !$root.UIVendaexternaGRID().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIVendaexternaGRID().entitySearchRange.has_VendaValorTotal(), 'icon-ok': $root.UIVendaexternaGRID().entitySearchRange.has_VendaValorTotal(), hide: $root.UIVendaexternaGRID().status() !== 'C' }, popoverWithBind: { template: '#UIVendaexternaGRID_rgValorTotal', vm: $root.UIVendaexternaGRID().entitySearchRange, ctrlName: 'UIVendaexternaGRID_rgcValorTotal', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="UIVendaexternaGRID_rgValorTotal" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxbValorTotal" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaValorTotal_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxValorTotal').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIVendaexternaGRID_ntxeValorTotal').igNumericEditor('option', 'value') != null ? true : false)); $('#UIVendaexternaGRID_ntxeValorTotal').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIVendaexternaGRID_ntxeValorTotal" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaValorTotal_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIVendaexternaGRID_ntxValorTotal').igNumericEditor('option', 'readOnly', ($('#UIVendaexternaGRID_ntxbValorTotal').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIVendaexternaGRID_ntxbValorTotal').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+               </div>
+
+           </div>
+           </div>
+       </div>
+
+
+                </div>
+            </section>
+        </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

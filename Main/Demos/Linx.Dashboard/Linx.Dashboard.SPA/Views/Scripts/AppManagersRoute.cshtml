@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+    Response.ContentType = "application/javascript";
+}
+define(
+    function () {
+        return {
+            MODULES_ASSEMBLY: requirejs.routesJson.MODULES_ASSEMBLY,
+            MODULES_VERSION: requirejs.routesJson.MODULES_VERSION,
+            MODULES_PKG: requirejs.routesJson.MODULES_PKG,
+
+            ///////////////////////
+            // method: createTransactionRoutes()
+            ///////////////////////
+            createTransactionRoutes: function () {
+                return new Array(this.MODULES_ASSEMBLY);
+            },
+
+            ///////////////////////
+            // method: searchByModuleId()
+            ///////////////////////
+            searchByModuleId: function (moduleId) {
+                // rotas por assembly
+                for (var i = 0; i < this.MODULES_ASSEMBLY.length; i++) {
+                    var item = this.MODULES_ASSEMBLY[i];
+
+                    if (item.route === undefined || item.route.toLowerCase() == moduleId.toLowerCase()) {
+                        return item;
+                    }
+                }
+                return null;
+            },
+
+            ///////////////////////
+            // method: searchPkgByModuleName()
+            ///////////////////////
+            searchPkgByModuleName: function (moduleName) {
+                // packages
+                for (var i = 0; i < this.MODULES_PKG.length; i++) {
+                    var item = this.MODULES_PKG[i];
+
+                    if (item.moduleName == moduleName) {
+                        return item;
+                    }
+                }
+                return null;
+            }
+
+        };
+    });

@@ -1,0 +1,40 @@
+﻿<div class="topo-container">
+    <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header' }-->
+        <!--/ko-->
+    </div>
+</div>
+<div class="clearfix">
+</div>
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container nobread">
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- BEGIN PAGE CONTENT-->
+        <div class="row">
+            <div class="col-md-12" data-bind="foreach: MODULES_VM">
+                <div class="tiles">
+                    <a data-bind="attr: { href: urlLink, id: name }">
+                        <div data-bind="attr: { class: classType }">
+                            <div class="tile-body">
+                                <i data-bind="attr: { class: iconName }"></i>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    <div class="name ellipsis width-name" data-bind="attr: { title: displayName }, text: displayName"></div>
+                                </div>
+
+                                <div class="number" data-bind="text: count"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT-->
+    </div>
+    <!-- END PAGE -->
+
+</div>
+<!-- END CONTAINER -->

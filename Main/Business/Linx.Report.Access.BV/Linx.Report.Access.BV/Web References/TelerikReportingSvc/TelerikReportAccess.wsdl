@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="Telerik.ReportService" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="Telerik.ReportService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="Telerik.ReportService/Imports">
+      <xsd:import schemaLocation="http://localhost:1710/TelerikReportAccess.svc?xsd=xsd0" namespace="Telerik.ReportService" />
+      <xsd:import schemaLocation="http://localhost:1710/TelerikReportAccess.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:1710/TelerikReportAccess.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Telerik.Reporting.Service" />
+      <xsd:import schemaLocation="http://localhost:1710/TelerikReportAccess.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:1710/TelerikReportAccess.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Telerik.Reporting.Processing" />
+      <xsd:import schemaLocation="http://localhost:1710/TelerikReportAccess.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/Message" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IReportService_ListAvailableReports_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAvailableReports" />
+  </wsdl:message>
+  <wsdl:message name="IReportService_ListAvailableReports_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAvailableReportsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReportService_ListRenderingExtensions_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListRenderingExtensions" />
+  </wsdl:message>
+  <wsdl:message name="IReportService_ListRenderingExtensions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListRenderingExtensionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReportService_Render_InputMessage">
+    <wsdl:part name="parameters" element="tns:Render" />
+  </wsdl:message>
+  <wsdl:message name="IReportService_Render_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReportService_RenderAndCache_InputMessage">
+    <wsdl:part name="parameters" element="tns:RenderAndCache" />
+  </wsdl:message>
+  <wsdl:message name="IReportService_RenderAndCache_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenderAndCacheResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReportService_GetPage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPage" />
+  </wsdl:message>
+  <wsdl:message name="IReportService_GetPage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReportService_GetReportParameters_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetReportParameters" />
+  </wsdl:message>
+  <wsdl:message name="IReportService_GetReportParameters_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetReportParametersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_GetRenderStream_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRenderStream" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_GetRenderStream_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRenderStreamResponse" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_Export_InputMessage">
+    <wsdl:part name="parameters" element="tns:Export" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_Export_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ExportResponse" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_ExportCachedReport_InputMessage">
+    <wsdl:part name="parameters" element="tns:ExportCachedReport" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_ExportCachedReport_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ExportCachedReportResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IReportService">
+    <wsdl:operation name="ListAvailableReports">
+      <wsdl:input wsaw:Action="Telerik.ReportService/IReportService/ListAvailableReports" message="tns:IReportService_ListAvailableReports_InputMessage" />
+      <wsdl:output wsaw:Action="Telerik.ReportService/IReportService/ListAvailableReportsResponse" message="tns:IReportService_ListAvailableReports_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListRenderingExtensions">
+      <wsdl:input wsaw:Action="Telerik.ReportService/IReportService/ListRenderingExtensions" message="tns:IReportService_ListRenderingExtensions_InputMessage" />
+      <wsdl:output wsaw:Action="Telerik.ReportService/IReportService/ListRenderingExtensionsResponse" message="tns:IReportService_ListRenderingExtensions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Render">
+      <wsdl:input wsaw:Action="Telerik.ReportService/IReportService/Render" message="tns:IReportService_Render_InputMessage" />
+      <wsdl:output wsaw:Action="Telerik.ReportService/IReportService/RenderResponse" message="tns:IReportService_Render_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RenderAndCache">
+      <wsdl:input wsaw:Action="Telerik.ReportService/IReportService/RenderAndCache" message="tns:IReportService_RenderAndCache_InputMessage" />
+      <wsdl:output wsaw:Action="Telerik.ReportService/IReportService/RenderAndCacheResponse" message="tns:IReportService_RenderAndCache_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPage">
+      <wsdl:input wsaw:Action="Telerik.ReportService/IReportService/GetPage" message="tns:IReportService_GetPage_InputMessage" />
+      <wsdl:output wsaw:Action="Telerik.ReportService/IReportService/GetPageResponse" message="tns:IReportService_GetPage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReportParameters">
+      <wsdl:input wsaw:Action="Telerik.ReportService/IReportService/GetReportParameters" message="tns:IReportService_GetReportParameters_InputMessage" />
+      <wsdl:output wsaw:Action="Telerik.ReportService/IReportService/GetReportParametersResponse" message="tns:IReportService_GetReportParameters_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="IResourceService">
+    <wsdl:operation name="GetRenderStream">
+      <wsdl:input wsaw:Action="Telerik.ReportService/IResourceService/GetRenderStream" message="tns:IResourceService_GetRenderStream_InputMessage" />
+      <wsdl:output wsaw:Action="Telerik.ReportService/IResourceService/GetRenderStreamResponse" message="tns:IResourceService_GetRenderStream_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Export">
+      <wsdl:input wsaw:Action="Telerik.ReportService/IResourceService/Export" message="tns:IResourceService_Export_InputMessage" />
+      <wsdl:output wsaw:Action="Telerik.ReportService/IResourceService/ExportResponse" message="tns:IResourceService_Export_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportCachedReport">
+      <wsdl:input wsaw:Action="Telerik.ReportService/IResourceService/ExportCachedReport" message="tns:IResourceService_ExportCachedReport_InputMessage" />
+      <wsdl:output wsaw:Action="Telerik.ReportService/IResourceService/ExportCachedReportResponse" message="tns:IResourceService_ExportCachedReport_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

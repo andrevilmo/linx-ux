@@ -1,0 +1,93 @@
+﻿<div class="topo-container">
+    <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header' }-->
+        <!--/ko-->
+    </div>
+</div>
+<main role="main">
+    <section id="tab" class="is--fixed">
+        <ul class="breadcrumb__list">           
+            <li class="breadcrumb-item">
+                <a data-bind="if: _header.activeMode() == 0">Assistentes de utilização</a>      
+                <a data-bind="if: _header.activeMode() == 1">Dashboards</a>
+                <a data-bind="if: _header.activeMode() == 2">Módulos</a>
+            </li>           
+        </ul>
+    </section>
+    <div class="swiper-container mainSwiperContainer">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" data-bind="if:  _menu.wizardTransactions().length > 0">
+                <div id="wizard" style="padding: 30px 60px">
+                    <div class="swiper-container wizardSwiperContainer" style="height: calc(100vh - 150px)">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" data-bind="foreach: _menu.wizardTransactions()">
+                                <div class="post-module" data-bind="click: function () { window.open(link, '_blank'); }">
+                                    <div class="thumbnail">
+                                        <img data-bind="attr: {src: image}" />
+                                    </div>
+                                    <div class="post-content">
+                                        <div class="category" data-bind="text: title"></div>
+                                        <h1 class="post-title" data-bind="text: description"></h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide" data-bind="if:  _menu.dashboardTransactions().length > 0">
+                <div id="dashboards">
+                    <section id="content">
+                        <article class="aba-content" style="display:block">
+                            <div class="container-fluid">
+                                <div class="row" data-bind="foreach: _menu.dashboardTransactions()">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">                                        
+                                        <!--ko compose: { model: pkg, activate: true, activationData: {                                                 
+                                                uiSettings: { 
+                                                    executeQuery: false, 
+                                                    removeDataToolbar: false,
+                                                    canClear: true, 
+                                                    canSearch: true, 
+                                                    canExport: false, 
+                                                    canAddNew: false, 
+                                                    canEdit: false, 
+                                                    canDelete: false, 
+                                                    canCustomSearch: true, 
+                                                    canPrint: false, 
+                                                    canLayout: false, 
+                                                    canNavigate: false,
+                                                    noSearch: false, 
+                                                    noBusyLoading: false, 
+                                                } }, preserveContext: false}-->
+                                        <!--/ko-->
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+            </div>  
+            <div class="swiper-slide">
+                <div id="modules">                   
+                    <section id="content">
+                        <article class="aba-content" style="display:block">
+                            <div class="container-fluid">
+                                
+                                <div class="row" data-bind="foreach: MODULES_VM">
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <div class="card module" style="cursor:pointer"  data-bind="click: function () { $root.card_click(urlLink) }">
+                                            <i aria-hidden="true" data-bind="attr: { class: 'icon-module ' + iconName }"></i>
+                                            <p class="module-name counted-views" data-bind="text: count"></p>
+                                            <span class="description truncate" data-bind="text: displayName, title: displayName"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

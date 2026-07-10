@@ -1,0 +1,277 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="LkpEspecializada_formViewer" class="panelTransaition">
+            <figure id="LkpEspecializada_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.LkpEspecializada().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="LkpEspecializada_gbCliente" data-bind="css: $root.LkpEspecializada().getLayoutColumnSpan('LkpEspecializada_gbCliente'), visible: $root.LkpEspecializada().getLayoutVisible('LkpEspecializada_gbCliente')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_gbCliente')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="LkpEspecializada_gbCliente_anchor" href="#LkpEspecializada_gbCliente_body" role="button" data-toggle="collapse" data-parent="#LkpEspecializada_gbCliente" aria-controls="#LkpEspecializada_gbCliente_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="LkpEspecializada_gbCliente_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.LkpEspecializada().getWithBinding(currentDataItem, $root.LkpEspecializada().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.LkpEspecializada().getLayoutColumnSpan('LkpEspecializada_ntxComboboxCliente'), visible: $root.LkpEspecializada().getLayoutVisible('LkpEspecializada_ntxComboboxCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="LkpEspecializada_divComboboxCliente" class="" >
+                                           <label data-bind="css: { 'content-required': $root.LkpEspecializada().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_ntxComboboxCliente')}, text: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_ntxComboboxCliente')" id="LkpEspecializada_lblComboboxCliente" for="LkpEspecializada_ntxComboboxCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="LkpEspecializada_ntxComboboxCliente" class="form-control numericFilterRange " data-bind="validatedField: 'ComboboxCliente', css: { vmEditing: $root.LkpEspecializada().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxComboboxCliente') ? ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxComboboxCliente') : (!isEmptyEntityFn($data) && $root.LkpEspecializada().enabledForEditing()) }, igNumericEditor: { value: ComboboxCliente, minValue: 0, maxValue: null,  maxLength: 3,  dataMode: 'byte', readOnly: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxComboboxCliente') ? !ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxComboboxCliente') : (isEmptyEntityFn($data) || !$root.LkpEspecializada().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.LkpEspecializada().entitySearchRange.has_ClienteComboboxCliente(), 'icon-ok': $root.LkpEspecializada().entitySearchRange.has_ClienteComboboxCliente(), hide: $root.LkpEspecializada().status() !== 'C' }, popoverWithBind: { template: '#LkpEspecializada_rgComboboxCliente', vm: $root.LkpEspecializada().entitySearchRange, ctrlName: 'LkpEspecializada_rgcComboboxCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="LkpEspecializada_rgComboboxCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="LkpEspecializada_ntxbComboboxCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteComboboxCliente_begin, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#LkpEspecializada_ntxComboboxCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#LkpEspecializada_ntxeComboboxCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#LkpEspecializada_ntxeComboboxCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="LkpEspecializada_ntxeComboboxCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteComboboxCliente_end, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#LkpEspecializada_ntxComboboxCliente').igNumericEditor('option', 'readOnly', ($('#LkpEspecializada_ntxbComboboxCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#LkpEspecializada_ntxbComboboxCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LkpEspecializada().getLayoutColumnSpan('LkpEspecializada_dtDatetimeCliente'), visible: $root.LkpEspecializada().getLayoutVisible('LkpEspecializada_dtDatetimeCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="LkpEspecializada_divDatetimeCliente" class="" >
+                                           <label data-bind="attr: { title: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_dtDatetimeCliente')}, text: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_dtDatetimeCliente')" id="LkpEspecializada_lblDatetimeCliente" for="LkpEspecializada_dtDatetimeCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                                   <div class="row connected-field"><div class="wrapper-campus"><span class="txt-descricao" title="Data inicial">De:</span><span id="LkpEspecializada_dtbDatetimeCliente" class="date form-control campo-date-picker" data-bind="css:{ igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_dtDatetimeCliente') : (isEmptyEntityFn($data) || false) }, igDatePicker: { value: $root.LkpEspecializada().entitySearchRange.ClienteDatetimeCliente_begin,  dateDisplayFormat: 'date', readOnly: $root.LkpEspecializada().status() !== 'C', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#LkpEspecializada_dtDatetimeCliente').igDatePicker('option', 'readOnly', (ui.value != null || $('#LkpEspecializada_dteDatetimeCliente').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#LkpEspecializada_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#LkpEspecializada_dteDatetimeCliente').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#LkpEspecializada_dtbDatetimeCliente').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                   <div class="row connected-field"><div class="wrapper-campus"><span class="txt-descricao" title="Data final">Até:</span><span id="LkpEspecializada_dteDatetimeCliente" class="date form-control campo-date-picker" data-bind="css:{ igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_dtDatetimeCliente') : (isEmptyEntityFn($data) || false) }, igDatePicker: { value: $root.LkpEspecializada().entitySearchRange.ClienteDatetimeCliente_end,  dateDisplayFormat: 'date', readOnly: $root.LkpEspecializada().status() !== 'C', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true },valueChanged: function (evt, ui) {$('#LkpEspecializada_dtDatetimeCliente').igDatePicker('option', 'readOnly', ($('#LkpEspecializada_dtbDatetimeCliente').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#LkpEspecializada_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#LkpEspecializada_dteDatetimeCliente').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#LkpEspecializada_dteDatetimeCliente').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LkpEspecializada().getLayoutColumnSpan('LkpEspecializada_ntxDecimalCliente'), visible: $root.LkpEspecializada().getLayoutVisible('LkpEspecializada_ntxDecimalCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="LkpEspecializada_divDecimalCliente" class="" >
+                                           <label data-bind="attr: { title: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_ntxDecimalCliente')}, text: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_ntxDecimalCliente')" id="LkpEspecializada_lblDecimalCliente" for="LkpEspecializada_ntxDecimalCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="LkpEspecializada_ntxDecimalCliente" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalCliente', css: { vmEditing: $root.LkpEspecializada().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxDecimalCliente') ? ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxDecimalCliente') : (!isEmptyEntityFn($data) && $root.LkpEspecializada().enabledForEditing()) }, igNumericEditor: { value: DecimalCliente, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxDecimalCliente') ? !ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxDecimalCliente') : (isEmptyEntityFn($data) || !$root.LkpEspecializada().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.LkpEspecializada().entitySearchRange.has_ClienteDecimalCliente(), 'icon-ok': $root.LkpEspecializada().entitySearchRange.has_ClienteDecimalCliente(), hide: $root.LkpEspecializada().status() !== 'C' }, popoverWithBind: { template: '#LkpEspecializada_rgDecimalCliente', vm: $root.LkpEspecializada().entitySearchRange, ctrlName: 'LkpEspecializada_rgcDecimalCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="LkpEspecializada_rgDecimalCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="LkpEspecializada_ntxbDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#LkpEspecializada_ntxDecimalCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#LkpEspecializada_ntxeDecimalCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#LkpEspecializada_ntxeDecimalCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="LkpEspecializada_ntxeDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#LkpEspecializada_ntxDecimalCliente').igNumericEditor('option', 'readOnly', ($('#LkpEspecializada_ntxbDecimalCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#LkpEspecializada_ntxbDecimalCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LkpEspecializada().getLayoutColumnSpan('LkpEspecializada_ntxIdCliente'), visible: $root.LkpEspecializada().getLayoutVisible('LkpEspecializada_ntxIdCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="LkpEspecializada_divIdCliente" class="" >
+                                           <label data-bind="css: { 'content-required': $root.LkpEspecializada().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_ntxIdCliente')}, text: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_ntxIdCliente')" id="LkpEspecializada_lblIdCliente" for="LkpEspecializada_ntxIdCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="LkpEspecializada_ntxIdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.LkpEspecializada().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxIdCliente') ? ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxIdCliente') : (!isEmptyEntityFn($data) && $root.LkpEspecializada().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdCliente, maxValue: null,  maxLength: 10,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxIdCliente') ? !ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxIdCliente') : (isEmptyEntityFn($data) || !($root.LkpEspecializada().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.LkpEspecializada().entitySearchRange.has_ClienteIdCliente(), 'icon-ok': $root.LkpEspecializada().entitySearchRange.has_ClienteIdCliente(), hide: $root.LkpEspecializada().status() !== 'C' }, popoverWithBind: { template: '#LkpEspecializada_rgIdCliente', vm: $root.LkpEspecializada().entitySearchRange, ctrlName: 'LkpEspecializada_rgcIdCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="LkpEspecializada_rgIdCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="LkpEspecializada_ntxbIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_begin, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#LkpEspecializada_ntxIdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#LkpEspecializada_ntxeIdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#LkpEspecializada_ntxeIdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="LkpEspecializada_ntxeIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_end, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#LkpEspecializada_ntxIdCliente').igNumericEditor('option', 'readOnly', ($('#LkpEspecializada_ntxbIdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#LkpEspecializada_ntxbIdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LkpEspecializada().getLayoutColumnSpan('LkpEspecializada_lUpIdEstado'), visible: $root.LkpEspecializada().getLayoutVisible('LkpEspecializada_lUpIdEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="LkpEspecializada_divIdEstado" class="" >
+                                           <label data-bind="attr: { title: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_lUpIdEstado')}, text: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_lUpIdEstado')" id="LkpEspecializada_lblIdEstado" for="LkpEspecializada_lUpIdEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div id="LkpEspecializada_lUpIdEstado" class="form-control input-group " data-bind="validatedField: 'IdEstado', css: { vmEditing: $root.LkpEspecializada().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_lUpIdEstado') ? ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_lUpIdEstado') : (!isEmptyEntityFn($data) && $root.LkpEspecializada().enabledForEditing()) }, lookupControl: { vm: $root.LkpEspecializada(), value: IdEstado, maxLength: 10,lookupName: 'LookUpEstado', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.LkpEspecializada().entitySearchRange.IdEstado, fieldName: 'IdEstado', disabled:ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_lUpIdEstado') ? !ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_lUpIdEstado') : (isEmptyEntityFn($data) || !$root.LkpEspecializada().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 10, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.LkpEspecializada().getLayoutColumnSpan('LkpEspecializada_ntxIntCliente'), visible: $root.LkpEspecializada().getLayoutVisible('LkpEspecializada_ntxIntCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="LkpEspecializada_divIntCliente" class="" >
+                                           <label data-bind="attr: { title: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_ntxIntCliente')}, text: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_ntxIntCliente')" id="LkpEspecializada_lblIntCliente" for="LkpEspecializada_ntxIntCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="LkpEspecializada_ntxIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IntCliente', css: { vmEditing: $root.LkpEspecializada().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxIntCliente') ? ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxIntCliente') : (!isEmptyEntityFn($data) && $root.LkpEspecializada().enabledForEditing()) }, igNumericEditor: { value: IntCliente, minValue: 0, maxValue: null,  maxLength: 10,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxIntCliente') ? !ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_ntxIntCliente') : (isEmptyEntityFn($data) || !$root.LkpEspecializada().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.LkpEspecializada().entitySearchRange.has_ClienteIntCliente(), 'icon-ok': $root.LkpEspecializada().entitySearchRange.has_ClienteIntCliente(), hide: $root.LkpEspecializada().status() !== 'C' }, popoverWithBind: { template: '#LkpEspecializada_rgIntCliente', vm: $root.LkpEspecializada().entitySearchRange, ctrlName: 'LkpEspecializada_rgcIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="LkpEspecializada_rgIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="LkpEspecializada_ntxbIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_begin, minValue: 0, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#LkpEspecializada_ntxIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#LkpEspecializada_ntxeIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#LkpEspecializada_ntxeIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="LkpEspecializada_ntxeIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_end, minValue: 0, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#LkpEspecializada_ntxIntCliente').igNumericEditor('option', 'readOnly', ($('#LkpEspecializada_ntxbIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#LkpEspecializada_ntxbIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LkpEspecializada().getLayoutColumnSpan('LkpEspecializada_tbSmallIntCliente'), visible: $root.LkpEspecializada().getLayoutVisible('LkpEspecializada_tbSmallIntCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="LkpEspecializada_divSmallIntCliente" class="" >
+                                           <label data-bind="attr: { title: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_tbSmallIntCliente')}, text: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_tbSmallIntCliente')" id="LkpEspecializada_lblSmallIntCliente" for="LkpEspecializada_tbSmallIntCliente" class="control-label ellipsis">
+                                           </label>
+                                           <input id="LkpEspecializada_tbSmallIntCliente" class="form-control ellipsis" data-bind="attr: { title: SmallIntCliente }, validatedField: 'SmallIntCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbSmallIntCliente') ? ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbSmallIntCliente') : (!isEmptyEntityFn($data) && $root.LkpEspecializada().enabledForEditing()) }, igTextEditor: { maxLength: 5, value: SmallIntCliente, readOnly: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbSmallIntCliente') ? !ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbSmallIntCliente') : (isEmptyEntityFn($data) || !$root.LkpEspecializada().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LkpEspecializada().getLayoutColumnSpan('LkpEspecializada_tbIdNmCompleto'), visible: $root.LkpEspecializada().getLayoutVisible('LkpEspecializada_tbIdNmCompleto')" class="">
+                                   <div class="form-group">
+                                       <div id="LkpEspecializada_divIdNmCompleto" class="" >
+                                           <label data-bind="css: { 'content-required': $root.LkpEspecializada().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_tbIdNmCompleto')}, text: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_tbIdNmCompleto')" id="LkpEspecializada_lblIdNmCompleto" for="LkpEspecializada_tbIdNmCompleto" class="control-label ellipsis">
+                                           </label>
+                                           <input id="LkpEspecializada_tbIdNmCompleto" class="form-control ellipsis" data-bind="attr: { title: IdNmCompleto }, validatedField: 'IdNmCompleto', css: { IsEditableStyle: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbIdNmCompleto') ? ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbIdNmCompleto') : (!isEmptyEntityFn($data) && $root.LkpEspecializada().status() === 'C') }, igTextEditor: { value: IdNmCompleto, readOnly: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbIdNmCompleto') ? !ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbIdNmCompleto') : (isEmptyEntityFn($data) || $root.LkpEspecializada().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LkpEspecializada().getLayoutColumnSpan('LkpEspecializada_lUpStringCliente'), visible: $root.LkpEspecializada().getLayoutVisible('LkpEspecializada_lUpStringCliente')" class="">
+                                   <div class="form-group">
+                                       <div id="LkpEspecializada_divStringCliente" class="" >
+                                           <label data-bind="attr: { title: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_lUpStringCliente')}, text: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_lUpStringCliente')" id="LkpEspecializada_lblStringCliente" for="LkpEspecializada_lUpStringCliente" class="control-label ellipsis">
+                                           </label>
+                                           <div id="LkpEspecializada_lUpStringCliente" class="form-control input-group " data-bind="validatedField: 'StringCliente', css: { vmEditing: $root.LkpEspecializada().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_lUpStringCliente') ? ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_lUpStringCliente') : (!isEmptyEntityFn($data) && $root.LkpEspecializada().enabledForEditing()) }, lookupControl: { vm: $root.LkpEspecializada(), value: StringCliente, maxLength: 50,lookupName: 'LkpTbnmcompleto', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.LkpEspecializada().entitySearchRange.StringCliente, fieldName: 'StringCliente', disabled:ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_lUpStringCliente') ? !ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_lUpStringCliente') : (isEmptyEntityFn($data) || !$root.LkpEspecializada().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 50, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LkpEspecializada().getLayoutColumnSpan('LkpEspecializada_tbStringEstado'), visible: $root.LkpEspecializada().getLayoutVisible('LkpEspecializada_tbStringEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="LkpEspecializada_divStringEstado" class="" >
+                                           <label data-bind="attr: { title: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_tbStringEstado')}, text: $root.LkpEspecializada().getLayoutDisplayName('LkpEspecializada_tbStringEstado')" id="LkpEspecializada_lblStringEstado" for="LkpEspecializada_tbStringEstado" class="control-label ellipsis">
+                                           </label>
+                                           <input id="LkpEspecializada_tbStringEstado" class="form-control ellipsis" data-bind="attr: { title: StringEstado }, validatedField: 'StringEstado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbStringEstado') ? ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbStringEstado') : (!isEmptyEntityFn($data) && $root.LkpEspecializada().status() === 'C') }, igTextEditor: { maxLength: 50, value: StringEstado, readOnly: ctrl.hasCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbStringEstado') ? !ctrl.getCustomEnable($root.LkpEspecializada(), 'LkpEspecializada_tbStringEstado') : (isEmptyEntityFn($data) || $root.LkpEspecializada().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="LkpEspecializada_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.LkpEspecializada().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyLkpEspecializada_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyLkpEspecializada_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyLkpEspecializada_dGrid_templateLayout', vm: function(){return $root.LkpEspecializada().gridSaveStates['scyLkpEspecializada_dGrid'];}, ctrlName: 'scyLkpEspecializada_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyLkpEspecializada_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyLkpEspecializada_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyLkpEspecializada_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.LkpEspecializada().dataToolbar.canExport(), click: function () {$root.LkpEspecializada().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyLkpEspecializada_dGrid" data-bind="css: { IsEditableStyle: $root.LkpEspecializada().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

@@ -1,0 +1,6455 @@
+﻿								
+
+ 
+{
+  "Name": "AutorizacaoContext",
+  "Namespace": "Linx.Framework.Autorizacao.BM",
+  "ConnectionName": "FrameworkAutorizacao",
+  "AuthorizationEnabled": false,
+  "Entities": [
+	  
+		{
+			"Name": "TCS_IDENTIDADE_EXTERNA",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_IDENTIDADE_EXTERNA",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_IDENTIDADE_EXTERNA',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_USUARIO_FK",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_USUARIO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_USUARIO_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "IDENTIDADE_EXTERNA",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('IDENTIDADE_EXTERNA',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_USUARIO_AUTENTICACAO",
+							"DataType": "TCS_USUARIO_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_APLICACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_APLICACAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_APLICACAO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "DESCRICAO_APLICACAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESCRICAO_APLICACAO',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "URL",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('URL',  TypeName = 'varchar', Order=2 )]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "EM_DESENVOLVIMENTO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('EM_DESENVOLVIMENTO',  TypeName = 'bit', Order=3 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_APLICATIVO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_APLICATIVO',  TypeName = 'int', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Aplicativo')]"
+                   ,"[ForeignKey('TCS_APLICATIVO')]"
+
+							]
+						}
+						,{
+							"Name": "UID_APLICACAO",
+							"DataType": "Guid",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('UID_APLICACAO',  TypeName = 'uniqueidentifier', Order=5 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "URL_WORK_AREA",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('URL_WORK_AREA',  TypeName = 'varchar', Order=6 )]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_APLICATIVO",
+							"DataType": "TCS_APLICATIVO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_AMBIENTE_LISTA",
+							"DataType": "ICollection<TCS_AMBIENTE>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_APLICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_APLICACAO_VERSAO_HISTORICO_LISTA",
+							"DataType": "ICollection<TCS_APLICACAO_VERSAO_HISTORICO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_APLICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_LOG_ERROS_LISTA",
+							"DataType": "ICollection<TCS_LOG_ERROS>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TratamentoErros.bmd"
+								,"[InverseProperty('TCS_APLICACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_CONEXAO_DB",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_CONEXAO_DB",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_CONEXAO_DB',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "NOME_CONEXAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_CONEXAO',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_APLICATIVO_CONEXAO_LISTA",
+							"DataType": "ICollection<TCS_APLICATIVO_CONEXAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_CONEXAO_DB')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_EMPRESA_AUTENTICACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LINX",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LINX',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "NOME_EMPRESA",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_EMPRESA',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "UID_EMPRESA",
+							"DataType": "Guid",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('UID_EMPRESA',  TypeName = 'uniqueidentifier', Order=2 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "CNPJ_CPF",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CNPJ_CPF',  TypeName = 'varchar', Order=3 )]"
+                   ,"[MaxLength(20)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_AMBIENTE_LISTA",
+							"DataType": "ICollection<TCS_AMBIENTE>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_EMPRESA_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_CARGA_ORIGEM_LISTA",
+							"DataType": "ICollection<TCS_CARGA_ORIGEM>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Orquestrador.bmd"
+								,"[InverseProperty('TCS_EMPRESA_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "EMPRESA_LISTA",
+							"DataType": "ICollection<TCS_EMPRESA_GPECON>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('GPECON')]"
+							]
+						}
+						
+						,{
+							"Name": "GPECON_LISTA",
+							"DataType": "ICollection<TCS_EMPRESA_GPECON>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('EMPRESA')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_EMPRESA_MODULO_LISTA",
+							"DataType": "ICollection<TCS_EMPRESA_MODULO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_EMPRESA_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_EMPRESA_PROC_ORQUESTRADOR_LISTA",
+							"DataType": "ICollection<TCS_EMPRESA_PROC_ORQUESTRADOR>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Orquestrador.bmd"
+								,"[InverseProperty('TCS_EMPRESA_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_LOG_ERROS_LISTA",
+							"DataType": "ICollection<TCS_LOG_ERROS>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TratamentoErros.bmd"
+								,"[InverseProperty('TCS_EMPRESA_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_MENSAGEM_LISTA",
+							"DataType": "ICollection<TCS_MENSAGEM>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Mensagem.bmd"
+								,"[InverseProperty('TCS_EMPRESA_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_SERVICO_INTEGRACAO_LISTA",
+							"DataType": "ICollection<TCS_SERVICO_INTEGRACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Orquestrador.bmd"
+								,"[InverseProperty('TCS_EMPRESA_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_USUARIO_AUTENTICACAO_GPECON_LISTA",
+							"DataType": "ICollection<TCS_USUARIO_AUTENTICACAO_GPECON>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: UsuarioGpecon.bmd"
+								,"[InverseProperty('TCS_EMPRESA_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_USUARIO_AUTENTICACAO_LISTA",
+							"DataType": "ICollection<TCS_USUARIO_AUTENTICACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_EMPRESA_AUTENTICACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_USUARIO_ACESSO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_USUARIO_ACESSO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_USUARIO_ACESSO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Usuario Acesso')]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_ADMINISTRADOR",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_ADMINISTRADOR',  TypeName = 'bit', Order=1 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_MULTI_GPECON",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_MULTI_GPECON',  TypeName = 'bit', Order=2 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_ACESSO_PADRAO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_ACESSO_PADRAO',  TypeName = 'bit', Order=3 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_AMBIENTE",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_AMBIENTE',  TypeName = 'int', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Ambiente')]"
+                   ,"[ForeignKey('TCS_AMBIENTE')]"
+
+							]
+						}
+						,{
+							"Name": "ID_USUARIO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_USUARIO',  TypeName = 'bigint', Order=5 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_USUARIO_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_AMBIENTE_RELACIONADO",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_AMBIENTE_RELACIONADO',  TypeName = 'int', Order=6 )]"
+                   ,"[Display(Name='Id Tcs Ambiente')]"
+                   ,"[ForeignKey('TCS_AMBIENTE1')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_USUARIO_AUTENTICACAO",
+							"DataType": "TCS_USUARIO_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_AMBIENTE",
+							"DataType": "TCS_AMBIENTE",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_AMBIENTE1",
+							"DataType": "TCS_AMBIENTE",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_SUPORTE_ACESSO_LOG_LISTA",
+							"DataType": "ICollection<TCS_SUPORTE_ACESSO_LOG>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_USUARIO_ACESSO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_USUARIO_AUTENTICACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_USUARIO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_USUARIO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "UID_USUARIO",
+							"DataType": "Guid",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('UID_USUARIO',  TypeName = 'uniqueidentifier', Order=1 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "NOME_AUTENTICACAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_AUTENTICACAO',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_CURTO_USUARIO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_CURTO_USUARIO',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_USUARIO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_USUARIO',  TypeName = 'varchar', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO',  TypeName = 'bit', Order=5 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "VIGENCIA_INICIAL",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('VIGENCIA_INICIAL',  TypeName = 'datetime', Order=6 )]"
+                   ,"[Required]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "VIGENCIA_FINAL",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('VIGENCIA_FINAL',  TypeName = 'datetime', Order=7 )]"
+                   ,"[Required]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "DATA_EXPIRACAO_SENHA",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_EXPIRACAO_SENHA',  TypeName = 'datetime', Order=8 )]"
+                   ,"[Required]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "EMAIL",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('EMAIL',  TypeName = 'varchar', Order=9 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX_GPECON",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX_GPECON',  TypeName = 'int', Order=10 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_EMPRESA_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "LX_PFJ_FISICA_JURIDICA",
+							"DataType": "System.Nullable<byte>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_PFJ_FISICA_JURIDICA',  TypeName = 'tinyint', Order=11 )]"
+                   ,"[FunctionalPoint('DomainName[LX_PFJ_FISICA_JURIDICA]')]"
+
+							]
+						}
+						,{
+							"Name": "CNPJ_CPF",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CNPJ_CPF',  TypeName = 'varchar', Order=12 )]"
+                   ,"[MaxLength(20)]"
+
+							]
+						}
+						,{
+							"Name": "INSCR_ESTADUAL_RG",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INSCR_ESTADUAL_RG',  TypeName = 'varchar', Order=13 )]"
+                   ,"[MaxLength(20)]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_LOGRADOURO",
+							"DataType": "System.Nullable<byte>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_LOGRADOURO',  TypeName = 'tinyint', Order=14 )]"
+                   ,"[FunctionalPoint('DomainName[LxTipoLogradouro]')]"
+
+							]
+						}
+						,{
+							"Name": "LOGRADOURO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LOGRADOURO',  TypeName = 'varchar', Order=15 )]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "NUMERO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NUMERO',  TypeName = 'varchar', Order=16 )]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "COMPLEMENTO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COMPLEMENTO',  TypeName = 'varchar', Order=17 )]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "BAIRRO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('BAIRRO',  TypeName = 'varchar', Order=18 )]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "MUNICIPIO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MUNICIPIO',  TypeName = 'varchar', Order=19 )]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "UF",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('UF',  TypeName = 'varchar', Order=20 )]"
+                   ,"[MaxLength(4)]"
+
+							]
+						}
+						,{
+							"Name": "CEP",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CEP',  TypeName = 'varchar', Order=21 )]"
+                   ,"[MaxLength(10)]"
+
+							]
+						}
+						,{
+							"Name": "OBS_ENDERECO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('OBS_ENDERECO',  TypeName = 'varchar', Order=22 )]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "FONE_CELULAR",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('FONE_CELULAR',  TypeName = 'varchar', Order=23 )]"
+                   ,"[MaxLength(20)]"
+
+							]
+						}
+						,{
+							"Name": "FONE_FIXO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('FONE_FIXO',  TypeName = 'varchar', Order=24 )]"
+                   ,"[MaxLength(20)]"
+
+							]
+						}
+						,{
+							"Name": "RAMAL",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('RAMAL',  TypeName = 'varchar', Order=25 )]"
+                   ,"[MaxLength(6)]"
+
+							]
+						}
+						,{
+							"Name": "DATA_CADASTRO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_CADASTRO',  TypeName = 'datetime', Order=26 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "DATA_ALTERACAO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_ALTERACAO',  TypeName = 'datetime', Order=27 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "AUTENTICACAO_WINDOWS",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('AUTENTICACAO_WINDOWS',  TypeName = 'bit', Order=28 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_ACESSO_SUPORTE",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_ACESSO_SUPORTE',  TypeName = 'bit', Order=29 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "TCS_EMPRESA_AUTENTICACAO",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_CARGA_ORIGEM_LISTA",
+							"DataType": "ICollection<TCS_CARGA_ORIGEM>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Orquestrador.bmd"
+								,"[InverseProperty('TCS_USUARIO_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_IDENTIDADE_EXTERNA_LISTA",
+							"DataType": "ICollection<TCS_IDENTIDADE_EXTERNA>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_USUARIO_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_LOG_ERROS_LISTA",
+							"DataType": "ICollection<TCS_LOG_ERROS>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TratamentoErros.bmd"
+								,"[InverseProperty('TCS_USUARIO_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_MENSAGEM_LOG_LISTA",
+							"DataType": "ICollection<TCS_MENSAGEM_LOG>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Mensagem.bmd"
+								,"[InverseProperty('TCS_USUARIO_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_MENSAGEM_LISTA",
+							"DataType": "ICollection<TCS_MENSAGEM>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Mensagem.bmd"
+								,"[InverseProperty('TCS_USUARIO_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_SERVICO_INTEGRACAO_LISTA",
+							"DataType": "ICollection<TCS_SERVICO_INTEGRACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Orquestrador.bmd"
+								,"[InverseProperty('TCS_USUARIO_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_SUPORTE_ACESSO_LOG_LISTA",
+							"DataType": "ICollection<TCS_SUPORTE_ACESSO_LOG>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('USUARIO_SUPORTE')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_SUPORTE_ACESSO_LOG_LISTA1",
+							"DataType": "ICollection<TCS_SUPORTE_ACESSO_LOG>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('USUARIO_ACESSO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_USUARIO_ACESSO_LISTA",
+							"DataType": "ICollection<TCS_USUARIO_ACESSO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_USUARIO_AUTENTICACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_USUARIO_AUTENTICACAO_GPECON_LISTA",
+							"DataType": "ICollection<TCS_USUARIO_AUTENTICACAO_GPECON>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: UsuarioGpecon.bmd"
+								,"[InverseProperty('TCS_USUARIO_AUTENTICACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_AMBIENTE",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_AMBIENTE",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_AMBIENTE',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Ambiente')]"
+
+							]
+						}
+						,{
+							"Name": "DESCRICAO_AMBIENTE",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESCRICAO_AMBIENTE',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "ID_APLICACAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_APLICACAO',  TypeName = 'int', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_APLICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX',  TypeName = 'int', Order=3 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_EMPRESA_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_APLICACAO",
+							"DataType": "TCS_APLICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_EMPRESA_AUTENTICACAO",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_AMBIENTE_CONEXAO_LISTA",
+							"DataType": "ICollection<TCS_AMBIENTE_CONEXAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_AMBIENTE')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_AMBIENTE_SERVICO_EXCECAO_LISTA",
+							"DataType": "ICollection<TCS_AMBIENTE_SERVICO_EXCECAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_AMBIENTE')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_LOG_ERROS_LISTA",
+							"DataType": "ICollection<TCS_LOG_ERROS>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TratamentoErros.bmd"
+								,"[InverseProperty('TCS_AMBIENTE')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_USUARIO_ACESSO_LISTA",
+							"DataType": "ICollection<TCS_USUARIO_ACESSO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_AMBIENTE')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_USUARIO_ACESSO_LISTA1",
+							"DataType": "ICollection<TCS_USUARIO_ACESSO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_AMBIENTE1')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_EMPRESA_GPECON",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LINX",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LINX',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[ForeignKey('GPECON')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX_GPECON",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LINX_GPECON',  TypeName = 'int', Order=1 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[ForeignKey('EMPRESA')]"
+
+							]
+						}
+						,{
+							"Name": "GPECON",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "EMPRESA",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_BANCO_SERVIDOR",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_BANCO_SERVIDOR",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_BANCO_SERVIDOR',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Banco Servidor')]"
+
+							]
+						}
+						,{
+							"Name": "DESCRICAO_BANCO_SERVIDOR",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESCRICAO_BANCO_SERVIDOR',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(80)]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_SERVIDOR",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_SERVIDOR',  TypeName = 'tinyint', Order=2 )]"
+                   ,"[Required]"
+                   ,"[FunctionalPoint('DomainName[TipoServidor]')]"
+
+							]
+						}
+						,{
+							"Name": "NOME_SERVIDOR",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_SERVIDOR',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_BANCO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_BANCO',  TypeName = 'varchar', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "STRING_CONEXAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('STRING_CONEXAO',  TypeName = 'varchar', Order=5 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(1000)]"
+
+							]
+						}
+						,{
+							"Name": "SEQUENCIAL_INICIAL",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('SEQUENCIAL_INICIAL',  TypeName = 'bigint', Order=6 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "INCREMENTO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INCREMENTO',  TypeName = 'int', Order=7 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "TCS_AMBIENTE_CONEXAO_LISTA",
+							"DataType": "ICollection<TCS_AMBIENTE_CONEXAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_BANCO_SERVIDOR')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_APLICACAO_VERSAO_HISTORICO",
+			"Schema": "LX_TCS",
+			"Table": "TCS_APLICACAO_VERSAO_HIST",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_APLICACAO_VERSAO_HISTORICO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_APLICACAO_VERSAO_HISTORICO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Aplicacao Versao Historico')]"
+
+							]
+						}
+						,{
+							"Name": "VERSAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('VERSAO',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(25)]"
+
+							]
+						}
+						,{
+							"Name": "DATA_ATUALIZACAO",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_ATUALIZACAO',  TypeName = 'datetime', Order=2 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_APLICACAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_APLICACAO',  TypeName = 'int', Order=3 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_APLICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_APLICACAO",
+							"DataType": "TCS_APLICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_SERVICO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_SERVICO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_SERVICO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Servico')]"
+
+							]
+						}
+						,{
+							"Name": "NOME_SERVICO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_SERVICO',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_AMBIENTE_SERVICO_EXCECAO_LISTA",
+							"DataType": "ICollection<TCS_AMBIENTE_SERVICO_EXCECAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_SERVICO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_APLICATIVO_CONEXAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_APLICATIVO_CONEXAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_APLICATIVO_CONEXAO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Aplicativo Conexao')]"
+
+							]
+						}
+						,{
+							"Name": "ID_CONEXAO_DB",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_CONEXAO_DB',  TypeName = 'int', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_CONEXAO_DB')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_APLICATIVO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_APLICATIVO',  TypeName = 'int', Order=2 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Aplicativo')]"
+                   ,"[ForeignKey('TCS_APLICATIVO')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_CONEXAO_DB",
+							"DataType": "TCS_CONEXAO_DB",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_APLICATIVO",
+							"DataType": "TCS_APLICATIVO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_AMBIENTE_CONEXAO_LISTA",
+							"DataType": "ICollection<TCS_AMBIENTE_CONEXAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_APLICATIVO_CONEXAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_AMBIENTE_SERVICO_EXCECAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_AMBIENTE_SERVICO_EXCECAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_AMBIENTE_SERVICO_EXCECAO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Ambiente Servico Excecao')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_AMBIENTE",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_AMBIENTE',  TypeName = 'int', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Ambiente')]"
+                   ,"[ForeignKey('TCS_AMBIENTE')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_SERVICO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_SERVICO',  TypeName = 'int', Order=2 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Servico')]"
+                   ,"[ForeignKey('TCS_SERVICO')]"
+
+							]
+						}
+						,{
+							"Name": "URL",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('URL',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_AMBIENTE",
+							"DataType": "TCS_AMBIENTE",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_SERVICO",
+							"DataType": "TCS_SERVICO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_APLICATIVO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_APLICATIVO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_APLICATIVO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Aplicativo')]"
+
+							]
+						}
+						,{
+							"Name": "DESCRICAO_APLICATIVO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESCRICAO_APLICATIVO',  TypeName = 'varchar', Order=1 )]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_APLICACAO_LISTA",
+							"DataType": "ICollection<TCS_APLICACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_APLICATIVO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_APLICATIVO_CONEXAO_LISTA",
+							"DataType": "ICollection<TCS_APLICATIVO_CONEXAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Autorizacao.bmd"
+								,"[InverseProperty('TCS_APLICATIVO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_MODULO_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_MODULO_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_APLICATIVO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_PARAMETRO_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_PARAMETRO_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Parametro.bmd"
+								,"[InverseProperty('TCS_APLICATIVO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_AMBIENTE_CONEXAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_AMBIENTE_CONEXAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_AMBIENTE_CONEXAO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Ambiente Conexao')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_AMBIENTE",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_AMBIENTE',  TypeName = 'int', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Ambiente')]"
+                   ,"[ForeignKey('TCS_AMBIENTE')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_APLICATIVO_CONEXAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_APLICATIVO_CONEXAO',  TypeName = 'int', Order=2 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Aplicativo Conexao')]"
+                   ,"[ForeignKey('TCS_APLICATIVO_CONEXAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_BANCO_SERVIDOR",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_BANCO_SERVIDOR',  TypeName = 'int', Order=3 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Banco Servidor')]"
+                   ,"[ForeignKey('TCS_BANCO_SERVIDOR')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_AMBIENTE",
+							"DataType": "TCS_AMBIENTE",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_BANCO_SERVIDOR",
+							"DataType": "TCS_BANCO_SERVIDOR",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_APLICATIVO_CONEXAO",
+							"DataType": "TCS_APLICATIVO_CONEXAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_SUPORTE_ACESSO_LOG",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_SUPORTE_ACESSO_LOG",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_SUPORTE_ACESSO_LOG',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Suporte Acesso Log')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_USUARIO_ACESSO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_USUARIO_ACESSO',  TypeName = 'int', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Usuario Acesso')]"
+                   ,"[ForeignKey('TCS_USUARIO_ACESSO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_USUARIO_ACESSO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_USUARIO_ACESSO',  TypeName = 'bigint', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('USUARIO_ACESSO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_USUARIO_SUPORTE",
+							"DataType": "System.Nullable<long>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_USUARIO_SUPORTE',  TypeName = 'bigint', Order=3 )]"
+                   ,"[ForeignKey('USUARIO_SUPORTE')]"
+
+							]
+						}
+						,{
+							"Name": "DATA_CADASTRO",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_CADASTRO',  TypeName = 'datetime', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "DATA_ACESSO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_ACESSO',  TypeName = 'datetime', Order=5 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "ACESSO_EXPIRADO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ACESSO_EXPIRADO',  TypeName = 'bit', Order=6 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_USUARIO_ACESSO",
+							"DataType": "TCS_USUARIO_ACESSO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "USUARIO_SUPORTE",
+							"DataType": "TCS_USUARIO_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "USUARIO_ACESSO",
+							"DataType": "TCS_USUARIO_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_MENSAGEM",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_MENSAGEM",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_MENSAGEM',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Mensagem')]"
+
+							]
+						}
+						,{
+							"Name": "ID_USUARIO_EMISSOR",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_USUARIO_EMISSOR',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_USUARIO_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX',  TypeName = 'int', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_EMPRESA_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "TITULO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('TITULO',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "CORPO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CORPO',  TypeName = 'varchar(max)', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "CRIACAO",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CRIACAO',  TypeName = 'datetime', Order=5 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ENVIO",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ENVIO',  TypeName = 'datetime', Order=6 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "FILTRO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('FILTRO',  TypeName = 'varchar(max)', Order=7 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_MENSAGEM",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_MENSAGEM',  TypeName = 'tinyint', Order=8 )]"
+                   ,"[Required]"
+                   ,"[FunctionalPoint('DomainName[TipoMensagem]')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_USUARIO_AUTENTICACAO",
+							"DataType": "TCS_USUARIO_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_EMPRESA_AUTENTICACAO",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_MENSAGEM_LOG_LISTA",
+							"DataType": "ICollection<TCS_MENSAGEM_LOG>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Mensagem.bmd"
+								,"[InverseProperty('TCS_MENSAGEM')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_MENSAGEM_LOG",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_MENSAGEM_LOG",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_MENSAGEM_LOG',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Mensagem Log')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_MENSAGEM",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_MENSAGEM',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Mensagem')]"
+                   ,"[ForeignKey('TCS_MENSAGEM')]"
+
+							]
+						}
+						,{
+							"Name": "ID_USUARIO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_USUARIO',  TypeName = 'bigint', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_USUARIO_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ENTREGUE",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ENTREGUE',  TypeName = 'datetime', Order=3 )]"
+
+							]
+						}
+						,{
+							"Name": "LIDA",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LIDA',  TypeName = 'datetime', Order=4 )]"
+
+							]
+						}
+						,{
+							"Name": "DISPENSADA",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DISPENSADA',  TypeName = 'datetime', Order=5 )]"
+
+							]
+						}
+						,{
+							"Name": "TCS_USUARIO_AUTENTICACAO",
+							"DataType": "TCS_USUARIO_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_MENSAGEM",
+							"DataType": "TCS_MENSAGEM",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "DOC_MULTIMIDIA_TABELA_AUTORIZACAO",
+			"Schema": "LX_DOC",
+			"Table": "DOC_MULTIMIDIA_TABELA_AUT",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "UID_DOCUMENTO",
+							"DataType": "Guid",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('UID_DOCUMENTO',  TypeName = 'uniqueidentifier', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[ForeignKey('DOC_MULTIMIDIA_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_CHAVE",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_CHAVE',  TypeName = 'bigint', Order=1 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "UID_CHAVE",
+							"DataType": "Guid",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('UID_CHAVE',  TypeName = 'uniqueidentifier', Order=2 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ORDEM_APRESENTACAO",
+							"DataType": "short",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ORDEM_APRESENTACAO',  TypeName = 'smallint', Order=3 )]"
+                   ,"[Required]"
+                   ,"[Precision(5)]"
+
+							]
+						}
+						,{
+							"Name": "UID_TABELA",
+							"DataType": "Guid",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('UID_TABELA',  TypeName = 'uniqueidentifier', Order=4 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "DOC_MULTIMIDIA_AUTORIZACAO",
+							"DataType": "DOC_MULTIMIDIA_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "DOC_MULTIMIDIA_AUTORIZACAO",
+			"Schema": "LX_DOC",
+			"Table": "DOC_MULTIMIDIA_AUTORIZACAO",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "UID_DOCUMENTO",
+							"DataType": "Guid",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('UID_DOCUMENTO',  TypeName = 'uniqueidentifier', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "UID_DOC_BASE_GERADOR_FK",
+							"DataType": "System.Nullable<Guid>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('UID_DOC_BASE_GERADOR',  TypeName = 'uniqueidentifier', Order=1 )]"
+                   ,"[ForeignKey('DOC_MULTIMIDIA_AUTORIZACAO1')]"
+
+							]
+						}
+						,{
+							"Name": "NOME_ARQUIVO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_ARQUIVO',  TypeName = 'varchar', Order=2 )]"
+                   ,"[MaxLength(150)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_DOCUMENTO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_DOCUMENTO',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "OBS_DOC",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('OBS_DOC',  TypeName = 'varchar(max)', Order=4 )]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_DOCUMENTO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_DOCUMENTO',  TypeName = 'tinyint', Order=5 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_EXTENSAO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_EXTENSAO',  TypeName = 'tinyint', Order=6 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_MIDIA",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_MIDIA',  TypeName = 'tinyint', Order=7 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "URL",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('URL',  TypeName = 'varchar', Order=8 )]"
+                   ,"[MaxLength(500)]"
+
+							]
+						}
+						,{
+							"Name": "THUMBNAIL",
+							"DataType": "Byte[]",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('THUMBNAIL',  TypeName = 'varbinary(max)', Order=9 )]"
+
+							]
+						}
+						,{
+							"Name": "CONTEUDO",
+							"DataType": "Byte[]",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CONTEUDO',  TypeName = 'varbinary(max)', Order=10 )]"
+
+							]
+						}
+						,{
+							"Name": "XML_MAPEAMENTO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('XML_MAPEAMENTO',  TypeName = 'varchar(max)', Order=11 )]"
+
+							]
+						}
+						,{
+							"Name": "OBS",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('OBS',  TypeName = 'varchar(max)', Order=12 )]"
+
+							]
+						}
+						,{
+							"Name": "TIPO_CONTEUDO_HTTP",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('TIPO_CONTEUDO_HTTP',  TypeName = 'varchar', Order=13 )]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "TAMANHO_MIDIA",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('TAMANHO_MIDIA',  TypeName = 'int', Order=14 )]"
+
+							]
+						}
+						,{
+							"Name": "DATA_CRIACAO",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_CRIACAO',  TypeName = 'datetime', Order=15 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_DOC_CLASSIFICADOR_FK",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_DOC_CLASSIFICADOR',  TypeName = 'int', Order=16 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "DOC_MULTIMIDIA_AUTORIZACAO1",
+							"DataType": "DOC_MULTIMIDIA_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "DOC_MULTIMIDIA_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<DOC_MULTIMIDIA_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Multimidia.bmd"
+							]
+						}
+						
+						,{
+							"Name": "DOC_MULTIMIDIA_TABELA_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<DOC_MULTIMIDIA_TABELA_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Multimidia.bmd"
+								,"[InverseProperty('DOC_MULTIMIDIA_AUTORIZACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_CARGA_ORIGEM",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_CARGA_ORIGEM",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_CARGA_ORIGEM',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_USUARIO_FK",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_USUARIO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_USUARIO_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "PRIORIDADE",
+							"DataType": "short",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('PRIORIDADE',  TypeName = 'smallint', Order=2 )]"
+                   ,"[Required]"
+                   ,"[Precision(5)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_CARGA_ORIGEM",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_CARGA_ORIGEM',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "RETORNA_ATU_CLIENTE_VAREJO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('RETORNA_ATU_CLIENTE_VAREJO',  TypeName = 'bit', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "DSN_ENSEMBLE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DSN_ENSEMBLE',  TypeName = 'varchar', Order=5 )]"
+                   ,"[MaxLength(200)]"
+
+							]
+						}
+						,{
+							"Name": "CREDENCIAL_ENSEMBLE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CREDENCIAL_ENSEMBLE',  TypeName = 'varchar', Order=6 )]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "PREFIXO_ORIGEM",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('PREFIXO_ORIGEM',  TypeName = 'varchar', Order=7 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(3)]"
+
+							]
+						}
+						,{
+							"Name": "SERVIDOR_ORIGEM",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('SERVIDOR_ORIGEM',  TypeName = 'varchar', Order=8 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "BANCO_ORIGEM",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('BANCO_ORIGEM',  TypeName = 'varchar', Order=9 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX',  TypeName = 'int', Order=10 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_EMPRESA_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_EMPRESA_AUTENTICACAO",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_USUARIO_AUTENTICACAO",
+							"DataType": "TCS_USUARIO_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_EMPRESA_PROC_ORQUESTRADOR",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LINX",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LINX',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_EMPRESA_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_PROCESSO_ORQUESTRADOR",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_PROCESSO_ORQUESTRADOR',  TypeName = 'int', Order=1 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_PROCESSO_ORQUESTRADOR')]"
+
+							]
+						}
+						,{
+							"Name": "DATA_HORA_ULTIMA_EXECUCAO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_HORA_ULTIMA_EXECUCAO',  TypeName = 'datetime', Order=2 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_EMPRESA_AUTENTICACAO",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_PROCESSO_ORQUESTRADOR",
+							"DataType": "TCS_PROCESSO_ORQUESTRADOR",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_PROCEDIMENTO_PARAMETRO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_PROCEDIMENTO_PARAMETRO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_PROCEDIMENTO_PARAMETRO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_PROCEDIMENTO_ORQUESTRADOR_FK",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_PROC_ORQUESTRADOR',  TypeName = 'int', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_PROCEDIMENTO_ORQUESTRADOR')]"
+
+							]
+						}
+						,{
+							"Name": "NOME_PARAMETRO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_PARAMETRO',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "ORDEM_PARAMETRO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ORDEM_PARAMETRO',  TypeName = 'int', Order=3 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "LX_ORIGEM_VALOR",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_ORIGEM_VALOR',  TypeName = 'tinyint', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "VALOR_REFERENCIA_PARAMETRO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('VALOR_REFERENCIA_PARAMETRO',  TypeName = 'varchar', Order=5 )]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_PROCEDIMENTO_ORQUESTRADOR",
+							"DataType": "TCS_PROCEDIMENTO_ORQUESTRADOR",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_PROCEDIMENTO_ORQUESTRADOR",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_PROCEDIMENTO_ORQUESTRADOR",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_PROCEDIMENTO_ORQUESTRADOR',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_PROCESSO_ORQUESTRADOR_FK",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_PROCESSO_ORQUESTRADOR',  TypeName = 'int', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_PROCESSO_ORQUESTRADOR')]"
+
+							]
+						}
+						,{
+							"Name": "NOME_PROCEDIMENTO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_PROCEDIMENTO',  TypeName = 'varchar', Order=2 )]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_PROCEDIMENTO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_PROCEDIMENTO',  TypeName = 'varchar', Order=3 )]"
+                   ,"[MaxLength(200)]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_PROCEDIMENTO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_PROCEDIMENTO',  TypeName = 'tinyint', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "ORDEM_EXECUCAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ORDEM_EXECUCAO',  TypeName = 'int', Order=5 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "TCS_PROCESSO_ORQUESTRADOR",
+							"DataType": "TCS_PROCESSO_ORQUESTRADOR",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_PROCEDIMENTO_PARAMETRO_LISTA",
+							"DataType": "ICollection<TCS_PROCEDIMENTO_PARAMETRO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Orquestrador.bmd"
+								,"[InverseProperty('TCS_PROCEDIMENTO_ORQUESTRADOR')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_SERVICO_INTEGRACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_SERVICO_INTEGRACAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_SERVICO_INTEGRACAO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_USUARIO_FK",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_USUARIO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_USUARIO_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "DESC_SERVICO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_SERVICO',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_VERBO_HTTP",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_VERBO_HTTP',  TypeName = 'tinyint', Order=3 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "URL",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('URL',  TypeName = 'varchar', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(200)]"
+
+							]
+						}
+						,{
+							"Name": "ID_PROCESSO_ORQUESTRADOR_FK",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_PROCESSO_ORQUESTRADOR',  TypeName = 'int', Order=5 )]"
+                   ,"[ForeignKey('TCS_PROCESSO_ORQUESTRADOR')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX',  TypeName = 'int', Order=6 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_EMPRESA_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_EMPRESA_AUTENTICACAO",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_USUARIO_AUTENTICACAO",
+							"DataType": "TCS_USUARIO_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_PROCESSO_ORQUESTRADOR",
+							"DataType": "TCS_PROCESSO_ORQUESTRADOR",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_PROCESSO_ORQUESTRADOR",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_PROCESSO_ORQUESTRADOR",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_PROCESSO_ORQUESTRADOR',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "DESC_PROCESSO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_PROCESSO',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "ORDEM_EXECUCAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ORDEM_EXECUCAO',  TypeName = 'int', Order=2 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "INTERVALO_EXECUCAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INTERVALO_EXECUCAO',  TypeName = 'int', Order=3 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_PROCESSO_POR_ORIGEM",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_PROCESSO_POR_ORIGEM',  TypeName = 'bit', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_EMPRESA_PROC_ORQUESTRADOR_LISTA",
+							"DataType": "ICollection<TCS_EMPRESA_PROC_ORQUESTRADOR>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Orquestrador.bmd"
+								,"[InverseProperty('TCS_PROCESSO_ORQUESTRADOR')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_PROCEDIMENTO_ORQUESTRADOR_LISTA",
+							"DataType": "ICollection<TCS_PROCEDIMENTO_ORQUESTRADOR>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Orquestrador.bmd"
+								,"[InverseProperty('TCS_PROCESSO_ORQUESTRADOR')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_SERVICO_INTEGRACAO_LISTA",
+							"DataType": "ICollection<TCS_SERVICO_INTEGRACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Orquestrador.bmd"
+								,"[InverseProperty('TCS_PROCESSO_ORQUESTRADOR')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_PARAMETRO_VALIDO_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "TCS_PARAMETRO_VALIDO_AUT",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_PARAMETRO_VALIDO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_PARAMETRO_VALIDO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "ID_PARAMETRO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_PARAMETRO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_PARAMETRO_AUTORIZACAO')]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "VALOR_PARAMETRO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('VALOR_PARAMETRO',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(25)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_VALOR_PARAMETRO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_VALOR_PARAMETRO',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_PARAMETRO_AUTORIZACAO",
+							"DataType": "TCS_PARAMETRO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_PARAMETRO_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_PARAMETRO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_PARAMETRO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "TITULO_PARAMETRO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('TITULO_PARAMETRO',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_PARAMETRO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_PARAMETRO',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "OBS_PARAMETRO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('OBS_PARAMETRO',  TypeName = 'varchar', Order=3 )]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "LX_DATATYPE_PARAMETRO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_DATATYPE_PARAMETRO',  TypeName = 'tinyint', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+                   ,"[FunctionalPoint('DomainName[TipoValorParametro]')]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_VALIDACAO_PARAMETRO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_VALIDACAO_PARAMETRO',  TypeName = 'tinyint', Order=5 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+                   ,"[FunctionalPoint('DomainName[TipoValidacaoParametro]')]"
+
+							]
+						}
+						,{
+							"Name": "FAIXA_INICIAL",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('FAIXA_INICIAL',  TypeName = 'varchar', Order=6 )]"
+                   ,"[MaxLength(70)]"
+
+							]
+						}
+						,{
+							"Name": "FAIXA_FINAL",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('FAIXA_FINAL',  TypeName = 'varchar', Order=7 )]"
+                   ,"[MaxLength(70)]"
+
+							]
+						}
+						,{
+							"Name": "COLUNA_COD_VALIDA",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COLUNA_COD_VALIDA',  TypeName = 'varchar', Order=8 )]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "COLUNA_DESC_VALIDA",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COLUNA_DESC_VALIDA',  TypeName = 'varchar', Order=9 )]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "UID_TABELA_VALIDA",
+							"DataType": "System.Nullable<Guid>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('UID_TABELA_VALIDA',  TypeName = 'uniqueidentifier', Order=10 )]"
+                   ,"[ForeignKey('TCS_TABELA_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_GRUPO_PARAMETRO",
+							"DataType": "short",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_GRUPO_PARAMETRO',  TypeName = 'smallint', Order=11 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_PARAMETRO_GRUPO_AUTORIZACAO')]"
+                   ,"[Precision(5)]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_ENVIA_PDV",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_ENVIA_PDV',  TypeName = 'bit', Order=12 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "PERMITE_VARIACAO_POR_ENTIDADE",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('PERMITE_VARIACAO_POR_ENTIDADE',  TypeName = 'bit', Order=13 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "NIVEL_ACESSO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NIVEL_ACESSO',  TypeName = 'tinyint', Order=14 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "NIVEL_ACESSO_EDICAO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NIVEL_ACESSO_EDICAO',  TypeName = 'tinyint', Order=15 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_APLICATIVO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_APLICATIVO',  TypeName = 'int', Order=16 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Aplicativo')]"
+                   ,"[ForeignKey('TCS_APLICATIVO')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_TABELA_AUTORIZACAO",
+							"DataType": "TCS_TABELA_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_PARAMETRO_GRUPO_AUTORIZACAO",
+							"DataType": "TCS_PARAMETRO_GRUPO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_APLICATIVO",
+							"DataType": "TCS_APLICATIVO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_PARAMETRO_TABELA_SELECAO_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_PARAMETRO_TABELA_SELECAO_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Parametro.bmd"
+								,"[InverseProperty('TCS_PARAMETRO_AUTORIZACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_PARAMETRO_TRANSACAO_LISTA",
+							"DataType": "ICollection<TCS_PARAMETRO_TRANSACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Parametro.bmd"
+								,"[InverseProperty('TCS_PARAMETRO_AUTORIZACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_PARAMETRO_VALIDO_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_PARAMETRO_VALIDO_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Parametro.bmd"
+								,"[InverseProperty('TCS_PARAMETRO_AUTORIZACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_PARAMETRO_TABELA_SELECAO_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "TCS_PARAMETRO_TABELA_SEL_AUT",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TABELA_SELECAO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TABELA_SELECAO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "ID_PARAMETRO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_PARAMETRO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_PARAMETRO_AUTORIZACAO')]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "UID_TABELA",
+							"DataType": "Guid",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('UID_TABELA',  TypeName = 'uniqueidentifier', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_TABELA_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "LX_PARAMETRO_HIERARQUIA",
+							"DataType": "System.Nullable<byte>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_PARAMETRO_HIERARQUIA',  TypeName = 'tinyint', Order=3 )]"
+                   ,"[FunctionalPoint('DomainName[ParametroHierarquia]')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_PARAMETRO_AUTORIZACAO",
+							"DataType": "TCS_PARAMETRO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_TABELA_AUTORIZACAO",
+							"DataType": "TCS_TABELA_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_PARAMETRO_GRUPO_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "TCS_PARAMETRO_GRUPO_AUT",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_GRUPO_PARAMETRO",
+							"DataType": "short",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_GRUPO_PARAMETRO',  TypeName = 'smallint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Precision(5)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_GRUPO_PARAMETRO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_GRUPO_PARAMETRO',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_PARAMETRO_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_PARAMETRO_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Parametro.bmd"
+								,"[InverseProperty('TCS_PARAMETRO_GRUPO_AUTORIZACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_PARAMETRO_TRANSACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_PARAMETRO_TRANSACAO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_PARAMETRO_TRANSACAO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Parametro Transacao')]"
+
+							]
+						}
+						,{
+							"Name": "ID_PARAMETRO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_PARAMETRO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_PARAMETRO_AUTORIZACAO')]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "ID_TRANSACAO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TRANSACAO',  TypeName = 'bigint', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_TRANSACAO_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_PARAMETRO_AUTORIZACAO",
+							"DataType": "TCS_PARAMETRO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_TRANSACAO_AUTORIZACAO",
+							"DataType": "TCS_TRANSACAO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_LAYOUT_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_OBJETO_CONTEUDO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_OBJETO_CONTEUDO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_OBJETO_CONTEUDO_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_LAYOUT",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_LAYOUT',  TypeName = 'tinyint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+                   ,"[FunctionalPoint('DomainName[TipoLayout]')]"
+
+							]
+						}
+						,{
+							"Name": "LAYOUT_PADRAO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LAYOUT_PADRAO',  TypeName = 'bit', Order=2 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_LAYOUT",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_LAYOUT',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "IDIOMA",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('IDIOMA',  TypeName = 'varchar', Order=4 )]"
+                   ,"[MaxLength(18)]"
+
+							]
+						}
+						,{
+							"Name": "ULT_ATUALIZACAO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ULT_ATUALIZACAO',  TypeName = 'datetime', Order=5 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO',  TypeName = 'bit', Order=6 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "POSSUI_FILTRO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('POSSUI_FILTRO',  TypeName = 'bit', Order=7 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "DETALHES",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DETALHES',  TypeName = 'varchar', Order=8 )]"
+                   ,"[MaxLength(500)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_OBJETO_CONTEUDO_AUTORIZACAO",
+							"DataType": "TCS_OBJETO_CONTEUDO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_MODULO_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_MODULO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_MODULO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_APLICATIVO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_APLICATIVO',  TypeName = 'int', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Aplicativo')]"
+                   ,"[ForeignKey('TCS_APLICATIVO')]"
+
+							]
+						}
+						,{
+							"Name": "DESC_MODULO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_MODULO',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_CURTO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_CURTO',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "LX_COR_FUNDO",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_COR_FUNDO',  TypeName = 'int', Order=4 )]"
+                   ,"[FunctionalPoint('DomainName[CorFundo]')]"
+
+							]
+						}
+						,{
+							"Name": "ICONE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ICONE',  TypeName = 'varchar', Order=5 )]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "ORDEM_NAVEGACAO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ORDEM_NAVEGACAO',  TypeName = 'tinyint', Order=6 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO',  TypeName = 'bit', Order=7 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_APLICATIVO",
+							"DataType": "TCS_APLICATIVO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_EMPRESA_MODULO_LISTA",
+							"DataType": "ICollection<TCS_EMPRESA_MODULO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_MODULO_AUTORIZACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_MODULO_MENU_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_MODULO_MENU_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_MODULO_AUTORIZACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_TRANSACAO_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_TRANSACAO_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_MODULO_AUTORIZACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_MODULO_MENU_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_MODULO_MENU",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_MODULO_MENU',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_MODULO_MENU_SUPERIOR_FK",
+							"DataType": "System.Nullable<long>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_MODULO_MENU_SUPERIOR',  TypeName = 'bigint', Order=1 )]"
+                   ,"[ForeignKey('MODULO_MENU_SUPERIOR')]"
+
+							]
+						}
+						,{
+							"Name": "ID_MODULO_FK",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_MODULO',  TypeName = 'bigint', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_MODULO_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "DESC_MODULO_MENU",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_MODULO_MENU',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_CURTO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_CURTO',  TypeName = 'varchar', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "LX_COR_FUNDO",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_COR_FUNDO',  TypeName = 'int', Order=5 )]"
+                   ,"[FunctionalPoint('DomainName[CorFundo]')]"
+
+							]
+						}
+						,{
+							"Name": "ICONE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ICONE',  TypeName = 'varchar', Order=6 )]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "ORDEM_NAVEGACAO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ORDEM_NAVEGACAO',  TypeName = 'tinyint', Order=7 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_MODULO_AUTORIZACAO",
+							"DataType": "TCS_MODULO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "MODULO_MENU_SUPERIOR",
+							"DataType": "TCS_MODULO_MENU_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_MODULO_MENU_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_MODULO_MENU_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('MODULO_MENU_SUPERIOR')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_TRANSACAO_MENU_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_TRANSACAO_MENU_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_MODULO_MENU_AUTORIZACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_OBJETO_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_OBJETO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_OBJETO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_OBJETO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_OBJETO',  TypeName = 'tinyint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+                   ,"[FunctionalPoint('DomainName[TipoObjeto]')]"
+
+							]
+						}
+						,{
+							"Name": "DESC_OBJETO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_OBJETO',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "CLASSE_NOME",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CLASSE_NOME',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "PATH_OBJETO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('PATH_OBJETO',  TypeName = 'varchar', Order=4 )]"
+                   ,"[MaxLength(2000)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_OBJETO_CONTEUDO_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_OBJETO_CONTEUDO_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_OBJETO_AUTORIZACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_TRANSACAO_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_TRANSACAO_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_OBJETO_AUTORIZACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_OBJETO_CONTEUDO_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "TCS_OBJETO_CONTEUDO_AUT",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_OBJETO_CONTEUDO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_OBJETO_CONTEUDO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_OBJETO_FK",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_OBJETO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_OBJETO_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "LX_CONTEUDO_OBJETO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_CONTEUDO_OBJETO',  TypeName = 'char', Order=2 )]"
+                   ,"[FunctionalPoint('DomainName[TipoConteudoObjeto]')]"
+                   ,"[MaxLength(10)]"
+
+							]
+						}
+						,{
+							"Name": "CONTEUDO_XML",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CONTEUDO_XML',  TypeName = 'varchar(max)', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_OBJETO_AUTORIZACAO",
+							"DataType": "TCS_OBJETO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_LAYOUT_AUTORIZACAO_LISTA",
+							"DataType": "TCS_LAYOUT_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_OBJETO_CONTEUDO_AUTORIZACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_TABELA_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "UID_TABELA",
+							"DataType": "Guid",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('UID_TABELA',  TypeName = 'uniqueidentifier', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "DESC_TABELA",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_TABELA',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(80)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_TABELA",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_TABELA',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "ID_TRANSACAO_FK",
+							"DataType": "System.Nullable<long>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TRANSACAO',  TypeName = 'bigint', Order=3 )]"
+                   ,"[ForeignKey('TCS_TRANSACAO_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "TABELA_AUTORIZACAO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('TABELA_AUTORIZACAO',  TypeName = 'bit', Order=4 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "TCS_TRANSACAO_AUTORIZACAO",
+							"DataType": "TCS_TRANSACAO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_PARAMETRO_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_PARAMETRO_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Parametro.bmd"
+								,"[InverseProperty('TCS_TABELA_AUTORIZACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_PARAMETRO_TABELA_SELECAO_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_PARAMETRO_TABELA_SELECAO_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Parametro.bmd"
+								,"[InverseProperty('TCS_TABELA_AUTORIZACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_TRANSACAO_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TRANSACAO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TRANSACAO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_OBJETO_FK",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_OBJETO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_OBJETO_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_MODULO_BASE",
+							"DataType": "System.Nullable<long>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_MODULO_BASE',  TypeName = 'bigint', Order=2 )]"
+                   ,"[ForeignKey('TCS_MODULO_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "CLASSE_NOME",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CLASSE_NOME',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(400)]"
+
+							]
+						}
+						,{
+							"Name": "COD_TRANSACAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COD_TRANSACAO',  TypeName = 'char', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(10)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_TRANSACAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_TRANSACAO',  TypeName = 'varchar', Order=5 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_CURTO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_CURTO',  TypeName = 'varchar', Order=6 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "LX_COR_FUNDO",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_COR_FUNDO',  TypeName = 'int', Order=7 )]"
+                   ,"[FunctionalPoint('DomainName[CorFundo]')]"
+
+							]
+						}
+						,{
+							"Name": "ICONE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ICONE',  TypeName = 'varchar', Order=8 )]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO',  TypeName = 'bit', Order=9 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_TRANSACAO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_TRANSACAO',  TypeName = 'tinyint', Order=10 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+                   ,"[FunctionalPoint('DomainName[TipoTransacao]')]"
+
+							]
+						}
+						,{
+							"Name": "TAG",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('TAG',  TypeName = 'varchar', Order=11 )]"
+                   ,"[MaxLength(4000)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_MODULO_AUTORIZACAO",
+							"DataType": "TCS_MODULO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_OBJETO_AUTORIZACAO",
+							"DataType": "TCS_OBJETO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_PARAMETRO_TRANSACAO_LISTA",
+							"DataType": "ICollection<TCS_PARAMETRO_TRANSACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Parametro.bmd"
+								,"[InverseProperty('TCS_TRANSACAO_AUTORIZACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_TABELA_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_TABELA_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_TRANSACAO_AUTORIZACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_TRANSACAO_DEPENDENTE_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_TRANSACAO_DEPENDENTE_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_TRANSACAO_AUTORIZACAO')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_TRANSACAO_DEPENDENTE_AUTORIZACAO_LISTA1",
+							"DataType": "ICollection<TCS_TRANSACAO_DEPENDENTE_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TRANSACAO_RELACIONADA')]"
+							]
+						}
+						
+						,{
+							"Name": "TCS_TRANSACAO_MENU_AUTORIZACAO_LISTA",
+							"DataType": "ICollection<TCS_TRANSACAO_MENU_AUTORIZACAO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: TransacaoModulo.bmd"
+								,"[InverseProperty('TCS_TRANSACAO_AUTORIZACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_TRANSACAO_DEPENDENTE_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "TCS_TRANSACAO_DEPENDENTE_AUT",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TRANSACAO_DEPENDENTE",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TRANSACAO_DEPENDENTE',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_TRANSACAO_FK",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TRANSACAO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_TRANSACAO_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TRANSACAO_RELACIONADA_FK",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TRANSACAO_RELACIONADA',  TypeName = 'bigint', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TRANSACAO_RELACIONADA')]"
+
+							]
+						}
+						,{
+							"Name": "LX_POSICAO_DA_TRANSACAO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_POSICAO_DA_TRANSACAO',  TypeName = 'tinyint', Order=3 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+                   ,"[FunctionalPoint('DomainName[PosicaoDaTransacao]')]"
+
+							]
+						}
+						,{
+							"Name": "POSSUI_TOOLBAR",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('POSSUI_TOOLBAR',  TypeName = 'bit', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "POSSUI_VISAO_TABULAR",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('POSSUI_VISAO_TABULAR',  TypeName = 'bit', Order=5 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "PROPRIEDADES_DO_MESTRE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('PROPRIEDADES_DO_MESTRE',  TypeName = 'varchar', Order=6 )]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "PROPRIEDADES_DO_DETALHE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('PROPRIEDADES_DO_DETALHE',  TypeName = 'varchar', Order=7 )]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "COMPARTILHA_BO_PRINCIPAL",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COMPARTILHA_BO_PRINCIPAL',  TypeName = 'bit', Order=8 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "VISIVEL",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('VISIVEL',  TypeName = 'bit', Order=9 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_LAYOUT",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_LAYOUT',  TypeName = 'tinyint', Order=10 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+                   ,"[FunctionalPoint('DomainName[TipoLayoutDependente]')]"
+
+							]
+						}
+						,{
+							"Name": "USA_FILTROS_DO_BO_PRINCIPAL",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('USA_FILTROS_DO_BO_PRINCIPAL',  TypeName = 'bit', Order=11 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "EXECUTA_PESQUISA",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('EXECUTA_PESQUISA',  TypeName = 'bit', Order=12 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "MOSTRA_BOTAO_LIMPA",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MOSTRA_BOTAO_LIMPA',  TypeName = 'bit', Order=13 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "MOSTRA_BOTAO_PESQUISA",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MOSTRA_BOTAO_PESQUISA',  TypeName = 'bit', Order=14 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "MOSTRA_BOTAO_ADICAO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MOSTRA_BOTAO_ADICAO',  TypeName = 'bit', Order=15 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "MOSTRA_BOTAO_EDICAO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MOSTRA_BOTAO_EDICAO',  TypeName = 'bit', Order=16 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "MOSTRA_BOTAO_EXCLUSAO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MOSTRA_BOTAO_EXCLUSAO',  TypeName = 'bit', Order=17 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "MOSTRA_BOTAO_PESQUISA_ESP",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MOSTRA_BOTAO_PESQUISA_ESP',  TypeName = 'bit', Order=18 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "MOSTRA_BOTAO_LAYOUT",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MOSTRA_BOTAO_LAYOUT',  TypeName = 'bit', Order=19 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "MOSTRA_BOTAO_NAVEGACAO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MOSTRA_BOTAO_NAVEGACAO',  TypeName = 'bit', Order=20 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "MOSTRA_BOTAO_IMPRESSAO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MOSTRA_BOTAO_IMPRESSAO',  TypeName = 'bit', Order=21 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_TRANSACAO_AUTORIZACAO",
+							"DataType": "TCS_TRANSACAO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TRANSACAO_RELACIONADA",
+							"DataType": "TCS_TRANSACAO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_TRANSACAO_MENU_AUTORIZACAO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_TRANSACAO_MENU_AUTORIZACAO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_TRANSACAO_MENU_AUTORIZACAO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Transacao Menu Autorizacao')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TRANSACAO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TRANSACAO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_TRANSACAO_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_MODULO_MENU",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_MODULO_MENU',  TypeName = 'bigint', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_MODULO_MENU_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ORDEM_NAVEGACAO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ORDEM_NAVEGACAO',  TypeName = 'tinyint', Order=3 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO',  TypeName = 'bit', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "TCS_MODULO_MENU_AUTORIZACAO",
+							"DataType": "TCS_MODULO_MENU_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_TRANSACAO_AUTORIZACAO",
+							"DataType": "TCS_TRANSACAO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_EMPRESA_MODULO",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_EMPRESA_MODULO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_EMPRESA_MODULO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Empresa Modulo')]"
+
+							]
+						}
+						,{
+							"Name": "ID_MODULO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_MODULO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_MODULO_AUTORIZACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX',  TypeName = 'int', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_EMPRESA_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_MODULO_AUTORIZACAO",
+							"DataType": "TCS_MODULO_AUTORIZACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_EMPRESA_AUTENTICACAO",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_LOG_ERROS",
+			"Schema": "LX_TCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_LOG_ERROS",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_LOG_ERROS',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Log Erros')]"
+
+							]
+						}
+						,{
+							"Name": "NOME_CONTROLADOR",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_CONTROLADOR',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Nome do Controlador(Controller)')]"
+                   ,"[MaxLength(200)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_ACAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_ACAO',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Nome da Ação (Action)')]"
+                   ,"[MaxLength(256)]"
+
+							]
+						}
+						,{
+							"Name": "ENDERECO_WEB",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ENDERECO_WEB',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Endereço Web')]"
+                   ,"[MaxLength(8000)]"
+
+							]
+						}
+						,{
+							"Name": "METODO_HTTP",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('METODO_HTTP',  TypeName = 'char', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Método HTTP')]"
+                   ,"[MaxLength(6)]"
+
+							]
+						}
+						,{
+							"Name": "DATA_ERRO",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_ERRO',  TypeName = 'datetime', Order=5 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Data do Erro')]"
+
+							]
+						}
+						,{
+							"Name": "MENSAGEM_EXCECAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MENSAGEM_EXCECAO',  TypeName = 'varchar', Order=6 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Exceção')]"
+                   ,"[MaxLength(1000)]"
+
+							]
+						}
+						,{
+							"Name": "MENSAGEM_EXCECAO_INTERNA",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MENSAGEM_EXCECAO_INTERNA',  TypeName = 'varchar', Order=7 )]"
+                   ,"[Display(Name='Exceção Interna')]"
+                   ,"[MaxLength(1000)]"
+
+							]
+						}
+						,{
+							"Name": "PILHA_EXCECAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('PILHA_EXCECAO',  TypeName = 'varchar(max)', Order=8 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Pilha de Exceção')]"
+
+							]
+						}
+						,{
+							"Name": "NOME_SERVIDOR",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_SERVIDOR',  TypeName = 'varchar', Order=9 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Servidor')]"
+                   ,"[MaxLength(256)]"
+
+							]
+						}
+						,{
+							"Name": "USUARIO_WINDOWS",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('USUARIO_WINDOWS',  TypeName = 'varchar', Order=10 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Windows Login')]"
+                   ,"[MaxLength(256)]"
+
+							]
+						}
+						,{
+							"Name": "ID_APLICACAO",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_APLICACAO',  TypeName = 'int', Order=11 )]"
+                   ,"[ForeignKey('TCS_APLICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_AMBIENTE",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_AMBIENTE',  TypeName = 'int', Order=12 )]"
+                   ,"[Display(Name='Id Tcs Ambiente')]"
+                   ,"[ForeignKey('TCS_AMBIENTE')]"
+
+							]
+						}
+						,{
+							"Name": "ID_USUARIO",
+							"DataType": "System.Nullable<long>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_USUARIO',  TypeName = 'bigint', Order=13 )]"
+                   ,"[ForeignKey('TCS_USUARIO_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX_EMPRESA",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX_EMPRESA',  TypeName = 'int', Order=14 )]"
+                   ,"[ForeignKey('TCS_EMPRESA_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX_GPECON",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX_GPECON',  TypeName = 'int', Order=15 )]"
+                   ,"[ForeignKey('GPECON')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_AMBIENTE",
+							"DataType": "TCS_AMBIENTE",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_APLICACAO",
+							"DataType": "TCS_APLICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_EMPRESA_AUTENTICACAO",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "GPECON",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_USUARIO_AUTENTICACAO",
+							"DataType": "TCS_USUARIO_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "TCS_USUARIO_AUTENTICACAO_GPECON",
+			"Schema": "LX_TCS",
+			"Table": "TCS_USUARIO_AUT_GPECON",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TCS_USUARIO_AUT_GPECON",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TCS_USUARIO_AUT_GPECON',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Tcs Usuario Autenticacao Gpecon')]"
+
+							]
+						}
+						,{
+							"Name": "ID_USUARIO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_USUARIO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_USUARIO_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX',  TypeName = 'int', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('TCS_EMPRESA_AUTENTICACAO')]"
+
+							]
+						}
+						,{
+							"Name": "TCS_EMPRESA_AUTENTICACAO",
+							"DataType": "TCS_EMPRESA_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "TCS_USUARIO_AUTENTICACAO",
+							"DataType": "TCS_USUARIO_AUTENTICACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+
+
+  ],
+  "Domains": [
+  
+			{
+				"Name": "TipoMensagem",
+				"Values": [
+					{
+						"Name": "Info",
+						"DisplayName": "Informação",
+						"Value": "1"
+					}
+					,{
+						"Name": "Warning",
+						"DisplayName": "Alerta",
+						"Value": "2"
+					}
+					,{
+						"Name": "Error",
+						"DisplayName": "Erro",
+						"Value": "3"
+					}
+					,{
+						"Name": "Success",
+						"DisplayName": "Sucesso",
+						"Value": "4"
+					}
+				]
+			}
+  
+  ]
+		
+}

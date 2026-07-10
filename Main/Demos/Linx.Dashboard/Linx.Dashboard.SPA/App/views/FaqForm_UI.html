@@ -1,0 +1,166 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="FaqForm_UI_formViewer" class="panelTransaition">
+            <figure id="FaqForm_UI_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.FaqForm_UI().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="FaqForm_UI_gbForm_BV" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gbox position-element"  >
+               <div class="portlet box row" >
+                   <div id="FaqForm_UI_gbForm_BV_body" class="portlet-body" >
+                       <div data-bind="with: $root.FaqForm_UI().getWithBinding(currentDataItem, $root.FaqForm_UI().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="FaqForm_UI_divTitulo" class="" >
+                                           <label id="FaqForm_UI_lblTitulo" for="FaqForm_UI_tbTitulo" data-bind="css: { 'content-required': $root.FaqForm_UI().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Título">Título
+                                           </label>
+                                           <input id="FaqForm_UI_tbTitulo" class="form-control ellipsis" data-bind="attr: { title: Titulo }, validatedField: 'Titulo', css: { IsEditableStyle: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbTitulo') ? ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbTitulo') : (!isEmptyEntityFn($data) && $root.FaqForm_UI().status() === 'C') }, igTextEditor: { value: Titulo, readOnly: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbTitulo') ? !ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbTitulo') : (isEmptyEntityFn($data) || $root.FaqForm_UI().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="FaqForm_UI_divDuvida" class="" >
+                                           <label id="FaqForm_UI_lblDuvida" for="FaqForm_UI_edDuvida" data-bind="css: { 'content-required': $root.FaqForm_UI().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Dúvida">Dúvida
+                                           </label>
+                                           <textarea id="FaqForm_UI_edDuvida" class="form-control "  data-bind="validatedField: 'Duvida', attr:{ readOnly: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_edDuvida') ? !ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_edDuvida') : (isEmptyEntityFn($data) || $root.FaqForm_UI().status() !== 'C')}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_edDuvida') ? ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_edDuvida') : (!isEmptyEntityFn($data) && $root.FaqForm_UI().status() === 'C')},  value: Duvida" rows="5"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="FaqForm_UI_divEmpresa" class="" >
+                                           <label id="FaqForm_UI_lblEmpresa" for="FaqForm_UI_tbEmpresa" data-bind="css: { 'content-required': $root.FaqForm_UI().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Empresa">Empresa
+                                           </label>
+                                           <input id="FaqForm_UI_tbEmpresa" class="form-control ellipsis" data-bind="attr: { title: Empresa }, validatedField: 'Empresa', css: { IsEditableStyle: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbEmpresa') ? ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbEmpresa') : (!isEmptyEntityFn($data) && $root.FaqForm_UI().status() === 'C') }, igTextEditor: { value: Empresa, readOnly: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbEmpresa') ? !ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbEmpresa') : (isEmptyEntityFn($data) || $root.FaqForm_UI().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="FaqForm_UI_divNome" class="" >
+                                           <label id="FaqForm_UI_lblNome" for="FaqForm_UI_tbNome" data-bind="css: { 'content-required': $root.FaqForm_UI().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Nome">Nome
+                                           </label>
+                                           <input id="FaqForm_UI_tbNome" class="form-control ellipsis" data-bind="attr: { title: Nome }, validatedField: 'Nome', css: { IsEditableStyle: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbNome') ? ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbNome') : (!isEmptyEntityFn($data) && $root.FaqForm_UI().status() === 'C') }, igTextEditor: { value: Nome, readOnly: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbNome') ? !ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbNome') : (isEmptyEntityFn($data) || $root.FaqForm_UI().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="FaqForm_UI_divEmail" class="" >
+                                           <label id="FaqForm_UI_lblEmail" for="FaqForm_UI_tbEmail" data-bind="css: { 'content-required': $root.FaqForm_UI().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Email">Email
+                                           </label>
+                                           <input id="FaqForm_UI_tbEmail" class="form-control ellipsis" data-bind="attr: { title: Email }, validatedField: 'Email', css: { IsEditableStyle: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbEmail') ? ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbEmail') : (!isEmptyEntityFn($data) && $root.FaqForm_UI().status() === 'C') }, igTextEditor: { value: Email, readOnly: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbEmail') ? !ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_tbEmail') : (isEmptyEntityFn($data) || $root.FaqForm_UI().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="FaqForm_UI_divCustomControl608209812" class="" >
+                                           <button id="FaqForm_UI_btnCustomControl608209812" class="form-control btn-block btn-press ellipsis " data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_btnCustomControl608209812') ? ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_btnCustomControl608209812') : (!isEmptyEntityFn($data) && true) }, enable: ctrl.hasCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_btnCustomControl608209812') ? ctrl.getCustomEnable($root.FaqForm_UI(), 'FaqForm_UI_btnCustomControl608209812') : (!isEmptyEntityFn($data) && true), click:function(){ if (typeof $root.FaqForm_UI().CustomControl608209812_Click == 'function') $root.FaqForm_UI().CustomControl608209812_Click(); if ($root.FaqForm_UI().custom) $root.FaqForm_UI().custom.CustomControl608209812_Click({viewModel: $root.FaqForm_UI()}); }"  title="Enviar">Enviar</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="FaqForm_UI_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.FaqForm_UI().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyFaqForm_UI_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyFaqForm_UI_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyFaqForm_UI_dGrid_templateLayout', vm: function(){return $root.FaqForm_UI().gridSaveStates['scyFaqForm_UI_dGrid'];}, ctrlName: 'scyFaqForm_UI_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-external-link" aria-hidden="true"></i></button>
+                   <script id="scyFaqForm_UI_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyFaqForm_UI_dGrid_gb" class="layout -popover">
+                           <div class="row">
+                               <span class="col-md-12" title="Layout salvos">Layout salvos:</span>
+                               <div class="col-md-10"><span class="form-control" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span></div>
+                               <button class="col-md-2 btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }"><i class="fa fa-check" aria-hidden="true" /></button>
+                           </div>
+                           <div class="row">
+                               <button class="col-md-5 btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}">Salvar...</button>
+                               <button class="col-md-5 btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}">Salvar como...</button>
+                               <button class="col-md-2 btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"><i class="fa fa-trash-o" aria-hidden="true"/></button>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyFaqForm_UI_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.FaqForm_UI().dataToolbar.canExport(), click: function () {$root.FaqForm_UI().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyFaqForm_UI_dGrid" data-bind="css: { IsEditableStyle: $root.FaqForm_UI().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

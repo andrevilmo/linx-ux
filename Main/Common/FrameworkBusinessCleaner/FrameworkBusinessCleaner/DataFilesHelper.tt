@@ -1,0 +1,230 @@
+﻿<#@ template language="C#"  hostspecific="true" #>
+<#@ output extension=".cs" #>
+<#@ import namespace = "System.Collections.Generic" #>
+<#@ import namespace = "System.Linq" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.IO" #>
+<#@ import namespace = "System.IO" #>
+
+
+<#
+
+ var businessModelPath = @"C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Business Model";
+ var businessViewPath = @"C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Business View";
+ var serviceBusPath = @"c:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Service\bin";
+ var userInterfacePath = @"C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\User Interface";
+ var webApiPath = @"C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Web API";
+ var webApiClientPath = @"C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Web API Client";
+ var nugetBMPath = @"C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Common\Linx\Nuget\BM";
+ var nugetBvPath = @"C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Common\Linx\Nuget\BV";
+
+ string stargetFiles;
+
+#>
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FrameworkBusinessCleaner
+{
+    public class DataFilesHelper
+    {		
+        public static string[] BusinessModelFiles { get {
+
+<#
+			stargetFiles = "";
+			foreach (var file in Directory.GetFiles(businessModelPath))
+            {
+				  stargetFiles += "\r\n                " + (stargetFiles == "" ? "" : ", ") + "\"" + Path.GetFileName(file).ToLower() + "\"";	                  
+            }
+#>
+
+                return new string[] {
+					<#=stargetFiles#>
+
+                };
+
+         } }
+
+
+        public static string[] BusinessViewFiles
+        {
+            get
+            {
+<#
+			stargetFiles = "";
+			foreach (var file in Directory.GetFiles(businessViewPath))
+            {
+				  stargetFiles += "\r\n                " + (stargetFiles == "" ? "" : ", ") + "\"" + Path.GetFileName(file).ToLower() + "\"";	                  
+            }
+#>
+
+                return new string[] {
+					<#=stargetFiles#>
+
+                };
+
+            }
+        }
+
+
+
+        public static string[] ServiceBusFiles
+        {
+            get
+            {
+<#
+			stargetFiles = "";
+			foreach (var file in Directory.GetFiles(serviceBusPath))
+            {
+				  stargetFiles += "\r\n                " + (stargetFiles == "" ? "" : ", ") + "\"" + Path.GetFileName(file).ToLower() + "\"";	                  
+            }
+#>
+
+                return new string[] {
+					<#=stargetFiles#>
+
+                };
+
+            }
+        }
+
+
+
+		public static string[] UserInterfaceFiles
+        {
+            get
+            {
+<#
+			stargetFiles = "";
+			foreach (var file in Directory.GetFiles(userInterfacePath))
+            {
+				  stargetFiles += "\r\n                " + (stargetFiles == "" ? "" : ", ") + "\"" + Path.GetFileName(file).ToLower() + "\"";	                  
+            }
+#>
+
+                return new string[] {
+					<#=stargetFiles#>
+
+                };
+
+            }
+        }
+
+		public static string[] WebApiFiles
+        {
+            get
+            {
+<#
+			stargetFiles = "";
+			foreach (var file in Directory.GetFiles(webApiPath))
+            {
+				  stargetFiles += "\r\n                " + (stargetFiles == "" ? "" : ", ") + "\"" + Path.GetFileName(file).ToLower() + "\"";	                  
+            }
+#>
+
+                return new string[] {
+					<#=stargetFiles#>
+
+                };
+
+            }
+        }
+
+		public static string[] WebApiClientFiles
+        {
+            get
+            {
+<#
+			stargetFiles = "";
+			foreach (var file in Directory.GetFiles(webApiClientPath))
+            {
+				  stargetFiles += "\r\n                " + (stargetFiles == "" ? "" : ", ") + "\"" + Path.GetFileName(file).ToLower() + "\"";	                  
+            }
+#>
+
+                return new string[] {
+					<#=stargetFiles#>
+
+                };
+
+            }
+        }
+
+		public static string[] NugetBMFiles
+        {
+            get
+            {
+<#
+			stargetFiles = "";
+			foreach (var file in Directory.GetFiles(nugetBMPath))
+            {
+				  stargetFiles += "\r\n                " + (stargetFiles == "" ? "" : ", ") + "\"" + Path.GetFileName(file).ToLower() + "\"";	                  
+            }
+#>
+
+                return new string[] {
+					<#=stargetFiles#>
+
+                };
+
+            }
+        }
+
+		public static string[] NugetBvFiles
+        {
+            get
+            {
+<#
+			stargetFiles = "";
+			foreach (var file in Directory.GetFiles(nugetBvPath))
+            {
+				  stargetFiles += "\r\n                " + (stargetFiles == "" ? "" : ", ") + "\"" + Path.GetFileName(file).ToLower() + "\"";	                  
+            }
+#>
+
+                return new string[] {
+					<#=stargetFiles#>
+
+                };
+
+            }
+        }
+
+		public static CleanerPaths GetDirectories() {
+			
+			return new CleanerPaths()
+            {
+                BusinessModelPath = @"<#=businessModelPath#>",
+                BusinessViewPath = @"<#=businessViewPath#>",
+                ServiceBusPath = @"<#=serviceBusPath#>",
+
+				UserInterfacePath = @"<#=userInterfacePath#>",
+				WebApiPath = @"<#=webApiPath#>",
+				WebApiClientPath = @"<#=webApiClientPath#>",
+				NugetBMPath = @"<#=nugetBMPath#>",
+				NugetBvPath = @"<#=nugetBvPath#>"
+
+            };
+		
+		}
+    }
+
+	public class CleanerPaths
+    {
+        public string BusinessModelPath { get; set; }
+        public string BusinessViewPath { get; set; }
+        public string ServiceBusPath { get; set; }
+
+		public string UserInterfacePath { get; set; }
+		public string WebApiPath { get; set; }
+		public string WebApiClientPath { get; set; }
+		public string NugetBMPath { get; set; }
+		public string NugetBvPath { get; set; }
+    }
+}
+

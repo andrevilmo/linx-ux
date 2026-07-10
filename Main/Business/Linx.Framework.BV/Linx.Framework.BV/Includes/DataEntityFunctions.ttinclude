@@ -1,0 +1,2215 @@
+<#+
+private void GenerateDomainServiceClassBody(string contextName, EntityDataModel edm, EntityAdapterDesignerRoot entityAdapterDesignerRoot)
+{	    
+	string baseIndent = String.Empty, indent = "    ", edmContext = edm == null ? "" : (edm.EdmInfo.IsDbContext ? "DbContext" : "ObjectContext");
+	 #>
+	
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////
+	<#=baseIndent#>//////////////////////// DomainService Class V1 ///////////////////////
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////
+	<#=baseIndent#>[EnableClientAccess()]	
+	<#=baseIndent#>[DomainIdentifier("ProcessorOverview<#=contextName#>DomainService", CodeProcessor = typeof(MethodPatchingCodeProcessor))]
+	<#=baseIndent#>public partial class <#=contextName#>DomainService : DomainService, IDataServiceContext 
+	<#=baseIndent#>{
+	
+	<#+
+	if(entityAdapterDesignerRoot.HasDomainServiceExtension())
+	{
+	#>
+
+	<#=baseIndent+indent#>[Import(typeof(<#=entityAdapterDesignerRoot.DomainServiceExtensionName()#>))]
+	<#=baseIndent+indent#>public <#=entityAdapterDesignerRoot.DomainServiceExtensionName()#> DomainServiceExtension;
+
+	<#+
+	}
+	#>
+
+	<#=baseIndent+indent#>private bool[] _trueMetaCondition = new bool[] { true };
+	<#=baseIndent+indent#>private bool[] _falseMetaCondition = new bool[] { };
+	<#=baseIndent+indent#>partial void OnCreate();
+	<#=baseIndent+indent#>private bool _isInitialized;
+	<#=baseIndent+indent#>private bool _controlKeyMapping = false;
+	<#=baseIndent+indent#>private List<DataKeyMapping> _keyMappings = new List<DataKeyMapping>();
+	<#=baseIndent+indent#>private string connectionString;
+	<#=baseIndent+indent#>public bool IsSecure { get; set; }
+	<#=baseIndent+indent#>public Dictionary<string, string> Headers { get; set; }
+	
+	<#=baseIndent+indent#>#region SecurityHelper
+	<#=baseIndent+indent#>private static ISecurityHelper _securityHelper;
+	<#=baseIndent+indent#>[Ignore]
+    <#=baseIndent+indent#>private static ISecurityHelper SecurityHelper
+    <#=baseIndent+indent#>{
+    <#=baseIndent+indent#>    get
+    <#=baseIndent+indent#>    {
+    <#=baseIndent+indent#>        if (_securityHelper == null)
+    <#=baseIndent+indent#>        {
+    <#=baseIndent+indent#>            try { _securityHelper = ImplementationHelper<ISecurityHelper>.GetInstance("SecurityHelper", "Linx.Business.Tools"); }
+    <#=baseIndent+indent#>            catch { }
+    <#=baseIndent+indent#>        }
+    <#=baseIndent+indent#>        return _securityHelper;
+    <#=baseIndent+indent#>    }
+    <#=baseIndent+indent#>}
+	<#=baseIndent+indent#>#endregion
+
+	<#+
+	if (edm != null)
+	{	
+	if (entityAdapterDesignerRoot.HasBusinessControl())
+	{
+	#>
+
+	<#=baseIndent+indent#>private bool _hasGpeconControl;
+	<#=baseIndent+indent#>public bool HasGpeconControl { get { return _hasGpeconControl; } }
+	<#+
+	}
+	#>
+
+	<#=baseIndent+indent#>private <#=edm.TargetNamespace + "." + edm.Name#> _<#=edmContext.ToCamelCase()#>;
+	<#=baseIndent+indent#>protected <#=edm.TargetNamespace + "." + edm.Name#> <#= edmContext #> 
+	<#=baseIndent+indent#>{ 
+	<#=baseIndent+indent#>	get 
+	<#=baseIndent+indent#>	{
+	<#=baseIndent+indent+indent#>	if (this._<#=edmContext.ToCamelCase()#> == null)
+	<#=baseIndent+indent+indent#>	{
+	<#=baseIndent+indent+indent#>		this._<#=edmContext.ToCamelCase()#> = new <#=edm.TargetNamespace + "." + edm.Name + "(connectionString, this.Headers)"#><#= (edm.EdmInfo.IsDbContext ? "" : " { CommandTimeout = int.MaxValue }") #>;
+<#+
+	if (!edm.EdmInfo.IsDbContext)
+	{
+#>
+	<#=baseIndent+indent+indent#>		this._<#=edmContext.ToCamelCase()#>.RefreshMetadata();
+<#+
+	}
+	else
+	{
+#>
+	<#=baseIndent+indent+indent#>		((System.Data.Entity.Infrastructure.IObjectContextAdapter)this._<#=edmContext.ToCamelCase()#>).ObjectContext.CommandTimeout = 180;
+<#+
+	  if (entityAdapterDesignerRoot.HasBusinessControl())
+	  {
+#>
+	<#=baseIndent+indent+indent#>		this._hasGpeconControl = (!(this._<#=edmContext.ToCamelCase()#>.IsUserMultiGpecon && this._<#=edmContext.ToCamelCase()#>.IdGpecon == this._<#=edmContext.ToCamelCase()#>.IdLinx) && this._<#=edmContext.ToCamelCase()#>.IdGpecon > 0);		
+<#+
+	  }
+	}
+#>
+	<#=baseIndent+indent+indent#>	}
+	<#=baseIndent+indent+indent#>	return this._<#=edmContext.ToCamelCase()#>;
+	<#=baseIndent+indent#>	}
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>public string GetModelAssemblyName()
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent#>    return typeof(<#=edm.TargetNamespace + "." + edm.Name#>).Assembly.FullName;
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>public System.Data.Entity.Database Database
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent#>    get { return this.DbContext.Database; }
+	<#=baseIndent+indent#>}
+
+	<#+
+	}
+	#>
+	
+	<#=baseIndent+indent#>public <#=contextName#>DomainService() : this("", null, null) { }
+	<#=baseIndent+indent#>public <#=contextName#>DomainService(string connectionString) : this(connectionString, null, null) { }
+	<#=baseIndent+indent#>public <#=contextName#>DomainService(Dictionary<string, string> headers) : this("", null, headers) { }
+	<#=baseIndent+indent#>public <#=contextName#>DomainService(<#=(edm == null ? "object" :  edm.TargetNamespace + "." + edm.Name)#> dataContext, Dictionary<string, string> headers) : this("", dataContext, headers) { }
+	<#=baseIndent+indent#>public <#=contextName#>DomainService(string connectionString, <#=(edm == null ? "object" :  edm.TargetNamespace + "." + edm.Name)#> dataContext, Dictionary<string, string> headers) : base() 
+	<#=baseIndent+indent#>{ 
+	<#=baseIndent+indent#>	this.connectionString = connectionString;
+	<#=baseIndent+indent#>	this.Headers = headers;
+	<#=baseIndent+indent#>	<#=(edm == null ? "" : "this._" + edmContext.ToCamelCase() + " = dataContext;")#> 
+
+<#+
+	if (entityAdapterDesignerRoot.HasDomainServiceExtension())
+	{
+#>
+
+	<#=baseIndent+indent#>	var catalog = <#=(!entityAdapterDesignerRoot.IsTCS() ? "Linx.Business.Tools.ExtensionLoader" : "LinxBusinessExtensionLoader")#>.LoadUserExtension(Assembly.GetExecutingAssembly(), "<#=EntityAdapterContext.TargetNamespace#>.Extension.dll");
+	<#=baseIndent+indent#>	if (catalog.Count() > 0)
+	<#=baseIndent+indent#>	{
+	<#=baseIndent+indent#>		try
+	<#=baseIndent+indent#>		{
+	<#=baseIndent+indent#>			System.ComponentModel.Composition.Hosting.CompositionContainer container = new System.ComponentModel.Composition.Hosting.CompositionContainer(catalog);
+	<#=baseIndent+indent#>			container.ComposeParts(this);
+	<#=baseIndent+indent#>		}
+	<#=baseIndent+indent#>		catch {}
+	<#=baseIndent+indent#>	}
+
+<#+
+	}
+#>
+
+	<#=baseIndent+indent#>	this.OnCreate(); 
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public List<DataKeyMapping> SaveEntities(List<ChangeSetEntry> changeSetEntries)
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent#>  return SaveEntities(changeSetEntries, true);
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public List<DataKeyMapping> SaveEntities(List<ChangeSetEntry> changeSetEntries, bool ctrlKeyMapping)
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent#>  if (changeSetEntries.Count == 0) return null;
+	<#=baseIndent+indent#>  
+	<#=baseIndent+indent#>  this.Initialize();
+	<#=baseIndent+indent#>  _keyMappings.Clear();
+	<#=baseIndent+indent#>  _controlKeyMapping = ctrlKeyMapping;
+	<#=baseIndent+indent#>  this.Submit(new ChangeSet(changeSetEntries));
+	<#=baseIndent+indent#>  _controlKeyMapping = false;
+	<#=baseIndent+indent#>  return _keyMappings;
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>protected override int Count<T>(IQueryable<T> query)
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent#>   return query.Count<T>();
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>public override void Initialize(DomainServiceContext context)
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent#>   if (!_isInitialized)
+	<#=baseIndent+indent#>   {
+	<#=baseIndent+indent#>		base.Initialize(context);
+	<#=baseIndent+indent#>		this.AuthorizationContext = this.CreateAuthorizationContext();
+<#+
+if (edm != null)
+{
+	if (edm.EdmInfo.IsDbContext)
+	{
+#>
+	<#=baseIndent+indent#>		((System.Data.Entity.Infrastructure.IObjectContextAdapter)(object)this.DbContext).ObjectContext.ContextOptions.ProxyCreationEnabled = false;
+<#+
+	}
+	else 
+	{
+#>
+	<#=baseIndent+indent#>		this.ObjectContext.ContextOptions.ProxyCreationEnabled = false;
+<#+
+	}
+}
+#>
+	<#=baseIndent+indent#>		_isInitialized = true;
+	<#=baseIndent+indent#>   }
+	<#=baseIndent+indent#>}
+	
+	<#=baseIndent+indent#>ChangeSet currentChangeSet = null;
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public ChangeSet GetChangeSet()
+    <#=baseIndent+indent#>{
+    <#=baseIndent+indent#>  return this.currentChangeSet;
+    <#=baseIndent+indent#>}
+
+	<#+
+	if (edm != null)
+	{
+	#>
+
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>protected bool InvokeSaveChanges()
+	<#=baseIndent+indent#>{
+    <#=baseIndent+indent#>  try
+    <#=baseIndent+indent#>  {
+    <#=baseIndent+indent#>  	if (this._<#=edmContext.ToCamelCase()#> != null)
+    <#=baseIndent+indent#>  		this._<#=edmContext.ToCamelCase()#>.SaveChanges();                
+    <#=baseIndent+indent#>  }
+    <#=baseIndent+indent#>  catch (Exception exp)
+    <#=baseIndent+indent#>  {
+    <#=baseIndent+indent#>  	throw new DomainException(exp.GetCompleteMessage("Fail by saving data:"));
+    <#=baseIndent+indent#>  }
+    <#=baseIndent+indent#>  return true;
+	<#=baseIndent+indent#>}	
+
+	<#=baseIndent+indent#>protected override void Dispose(bool disposing)
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent#>  if (disposing)
+	<#=baseIndent+indent#>  {
+	<#=baseIndent+indent#>		if (this._<#=edmContext.ToCamelCase()#> != null)
+	<#=baseIndent+indent#>		{
+	<#=baseIndent+indent#>			this._<#=edmContext.ToCamelCase()#>.Dispose();
+	<#=baseIndent+indent#>		}
+	<#=baseIndent+indent#>  }
+	<#=baseIndent+indent#>  base.Dispose(disposing);
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public <#=edm.TargetNamespace + "." + edm.Name#> GetEDM()
+    <#=baseIndent+indent#>{
+    <#=baseIndent+indent#>  return this.<#= edmContext #>;
+    <#=baseIndent+indent#>}	
+
+	<#+
+	}
+	#>
+		
+	<#=baseIndent+indent#>[Ignore]	
+	<#=baseIndent+indent#>public void AddCustomChanges(Entity changedEntity, Entity originalEntity, ChangeOperation operation)
+	<#=baseIndent+indent#>{
+	<#=entityAdapterDesignerRoot.GetAddCustomChangesDef(edm, "	" + baseIndent + indent + indent)#>
+	<#=baseIndent+indent#>}	
+	
+	<#=baseIndent+indent#>private int CurrentIdLinx(string connection)
+    <#=baseIndent+indent#>{
+	<#=baseIndent+indent#>    if(SecurityHelper.IsNull()) return 0;
+    <#=baseIndent+indent#>    var idLinx = SecurityHelper.GetCurrentIdLinx(connection, this.Headers);
+    <#=baseIndent+indent#>    return idLinx ?? 0;
+    <#=baseIndent+indent#>}
+    <#=baseIndent+indent#>private int CurrentIdGpEcon()
+    <#=baseIndent+indent#>{
+	<#=baseIndent+indent#>    if(SecurityHelper.IsNull()) return 0;
+    <#=baseIndent+indent#>    var idGpEcon = SecurityHelper.GetCurrentIdGpecon(this.Headers);
+    <#=baseIndent+indent#>    return idGpEcon ?? 0;
+    <#=baseIndent+indent#>}
+	<#=baseIndent+indent#>private int[] CurrentIdFiliais()
+    <#=baseIndent+indent#>{
+	<#=baseIndent+indent#>    if(SecurityHelper.IsNull()) return new int[0] ;
+    <#=baseIndent+indent#>    var idFiliais = SecurityHelper.GetCurrentUserBrandInfo(this.Headers);
+    <#=baseIndent+indent#>    return idFiliais ?? new int[0] ;
+    <#=baseIndent+indent#>}
+	
+	<#=baseIndent+indent#>[Ignore]	
+	<#=baseIndent+indent#>public void SubmitData(DomainServiceContext context, Entity changedEntity, Entity originalEntity, ChangeOperation operation)
+	<#=baseIndent+indent#>{
+    <#=baseIndent+indent#>  var changeSetEntries = new ChangeSetEntry[] { new ChangeSetEntry(0, changedEntity, originalEntity, (DomainOperation)Enum.Parse(typeof(DomainOperation), operation.ToString())) { HasMemberChanges = true } };
+    <#=baseIndent+indent#>  if (context == null) this.Initialize(); else this.Initialize(context);
+    <#=baseIndent+indent#>  this.Submit(new ChangeSet(changeSetEntries));
+	<#=baseIndent+indent#>}	
+
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public void SubmitData(DomainServiceContext context, List<EntityChange> entityChanges)
+	<#=baseIndent+indent#>{
+    <#=baseIndent+indent#>  if (entityChanges.Count == 0) return;
+    <#=baseIndent+indent#>  List<ChangeSetEntry> changeSetEntries = new List<ChangeSetEntry>();
+    <#=baseIndent+indent#>  for (int changeIndex = 0; changeIndex < entityChanges.Count; changeIndex++)
+    <#=baseIndent+indent#>  {
+    <#=baseIndent+indent#>      changeSetEntries.Add( new ChangeSetEntry(changeIndex, entityChanges[changeIndex].Entity, entityChanges[changeIndex].Original, (DomainOperation)Enum.Parse(typeof(DomainOperation), entityChanges[changeIndex].Operation.ToString())) { HasMemberChanges = true } );
+    <#=baseIndent+indent#>  }
+    <#=baseIndent+indent#>  if (context == null) this.Initialize(); else this.Initialize(context);
+    <#=baseIndent+indent#>  this.Submit(new ChangeSet(changeSetEntries));
+	<#=baseIndent+indent#>}
+	
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public void SaveCustomChanges()
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent+indent#><#=(edm != null ? "this.InvokeSaveChanges();" : "")#>
+	<#=baseIndent+indent#>}		
+
+	<#=baseIndent+indent#>#region Workflow Invoke Definitions
+		
+<#=entityAdapterDesignerRoot.GenerateWorkflowInvokers("	" + baseIndent + indent)#>
+
+	<#=baseIndent+indent#>#endregion Workflow Invoke Definitions
+	
+	<#=baseIndent+indent#>#region KPI Informations
+		
+<#=entityAdapterDesignerRoot.GenerateKpiInformations("	" + baseIndent + indent)#>
+
+	<#=baseIndent+indent#>#endregion KPI Informations
+
+	<#=baseIndent+indent#>#region Entity Event Call Definitions
+	
+	<#=baseIndent+indent#>private bool OnValidatingChanges(ChangeSet changeSet)
+	<#=baseIndent+indent#>{
+	
+	<#+	
+	
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{	
+		GenerateEntityEventCall(entity, "OnValidatingChanges", true);		
+	}
+	
+	#>
+
+	<#=baseIndent+indent+indent#>return true;
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>private void OnSavingChanges(ChangeSet changeSet)
+	<#=baseIndent+indent#>{
+	
+	<#+	
+	
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{	
+		GenerateEntityEventCall(entity, "OnSavingChanges", false, true, entityAdapterDesignerRoot.HasDomainServiceExtension());
+		GenerateContextEventCall(entity, "OnSavingContextChanges", true, entityAdapterDesignerRoot.HasDomainServiceExtension());
+	}
+	
+	#>
+	
+	<#=baseIndent+indent#>}
+	
+	<#=baseIndent+indent#>private void SaveMedia(ChangeSet changeSet)
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent#>		foreach (ChangeSetEntry entry in changeSet.ChangeSetEntries)
+	<#=baseIndent+indent#>		{
+<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.EntityAdapters)
+	{			
+		if (entity.HasEnabledMedias())
+		{
+#>
+	<#=baseIndent+indent#>			if (entry.Entity is <#=entity.Name#>) ((<#=entity.Name#>)entry.Entity).SaveMedia(entry.Operation);
+<#+
+		}
+	}
+#>
+	<#=baseIndent+indent#>		}
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>private void OnSavedChanges(ChangeSet changeSet)
+	<#=baseIndent+indent#>{
+	
+	<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{			
+		GenerateEntityEventCall(entity, "OnSavedChanges", false, true, entityAdapterDesignerRoot.HasDomainServiceExtension());
+		GenerateContextEventCall(entity, "OnSavedContextChanges", true, entityAdapterDesignerRoot.HasDomainServiceExtension());
+	}
+	#>
+	
+	<#=baseIndent+indent#>}
+		
+	<#=baseIndent+indent#>private void OnTransactingChanges(ChangeSet changeSet)
+	<#=baseIndent+indent#>{
+	
+	<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{			
+		GenerateEntityEventCall(entity, "OnTransactingChanges", false, true, entityAdapterDesignerRoot.HasDomainServiceExtension());
+		GenerateContextEventCall(entity, "OnTransactingContextChanges", true, entityAdapterDesignerRoot.HasDomainServiceExtension());
+	}
+	#>
+	
+	<#=baseIndent+indent#>}
+	
+	<#=baseIndent+indent#>private void OnTransactedChanges(ChangeSet changeSet)
+	<#=baseIndent+indent#>{
+	
+	<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{			
+		GenerateEntityEventCall(entity, "OnTransactedChanges", false, true, entityAdapterDesignerRoot.HasDomainServiceExtension());
+		GenerateContextEventCall(entity, "OnTransactedContextChanges", true, entityAdapterDesignerRoot.HasDomainServiceExtension());
+	}
+	#>
+	
+	<#=baseIndent+indent#>}
+		
+	<#=baseIndent+indent#>#endregion Entity Event Call Definitions
+	
+	<#=baseIndent+indent#>#region Transaction Control.
+	
+	<#=baseIndent+indent#>TransactionScope transactionScope = null;	
+	
+	<#=baseIndent+indent#>//Adjust Hierarchy Composition
+	<#=baseIndent+indent#>private ChangeSet AdjustHierarchyForSaving(ChangeSet changeSet)
+	<#=baseIndent+indent#>{
+
+		<#=entityAdapterDesignerRoot.GenerateHierarchyForSaving("	" + baseIndent+indent+indent)#>	
+
+	<#=baseIndent+indent#>}
+
+
+	<#+
+	List<EntityAdapter> representedEntitiesForSave = entityAdapterDesignerRoot.GetRepresentedEntitiesForSave();
+	#>
+
+	<#=baseIndent+indent#>//Transactions control
+	<#=baseIndent+indent#>public override bool Submit(ChangeSet changeSet)
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent+indent#>bool result = false;
+	<#=baseIndent+indent+indent#>try
+	<#=baseIndent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#>currentChangeSet = changeSet = AdjustHierarchyForSaving(changeSet);
+	<#=baseIndent+indent+indent+indent#>if (!OnValidatingChanges(changeSet)) return false;
+
+	<#=baseIndent+indent+indent+indent#>Dictionary<object, object> oldKeys = new Dictionary<object, object>();
+	<#=baseIndent+indent+indent+indent#>//Get temporary keys.
+	<#=baseIndent+indent+indent+indent#>if (_controlKeyMapping)
+	<#=baseIndent+indent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#>    foreach (ChangeSetEntry entry in changeSet.ChangeSetEntries)
+	<#=baseIndent+indent+indent+indent#>    {	
+	<#=baseIndent+indent+indent+indent#>        var keys = ObjectExtension.GetKeyProperties(entry.Entity.GetType());
+	<#=baseIndent+indent+indent+indent#>        if (keys.Count == 0) keys.Add("EntityUniqueKey");
+	<#=baseIndent+indent+indent+indent#>        string tempKey = String.Join(":::", keys.Select(p => entry.Entity.GetPropertyValue(p)));
+	<#=baseIndent+indent+indent+indent#>        if (!tempKey.IsNullOrEmpty())
+	<#=baseIndent+indent+indent+indent#>            oldKeys.Add(entry.Entity, tempKey);
+	<#=baseIndent+indent+indent+indent#>    }
+	<#=baseIndent+indent+indent+indent#>}
+
+	<#=baseIndent+indent+indent+indent#>OnSavingChanges(changeSet);
+	<#=baseIndent+indent+indent+indent#>result = base.Submit(changeSet);
+	<#=baseIndent+indent+indent+indent#>if (!changeSet.HasError)
+	<#=baseIndent+indent+indent+indent#>{	
+	<#=baseIndent+indent+indent+indent+indent#><#=(representedEntitiesForSave.Count == 0 || entityAdapterDesignerRoot.FirstSaveRepresentations ? "" : "SaveAllRepresentations();")#>
+
+	<#=baseIndent+indent+indent+indent+indent#>//Refresh real keys.
+	<#=baseIndent+indent+indent+indent+indent#>foreach (ChangeSetEntry entry in changeSet.ChangeSetEntries)
+	<#=baseIndent+indent+indent+indent+indent#>{	
+<#+
+	if (entityAdapterDesignerRoot.RefreshIdentityKeysAfterSave)
+	{
+#>
+	<#=baseIndent+indent+indent+indent+indent#>    if (entry.Entity is Entity && changeSet.GetChangeOperation(entry.Entity) == ChangeOperation.Insert)
+	<#=baseIndent+indent+indent+indent+indent#>    	 ((Entity)entry.Entity).RefreshKeys();
+<#+
+	}	
+	else 
+	{
+#>
+	<#=baseIndent+indent+indent+indent+indent#>    if (!_controlKeyMapping)
+	<#=baseIndent+indent+indent+indent+indent#>    	 break;
+<#+
+	}	
+#>
+	<#=baseIndent+indent+indent+indent+indent#>
+	<#=baseIndent+indent+indent+indent+indent#>    if (<#=(entityAdapterDesignerRoot.RefreshIdentityKeysAfterSave ? "_controlKeyMapping && " : "")#>oldKeys.ContainsKey(entry.Entity))
+	<#=baseIndent+indent+indent+indent+indent#>    {
+	<#=baseIndent+indent+indent+indent+indent#>		   var entityType = entry.Entity.GetType();
+	<#=baseIndent+indent+indent+indent+indent#>        var keys = ObjectExtension.GetKeyProperties(entityType);
+	<#=baseIndent+indent+indent+indent+indent#>        if (keys.Count == 0) keys.Add("EntityUniqueKey");
+	<#=baseIndent+indent+indent+indent+indent#>        string newKey = String.Join(":::", keys.Select(p => entry.Entity.GetPropertyValue(p)));
+	<#=baseIndent+indent+indent+indent+indent#>        if (!newKey.IsNullOrEmpty())
+	<#=baseIndent+indent+indent+indent+indent#>        {
+	<#=baseIndent+indent+indent+indent+indent#>            _keyMappings.Add(new DataKeyMapping
+	<#=baseIndent+indent+indent+indent+indent#>           {
+	<#=baseIndent+indent+indent+indent+indent#>               EntityTypeName = entityType.FullName,
+	<#=baseIndent+indent+indent+indent+indent#>               RealValue = (changeSet.GetChangeOperation(entry.Entity) == ChangeOperation.Delete ? null : newKey),
+	<#=baseIndent+indent+indent+indent+indent#>               TempValue = (changeSet.GetChangeOperation(entry.Entity) == ChangeOperation.Insert ? oldKeys[entry.Entity] : newKey)
+	<#=baseIndent+indent+indent+indent+indent#>           });
+	<#=baseIndent+indent+indent+indent+indent#>        }
+	<#=baseIndent+indent+indent+indent+indent#>    }
+
+	<#=baseIndent+indent+indent+indent+indent#>}	
+
+	<#=baseIndent+indent+indent+indent+indent#>OnTransactedChanges(changeSet);
+	<#=baseIndent+indent+indent+indent+indent#>if (!transactionScope.IsNull()) transactionScope.Complete();	
+	<#=baseIndent+indent+indent+indent#>}
+	<#=baseIndent+indent+indent#>}
+	<#=baseIndent+indent+indent#>catch (Exception exp)
+	<#=baseIndent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#>throw new DomainException(exp.Message, exp.InnerException);
+	<#=baseIndent+indent+indent#>}
+	<#=baseIndent+indent+indent#>finally
+	<#=baseIndent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#>if (!transactionScope.IsNull())
+	<#=baseIndent+indent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent+indent#>transactionScope.Dispose();
+	<#=baseIndent+indent+indent+indent+indent#>transactionScope = null;
+	<#=baseIndent+indent+indent+indent#>}
+	<#=baseIndent+indent+indent#>}
+	<#=baseIndent+indent#>
+	<#=baseIndent+indent+indent#>OnSavedChanges(changeSet);
+	<#=baseIndent+indent+indent#>SaveMedia(changeSet);
+	<#=baseIndent+indent+indent#>return result;
+	<#=baseIndent+indent#>}
+
+	
+	<#=baseIndent+indent#>protected override bool PersistChangeSet()
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent+indent#>transactionScope = <#=(edm == null ? "null" : "(this.GetEDM().ProviderName == \"SQLite\" ? null : new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted }))")#>;
+	<#=baseIndent+indent+indent#>OnTransactingChanges(this.ChangeSet);
+	<#=baseIndent+indent+indent#>bool result = <#=(edm == null ? "base.PersistChangeSet()" : "this.InvokeSaveChanges()")#>;
+	<#=baseIndent+indent+indent#><#=(representedEntitiesForSave.Count == 0 || !entityAdapterDesignerRoot.FirstSaveRepresentations ? "" : "if (result) SaveAllRepresentations();")#>
+	<#=baseIndent+indent+indent#>return result;
+	<#=baseIndent+indent#>}
+	
+	<#=baseIndent+indent#>#endregion Transaction Control.
+		
+<#+
+	if (representedEntitiesForSave.Count > 0)
+	{
+#>
+
+	<#=baseIndent+indent#>#region Save Representations.
+
+	<#=baseIndent+indent#>//Replace detail keys
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>private void ReplaceDetailsByParent(List<EntityChange> entityChanges, Entity parent)
+	<#=baseIndent+indent#>{
+		<#=entityAdapterDesignerRoot.GenerateReplaceDetailsByParent("	" + baseIndent+indent+indent)#>	
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>//Save all entity representations
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>private void SaveAllRepresentations()
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent+indent#>List<EntityChange> entityChanges = new List<EntityChange>();
+		<#+
+		foreach (EntityAdapter entity in representedEntitiesForSave)
+		{	
+		#>		
+	<#=baseIndent+indent+indent#>SaveBufferRepresentationsOf<#=entity.Name#>(entityChanges);		
+		<#+
+		}
+		#>
+
+	<#=baseIndent+indent+indent#>if (entityChanges.Count == 0) return;
+		<#=entityAdapterDesignerRoot.GenerateSubmitDataForEntityRepresentations(representedEntitiesForSave, "	" + baseIndent+indent+indent)#>	
+
+	<#=baseIndent+indent#>}
+
+	<#+
+	foreach (EntityAdapter entity in representedEntitiesForSave)
+	{	
+	#>		
+	  <#=entity.GenerateMainTenanceForEntityRepresentations("	" + baseIndent + indent)#>		
+	<#+
+	}
+	#>
+
+	<#=baseIndent+indent#>#endregion Save Representations.
+
+<#+
+	}
+#>
+
+
+	<#=baseIndent+indent#>#region Get OLAP Definitions.
+	
+	<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetOlapEntities())
+	{			
+		#>
+
+		<#=entity.GenerateOlapQuery(baseIndent+indent)#>
+
+		<#+
+	}	
+	#>
+		
+	<#+
+	foreach (LookUpAdapter lookup in entityAdapterDesignerRoot.GetOlapLookups())
+	{			
+		#>
+
+		<#=lookup.GenerateOlapQuery(baseIndent+indent)#>
+
+		<#+
+	}	
+	#>
+
+	<#=baseIndent+indent#>#endregion Get OLAP Definitions.
+
+
+	<#=baseIndent+indent#>#region Get LookUp Definitions.
+	
+	<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{			
+		GenerateIndependentLookUpMethod(edm, contextName, entity, baseIndent+indent);		
+	}	
+	#>
+		
+	<#=baseIndent+indent#>#endregion Get LookUp Definitions.
+			
+
+	<#=baseIndent+indent#>#region Get Meta Data.
+
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public List<BmMetaDataProperty> GetBmEntityProperties(string entityName, string parentDataPath)
+	<#=baseIndent+indent#>{
+	<#+if(edm != null)
+	{
+	#>
+	<#=baseIndent+indent+indent#>return this.GetEDM().GetBmEntityProperties(entityName, parentDataPath);
+	<#+} 
+	else 
+	{#>
+	<#=baseIndent+indent+indent#>var olapCatalog = ObjectExtension.GetFunctionalPointOfType(Type.GetType("<#=entityAdapterDesignerRoot.TargetNamespace + "." + contextName#>." + entityName), "OlapCatalogName");
+    <#=baseIndent+indent+indent#>var cubeName =  ObjectExtension.GetFunctionalPointOfType(Type.GetType("<#=entityAdapterDesignerRoot.TargetNamespace + "." + contextName#>." + entityName), "CubeName");
+	<#=baseIndent+indent+indent#>string connString = Linx.Business.Tools.CacheAccessHelper.GetConnectionString(olapCatalog);
+    <#=baseIndent+indent+indent#>if (connString == "name=" + olapCatalog) connString = Linx.Tools.ConnectionManager.GetConnectionString(olapCatalog);
+    <#=baseIndent+indent+indent#>var olap = new OlapReader();
+    <#=baseIndent+indent+indent#>if (parentDataPath.IsNullOrEmpty())
+    <#=baseIndent+indent+indent#>    return olap.GetOlapMetaDataProperty(connString, cubeName, entityName).OfType<BmMetaDataProperty>().Where(x => x.id != "Measures").ToList();
+    <#=baseIndent+indent+indent#>else
+    <#=baseIndent+indent+indent#>    return olap.GetOlapMetaDataPropertyDetails(connString, cubeName, parentDataPath).OfType<BmMetaDataProperty>().Where(x => x.id != "Measures").ToList();
+	<#+}#>
+	<#=baseIndent+indent#>}
+	
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>//Get Meta Data.
+	<#=baseIndent+indent#>public string GetMetaData(string entityName, bool forceAll = false)
+    <#=baseIndent+indent#>{
+	<#=baseIndent+indent+indent#>return SerializationManager<List<LinxEntityReferenceInfo>>.ObjectToString(GetMetaDataObject(entityName, forceAll));
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public List<LinxEntityReferenceInfo> GetMetaDataObject(string entityName, bool forceAll = false, bool removeParentComposition = false)
+    <#=baseIndent+indent#>{
+    <#=baseIndent+indent#>    List<LinxEntityReferenceInfo> result = new List<LinxEntityReferenceInfo>();
+	
+	<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{			
+		GenerateEntityReferenceInfo(contextName, entity, baseIndent+indent+indent);	
+	}
+	#>
+
+    <#=baseIndent+indent#>    return result;
+    <#=baseIndent+indent#>}
+	
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public string[] GetClientDomains(bool erp)
+    <#=baseIndent+indent#>{	
+	<#=baseIndent+indent#>		if (erp)
+	<#=baseIndent+indent#>		{
+<#=entityAdapterDesignerRoot.GenGetClientDomains("    "+baseIndent+indent+"		    ", true)#>	
+	<#=baseIndent+indent#>		}
+	<#=baseIndent+indent#>		else 
+	<#=baseIndent+indent#>		{
+<#=entityAdapterDesignerRoot.GenGetClientDomains("    "+baseIndent+indent+"		    ", false)#>	
+	<#=baseIndent+indent#>		}
+
+    <#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public string[] GetClientService(bool erp)
+    <#=baseIndent+indent#>{	
+
+	<#=baseIndent+indent#>		if (erp)
+	<#=baseIndent+indent#>		{
+<#=entityAdapterDesignerRoot.GenGetClientService("    "+baseIndent+indent+"		    ", true)#>		
+	<#=baseIndent+indent#>		}
+	<#=baseIndent+indent#>		else 
+	<#=baseIndent+indent#>		{
+<#=entityAdapterDesignerRoot.GenGetClientService("    "+baseIndent+indent+"		    ", false)#>	
+	<#=baseIndent+indent#>		}
+
+    <#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public string[] GetClientFactory(string entityName, bool erp)
+    <#=baseIndent+indent#>{	
+
+	<#=baseIndent+indent#>		if (erp)
+	<#=baseIndent+indent#>		{
+<#=entityAdapterDesignerRoot.GenGetClientFactory("    "+baseIndent+indent+"		    ", false, true)#>	
+	<#=baseIndent+indent#>		}
+	<#=baseIndent+indent#>		else 
+	<#=baseIndent+indent#>		{
+<#=entityAdapterDesignerRoot.GenGetClientFactory("    "+baseIndent+indent+"		    ", false, false)#>	
+	<#=baseIndent+indent#>		}
+
+    <#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>[Ignore]
+	<#=baseIndent+indent#>public string[] GetClientFactoryCustomEvents(string entityName, bool erp)
+    <#=baseIndent+indent#>{	
+
+	<#=baseIndent+indent#>		if (erp)
+	<#=baseIndent+indent#>		{
+<#=entityAdapterDesignerRoot.GenGetClientFactory("    "+baseIndent+indent+"		    ", true, true)#>	
+	<#=baseIndent+indent#>		}
+	<#=baseIndent+indent#>		else 
+	<#=baseIndent+indent#>		{
+<#=entityAdapterDesignerRoot.GenGetClientFactory("    "+baseIndent+indent+"		    ", true, false)#>	
+	<#=baseIndent+indent#>		}
+
+    <#=baseIndent+indent#>}
+	
+	<#=baseIndent+indent#>#endregion Get Meta Data.
+	
+	<#=baseIndent+indent#>#region Clear Methods Definitions.
+	
+	<#+
+	 foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	 {			
+	 	GenerateIndependentClearMethod(entity, baseIndent+indent, false, entityAdapterDesignerRoot.HasDomainServiceExtension());	
+	 }
+	#>
+	
+	<#=baseIndent+indent#>#endregion Clear Methods Definitions.
+	
+	<#=baseIndent+indent#>#region Get Methods Definitions.
+	
+<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{			
+		GenerateIndependentGetMethod(edm, entity, baseIndent+indent, false, false, false, false, entityAdapterDesignerRoot.HasDomainServiceExtension());		
+		GenerateIndependentGetMethod(edm, entity, baseIndent+indent, false, true, false, false, entityAdapterDesignerRoot.HasDomainServiceExtension());		
+	}
+#>
+	
+	<#=baseIndent+indent#>#endregion Get Methods Definitions.
+	
+	<#=baseIndent+indent#>#region Excluded Filters
+	
+	<#=baseIndent+indent#>private List<string> GetExcludedFilters()
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent#>	List<string> result = new List<string>();
+<#+
+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.EntityAdapters)
+	{		
+		foreach (var prop in entity.GetAllInheritanceAttributes())
+		{
+			if (entity.ExcludeAsFilter(prop))
+			{
+			  var bmKey = prop.GetEdmPath();
+			  if (!bmKey.IsNullOrEmpty())
+			  {
+#>
+	<#=baseIndent+indent#>	result.Add("<#=entity.Name + "|" + prop.Name#>");
+	<#=baseIndent+indent#>	result.Add("<#=entity.Name + "|" + bmKey#>");
+<#+
+			  }
+			}
+		}
+		var topParent = entity.GetTopParent();
+		if (entity != topParent && topParent.IsDashboardFilter)
+		{
+		  foreach (var prop in topParent.GetNonExistentAttributes(entity))
+		  {
+			var bmKey = prop.GetEdmPath();
+			if (!bmKey.IsNullOrEmpty())
+			{
+#>
+	<#=baseIndent+indent#>	result.Add("<#=entity.Name + "|" + prop.Name#>");
+	<#=baseIndent+indent#>	result.Add("<#=entity.Name + "|" + bmKey#>");
+<#+
+			}
+		  }
+		}
+
+		if (!entity.PrimaryEntity.IsNullOrEmpty() && !entity.IsDashboardFilter && !entity.IsOlap() && entity.GetCurrentDataModel() != null)
+		{
+#>
+	<#=baseIndent+indent#>	//Add filtering disabled property for <#=entity.PrimaryEntity#>
+	<#=baseIndent+indent#>	string[] bmDisabled<#=entity.Name#>List = this.GetEDM().GetFilteringDisabledList("<#=entity.PrimaryEntity#>");
+	<#=baseIndent+indent#>	if (bmDisabled<#=entity.Name#>List.Length > 0)
+	<#=baseIndent+indent#>	{
+<#+
+		  foreach (var prop in entity.GetAllInheritanceAttributes())
+		  {
+			var bmKey = prop.GetEdmPath();
+			if (bmKey.Occurs(".") == 1 && bmKey.StartsWith(entity.PrimaryEntity + ".") && !entity.ExcludeAsFilter(prop))
+			{
+#>	
+	<#=baseIndent+indent#>		if (bmDisabled<#=entity.Name#>List.Contains("<#=bmKey#>"))
+	<#=baseIndent+indent#>		{
+	<#=baseIndent+indent#>			result.Add("<#=entity.Name + "|" + prop.Name#>");
+	<#=baseIndent+indent#>			result.Add("<#=entity.Name + "|" + bmKey#>");
+	<#=baseIndent+indent#>		}
+<#+
+			}
+		  }
+
+#>
+	<#=baseIndent+indent#>	}
+<#+
+
+		}
+	}
+#>
+	<#=baseIndent+indent#>	return result;
+	<#=baseIndent+indent#>}
+
+	<#=baseIndent+indent#>#endregion Excluded Filters
+
+	<#=baseIndent+indent#>#region Get By EntitySearchId Methods Definitions.
+	
+	<#+
+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{			
+		GenerateIndependentGetByEntitySearchIdMethod(entity, baseIndent+indent, false, entityAdapterDesignerRoot);		
+		GenerateIndependentGetByEntitySearchIdMethod(entity, baseIndent+indent, true, entityAdapterDesignerRoot);	
+	}
+	#>
+	
+	<#=baseIndent+indent#>#endregion Get By EntitySearchId Methods Definitions.
+
+	<#=baseIndent+indent#>#region Get QBE Methods Definitions.
+	
+	<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{			
+		GenerateIndependentGetQBEMethod(entity, baseIndent+indent, false);		
+		GenerateIndependentGetQBEMethod(entity, baseIndent+indent, true);	
+	}
+	#>
+	
+	<#=baseIndent+indent#>#endregion Get QBE Methods Definitions.
+		
+	<#=baseIndent+indent#>#region Get Entity By Key
+
+<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.EntityAdapters)
+	{	
+#>
+
+<#=entity.GetGetEntityByKey(contextName, "	" + baseIndent+indent)#>
+<#+
+	}
+#>
+
+	<#=baseIndent+indent#>#endregion Get Entity By Key
+	
+	<#=baseIndent+indent#>#region Get By Entity Search Methods Definitions.
+	
+	<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{			
+		GenerateIndependentGetMethod(edm, entity, baseIndent+indent, true, false, false, false, entityAdapterDesignerRoot.HasDomainServiceExtension());		
+		GenerateIndependentGetMethod(edm, entity, baseIndent+indent, true, true, false, false, entityAdapterDesignerRoot.HasDomainServiceExtension());
+		if (entity.IsParentCompositionAllowed())
+			GenerateIndependentGetMethod(edm, entity, baseIndent+indent, true, true, false, true, entityAdapterDesignerRoot.HasDomainServiceExtension());	
+
+		GenerateIndependentSetBusinessFilterMethod(entity, baseIndent+indent);
+	}
+	#>
+	
+	<#=baseIndent+indent#>#endregion Get By Entity Search Methods Definitions.
+	
+
+	<#=baseIndent+indent#>#region Paging Methods Definitions.
+	
+	<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{ 
+	  
+		GenerateIndependentGetMethod(edm, entity, baseIndent+indent, true, true, true, false, entityAdapterDesignerRoot.HasDomainServiceExtension());
+		if (!entity.IsModelView)
+			GenerateIndependentCountMethod(edm, entity, baseIndent+indent, false);	  
+	}
+	#>
+	
+	<#=baseIndent+indent#>#endregion Paging Methods Definitions.
+
+
+	<#=baseIndent+indent#>#region Update Methods Definitions.
+	
+	<#+
+	foreach (EntityAdapter entity in entityAdapterDesignerRoot.GetEntities())
+	{			
+		GenerateUpdateMethod(edm, entity, baseIndent+indent);	
+	}
+	#>
+	
+	<#=baseIndent+indent#>#endregion Update Methods Definitions.
+		
+<#=entityAdapterDesignerRoot.GenerateStoreScriptsCode("	"+baseIndent+indent, (edm != null && edm.EdmInfo.IsDbContext))#>
+	
+	<#=baseIndent+indent#>		
+	<#=baseIndent#>}
+		
+	<#+
+}
+
+private void GenerateEntityEventCall(EntityAdapter entity, string eventName, bool testResult = false, bool callUserExtension = false, bool hasDomainServiceExtension = false)
+{
+	string baseIndent = String.Empty, indent = "    ", eventCall, userEventCall;
+	
+	eventCall = entity.GetEventCall(eventName);
+    if (!String.IsNullOrEmpty(eventCall))
+    {	
+    #>
+    
+	<#=baseIndent+indent+indent#>foreach (ChangeSetEntry entry in changeSet.ChangeSetEntries.Where(e => e.Entity is <#=entity.Name#>))
+	<#=baseIndent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#><#=(testResult ? "if (!" : "")#>((<#=entity.Name#>)entry.Entity).<#=eventCall#>(this, changeSet.GetChangeOperation(entry.Entity))<#=(testResult ? ") return false" : "")#>;
+	<#=baseIndent+indent+indent#>}
+    <#+		
+    }	
+
+	if (callUserExtension && hasDomainServiceExtension)
+	{
+		userEventCall = eventName + entity.Name;
+	#>
+
+	<#=baseIndent+indent+indent#>//User Extension <#=userEventCall#>
+	<#=baseIndent+indent+indent#>if (!DomainServiceExtension.IsNull() && DomainServiceExtension.Has<#=userEventCall#>User)
+	<#=baseIndent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#>foreach (ChangeSetEntry entry in changeSet.ChangeSetEntries.Where(e => e.Entity is <#=entity.Name#>))
+	<#=baseIndent+indent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent+indent#><#=(testResult ? "if (!" : "")#>DomainServiceExtension.<#=userEventCall#>User(this, (<#=entity.Name#>)entry.Entity, changeSet.GetChangeOperation(entry.Entity))<#=(testResult ? ") return false" : "")#>;
+	<#=baseIndent+indent+indent+indent#>}
+	<#=baseIndent+indent+indent#>}
+	<#+		
+	}
+
+	foreach (EntityAdapter detail in entity.SourceEntityAdapters)
+    {
+		GenerateEntityEventCall(detail, eventName, testResult, callUserExtension, hasDomainServiceExtension);
+    }
+}
+
+private void GenerateContextEventCall(EntityAdapter entity, string eventName, bool callUserExtension = false, bool hasDomainServiceExtension = false)
+{
+	string baseIndent = String.Empty, indent = "    ", eventCall, userEventCall;
+	
+	eventCall = entity.GetEventCall(eventName);
+    if (!String.IsNullOrEmpty(eventCall))
+    {	
+    #>
+
+	<#=baseIndent+indent+indent#><#=entity.Name#>.<#=eventCall#>(this, changeSet.ChangeSetEntries.Where(e => e.Entity is <#=entity.Name#>).ToArray());
+    <#+		
+    }	
+
+	if (callUserExtension && hasDomainServiceExtension)
+	{
+		userEventCall = eventName + entity.Name;
+    #>
+
+	<#=baseIndent+indent+indent#>//User Extension <#=userEventCall#>
+	<#=baseIndent+indent+indent#>if (!DomainServiceExtension.IsNull() && DomainServiceExtension.Has<#=userEventCall#>User)
+	<#=baseIndent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#>DomainServiceExtension.<#=userEventCall#>User(this, changeSet.ChangeSetEntries.Where(e => e.Entity is <#=entity.Name#>).ToArray());
+	<#=baseIndent+indent+indent#>}
+    <#+		
+	}
+
+	foreach (EntityAdapter detail in entity.SourceEntityAdapters)
+    {
+     GenerateContextEventCall(detail, eventName, hasDomainServiceExtension);
+    }
+}
+
+private void GenerateUpdateMethod(EntityDataModel edm, EntityAdapter entity, string indent)
+{		
+	string edmContext = edm == null ? "" : (edm.EdmInfo.IsDbContext ? "DbContext" : "ObjectContext");	
+	#>		
+	<#=indent#><#=(entity.EntityAdapterDesignerRoot.EnableAutomaticAuthorization ? "[" + entity.Name + "UpdateCustomAuthorizationAuto()]" : "")#>
+	<#=indent#>[Update()]	
+	<#=indent#>//Update <#=entity.Name#>.
+	<#=indent#>public void Update<#=entity.Name#>(<#=entity.Name#> entity)
+	<#=indent#>{
+
+<#=entity.GetManualAuthorization("Update", "Update" + entity.Name, "	"+indent+indent)#>
+
+	<#+
+	if (!entity.IsReadOnly && entity.CreateCRUD && !entity.PrimaryEntity.IsNullOrEmpty() && entity.EntityAdapterRepresentation == null && !(entity.IsModelView && (entity.GetCurrentDataModel() == null || entity.ModelViewDbSets.IsNullOrEmpty())))
+	{
+	if (!entity.TargetEntityAdapter.IsNull())
+	{
+	#>
+
+	<#=indent+indent#>if (entity.<#=entity.TargetEntityAdapter.Name#>.IsNull() || this.ChangeSet.IsNull() || this.ChangeSet.GetChangeOperation(entity.<#=entity.TargetEntityAdapter.Name#>) != ChangeOperation.Delete)
+	<#=indent+indent#>{
+
+	<#+
+	}
+	#>
+<#=entity.GetSurrogateSuport("	"+indent+indent+indent, (edm != null && edm.EdmInfo.IsDbContext))#>
+	<#=indent+indent+indent#>entity.ApplyChanges(this.<#= edmContext #>, <#=(entity.IsSingleBufferUpdate ? "this.ChangeSet.GetOriginal(entity)" : "null")#>, ChangeOperation.Update, <#=(!entity.TargetEntityAdapter.IsNull() && !entity.TargetEntityAdapter.IsAggregationView ? "entity." + entity.TargetEntityAdapter.Name : "null")#>); 	
+	<#=indent+indent+indent#><#=(entity.NoBufferChanges ? "this.SaveCustomChanges();" : "")#>
+
+	<#+
+	if (!entity.TargetEntityAdapter.IsNull())
+	{
+	#>
+
+	<#=indent+indent#>}
+	<#+
+	}
+	}
+	#>
+
+	<#=indent#>}
+
+	<#=indent#><#=(entity.EntityAdapterDesignerRoot.EnableAutomaticAuthorization ? "[" + entity.Name + "InsertCustomAuthorizationAuto()]" : "")#>
+	<#=indent#>[Insert()]
+	<#=indent#>//Insert <#=entity.Name#>.
+	<#=indent#>public void Insert<#=entity.Name#>(<#=entity.Name#> entity)
+	<#=indent#>{
+
+<#=entity.GetManualAuthorization("Insert", "Insert" + entity.Name, "	"+indent+indent)#>
+
+	<#+
+	if (!entity.IsReadOnly && entity.CreateCRUD && !entity.PrimaryEntity.IsNullOrEmpty() && entity.EntityAdapterRepresentation == null && !(entity.IsModelView && (entity.GetCurrentDataModel() == null || entity.ModelViewDbSets.IsNullOrEmpty())))
+	{
+	if (!entity.TargetEntityAdapter.IsNull())
+	{
+	#>
+
+	<#=indent+indent#>if (entity.<#=entity.TargetEntityAdapter.Name#>.IsNull() || this.ChangeSet.IsNull() || this.ChangeSet.GetChangeOperation(entity.<#=entity.TargetEntityAdapter.Name#>) != ChangeOperation.Delete)
+	<#=indent+indent#>{
+
+	<#+
+	}
+	#>
+
+	<#=indent+indent+indent#>entity.ApplyChanges(this.<#= edmContext #>, null, ChangeOperation.Insert, <#=(!entity.TargetEntityAdapter.IsNull() && !entity.TargetEntityAdapter.IsAggregationView ? "entity." + entity.TargetEntityAdapter.Name : "null")#>);
+	<#=indent+indent+indent#><#=(entity.NoBufferChanges ? "this.SaveCustomChanges();" : "")#>
+
+	<#+
+	if (!entity.TargetEntityAdapter.IsNull())
+	{
+	#>
+
+	<#=indent+indent#>}
+	<#+
+	}	
+	}
+	#>
+
+	<#=indent#>}
+
+	<#=indent#><#=(entity.EntityAdapterDesignerRoot.EnableAutomaticAuthorization ? "[" + entity.Name + "DeleteCustomAuthorizationAuto()]" : "")#>
+	<#=indent#>[Delete()]
+	<#=indent#>//Delete <#=entity.Name#>.
+	<#=indent#>public void Delete<#=entity.Name#>(<#=entity.Name#> entity)
+	<#=indent#>{
+
+<#=entity.GetManualAuthorization("Delete", "Delete" + entity.Name, "	"+indent+indent)#>
+
+	<#+
+	if (!entity.IsReadOnly && entity.CreateCRUD && !entity.PrimaryEntity.IsNullOrEmpty() && entity.EntityAdapterRepresentation == null && !(entity.IsModelView && (entity.GetCurrentDataModel() == null || entity.ModelViewDbSets.IsNullOrEmpty())))
+	{
+	if (!entity.TargetEntityAdapter.IsNull())
+	{
+	#>
+
+	<#=indent+indent#>if (entity.<#=entity.TargetEntityAdapter.Name#>.IsNull() || this.ChangeSet.IsNull() || this.ChangeSet.GetChangeOperation(entity.<#=entity.TargetEntityAdapter.Name#>) != ChangeOperation.Delete)
+	<#=indent+indent#>{
+
+	<#+
+	}
+	#>
+
+	<#=indent+indent+indent#>entity.ApplyChanges(this.<#= edmContext #>, null, ChangeOperation.Delete, <#=(!entity.TargetEntityAdapter.IsNull() && !entity.TargetEntityAdapter.IsAggregationView ? "entity." + entity.TargetEntityAdapter.Name : "null")#>);
+	<#=indent+indent+indent#><#=(entity.NoBufferChanges ? "this.SaveCustomChanges();" : "")#>
+
+	<#+
+	if (!entity.TargetEntityAdapter.IsNull())
+	{
+	#>
+
+	<#=indent+indent#>}
+
+	<#+
+	}
+	}
+	#>
+
+	<#=indent#>}
+		
+	<#+	
+	
+		
+	//Generating detail composition.
+	foreach(EntityAdapter detail in entity.SourceEntityAdapters)
+	{				
+		GenerateUpdateMethod(edm, detail, indent);
+	}
+	
+}
+
+private void GenerateIndependentGetQBEMethod(EntityAdapter entity, string indent, bool noAssociations)
+{
+	GenerateGetQBEMethod(entity, indent, noAssociations);
+	
+	//Generating detail composition.
+	foreach(EntityAdapter detail in entity.SourceEntityAdapters)
+	{				
+		GenerateIndependentGetQBEMethod(detail, indent, noAssociations);
+	}
+}
+
+private void GenerateGetQBEMethod(EntityAdapter entity, string indent, bool noAssociations)
+{	
+	#>		
+	<#=indent#>//Get <#=entity.Name#> By Example.
+	<#=indent#>[Ignore]
+	<#=indent#>public <#=(!entity.PrimaryEntity.IsNullOrEmpty() || entity.EntityAdapterRepresentation != null ? entity.QueryReturnType.ToString() : "IEnumerable")#><<#=entity.Name#>> Get<#=entity.Name + "ByExample" + (noAssociations ? "NoAssociations" : "")#>(<#=entity.Name#> entity)
+	<#=indent#>{	
+	<#=indent+indent+indent#>List<EntitySearch> entities = EntitySearch.ReadQueryFromEntityObject(entity);	
+	<#=indent+indent+indent#>string queryAnalysis = SerializationManager<List<EntitySearch>>.ObjectToString(entities);
+	<#=indent+indent+indent#>return this.Get<#=entity.Name + "ByEntitySearch" + (noAssociations ? "NoAssociations" : "")#>(queryAnalysis);
+	<#=indent#>}
+	<#+
+}
+
+private void GenerateIndependentGetByEntitySearchIdMethod(EntityAdapter entity, string indent, bool noAssociations, EntityAdapterDesignerRoot entityAdapterDesignerRoot)
+{
+	GenerateGetByEntitySearchIdMethod(entity, indent, noAssociations, entityAdapterDesignerRoot);
+	
+	//Generating detail composition.
+	foreach(EntityAdapter detail in entity.SourceEntityAdapters)
+	{				
+		GenerateIndependentGetByEntitySearchIdMethod(detail, indent, noAssociations, entityAdapterDesignerRoot);
+	}
+}
+
+
+private void GenerateGetByEntitySearchIdMethod(EntityAdapter entity, string indent, bool noAssociations, EntityAdapterDesignerRoot entityAdapterDesignerRoot)
+{	
+	#>			
+	<#=indent#>[Ignore]
+	<#=indent#>//Get <#=entity.Name#> By EntitySearchId.
+	<#=indent#>public <#=(!entity.PrimaryEntity.IsNullOrEmpty() ? entity.QueryReturnType.ToString() : "IEnumerable")#><<#=entity.Name#>> Get<#=entity.Name + "ByEntitySearchId" + (noAssociations ? "NoAssociations" : "")#>(Guid entitySearchId)
+	<#=indent#>{	
+	<#=indent+indent+indent#>string[] queryAnalysis = <#=(!entityAdapterDesignerRoot.IsTCS() ? "Linx.Business.Tools.UserServiceHelper" : "BusinessUserServiceHelper")#>.GetEntitySearchFromCache(entitySearchId);
+	<#=indent+indent+indent#>return this.Get<#=entity.Name + "ByEntitySearch" + (noAssociations ? "NoAssociations" : "")#>(queryAnalysis[0], queryAnalysis[1]);
+	<#=indent#>}
+	<#+
+}
+
+private void GenerateIndependentLookUpMethod(EntityDataModel edm, string contextName, EntityAdapter entity, string indent)
+{
+	string edmContext = edm == null ? "" : (edm.EdmInfo.IsDbContext ? "DbContext" : "ObjectContext");
+	foreach(LookUpAdapter lookUp in entity.LookUpAdapters)
+	{		
+	#>	
+			
+    <#=indent#>[Ignore]
+	<#=indent#>//Get All <#=lookUp.Name#>.
+	<#=indent#>public <#=lookUp.QueryReturnType.ToString()#><<#=lookUp.Name#>> GetAll<#=lookUp.Name#>()
+	<#=indent#>{
+	<#=indent+indent#>return this.Get<#=lookUp.Name#>(String.Empty, String.Empty, String.Empty);
+	<#=indent#>}    
+
+	<#=indent#>[Ignore]
+	<#=indent#>//Get <#=lookUp.Name#> By EntitySearch.
+	<#=indent#>public <#=lookUp.QueryReturnType.ToString()#><<#=lookUp.Name#>> Get<#=lookUp.Name#>ByEntitySearch(string propertyName, string serializedEntitySearch)
+	<#=indent#>{
+	<#=indent+indent#>return this.Get<#=lookUp.Name#>(propertyName, String.Empty, serializedEntitySearch);
+	<#=indent#>}
+	
+	<#=indent#>[Ignore]
+	<#=indent#>//Get <#=lookUp.Name#>.
+	<#=indent#>public <#=lookUp.QueryReturnType.ToString()#><<#=lookUp.Name#>> Get<#=lookUp.Name#>(string propertyName, string serializedPropertyValue, string serializedEntitySearch)
+	<#=indent#>{	
+	<#=indent+indent#>EntitySearch entitySearch = (serializedEntitySearch.IsNullOrEmpty() ? new EntitySearch() { EdmEntityName = "<#=lookUp.EntitySource#>" } : SerializationManager<EntitySearch>.StringToObject(serializedEntitySearch));
+	<#=indent+indent#>entitySearch.EntityName = "<#=lookUp.Name#>";
+	<#=indent+indent#>object propvalue = (propertyName.IsNullOrEmpty() || serializedPropertyValue.IsNullOrEmpty() ? null : SerializationManager<object>.StringToObject(serializedPropertyValue));
+	<#=indent+indent#>if (!propvalue.IsNullOrEmpty())
+	<#=indent+indent#>{
+	<#=indent+indent#>	if (entitySearch.Expressions.Count > 0)
+	<#=indent+indent#>		entitySearch.Expressions.Add(new EntitySearchExpression("Condition", "&&"));
+	<#=indent+indent#>	entitySearch.Expressions.Add(new EntitySearchExpression("Field", propertyName));
+	<#=indent+indent#>	entitySearch.Expressions.Add(new EntitySearchExpression("Operator", (propvalue != null && propvalue is string && ((string)propvalue).Contains("%") ? "Like" : "==")));
+	<#=indent+indent#>	entitySearch.Expressions.Add(new EntitySearchExpression("Value", propvalue));
+	<#=indent+indent#>}
+	
+	<#+		
+		if (lookUp.IsOlap())
+		{
+	#>		
+	<#=indent+indent#>List<EntitySearch> entitySearchList = new List<EntitySearch>();
+	<#=indent+indent#>entitySearchList.Add(entitySearch);
+
+	<#=indent+indent#>var query = this.GetOlap<#=lookUp.Name#>(entitySearchList).AsQueryable();
+	<#+		
+		}
+		else
+		{
+	#>	
+
+	<#=indent+indent#>string dynQuery = String.Empty;
+	<#=indent+indent#>List<ObjectParameter> parameters = new List<ObjectParameter>();
+	<#=indent+indent#>if (entitySearch.Expressions.Count > 0)
+	<#=indent+indent#>{
+	<#=indent+indent#>	List<EntitySearch> entitySearchList = new List<EntitySearch>();
+	<#=indent+indent#>	entitySearchList.Add(entitySearch);
+	<#=indent+indent#>	List<EntitySearch> replacedEntitySearchList = EntitySearch.ReplaceFieldToFilterDataKey(entitySearchList, typeof(<#=lookUp.Name#>));
+	<#=indent+indent#>	replacedEntitySearchList.GetEntityQueryExpression(ref dynQuery, parameters);		
+	<#=indent+indent#>} 
+	
+	<#=indent+indent#>if (dynQuery.IsNullOrEmpty())
+	<#=indent+indent#>	dynQuery = "true"; 
+
+	<#=indent+indent#><#=lookUp.QueryReturnType.ToString()#><<#=lookUp.Name#>> query =  <#=(lookUp.EntitySource.IsNullOrEmpty() ? "null;" : "")#>
+	<#+		
+		if (!lookUp.EntitySource.IsNullOrEmpty())
+		{
+			string fixedFilter = lookUp.GetFixedFilter("entity");
+	#>
+
+	<#=indent+indent+indent#>(<#=lookUp.GetEntitiesSelectionForLinq((edm != null && edm.EdmInfo.IsDbContext), "entity", indent+indent+indent+indent, ref fixedFilter)#>
+	<#=indent+indent+indent#><#=(fixedFilter.IsNullOrEmpty() ? "" : "where " + fixedFilter)#>
+	<#=indent+indent+indent#>select new <#=lookUp.Name#>()		
+	<#=indent+indent+indent#>{
+	<#=indent+indent+indent#><#=lookUp.GetRelationFieldsToLinq("entity", indent+indent+indent+indent)#>
+	<#=indent+indent+indent#>});
+
+	<#=indent+indent+indent#><#=lookUp.GetSubQueryDefinitions(indent+indent+indent)#>
+	
+	<#+
+		}
+	#>
+	
+	<#+		
+		string lookupingName = lookUp.GetEntityOnLookingUp();
+		if (!lookupingName.IsNullOrEmpty())
+		{
+	#>		
+		
+	<#=indent+indent#><#=entity.Name#>.<#=lookupingName#>(ref query, propertyName, entitySearch);
+	<#+
+		}
+	#>
+
+	<#+
+		}
+	#>
+
+	<#=indent+indent#>return query<#=(lookUp.Distinct ? ".Distinct()" : "")#>;
+
+	<#=indent#>}
+	<#+
+	}
+
+	
+
+	//Generating LookUps for all details.
+	foreach(EntityAdapter detail in entity.SourceEntityAdapters)
+	{				
+		GenerateIndependentLookUpMethod(edm, contextName, detail, indent);
+	}
+}
+
+
+private void GenerateIndependentCountMethod(EntityDataModel edm, EntityAdapter entity, string indent, bool byParentComposition)
+{
+	if (!entity.IsModelView && (!byParentComposition || entity.TargetEntityAdapter != null))
+		GenerateCountMethod(edm, entity, indent, byParentComposition);
+	
+	//Generating detail composition.
+	foreach(EntityAdapter detail in entity.SourceEntityAdapters)
+	{				
+		GenerateIndependentCountMethod(edm, detail, indent, byParentComposition);
+	}
+}
+
+
+private void GenerateCountMethod(EntityDataModel edm, EntityAdapter entity, string indent, bool byParentComposition)
+{
+	if (byParentComposition &&  !entity.IsParentCompositionAllowed())
+		return;
+
+	string fixedFilter = entity.GetFixedFilter("entity"), edmContext = edm == null ? "" : (edm.EdmInfo.IsDbContext ? "DbContext" : "ObjectContext");
+	
+	#>	
+	<#=indent#>[Ignore]
+	<#=indent#>public int Get<#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>Counting(string serializedEntitySearch)
+	<#=indent#>{	
+		 <#+
+		 if (entity.IsAggregationView || entity.PrimaryEntity.IsNullOrEmpty())
+		 {
+		 #>
+
+		 <#=indent+indent#>return 1;
+
+		 <#+
+		 }
+		 else 
+		 {
+
+		 #>
+
+<#+
+	  if (!entity.PrimaryEntity.IsNullOrEmpty() && entity.EntityAdapterRepresentation == null)
+	  {
+	  #>
+
+	<#=indent+indent#>List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
+	<#=indent+indent#>string dynQuery = String.Empty;
+	<#=indent+indent#>List<ObjectParameter> parameters = new List<ObjectParameter>();
+	<#=indent+indent#>EntitySearch.AdjustExcludedFilters(entitySearchList, GetExcludedFilters());
+	<#=indent+indent#>List<EntitySearch> replacedEntitySearchList = EntitySearch.ReplaceFieldToFilterDataKey(entitySearchList, typeof(<#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>));
+	<#=indent+indent#>replacedEntitySearchList.GetEntityQueryExpression(ref dynQuery, parameters);
+	
+	<#=indent+indent#>if (dynQuery.IsNullOrEmpty())
+	<#=indent+indent#>    dynQuery = "true";
+<#+
+	  }
+	#>
+
+	<#=indent+indent#><#=entity.GetHierarchyRepresentationEntitySearch(true, indent+indent+indent)#>
+
+	<#=indent+indent#><#=entity.GetRepresentationDomainServiceInstances(indent+indent+indent)#>
+
+	<#=indent+indent#>return
+	<#=indent+indent+indent#>(<#=entity.GetEntitiesSelectionForLinq((edm != null && edm.EdmInfo.IsDbContext), "entity", true, indent+indent+indent+indent, ref fixedFilter)#>
+	<#=indent+indent+indent#><#=(fixedFilter.IsNullOrEmpty() ? "" : "where " + fixedFilter)#>
+	<#=indent+indent+indent#>select 1
+	<#=indent+indent+indent#>).Count();	
+		<#+
+
+		}
+		#>
+
+	<#=indent#>}
+	<#+	
+}
+
+
+private void GenerateIndependentSetBusinessFilterMethod(EntityAdapter entity, string indent)
+{
+	if (entity.HasBusinessFilters())
+		GenerateSetBusinessFilterMethod(entity, indent);
+	
+	//Generating detail composition.
+	foreach(EntityAdapter detail in entity.SourceEntityAdapters)
+	{				
+		GenerateIndependentSetBusinessFilterMethod(detail, indent);
+	}
+}
+
+
+private void GenerateSetBusinessFilterMethod(EntityAdapter entity, string indent)
+{
+
+#>
+
+	<#=indent#>[Ignore()]
+	<#=indent#>private void Set<#=entity.Name#>BusinessFilter(ref <#=entity.QueryReturnType#><<#=entity.Name#>> query, List<EntitySearch> entitySearchList)
+	<#=indent#>{
+	<#=indent#>		int idxElement;
+	<#=indent#>		string operatorValue;
+	<#=indent#>		object value;
+	<#=indent#>		//Get query by functions
+	<#=indent#>		if (entitySearchList.Count > 0)
+	<#=indent#>		{
+	<#=indent#>			foreach (EntitySearch search in entitySearchList.Where(e => e.EntityName == "<#=entity.Name#>"))
+	<#=indent#>			{
+
+	<#+
+		foreach (var item in entity.GetAllInheritanceAttributes())
+        {
+            if (item.IgnoreForQuery || !entity.ExcludeAsFilter(item) || item.GetEdmPath().IsNullOrEmpty())
+                continue;
+	#>
+
+	<#=indent#>				foreach (var exp in search.Expressions.Where(e => e.Name == "Field" && (e.Value.ToString() == "<#=item.Name#>" || e.Value.ToString() == "<#=item.GetEdmPath()#>")))
+	<#=indent#>				{
+	<#=indent#>					idxElement = search.Expressions.IndexOf(exp);
+	<#=indent#>					if ((idxElement + 2) < search.Expressions.Count)
+	<#=indent#>					{
+	<#=indent#>						if (search.Expressions[idxElement + 1].Name == "Operator" && search.Expressions[idxElement + 2].Name == "Value")
+	<#=indent#>						{
+	<#=indent#>								operatorValue = search.Expressions[idxElement + 1].Value.ToString();
+	<#=indent#>								value = search.Expressions[idxElement + 2].Value;
+	<#=indent#>								if (value.IsNullOrEmpty())
+												continue;
+
+	<#+
+            if (item.Datatype.ToLower() == "string" || item.Datatype.ToLower() == "system.string")
+            {
+	#>
+
+	<#=                indent#>								//Adjust Like operator
+	<#=                indent#>								if (operatorValue == "Like")
+	<#=                indent#>								{
+	<#=                indent#>								    string enteredVal = value.ToString();
+	<#=                indent#>								    if (enteredVal.Right(1) == "%" && enteredVal.Left(1) == "%")
+	<#=                indent#>								    {
+	<#=                indent#>								        enteredVal = enteredVal.Replace("%", "");
+	<#=                indent#>								        operatorValue = "Contains";
+	<#=                indent#>								    }
+	<#=                indent#>								    else if (enteredVal.Left(1) == "%")
+	<#=                indent#>								    {
+	<#=                indent#>								        enteredVal = enteredVal.Replace("%", "");
+	<#=                indent#>								        operatorValue = "EndsWith";
+	<#=                indent#>								    }
+	<#=                indent#>								    else
+	<#=                indent#>								    {
+	<#=                indent#>								        enteredVal = enteredVal.Replace("%", "");
+	<#=                indent#>								        operatorValue = "StartsWith";
+	<#=                indent#>								    }
+	<#=                indent#>								    value = enteredVal;
+	<#=                indent#>								}
+
+	<#+
+            }
+	#>
+
+	<#=indent#>								switch (operatorValue)
+	<#=indent#>								{
+	<#=indent#>									case "==":
+	<#=indent#>										<#=item.Datatype#> tmp<#=item.Name#>1 = (<#=item.Datatype#>)value;
+	<#=indent#>										query = from r in query where r.<#=item.Name#> == tmp<#=item.Name#>1 select r;
+	<#=indent#>										break;
+	<#=indent#>									case "!=":
+	<#=indent#>										<#=item.Datatype#> tmp<#=item.Name#>2 = (<#=item.Datatype#>)value;
+	<#=indent#>										query = from r in query where r.<#=item.Name#> != tmp<#=item.Name#>2 select r;
+	<#=indent#>										break;
+
+	<#+
+            if (item.Datatype.ToLower().Contains("int") || item.Datatype.ToLower().Contains("decimal") || item.Datatype.ToLower().Contains("float") || item.Datatype.ToLower().Contains("double") || item.Datatype.ToLower().Contains("byte"))
+            {
+	#>
+
+	<#=indent#>									case "<":
+	<#=indent#>										<#=item.Datatype#> tmp<#=item.Name#>3 = (<#=item.Datatype#>)value;
+	<#=indent#>										query = from r in query where r.<#=item.Name#> < tmp<#=item.Name#>3 select r;
+	<#=indent#>										break;
+	<#=indent#>									case "<=":
+	<#=indent#>										<#=item.Datatype#> tmp<#=item.Name#>4 = (<#=item.Datatype#>)value;
+	<#=indent#>										query = from r in query where r.<#=item.Name#> <= tmp<#=item.Name#>4 select r;
+	<#=indent#>										break;
+	<#=indent#>									case ">":
+	<#=indent#>										<#=item.Datatype#> tmp<#=item.Name#>5 = (<#=item.Datatype#>)value;
+	<#=indent#>										query = from r in query where r.<#=item.Name#> > tmp<#=item.Name#>5 select r;
+	<#=indent#>										break;
+	<#=indent#>									case ">=":
+	<#=indent#>										<#=item.Datatype#> tmp<#=item.Name#>6 = (<#=item.Datatype#>)value;
+	<#=indent#>										query = from r in query where r.<#=item.Name#> >= tmp<#=item.Name#>6 select r;
+	<#=indent#>										break;	
+
+	<#+
+			}
+
+            if (item.Datatype.ToLower() == "string" || item.Datatype.ToLower() == "system.string")
+            {
+	#>
+
+	<#=indent#>									case "Contains":
+	<#=indent#>										<#=item.Datatype#> tmp<#=item.Name#>7 = (<#=item.Datatype#>)value;
+	<#=indent#>									    query = from r in query where r.<#=item.Name#>.Contains(tmp<#=item.Name#>7) select r;
+	<#=indent#>									    break;
+	<#=indent#>									case "StartsWith":
+	<#=indent#>										<#=item.Datatype#> tmp<#=item.Name#>8 = (<#=item.Datatype#>)value;
+	<#=indent#>									    query = from r in query where r.<#=item.Name#>.StartsWith(tmp<#=item.Name#>8) select r;
+	<#=indent#>									    break;
+	<#=indent#>									case "EndsWith":
+	<#=indent#>										<#=item.Datatype#> tmp<#=item.Name#>9 = (<#=item.Datatype#>)value;
+	<#=indent#>									    query = from r in query where r.<#=item.Name#>.EndsWith(tmp<#=item.Name#>9) select r;
+	<#=indent#>									    break;
+
+	<#+
+            }
+	#>
+
+	<#=indent#>									default:
+	<#=indent#>										break;
+	<#=indent#>								}                                
+	<#=indent#>							}
+	<#=indent#>						}
+    <#=indent#>					} 
+
+    <#+
+        }
+	#>
+	
+	<#=indent#>				}
+	<#=indent#>			}   
+	<#=indent#>}
+
+
+<#+
+
+}
+
+
+private void GenerateIndependentGetMethod(EntityDataModel edm, EntityAdapter entity, string indent, bool byEntitySearch, bool noAssociations, bool byPaging, bool byParentComposition, bool hasDomainServiceExtension)
+{
+	if (!byParentComposition || entity.TargetEntityAdapter != null)
+		GenerateGetMethod(edm, entity, 0, indent, byEntitySearch, noAssociations, byPaging, byParentComposition, hasDomainServiceExtension);
+	
+	//Generating detail composition.
+	foreach(EntityAdapter detail in entity.SourceEntityAdapters)
+	{				
+		GenerateIndependentGetMethod(edm, detail, indent, byEntitySearch, noAssociations, byPaging, byParentComposition, hasDomainServiceExtension);
+	}
+}
+
+
+private void GenerateGetMethod(EntityDataModel edm, EntityAdapter entity, int entityLevel, string indent, bool byEntitySearch, bool noAssociations, bool byPaging, bool byParentComposition, bool hasDomainServiceExtension)
+{
+	if (byParentComposition && !entity.IsParentCompositionAllowed())
+		return;
+
+	string fixedFilter = entity.GetFixedFilter("entity" + entityLevel.ToString()), edmContext = edm == null ? "" : (edm.EdmInfo.IsDbContext ? "DbContext" : "ObjectContext");
+	if (entityLevel == 0)
+	{
+		string methodName = (byPaging ? "Paged" : "") + entity.Name + (byParentComposition ? "ParentComposition" : "") + (!byPaging && byEntitySearch ? "ByEntitySearch" : "") + (!byPaging && noAssociations ? "NoAssociations" : "");
+	#>		
+	
+	<#=indent#><#=(entity.EntityAdapterDesignerRoot.EnableAutomaticAuthorization ? "[" + entity.Name + "QueryCustomAuthorizationAuto()]" : "")#>
+	<#=indent#>[<#=(byEntitySearch || byPaging || noAssociations || byParentComposition ? "Ignore" : "Query(HasSideEffects = false)")#>]
+	<#=indent#>//Get <#=methodName#>.
+	<#=indent#>public <#=(!entity.PrimaryEntity.IsNullOrEmpty() || entity.EntityAdapterRepresentation != null ? entity.QueryReturnType.ToString() : "IEnumerable")#><<#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>> Get<#=methodName#>(<#=(byEntitySearch ? "string serializedEntitySearch" : "") + (byPaging ? (byEntitySearch ? ", " : "") +  "int skip, int take" : "") + (byEntitySearch ? ", string jEntitySearch = \"\"" : "")#>)
+	<#=indent#>{
+
+<#+
+	var byParentScript = entity.GetQueryByParent("	" + indent + indent, byEntitySearch, byPaging, byParentComposition, noAssociations);
+	if (!byParentScript.IsNullOrEmpty())
+	{
+#>
+<#=byParentScript#>
+
+	<#=indent#>}
+<#+
+		return;
+	}
+#>
+
+<#=entity.GetManualAuthorization("Query", "Get" + methodName, "	"+indent+indent)#>
+
+	<#+
+	if (byEntitySearch)
+	{
+	#>
+
+	<#=indent+indent#>List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
+<#=entity.AdjustMasterFilter("	"+indent+indent, "entitySearchList")#>
+	<#+
+	  if (entity.ExistsEvent("OnFiltering"))
+	  {
+    #>
+
+	<#=indent+indent#><#=entity.Name + "." + entity.GetEventCall("OnFiltering")#>(entitySearchList);
+	<#+
+	  }
+	  if (!entity.IsOlap() && entity.EnableMetaDataFilter)
+	  {
+	 #>
+	  
+	<#=indent+indent#>//Verify valid properties for LINQ
+	<#=indent+indent#>string[] validProperties = EntitySearch.GetValidProperties(entitySearchList);	
+	<#=indent+indent#><#=entity.GetValidMetaDataProperties("	"+indent+indent, "validProperties")#>
+	<#=indent+indent#><#=entity.GetValidPropertiesForLinq("	"+indent+indent)#>
+
+	<#+
+	  }	
+	  if (!entity.PrimaryEntity.IsNullOrEmpty() && entity.EntityAdapterRepresentation == null)
+	  {
+	  #>
+
+	<#=indent+indent#>//Get filter expression	  
+	<#=indent+indent#>string dynQuery = String.Empty;
+	<#=indent+indent#>List<ObjectParameter> parameters = new List<ObjectParameter>();
+	<#=indent+indent#>EntitySearch.AdjustExcludedFilters(entitySearchList, GetExcludedFilters());
+	<#=indent+indent#>List<EntitySearch> replacedEntitySearchList = <#=entity.GetReplaceFieldToFilterDataKey(byParentComposition)#>;
+	<#=indent+indent#>replacedEntitySearchList.GetEntityQueryExpression(ref dynQuery, parameters);
+<#+
+	  if (!entity.IsModelView)
+	  {
+#>
+	<#=indent+indent#>if (!jEntitySearch.IsNullOrEmpty()) 
+	<#=indent+indent#>{ 
+	<#=indent+indent+indent#>string bmSearch = this.GetEDM().JExpressionToEntitySql(jEntitySearch, parameters);
+	<#=indent+indent+indent#>if (!bmSearch.IsNullOrEmpty()) dynQuery += (dynQuery.IsNullOrEmpty() ? "" : " And ") + bmSearch;
+	<#=indent+indent#>}
+<#+
+	  }
+#>
+
+	<#=indent+indent#>if (dynQuery.IsNullOrEmpty())
+	<#=indent+indent#>		dynQuery = "true";
+
+	<#=indent+indent#><#=(entity.ExistsEvent("OnPrepareForSearching") ? entity.Name + ".OnPrepareForSearching(ref dynQuery, entitySearchList);" : "")#>
+
+	<#+
+	  }
+	}
+	if (!entity.IsDashboardFilter && !entity.IsModelView && !entity.ExistsEvent("OnSearchingReplacement"))
+	{
+	  if (!entity.PrimaryEntity.IsNullOrEmpty() || entity.EntityAdapterRepresentation != null)
+	  {
+	#>	
+	
+	<#=indent+indent#><#=entity.GetHierarchyRepresentationEntitySearch(byEntitySearch, indent+indent+indent)#>
+		
+	<#=indent+indent#><#=entity.GetRepresentationDomainServiceInstances(indent+indent+indent)#>
+	
+	<#=indent+indent#><#=entity.QueryReturnType.ToString()#><<#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>> result = 
+	<#=indent+indent+indent#>(<#=entity.GetOrderByDefinition("entity" + entityLevel.ToString(), byPaging, entity.GetEntitiesSelectionForLinq((edm != null && edm.EdmInfo.IsDbContext), "entity" + entityLevel.ToString(), byEntitySearch, indent+indent+indent+indent, ref fixedFilter), indent+indent+indent+indent)#>
+	<#=indent+indent+indent#><#=(fixedFilter.IsNullOrEmpty() ? "" : "where " + fixedFilter)#>
+	<#=indent+indent+indent#><#=(entity.IsAggregationView ? "group " + (entity.EntityAdapterRepresentation == null ? "entity" + entityLevel.ToString() : "new { " + entity.GetAliasList("entity" + entityLevel.ToString()) + " }") + "  by new { " + entity.GetGroupingFieldsToLinq("entity" + entityLevel.ToString(), indent+indent+indent+indent, byEntitySearch) + " } into rg" + entityLevel.ToString() : "")#>	
+	<#=indent+indent+indent#>select new <#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>()		
+	<#=indent+indent+indent#>{
+	<#=indent+indent+indent#><#=(entity.IsAggregationView ? entity.GetAggregationFieldsToLinq("rg" + entityLevel.ToString(), "entity" + entityLevel.ToString(), indent+indent+indent+indent, byEntitySearch) : entity.GetRelationFieldsToLinq("entity" + entityLevel.ToString(), indent+indent+indent+indent, byParentComposition, byEntitySearch))#>
+	<#+
+	  }
+	  else
+	  {
+	  #>
+
+	<#=indent+indent#>IEnumerable<<#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>> result = <#=(entity.IsOlap() ? "this.GetOlap" + entity.Name + "(" + (byEntitySearch ? "entitySearchList" : "null") + ")" : "new List<" + entity.Name + (byParentComposition ? "ParentComposition" : "") + ">" + "()")#>;
+	  <#+
+	  }
+	}
+	else 
+	{
+
+	if (!entity.PrimaryEntity.IsNullOrEmpty())
+	{
+	#>	
+
+	<#=indent+indent#><#=entity.QueryReturnType.ToString()#><<#=entity.Name#>> result = 
+	<#=indent+indent+indent#>(from entity<#=entityLevel#> in <#=entity.Name#>.<#= (entity.IsModelView ? "GetBusinessView(" + (entity.GetCurrentDataModel() == null ? "this" : "this.GetEDM()") + ", " + (byEntitySearch ? "dynQuery, parameters.ToArray()" : @"""""") + ")" + (byPaging ? entity.GetSuggestedModelViewOrder() + ".Skip(skip).Take(take)" : "") :  "OnSearchingReplacement(this." + edmContext + ", " + (byEntitySearch ? "dynQuery, parameters, entitySearchList" : "null, null, null") + ")") #> select entity<#=entityLevel#>);
+	<#+
+	}
+	else
+	{
+	#>	
+
+	<#=indent+indent#>IEnumerable<<#=entity.Name#>> result = 
+	<#=indent+indent+indent#>(from entity<#=entityLevel#> in <#=entity.Name#>.OnSearchingReplacement(<#=(byEntitySearch ? "entitySearchList" : "null")#>) select entity<#=entityLevel#>);
+	<#+
+	}
+	}
+	}
+	else if (!entity.IsDashboardFilter && !entity.IsModelView && !entity.ExistsEvent("OnSearchingReplacement") && !entity.PrimaryEntity.IsNullOrEmpty() && entity.HasNavigationFromParent())
+	{
+	#>		
+<#=indent+indent#>,<#=entity.Name + "List"#> = 
+	<#=indent+indent+indent#>(<#=entity.GetOrderByDefinition("entity" + entityLevel.ToString(), byPaging, entity.GetEntitiesSelectionForLinq((edm != null && edm.EdmInfo.IsDbContext), "entity" + entityLevel.ToString(), false, indent+indent+indent+indent, ref fixedFilter, true, (entity.TargetEntityAdapter != null && entity.TargetEntityAdapter.IsAggregationView ? "rg" + (entityLevel-1).ToString() + ".Key" : "entity" + (entityLevel-1).ToString())), indent+indent+indent+indent)#>
+	<#=indent+indent+indent#><#=(fixedFilter.IsNullOrEmpty() ? "" : "where " + fixedFilter)#>
+	<#=indent+indent+indent#><#=(entity.IsAggregationView ? "group " + (entity.EntityAdapterRepresentation == null ? "entity" + entityLevel.ToString() : "new { " + entity.GetAliasList("entity" + entityLevel.ToString()) + " }") + " by new { " + entity.GetGroupingFieldsToLinq("entity" + entityLevel.ToString(), indent+indent+indent+indent, false) + " } into rg" + entityLevel.ToString() : "")#>	
+	<#=indent+indent+indent#>select new <#=entity.Name#>()
+	<#=indent+indent+indent#>{
+	<#=indent+indent+indent#><#=(entity.IsAggregationView ? entity.GetAggregationFieldsToLinq("rg" + entityLevel.ToString(), "entity" + entityLevel.ToString(), indent+indent+indent+indent, false) : entity.GetRelationFieldsToLinq("entity" + entityLevel.ToString(), indent+indent+indent+indent, byParentComposition, false))#>
+	<#+
+	}
+	
+	if (!entity.IsDashboardFilter && !entity.IsModelView && entity.EntityAdapterRepresentation == null && !noAssociations && !entity.ExistsEvent("OnSearchingReplacement") && !entity.PrimaryEntity.IsNullOrEmpty() && !entity.IsAggregationView)
+	{
+		//Generating detail composition.
+		foreach(EntityAdapter detail in entity.SourceEntityAdapters)
+		{	
+		    if (detail.EntityAdapterRepresentation == null)			
+				GenerateGetMethod(edm, detail, entityLevel + 1, indent+indent, byEntitySearch, noAssociations, byPaging, byParentComposition, hasDomainServiceExtension);
+		}
+	}
+
+	if (!entity.IsDashboardFilter && !entity.IsModelView && !entity.ExistsEvent("OnSearchingReplacement") && (!entity.PrimaryEntity.IsNullOrEmpty()  || entity.EntityAdapterRepresentation != null) && (entityLevel == 0 || (entityLevel > 0 && entity.HasNavigationFromParent())))
+	{
+	#>
+	
+	<#=indent+indent+indent#>}
+	<#=indent+indent+indent#>)<#=(entityLevel == 0 ? (byPaging && !entity.IsAggregationView ? ".Skip(skip).Take(take)" : "") + ";" : "")#>
+	<#+
+	}
+
+	if (entityLevel == 0)
+	{
+		if (!entity.IsDashboardFilter && !entity.IsModelView && !byParentComposition && !entity.ExistsEvent("OnSearchingReplacement") && entity.HasBusinessFilters() && byEntitySearch && !entity.PrimaryEntity.IsNullOrEmpty())
+		{
+		#>
+
+	<#=indent+indent#>Set<#=entity.Name#>BusinessFilter(ref result, entitySearchList);
+
+		<#+
+		}
+	#>	
+	
+	<#=indent+indent#><#=(byParentComposition || !entity.ExistsEvent("OnSearching") ? "" : entity.Name + "." + entity.GetEventCall("OnSearching") + "(ref result, " + noAssociations.ToString().ToLower() + ", " + (byEntitySearch ? "entitySearchList" : "null") + ");") #>	
+
+	<#+
+	if(!byParentComposition && hasDomainServiceExtension)
+	{
+	#>
+
+	<#=indent+indent#>//User Extension
+	<#=indent+indent#>if (!DomainServiceExtension.IsNull() && DomainServiceExtension.HasOnSearching<#=entity.Name#>User)
+	<#=indent+indent#>{
+	<#=indent+indent+indent#>DomainServiceExtension.OnSearching<#=entity.Name#>User(ref result, <#=noAssociations.ToString().ToLower()#>, <#= (byEntitySearch ? "entitySearchList" : "null") #>);
+	<#=indent+indent#>}
+
+	<#+
+	}
+	#>
+
+	<#=indent+indent#>return result<#=(entity.Distinct ? ".Distinct()" : "") #>;
+	<#=indent#>}
+	<#+
+	}
+}
+
+
+private void GenerateEntityReferenceInfo(string contextName, EntityAdapter entity, string indent)
+{
+	#>	
+
+	<#=indent#>if (entityName.InList(<#=entity.GetCompositionMetaDataList(contextName)#>))
+	<#=indent#>{
+	<#=indent#>		result.Add(new LinxEntityReferenceInfo()
+	<#=indent#>		{
+	<#=indent#>			ClassName = "<#=entity.Name #>"<#=(entity.TargetEntityAdapter == null || !entity.IsParentCompositionAllowed() ? "" : " + (removeParentComposition ? \"\" : \"ParentComposition\")")#>,
+	<#=indent#>			NameSpace = "<#=entity.EntityAdapterDesignerRoot.TargetNamespace + "." + contextName#>",
+	<#=indent#>			HasQuickSearch = <#=entity.HasQuickSearch().ToString().ToLower()#>,
+	<#=indent#>			ParentClassName = <#=(entity.TargetEntityAdapter == null ? "null" : @"""" + entity.TargetEntityAdapter.Name + @"""")#>,	
+	<#=indent#>			DisplayName = "<#=(String.IsNullOrEmpty(entity.DisplayName) ? entity.Name : entity.DisplayName)#>",
+	<#=indent#>			ClearMethodName = "Clear<#=entity.Name#>"<#=(entity.TargetEntityAdapter == null || !entity.IsParentCompositionAllowed() ? "" : " + (removeParentComposition ? \"\" : \"ParentComposition\")")#>,
+	<#=indent#>			QueryMethodName  = "GetPaged<#=entity.Name#>"<#=(entity.TargetEntityAdapter == null || !entity.IsParentCompositionAllowed() ? "" : " + (removeParentComposition ? \"\" : \"ParentComposition\")")#>,	
+	<#=indent#>			CountingMethodName  = "Get<#=entity.Name#>"<#=(entity.TargetEntityAdapter == null || !entity.IsParentCompositionAllowed() ? "" : " + (removeParentComposition ? \"\" : \"ParentComposition\")")#> + "Counting",	
+	<#=indent#>			EdmEntityName = ObjectExtension.GetFunctionalPointOfType(Type.GetType("<#=entity.EntityAdapterDesignerRoot.TargetNamespace + "." + contextName + "." + entity.Name#>"), "EdmEntityName"),
+	<#=indent#>			Properties = ObjectExtension.GetFunctionalPoints(Type.GetType("<#=entity.EntityAdapterDesignerRoot.TargetNamespace + "." + contextName + "." + entity.Name#>"<#=(entity.TargetEntityAdapter == null || !entity.IsParentCompositionAllowed() ? "" : " + (removeParentComposition ? \"\" : \"ParentComposition\")")#>), forceAll: forceAll)
+	<#=indent#>		});
+	<#=indent#>}
+	<#+
+
+	//Generating detail.
+	foreach(EntityAdapter detail in entity.SourceEntityAdapters)
+	{				
+		GenerateEntityReferenceInfo(contextName, detail, indent);
+	}
+}
+
+
+private void GenerateIndependentClearMethod(EntityAdapter entity, string indent, bool byParentComposition, bool hasDomainServiceExtension)
+{
+	if (!byParentComposition || entity.TargetEntityAdapter != null)
+		GenerateClearMethod(entity, "", indent, byParentComposition, hasDomainServiceExtension);
+	
+	//Generating detail composition.
+	foreach(EntityAdapter detail in entity.SourceEntityAdapters)
+	{				
+		GenerateIndependentClearMethod(detail, indent, byParentComposition, hasDomainServiceExtension);
+	}
+}
+
+private void GenerateClearMethod(EntityAdapter entity, string listPath, string indent, bool byParentComposition, bool hasDomainServiceExtension)
+{
+	if (!entity.EnableQBE || (byParentComposition && !entity.IsParentCompositionAllowed()))
+		return;
+
+	if (listPath.IsNullOrEmpty())
+	{
+	#>	
+	
+	<#=indent#>[Ignore]
+	<#=indent#>//Clear <#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>.
+	<#=indent#>public IEnumerable<<#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>> Clear<#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>()
+	<#=indent#>{
+	<#=indent+indent#>List<<#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>> result = new List<<#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>>();
+	<#=indent+indent#>result.Add(new <#=entity.Name + (byParentComposition ? "ParentComposition" : "")#>(<#=(entity.HasDefault() ? "false" : "")#>));	
+	<#+
+	}
+	else
+	{
+	#>
+		
+	<#=indent+indent#><#=listPath + "." + entity.Name + "List"#> = new List<<#=entity.Name#>>();
+	<#=indent+indent#><#=(entity.LocalEntityAdapter == null ? "((List<" + entity.Name + ">)" + listPath + "." + entity.Name + "List).Add(new " + entity.Name + "(" + (entity.HasDefault() ? "false" : "") + "));" : "")#>
+	<#+
+	}
+	
+	if (!byParentComposition && entity.LocalEntityAdapter == null)
+	{
+		//Generating detail composition.
+		foreach(EntityAdapter detail in entity.GetAllInheritanceSourceEntityAdapters())
+		{	
+			GenerateClearMethod(detail, (listPath.IsNullOrEmpty() ? "result[0]" : "((List<" + entity.Name + ">)" + listPath + "." + entity.Name + "List)[0]"), indent, byParentComposition, hasDomainServiceExtension);
+		}
+	}
+	
+	if (listPath.IsNullOrEmpty())
+	{
+	#>
+	
+	<#=indent+indent#><#=(!entity.ExistsEvent("OnCleared") ? "" : "result[0].OnCleared();")#>
+
+	<#+
+	if(hasDomainServiceExtension)
+	{
+	#>
+
+	<#=indent+indent#>//User Extension
+	<#=indent+indent#>if (!DomainServiceExtension.IsNull() && DomainServiceExtension.HasOnCleared<#=entity.Name#>User)
+	<#=indent+indent#>{
+	<#=indent+indent+indent#>DomainServiceExtension.OnCleared<#=entity.Name#>User(result[0]);
+	<#=indent+indent#>}
+
+	<#+
+	}
+	#>
+
+	<#=indent+indent#>return result;
+	<#=indent#>}
+	<#+
+	}
+}
+	 
+
+private void GenerateRepositoryInterfaceBody(RepositoryInterface intf, EntityAdapterDesignerRoot entityAdapterDesignerRoot, string contextName)
+{
+	string baseIndent = String.Empty, indent = "    ";
+#>	
+
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////
+	<#=baseIndent#>/////////////////////////// Interface Definition //////////////////////
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////
+	<#=baseIndent#>public abstract class <#=intf.Name#>
+	<#=baseIndent#>{
+
+	<#+	
+
+	if (intf.IsExtension)
+	{
+	//Extension For Automatic Events
+	#>
+
+	<#=entityAdapterDesignerRoot.GenerateDomainServiceInterface(contextName + "DomainService")#>
+	<#+
+	}
+
+	foreach (RepositoryMethod method in intf.RepositoryMethods)
+    {
+	#>
+
+	<#=baseIndent+indent#>//<#=(String.IsNullOrEmpty(method.DocComment) ? method.Name : method.DocComment)#>
+	<#=baseIndent+indent#><#="public abstract " + method.ReturnType + " " + method.Name + "(" + method.Parameters.Replace("#", ", ") + ");"#>
+    <#+
+    }
+	#>	
+
+	<#=baseIndent#>}
+		
+<#+
+}
+
+
+private void GenerateEntityClassBody(EntityAdapter entity, EntityDataModel edm, string contextName, bool byParentComposition)
+{
+	string baseIndent = String.Empty, indent = "    ", edmContext = edm == null ? "" : (edm.EdmInfo.IsDbContext ? "DbContext" : "ObjectContext");
+		
+	if ( !byParentComposition || (byParentComposition && entity.TargetEntityAdapter != null && entity.IsParentCompositionAllowed())  )
+	{
+
+	#>
+	
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////
+	<#=baseIndent#>////////////////////////// Data Class Definition //////////////////////
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////		
+<#=entity.GetDerivedAttributeDefinitions("	" + baseIndent)#>
+	<#+
+	if (!entity.CustomValidationMethod.IsNullOrEmpty())
+	{
+	#>
+	
+	<#=baseIndent#><#=@"[CustomValidation(typeof(" + contextName + @"CustomValidation), """ + entity.CustomValidationMethod + @""")]"#>
+	<#+
+	}
+	if (!byParentComposition)
+	{
+	#>	
+<#=entity.GetPublicationAttributes("	" + baseIndent)#>
+	<#+
+	}	
+	if (!entity.IsPOCO)
+	{
+	#>
+
+	<#=baseIndent#><#=@"[FunctionalPoint(""ClassDescription[" + entity.Description + "];DisplayName[" + entity.DisplayName + "];SizeGridConfigurations[" + entity.SizeGridConfigurations + "];ReplicationKey[" + entity.GetReplicationKey(contextName) + "];CompositionHierarchy[" + entity.GetCompositionHierarchy() + "];IsOlap[" + entity.IsOlap().ToString().ToLower() + "];OlapCatalogName[" + (entity.IsOlap() ? entity.GetOlapCatalog().Name : "") + "];CubeName[" + (entity.IsOlap() ? entity.GetCubeName() : "") + "];IsAggregationView[" + entity.IsAggregationView.ToString().ToLower() + "];ForceAggregationPaging[" + entity.ForceAggregationPaging.ToString().ToLower() + "];HasLocalResultEntityAdapters[" + (entity.LocalResultEntityAdapters.Count > 0).ToString().ToLower() + "];TemporaryKeyName[" + entity.GetTemporaryKeyName() + "];ReadOnly[" + entity.IsReadOnly.ToString().ToLower() + "]" +  entity.GetEntitiesDescription() + @""")]"#>
+	<#+
+	}
+	#>
+	<#=baseIndent#><#=Linx.EntityAdapterDesigner.EntityAdapterDesignerRoot.GetCustomAttributes(baseIndent, entity.CustomAttributes)#>
+	<#=baseIndent#>[<#=(entity.IsCollectionDataContract ? "CollectionDataContract" : "DataContract")#>(IsReference = false, Name = "<#=(entity.DataContractName.IsNullOrEmpty() ? entity.Name : entity.DataContractName)#>"<#=(entity.DataContractNamespace == "." ? "" : ", Namespace=\"" + entity.DataContractNamespace + "\"")#>)]
+	<#=baseIndent#>[Serializable()]
+<#+
+	if (entity.TargetEntityAdapter == null)
+	{
+#>
+	<#=baseIndent#>[Export(typeof(object))]
+	<#=baseIndent#>[ExportMetadata("ImplementationName", "<#=entity.EntityAdapterDesignerRoot.TargetNamespace + "." + contextName + "." + entity.Name#>")]
+<#+
+	}	
+#>
+	<#=baseIndent#>public partial class <#=entity.Name + (byParentComposition ? "ParentComposition" : "")#> <#=(entity.BaseEntityAdapter == null ? (entity.CustomBaseType.IsNullOrEmpty() ? (entity.IsPOCO ? "" : ": Linx.Data.Entity") : ": " + entity.CustomBaseType) : ": " + entity.BaseEntityAdapter.Name)#>
+	<#=baseIndent#>{
+
+<#+
+	if (entity.IsModelView)  
+	{
+#>
+	<#=baseIndent+indent#>#region Business View Query
+	<#=baseIndent+indent#>public static IQueryable<<#=entity.Name#>> GetBusinessView(<#= (entity.GetCurrentDataModel() == null ?  contextName + "DomainService" :  edm.TargetNamespace + "." + edm.Name)  #> context, string predicate, params System.Data.Entity.Core.Objects.ObjectParameter[] parameters)
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent#>		<#=(entity.GetCurrentDataModel() == null ?  "" :  "context.NoModelViewRules = true;")#>
+	<#=baseIndent+indent#>		List<object> paramValues = new List<object>();
+	<#=baseIndent+indent#>		predicate = predicate.ToDynamicLinqExpression(typeof(<#=entity.Name#>), parameters, paramValues);
+	
+<#=entity.GetBusinessViewLinqDefinition(baseIndent+indent + "			")#>
+
+	<#=baseIndent+indent#>		return <#=(entity.ModelViewDefinition.IsNullOrEmpty() ? "null" : "query" + (entity.IsAggregationView ? "Aggr" : "") + (entity.GetCurrentDataModel() == null ? ".AsQueryable()" : "") + ".Where(predicate, paramValues.ToArray())" + (entity.Distinct ? ".Distinct()" : ""))#>;
+	<#=baseIndent+indent#>}
+	<#=baseIndent+indent#>#endregion
+<#+
+	}
+#>
+	
+<#+
+	if (entity.IsDashboardFilter && !entity.ExistsEvent("OnSearchingReplacement"))
+	{
+#>
+
+	<#=baseIndent+indent#>public static <#="IEnumerable<" + entity.Name + ">"#> OnSearchingReplacement(<#=(edm == null ? "" : edm.TargetNamespace + "." + edm.Name + " context, string dynQuery, List<ObjectParameter> parameters, ")#>List<EntitySearch> entitySearchList)
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent#>		<#="List<" + entity.Name + ">"#> result = new <#="List<" + entity.Name + ">"#>() { new <#=entity.Name#>() };
+	<#=baseIndent+indent#>		result[0].CopyFromSearch(entitySearchList);
+	<#=baseIndent+indent#>		return result;
+	<#=baseIndent+indent#>}
+<#+
+	}
+
+	if (!byParentComposition && entity.HasDefault())
+	{
+	#>
+
+	<#=baseIndent+indent#>public <#=entity.Name#>() : this(true) { }
+
+	<#=baseIndent+indent#>public <#=entity.Name#>(bool setDefaults) <#=(entity.BaseEntityAdapter != null ? ": base(setDefaults)" : "")#>
+	<#=baseIndent+indent#>{
+<#=entity.GenerateDefaults("	" + baseIndent + indent + indent)#>	
+
+	<#=baseIndent+indent#>}
+
+	<#+
+	}	
+	if (!byParentComposition)
+	{
+	#>
+		
+<#=entity.GenerateWorkflowInvokers("	" + baseIndent + indent)#>	
+
+	<#+
+	}
+
+	if (!byParentComposition && entity.TargetEntityAdapter != null)
+	{
+	#>
+
+	<#=baseIndent+indent#>#region Load Data Parent
+		
+<#=entity.GetLoadParent(contextName, "	" + baseIndent + indent)#>
+
+	<#=baseIndent+indent#>#endregion Load Data Parent
+
+	<#+
+	}
+
+	if (!byParentComposition)
+	{
+	#>
+
+	<#=baseIndent+indent#>#region Flat Entities
+		
+<#=entity.GetFlatEntities("	" + baseIndent + indent)#>
+
+	<#=baseIndent+indent#>#endregion Flat Entities
+
+	<#+
+	}
+
+	if (!byParentComposition && entity.HasDetails())
+	{
+	#>
+
+	<#=baseIndent+indent#>#region FillDetails
+		
+<#=entity.GetFillDetails(contextName, "	" + baseIndent + indent)#>
+
+	<#=baseIndent+indent#>#endregion FillDetails
+
+	<#+
+	}
+	
+	if (!byParentComposition && entity.HasDetails())
+	{
+	#>
+
+	<#=baseIndent+indent#>#region Adjust Hierarchy ForSaving
+		
+<#=entity.GenerateHierarchyForSaving("	" + baseIndent + indent)#>
+
+	<#=baseIndent+indent#>#endregion Adjust Hierarchy ForSaving
+
+	<#+
+	}	
+			
+	#>
+	
+	<#=baseIndent+indent#>#region Data Properties	
+	 
+<#=entity.GetPropertyDefinitions(contextName, "	"+baseIndent+indent, byParentComposition)#>	
+
+	<#=baseIndent+indent#>#endregion Data Properties
+
+	<#+	
+
+	if (!byParentComposition && entity.TargetEntityAdapter != null)
+	{
+	#>	
+
+	<#=baseIndent+indent#>#region Parent Association
+	 
+	<#=baseIndent+indent#>private <#=entity.TargetEntityAdapter.Name#> _<#=entity.TargetEntityAdapter.Name#>;
+	<#=baseIndent+indent#>[DataMember(Name = "<#=(entity.TargetEntityAdapter.DataContractName.IsNullOrEmpty() ? entity.TargetEntityAdapter.Name : entity.TargetEntityAdapter.DataContractName)#>", EmitDefaultValue = <#=entity.DataMemberEmitDefaultValue.ToString().ToLower()#><#= (!entity.GenerateDataMemberOrder ? "" : ", Order = " + entity.GetMemberOrder((entity.TargetEntityAdapter.DataContractName.IsNullOrEmpty() ? entity.TargetEntityAdapter.Name : entity.TargetEntityAdapter.DataContractName))) #>)]
+	<#=baseIndent+indent#>[XmlAttribute()]
+	<#=baseIndent+indent#>[Include()]
+	<#=baseIndent+indent#>[Display(AutoGenerateField = false)]	
+	<#=baseIndent+indent#>[XmlIgnore()]	
+	<#=baseIndent+indent#>[SoapIgnore()]
+	<#=baseIndent+indent#><#=entity.GetAssociation(true)#>
+	<#=baseIndent+indent#>public <#=entity.TargetEntityAdapter.Name#> <#=entity.TargetEntityAdapter.Name#>
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent+indent#>get
+	<#=baseIndent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#>return this._<#=entity.TargetEntityAdapter.Name#>;
+	<#=baseIndent+indent+indent#>}
+	<#=baseIndent+indent+indent#>set
+	<#=baseIndent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#>if (this._<#=entity.TargetEntityAdapter.Name#> != value)
+	<#=baseIndent+indent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#>    this._<#=entity.TargetEntityAdapter.Name#> = value;
+	<#=baseIndent+indent+indent+indent#>    <#=(entity.IsPOCO ? "" : "this.RaisePropertyChanged(\"" + entity.TargetEntityAdapter.Name + "List\");")#>
+	<#=baseIndent+indent+indent+indent#>}
+	<#=baseIndent+indent+indent#>}
+	<#=baseIndent+indent#>}	
+	 
+	<#=baseIndent+indent#>#endregion Parent Association		
+	<#+
+	}
+
+	if (!byParentComposition && entity.SourceEntityAdapters.Count > 0)
+	{
+	#>
+ 	 
+	<#=baseIndent+indent#>#region Detail Associations
+	 
+	<#+	 
+	 //Generating Detail Associations Properties	 
+	 foreach (EntityAdapter sourceEntity in entity.GetSourceEntityAdapters())
+	 {
+	#>	
+	<#=baseIndent+indent#>private <#=entity.DetailsCollectionType.Replace("<T>", "<" + sourceEntity.Name + ">").Replace("T[]", sourceEntity.Name + "[]")#> _<#=sourceEntity.Name#>List;
+	<#=baseIndent+indent#><#=(entity.EnableDetailsSerialization ? "" : "[XmlIgnore()]")#>
+	<#=baseIndent+indent#>[XmlAttribute()]
+	<#=baseIndent+indent#>[Include()]
+	<#=baseIndent+indent#>[Composition()]
+	<#=baseIndent+indent#>[Display(AutoGenerateField = false)]
+	<#=baseIndent+indent#>[SoapIgnore()]
+	<#=baseIndent+indent#><#=sourceEntity.GetAssociation(false)#>
+	<#=baseIndent+indent#>[DataMember(Name = "<#=sourceEntity.GetAssociationDataMemberName()#>", EmitDefaultValue = <#=entity.DataMemberEmitDefaultValue.ToString().ToLower()#><#=(!entity.GenerateDataMemberOrder ? "" : ", Order = " + entity.GetMemberOrder(sourceEntity.GetAssociationDataMemberName()))#>)]
+	<#=baseIndent+indent#>public <#=entity.DetailsCollectionType.Replace("<T>", "<" + sourceEntity.Name + ">").Replace("T[]", sourceEntity.Name + "[]")#> <#=sourceEntity.Name#>List
+	<#=baseIndent+indent#>{
+	<#=baseIndent+indent+indent#>get
+	<#=baseIndent+indent+indent#>{
+	<#+
+	if (entity.DetailsCollectionType == "IEnumerable<T>")
+	{
+	#>
+
+	<#=baseIndent+indent+indent+indent#>if (this._<#=sourceEntity.Name#>List == null)
+	<#=baseIndent+indent+indent+indent#>	this._<#=sourceEntity.Name#>List = new List<<#=sourceEntity.Name#>>();
+	<#+
+	}
+	#>
+
+	<#=baseIndent+indent+indent+indent#>return this._<#=sourceEntity.Name#>List;
+	<#=baseIndent+indent+indent#>}
+	<#=baseIndent+indent+indent#>set
+	<#=baseIndent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#>if (this._<#=sourceEntity.Name#>List != value)
+	<#=baseIndent+indent+indent+indent#>{
+	<#=baseIndent+indent+indent+indent#>    this._<#=sourceEntity.Name#>List = value;
+	<#=baseIndent+indent+indent+indent#>    <#=(entity.IsPOCO ? "" : "this.RaisePropertyChanged(\"" + sourceEntity.Name + "List\");")#>
+	<#=baseIndent+indent+indent+indent#>}
+	<#=baseIndent+indent+indent#>}
+	<#=baseIndent+indent#>}	 
+	<#+
+	 }
+	#>
+	 
+	<#=baseIndent+indent#>#endregion Detail Associations		
+	<#+ 
+	 }
+
+	 //Generating internal operations	 
+	 if (entity.EntityAdapterRepresentation == null && !entity.PrimaryEntity.IsNullOrEmpty() && entity.GetCurrentDataModel() != null)
+	 {
+	  #>
+	  
+	<#=baseIndent+indent#>#region MetaData Methods
+	
+	<#=baseIndent+indent#>public override List<EdmEntityMetaData> CreateMetaDataMaps()
+	<#=baseIndent+indent#>{	
+<#=entity.GetMetaDataMaps(entity.GetCurrentDataModel(), "	"+baseIndent+indent+indent)#>
+	<#=baseIndent+indent#>}
+	
+	<#=baseIndent+indent#>#endregion MetaData Methods
+
+	<#+
+	 }
+			
+	#>
+	
+	<#=baseIndent+indent#>#region Change State Control
+	 
+<#=entity.GetChangeState("	"+baseIndent+indent)#>	
+
+	<#=baseIndent+indent#>#endregion Change State Control
+
+	<#=baseIndent+indent#>#region Media Storage	
+	 
+<#=entity.GetTableMedia("	"+baseIndent+indent)#>	
+
+<#=entity.GetSaveMedia("	"+baseIndent+indent)#>
+
+	<#=baseIndent+indent#>#endregion Media Storage
+
+	<#=baseIndent+indent#>#region Special Enums	
+	 
+<#=entity.GetEnumDefinitions("	"+baseIndent+indent, byParentComposition)#>	
+
+	<#=baseIndent+indent#>#endregion Special Enums
+	
+	<#=baseIndent#>}	
+	
+	<#+ 
+	
+	}
+
+	//Generating Detail Classes
+	 foreach (EntityAdapter sourceEntity in entity.SourceEntityAdapters)
+	 {
+		 GenerateEntityClassBody(sourceEntity, edm, contextName, byParentComposition);
+	 }
+ 
+}
+
+
+
+public void GenerateLookUpClasses(EntityAdapter entity)
+{
+	string baseIndent = String.Empty, indent = "    ";
+	
+	foreach(LookUpAdapter lookUp in entity.LookUpAdapters)
+	{
+	#>
+	
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////
+	<#=baseIndent#>////////////////////////// LookUp Class Definition ////////////////////
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////
+	<#=baseIndent#>[DataContract(IsReference = false)]
+	<#=baseIndent#>[Serializable()]
+	<#=baseIndent#>[<#=@"FunctionalPoint(""ClassDescription[" + lookUp.Description + "];DisplayName[" + lookUp.DisplayName + @"];Height[" + lookUp.Height.ToString() + @"];Width[" + lookUp.Width.ToString() + @"]" +  lookUp.GetEntitiesDescription() + @""")"#>]	
+<#=lookUp.GetDerivedAttributeDefinitions("	"+baseIndent)#>
+	<#=baseIndent#>public partial class <#=lookUp.Name + (lookUp.BaseLookUpAdapter == null ? "" : " : " + lookUp.BaseLookUpAdapter.Name)#> 
+	<#=baseIndent#>{
+		
+	<#=baseIndent+indent#>#region Data Properties	
+	 
+<#=lookUp.GetPropertyDefinitions("	"+baseIndent+indent)#>	
+
+	<#=baseIndent+indent#>#endregion Data Properties	
+
+	<#=baseIndent+indent#>#region Special Enums	
+	 
+<#=lookUp.GetEnumDefinitions("	"+baseIndent+indent)#>	
+
+	<#=baseIndent+indent#>#endregion Special Enums
+	
+	<#=baseIndent#>}	
+	
+<#+
+	}
+	
+	foreach (EntityAdapter sourceEntity in entity.SourceEntityAdapters)
+	{
+		GenerateLookUpClasses(sourceEntity);
+	}
+}
+
+#>

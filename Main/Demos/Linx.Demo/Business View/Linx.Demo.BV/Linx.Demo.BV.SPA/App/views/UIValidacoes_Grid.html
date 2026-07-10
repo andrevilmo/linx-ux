@@ -1,0 +1,199 @@
+﻿           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size"  >
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela">
+                   <button id="UIValidacoes_dGridCliente_ConfigBtn" class="btn default background-color-theme" data-placement="top" title="Configurar Grade" data-bind="click: function () {$('#UIValidacoes_dGridCliente').igGridHiding('showColumnChooser');  }"><i class="fa fa-gear"></i></button>
+                   <button id="UIValidacoes_dGridCliente_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                    data-bind="click:function () { 
+                   var mode = $('#UIValidacoes_dGridCliente').igGridUpdating('option', 'editMode'); 
+                   if (mode == 'cell') { 
+                      var rows = $('#UIValidacoes_dGridCliente').igGrid('rows');
+                      if (rows.length === 0) {$root.UIValidacoes().app.showMessage('Não é possível abrir a edição quando não existir ao menos uma linha na grade!', 'Informação', ['Ok']); return false; };
+                      $('#UIValidacoes_dGridCliente').igGridUpdating('option', 'editMode', 'rowedittemplate');
+                      $root.UIValidacoes().openEditor('#UIValidacoes_dGridCliente', 'Cliente', 'vm.currentDataItem;vm.dataView', ';vm', 'Cliente()')
+                      $('#UIValidacoes_dGridCliente').igGridUpdating('option', 'startEditTriggers', 'dblclick,F2');
+                      $('.fa.fa-th').addClass('fa fa-list-alt').removeClass('fa-th');
+                      $('#UIValidacoes_dGridCliente_EditorBtn').attr('title', 'Alterar edição para modo Célula');
+                   }
+                   else {
+                      $('#UIValidacoes_dGridCliente').igGridUpdating('option', 'editMode', 'cell');
+                      $('#UIValidacoes_dGridCliente').igGridUpdating('option', 'startEditTriggers', 'click');
+                      $('.fa.fa-list-alt').addClass('fa fa-th').removeClass('fa-list-alt');
+                      $('#UIValidacoes_dGridCliente_EditorBtn').attr('title', 'Alterar edição para modo Template');
+                   }
+                   }"><i class="fa fa-th"></i></button>
+                   <button id="UIValidacoes_dGridCliente_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" data-bind="visible: $root.UIValidacoes().dataToolbar.canUndo, click: function () { var row = $('#UIValidacoes_dGridCliente').igGrid('selectedRow'); var entity = findElementByKey($root.UIValidacoes().dataView, 'RowDataId', isNullOrEmpty(row)?0:row.id); if (isNullOrEmpty(entity)) { $root.UIValidacoes().app.showMessage('Registro não selecionado!', 'Informação', ['Ok']); return; } if ($root.UIValidacoes().deleteEntity(entity)) $('#UIValidacoes_dGridCliente').igGridUpdating('deleteRow', row.id); }"><i class="fa fa-trash-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid">
+                   <table id="UIValidacoes_dGridCliente" data-bind="css: { IsEditableStyle: $root.UIValidacoes().enabledForEditing }"  />
+               </div>
+
+           </div>
+
+           <div id="dialogCliente"  class="toolbar-dialog-template" title='' style="display: none !important; overflow-y:auto;">
+              <button class="btn btn-sm btn-default " id="backRegCliente" onClick="$(this).backRegCliente();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+              <span class="caption"><label id="currentNumberCliente">0</label>/<label id="totalNumberCliente">0</label></span>
+              <button class="btn btn-sm btn-default " id="nextRegCliente" onClick="$(this).nextRegCliente();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+              <button class="btn btn-sm btn-default " id="addRegCliente" onClick="$(this).addRegCliente();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+              <button class="btn btn-sm btn-default " id="delRegCliente" onClick="$(this).delRegCliente();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+              <button style="float: right;" class="btn btn-sm btn-default" id="okRegCliente" onClick="$(this).okRegCliente();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+           <div id="UIValidacoes_templateCliente" class="" style="width: 100%; height: 100%;" >
+               <div data-bind="with: currentDataItem">
+
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <div id="UIValidacoes_divCpfCnpjTemplate" class="" >
+                               <label id="UIValidacoes_lblCpfCnpj" for="UIValidacoes_mskCpfCnpj" class="control-label ellipsis" title="Cpf Cnpj">Cpf Cnpj
+                               </label>
+                               <div class="controls">
+                                   <div class="input-xlarge">
+                                       <input id="UIValidacoes_mskCpfCnpj" class="form-control input-xlarge" data-bind="validatedField: 'CpfCnpj', css: { IsEditableStyle: $root.UIValidacoes().enabledForEditing() }, enable: $root.UIValidacoes().enabledForEditing(), igMaskEditor: { value: CpfCnpj, dataMode: 'rawText', inputMask: '', readOnly: !$root.UIValidacoes().enabledForEditing() }" />
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <div id="UIValidacoes_divIdEstadoTemplate" class="" >
+                               <label id="UIValidacoes_lblIdEstado" for="UIValidacoes_lUpIdEstado" class="control-label ellipsis" title="Id Estado">Id Estado
+                               </label>
+                               <div class="">
+                                   <div id="UIValidacoes_lUpIdEstado" class="box-input-min-medium pull-left input-group " data-bind="validatedField: 'IdEstado', css: { IsEditableStyle: $root.UIValidacoes().enabledForEditing() }, lookupControl: { value: IdEstado, maxLength: 12,lookupName: 'LookUpEstado', inputClass:'input-min-medium', isMultiSelection: false, multiSelectionValue: $root.UIValidacoes().entitySearchRange.ClienteIdEstado, fieldName: 'IdEstado', disabled:!$root.UIValidacoes().enabledForEditing(), isNullable:false}" />
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <div id="UIValidacoes_divDataNascimentoTemplate" class="" >
+                               <label id="UIValidacoes_lblDataNascimento" for="UIValidacoes_dtDataNascimento" class="control-label ellipsis" title="Data Nascimento">Data Nascimento
+                               </label>
+                               <div class="controls">
+                                   <div class="box-input-small">
+                                       <div class="input-group box-input-small" >
+                                           <span id="UIValidacoes_dtDataNascimento" class="date form-control input-small "  data-bind="validatedField: 'DataNascimento', css: { IsEditableStyle: $root.UIValidacoes().enabledForEditing()}, enable: $root.UIValidacoes().enabledForEditing(), igDatePicker: { value: DataNascimento, minValue: new Date(1900, 0, 1) , width: '100%', dateDisplayFormat: 'date', dateInputFormat: 'date', dropDownOnReadOnly: false, readOnly: !$root.UIValidacoes().enabledForEditing(), display:'block', enableUTCDates: true }" />
+                                           <span class="input-group-btn" >
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIValidacoes().entitySearchRange.has_ClienteDataNascimento(), 'icon-ok': $root.UIValidacoes().entitySearchRange.has_ClienteDataNascimento(), hide: $root.UIValidacoes().status() !== 'C' }, popoverWithBind: { template: '#UIValidacoes_rgDataNascimento', vm: $root.UIValidacoes().entitySearchRange, ctrlName: 'UIValidacoes_rgcDataNascimento' }" /></span>
+                                           <script id="UIValidacoes_rgDataNascimento" type="text/html">
+                                               <div class="row"><span class="col-md-3 text-right">De:</span><div class="col-md-9"><span id="UIValidacoes_dtbDataNascimento" class="IsEditableStyle" data-bind="igDatePicker: { value: ClienteDataNascimento_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, valueChanged: function (evt, ui) { $('#UIValidacoes_dteDataNascimento').igDatePicker('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right">Até:</span><div class="col-md-9"><span id="UIValidacoes_dteDataNascimento" class="IsEditableStyle" data-bind="igDatePicker: { value: ClienteDataNascimento_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, valueChanged: function (evt, ui) { $('#UIValidacoes_dtbDataNascimento').igDatePicker('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <div id="UIValidacoes_divIdPaisTemplate" class="" >
+                               <label id="UIValidacoes_lblIdPais" for="UIValidacoes_lUpIdPais" class="control-label ellipsis" title="Id Pais">Id Pais
+                               </label>
+                               <div class="">
+                                   <div id="UIValidacoes_lUpIdPais" class="box-input-min-medium pull-left input-group " data-bind="validatedField: 'IdPais', css: { IsEditableStyle: $root.UIValidacoes().enabledForEditing() }, lookupControl: { value: IdPais, maxLength: 12,lookupName: 'LookUpPais', inputClass:'input-min-medium', isMultiSelection: false, multiSelectionValue: $root.UIValidacoes().entitySearchRange.ClienteIdPais, fieldName: 'IdPais', disabled:!$root.UIValidacoes().enabledForEditing(), isNullable:false}" />
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <div id="UIValidacoes_divNomeEstadoTemplate" class="" >
+                               <label id="UIValidacoes_lblNomeEstado" for="UIValidacoes_tbNomeEstado" class="control-label ellipsis" title="Nome Estado">Nome Estado
+                               </label>
+                               <div class="controls">
+                                   <div class="input-xlarge">
+                                       <input id="UIValidacoes_tbNomeEstado" class="form-control ellipsis input-xlarge" data-bind="attr: { title: NomeEstado }, validatedField: 'NomeEstado', css: { IsEditableStyle: $root.UIValidacoes().status() === 'C' }, enable: $root.UIValidacoes().status() === 'C', igTextEditor: { maxLength: 50, value: NomeEstado, readOnly: $root.UIValidacoes().status() !== 'C'  }"/>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <div id="UIValidacoes_divIdClienteTemplate" class="" >
+                               <label id="UIValidacoes_lblIdCliente" for="UIValidacoes_lUpIdCliente" class="control-label ellipsis" title="Id Cliente">Id Cliente
+                               </label>
+                               <div class="">
+                                   <div id="UIValidacoes_lUpIdCliente" class="box-input-min-medium pull-left input-group " data-bind="validatedField: 'IdCliente', css: { IsEditableStyle: $root.UIValidacoes().status() === 'C' || $data.isAdded() }, lookupControl: { value: IdCliente, maxLength: 12,lookupName: '', inputClass:'input-min-medium', isMultiSelection: false, multiSelectionValue: $root.UIValidacoes().entitySearchRange.ClienteIdCliente, fieldName: 'IdCliente', disabled:!($root.UIValidacoes().status() === 'C' || $data.isAdded()), isNullable:false}" />
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <div id="UIValidacoes_divNomePaisTemplate" class="" >
+                               <label id="UIValidacoes_lblNomePais" for="UIValidacoes_tbNomePais" class="control-label ellipsis" title="Nome Pais">Nome Pais
+                               </label>
+                               <div class="controls">
+                                   <div class="input-xlarge">
+                                       <input id="UIValidacoes_tbNomePais" class="form-control ellipsis input-xlarge" data-bind="attr: { title: NomePais }, validatedField: 'NomePais', css: { IsEditableStyle: $root.UIValidacoes().status() === 'C' }, enable: $root.UIValidacoes().status() === 'C', igTextEditor: { maxLength: 50, value: NomePais, readOnly: $root.UIValidacoes().status() !== 'C'  }"/>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <div id="UIValidacoes_divIndicaCpfTemplate" class="" >
+                               <div class="controls">
+                                   <div class="input-small">
+                                       <label class="input-small">
+                                         <input id="UIValidacoes_ckIndicaCpf" type="checkbox" data-bind="css: { IsEditableStyle: $root.UIValidacoes().enabledForEditing()}, enable: $root.UIValidacoes().enabledForEditing(), nullableChecked: IndicaCpf"/> 
+                                         <span id="lblUIValidacoes_ckIndicaCpf" class="align-label-checkbox">Indica Cpf</span>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <div id="UIValidacoes_divNomeClienteTemplate" class="" >
+                               <label id="UIValidacoes_lblNomeCliente" for="UIValidacoes_tbNomeCliente" class="control-label ellipsis" title="Nome Cliente">Nome Cliente
+                               </label>
+                               <div class="controls">
+                                   <div class="input-xlarge">
+                                       <input id="UIValidacoes_tbNomeCliente" class="form-control ellipsis input-xlarge" data-bind="attr: { title: NomeCliente }, validatedField: 'NomeCliente', css: { IsEditableStyle: $root.UIValidacoes().enabledForEditing() }, enable: $root.UIValidacoes().enabledForEditing(), igTextEditor: { maxLength: 50, value: NomeCliente, readOnly: !$root.UIValidacoes().enabledForEditing()  }"/>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+               </div>
+
+           </div>
+           </div>
+       </div>
+
+

@@ -1,0 +1,41 @@
+﻿<div id="components-content">
+    <div class="clearfix">
+        <h4 class="title-grid pull-left">Componentes</h4>
+        <button class="btn btn-clean btn-xs pull-right" ng-click="vm.toggle()"><i class="fa fa-thumb-tack"></i></button>
+    </div>
+
+    <div class="clearfix">&nbsp;</div>
+
+    <input type="search" class="form-control" placeholder="Buscar componente..." ng-model="filterComponent.title">
+
+</div>
+
+<div class="panel component-box">
+    <!--versão old-->
+    <!--<div class="col-lg-4 col-md-12 col-sm-4 col-xs-12 text-center" ng-repeat="item in vm.listComponents | filter:filterComponent" ng-show="item.title" data-drag="true" data-jqyoui-options="{revert: 'invalid', helper: 'clone'}" ng-model="vm.listComponents" jqyoui-draggable="{index: {{$index}}, animate: false, placeholder: 'keep'}">
+        <div class="col-sm-12  display-table">
+            <i class="fa display-table-cell vertical-align-middle" ng-class="item.icon"></i>
+        </div>
+        <span class="col-sm-12">
+            <p> {{item.title}}</p>
+        </span>
+    </div>-->
+    <!--versão agrupada-->
+    <div ng-repeat="item in vm.types">
+        <accordion close-others="oneAtATime">
+            <accordion-group class="accordion-builder" heading="{{item.type}}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+                <accordion-heading>
+                    {{item.type}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-up': status.isFirstOpen, 'glyphicon-chevron-down': !status.isFirstOpen}"></i>
+                </accordion-heading>
+                <div class="col-lg-6 col-md-12 col-sm-4 col-xs-12 text-center" ng-repeat="component in item.items | filter:filterComponent" ng-show="item" data-drag="true" data-jqyoui-options="{revert: 'invalid', helper: 'clone'}" ng-model="component" jqyoui-draggable="{index: {{$index}}, animate: false, placeholder: 'keep'}">
+                    <div class="col-sm-12  display-table">
+                        <i class="fa display-table-cell vertical-align-middle" ng-class="component.icon"></i>
+                    </div>
+                    <span class="col-sm-12">
+                        {{component.title}}
+                    </span>
+                </div>
+            </accordion-group>
+        </accordion>
+    </div>
+</div>

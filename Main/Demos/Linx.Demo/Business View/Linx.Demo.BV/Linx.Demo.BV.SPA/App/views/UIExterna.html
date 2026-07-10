@@ -1,0 +1,482 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="UIExterna_formViewer" class="panelTransaition">
+            <figure id="UIExterna_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.UIExterna().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="UIExterna_gbCustomContainer_6857ba8d00974468904b3b916a35109c" data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_gbCustomContainer_6857ba8d00974468904b3b916a35109c'), visible: $root.UIExterna().getLayoutVisible('UIExterna_gbCustomContainer_6857ba8d00974468904b3b916a35109c')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.UIExterna().getLayoutDisplayName('UIExterna_gbCustomContainer_6857ba8d00974468904b3b916a35109c')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="UIExterna_gbCustomContainer_6857ba8d00974468904b3b916a35109c_anchor" href="#UIExterna_gbCustomContainer_6857ba8d00974468904b3b916a35109c_body" role="button" data-toggle="collapse" data-parent="#UIExterna_gbCustomContainer_6857ba8d00974468904b3b916a35109c" aria-controls="#UIExterna_gbCustomContainer_6857ba8d00974468904b3b916a35109c_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="UIExterna_gbCustomContainer_6857ba8d00974468904b3b916a35109c_body" class="portlet-body collapse in" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="UIExterna_gbLoja" data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_gbLoja'), visible: $root.UIExterna().getLayoutVisible('UIExterna_gbLoja')"  class="gb-expander position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.UIExterna().getLayoutDisplayName('UIExterna_gbLoja')"><i class="icon-reorder"></i></div>
+                           <div class="tools">
+                               <a id="UIExterna_gbLoja_anchor" href="#UIExterna_gbLoja_body" role="button" data-toggle="collapse" data-parent="#UIExterna_gbLoja" aria-controls="#UIExterna_gbLoja_body" class="" title="Clique para expandir ou colapsar"></a>
+                           </div>
+                       </div>
+                       <div id="UIExterna_gbLoja_body" class="portlet-body collapse in" >
+                           <div data-bind="with: $root.UIExterna().getWithBinding(currentDataItem, $root.UIExterna().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_ntxBigIntLoja'), visible: $root.UIExterna().getLayoutVisible('UIExterna_ntxBigIntLoja')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divBigIntLoja" class="" >
+                                               <label data-bind="attr: { title: $root.UIExterna().getLayoutDisplayName('UIExterna_ntxBigIntLoja')}, text: $root.UIExterna().getLayoutDisplayName('UIExterna_ntxBigIntLoja')" id="UIExterna_lblBigIntLoja" for="UIExterna_ntxBigIntLoja" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group">
+                                                   <input id="UIExterna_ntxBigIntLoja" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntLoja', css: { vmEditing: $root.UIExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ntxBigIntLoja') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ntxBigIntLoja') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()) }, igNumericEditor: { value: BigIntLoja, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ntxBigIntLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ntxBigIntLoja') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExterna().entitySearchRange.has_LojaBigIntLoja(), 'icon-ok': $root.UIExterna().entitySearchRange.has_LojaBigIntLoja(), hide: $root.UIExterna().status() !== 'C' }, popoverWithBind: { template: '#UIExterna_rgBigIntLoja', vm: $root.UIExterna().entitySearchRange, ctrlName: 'UIExterna_rgcBigIntLoja', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="UIExterna_rgBigIntLoja" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIExterna_ntxbBigIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaBigIntLoja_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIExterna_ntxBigIntLoja').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIExterna_ntxeBigIntLoja').igNumericEditor('option', 'value') != null ? true : false)); $('#UIExterna_ntxeBigIntLoja').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIExterna_ntxeBigIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaBigIntLoja_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIExterna_ntxBigIntLoja').igNumericEditor('option', 'readOnly', ($('#UIExterna_ntxbBigIntLoja').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIExterna_ntxbBigIntLoja').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_ckBitLoja'), visible: $root.UIExterna().getLayoutVisible('UIExterna_ckBitLoja')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divBitLoja" class="" >
+                                               <label class="">
+                                                 <input id="UIExterna_ckBitLoja" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ckBitLoja') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ckBitLoja') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ckBitLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ckBitLoja') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()), nullableChecked: BitLoja" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lblUIExterna_ckBitLoja" class="align-label-checkbox"></span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_cmbComboboxLoja'), visible: $root.UIExterna().getLayoutVisible('UIExterna_cmbComboboxLoja')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divComboboxLoja" class="" >
+                                               <label data-bind="css: { 'content-required': $root.UIExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIExterna().getLayoutDisplayName('UIExterna_cmbComboboxLoja')}, text: $root.UIExterna().getLayoutDisplayName('UIExterna_cmbComboboxLoja')" id="UIExterna_lblComboboxLoja" for="UIExterna_cmbComboboxLoja" class="control-label ellipsis">
+                                               </label>
+                                               <span id="UIExterna_cmbComboboxLoja" class="form-control " data-bind="validatedField: 'ComboboxLoja', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_cmbComboboxLoja') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_cmbComboboxLoja') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_cmbComboboxLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_cmbComboboxLoja') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_cmbComboboxLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_cmbComboboxLoja') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()), igCombo: {
+                                                  selectedItems: ComboboxLoja,
+                                                  dataSource:  $root.UIExterna().dataDomains.getItems('LX_COMBOBOX_LOJA', ''),
+                                                  textKey: 'name',
+                                                  valueKey: 'id',
+                                                  allowCustomValue : true,
+                                                  enableSelectionChangedUpdate: true,
+                                                  enableClearButton: false,
+                                                  dropDownOnFocus: true,
+                                                  disabled: (ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_cmbComboboxLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_cmbComboboxLoja') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing())),
+                                                  mode: 'editable',
+                                                  width:'100%'
+                                               }"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_dtDatetimeLoja'), visible: $root.UIExterna().getLayoutVisible('UIExterna_dtDatetimeLoja')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divDatetimeLoja" class="" >
+                                               <label data-bind="attr: { title: $root.UIExterna().getLayoutDisplayName('UIExterna_dtDatetimeLoja')}, text: $root.UIExterna().getLayoutDisplayName('UIExterna_dtDatetimeLoja')" id="UIExterna_lblDatetimeLoja" for="UIExterna_dtDatetimeLoja" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group" >
+                                                   <span id="UIExterna_dtDatetimeLoja" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeLoja', css: { vmEditing: $root.UIExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_dtDatetimeLoja') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_dtDatetimeLoja') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_dtDatetimeLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_dtDatetimeLoja') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()) },  igDatePicker: { value: DatetimeLoja, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.UIExterna().entitySearchRange.has_LojaDatetimeLoja()?true:ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_dtDatetimeLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_dtDatetimeLoja') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="UIExterna_rgbtnDatetimeLoja"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExterna().entitySearchRange.has_LojaDatetimeLoja(), 'icon-ok': $root.UIExterna().entitySearchRange.has_LojaDatetimeLoja(), hide: $root.UIExterna().status() !== 'C' }, popoverWithBind: { template: '#UIExterna_rgDatetimeLoja', vm: $root.UIExterna().entitySearchRange, ctrlName: 'UIExterna_rgcDatetimeLoja', headerText:'Filtro de datas' }"  /></span>
+                                                      <script id="UIExterna_rgDatetimeLoja" type="text/html" tabindex="-1">
+                                                      <div class="range-radio-group">
+                                                          <input type="radio" data-bind="enable: !has_LojaDatetimeLoja(), checked:LojaDatetimeLoja_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="enable: !has_LojaDatetimeLoja(), checked:LojaDatetimeLoja_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      </div>
+                                                      <div class="range-input-group" id="UIExterna_divrgDatetimeLoja" >
+                                                          <div class="filterByRange" data-bind="visible: LojaDatetimeLoja_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UIExterna_dtbDatetimeLoja" class="IsEditableStyle date" data-bind="igDatePicker: { value: LojaDatetimeLoja_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIExterna_dtDatetimeLoja').igDatePicker('option', 'readOnly', (ui.value != null || $('#UIExterna_dteDatetimeLoja').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UIExterna_dtbDatetimeLoja').igDatePicker('value'); var valorMax = $('#UIExterna_dteDatetimeLoja').igDatePicker('value');if (valorMax != null && valorMin > valorMax){LojaDatetimeLoja_begin(valorMax); $('#UIExterna_dtbDatetimeLoja').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UIExterna_dteDatetimeLoja" class="IsEditableStyle date" data-bind="igDatePicker: { value: LojaDatetimeLoja_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIExterna_dtDatetimeLoja').igDatePicker('option', 'readOnly', ($('#UIExterna_dtbDatetimeLoja').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UIExterna_dtbDatetimeLoja').igDatePicker('value'); var valorMax = $('#UIExterna_dteDatetimeLoja').igDatePicker('value');if (valorMin != null && valorMax < valorMin){LojaDatetimeLoja_end(valorMin); $('#UIExterna_dteDatetimeLoja').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: LojaDatetimeLoja_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: LojaDatetimeLoja_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <div class="row predefValue" data-bind="visible: LojaDatetimeLoja_predefFilter() != null && LojaDatetimeLoja_predefFilter()[0] && LojaDatetimeLoja_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: LojaDatetimeLoja_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_lUpIdCidade'), visible: $root.UIExterna().getLayoutVisible('UIExterna_lUpIdCidade')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divIdCidade" class="" >
+                                               <label data-bind="attr: { title: $root.UIExterna().getLayoutDisplayName('UIExterna_lUpIdCidade')}, text: $root.UIExterna().getLayoutDisplayName('UIExterna_lUpIdCidade')" id="UIExterna_lblIdCidade" for="UIExterna_lUpIdCidade" class="control-label ellipsis">
+                                               </label>
+                                               <div id="UIExterna_lUpIdCidade" class="form-control input-group " data-bind="validatedField: 'IdCidade', css: { vmEditing: $root.UIExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_lUpIdCidade') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_lUpIdCidade') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()) }, lookupControl: { vm: $root.UIExterna(), value: IdCidade, maxLength: 12,lookupName: 'LookUpCidade', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.UIExterna().entitySearchRange.IdCidade, fieldName: 'IdCidade', disabled:ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_lUpIdCidade') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_lUpIdCidade') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_lUpIdPais'), visible: $root.UIExterna().getLayoutVisible('UIExterna_lUpIdPais')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divIdPais" class="" >
+                                               <label data-bind="css: { 'content-required': $root.UIExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIExterna().getLayoutDisplayName('UIExterna_lUpIdPais')}, text: $root.UIExterna().getLayoutDisplayName('UIExterna_lUpIdPais')" id="UIExterna_lblIdPais" for="UIExterna_lUpIdPais" class="control-label ellipsis">
+                                               </label>
+                                               <div id="UIExterna_lUpIdPais" class="form-control input-group " data-bind="validatedField: 'IdPais', css: { vmEditing: $root.UIExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_lUpIdPais') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_lUpIdPais') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()) }, lookupControl: { vm: $root.UIExterna(), value: IdPais, maxLength: 12,lookupName: 'LookUpPais', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.UIExterna().entitySearchRange.IdPais, fieldName: 'IdPais', disabled:ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_lUpIdPais') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_lUpIdPais') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: 0}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_ntxDecimalLoja'), visible: $root.UIExterna().getLayoutVisible('UIExterna_ntxDecimalLoja')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divDecimalLoja" class="" >
+                                               <label data-bind="attr: { title: $root.UIExterna().getLayoutDisplayName('UIExterna_ntxDecimalLoja')}, text: $root.UIExterna().getLayoutDisplayName('UIExterna_ntxDecimalLoja')" id="UIExterna_lblDecimalLoja" for="UIExterna_ntxDecimalLoja" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group">
+                                                   <input id="UIExterna_ntxDecimalLoja" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalLoja', css: { vmEditing: $root.UIExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ntxDecimalLoja') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ntxDecimalLoja') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()) }, igNumericEditor: { value: DecimalLoja, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ntxDecimalLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ntxDecimalLoja') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExterna().entitySearchRange.has_LojaDecimalLoja(), 'icon-ok': $root.UIExterna().entitySearchRange.has_LojaDecimalLoja(), hide: $root.UIExterna().status() !== 'C' }, popoverWithBind: { template: '#UIExterna_rgDecimalLoja', vm: $root.UIExterna().entitySearchRange, ctrlName: 'UIExterna_rgcDecimalLoja', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="UIExterna_rgDecimalLoja" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIExterna_ntxbDecimalLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaDecimalLoja_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIExterna_ntxDecimalLoja').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIExterna_ntxeDecimalLoja').igNumericEditor('option', 'value') != null ? true : false)); $('#UIExterna_ntxeDecimalLoja').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIExterna_ntxeDecimalLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaDecimalLoja_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIExterna_ntxDecimalLoja').igNumericEditor('option', 'readOnly', ($('#UIExterna_ntxbDecimalLoja').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIExterna_ntxbDecimalLoja').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_ntxIdLoja'), visible: $root.UIExterna().getLayoutVisible('UIExterna_ntxIdLoja')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divIdLoja" class="" >
+                                               <label data-bind="css: { 'content-required': $root.UIExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIExterna().getLayoutDisplayName('UIExterna_ntxIdLoja')}, text: $root.UIExterna().getLayoutDisplayName('UIExterna_ntxIdLoja')" id="UIExterna_lblIdLoja" for="UIExterna_ntxIdLoja" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group">
+                                                   <input id="UIExterna_ntxIdLoja" class="form-control numericFilterRange " data-bind="validatedField: 'IdLoja', css: { vmEditing: $root.UIExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ntxIdLoja') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ntxIdLoja') : (!isEmptyEntityFn($data) && $root.UIExterna().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdLoja, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ntxIdLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ntxIdLoja') : (isEmptyEntityFn($data) || !($root.UIExterna().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExterna().entitySearchRange.has_LojaIdLoja(), 'icon-ok': $root.UIExterna().entitySearchRange.has_LojaIdLoja(), hide: $root.UIExterna().status() !== 'C' }, popoverWithBind: { template: '#UIExterna_rgIdLoja', vm: $root.UIExterna().entitySearchRange, ctrlName: 'UIExterna_rgcIdLoja', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="UIExterna_rgIdLoja" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIExterna_ntxbIdLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaIdLoja_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIExterna_ntxIdLoja').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIExterna_ntxeIdLoja').igNumericEditor('option', 'value') != null ? true : false)); $('#UIExterna_ntxeIdLoja').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIExterna_ntxeIdLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaIdLoja_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIExterna_ntxIdLoja').igNumericEditor('option', 'readOnly', ($('#UIExterna_ntxbIdLoja').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIExterna_ntxbIdLoja').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_ntxIntLoja'), visible: $root.UIExterna().getLayoutVisible('UIExterna_ntxIntLoja')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divIntLoja" class="" >
+                                               <label data-bind="attr: { title: $root.UIExterna().getLayoutDisplayName('UIExterna_ntxIntLoja')}, text: $root.UIExterna().getLayoutDisplayName('UIExterna_ntxIntLoja')" id="UIExterna_lblIntLoja" for="UIExterna_ntxIntLoja" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group">
+                                                   <input id="UIExterna_ntxIntLoja" class="form-control numericFilterRange " data-bind="validatedField: 'IntLoja', css: { vmEditing: $root.UIExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ntxIntLoja') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ntxIntLoja') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()) }, igNumericEditor: { value: IntLoja, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ntxIntLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ntxIntLoja') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExterna().entitySearchRange.has_LojaIntLoja(), 'icon-ok': $root.UIExterna().entitySearchRange.has_LojaIntLoja(), hide: $root.UIExterna().status() !== 'C' }, popoverWithBind: { template: '#UIExterna_rgIntLoja', vm: $root.UIExterna().entitySearchRange, ctrlName: 'UIExterna_rgcIntLoja', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="UIExterna_rgIntLoja" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIExterna_ntxbIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaIntLoja_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIExterna_ntxIntLoja').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIExterna_ntxeIntLoja').igNumericEditor('option', 'value') != null ? true : false)); $('#UIExterna_ntxeIntLoja').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIExterna_ntxeIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaIntLoja_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIExterna_ntxIntLoja').igNumericEditor('option', 'readOnly', ($('#UIExterna_ntxbIntLoja').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIExterna_ntxbIntLoja').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_tbNomeLoja'), visible: $root.UIExterna().getLayoutVisible('UIExterna_tbNomeLoja')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divNomeLoja" class="" >
+                                               <label data-bind="attr: { title: $root.UIExterna().getLayoutDisplayName('UIExterna_tbNomeLoja')}, text: $root.UIExterna().getLayoutDisplayName('UIExterna_tbNomeLoja')" id="UIExterna_lblNomeLoja" for="UIExterna_tbNomeLoja" class="control-label ellipsis">
+                                               </label>
+                                               <input id="UIExterna_tbNomeLoja" class="form-control ellipsis" data-bind="attr: { title: NomeLoja }, validatedField: 'NomeLoja', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_tbNomeLoja') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_tbNomeLoja') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: NomeLoja, readOnly: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_tbNomeLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_tbNomeLoja') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_ntxSmallIntLoja'), visible: $root.UIExterna().getLayoutVisible('UIExterna_ntxSmallIntLoja')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divSmallIntLoja" class="" >
+                                               <label data-bind="attr: { title: $root.UIExterna().getLayoutDisplayName('UIExterna_ntxSmallIntLoja')}, text: $root.UIExterna().getLayoutDisplayName('UIExterna_ntxSmallIntLoja')" id="UIExterna_lblSmallIntLoja" for="UIExterna_ntxSmallIntLoja" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group">
+                                                   <input id="UIExterna_ntxSmallIntLoja" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntLoja', css: { vmEditing: $root.UIExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ntxSmallIntLoja') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ntxSmallIntLoja') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()) }, igNumericEditor: { value: SmallIntLoja, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_ntxSmallIntLoja') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_ntxSmallIntLoja') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExterna().entitySearchRange.has_LojaSmallIntLoja(), 'icon-ok': $root.UIExterna().entitySearchRange.has_LojaSmallIntLoja(), hide: $root.UIExterna().status() !== 'C' }, popoverWithBind: { template: '#UIExterna_rgSmallIntLoja', vm: $root.UIExterna().entitySearchRange, ctrlName: 'UIExterna_rgcSmallIntLoja', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="UIExterna_rgSmallIntLoja" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIExterna_ntxbSmallIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaSmallIntLoja_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIExterna_ntxSmallIntLoja').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIExterna_ntxeSmallIntLoja').igNumericEditor('option', 'value') != null ? true : false)); $('#UIExterna_ntxeSmallIntLoja').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIExterna_ntxeSmallIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaSmallIntLoja_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIExterna_ntxSmallIntLoja').igNumericEditor('option', 'readOnly', ($('#UIExterna_ntxbSmallIntLoja').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIExterna_ntxbSmallIntLoja').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_btnOpenView'), visible: $root.UIExterna().getLayoutVisible('UIExterna_btnOpenView')" class="">
+                                       <div class="form-group">
+                                           <div id="UIExterna_divOpenView" class="" >
+                                               <button id="UIExterna_btnOpenView" class="form-control btn-block btn-press ellipsis " data-bind="text: $root.UIExterna().getLayoutDisplayName('UIExterna_btnOpenView'), attr: {title: $root.UIExterna().getLayoutDisplayName('UIExterna_btnOpenView')}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_btnOpenView') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_btnOpenView') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()) }, enable: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_btnOpenView') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_btnOpenView') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()), click:function(){ if (typeof $root.UIExterna().OpenView_Click == 'function') $root.UIExterna().OpenView_Click(); if ($root.UIExterna().custom) $root.UIExterna().custom.OpenView_Click({viewModel: $root.UIExterna()}); }"></button>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="UIExterna_tcTabControl_0c64bcba91b84ea4a75423aa1e8b4d5f"  data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_tcTabControl_0c64bcba91b84ea4a75423aa1e8b4d5f'), visible: $root.UIExterna().getLayoutVisible('UIExterna_tcTabControl_0c64bcba91b84ea4a75423aa1e8b4d5f')"  class="tabbable tabbable-custom box" >
+                  <div class="container-tab">
+                     <div id="UIExterna_tcTabControl_0c64bcba91b84ea4a75423aa1e8b4d5f_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                     <div id="UIExterna_tcTabControl_0c64bcba91b84ea4a75423aa1e8b4d5f_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                     <div id="UIExterna_tcTabControl_0c64bcba91b84ea4a75423aa1e8b4d5f_wrapper" class="wrapper">
+                        <ul id="UIExterna_tcTabControl_0c64bcba91b84ea4a75423aa1e8b4d5f_list" class="nav nav-tabs list">
+                           <li id="UIExterna_tiTabItem_5f82396cbfe2425f82d6f995a723e5f2" class="active"><a data-bind="text: $root.UIExterna().getLayoutDisplayName('UIExterna_tiTabItem_5f82396cbfe2425f82d6f995a723e5f2'), attr: {title: $root.UIExterna().getLayoutDisplayName('UIExterna_tiTabItem_5f82396cbfe2425f82d6f995a723e5f2')}" href="#UIExterna_tabTabItem_5f82396cbfe2425f82d6f995a723e5f2" data-toggle="tab"></a></li>
+                           <li id="UIExterna_tiTabItem_7e08a6dbdf9040b2a76820a4d3821af7" class=""><a data-bind="text: $root.UIExterna().getLayoutDisplayName('UIExterna_tiTabItem_7e08a6dbdf9040b2a76820a4d3821af7'), attr: {title: $root.UIExterna().getLayoutDisplayName('UIExterna_tiTabItem_7e08a6dbdf9040b2a76820a4d3821af7')}" href="#UIExterna_tabTabItem_7e08a6dbdf9040b2a76820a4d3821af7" data-toggle="tab"></a></li>
+                           <li id="UIExterna_tiTabItem_ba3af8bc999946bea3b147a3dd2fb231" class=""><a data-bind="text: $root.UIExterna().getLayoutDisplayName('UIExterna_tiTabItem_ba3af8bc999946bea3b147a3dd2fb231'), attr: {title: $root.UIExterna().getLayoutDisplayName('UIExterna_tiTabItem_ba3af8bc999946bea3b147a3dd2fb231')}" href="#UIExterna_tabTabItem_ba3af8bc999946bea3b147a3dd2fb231" data-toggle="tab"></a></li>
+                           <li id="UIExterna_tiTabItem_a0457705df564677904a46b90e29cc53" class=""><a data-bind="text: $root.UIExterna().getLayoutDisplayName('UIExterna_tiTabItem_a0457705df564677904a46b90e29cc53'), attr: {title: $root.UIExterna().getLayoutDisplayName('UIExterna_tiTabItem_a0457705df564677904a46b90e29cc53')}" href="#UIExterna_tabTabItem_a0457705df564677904a46b90e29cc53" data-toggle="tab"></a></li>
+                        </ul>
+                        </div>
+                     </div>
+                  <div class="tab-content">
+
+
+
+                   <div class="tab-pane fade active in" id="UIExterna_tabTabItem_5f82396cbfe2425f82d6f995a723e5f2">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div style="height:auto;">
+                           <div id="UIExterna_euiExternalUI_e05915bcce3a47ff8bf3c55a0770213d" class="extenalUI" 
+                           data-bind="widget: { kind: 'pkg_linx-demo-bv-spa/viewmodels/UIVendaExterna', parentVM: $root, uiSettings: { removeDataToolbar: false, shareParentBO: false, useFilterFromParent: false, parentSelectorDataName: 'Loja', displayName: '', canClear: true, canSearch: true, canExport: true, canAddNew: true, canEdit: true, canDelete: true, canCustomSearch: true, canPrint: true, canLayout: true, canNavigate: true, canNavigate: true, applyFilterToParent: true, noSearch: false, noBusyLoading: false, parentFieldsRelation: ['IdLoja'], detailFieldsRelation: ['IdLoja'] } }" />
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="UIExterna_tabTabItem_7e08a6dbdf9040b2a76820a4d3821af7">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div style="height:auto;">
+                           <div id="UIExterna_euiExternalUI_04c6ca8591c94064867eee2d614907fb" class="extenalUI" 
+                           data-bind="widget: { kind: 'pkg_linx-demo-bv-spa/viewmodels/UIVendaexternaGRID', parentVM: $root, uiSettings: { removeDataToolbar: false, shareParentBO: false, useFilterFromParent: false, parentSelectorDataName: 'Loja', displayName: '', canClear: true, canSearch: true, canExport: true, canAddNew: true, canEdit: true, canDelete: true, canCustomSearch: true, canPrint: true, canLayout: true, canNavigate: true, canNavigate: true, applyFilterToParent: true, noSearch: false, noBusyLoading: false, parentFieldsRelation: ['IdLoja'], detailFieldsRelation: ['IdLoja'] } }" />
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="UIExterna_tabTabItem_ba3af8bc999946bea3b147a3dd2fb231">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+
+
+                       <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_btnCustomControl3975155'), visible: $root.UIExterna().getLayoutVisible('UIExterna_btnCustomControl3975155')" class="">
+                           <div class="form-group">
+                               <div id="UIExterna_divCustomControl3975155" class="" >
+                                   <button id="UIExterna_btnCustomControl3975155" class="form-control btn-block btn-press ellipsis " data-bind="text: $root.UIExterna().getLayoutDisplayName('UIExterna_btnCustomControl3975155'), attr: {title: $root.UIExterna().getLayoutDisplayName('UIExterna_btnCustomControl3975155')}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_btnCustomControl3975155') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_btnCustomControl3975155') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()) }, enable: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_btnCustomControl3975155') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_btnCustomControl3975155') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()), click:function(){ if (typeof $root.UIExterna().CustomControl3975155_Click == 'function') $root.UIExterna().CustomControl3975155_Click(); if ($root.UIExterna().custom) $root.UIExterna().custom.CustomControl3975155_Click({viewModel: $root.UIExterna()}); }"></button>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="UIExterna_tabTabItem_a0457705df564677904a46b90e29cc53">
+                       <div class="ui-helper-clearfix">
+                           <div data-bind="with: $root.UIExterna().getWithBinding(currentDataItem, $root.UIExterna().rootDataTypeName)">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UIExterna().getLayoutColumnSpan('UIExterna_lUpIdEstado'), visible: $root.UIExterna().getLayoutVisible('UIExterna_lUpIdEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="UIExterna_divIdEstado" class="" >
+                                           <label data-bind="attr: { title: $root.UIExterna().getLayoutDisplayName('UIExterna_lUpIdEstado')}, text: $root.UIExterna().getLayoutDisplayName('UIExterna_lUpIdEstado')" id="UIExterna_lblIdEstado" for="UIExterna_lUpIdEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div id="UIExterna_lUpIdEstado" class="form-control input-group " data-bind="validatedField: 'IdEstado', css: { vmEditing: $root.UIExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_lUpIdEstado') ? ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_lUpIdEstado') : (!isEmptyEntityFn($data) && $root.UIExterna().enabledForEditing()) }, lookupControl: { vm: $root.UIExterna(), value: IdEstado, maxLength: 12,lookupName: 'LookUpEstado', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.UIExterna().entitySearchRange.IdEstado, fieldName: 'IdEstado', disabled:ctrl.hasCustomEnable($root.UIExterna(), 'UIExterna_lUpIdEstado') ? !ctrl.getCustomEnable($root.UIExterna(), 'UIExterna_lUpIdEstado') : (isEmptyEntityFn($data) || !$root.UIExterna().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:false, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="UIExterna_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.UIExterna().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyUIExterna_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyUIExterna_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyUIExterna_dGrid_templateLayout', vm: function(){return $root.UIExterna().gridSaveStates['scyUIExterna_dGrid'];}, ctrlName: 'scyUIExterna_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyUIExterna_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyUIExterna_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyUIExterna_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UIExterna().dataToolbar.canExport(), click: function () {$root.UIExterna().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyUIExterna_dGrid" data-bind="css: { IsEditableStyle: $root.UIExterna().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

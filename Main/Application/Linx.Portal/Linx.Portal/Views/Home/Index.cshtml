@@ -1,0 +1,134 @@
+﻿@using Linx.Portal.Models
+@{
+    ViewBag.Title = "Acessos - Linx Portal";
+    var info = (LoggedUser[])ViewData["users"];
+    var propertyInfo = info != null ? typeof(LoggedUser).GetProperty(ViewBag.SortColumn) : "";
+    var list = info != null ? (ViewBag.SortDirection == "ASC" ? info.OrderBy(x => propertyInfo.GetValue(x, null)) : info.OrderByDescending(x => propertyInfo.GetValue(x, null))) : new List<LoggedUser>().OrderBy(i => i.DescricaoAmbiente);
+}
+<style type="text/css">
+    body:before {
+        background-image: url('@Url.Content("~/assets/img/bg-home-inicial.jpg")')
+    }
+</style>
+<article id="enviroments">
+    <section id="info-product">
+        <aside>
+            <div class="brand">
+                <img class="brand-img" src="~/assets/img/prh-logo-linx-h.png" alt="...">
+            </div>
+        </aside>
+        <bside>
+            <ul>
+                @if (ViewBag.Message != "")
+                {
+                    <li>@ViewBag.Message</li>
+                }
+                <li>@Html.ActionLink("Log Out", "LogOut", new { formulario = ViewBag.FormId })</li>
+            </ul>
+        </bside>
+        <article id="enviroment-list">
+            @if (ViewBag.Error != null)
+            {
+                <h3>
+                    <p>Não foi possível efetuar a busca dos ambientes disponíveis.</p>
+                    <p>Erro : @ViewBag.Error</p>
+                </h3>
+            }
+
+            @if (info == null)
+            {
+                return;
+            }
+
+            @if (info.Count() <= 0)
+            {
+                <h3>Usuário não possui ambientes disponíveis.</h3>
+            }
+            else
+            {
+
+                if (ViewBag.IsSupportMode)
+                {
+                    <h3>Ambiente para suporte:</h3>
+                }
+                else
+                {
+                    <h3>Ambientes disponíveis:</h3>
+                }
+                <div class="table-responsive-vertical shadow-z-1">
+                    <table id="table" class="table table-hover table-striped">
+                        <thead class="secondary-color-bg">
+                            <tr>
+                                @if (ViewBag.IsSupportMode)
+                                {
+                                    <th>Usuário</th>
+                                }
+                                <th class="table-head" onclick="location.href='@Url.Action("Index", new { parameter = "DescricaoAmbiente" })';return false;">
+                                    Ambiente        
+                                    @if (ViewBag.SortColumn == "DescricaoAmbiente")
+                                    {
+                                        if (ViewBag.SortDirection == "ASC")
+                                        {
+                                            <div class="arrow arrow-down"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="arrow arrow-up"></div>
+                                        }
+                                    }
+                                </th>
+                                <th class="table-head" onclick="location.href='@Url.Action("Index", new { parameter = "DescricaoAplicativo" })';return false;">
+                                    Aplicativo 
+                                    @if (ViewBag.SortColumn == "DescricaoAplicativo")
+                                    {
+                                        if (ViewBag.SortDirection == "ASC")
+                                        {
+                                            <div class="arrow arrow-down"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="arrow arrow-up"></div>
+                                        }
+                                    }                                                     
+                                </th>
+                                <th class="table-head" onclick="location.href='@Url.Action("Index", new { parameter = "NomeEmpresa" })';return false;">
+                                    Empresa
+                                    @if (ViewBag.SortColumn == "NomeEmpresa")
+                                    {
+                                        if (ViewBag.SortDirection == "ASC")
+                                        {
+                                            <div class="arrow arrow-down"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="arrow arrow-up"></div>
+                                        }
+                                    }  
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>              
+                                                                      
+                            @foreach (var usr in list)
+                            {
+                                <tr onclick="window.location = '@Url.Action("Redirect", "Home", new { url = usr.Url, uidEmpresa = usr.UidEmpresa, uidGrupoEconomico = usr.UidGrupoEconomico, uidUsuario = usr.UidUsuario, uidAplicacao = usr.UidAplicacao, idAmbiente = usr.IdTcsAmbiente, formulario = ViewBag.FormId, nomeEmpresa = usr.NomeEmpresa, grupoEconomico = usr.GrupoEconomico, idLinxGpecon = usr.IdLinxGpecon, usuarioAutenticacao = ViewBag.UsuarioAutenticacao, supportMode = ViewBag.IsSupportMode, urlWorkArea = usr.UrlWorkArea })'">
+                                    @if (ViewBag.IsSupportMode)
+                                    {
+                                        <td data-title="Usuário">@usr.NomeUsuario</td>
+                                    }
+                                    <td data-title="Ambiente">          @usr.DescricaoAmbiente</td>
+                                    <td data-title="Aplicativo">        @usr.DescricaoAplicativo</td>
+                                    <td data-title="Empresa">           @usr.NomeEmpresa</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </article>
+
+        <footer>
+            <p> &copy; Linx - Todos os direitos reservados. </p>
+        </footer>
+    </section>
+</article>

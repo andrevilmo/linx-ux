@@ -1,0 +1,1483 @@
+﻿			
+
+ 
+{
+  "Name": "ConectorPos",
+  "Namespace": "Linx.Framework.Loja.BM",
+  "ConnectionName": "connConectorPOS",
+  "AuthorizationEnabled": true,
+  "Entities": [
+	  
+		{
+			"Name": "LJV_MODULO",
+			"Schema": "dbo",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_MODULO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_MODULO', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[Display(Name='ID LjvModulo')]"
+
+							]
+						}
+						,{
+							"Name": "DESC_MODULO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_MODULO', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_CURTO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_CURTO', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO', Order=3 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "ICONE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ICONE', Order=4 )]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "LX_COR_FUNDO",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_COR_FUNDO', Order=5 )]"
+
+							]
+						}
+						,{
+							"Name": "ORDEM_NAVEGACAO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ORDEM_NAVEGACAO', Order=6 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "ID_TCS_APLICATIVO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TCS_APLICATIVO', Order=7 )]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "LJV_MODULO_MENU_LISTA",
+							"DataType": "ICollection<LJV_MODULO_MENU>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: ModuloTransacao.bmd"
+								,"[InverseProperty('LJV_MODULO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LJV_MODULO_MENU",
+			"Schema": "dbo",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_MODULO_MENU",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_MODULO_MENU', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Ljv Modulo Menu')]"
+
+							]
+						}
+						,{
+							"Name": "ID_MODULO_MENU_SUPERIOR",
+							"DataType": "System.Nullable<long>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_MODULO_MENU_SUPERIOR', Order=1 )]"
+                   ,"[Display(Name='Id Ljv Modulo Menu')]"
+                   ,"[ForeignKey('LJV_MODULO_MENU1')]"
+
+							]
+						}
+						,{
+							"Name": "ID_MODULO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_MODULO', Order=2 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='ID LjvModulo')]"
+                   ,"[ForeignKey('LJV_MODULO')]"
+
+							]
+						}
+						,{
+							"Name": "DESC_MODULO_MENU",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_MODULO_MENU', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_CURTO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_CURTO', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "ORDEM_NAVEGACAO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ORDEM_NAVEGACAO', Order=5 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "ICONE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ICONE', Order=6 )]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "LX_COR_FUNDO",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_COR_FUNDO', Order=7 )]"
+
+							]
+						}
+						,{
+							"Name": "LJV_MODULO",
+							"DataType": "LJV_MODULO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LJV_MODULO_MENU1",
+							"DataType": "LJV_MODULO_MENU",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LJV_MODULO_MENU_LISTA",
+							"DataType": "ICollection<LJV_MODULO_MENU>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: ModuloTransacao.bmd"
+							]
+						}
+						
+						,{
+							"Name": "LJV_TRANSACAO_MENU_LISTA",
+							"DataType": "ICollection<LJV_TRANSACAO_MENU>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: ModuloTransacao.bmd"
+								,"[InverseProperty('LJV_MODULO_MENU')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LJV_TRANSACAO_MENU",
+			"Schema": "dbo",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TRANSACAO_MENU",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TRANSACAO_MENU', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Ljv Transacao Menu Autorizacao')]"
+
+							]
+						}
+						,{
+							"Name": "ID_MODULO_MENU",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_MODULO_MENU', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Ljv Modulo Menu')]"
+                   ,"[ForeignKey('LJV_MODULO_MENU')]"
+
+							]
+						}
+						,{
+							"Name": "ID_TRANSACAO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_TRANSACAO', Order=2 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Ljv Transacao')]"
+                   ,"[ForeignKey('LJV_TRANSACAO')]"
+
+							]
+						}
+						,{
+							"Name": "ORDEM_NAVEGACAO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ORDEM_NAVEGACAO', Order=3 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "LJV_MODULO_MENU",
+							"DataType": "LJV_MODULO_MENU",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LJV_TRANSACAO",
+							"DataType": "LJV_TRANSACAO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LJV_TRANSACAO",
+			"Schema": "dbo",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_TRANSACAO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_TRANSACAO', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Ljv Transacao')]"
+
+							]
+						}
+						,{
+							"Name": "COD_TRANSACAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COD_TRANSACAO', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(10)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_TRANSACAO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_TRANSACAO', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_CURTO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_CURTO', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_TRANSACAO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_TRANSACAO', Order=4 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "CLASSE_NOME",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CLASSE_NOME', Order=5 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(400)]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO', Order=6 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "ICONE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ICONE', Order=7 )]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "LX_COR_FUNDO",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_COR_FUNDO', Order=8 )]"
+
+							]
+						}
+						,{
+							"Name": "LJV_TRANSACAO_MENU_LISTA",
+							"DataType": "ICollection<LJV_TRANSACAO_MENU>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: ModuloTransacao.bmd"
+								,"[InverseProperty('LJV_TRANSACAO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LJV_PARAMETRO",
+			"Schema": "",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_PARAMETRO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_PARAMETRO', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "TITULO_PARAMETRO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('TITULO_PARAMETRO', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_PARAMETRO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_PARAMETRO', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "LX_DATATYPE_PARAMETRO",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_DATATYPE_PARAMETRO', Order=3 )]"
+                   ,"[Required]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "VALOR_PARAMETRO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('VALOR_PARAMETRO', Order=4 )]"
+
+							]
+						}
+
+		   ]
+		}
+		,{
+			"Name": "LJV_VENDEDOR",
+			"Schema": "",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_VENDEDOR",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_VENDEDOR', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "ID_SUPERVISOR",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_SUPERVISOR', Order=1 )]"
+                   ,"[ForeignKey('LJV_VENDEDOR1')]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "ID_LOJA",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LOJA', Order=2 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('LJV_LOJA')]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "COD_VENDEDOR",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COD_VENDEDOR', Order=3 )]"
+
+							]
+						}
+						,{
+							"Name": "NOME_VENDEDOR",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_VENDEDOR', Order=4 )]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO', Order=5 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_GERENTE",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_GERENTE', Order=6 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_OPERADOR_CAIXA",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_OPERADOR_CAIXA', Order=7 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "SENHA",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('SENHA', Order=8 )]"
+
+							]
+						}
+						,{
+							"Name": "VENDEDOR_APELIDO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('VENDEDOR_APELIDO', Order=9 )]"
+
+							]
+						}
+						,{
+							"Name": "DATA_NASCIMENTO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_NASCIMENTO', Order=10 )]"
+
+							]
+						}
+						,{
+							"Name": "DATA_ATIVACAO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_ATIVACAO', Order=11 )]"
+
+							]
+						}
+						,{
+							"Name": "DATA_DESATIVACAO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_DESATIVACAO', Order=12 )]"
+
+							]
+						}
+						,{
+							"Name": "CPF",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CPF', Order=13 )]"
+
+							]
+						}
+						,{
+							"Name": "LJV_VENDEDOR1",
+							"DataType": "LJV_VENDEDOR",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LJV_LOJA",
+							"DataType": "LJV_LOJA",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LJV_VENDEDOR_LISTA",
+							"DataType": "ICollection<LJV_VENDEDOR>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Vendedor.bmd"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LJV_LOJA",
+			"Schema": "",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LOJA",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LOJA', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "COD_LOJA",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COD_LOJA', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_LOJA",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_LOJA', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_FANTASIA_APELIDO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_FANTASIA_APELIDO', Order=3 )]"
+
+							]
+						}
+						,{
+							"Name": "RAZAO_SOCIAL_NOME_COMPLETO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('RAZAO_SOCIAL_NOME_COMPLETO', Order=4 )]"
+
+							]
+						}
+						,{
+							"Name": "LX_PFJ_FISICA_JURIDICA",
+							"DataType": "System.Nullable<byte>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_PFJ_FISICA_JURIDICA', Order=5 )]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "CNPJ_CPF",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CNPJ_CPF', Order=6 )]"
+
+							]
+						}
+						,{
+							"Name": "INSCR_ESTADUAL",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INSCR_ESTADUAL', Order=7 )]"
+
+							]
+						}
+						,{
+							"Name": "INSCR_MUNICIPAL",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INSCR_MUNICIPAL', Order=8 )]"
+
+							]
+						}
+						,{
+							"Name": "INSCR_SUFRAMA",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INSCR_SUFRAMA', Order=9 )]"
+
+							]
+						}
+						,{
+							"Name": "LX_TIPO_LOGRADOURO",
+							"DataType": "System.Nullable<byte>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_TIPO_LOGRADOURO', Order=10 )]"
+                   ,"[Precision(3)]"
+
+							]
+						}
+						,{
+							"Name": "LOGRADOURO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LOGRADOURO', Order=11 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "NUMERO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NUMERO', Order=12 )]"
+
+							]
+						}
+						,{
+							"Name": "COMPLEMENTO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COMPLEMENTO', Order=13 )]"
+
+							]
+						}
+						,{
+							"Name": "BAIRRO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('BAIRRO', Order=14 )]"
+
+							]
+						}
+						,{
+							"Name": "CIDADE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CIDADE', Order=15 )]"
+
+							]
+						}
+						,{
+							"Name": "DESC_UF",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_UF', Order=16 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "EMAIL",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('EMAIL', Order=17 )]"
+
+							]
+						}
+						,{
+							"Name": "DESC_PAIS",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_PAIS', Order=18 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "CEP",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CEP', Order=19 )]"
+
+							]
+						}
+						,{
+							"Name": "LATITUDE",
+							"DataType": "System.Nullable<decimal>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LATITUDE', Order=20 )]"
+                   ,"[Precision(8)]"
+                   ,"[Scale(5)]"
+
+							]
+						}
+						,{
+							"Name": "LONGITUDE",
+							"DataType": "System.Nullable<decimal>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LONGITUDE', Order=21 )]"
+                   ,"[Precision(8)]"
+                   ,"[Scale(5)]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO', Order=22 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "DATA_ABERTURA_LOJA",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_ABERTURA_LOJA', Order=23 )]"
+
+							]
+						}
+						,{
+							"Name": "DATA_FECHAMENTO_LOJA",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_FECHAMENTO_LOJA', Order=24 )]"
+
+							]
+						}
+						,{
+							"Name": "DDD",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DDD', Order=25 )]"
+
+							]
+						}
+						,{
+							"Name": "TELEFONE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('TELEFONE', Order=26 )]"
+
+							]
+						}
+						,{
+							"Name": "COD_REGIME_TRIBUTARIO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COD_REGIME_TRIBUTARIO', Order=27 )]"
+
+							]
+						}
+						,{
+							"Name": "COD_CIDADE_IBGE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COD_CIDADE_IBGE', Order=28 )]"
+
+							]
+						}
+						,{
+							"Name": "COD_UF_IBGE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COD_UF_IBGE', Order=29 )]"
+
+							]
+						}
+						,{
+							"Name": "COD_PAIS_IBGE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COD_PAIS_IBGE', Order=30 )]"
+
+							]
+						}
+						,{
+							"Name": "ID_BANDEIRA_REDE",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_BANDEIRA_REDE', Order=31 )]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "COD_BANDEIRA_REDE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('COD_BANDEIRA_REDE', Order=32 )]"
+
+							]
+						}
+						,{
+							"Name": "DESC_BANDEIRA_REDE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_BANDEIRA_REDE', Order=33 )]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX', Order=34 )]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "ID_GPECON",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_GPECON', Order=35 )]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "ID_FILIAL_PFJ",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_FILIAL_PFJ', Order=36 )]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "ID_STK_DEPOSITO",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_STK_DEPOSITO', Order=37 )]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "LX_HASH",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_HASH', Order=38 )]"
+
+							]
+						}
+						,{
+							"Name": "LJV_VENDEDOR_LISTA",
+							"DataType": "ICollection<LJV_VENDEDOR>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: Vendedor.bmd"
+								,"[InverseProperty('LJV_LOJA')]"
+							]
+						}
+						
+
+		   ]
+		}
+
+
+  ],
+  "Domains": [
+  
+  
+  ]
+		
+}

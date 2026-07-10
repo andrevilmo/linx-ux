@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>redirect</title>
+    <script type="text/javascript">
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        function hasParameter(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name),
+            results = regex.exec(location.search);
+            return results != null ;
+        }
+        function openUrl() {
+            var viewId = getParameterByName('viewId');
+            var objectQuery = getParameterByName('objectQuery');
+            var executeQuery = hasParameter('executeQuery');
+            if (typeof (viewId) != 'undefined')
+                location.href = '/#' + viewId + "?objectQuery=" + objectQuery + "&executeQuery=" + executeQuery.toString();
+            else
+                document.writeln("Não foi possível localizar a tela ou o jExpression de destino.")
+        }
+    </script>
+</head>
+<body onload="openUrl()">
+    Redirecting...
+</body>
+</html>

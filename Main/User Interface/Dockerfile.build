@@ -1,0 +1,17 @@
+# Optional image build for the same solution (copy-based; large context = Main folder).
+# Build from repository Main directory:
+#   docker build -f Application/Linx.Internet.Application/Dockerfile.build -t linx-internet-application-build .
+#
+# Same Windows container constraints as docker-compose.yml.
+
+# escape=`
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2022
+
+WORKDIR C:\src
+COPY . .
+
+WORKDIR C:\src\Application\Linx.Internet.Application
+
+SHELL ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+RUN nuget restore Linx.Internet.Application.sln -NonInteractive; `
+    msbuild Linx.Internet.Application.sln /p:Configuration=Release /m /v:minimal /nologo

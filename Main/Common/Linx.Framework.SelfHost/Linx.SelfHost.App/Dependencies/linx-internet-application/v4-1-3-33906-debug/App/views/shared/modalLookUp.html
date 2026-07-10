@@ -1,0 +1,25 @@
+﻿<div class="modal-dialog modal-dialog-large" data-bind="attr: { moduleinfo: moduleInfo }">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <button type="button" id="btnCancel" data-bind="click: $root.UI_btnCancel_Click" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title" data-bind="text: title"></h4>
+        </div>
+
+        <div class="modal-body tabbable-custom box" style="margin: 5px 15px;">
+            <div class="title-lookUp">
+                <button class="btn tooltips" data-placement="top" data-original-title="Primeiro" data-bind="visible: btnsVisible, enable: canGoFirst, click: UI_btnFirst_Click"><i class='icon-fast-backward' /></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="Anterior" data-bind="visible: btnsVisible, enable: canGoBack, click: UI_btnBack_Click"><i class='icon-backward' /></button>
+                <span class="caption" data-bind="text: caption" />
+                <button class="btn tooltips" data-placement="top" data-original-title="Próximo" data-bind="visible: btnsVisible, enable: canGoNext, click: UI_btnNext_Click"><i class='icon-forward' /></button>
+                <button class="btn tooltips" data-placement="top" data-original-title="Último" data-bind="visible: btnsVisible, enable: canGoLast, click: UI_btnLast_Click"><i class='icon-fast-forward' /></button>
+            </div>
+            <table data-bind="attr: { id: tableId() }"/>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-ok" id="lookupConfirm" data-bind="click: $root.UI_btnConfirm_Click">Selecionar</button>
+            <button class="btn btn-close" id="lookupCancel" data-bind="click: $root.UI_btnCancel_Click">Cancelar</button>
+        </div>
+    </div>
+</div>

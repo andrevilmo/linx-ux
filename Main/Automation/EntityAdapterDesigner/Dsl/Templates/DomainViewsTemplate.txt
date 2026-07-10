@@ -1,0 +1,187 @@
+﻿<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension=".shared.cs" #>
+<#@ include file = "..\Includes\EntityAdapterDynamicModels.ttinclude"#>
+<#@ import namespace = "System.Collections.Generic" #>
+<#@ import namespace = "System.Linq" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name = "#GAC#Linx.Tools.dll" #>
+<#@ import namespace = "Linx.Tools" #>
+<# 
+List<EntityAdapterDesignerRoot> models = GetModels();	
+List<string> domains = new List<string>();
+
+#>
+using System;
+using System.IO;
+using System.Collections.Generic;
+using Linx.Tools; 
+    
+namespace <#= models[0].TargetNamespace#>.Domains
+{
+
+	public partial class DomainHelper
+    {
+		public static string[] GetDomainsInfo(string domainNames)
+        {
+            List<string> result = new List<string>();
+
+            foreach (string domainName in domainNames.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                var values = GetDomainValues(domainName);
+                if (values.Count > 0)
+                {
+                    foreach(var value in values)
+                    {
+                        result.Add(domainName + "#" + value.Key + "#" + value.Value.Replace("\"", "").Replace("'", ""));
+                    }
+                }
+            }
+
+            return result.ToArray();
+        }
+
+		public static Dictionary<string, Dictionary<string, string>> GetAllDomainsInfo()
+        {
+            Dictionary<string, Dictionary<string, string>> result = new Dictionary<string, Dictionary<string, string>>();
+			Dictionary<string, string> values;
+<#    
+  foreach(EntityAdapterDesignerRoot model in models)
+  {	 
+	 foreach (var domainRef in model.GetAllDomains())
+	 {
+		if (!domains.Contains(domainRef.ClassName))
+		{
+			domains.Add(domainRef.ClassName);   
+#>
+            values = GetDomainValues("<#=domainRef.ClassName#>");
+            if (values.Count > 0)
+            {
+            	result.Add("<#=domainRef.ClassName#>", values);                    
+            }
+<#
+       }
+	 }
+  }
+  domains.Clear();
+#>
+            return result;
+        }
+
+        public static Dictionary<string, string> GetDomainValues(string domainName)
+        {
+            Dictionary<string, string> result;
+            switch (domainName)
+            {
+
+<#    
+  foreach(EntityAdapterDesignerRoot model in models)
+  {	 
+	  foreach (var domainRef in model.GetAllDomains())
+	  {
+		if (!domains.Contains(domainRef.ClassName))
+		{
+			domains.Add(domainRef.ClassName);   
+#>
+
+                case "<#=domainRef.ClassName#>":
+                    result = <#=domainRef.ClassName#>.GetValues();
+                    break;
+<#
+		}
+	 }
+}
+#>
+
+                default:
+                    result = new Dictionary<string, string>();
+                    break;
+            }
+
+            return result;
+        }
+    }
+
+<#    
+  domains = new List<string>();
+  foreach(EntityAdapterDesignerRoot model in models)
+  {	 
+	  foreach (var domainRef in model.GetAllDomains())
+	  {
+		if (!domains.Contains(domainRef.ClassName))
+		{
+			domains.Add(domainRef.ClassName);   
+#>
+	<#=domainRef.GetDomainLinqExpression()#>	
+    public partial class <#= domainRef.ClassName + (String.IsNullOrEmpty(domainRef.NameSpace) ? "" : " : " + domainRef.NameSpace + "." + domainRef.ClassName) #>
+    {
+		<#
+		if (String.IsNullOrEmpty(domainRef.NameSpace))
+		{
+		#>			
+			private static Dictionary<string, string> domainValues;
+			public static Dictionary<string, string> GetValues()
+			{
+					if (domainValues == null)
+					{
+
+						domainValues = <#=(domainRef.ValuesEndpointName.IsNullOrEmpty() ? "new Dictionary<string, string>()" : "GetCustomValues()")#>;				
+				<#
+					if (domainRef.ValuesEndpointName.IsNullOrEmpty()) {
+						foreach(var domainValue in domainRef.Values)
+						{
+						#>
+
+						domainValues.Add("<#=domainValue.Value.Replace("\"", "").Replace("'", "")#>", "<#=domainValue.DisplayName#>"); 
+						<#
+						}
+					}					
+				#>
+
+					}
+					return domainValues;
+			}
+
+			public static Dictionary<string, string> GetNames()
+			{
+					Dictionary<string, string> result = new Dictionary<string, string>();				
+				<#
+					foreach(var domainValue in domainRef.Values)
+					{
+					#>
+
+					result.Add("<#=domainValue.Value.Replace("\"", "").Replace("'", "")#>", "<#=domainValue.Name#>"); 
+				    <#
+					}
+				#>
+
+					return result;
+			}
+
+			#region properties
+			<#
+					foreach(var domainValue in domainRef.Values)
+					{
+					#>
+
+					private static DomainKeyPair _<#=domainValue.Name#> = new DomainKeyPair() { Value = "<#=domainValue.Value.Replace("\"", "").Replace("'", "")#>", DisplayName = "<#=domainValue.DisplayName#>" };
+					[<#=@"FunctionalPoint(""Value[" + domainValue.Value.Replace("\"", "\\\"") + "];DisplayName[" + domainValue.DisplayName + @"]"")"#>]
+					public static DomainKeyPair <#=domainValue.Name#> { get { return _<#=domainValue.Name#>; } }
+				    <#
+					}
+			#>
+
+			#endregion properties
+
+		<#
+		}
+		#>	
+
+	}    
+<#    
+		}
+	  }
+  } 
+ 
+#>
+
+}

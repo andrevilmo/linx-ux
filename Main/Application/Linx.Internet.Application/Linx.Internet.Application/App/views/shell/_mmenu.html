@@ -1,0 +1,112 @@
+﻿<div id="mmenu" class="site-menubar" >
+    <ul class="site-menu" data-bind="html: menuItems">  
+    </ul>
+</div>
+
+<div class="hide user-popover">
+    <ul class="dropdown-menu dropdown-menu-default mm-user-dropdown" style="display:block !important">
+       
+        <!-- ko if: managerAuth.isShellProdMode && !managerAuth.loginInfo.IsSupportMode && !managerAuth.isLoginPOSUXMode -->
+        <li><a href="javascript:void(0)" class="mm-user-enviroments"><i class="fa fa-flag"></i> Mudar de ambiente</a></li>
+        <!--/ko-->
+
+        <!-- ko if: !managerAuth.AutenticacaoWindow-->
+        <li><a href="javascript:void(0)" class="mm-user-changepassword"><i class="fa fa-key"></i> Alterar senha</a></li>
+        <!--/ko-->
+
+        <!-- ko if: managerAuth.isShellProdMode == true && managerAuth.loginInfo.AutenticacaoWindows == false-->
+        <li class="divider"> </li>
+        
+        <li><a href="javascript:void(0)" class="mm-user-logout"><i class="fa fa-sign-out"></i> Sair</a></li>
+        <!--/ko-->      
+    </ul>
+</div>
+
+ <!-- ko if: managerAuth.isShellProdMode && !managerAuth.isLoginPOSUXMode-->
+<div class="hide ambientes-popover">
+   
+    <ul class="dropdown-menu dropdown-menu-default ambientes-popover-ul" style="display:block !important">
+
+        <li class="ellipsis greater">Grupo econômico: <i><span data-bind="attr: { title: managerAuth.loginInfo.DescricaoGrupoEconomico }, text: managerAuth.loginInfo.DescricaoGrupoEconomico"></span></i></li>
+
+        <li class="divider"> </li>
+
+        <!-- ko foreach: managerAuth.loginInfo.Ambientes -->
+            <li class="greater"><i class="fa" data-bind="css: { 'fa-cogs': $data.IdTcsAplicativo == 3, 'fa-bank': $data.IdTcsAplicativo == 2  }"></i><span data-bind="text: DescricaoAplicativo"></span></li>
+            <li>Empresa: <i><span data-bind="attr: { title: DescricaoEmpresa }, text: DescricaoEmpresa"></span></i></li>
+            <li>Rede: <i><a href="javascript:;" title="" class="ambiente-brand ellipsis" data-bind="attr: { brand: $data.IdTcsAmbiente, id: 'brand_' + $data.IdTcsAmbiente }"></a></i></li>
+        
+            <li class="divider"></li>        
+        <!-- /ko -->
+    </ul>   
+</div>
+ <!-- /ko -->
+
+<div class="hide config-popover">
+
+    <ul class="dropdown-menu dropdown-menu-default config-popover-ul" style="display:block !important">
+        <li class="ellipsis greater">Configurações</li>   
+        <li class="divider"></li>            
+        <!-- ko if: !managerAuth.isLoginPOSUXMode-->
+            <li class="tr">
+                <span class="td-1">Página inicial</span>
+                <!-- ko if: paginaInicial().length == 0 -->
+                    <span class="td-2">Home</span>
+                <!--/ko-->
+                <!-- ko if: paginaInicial().length > 0 -->
+                    <span class="td-2" data-bind="attr: { title: paginaInicial() }, text: paginaInicial()"> <i id="UIClearHome" class="fa fa-times exclud"></i> </span>                        
+                <!--/ko-->
+            </li>    
+            <li class="tr">
+                <span class="td-1">Resultado tabular</span>
+                <span class="td-2 "><input class="pull-right chkGridMode" type="checkbox" name="chkGridMode" data-size="small" data-on-text="<i class='fa fa-check'></i>" data-off-text="<i class='fa fa-times'></i>" data-animate="false" checked></span>
+            </li>
+            <li class="tr">
+                <span class="td-1">Manter último filtro</span>
+                <span class="td-2"><input class="pull-right chkLastFilterMode" type="checkbox" name="chkLastFilterMode" data-size="small" data-on-text="<i class='fa fa-check'></i>" data-off-text="<i class='fa fa-times'></i>" data-animate="false" checked></span>
+            </li>
+            <li class="tr">
+                <span class="td-1">Barra navegação</span>
+                <span class="td-2"><input class="pull-right chkBarraNavegacao" type="checkbox" name="chkBarraNavegacao"  data-size="small" data-on-text="<i class='fa fa-check'></i>" data-off-text="<i class='fa fa-times'></i>" data-animate="false" checked></span>
+            </li>           
+        <!-- /ko -->
+        <!-- ko if: managerAuth.isShellProdMode-->
+            <li class="tr">
+                <span class="td-1">Cache</span>
+                <span class="td-2"><a href="javascript:void(0)" class="UIClearStorage">Limpar</a></span>
+            </li>
+        <!--/ko-->
+        <!-- ko if: !managerAuth.isLoginPOSUXMode-->
+            <!-- ko if: managerAuth.isShellProdMode && !managerAuth.loginInfo.IsSupportMode-->
+                <li class="tr">
+                    <span class="td-1">URL para suporte</span>
+                    <span class="td-2"><a href="javascript:void(0)" class="SupportRequest">Ver URL</a></span>
+                </li>          
+            <!--/ko-->
+            <!-- ko if: managerAuth.isShellDevMode -->
+                <li class="ellipsis greater" style="margin-top: 20px;">Developer Mode</li>
+                <li class="divider"></li> 
+                <li class="tr">
+                    <span class="td-1">Trace</span>
+                    <span class="td-2"><input class="pull-right chkTrace" type="checkbox" name="chkTrace" data-size="small" data-on-text="<i class='fa fa-check'></i>" data-off-text="<i class='fa fa-times'></i>" data-animate="false" checked></span>
+                </li>      
+                <!-- ko if:router.activeInstruction() != null && router.activeInstruction().config != null --> 
+                    <li class="tr">
+                        <span class="td-1">Módulo</span>
+                        <span class="td-2"><a href="javascript:void(0)" data-bind="attr: { href: router.activeInstruction().config.lxDownloadModule }">Download</a></span>
+                    </li> 
+                    <!-- ko if:router.activeInstruction() != null && router.activeInstruction().config.lxExtractView != null --> 
+                    <li class="tr">
+                        <span class="td-1">Tela</span>
+                        <span class="td-2"><a href="javascript:void(0)" data-bind="attr: { href: router.activeInstruction().config.lxExtractView }" target="_blank">Download</a></span>
+                    </li>
+                    <!--/ko-->
+                    <li class="tr">
+                        <span class="td-1">Deploy Setup</span>
+                        <span class="td-2"><a href="javascript:void(0)" data-bind="attr: { href: 'deploy/download/modules.zip?appmode=setup' }">Download</a></span>
+                    </li>                    
+                <!--/ko-->
+            <!--/ko-->
+        <!--/ko-->
+    </ul>
+</div>

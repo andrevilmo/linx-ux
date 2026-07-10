@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>1.0.2</VersionPrefix>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Linx.DomainService.Core</AssemblyName>
+    <PackageId>Linx.DomainService.Core</PackageId>
+    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <PostBuildEvent>xcopy "Linx.DomainService.Core.*" "$(MSBuildProjectDirectory)\..\..\..\Binary\CoreServiceBus\" /Y /R
+xcopy "Linx.DomainService.Core.*" "$(MSBuildProjectDirectory)\..\..\..\Binary\Library\Common\Linx\Nuget\Libs\" /Y /R</PostBuildEvent>
+    <RootNamespace>Linx.DS.Core</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Security.Principal" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Linx.Tools.Core">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Linx.Tools.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostcompileScript" AfterTargets="Build">
+    
+  </Target>
+
+</Project>

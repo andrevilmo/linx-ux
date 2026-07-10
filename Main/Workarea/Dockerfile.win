@@ -1,0 +1,45 @@
+#Dockerfile
+FROM microsoft/iis
+
+LABEL vendor="Linx Sistemas S.A."
+
+RUN mkdir C:\site
+
+RUN powershell -NoProfile -Command \
+    Import-module IISAdministration; \
+    New-IISSite -Name "Site" -PhysicalPath C:\site -BindingInformation "*:8000:"
+
+EXPOSE 80
+
+COPY ./dist/www /site
+
+
+################
+### basics
+################
+
+### cria a imagem local
+#$ docker build -t workarea_site --file Dockerfile.win .
+
+### roda a imagem
+#$ docker run -p 8000:8000 -d --name my_workarea_site workarea_site
+
+### obtem o IP local para teste
+#$ docker inspect -f "" my_workarea_site
+
+
+################
+### extras
+################
+
+### stop
+#$ docker stop my_workarea_site
+
+### remove container
+#$ docker rm my_workarea_site -f
+
+### publica no hub
+#$ docker push linxinov/workarea_site
+
+### baixa do hub
+#$ docker pull linxinov/workarea_site

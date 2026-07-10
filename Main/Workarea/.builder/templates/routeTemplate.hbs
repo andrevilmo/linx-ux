@@ -1,0 +1,59 @@
+{{#if isAutoGen}}
+//------------------------------------------------------------------------------
+//  Auto Generated
+//    This code was generated from a template.
+//
+//    Manual changes to this file may cause unexpected behavior in your application.
+//    Manual changes to this file will be overwritten if the code is regenerated.
+{{/if}}
+//------------------------------------------------------------------------------
+//  Creation date: {{date}}
+//  User name: {{user}}
+//------------------------------------------------------------------------------
+//  Linx AppBuilder: {{appBuilderVersion}}
+//  Linx AppBuilder Designer: {{appBuilderDesignerVersion}}
+//  Linx AppBuilder Service: {{appBuilderServiceVersion}}
+//------------------------------------------------------------------------------
+
+'use strict';
+
+function Routing($stateProvider) {
+
+		$stateProvider
+			.state('{{productNameMin}}.{{state}}', {
+				type: 'transaction',
+				url: '/{{url}}',
+				displayName: '{{displayName}}',
+				views: {				
+					'': {					
+						templateProvider: function ($q) {
+							return $q(function (resolve) {
+								require.ensure([], function (require) {
+									{{#if (hasValue layoutTemplatePath)}} 
+										var template = require('{{layoutTemplatePath}}');
+									{{else}}
+										var template = '<div ui-view="container"></div>';
+									{{/if}}									
+									resolve(template);
+								}, "{{productFileName}}");
+							});
+						}					
+					},				
+					'container@{{productNameMin}}.{{state}}': {
+						controller: '{{#if (hasValue injectNameCore)}}{{injectNameCore}}{{else}}{{name}}{{/if}}Controller as vm',
+						templateProvider: function ($q) {
+							return $q(function (resolve) {
+								require.ensure([], function (require) {
+									var template = require('../../templates/{{name}}{{#if isAutoGen}}.CodeGen.{{/if}}Template.html');
+									resolve(template);
+								}, "{{productFileName}}");
+							});
+						}
+					}
+				}
+			});	
+}
+
+module.exports = function (appModule) {
+	appModule.config(Routing);
+};

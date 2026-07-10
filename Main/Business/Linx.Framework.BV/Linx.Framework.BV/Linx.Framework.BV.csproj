@@ -1,0 +1,3121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9784601E-F1D9-4B03-B964-C82748D808DD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Linx.Framework.BV</RootNamespace>
+    <AssemblyName>Linx.Framework.BV</AssemblyName>
+    <SccProjectName>%24/Framework/Linx Framework/Main/Business/Linx.Framework.BV/Linx.Framework.BV</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccAuxPath>https://grupolinx.visualstudio.com</SccAuxPath>
+    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\Binary\Library\Common\Microsoft\Desktop\CodeFirstMigration\EF\EntityFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\Binary\Library\Common\Microsoft\Desktop\CodeFirstMigration\EF\EntityFramework.SqlServer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\..\..\Binary\Service\bin\ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Data">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Desktop\Data\Linx.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Linx.Framework.Autorizacao.BM">
+      <HintPath>..\..\..\Binary\Library\Business Model\Linx.Framework.Autorizacao.BM.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Framework.ControleSistema.BM">
+      <HintPath>..\..\..\Binary\Library\Business Model\Linx.Framework.ControleSistema.BM.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Framework.Domains.BM">
+      <HintPath>..\..\..\Binary\Library\Business Model\Linx.Framework.Domains.BM.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Framework.Loja.BM">
+      <HintPath>..\..\..\Binary\Library\Business Model\Linx.Framework.Loja.BM.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.LinqExtensions">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Desktop\GAC\Linx.LinqExtensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Linx.Resources.Localization">
+      <HintPath>..\..\..\Binary\Service\bin\Linx.Resources.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Tools">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Desktop\GAC\Linx.Tools.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LinxHttpContext, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5a633b0c62e0a148, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Desktop\GAC\LinxHttpContext.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=15.5.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Desktop\GAC\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\Binary\Library\Common\Microsoft\Web API\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RestSharp, Version=106.2.2.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\..\..\User Interface\Linx.Framework.BV\packages\RestSharp.106.2.2\lib\net452\RestSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Activities.Presentation" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Activities" />
+    <Reference Include="System.ServiceModel.DomainServices.Hosting">
+      <HintPath>..\..\..\Binary\Library\Common\Microsoft\DomainServices\System.ServiceModel.DomainServices.Hosting.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.ServiceModel.DomainServices.Server">
+      <HintPath>..\..\..\Binary\Library\Common\Microsoft\DomainServices\System.ServiceModel.DomainServices.Server.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Binary\Library\Common\Linx\Information\AssemblyInfoShared.cs">
+      <Link>Properties\AssemblyInfoShared.cs</Link>
+    </Compile>
+    <Compile Include="Ambiente.AmbienteServicoInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ambiente.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.DomainServiceExtension1.Operations.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.EnvironmentInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ambiente.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ambiente.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ambiente.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.ServicoExcecaoInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsAmbiente.CustomAuthorizationAuto.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsAmbiente.Events.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsAmbiente.Events.shared.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsAmbienteConexao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsAmbienteRelacionado.CustomAuthorizationAuto.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsAmbienteServicoExcecao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsAmbienteServicoExcecao.Events.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsAmbienteServicoExcecao.Events.shared.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsAmbienteUsuarioAcesso.CustomAuthorizationAuto.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsAmbienteUsuarioAcesso.Events.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsAmbienteUsuarioAcesso.Events.shared.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Ambiente.TcsServico.CustomAuthorizationAuto.cs">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicacao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aplicacao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicacao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aplicacao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicacao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aplicacao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicacao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aplicacao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicacao.TcsAmbiente.CustomAuthorizationAuto.cs">
+      <DependentUpon>Aplicacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicacao.TcsAplicacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Aplicacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicacao.TcsAplicacao.Events.cs">
+      <DependentUpon>Aplicacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicacao.TcsAplicacao.Events.shared.cs">
+      <DependentUpon>Aplicacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicacao.TcsAplicacaoVersaoHistorico.CustomAuthorizationAuto.cs">
+      <DependentUpon>Aplicacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicativo.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aplicativo.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicativo.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aplicativo.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicativo.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aplicativo.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicativo.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aplicativo.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicativo.TcsAplicacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Aplicativo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicativo.TcsAplicativo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Aplicativo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicativo.TcsAplicativo.Events.cs">
+      <DependentUpon>Aplicativo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicativo.TcsAplicativo.Events.shared.cs">
+      <DependentUpon>Aplicativo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicativo.TcsAplicativoConexao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Aplicativo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Auditoria.AdtAuditoria.CustomAuthorizationAuto.cs">
+      <DependentUpon>Auditoria.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Auditoria.AdtAuditoriaItem.CustomAuthorizationAuto.cs">
+      <DependentUpon>Auditoria.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Auditoria.AdtAuditoriaItemDetalhe.CustomAuthorizationAuto.cs">
+      <DependentUpon>Auditoria.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Auditoria.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Auditoria.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Auditoria.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Auditoria.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Auditoria.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Auditoria.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Auditoria.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Auditoria.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.Acesso.CustomAuthorizationAuto.cs">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.Acesso.Events.cs">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.Acesso.Events.shared.cs">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.AmbienteInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.AppInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.AuthorizationServices.Operations.cs">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Autorizacao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Autorizacao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Autorizacao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.GpeconInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.LoginInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Autorizacao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.TcsUsuarioAcesso.CustomAuthorizationAuto.cs">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.UserInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Autorizacao.UsuarioAcesso.CustomAuthorizationAuto.cs">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Conexao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Conexao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Conexao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Conexao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Conexao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Conexao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Conexao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Conexao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Conexao.TcsAmbienteConexao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Conexao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Conexao.TcsBancoServidor.CustomAuthorizationAuto.cs">
+      <DependentUpon>Conexao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Conexao.TcsConexaoDb.CustomAuthorizationAuto.cs">
+      <DependentUpon>Conexao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Configuracao.ConfiguracaoAcesso.CustomAuthorizationAuto.cs">
+      <DependentUpon>Configuracao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Configuracao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Configuracao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Configuracao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Configuracao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Configuracao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Configuracao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Configuracao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Configuracao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Configuracao.TcsUsuarioConfiguracao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Configuracao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Configuracao.TcsUsuarioConfiguracaoAcesso.CustomAuthorizationAuto.cs">
+      <DependentUpon>Configuracao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Domains\DomainViews.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DomainViews.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Empresa.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Empresa.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Empresa.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Empresa.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsAmbiente.CustomAuthorizationAuto.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsEmpresaAutenticacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsEmpresaAutenticacao.Events.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsEmpresaAutenticacao.Events.shared.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsEmpresaAutenticacaoP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsEmpresaGpecon.CustomAuthorizationAuto.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsEmpresaGpecon.Events.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsEmpresaGpecon.Events.shared.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsEmpresaGpeconP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsEmpresaModulo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsEmpresaModulo.Events.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsEmpresaModulo.Events.shared.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.TcsUsuarioAutenticacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Filtro.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Filtro.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Filtro.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Filtro.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Filtro.FilterExpressions.Events.shared.cs">
+      <DependentUpon>Filtro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Filtro.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Filtro.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Filtro.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Filtro.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Filtro.Parametro.CustomAuthorizationAuto.cs">
+      <DependentUpon>Filtro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Filtro.TcsFiltro.CustomAuthorizationAuto.cs">
+      <DependentUpon>Filtro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="GrupoEconomico.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GrupoEconomico.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GrupoEconomico.EconomicGroupView.CustomAuthorizationAuto.cs">
+      <DependentUpon>GrupoEconomico.ead</DependentUpon>
+    </Compile>
+    <Compile Include="GrupoEconomico.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GrupoEconomico.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GrupoEconomico.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GrupoEconomico.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GrupoEconomico.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GrupoEconomico.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GrupoEconomico.TbcGrupoEconomico.CustomAuthorizationAuto.cs">
+      <DependentUpon>GrupoEconomico.ead</DependentUpon>
+    </Compile>
+    <Compile Include="GrupoEconomico.TcsUsuarioGpecon.CustomAuthorizationAuto.cs">
+      <DependentUpon>GrupoEconomico.ead</DependentUpon>
+    </Compile>
+    <Compile Include="IndicadorMedida.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IndicadorMedida.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IndicadorMedida.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IndicadorMedida.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IndicadorMedida.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IndicadorMedida.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IndicadorMedida.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IndicadorMedida.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IndicadorMedida.TcsIndicadorIndice.CustomAuthorizationAuto.cs">
+      <DependentUpon>IndicadorMedida.ead</DependentUpon>
+    </Compile>
+    <Compile Include="IndicadorMedida.TcsIndicadorIndice.Events.cs">
+      <DependentUpon>IndicadorMedida.ead</DependentUpon>
+    </Compile>
+    <Compile Include="IndicadorMedida.TcsIndicadorIndice.Events.shared.cs">
+      <DependentUpon>IndicadorMedida.ead</DependentUpon>
+    </Compile>
+    <Compile Include="IndicadorMedida.TcsIndicadorMedida.CustomAuthorizationAuto.cs">
+      <DependentUpon>IndicadorMedida.ead</DependentUpon>
+    </Compile>
+    <Compile Include="KPIs\KPIViews.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KPIViews.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Layout.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Layout.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Layout.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Layout.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Layout.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Layout.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Layout.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Layout.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Layout.TcsLayout.CustomAuthorizationAuto.cs">
+      <DependentUpon>Layout.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Loja.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Loja.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Loja.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Loja.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Loja.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Loja.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Loja.LjvLoja.CustomAuthorizationAuto.cs">
+      <DependentUpon>Loja.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Loja.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Loja.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LojaParametro.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LojaParametro.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LojaParametro.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LojaParametro.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LojaParametro.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LojaParametro.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LojaParametro.LjvParametro.CustomAuthorizationAuto.cs">
+      <DependentUpon>LojaParametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="LojaParametro.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LojaParametro.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LojaVendedor.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LojaVendedor.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LojaVendedor.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LojaVendedor.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LojaVendedor.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LojaVendedor.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LojaVendedor.LjvVendedor.CustomAuthorizationAuto.cs">
+      <DependentUpon>LojaVendedor.ead</DependentUpon>
+    </Compile>
+    <Compile Include="LojaVendedor.LjvVendedor.Operations.cs">
+      <DependentUpon>LojaVendedor.ead</DependentUpon>
+    </Compile>
+    <Compile Include="LojaVendedor.LjvVendedor.Operations.shared.cs">
+      <DependentUpon>LojaVendedor.ead</DependentUpon>
+    </Compile>
+    <Compile Include="LojaVendedor.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LojaVendedor.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mensagem.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.DomainServiceExtension1.Operations.cs">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mensagem.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mensagem.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mensagem.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.MensagemInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.NewMessageInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.TcsMensagem.CustomAuthorizationAuto.cs">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.TcsMensagemConsulta.CustomAuthorizationAuto.cs">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.TcsMensagemConsultaLog.CustomAuthorizationAuto.cs">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.TcsMensagemLog.CustomAuthorizationAuto.cs">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.TcsMensagemLogDetail.CustomAuthorizationAuto.cs">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.TcsMensagemUsuario.CustomAuthorizationAuto.cs">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.TcsPerfil.CustomAuthorizationAuto.cs">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Mensagem.TcsUsuario.CustomAuthorizationAuto.cs">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.AppMenu.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.AppModule.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.BreadCrumbItem.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Modulo.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.EnvironmentInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Modulo.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Modulo.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Modulo.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModulo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModulo.Events.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModulo.Events.shared.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModulo.Operations.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModulo.Operations.shared.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloDoGrupo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloDoGrupoDetalhe.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloDoGrupoDetalhe.Events.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloDoGrupoDetalhe.Events.shared.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloDoGrupoDetalhe.Operations.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloDoGrupoDetalhe.Operations.shared.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloGrupo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloGrupo.Events.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloGrupo.Events.shared.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloGrupo.Operations.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloGrupo.Operations.shared.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloMenu.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloMenu.Events.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloMenu.Events.shared.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsModuloUserSecurityAccess.Operations.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsTransacaoMenu.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsTransacaoMenu.Events.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsTransacaoMenu.Events.shared.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsTransacaoMenu.Operations.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsTransacaoMenu.Operations.shared.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.TcsUsuarioFavorito.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo.UserModules.CustomAuthorizationAuto.cs">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuloAutorizacao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuloAutorizacao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuloAutorizacao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuloAutorizacao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.TcsModuloAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.TcsModuloAutorizacao.Events.cs">
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.TcsModuloAutorizacao.Events.shared.cs">
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.TcsModuloMenuAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.TcsModuloMenuAutorizacao.Events.cs">
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.TcsModuloMenuAutorizacao.Events.shared.cs">
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.TcsTransacaoMenuAutorizacaoModulo.CustomAuthorizationAuto.cs">
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.TcsTransacaoMenuAutorizacaoModulo.Events.cs">
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloAutorizacao.TcsTransacaoMenuAutorizacaoModulo.Events.shared.cs">
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloLoja.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuloLoja.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloLoja.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuloLoja.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloLoja.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuloLoja.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloLoja.LjvModulo.CustomAuthorizationAuto.cs">
+      <DependentUpon>ModuloLoja.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloLoja.LjvModuloMenu.CustomAuthorizationAuto.cs">
+      <DependentUpon>ModuloLoja.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloLoja.LjvTransacaoMenu.CustomAuthorizationAuto.cs">
+      <DependentUpon>ModuloLoja.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloLoja.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuloLoja.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidia.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidiaCompact.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidiaConfig.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidiaConfig.Events.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidiaConfig.Events.shared.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidiaConfig.Operations.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidiaConfig.Operations.shared.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidiaInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidiaTabela.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidiaTabelaChild.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidiaUid.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocMultimidiaUpload.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DocTabelaSync.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Multimidia.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.DomainServiceExtension1.Operations.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Multimidia.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Multimidia.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Multimidia.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MediaConfigLength.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MediaConfigLength.Operations.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MediaConfigLength.Operations.shared.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MediaElement.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MediaElement.Operations.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MediaElement.Operations.shared.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MultimediaExtensions.Operations.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MultimidiaCompact2BO.CustomAuthorizationAuto.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MultimidiaCompact2BO.Events.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MultimidiaCompact2BO.Events.shared.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MultimidiaCompact2BO.Operations.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Multimidia.MultimidiaCompact2BO.Operations.shared.cs">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="MultimidiaAutorizacao.DocMultimidiaAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>MultimidiaAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="MultimidiaAutorizacao.DocMultimidiaTabelaAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>MultimidiaAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="MultimidiaAutorizacao.DocMultimidiaTabelaAutorizacaoChild.CustomAuthorizationAuto.cs">
+      <DependentUpon>MultimidiaAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="MultimidiaAutorizacao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MultimidiaAutorizacao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MultimidiaAutorizacao.DomainServiceExtension1.Operations.cs">
+      <DependentUpon>MultimidiaAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="MultimidiaAutorizacao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MultimidiaAutorizacao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MultimidiaAutorizacao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MultimidiaAutorizacao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MultimidiaAutorizacao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MultimidiaAutorizacao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.ConfiguracaoExportacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Objeto.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Objeto.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Objeto.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.LayoutInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Objeto.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.TcsLayout.Events.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.TcsLayout.Events.shared.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.TcsObjeto.CustomAuthorizationAuto.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.TcsObjeto.Events.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.TcsObjeto.Events.shared.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.TcsObjetoConteudoMnt.CustomAuthorizationAuto.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.TcsObjetoDomainServiceExtension.Operations.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.TcsObjetoPermissao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.TcsTransacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Objeto.TcsUsuario.CustomAuthorizationAuto.cs">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ObjetoAutorizacao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ObjetoAutorizacao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ObjetoAutorizacao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ObjetoAutorizacao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ObjetoAutorizacao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ObjetoAutorizacao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ObjetoAutorizacao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ObjetoAutorizacao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ObjetoAutorizacao.TcsObjetoAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>ObjetoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ObjetoAutorizacao.TcsObjetoAutorizacao.Events.cs">
+      <DependentUpon>ObjetoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ObjetoAutorizacao.TcsObjetoAutorizacao.Events.shared.cs">
+      <DependentUpon>ObjetoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ObjetoAutorizacao.TcsObjetoConteudoAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>ObjetoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ObjetoAutorizacao.TcsTransacaoAutorizacaoChild.CustomAuthorizationAuto.cs">
+      <DependentUpon>ObjetoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Parametro.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Parametro.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Parametro.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.LjvLojaParametro.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Parametro.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.Parametro.Operations.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.ParametroInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.ParametroValor.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.ParametroValor.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.ParametroValor.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.ParametroValorVariacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TbcBandeiraRedeParametro.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TbcFilialParametro.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TbcGrupoEconomicoParametro.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametro.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametro.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametro.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroChaveSelecao.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroChaveSelecao.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroTabelaSelecao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroTabelaSelecao.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroTabelaSelecao.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValor.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValor.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValor.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorFilial.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorFilial.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorFilial.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorFilialP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorGpecon.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorGpecon.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorGpecon.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorGpeconP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorLjvLoja.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorLjvLoja.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorLjvLoja.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorLojaP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorP1.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorP2.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorRede.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorRede.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorRede.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorRedeP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorUsuario.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorUsuario.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorUsuario.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorUsuarioP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacao.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacao.Operations.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacaoGenerica.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacaoGenerica.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacaoGenerica.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacaoGenerica.Operations.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacaoGenerica.Operations.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacaoGenericaP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacaoGenericaP1.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacaoP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacaoP.Events.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsParametroValorVariacaoP.Events.shared.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Parametro.TcsUsuarioParametro.CustomAuthorizationAuto.cs">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ParametroAutorizacao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParametroAutorizacao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ParametroAutorizacao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParametroAutorizacao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ParametroAutorizacao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParametroAutorizacao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ParametroAutorizacao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParametroAutorizacao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ParametroAutorizacao.TcsParametroAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>ParametroAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ParametroAutorizacao.TcsParametroAutorizacaoGrupo.CustomAuthorizationAuto.cs">
+      <DependentUpon>ParametroAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ParametroAutorizacao.TcsParametroGrupoAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>ParametroAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ParametroAutorizacao.TcsParametroTabelaSelecaoAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>ParametroAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Perfil.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Perfil.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Perfil.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Perfil.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsFiltroExpressaoView.Events.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfil.CustomAuthorizationAuto.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfil.Events.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfil.Events.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilBandeiraRede.CustomAuthorizationAuto.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilBandeiraRede.Events.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilBandeiraRede.Events.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilFilial.CustomAuthorizationAuto.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilFilial.Events.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilFilial.Events.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilLayout.CustomAuthorizationAuto.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraColuna.CustomAuthorizationAuto.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraColuna.Events.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraColuna.Events.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraColuna.Operations.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraColuna.Operations.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraModulo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraModulo.Events.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraModulo.Events.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraModulo.Operations.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraModulo.Operations.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraTransacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraTransacao.Events.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraTransacao.Events.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraTransacao.Operations.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilRegraTransacao.Operations.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilTransacaoFiltro.Events.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilTransacaoFiltro.Events.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsPerfilTransacaoFiltro.Operations.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsUsuarioPerfil.CustomAuthorizationAuto.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsUsuarioPerfil.Events.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.TcsUsuarioPerfil.Events.shared.cs">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Rede.BandeiraRedeCache.CustomAuthorizationAuto.cs">
+      <DependentUpon>Rede.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Rede.BandeiraRedeDomainExtension.Operations.cs">
+      <DependentUpon>Rede.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Rede.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rede.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rede.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rede.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rede.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rede.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rede.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rede.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rede.TbcBandeiraRede.CustomAuthorizationAuto.cs">
+      <DependentUpon>Rede.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Rede.TbcBandeiraRede.Events.cs">
+      <DependentUpon>Rede.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Rede.TbcBandeiraRede.Events.shared.cs">
+      <DependentUpon>Rede.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Rede.TcsPerfilBandeiraRede.Events.cs">
+      <DependentUpon>Rede.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Rede.TcsPerfilBandeiraRede.Events.shared.cs">
+      <DependentUpon>Rede.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TabelaAutorizacao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TabelaAutorizacao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TabelaAutorizacao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TabelaAutorizacao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TabelaAutorizacao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TabelaAutorizacao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TabelaAutorizacao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TabelaAutorizacao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TabelaAutorizacao.TcsTabelaAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>TabelaAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Transacao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Transacao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Transacao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Transacao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsModuloMenuP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsModuloMenuP.Events.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsModuloMenuP.Events.shared.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsModuloMenuP.Operations.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsModuloMenuP.Operations.shared.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacao.Events.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacao.Events.shared.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacao.Operations.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacao.Operations.shared.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoDependente.CustomAuthorizationAuto.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoDependente.Events.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoDependente.Events.shared.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoDependente.Operations.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoDependente.Operations.shared.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoMenu.CustomAuthorizationAuto.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoMenuChild.CustomAuthorizationAuto.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoMenuChild.Events.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoMenuChild.Events.shared.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoMenuChild.Operations.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoMenuChild.Operations.shared.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Transacao.TcsTransacaoUserSecurityAccess.Operations.cs">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransacaoAutorizacao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransacaoAutorizacao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransacaoAutorizacao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransacaoAutorizacao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.TcsTransacaoAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.TcsTransacaoAutorizacao.Events.cs">
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.TcsTransacaoAutorizacao.Events.shared.cs">
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.TcsTransacaoDependenteAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.TcsTransacaoDependenteAutorizacao.Events.cs">
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.TcsTransacaoDependenteAutorizacao.Events.shared.cs">
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.TcsTransacaoMenuAutorizacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.TcsTransacaoMenuAutorizacao.Events.cs">
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoAutorizacao.TcsTransacaoMenuAutorizacao.Events.shared.cs">
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoTag.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransacaoTag.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoTag.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransacaoTag.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoTag.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransacaoTag.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoTag.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransacaoTag.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoTag.TcsTransacaoTag.CustomAuthorizationAuto.cs">
+      <DependentUpon>TransacaoTag.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoTag.TcsTransacaoTag.Events.cs">
+      <DependentUpon>TransacaoTag.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoTag.TcsTransacaoTag.Events.shared.cs">
+      <DependentUpon>TransacaoTag.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoTag.TcsTransacaoTag.Operations.cs">
+      <DependentUpon>TransacaoTag.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TransacaoTag.TcsTransacaoTag.Operations.shared.cs">
+      <DependentUpon>TransacaoTag.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TratamentoErros.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TratamentoErros.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TratamentoErros.DomainServiceExtension1.Operations.cs">
+      <DependentUpon>TratamentoErros.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TratamentoErros.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TratamentoErros.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TratamentoErros.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TratamentoErros.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TratamentoErros.LogFile.CustomAuthorizationAuto.cs">
+      <DependentUpon>TratamentoErros.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TratamentoErros.LogFile.Events.cs">
+      <DependentUpon>TratamentoErros.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TratamentoErros.LogFile.Events.shared.cs">
+      <DependentUpon>TratamentoErros.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TratamentoErros.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TratamentoErros.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TratamentoErros.TcsLogErros.CustomAuthorizationAuto.cs">
+      <DependentUpon>TratamentoErros.ead</DependentUpon>
+    </Compile>
+    <Compile Include="TratamentoErros.TcsLogErrosDash.CustomAuthorizationAuto.cs">
+      <DependentUpon>TratamentoErros.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Usuario.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.DomainServiceExtension1.Operations.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Usuario.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Usuario.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Usuario.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsFiltroExpressaoView.Events.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsFiltroExpressaoView.Events.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuario.CustomAuthorizationAuto.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuario.Events.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuario.Events.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuario.Operations.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuario.Operations.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioAcessoLocal.CustomAuthorizationAuto.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioBandeiraRede.CustomAuthorizationAuto.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioBandeiraRede.Events.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioBandeiraRede.Events.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioFilial.CustomAuthorizationAuto.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioFilial.Events.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioFilial.Events.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioLayout.CustomAuthorizationAuto.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioPerfil.CustomAuthorizationAuto.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioPerfil.Events.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioPerfil.Events.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioPerfilP.CustomAuthorizationAuto.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraColuna.CustomAuthorizationAuto.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraColuna.Events.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraColuna.Events.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraColuna.Operations.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraColuna.Operations.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraModulo.CustomAuthorizationAuto.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraModulo.Events.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraModulo.Events.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraModulo.Operations.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraModulo.Operations.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraTransacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraTransacao.Events.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraTransacao.Events.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraTransacao.Operations.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioRegraTransacao.Operations.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioTransacaoFiltro.Events.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.TcsUsuarioTransacaoFiltro.Operations.shared.cs">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioAutorizacao.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioAutorizacao.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioAutorizacao.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioAutorizacao.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.RequisicaoAcesso.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.RequisicaoSuporte.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsIdentidadeExterna.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsSuporteAcessoLog.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAcesso.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAcesso.Events.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAcesso.Events.shared.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAcessoAmbiente.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAutenticacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAutenticacao.Events.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAutenticacao.Events.shared.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAutenticacao.Operations.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAutenticacao.Operations.shared.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAutenticacaoAcessoP.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAutenticacaoAcessoP.Events.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioAutenticacaoAcessoP.Events.shared.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioGpecon.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioGpecon.Events.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.TcsUsuarioGpecon.Events.shared.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.UsuarioAcesso.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioAutorizacao.UsuarioAutorizacaoDomainService.Operations.cs">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioExterno.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioExterno.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioExterno.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioExterno.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioExterno.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioExterno.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioExterno.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioExterno.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioExterno.TcsUsuarioExterno.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioExterno.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioFranquia.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioFranquia.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioFranquia.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.LinxFrameworkUsuarioFranquiaDs.Operations.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsuarioFranquia.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAcesso.Events.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAcesso.Events.shared.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAutenticacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAutenticacao.Events.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAutenticacao.Events.shared.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAutenticacaoAcesso.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAutenticacaoAcesso.Events.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAutenticacaoAcesso.Events.shared.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAutenticacaoAcessoP.Events.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAutenticacaoAcessoP.Events.shared.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAutenticacaoPerfil.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAutenticacaoPerfil.Events.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioAutenticacaoPerfil.Events.shared.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioPerfil.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioPerfil.Events.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.TcsUsuarioPerfil.Events.shared.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioFranquia.UsuarioPerfilInfo.CustomAuthorizationAuto.cs">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Utilitarios.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Utilitarios.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Utilitarios.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Utilitarios.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Utilitarios.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Utilitarios.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Utilitarios.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Utilitarios.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Utilitarios.TcsUsuarioAutenticacao.CustomAuthorizationAuto.cs">
+      <DependentUpon>Utilitarios.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Utilitarios.UtilitariosDomainExtension.Operations.cs">
+      <DependentUpon>Utilitarios.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\BusinessCacheAccessHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\BusinessMediaHelper.cs" />
+    <Compile Include="Utils\LicenseControl.cs" />
+    <Compile Include="Utils\LinxBusinessExtensionLoader.cs" />
+    <Compile Include="Utils\BusinessUserServiceHelper.cs" />
+    <Compile Include="Utils\LinxBusinessODataAuthentication.cs" />
+    <Compile Include="Utils\LinxBusinessParameters.cs" />
+    <Compile Include="Utils\LinxBusinessAuthorization.cs" />
+    <Compile Include="Utils\LinxBusinessAuthorizationSearch.cs" />
+    <Compile Include="Utils\Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4df5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Ambiente.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Ambiente.DomainService.cs</LastGenOutput>
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </None>
+    <None Include="Ambiente.ead" />
+    <None Include="Ambiente.ead.diagram">
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </None>
+    <None Include="Ambiente.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Ambiente.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </None>
+    <None Include="Ambiente.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Ambiente.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </None>
+    <None Include="Ambiente.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Ambiente.LookUps.cs</LastGenOutput>
+      <DependentUpon>Ambiente.ead</DependentUpon>
+    </None>
+    <None Include="Aplicacao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Aplicacao.DomainService.cs</LastGenOutput>
+      <DependentUpon>Aplicacao.ead</DependentUpon>
+    </None>
+    <None Include="Aplicacao.ead" />
+    <None Include="Aplicacao.ead.diagram">
+      <DependentUpon>Aplicacao.ead</DependentUpon>
+    </None>
+    <None Include="Aplicacao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Aplicacao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Aplicacao.ead</DependentUpon>
+    </None>
+    <None Include="Aplicacao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Aplicacao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Aplicacao.ead</DependentUpon>
+    </None>
+    <None Include="Aplicacao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Aplicacao.LookUps.cs</LastGenOutput>
+      <DependentUpon>Aplicacao.ead</DependentUpon>
+    </None>
+    <None Include="Aplicativo.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Aplicativo.DomainService.cs</LastGenOutput>
+      <DependentUpon>Aplicativo.ead</DependentUpon>
+    </None>
+    <None Include="Aplicativo.ead" />
+    <None Include="Aplicativo.ead.diagram">
+      <DependentUpon>Aplicativo.ead</DependentUpon>
+    </None>
+    <None Include="Aplicativo.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Aplicativo.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Aplicativo.ead</DependentUpon>
+    </None>
+    <None Include="Aplicativo.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Aplicativo.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Aplicativo.ead</DependentUpon>
+    </None>
+    <None Include="Aplicativo.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Aplicativo.LookUps.cs</LastGenOutput>
+      <DependentUpon>Aplicativo.ead</DependentUpon>
+    </None>
+    <None Include="Auditoria.ead" />
+    <None Include="Auditoria.ead.diagram">
+      <DependentUpon>Auditoria.ead</DependentUpon>
+    </None>
+    <None Include="Autorizacao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Autorizacao.DomainService.cs</LastGenOutput>
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </None>
+    <None Include="Autorizacao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Autorizacao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </None>
+    <None Include="Autorizacao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Autorizacao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </None>
+    <None Include="Autorizacao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Autorizacao.LookUps.cs</LastGenOutput>
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </None>
+    <None Include="Conexao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Conexao.DomainService.cs</LastGenOutput>
+      <DependentUpon>Conexao.ead</DependentUpon>
+    </None>
+    <None Include="Conexao.ead" />
+    <None Include="Conexao.ead.diagram">
+      <DependentUpon>Conexao.ead</DependentUpon>
+    </None>
+    <None Include="Conexao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Conexao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Conexao.ead</DependentUpon>
+    </None>
+    <None Include="Conexao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Conexao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Conexao.ead</DependentUpon>
+    </None>
+    <None Include="Conexao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Conexao.LookUps.cs</LastGenOutput>
+      <DependentUpon>Conexao.ead</DependentUpon>
+    </None>
+    <None Include="Configuracao.ead" />
+    <None Include="Configuracao.ead.diagram">
+      <DependentUpon>Configuracao.ead</DependentUpon>
+    </None>
+    <None Include="Domains.ead" />
+    <None Include="Domains.ead.diagram">
+      <DependentUpon>Domains.ead</DependentUpon>
+    </None>
+    <None Include="Domains\DataDomains.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DataDomains.js</LastGenOutput>
+    </None>
+    <None Include="Domains\DomainViews.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DomainViews.shared.cs</LastGenOutput>
+    </None>
+    <None Include="Domains\MobileDataDomains.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MobileDataDomains.js</LastGenOutput>
+    </None>
+    <None Include="Empresa.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Empresa.DomainService.cs</LastGenOutput>
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </None>
+    <None Include="Empresa.ead" />
+    <None Include="Empresa.ead.diagram">
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </None>
+    <None Include="Empresa.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Empresa.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </None>
+    <None Include="Empresa.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Empresa.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </None>
+    <None Include="Empresa.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Empresa.LookUps.cs</LastGenOutput>
+      <DependentUpon>Empresa.ead</DependentUpon>
+    </None>
+    <None Include="Filtro.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Filtro.DomainService.cs</LastGenOutput>
+      <DependentUpon>Filtro.ead</DependentUpon>
+    </None>
+    <None Include="Filtro.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Filtro.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Filtro.ead</DependentUpon>
+    </None>
+    <None Include="Filtro.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Filtro.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Filtro.ead</DependentUpon>
+    </None>
+    <None Include="Filtro.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Filtro.LookUps.cs</LastGenOutput>
+      <DependentUpon>Filtro.ead</DependentUpon>
+    </None>
+    <None Include="GrupoEconomico.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GrupoEconomico.DomainService.cs</LastGenOutput>
+      <DependentUpon>GrupoEconomico.ead</DependentUpon>
+    </None>
+    <None Include="GrupoEconomico.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GrupoEconomico.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>GrupoEconomico.ead</DependentUpon>
+    </None>
+    <None Include="GrupoEconomico.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GrupoEconomico.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>GrupoEconomico.ead</DependentUpon>
+    </None>
+    <None Include="GrupoEconomico.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GrupoEconomico.LookUps.cs</LastGenOutput>
+      <DependentUpon>GrupoEconomico.ead</DependentUpon>
+    </None>
+    <None Include="Helpers.ead" />
+    <None Include="Helpers.ead.diagram">
+      <DependentUpon>Helpers.ead</DependentUpon>
+    </None>
+    <None Include="IndicadorMedida.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IndicadorMedida.DomainService.cs</LastGenOutput>
+      <DependentUpon>IndicadorMedida.ead</DependentUpon>
+    </None>
+    <None Include="IndicadorMedida.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IndicadorMedida.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>IndicadorMedida.ead</DependentUpon>
+    </None>
+    <None Include="IndicadorMedida.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IndicadorMedida.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>IndicadorMedida.ead</DependentUpon>
+    </None>
+    <None Include="IndicadorMedida.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IndicadorMedida.LookUps.cs</LastGenOutput>
+      <DependentUpon>IndicadorMedida.ead</DependentUpon>
+    </None>
+    <None Include="Layout.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Layout.DomainService.cs</LastGenOutput>
+      <DependentUpon>Layout.ead</DependentUpon>
+    </None>
+    <None Include="Layout.ead" />
+    <None Include="Layout.ead.diagram">
+      <DependentUpon>Layout.ead</DependentUpon>
+    </None>
+    <None Include="Layout.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Layout.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Layout.ead</DependentUpon>
+    </None>
+    <None Include="Layout.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Layout.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Layout.ead</DependentUpon>
+    </None>
+    <None Include="Layout.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Layout.LookUps.cs</LastGenOutput>
+      <DependentUpon>Layout.ead</DependentUpon>
+    </None>
+    <None Include="Loja.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Loja.DomainService.cs</LastGenOutput>
+      <DependentUpon>Loja.ead</DependentUpon>
+    </None>
+    <None Include="Loja.ead" />
+    <None Include="Loja.ead.diagram">
+      <DependentUpon>Loja.ead</DependentUpon>
+    </None>
+    <None Include="Loja.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Loja.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Loja.ead</DependentUpon>
+    </None>
+    <None Include="Loja.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Loja.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Loja.ead</DependentUpon>
+    </None>
+    <None Include="Loja.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Loja.LookUps.cs</LastGenOutput>
+      <DependentUpon>Loja.ead</DependentUpon>
+    </None>
+    <None Include="LojaParametro.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LojaParametro.DomainService.cs</LastGenOutput>
+      <DependentUpon>LojaParametro.ead</DependentUpon>
+    </None>
+    <None Include="LojaParametro.ead" />
+    <None Include="LojaParametro.ead.diagram">
+      <DependentUpon>LojaParametro.ead</DependentUpon>
+    </None>
+    <None Include="LojaParametro.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LojaParametro.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>LojaParametro.ead</DependentUpon>
+    </None>
+    <None Include="LojaParametro.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LojaParametro.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>LojaParametro.ead</DependentUpon>
+    </None>
+    <None Include="LojaParametro.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LojaParametro.LookUps.cs</LastGenOutput>
+      <DependentUpon>LojaParametro.ead</DependentUpon>
+    </None>
+    <None Include="LojaVendedor.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LojaVendedor.DomainService.cs</LastGenOutput>
+      <DependentUpon>LojaVendedor.ead</DependentUpon>
+    </None>
+    <None Include="LojaVendedor.ead" />
+    <None Include="LojaVendedor.ead.diagram">
+      <DependentUpon>LojaVendedor.ead</DependentUpon>
+    </None>
+    <None Include="LojaVendedor.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LojaVendedor.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>LojaVendedor.ead</DependentUpon>
+    </None>
+    <None Include="LojaVendedor.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LojaVendedor.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>LojaVendedor.ead</DependentUpon>
+    </None>
+    <None Include="LojaVendedor.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LojaVendedor.LookUps.cs</LastGenOutput>
+      <DependentUpon>LojaVendedor.ead</DependentUpon>
+    </None>
+    <None Include="Mensagem.ead" />
+    <None Include="Mensagem.ead.diagram">
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </None>
+    <None Include="Model\ContextMetadata.json">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContextMetadata.tt</DependentUpon>
+    </None>
+    <None Include="Modulo.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Modulo.DomainService.cs</LastGenOutput>
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </None>
+    <None Include="Modulo.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Modulo.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </None>
+    <None Include="Modulo.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Modulo.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </None>
+    <None Include="Modulo.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Modulo.LookUps.cs</LastGenOutput>
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </None>
+    <None Include="ModuloAutorizacao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModuloAutorizacao.DomainService.cs</LastGenOutput>
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ModuloAutorizacao.ead" />
+    <None Include="ModuloAutorizacao.ead.diagram">
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ModuloAutorizacao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModuloAutorizacao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ModuloAutorizacao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModuloAutorizacao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ModuloAutorizacao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModuloAutorizacao.LookUps.cs</LastGenOutput>
+      <DependentUpon>ModuloAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ModuloLoja.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModuloLoja.DomainService.cs</LastGenOutput>
+      <DependentUpon>ModuloLoja.ead</DependentUpon>
+    </None>
+    <None Include="ModuloLoja.ead" />
+    <None Include="ModuloLoja.ead.diagram">
+      <DependentUpon>ModuloLoja.ead</DependentUpon>
+    </None>
+    <None Include="ModuloLoja.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModuloLoja.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>ModuloLoja.ead</DependentUpon>
+    </None>
+    <None Include="ModuloLoja.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModuloLoja.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>ModuloLoja.ead</DependentUpon>
+    </None>
+    <None Include="ModuloLoja.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModuloLoja.LookUps.cs</LastGenOutput>
+      <DependentUpon>ModuloLoja.ead</DependentUpon>
+    </None>
+    <None Include="Multimidia.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Multimidia.DomainService.cs</LastGenOutput>
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </None>
+    <None Include="Multimidia.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Multimidia.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </None>
+    <None Include="Multimidia.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Multimidia.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </None>
+    <None Include="Multimidia.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Multimidia.LookUps.cs</LastGenOutput>
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </None>
+    <None Include="Multimidia.ead" />
+    <None Include="Multimidia.ead.diagram">
+      <DependentUpon>Multimidia.ead</DependentUpon>
+    </None>
+    <None Include="Includes\DataEntityFunctions.ttinclude" />
+    <None Include="Includes\DirectEntityAdapterDynamicModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DirectEntityAdapterDynamicModels.ttinclude</LastGenOutput>
+    </None>
+    <None Include="Includes\DirectEntityAdapterDynamicModels.ttinclude">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DirectEntityAdapterDynamicModels.tt</DependentUpon>
+    </None>
+    <None Include="Includes\EntityAdapterDynamicModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EntityAdapterDynamicModels.ttinclude</LastGenOutput>
+    </None>
+    <None Include="Includes\EntityAdapterDynamicModels.ttinclude">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityAdapterDynamicModels.tt</DependentUpon>
+    </None>
+    <None Include="KPIs\KPIViews.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>KPIViews.shared.cs</LastGenOutput>
+    </None>
+    <None Include="GrupoEconomico.ead" />
+    <None Include="GrupoEconomico.ead.diagram">
+      <DependentUpon>GrupoEconomico.ead</DependentUpon>
+    </None>
+    <None Include="Autorizacao.ead">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Autorizacao.ead.diagram">
+      <DependentUpon>Autorizacao.ead</DependentUpon>
+    </None>
+    <None Include="IndicadorMedida.ead" />
+    <None Include="IndicadorMedida.ead.diagram">
+      <DependentUpon>IndicadorMedida.ead</DependentUpon>
+    </None>
+    <None Include="Filtro.ead">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Filtro.ead.diagram">
+      <DependentUpon>Filtro.ead</DependentUpon>
+    </None>
+    <None Include="Modulo.ead">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Modulo.ead.diagram">
+      <DependentUpon>Modulo.ead</DependentUpon>
+    </None>
+    <None Include="MultimidiaAutorizacao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MultimidiaAutorizacao.DomainService.cs</LastGenOutput>
+      <DependentUpon>MultimidiaAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="MultimidiaAutorizacao.ead" />
+    <None Include="MultimidiaAutorizacao.ead.diagram">
+      <DependentUpon>MultimidiaAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="MultimidiaAutorizacao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MultimidiaAutorizacao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>MultimidiaAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="MultimidiaAutorizacao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MultimidiaAutorizacao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>MultimidiaAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="MultimidiaAutorizacao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MultimidiaAutorizacao.LookUps.cs</LastGenOutput>
+      <DependentUpon>MultimidiaAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="Objeto.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Objeto.DomainService.cs</LastGenOutput>
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </None>
+    <None Include="Objeto.ead">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Objeto.ead.diagram">
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </None>
+    <None Include="Objeto.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Objeto.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </None>
+    <None Include="Objeto.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Objeto.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </None>
+    <None Include="Objeto.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Objeto.LookUps.cs</LastGenOutput>
+      <DependentUpon>Objeto.ead</DependentUpon>
+    </None>
+    <None Include="ObjetoAutorizacao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ObjetoAutorizacao.DomainService.cs</LastGenOutput>
+      <DependentUpon>ObjetoAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ObjetoAutorizacao.ead" />
+    <None Include="ObjetoAutorizacao.ead.diagram">
+      <DependentUpon>ObjetoAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ObjetoAutorizacao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ObjetoAutorizacao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>ObjetoAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ObjetoAutorizacao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ObjetoAutorizacao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>ObjetoAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ObjetoAutorizacao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ObjetoAutorizacao.LookUps.cs</LastGenOutput>
+      <DependentUpon>ObjetoAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Parametro.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Parametro.DomainService.cs</LastGenOutput>
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </None>
+    <None Include="Parametro.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Parametro.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </None>
+    <None Include="Parametro.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Parametro.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </None>
+    <None Include="Parametro.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Parametro.LookUps.cs</LastGenOutput>
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </None>
+    <None Include="Parametro.ead" />
+    <None Include="Parametro.ead.diagram">
+      <DependentUpon>Parametro.ead</DependentUpon>
+    </None>
+    <None Include="ParametroAutorizacao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ParametroAutorizacao.DomainService.cs</LastGenOutput>
+      <DependentUpon>ParametroAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ParametroAutorizacao.ead" />
+    <None Include="ParametroAutorizacao.ead.diagram">
+      <DependentUpon>ParametroAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ParametroAutorizacao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ParametroAutorizacao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>ParametroAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ParametroAutorizacao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ParametroAutorizacao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>ParametroAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="ParametroAutorizacao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ParametroAutorizacao.LookUps.cs</LastGenOutput>
+      <DependentUpon>ParametroAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="Perfil.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Perfil.DomainService.cs</LastGenOutput>
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </None>
+    <None Include="Perfil.ead">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Perfil.ead.diagram">
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </None>
+    <None Include="Perfil.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Perfil.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </None>
+    <None Include="Perfil.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Perfil.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </None>
+    <None Include="Perfil.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Perfil.LookUps.cs</LastGenOutput>
+      <DependentUpon>Perfil.ead</DependentUpon>
+    </None>
+    <None Include="Rede.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Rede.DomainService.cs</LastGenOutput>
+      <DependentUpon>Rede.ead</DependentUpon>
+    </None>
+    <None Include="Rede.ead" />
+    <None Include="Rede.ead.diagram">
+      <DependentUpon>Rede.ead</DependentUpon>
+    </None>
+    <None Include="Rede.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Rede.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Rede.ead</DependentUpon>
+    </None>
+    <None Include="Rede.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Rede.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Rede.ead</DependentUpon>
+    </None>
+    <None Include="Rede.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Rede.LookUps.cs</LastGenOutput>
+      <DependentUpon>Rede.ead</DependentUpon>
+    </None>
+    <None Include="TabelaAutorizacao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TabelaAutorizacao.DomainService.cs</LastGenOutput>
+      <DependentUpon>TabelaAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="TabelaAutorizacao.ead" />
+    <None Include="TabelaAutorizacao.ead.diagram">
+      <DependentUpon>TabelaAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="TabelaAutorizacao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TabelaAutorizacao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>TabelaAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="TabelaAutorizacao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TabelaAutorizacao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>TabelaAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="TabelaAutorizacao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TabelaAutorizacao.LookUps.cs</LastGenOutput>
+      <DependentUpon>TabelaAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="Transacao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Transacao.DomainService.cs</LastGenOutput>
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </None>
+    <None Include="Transacao.ead">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Transacao.ead.diagram">
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </None>
+    <None Include="Transacao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Transacao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </None>
+    <None Include="Transacao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Transacao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </None>
+    <None Include="Transacao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Transacao.LookUps.cs</LastGenOutput>
+      <DependentUpon>Transacao.ead</DependentUpon>
+    </None>
+    <None Include="TransacaoAutorizacao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TransacaoAutorizacao.DomainService.cs</LastGenOutput>
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="TransacaoAutorizacao.ead" />
+    <None Include="TransacaoAutorizacao.ead.diagram">
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="TransacaoAutorizacao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TransacaoAutorizacao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="TransacaoAutorizacao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TransacaoAutorizacao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="TransacaoAutorizacao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TransacaoAutorizacao.LookUps.cs</LastGenOutput>
+      <DependentUpon>TransacaoAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="TransacaoTag.ead" />
+    <None Include="TransacaoTag.ead.diagram">
+      <DependentUpon>TransacaoTag.ead</DependentUpon>
+    </None>
+    <None Include="TratamentoErros.ead" />
+    <None Include="TratamentoErros.ead.diagram">
+      <DependentUpon>TratamentoErros.ead</DependentUpon>
+    </None>
+    <None Include="Usuario.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Usuario.DomainService.cs</LastGenOutput>
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </None>
+    <None Include="Usuario.ead">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Usuario.ead.diagram">
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </None>
+    <None Include="Usuario.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Usuario.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </None>
+    <None Include="Usuario.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Usuario.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </None>
+    <None Include="Usuario.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Usuario.LookUps.cs</LastGenOutput>
+      <DependentUpon>Usuario.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioAutorizacao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioAutorizacao.DomainService.cs</LastGenOutput>
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioAutorizacao.ead" />
+    <None Include="UsuarioAutorizacao.ead.diagram">
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioAutorizacao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioAutorizacao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioAutorizacao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioAutorizacao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioAutorizacao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioAutorizacao.LookUps.cs</LastGenOutput>
+      <DependentUpon>UsuarioAutorizacao.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioExterno.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioExterno.DomainService.cs</LastGenOutput>
+      <DependentUpon>UsuarioExterno.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioExterno.ead" />
+    <None Include="UsuarioExterno.ead.diagram">
+      <DependentUpon>UsuarioExterno.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioExterno.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioExterno.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>UsuarioExterno.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioExterno.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioExterno.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>UsuarioExterno.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioExterno.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioExterno.LookUps.cs</LastGenOutput>
+      <DependentUpon>UsuarioExterno.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioFranquia.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioFranquia.DomainService.cs</LastGenOutput>
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioFranquia.ead" />
+    <None Include="UsuarioFranquia.ead.diagram">
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioFranquia.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioFranquia.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioFranquia.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioFranquia.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </None>
+    <None Include="UsuarioFranquia.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UsuarioFranquia.LookUps.cs</LastGenOutput>
+      <DependentUpon>UsuarioFranquia.ead</DependentUpon>
+    </None>
+    <None Include="Utilitarios.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Utilitarios.DomainService.cs</LastGenOutput>
+      <DependentUpon>Utilitarios.ead</DependentUpon>
+    </None>
+    <None Include="Utilitarios.ead" />
+    <None Include="Utilitarios.ead.diagram">
+      <DependentUpon>Utilitarios.ead</DependentUpon>
+    </None>
+    <None Include="Utilitarios.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Utilitarios.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Utilitarios.ead</DependentUpon>
+    </None>
+    <None Include="Utilitarios.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Utilitarios.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Utilitarios.ead</DependentUpon>
+    </None>
+    <None Include="Utilitarios.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Utilitarios.LookUps.cs</LastGenOutput>
+      <DependentUpon>Utilitarios.ead</DependentUpon>
+    </None>
+    <None Include="Web.config">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Web.tt</DependentUpon>
+    </None>
+    <None Include="Web.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Web.config</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Help For Accessing\" />
+    <Folder Include="Workflow.Activities\" />
+    <Folder Include="Workflow.Documents\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Auditoria.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Auditoria.DomainService.cs</LastGenOutput>
+      <DependentUpon>Auditoria.ead</DependentUpon>
+    </Content>
+    <Content Include="Auditoria.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Auditoria.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Auditoria.ead</DependentUpon>
+    </Content>
+    <Content Include="Auditoria.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Auditoria.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Auditoria.ead</DependentUpon>
+    </Content>
+    <Content Include="Auditoria.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Auditoria.LookUps.cs</LastGenOutput>
+      <DependentUpon>Auditoria.ead</DependentUpon>
+    </Content>
+    <Content Include="Configuracao.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Configuracao.DomainService.cs</LastGenOutput>
+      <DependentUpon>Configuracao.ead</DependentUpon>
+    </Content>
+    <Content Include="Configuracao.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Configuracao.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Configuracao.ead</DependentUpon>
+    </Content>
+    <Content Include="Configuracao.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Configuracao.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Configuracao.ead</DependentUpon>
+    </Content>
+    <Content Include="Configuracao.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Configuracao.LookUps.cs</LastGenOutput>
+      <DependentUpon>Configuracao.ead</DependentUpon>
+    </Content>
+    <Content Include="Domains\ClientErpDataDomainsFactory.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClientErpDataDomainsFactory.tt</DependentUpon>
+    </Content>
+    <Content Include="Domains\ClientErpDataDomainsFactory.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ClientErpDataDomainsFactory.js</LastGenOutput>
+    </Content>
+    <Content Include="Domains\DataDomains.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataDomains.tt</DependentUpon>
+    </Content>
+    <Content Include="Domains\MobileDataDomains.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MobileDataDomains.tt</DependentUpon>
+    </Content>
+    <Content Include="Mensagem.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Mensagem.DomainService.cs</LastGenOutput>
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Content>
+    <Content Include="Mensagem.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Mensagem.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Content>
+    <Content Include="Mensagem.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Mensagem.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Content>
+    <Content Include="Mensagem.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Mensagem.LookUps.cs</LastGenOutput>
+      <DependentUpon>Mensagem.ead</DependentUpon>
+    </Content>
+    <Content Include="Model\ContextMetadata.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ContextMetadata.json</LastGenOutput>
+    </Content>
+    <Content Include="TransacaoTag.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TransacaoTag.DomainService.cs</LastGenOutput>
+      <DependentUpon>TransacaoTag.ead</DependentUpon>
+    </Content>
+    <Content Include="TransacaoTag.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TransacaoTag.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>TransacaoTag.ead</DependentUpon>
+    </Content>
+    <Content Include="TransacaoTag.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TransacaoTag.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>TransacaoTag.ead</DependentUpon>
+    </Content>
+    <Content Include="TransacaoTag.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TransacaoTag.LookUps.cs</LastGenOutput>
+      <DependentUpon>TransacaoTag.ead</DependentUpon>
+    </Content>
+    <Content Include="TratamentoErros.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TratamentoErros.DomainService.cs</LastGenOutput>
+      <DependentUpon>TratamentoErros.ead</DependentUpon>
+    </Content>
+    <Content Include="TratamentoErros.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TratamentoErros.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>TratamentoErros.ead</DependentUpon>
+    </Content>
+    <Content Include="TratamentoErros.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TratamentoErros.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>TratamentoErros.ead</DependentUpon>
+    </Content>
+    <Content Include="TratamentoErros.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TratamentoErros.LookUps.cs</LastGenOutput>
+      <DependentUpon>TratamentoErros.ead</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)Model\ContextMetadata.json" "." /Y /R
+del "Linx.Framework.BV.dll.meta.json"
+rename "ContextMetadata.json" "Linx.Framework.BV.dll.meta.json"
+xcopy "$(TargetDir)Linx.Framework.BV.dll*" "$(ProjectDir)..\..\..\Binary\Service\bin" /Y /R
+xcopy "$(TargetDir)ImageResizer.dll" "$(ProjectDir)..\..\..\Binary\Service\bin" /Y /R
+xcopy "$(TargetDir)Linx.Framework.ControleSistema.BM.dll" "$(ProjectDir)..\..\..\Binary\Service\bin" /Y /R
+xcopy "$(TargetDir)Linx.Framework.Domains.BM.dll" "$(ProjectDir)..\..\..\Binary\Service\bin" /Y /R
+xcopy "$(TargetDir)Linx.Framework.Loja.BM.dll" "$(ProjectDir)..\..\..\Binary\Service\bin" /Y /R
+xcopy "$(TargetDir)Linx.Resources.Localization.dll" "$(ProjectDir)..\..\..\Binary\Service\bin" /Y /R
+xcopy "$(TargetDir)LinxHttpContext.dll" "$(ProjectDir)..\..\..\Binary\Service\bin" /Y /R
+xcopy "$(TargetDir)Newtonsoft.Json.dll" "$(ProjectDir)..\..\..\Binary\Service\bin" /Y /R
+xcopy "$(TargetDir)Linx.Framework.Autorizacao.BM.dll" "$(ProjectDir)..\..\..\Binary\Service\bin" /Y /R
+xcopy "$(TargetName).dll*" "$(ProjectDir)..\..\..\Binary\Library\Business View" /Y /R
+xcopy "$(ProjectDir)Help For Accessing\*.*" "$(ProjectDir)..\..\..\Binary\Service\Help" /Y /R</PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,804 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v11.0\DSLTools\Microsoft.DslTools.settings.targets" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B1EF900B-B35C-4531-A01D-211114C28C07}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Linx.EntityAdapterDesigner</RootNamespace>
+    <AssemblyName>Linx.EntityAdapterDesigner.Dsl</AssemblyName>
+    <AssemblyOriginatorKeyFile>..\Key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
+    <SignAssembly>true</SignAssembly>
+    <GacTargetOutput>false</GacTargetOutput>
+    <StartupObject>
+    </StartupObject>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(DslTargetsPath)\Microsoft.DSLTools.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\..\Binary\Library\Common\Microsoft\Desktop\CodeFirstMigration\EF\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\..\Binary\Library\Common\Microsoft\Desktop\CodeFirstMigration\EF\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\PublicAssemblies\EnvDTE.dll</HintPath>
+    </Reference>
+    <Reference Include="envdte100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\PublicAssemblies\EnvDTE80.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE90, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="EnvDTE90a, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Linx.Builder.Resources, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fee353636559d427, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Linx.Desktop.Library\Linx.Builder.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Dsl.Components, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b00dba6aa82ac37d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Linx Binary\DEV\Library\Common\Linx\Desktop\GAC\Linx.Dsl.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.LinqExtensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8777ffe46908f19f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Linx Binary\DEV\Library\Common\Linx\Desktop\GAC\Linx.LinqExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=be0e657aecec4227, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Linx Binary\DEV\Library\Common\Linx\Desktop\GAC\Linx.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft.NET\ADOMD.NET\110\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.Client, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.VersionControl.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.VersionControl.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.ComponentModelHost, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.ComponentModelHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Modeling.Sdk$(DslToolsVersionSuffix)" />
+    <Reference Include="Microsoft.VisualStudio.Modeling.Sdk.Diagrams$(DslToolsVersionSuffix)" />
+    <Reference Include="Microsoft.VisualStudio.Modeling.Sdk.Shell$(DslToolsVersionSuffix)" />
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell$(MpfVersionSuffix)" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.TextTemplating$(T4VersionSuffix)" />
+    <Reference Include="ScintillaNET">
+      <HintPath>..\..\..\..\Binary\Library\Common\ScintillaNET\ScintillaNET.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="VSLangProj, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="VSLangProj2, Version=7.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\PublicAssemblies\VSLangProj2.dll</HintPath>
+    </Reference>
+    <Reference Include="VSLangProj80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\PublicAssemblies\VSLangProj80.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces$(T4VersionSuffix)" />
+    <Reference Include="XmlConfigMerge">
+      <HintPath>..\..\..\..\..\XmlConfigMerge\XmlConfigMerge\_Project\bin\Debug\XmlConfigMerge.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.10.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable$(MpfVersionSuffix)" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.11.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomizedCode\Apps\SPA\SpaCodeGen.cs" />
+    <Compile Include="CustomizedCode\Controls\CustomizingLayout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Controls\CustomizingLayout.Designer.cs">
+      <DependentUpon>CustomizingLayout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\CustomExtension\BusinessModelDesignerDiagram.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\ClientEventExtended.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\DomainView.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\LookUpProperty.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\WebApiControllerExtended.cs" />
+    <Compile Include="CustomizedCode\Forms\FormReportSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormReportSettings.Designer.cs">
+      <DependentUpon>FormReportSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\frmBusinessViewBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\frmBusinessViewBuilder.designer.cs">
+      <DependentUpon>frmBusinessViewBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmReportDetailsSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmReportDetailsSelector.Designer.cs">
+      <DependentUpon>FrmReportDetailsSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmMacroScriptEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmMacroScriptEditor.Designer.cs">
+      <DependentUpon>FrmMacroScriptEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmAddUiClientEvents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmAddUiClientEvents.Designer.cs">
+      <DependentUpon>FrmAddUiClientEvents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmAddClientEvents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmAddClientEvents.Designer.cs">
+      <DependentUpon>FrmAddClientEvents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormUserInterface.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormUserInterface.Designer.cs">
+      <DependentUpon>FormUserInterface.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormAddExtendedFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormAddExtendedFilter.Designer.cs">
+      <DependentUpon>FormAddExtendedFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmAddEntityEvents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmAddEntityEvents.Designer.cs">
+      <DependentUpon>FrmAddEntityEvents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmAttributeGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmAttributeGroup.Designer.cs">
+      <DependentUpon>FrmAttributeGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmAttributesOrderBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmAttributesOrderBuilder.Designer.cs">
+      <DependentUpon>FrmAttributesOrderBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmDomainValues.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmDomainValues.Designer.cs">
+      <DependentUpon>FrmDomainValues.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmKpiValues.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmKpiValues.Designer.cs">
+      <DependentUpon>FrmKpiValues.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmLookupBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmLookupBuilder.Designer.cs">
+      <DependentUpon>FrmLookupBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\Picker\CheckButtonDisplayAdapter.cs" />
+    <Compile Include="CustomizedCode\Forms\Picker\ColorPicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\Picker\ColorPickerColumn.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\Picker\ComboBoxDisplayAdapter.cs" />
+    <Compile Include="CustomizedCode\Forms\Picker\ComboBoxDisplayBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\Picker\ComboBoxDisplayType.cs" />
+    <Compile Include="CustomizedCode\Forms\Picker\ContentAlignmentPicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\Picker\DockStylePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\Picker\DropDownForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\Picker\EditableComboBoxDisplay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\Picker\Formatter.cs" />
+    <Compile Include="CustomizedCode\Forms\Picker\IDropDownUI.cs" />
+    <Compile Include="CustomizedCode\Forms\Picker\IPickerControl.cs" />
+    <Compile Include="CustomizedCode\Forms\Picker\IPickerDisplayAdapter.cs" />
+    <Compile Include="CustomizedCode\Forms\Picker\ISyncDropDownUI.cs" />
+    <Compile Include="CustomizedCode\Forms\Picker\NativeMethods.cs" />
+    <Compile Include="CustomizedCode\Forms\Picker\PickerAppearance.cs" />
+    <Compile Include="CustomizedCode\Forms\Picker\PickerBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\Picker\PickerDisplayAdapterBase.cs" />
+    <Compile Include="CustomizedCode\Forms\Picker\ReadonlyComboBoxDisplay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\Picker\SvcPickerBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\Picker\SvcPickerBaseUI.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Helpers\EdmReader.cs" />
+    <Compile Include="CustomizedCode\Forms\FrmOlapBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmOlapBuilder.designer.cs">
+      <DependentUpon>FrmOlapBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\CustomVisualization\OlapCatalogShapeExtended.cs" />
+    <Compile Include="CustomizedCode\Forms\frmConnection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\frmConnection.designer.cs">
+      <DependentUpon>frmConnection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\CustomExtension\OlapCatalogExtended.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\StoreQueryShapeExtended.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\RepositoryImplementationExtended.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\RepositoryImplementationShapeExtended.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\RepositoryInterfaceExtended.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\WebApiControllerShapeExtended.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\RepositoryInterfaceShapeExtended.cs" />
+    <Compile Include="CustomizedCode\Util\EntityQueryNode.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="App.config" />
+    <None Include="GeneratedCode\SerializationHelper.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SerializationHelper.cs</LastGenOutput>
+    </None>
+    <Compile Include="CustomizedCode\Forms\FormInconsistencyProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormInconsistencyProperties.Designer.cs">
+      <DependentUpon>FormInconsistencyProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\CustomExtension\DomainServiceOperationExtended.cs" />
+    <Compile Include="CustomizedCode\Forms\FrmJoinEntityBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmJoinEntityBuilder.Designer.cs">
+      <DependentUpon>FrmJoinEntityBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormEntityJoinRelation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormEntityJoinRelation.Designer.cs">
+      <DependentUpon>FormEntityJoinRelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\CustomVisualization\EntityAdapterRepresentationShapeExtended.cs" />
+    <Compile Include="CustomizedCode\Forms\FormPublishedEntityList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormPublishedEntityList.Designer.cs">
+      <DependentUpon>FormPublishedEntityList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\CustomExtension\EntityAdapterFormulaExtended.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\EntityAdapterUserInterfaceShapeExtended.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\ExtendedFilters.cs" />
+    <Compile Include="CustomizedCode\Forms\FormPropertySort.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormPropertySort.Designer.cs">
+      <DependentUpon>FormPropertySort.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\CustomExtension\EntityAdapterPropertyExtended.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\EntityAdapterAttributeExtended.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\EntityAdapterExtendedFilterCustom.cs" />
+    <Compile Include="CustomizedCode\Forms\FormEntityExtendedFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormEntityExtendedFilter.Designer.cs">
+      <DependentUpon>FormEntityExtendedFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmEntityBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmEntityBuilder.Designer.cs">
+      <DependentUpon>FrmEntityBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmLocalEntityBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FrmLocalEntityBuilder.Designer.cs">
+      <DependentUpon>FrmLocalEntityBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\Helpers\LookUpStruct.cs" />
+    <Compile Include="CustomizedCode\UserControls\FontControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\UserControls\FontControl.Designer.cs">
+      <DependentUpon>FontControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\CustomVisualization\WorkflowShapeExtended.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\KeyPerformanceIndicatorShapeExtended.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\DomainViewShapeExtended.cs" />
+    <Compile Include="CustomizedCode\Helpers\EntityAdapterDesignerSerializationHelperExtended.cs" />
+    <Compile Include="CustomizedCode\Forms\FormPublicationViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizedCode\Forms\FormPublicationViewer.Designer.cs">
+      <DependentUpon>FormPublicationViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\CustomVisualization\LookUpAdapterShapeExtended.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\EntityAdapterDesignerDiagramExtended.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\EntityDataModelExtended.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\EntityAdapterExtended.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\EntityAdapterShapeExtended.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\DomainServiceShapeExtended.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\LookUpAdapterExtended.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\GenericOperationExtended.cs" />
+    <Compile Include="CustomizedCode\Helpers\PublicationStructure.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\ShapeExtendedClickEvent.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\SubscriptionExtended.cs" />
+    <Compile Include="CustomizedCode\CustomVisualization\SubscriptionShapeExtended.cs" />
+    <Compile Include="CustomizedCode\Helpers\TextSelectionExtension.cs" />
+    <Compile Include="CustomizedCode\CustomExtension\EntityAdapterUserInterfaceExtended.cs" />
+    <Compile Include="GeneratedCode\ConnectionBuilders.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConnectionBuilders.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedCode\Connectors.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Connectors.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedCode\Diagram.cs">
+      <DependentUpon>Diagram.tt</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="GeneratedCode\DirectiveProcessor.cs">
+      <DependentUpon>DirectiveProcessor.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="GeneratedCode\DomainClasses.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DomainClasses.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedCode\DomainRelationships.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DomainRelationships.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedCode\HelpKeywordHelper.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HelpKeywordHelper.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedCode\MultiplicityValidation.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MultiplicityValidation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedCode\PropertiesGrid.cs">
+      <DependentUpon>PropertiesGrid.tt</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="GeneratedCode\SerializationHelper.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SerializationHelper.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedCode\Shapes.cs">
+      <DependentUpon>Shapes.tt</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="GeneratedCode\ToolboxHelper.cs">
+      <DependentUpon>ToolboxHelper.tt</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs">
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GeneratedCode\DomainModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedCode\Serializer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Serializer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedCode\CustomExtension\EntityAdapterDesignerRootExtended.cs" />
+    <Compile Include="CustomizedCode\Validation\NoEmptyNames.cs" />
+    <Compile Include="CustomizedCode\Validation\ModelStartConfiguration.cs" />
+    <Compile Include="CustomizedCode\Validation\EntityAdapterDesignerRootValidation.cs" />
+    <None Include="Properties\DataSources\EntityAdapter.datasource" />
+    <None Include="Properties\DataSources\EntityAdapterExtendedFilter.datasource" />
+    <None Include="Properties\DataSources\Linx.Builder.Resources.MacroNode.datasource" />
+    <None Include="Properties\DataSources\Linx.EntityAdapterDesigner.CustomizedCode.EntityJoinRelation.datasource" />
+    <None Include="Properties\DataSources\Linx.EntityAdapterDesigner.CustomizedCode.PublicationStructure.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DslDefinition.dsl.diagram">
+      <DependentUpon>DslDefinition.dsl</DependentUpon>
+    </None>
+    <None Include="GeneratedCode\ConnectionBuilders.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ConnectionBuilders.cs</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\Diagram.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Diagram.cs</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\DirectiveProcessor.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DirectiveProcessor.cs</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\DomainRelationships.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DomainRelationships.cs</LastGenOutput>
+    </None>
+    <None Include="DslDefinition.dsl" />
+    <None Include="GeneratedCode\Connectors.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Connectors.cs</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\DomainClasses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DomainClasses.cs</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\DomainModelResx.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DomainModelResx.resx</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\HelpKeywordHelper.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>HelpKeywordHelper.cs</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\MultiplicityValidation.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MultiplicityValidation.cs</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\PropertiesGrid.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PropertiesGrid.cs</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\DomainModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DomainModel.cs</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\Serializer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Serializer.cs</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\Shapes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Shapes.cs</LastGenOutput>
+    </None>
+    <None Include="GeneratedCode\ToolboxHelper.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ToolboxHelper.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4df5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CustomizedCode\Controls\CustomizingLayout.resx">
+      <DependentUpon>CustomizingLayout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FormReportSettings.resx">
+      <DependentUpon>FormReportSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\frmBusinessViewBuilder.resx">
+      <DependentUpon>frmBusinessViewBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmReportDetailsSelector.resx">
+      <DependentUpon>FrmReportDetailsSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmMacroScriptEditor.resx">
+      <DependentUpon>FrmMacroScriptEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmAddUiClientEvents.resx">
+      <DependentUpon>FrmAddUiClientEvents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmAddClientEvents.resx">
+      <DependentUpon>FrmAddClientEvents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FormUserInterface.resx">
+      <DependentUpon>FormUserInterface.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FormAddExtendedFilter.resx">
+      <DependentUpon>FormAddExtendedFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FormInconsistencyProperties.resx">
+      <DependentUpon>FormInconsistencyProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmAddEntityEvents.resx">
+      <DependentUpon>FrmAddEntityEvents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmAttributeGroup.resx">
+      <DependentUpon>FrmAttributeGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmAttributesOrderBuilder.resx">
+      <DependentUpon>FrmAttributesOrderBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\frmConnection.resx">
+      <DependentUpon>frmConnection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmDomainValues.resx">
+      <DependentUpon>FrmDomainValues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmJoinEntityBuilder.resx">
+      <DependentUpon>FrmJoinEntityBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FormEntityJoinRelation.resx">
+      <DependentUpon>FormEntityJoinRelation.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FormPublishedEntityList.resx">
+      <DependentUpon>FormPublishedEntityList.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FormPropertySort.resx">
+      <DependentUpon>FormPropertySort.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FormEntityExtendedFilter.resx">
+      <DependentUpon>FormEntityExtendedFilter.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FormPublicationViewer.resx">
+      <DependentUpon>FormPublicationViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmEntityBuilder.resx">
+      <DependentUpon>FrmEntityBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmKpiValues.resx">
+      <DependentUpon>FrmKpiValues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmLocalEntityBuilder.resx">
+      <DependentUpon>FrmLocalEntityBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmLookupBuilder.resx">
+      <DependentUpon>FrmLookupBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\Forms\FrmOlapBuilder.resx">
+      <DependentUpon>FrmOlapBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizedCode\UserControls\FontControl.resx">
+      <DependentUpon>FontControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GeneratedCode\DomainModelResx.resx">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DomainModelResx.tt</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <StartProgram>$(DevEnvDir)\devenv.exe</StartProgram>
+    <StartAction>Program</StartAction>
+    <StartArguments>/ranu /rootsuffix Exp  "..\..\..\Debugging\Debugging.sln"</StartArguments>
+  </PropertyGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CodeAnalysisDictionary.xml">
+      <Link>CodeAnalysisDictionary.xml</Link>
+      <SubType>Designer</SubType>
+    </CodeAnalysisDictionary>
+    <Content Include="Resources\AggregationMark.png" />
+    <Content Include="Resources\AssociationRepositoryInterfaceTool.bmp" />
+    <Content Include="Resources\AutoPk.png" />
+    <Content Include="Resources\CollectionConnector.bmp" />
+    <Content Include="Resources\ConnectorEntityToEntityRepresentation.bmp" />
+    <Content Include="Resources\AssociationEntityTool.bmp" />
+    <Content Include="Resources\AssociationEdmTool.bmp" />
+    <Content Include="Resources\CommentEntityLinkTool.bmp" />
+    <Content Include="Resources\CommentTool.bmp" />
+    <Content Include="Resources\CommentEdmLinkTool.bmp" />
+    <Content Include="Resources\AssociationLookUpTool.bmp" />
+    <Content Include="Resources\AssociationEntityRepresentationTool.bmp" />
+    <Content Include="Resources\AssociationRepositoryImplementationTool.bmp" />
+    <EmbeddedResource Include="Resources\drag.png" />
+    <Content Include="Resources\IsDashboardFilter.png" />
+    <Content Include="Resources\ExtensionInterface.png" />
+    <Content Include="Resources\IsDashboardRelation.png" />
+    <Content Include="Resources\layoutsMobile.png" />
+    <Content Include="Resources\MetaDataFilter.png" />
+    <Content Include="Resources\ModelViewMark.png" />
+    <Content Include="Resources\OlapCatalog.png" />
+    <Content Include="Resources\DSInfo.png" />
+    <Content Include="Resources\OlapCatalogTool.bmp" />
+    <None Include="Resources\PropertyRemoved.jpg" />
+    <Content Include="Resources\RSS-Feeds.png" />
+    <Content Include="Resources\StoreScriptTool.bmp" />
+    <Content Include="Resources\DataInfo.png" />
+    <Content Include="Resources\EntityAdapterRepresentation.png" />
+    <Content Include="Resources\InstanceConnector.bmp" />
+    <Content Include="Resources\IsSelected.png" />
+    <Content Include="Resources\RepositoryImplementationTool.bmp" />
+    <Content Include="Resources\RepositoryInterface.png" />
+    <Content Include="Resources\RepositoryImplementation.png" />
+    <Content Include="Resources\StoreScriptInfo.png" />
+    <EmbeddedResource Include="Templates\ClientDataDomains.txt" />
+    <None Include="Resources\vsobject_properties.bmp" />
+    <None Include="Resources\VSObject_Properties_Filter.BMP" />
+    <None Include="Resources\VSObject_Custom.BMP" />
+    <None Include="Resources\VSObject_lightning.png" />
+    <Content Include="Resources\VSObject_Properties_Fk_PK.bmp" />
+    <None Include="Resources\VSObject_Properties_ForeignKey.bmp" />
+    <Content Include="Resources\VSObject_Properties_PrimaryKey.bmp" />
+    <Content Include="Resources\WebApiSync.png" />
+    <Content Include="Resources\WebApi.png" />
+    <Content Include="Resources\WebApiControllerTool.bmp" />
+    <Content Include="Resources\RepositoryIntefaceTool.bmp" />
+    <Content Include="Resources\EntityRepresentationTool.bmp" />
+    <Content Include="Resources\GeneralizationTool.bmp" />
+    <Content Include="Resources\LocalAssociationTool.bmp" />
+    <Content Include="Resources\Default.png" />
+    <Content Include="Resources\DomainView.bmp" />
+    <Content Include="Resources\FlowChart.png" />
+    <Content Include="Resources\KPI.bmp" />
+    <Content Include="Resources\kpi.png" />
+    <Content Include="Resources\layouts.png" />
+    <Content Include="Resources\LayoutTool.bmp" />
+    <Content Include="Resources\LookUpAdapterTool.bmp" />
+    <Content Include="Resources\DomainServiceOperationTool.bmp" />
+    <Content Include="Resources\DomainServiceExtensionTool.bmp" />
+    <Content Include="Resources\EventTool.bmp" />
+    <Content Include="Resources\FormulaTool.bmp" />
+    <Content Include="Resources\EdmTool.bmp" />
+    <Content Include="Resources\Edm.png" />
+    <Content Include="Resources\EntityAdapterTool.bmp" />
+    <Content Include="Resources\ExampleConnectorTool.bmp" />
+    <Content Include="Resources\ExampleShapeTool.bmp" />
+    <Content Include="Resources\MultiSelection.bmp" />
+    <Content Include="Resources\OperationConnected.png" />
+    <Content Include="Resources\OperationTool.bmp" />
+    <Content Include="Resources\PropertyTool.bmp" />
+    <Content Include="Resources\Publication.png" />
+    <Content Include="Resources\SpecializedLookUp.png" />
+    <Content Include="Resources\Subscription.png" />
+    <Content Include="Resources\SubscriptionTool.bmp" />
+    <Content Include="Resources\UICustom.png" />
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\SpaWebConfig.txt" />
+    <None Include="Resources\warning.png" />
+    <Content Include="Resources\Workflow.bmp" />
+    <Content Include="Resources\_OLAPConnect.bmp" />
+    <Content Include="Resources\_OLAPSet.bmp" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\ExtendedFiltersTemplate.txt" />
+    <EmbeddedResource Include="Templates\KPIViewsTemplate.txt" />
+    <EmbeddedResource Include="Templates\DomainViewsTemplate.txt" />
+    <EmbeddedResource Include="Templates\WebConfigTemplate.txt" />
+    <EmbeddedResource Include="Templates\DataEntityFunctionsTemplate.txt" />
+    <EmbeddedResource Include="Templates\DomainServiceTemplate.txt" />
+    <EmbeddedResource Include="Templates\EntityAdapterDynamicModelsTemplate.txt" />
+    <EmbeddedResource Include="Templates\LookUpsTemplate.txt" />
+    <EmbeddedResource Include="Templates\FormulasTemplate.txt" />
+    <EmbeddedResource Include="Resources\ConnectorSourceSearch.cur" />
+    <EmbeddedResource Include="Resources\ConnectorTargetSearch.cur" />
+  </ItemGroup>
+  <ItemGroup />
+  <!-- ******************************* -->
+  <!-- T4 MsBuild utilities -->
+  <PropertyGroup>
+    <!-- Whether T4 templates should be transformed as part of the build -->
+    <TransformOnBuild>true</TransformOnBuild>
+    <!-- Specifies how read-only files should be dealt with. False -> build error, true -> warning -->
+    <OverwriteReadOnlyOutputFiles>false</OverwriteReadOnlyOutputFiles>
+  </PropertyGroup>
+  <!-- End of T4 MsBuild settings -->
+  <!-- *******************************   -->
+</Project>

@@ -1,0 +1,112 @@
+﻿<form ng-controller="checklistModalController" ng-submit="setItem()">
+    <!--<p>
+        <a href="javascript:void(0);" class="link pull-left" ng-click="clearComplete()">Remover  completas</a>
+        <a href="javascript:void(0);" class="link pull-right" ng-click="clear()">Remover tudo</a>
+    </p> <br/>
+    <h2>Lista de tarefa</h2>
+
+    <small>
+        {{coutComplete()}} de {{listItem.length}}
+        <span ng-show="coutComplete() == listItem.length" class="pull-right">Tarefas concluidas !!!</span>
+    </small>
+
+
+    <ul>
+        <li ng-repeat="item in listItem" style="list-style-type:none">
+            <p style="cursor:pointer" > <input type="checkbox" name="" style="cursor:pointer"  ng-model="item.checked" ng-change="refreshItem();" /> <span ng-click="item.checked =!item.checked">{{item.value}}</span>  </p>
+        </li>
+    </ul>
+    <input type="text" ng-model="newTodo" placeholder="Nova Tarefa" class="col-xs-12 col-sm-12 col-md-12"/>
+    <input type="button" value="Criar nova tarefa" ng-click="setItem()" class="btn btn-primary col-xs-5 col-sm-5 col-md-5 " />
+
+    <input type="button"  value="Cancelar" ng-click="close()" class="btn btn-danger col-xs-5 col-sm-5 col-md-5 pull-right " /-->
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="javascript:void(0);" ng-click="close();"  class="link pull-right">X</a>
+                <div class="todolist not-done">
+                    <h1>Todos</h1>
+                    <input ng-model="newTodo" type="text" class="form-control add-todo" placeholder="Add todo" />
+                    <button id="checkAll" class="btn btn-success" type="button" ng-click="setItem()">Mark all as done</button>
+
+                    <hr>
+                    <ul id="sortable" class="list-unstyled">
+                        <li class="ui-state-default" ng-repeat="item in listItem  | filter : item.checked ==false">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="" ng-model="item.checked" ng-change="refreshItem();" />{{item.value}}
+                                </label>
+                            </div>
+                        </li>
+
+
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="todolist">
+                    <p>
+                        <h1>Already Done</h1>
+                        <a href="javascript:void(0);" class="link pull-right" ng-click="clearComplete()" ng>Clear</a>
+                    </p>
+                    <ul id="done-items" class="list-unstyled">
+                        <li ng-repeat="item in listItem | filter : !item.checked"><span ng-click="setActive(item);">{{item.value}}</span> <button ng-click="removeItem(item)" class="remove-item btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<style>
+    .todolist {
+        background-color: #FFF;
+        padding: 20px 20px 10px 20px;
+        margin-top: 30px;
+    }
+
+        .todolist h1 {
+            margin: 0;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+    .form-control {
+        border-radius: 0;
+    }
+
+    li.ui-state-default {
+        background: #fff;
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+        li.ui-state-default:last-child {
+            border-bottom: none;
+        }
+
+    .todo-footer {
+        background-color: #F4FCE8;
+        margin: 0 -20px -10px -20px;
+        padding: 10px 20px;
+    }
+
+    #done-items li {
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        text-decoration: line-through;
+    }
+
+        #done-items li:last-child {
+            border-bottom: none;
+        }
+
+    #checkAll {
+        margin-top: 10px;
+    }
+</style>

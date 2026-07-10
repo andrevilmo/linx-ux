@@ -1,0 +1,87 @@
+@using System.Web
+@using System.Web.Optimization
+
+@{
+    var Shell_CombineAndMinifyCssJs_Enabled = BaseHelpers.GetShellCombineAndMinifyCssJsMode();
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+	<title>Linx UX</title>
+	@Html.MetaHash()
+	@Html.MetaVersion()
+    @Html.MetaDateVersion()
+    @Html.MetaRoot()
+	@Html.MetaModuleId()
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<meta name="MobileOptimized" content="320">
+	<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1' />
+
+	<link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" />
+
+    @if (Shell_CombineAndMinifyCssJs_Enabled == false)
+    {
+        <text>
+            @Styles.Render(Url.UrlWithModuleId("/lib/core.css"))
+            <link rel="stylesheet" type="text/css" href="@Url.RelativePath( string.Format("lib/theme-css-{0}.css", "default") )" id="style_color" />
+        </text>
+    }
+    else
+    {
+        <link rel="stylesheet" type="text/css" href="@Url.RelativePath( "lib/core.css" )" />
+        <link rel="stylesheet" type="text/css" href="@Url.RelativePath( string.Format("lib/theme-css-{0}.css", "default") )" id="style_color" />
+    }
+
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-footer-fixed page-header-fixed page-full-width @Url.ThemeName()">
+	@Html.Partial("_HeaderClean")
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container">
+		@RenderBody()
+	</div>
+	<!-- END CONTAINER -->
+
+	@Html.Partial("_FooterClean")
+
+    <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+    @Scripts.Render(Url.ContentWithModuleId("core-clean-js"))
+	<!-- END JAVASCRIPTS -->
+
+	<script>
+		jQuery(document).ready(function () {
+			App.init();
+			var footers = document.querySelectorAll('.footer');
+			for (var i = 0; i < footers.length; i++) {
+				var f = footers[i];
+				f.style.setProperty('background-color', '#333', 'important');
+				f.style.setProperty('color', '#fff', 'important');
+				f.style.setProperty('z-index', '2147483000', 'important');
+				f.style.setProperty('position', 'fixed', 'important');
+				f.style.setProperty('bottom', '0', 'important');
+				f.style.setProperty('left', '0', 'important');
+				f.style.setProperty('right', '0', 'important');
+				f.style.setProperty('width', '100%', 'important');
+				f.style.setProperty('min-height', '36px', 'important');
+				f.style.setProperty('height', '36px', 'important');
+				f.style.setProperty('padding', '8px 20px', 'important');
+				f.style.setProperty('display', 'block', 'important');
+				f.style.setProperty('visibility', 'visible', 'important');
+				f.style.setProperty('opacity', '1', 'important');
+			}
+		});
+	</script>
+</body>
+<!-- END BODY -->
+</html>

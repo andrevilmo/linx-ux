@@ -1,0 +1,51 @@
+@using System.Web.Http
+@using System.Web.Http.Description
+@using System.Collections.ObjectModel
+@using Linx.ServiceBus.Starter.Areas.HelpPage
+@using Linx.ServiceBus.Starter.Areas.HelpPage.Models
+@model Collection<ApiDescription>
+
+@{
+    ViewBag.Title = "ASP.NET Web API Help Page";
+
+    // Group APIs by controller
+    ILookup<string, ApiDescription> apiGroups = Model.ToLookup(api => api.ActionDescriptor.ControllerDescriptor.ControllerName);
+}
+
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <div class="text">
+                <h2>@Html.DisplayFor(s => ViewData["Controller"])</h2>
+                <p>@Html.DisplayFor(s =>  ViewData["ControllerDescription"])</p>
+
+            </div>
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+        <h2 id="LinxAuthentication">LinxAuthentication</h2>
+        <table class="help-page-table">
+            <thead>
+                <tr>
+                    <th>API</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="api-name"><a href="@Url.Action("Authentication", "Help")">GET LinxAuthentication</a></td>
+                    <td class="api-documentation">Documentation for 'LinxAuthentication'</td>
+                </tr>
+            </tbody>
+        </table>
+        @foreach (var group in apiGroups)
+        {
+            @Html.DisplayFor(m => group, "ApiGroup")
+        }
+    </section>
+</div>
+
+@section Scripts {
+    <link type="text/css" href="~/Areas/HelpPage/HelpPage.css" rel="stylesheet" />
+    <link type="text/css" href="~/Areas/HelpPage/Site.css" rel="stylesheet" />
+}

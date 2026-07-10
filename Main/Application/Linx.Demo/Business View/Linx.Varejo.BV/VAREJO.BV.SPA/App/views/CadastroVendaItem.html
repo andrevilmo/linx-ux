@@ -1,0 +1,316 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="CadastroVendaItem_formViewer" class="panelTransaition">
+            <figure id="CadastroVendaItem_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.CadastroVendaItem().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="CadastroVendaItem_gbVendaItemWizard" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="VendaItemWizard"><i class="icon-reorder"></i>VendaItemWizard</div>
+                       <div class="tools">
+                           <a id="CadastroVendaItem_gbVendaItemWizard_anchor" href="#CadastroVendaItem_gbVendaItemWizard_body" role="button" data-toggle="collapse" data-parent="#CadastroVendaItem_gbVendaItemWizard" aria-controls="#CadastroVendaItem_gbVendaItemWizard_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="CadastroVendaItem_gbVendaItemWizard_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.CadastroVendaItem().getWithBinding(currentDataItem, $root.CadastroVendaItem().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroVendaItem_divBigIntVendaItem" class="" >
+                                           <label id="CadastroVendaItem_lblBigIntVendaItem" for="CadastroVendaItem_ntxBigIntVendaItem" class="control-label ellipsis" title="Big Int Venda Item">Big Int Venda Item
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="CadastroVendaItem_ntxBigIntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntVendaItem', css: { vmEditing: $root.CadastroVendaItem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxBigIntVendaItem') ? ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxBigIntVendaItem') : (!isEmptyEntityFn($data) && $root.CadastroVendaItem().enabledForEditing()) }, igNumericEditor: { value: BigIntVendaItem, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxBigIntVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxBigIntVendaItem') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardBigIntVendaItem(), 'icon-ok': $root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardBigIntVendaItem(), hide: $root.CadastroVendaItem().status() !== 'C' }, popoverWithBind: { template: '#CadastroVendaItem_rgBigIntVendaItem', vm: $root.CadastroVendaItem().entitySearchRange, ctrlName: 'CadastroVendaItem_rgcBigIntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="CadastroVendaItem_rgBigIntVendaItem" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroVendaItem_ntxbBigIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemWizardBigIntVendaItem_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#CadastroVendaItem_ntxBigIntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroVendaItem_ntxeBigIntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroVendaItem_ntxeBigIntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroVendaItem_ntxeBigIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemWizardBigIntVendaItem_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#CadastroVendaItem_ntxBigIntVendaItem').igNumericEditor('option', 'readOnly', ($('#CadastroVendaItem_ntxbBigIntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroVendaItem_ntxbBigIntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroVendaItem_divBitVendaItem" class="" >
+                                           <label class="">
+                                             <input id="CadastroVendaItem_ckBitVendaItem" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ckBitVendaItem') ? ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ckBitVendaItem') : (!isEmptyEntityFn($data) && $root.CadastroVendaItem().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ckBitVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ckBitVendaItem') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing()), nullableChecked: BitVendaItem" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblCadastroVendaItem_ckBitVendaItem" class="align-label-checkbox">Bit Venda Item</span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroVendaItem_divComboboxVendaItem" class="" >
+                                           <label id="CadastroVendaItem_lblComboboxVendaItem" for="CadastroVendaItem_cmbComboboxVendaItem" data-bind="css: { 'content-required': $root.CadastroVendaItem().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Combobox Venda Item">Combobox Venda Item
+                                           </label>
+                                           <span id="CadastroVendaItem_cmbComboboxVendaItem" class="form-control " data-bind="validatedField: 'ComboboxVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_cmbComboboxVendaItem') ? ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_cmbComboboxVendaItem') : (!isEmptyEntityFn($data) && $root.CadastroVendaItem().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_cmbComboboxVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_cmbComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_cmbComboboxVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_cmbComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing()), igCombo: {
+                                              selectedItems: ComboboxVendaItem,
+                                              dataSource:  $root.CadastroVendaItem().dataDomains.getItems('LX_VENDA_ITEM', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_cmbComboboxVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_cmbComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroVendaItem_divDatetimeVendaItem" class="" >
+                                           <label id="CadastroVendaItem_lblDatetimeVendaItem" for="CadastroVendaItem_dtDatetimeVendaItem" class="control-label ellipsis" title="Datetime Venda Item">Datetime Venda Item
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="CadastroVendaItem_dtDatetimeVendaItem" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVendaItem', css: { vmEditing: $root.CadastroVendaItem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_dtDatetimeVendaItem') ? ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_dtDatetimeVendaItem') : (!isEmptyEntityFn($data) && $root.CadastroVendaItem().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_dtDatetimeVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_dtDatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing()) },  igDatePicker: { value: DatetimeVendaItem, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_dtDatetimeVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_dtDatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="CadastroVendaItem_rgbtnDatetimeVendaItem"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardDatetimeVendaItem(), 'icon-ok': $root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardDatetimeVendaItem(), hide: $root.CadastroVendaItem().status() !== 'C' }, popoverWithBind: { template: '#CadastroVendaItem_rgDatetimeVendaItem', vm: $root.CadastroVendaItem().entitySearchRange, ctrlName: 'CadastroVendaItem_rgcDatetimeVendaItem', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="CadastroVendaItem_rgDatetimeVendaItem" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="checked:VendaItemWizardDatetimeVendaItem_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:VendaItemWizardDatetimeVendaItem_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="CadastroVendaItem_divrgDatetimeVendaItem" >
+                                                      <div class="filterByRange" data-bind="visible: VendaItemWizardDatetimeVendaItem_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="CadastroVendaItem_dtbDatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemWizardDatetimeVendaItem_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#CadastroVendaItem_dtDatetimeVendaItem').igDatePicker('option', 'readOnly', (ui.value != null || $('#CadastroVendaItem_dteDatetimeVendaItem').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#CadastroVendaItem_dtbDatetimeVendaItem').igDatePicker('value'); var valorMax = $('#CadastroVendaItem_dteDatetimeVendaItem').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#CadastroVendaItem_dtbDatetimeVendaItem').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="CadastroVendaItem_dteDatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemWizardDatetimeVendaItem_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#CadastroVendaItem_dtDatetimeVendaItem').igDatePicker('option', 'readOnly', ($('#CadastroVendaItem_dtbDatetimeVendaItem').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#CadastroVendaItem_dtbDatetimeVendaItem').igDatePicker('value'); var valorMax = $('#CadastroVendaItem_dteDatetimeVendaItem').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#CadastroVendaItem_dteDatetimeVendaItem').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: VendaItemWizardDatetimeVendaItem_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaItemWizardDatetimeVendaItem_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: VendaItemWizardDatetimeVendaItem_predefFilter() != null && VendaItemWizardDatetimeVendaItem_predefFilter()[0] && VendaItemWizardDatetimeVendaItem_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaItemWizardDatetimeVendaItem_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroVendaItem_divDecimalVendaItem" class="" >
+                                           <label id="CadastroVendaItem_lblDecimalVendaItem" for="CadastroVendaItem_ntxDecimalVendaItem" class="control-label ellipsis" title="Decimal Venda Item">Decimal Venda Item
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="CadastroVendaItem_ntxDecimalVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVendaItem', css: { vmEditing: $root.CadastroVendaItem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxDecimalVendaItem') ? ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxDecimalVendaItem') : (!isEmptyEntityFn($data) && $root.CadastroVendaItem().enabledForEditing()) }, igNumericEditor: { value: DecimalVendaItem, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxDecimalVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxDecimalVendaItem') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardDecimalVendaItem(), 'icon-ok': $root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardDecimalVendaItem(), hide: $root.CadastroVendaItem().status() !== 'C' }, popoverWithBind: { template: '#CadastroVendaItem_rgDecimalVendaItem', vm: $root.CadastroVendaItem().entitySearchRange, ctrlName: 'CadastroVendaItem_rgcDecimalVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="CadastroVendaItem_rgDecimalVendaItem" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroVendaItem_ntxbDecimalVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemWizardDecimalVendaItem_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#CadastroVendaItem_ntxDecimalVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroVendaItem_ntxeDecimalVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroVendaItem_ntxeDecimalVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroVendaItem_ntxeDecimalVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemWizardDecimalVendaItem_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#CadastroVendaItem_ntxDecimalVendaItem').igNumericEditor('option', 'readOnly', ($('#CadastroVendaItem_ntxbDecimalVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroVendaItem_ntxbDecimalVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroVendaItem_divIdVenda" class="" >
+                                           <label id="CadastroVendaItem_lblIdVenda" for="CadastroVendaItem_lUpIdVenda" class="control-label ellipsis" title="Id Venda">Id Venda
+                                           </label>
+                                           <div id="CadastroVendaItem_lUpIdVenda" class="form-control input-group " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.CadastroVendaItem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_lUpIdVenda') ? ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_lUpIdVenda') : (!isEmptyEntityFn($data) && $root.CadastroVendaItem().enabledForEditing()) }, lookupControl: { vm: $root.CadastroVendaItem(), value: IdVenda, maxLength: 12,lookupName: '', isMultiSelection: false, multiSelectionValue: $root.CadastroVendaItem().entitySearchRange.IdVenda, fieldName: 'IdVenda', disabled:ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_lUpIdVenda') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_lUpIdVenda') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroVendaItem_divIdVendaItem" class="" >
+                                           <label id="CadastroVendaItem_lblIdVendaItem" for="CadastroVendaItem_ntxIdVendaItem" data-bind="css: { 'content-required': $root.CadastroVendaItem().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Id Venda Item">Id Venda Item
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="CadastroVendaItem_ntxIdVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'IdVendaItem', css: { vmEditing: $root.CadastroVendaItem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxIdVendaItem') ? ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxIdVendaItem') : (!isEmptyEntityFn($data) && $root.CadastroVendaItem().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVendaItem, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxIdVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxIdVendaItem') : (isEmptyEntityFn($data) || !($root.CadastroVendaItem().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardIdVendaItem(), 'icon-ok': $root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardIdVendaItem(), hide: $root.CadastroVendaItem().status() !== 'C' }, popoverWithBind: { template: '#CadastroVendaItem_rgIdVendaItem', vm: $root.CadastroVendaItem().entitySearchRange, ctrlName: 'CadastroVendaItem_rgcIdVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="CadastroVendaItem_rgIdVendaItem" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroVendaItem_ntxbIdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemWizardIdVendaItem_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#CadastroVendaItem_ntxIdVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroVendaItem_ntxeIdVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroVendaItem_ntxeIdVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroVendaItem_ntxeIdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemWizardIdVendaItem_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#CadastroVendaItem_ntxIdVendaItem').igNumericEditor('option', 'readOnly', ($('#CadastroVendaItem_ntxbIdVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroVendaItem_ntxbIdVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroVendaItem_divIntVendaItem" class="" >
+                                           <label id="CadastroVendaItem_lblIntVendaItem" for="CadastroVendaItem_ntxIntVendaItem" class="control-label ellipsis" title="Int Venda Item">Int Venda Item
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="CadastroVendaItem_ntxIntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'IntVendaItem', css: { vmEditing: $root.CadastroVendaItem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxIntVendaItem') ? ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxIntVendaItem') : (!isEmptyEntityFn($data) && $root.CadastroVendaItem().enabledForEditing()) }, igNumericEditor: { value: IntVendaItem, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxIntVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxIntVendaItem') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardIntVendaItem(), 'icon-ok': $root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardIntVendaItem(), hide: $root.CadastroVendaItem().status() !== 'C' }, popoverWithBind: { template: '#CadastroVendaItem_rgIntVendaItem', vm: $root.CadastroVendaItem().entitySearchRange, ctrlName: 'CadastroVendaItem_rgcIntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="CadastroVendaItem_rgIntVendaItem" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroVendaItem_ntxbIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemWizardIntVendaItem_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#CadastroVendaItem_ntxIntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroVendaItem_ntxeIntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroVendaItem_ntxeIntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroVendaItem_ntxeIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemWizardIntVendaItem_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#CadastroVendaItem_ntxIntVendaItem').igNumericEditor('option', 'readOnly', ($('#CadastroVendaItem_ntxbIntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroVendaItem_ntxbIntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroVendaItem_divSmallIntVendaItem" class="" >
+                                           <label id="CadastroVendaItem_lblSmallIntVendaItem" for="CadastroVendaItem_ntxSmallIntVendaItem" class="control-label ellipsis" title="Small Int Venda Item">Small Int Venda Item
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="CadastroVendaItem_ntxSmallIntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntVendaItem', css: { vmEditing: $root.CadastroVendaItem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxSmallIntVendaItem') ? ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxSmallIntVendaItem') : (!isEmptyEntityFn($data) && $root.CadastroVendaItem().enabledForEditing()) }, igNumericEditor: { value: SmallIntVendaItem, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxSmallIntVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_ntxSmallIntVendaItem') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardSmallIntVendaItem(), 'icon-ok': $root.CadastroVendaItem().entitySearchRange.has_VendaItemWizardSmallIntVendaItem(), hide: $root.CadastroVendaItem().status() !== 'C' }, popoverWithBind: { template: '#CadastroVendaItem_rgSmallIntVendaItem', vm: $root.CadastroVendaItem().entitySearchRange, ctrlName: 'CadastroVendaItem_rgcSmallIntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="CadastroVendaItem_rgSmallIntVendaItem" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroVendaItem_ntxbSmallIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemWizardSmallIntVendaItem_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#CadastroVendaItem_ntxSmallIntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroVendaItem_ntxeSmallIntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroVendaItem_ntxeSmallIntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroVendaItem_ntxeSmallIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemWizardSmallIntVendaItem_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#CadastroVendaItem_ntxSmallIntVendaItem').igNumericEditor('option', 'readOnly', ($('#CadastroVendaItem_ntxbSmallIntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroVendaItem_ntxbSmallIntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroVendaItem_divStringVendaItem" class="" >
+                                           <label id="CadastroVendaItem_lblStringVendaItem" for="CadastroVendaItem_tbStringVendaItem" class="control-label ellipsis" title="String Venda Item">String Venda Item
+                                           </label>
+                                           <input id="CadastroVendaItem_tbStringVendaItem" class="form-control ellipsis" data-bind="attr: { title: StringVendaItem }, validatedField: 'StringVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_tbStringVendaItem') ? ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_tbStringVendaItem') : (!isEmptyEntityFn($data) && $root.CadastroVendaItem().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVendaItem, readOnly: ctrl.hasCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_tbStringVendaItem') ? !ctrl.getCustomEnable($root.CadastroVendaItem(), 'CadastroVendaItem_tbStringVendaItem') : (isEmptyEntityFn($data) || !$root.CadastroVendaItem().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="CadastroVendaItem_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.CadastroVendaItem().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyCadastroVendaItem_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyCadastroVendaItem_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyCadastroVendaItem_dGrid_templateLayout', vm: function(){return $root.CadastroVendaItem().gridSaveStates['scyCadastroVendaItem_dGrid'];}, ctrlName: 'scyCadastroVendaItem_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-external-link" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyCadastroVendaItem_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyCadastroVendaItem_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Salvar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como...</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyCadastroVendaItem_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroVendaItem().dataToolbar.canExport(), click: function () {$root.CadastroVendaItem().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyCadastroVendaItem_dGrid" data-bind="css: { IsEditableStyle: $root.CadastroVendaItem().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

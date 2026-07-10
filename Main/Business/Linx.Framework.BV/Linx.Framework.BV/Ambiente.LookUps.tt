@@ -1,0 +1,46 @@
+<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension = ".cs" #>
+<#@ import namespace = "System.IO" #>
+<#@ import namespace = "System.Collections.Generic" #>
+<#@ assembly name = "C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Common\Linx\Desktop\GAC\Linx.Tools.dll" #>
+<#@ import namespace = "Linx.Tools" #>
+<#@ include file = "Includes\DataEntityFunctions.ttinclude"#>
+<#@ EntityAdapterDesigner processor = "EntityAdapterDesignerDirectiveProcessor" requires = "fileName='Ambiente.ead'" provides = "EntityAdapterDesignerRoot=EntityAdapterContext" #>
+
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Linx.Data;
+using Linx.Tools;
+using System.Data.Entity.Core.Objects;
+using System.ComponentModel;
+using System.Data.Common;
+using System.Runtime.Serialization;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
+
+<#  
+	  foreach (EntityDataModel edm in EntityAdapterContext.EntityDataModels)
+	  {
+			#>using <#= edm.TargetNamespace #>;
+<#    
+       }
+	   
+#>
+
+namespace <#= EntityAdapterContext.TargetNamespace + ".Ambiente"#>
+{
+<#      
+  //Generate entity class bodies
+  foreach (EntityAdapter entity in EntityAdapterContext.GetEntities())
+  {
+		GenerateLookUpClasses(entity);
+  }  
+#>
+
+}

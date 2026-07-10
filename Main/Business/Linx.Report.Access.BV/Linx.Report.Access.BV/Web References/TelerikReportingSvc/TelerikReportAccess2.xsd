@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Telerik.Reporting.Service" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Telerik.Reporting.Service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:1710/TelerikReportAccess.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:1710/TelerikReportAccess.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Telerik.Reporting.Processing" />
+  <xs:complexType name="ArrayOfReportInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ReportInfo" nillable="true" type="tns:ReportInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfReportInfo" nillable="true" type="tns:ArrayOfReportInfo" />
+  <xs:complexType name="ReportInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FullName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ReportInfo" nillable="true" type="tns:ReportInfo" />
+  <xs:complexType name="ArrayOfExtensionInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ExtensionInfo" nillable="true" type="tns:ExtensionInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfExtensionInfo" nillable="true" type="tns:ArrayOfExtensionInfo" />
+  <xs:complexType name="ExtensionInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="LocalizedName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ExtensionInfo" nillable="true" type="tns:ExtensionInfo" />
+  <xs:complexType name="RenderingResult">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ServiceOperationResultBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="DocumentBytes" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="DocumentName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Extension" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="MimeType" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RenderingResult" nillable="true" type="tns:RenderingResult" />
+  <xs:complexType name="ServiceOperationResultBase">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Error" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ServiceOperationResultBase" nillable="true" type="tns:ServiceOperationResultBase" />
+  <xs:complexType name="RenderingSessionInfo">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ServiceOperationResultBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Actions" nillable="true" type="tns:ArrayOfActionInfo" />
+          <xs:element minOccurs="0" name="Bookmarks" nillable="true" type="tns:ArrayOfBookmarkNode" />
+          <xs:element minOccurs="0" name="DocumentName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="HasDocumentMap" type="xs:boolean" />
+          <xs:element minOccurs="0" name="InstanceID" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="NavigateBackEnabled" type="xs:boolean" />
+          <xs:element minOccurs="0" name="NavigateForwardEnabled" type="xs:boolean" />
+          <xs:element minOccurs="0" name="PageCount" type="xs:int" />
+          <xs:element minOccurs="0" name="PageNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="Parameters" nillable="true" type="tns:ArrayOfParameter" />
+          <xs:element minOccurs="0" name="Report" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RenderingSessionInfo" nillable="true" type="tns:RenderingSessionInfo" />
+  <xs:complexType name="ArrayOfActionInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ActionInfo" nillable="true" type="tns:ActionInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfActionInfo" nillable="true" type="tns:ArrayOfActionInfo" />
+  <xs:complexType name="ActionInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Action" nillable="true" type="tns:Action" />
+      <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Page" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ActionInfo" nillable="true" type="tns:ActionInfo" />
+  <xs:complexType name="Action">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Parameters" nillable="true" type="q1:ArrayOfKeyValueOfstringanyType" />
+      <xs:element minOccurs="0" name="ReportDocumentType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServerActionIdentifier" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Target" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TargetBookmarkId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Type" type="tns:ActionType" />
+      <xs:element minOccurs="0" name="Url" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Action" nillable="true" type="tns:Action" />
+  <xs:simpleType name="ActionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BookmarkNavigation" />
+      <xs:enumeration value="UrlNavigation" />
+      <xs:enumeration value="ServerAction" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ActionType" nillable="true" type="tns:ActionType" />
+  <xs:complexType name="ArrayOfBookmarkNode">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BookmarkNode" nillable="true" type="tns:BookmarkNode" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBookmarkNode" nillable="true" type="tns:ArrayOfBookmarkNode" />
+  <xs:complexType name="BookmarkNode">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Children" nillable="true" type="tns:ArrayOfBookmarkNode" />
+      <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Page" type="xs:int" />
+      <xs:element minOccurs="0" name="Text" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="X" type="xs:int" />
+      <xs:element minOccurs="0" name="Y" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BookmarkNode" nillable="true" type="tns:BookmarkNode" />
+  <xs:complexType name="ArrayOfParameter">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Parameter" nillable="true" type="tns:Parameter" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfParameter" nillable="true" type="tns:ArrayOfParameter" />
+  <xs:complexType name="Parameter">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/Telerik.Reporting.Processing" base="q2:Parameter">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Parameter" nillable="true" type="tns:Parameter" />
+  <xs:complexType name="PageInfo">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ServiceOperationResultBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Buffer" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="PageNumber" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PageInfo" nillable="true" type="tns:PageInfo" />
+</xs:schema>

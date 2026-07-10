@@ -1,0 +1,482 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="UIValidacoes_formViewer" class="panelTransaition">
+            <figure id="UIValidacoes_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.UIValidacoes().viewType() === 'Main' ? '' : 'none' }">
+                                       <div id="UIValidacoes_gbPais" data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_gbPais'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_gbPais')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_gbPais')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="UIValidacoes_gbPais_anchor" href="#UIValidacoes_gbPais_body" role="button" data-toggle="collapse" data-parent="#UIValidacoes_gbPais" aria-controls="#UIValidacoes_gbPais_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="UIValidacoes_gbPais_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.UIValidacoes().getWithBinding(currentDataItem, $root.UIValidacoes().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_cmbComboboxPais'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_cmbComboboxPais')" class="">
+                                   <div class="form-group">
+                                       <div id="UIValidacoes_divComboboxPais" class="" >
+                                           <label data-bind="css: { 'content-required': $root.UIValidacoes().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_cmbComboboxPais')}, text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_cmbComboboxPais')" id="UIValidacoes_lblComboboxPais" for="UIValidacoes_cmbComboboxPais" class="control-label ellipsis">
+                                           </label>
+                                           <span id="UIValidacoes_cmbComboboxPais" class="form-control " data-bind="validatedField: 'ComboboxPais', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbComboboxPais') ? ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbComboboxPais') : (!isEmptyEntityFn($data) && $root.UIValidacoes().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbComboboxPais') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbComboboxPais') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbComboboxPais') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbComboboxPais') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()), igCombo: {
+                                              selectedItems: ComboboxPais,
+                                              dataSource:  $root.UIValidacoes().dataDomains.getItems('LX_COMBOBOX_PAIS', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbComboboxPais') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbComboboxPais') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_dtDateTimePais'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_dtDateTimePais')" class="">
+                                   <div class="form-group">
+                                       <div id="UIValidacoes_divDateTimePais" class="" >
+                                           <label data-bind="attr: { title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_dtDateTimePais')}, text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_dtDateTimePais')" id="UIValidacoes_lblDateTimePais" for="UIValidacoes_dtDateTimePais" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="UIValidacoes_dtDateTimePais" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DateTimePais', css: { vmEditing: $root.UIValidacoes().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtDateTimePais') ? ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtDateTimePais') : (!isEmptyEntityFn($data) && $root.UIValidacoes().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtDateTimePais') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtDateTimePais') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()) },  igDatePicker: { value: DateTimePais, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.UIValidacoes().entitySearchRange.has_PaisDateTimePais()?true:ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtDateTimePais') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtDateTimePais') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="UIValidacoes_rgbtnDateTimePais"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIValidacoes().entitySearchRange.has_PaisDateTimePais(), 'icon-ok': $root.UIValidacoes().entitySearchRange.has_PaisDateTimePais(), hide: $root.UIValidacoes().status() !== 'C' }, popoverWithBind: { template: '#UIValidacoes_rgDateTimePais', vm: $root.UIValidacoes().entitySearchRange, ctrlName: 'UIValidacoes_rgcDateTimePais', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="UIValidacoes_rgDateTimePais" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="enable: !has_PaisDateTimePais(), checked:PaisDateTimePais_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="enable: !has_PaisDateTimePais(), checked:PaisDateTimePais_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="UIValidacoes_divrgDateTimePais" >
+                                                      <div class="filterByRange" data-bind="visible: PaisDateTimePais_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UIValidacoes_dtbDateTimePais" class="IsEditableStyle date" data-bind="igDatePicker: { value: PaisDateTimePais_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIValidacoes_dtDateTimePais').igDatePicker('option', 'readOnly', (ui.value != null || $('#UIValidacoes_dteDateTimePais').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UIValidacoes_dtbDateTimePais').igDatePicker('value'); var valorMax = $('#UIValidacoes_dteDateTimePais').igDatePicker('value');if (valorMax != null && valorMin > valorMax){PaisDateTimePais_begin(valorMax); $('#UIValidacoes_dtbDateTimePais').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UIValidacoes_dteDateTimePais" class="IsEditableStyle date" data-bind="igDatePicker: { value: PaisDateTimePais_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIValidacoes_dtDateTimePais').igDatePicker('option', 'readOnly', ($('#UIValidacoes_dtbDateTimePais').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UIValidacoes_dtbDateTimePais').igDatePicker('value'); var valorMax = $('#UIValidacoes_dteDateTimePais').igDatePicker('value');if (valorMin != null && valorMax < valorMin){PaisDateTimePais_end(valorMin); $('#UIValidacoes_dteDateTimePais').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: PaisDateTimePais_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: PaisDateTimePais_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: PaisDateTimePais_predefFilter() != null && PaisDateTimePais_predefFilter()[0] && PaisDateTimePais_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: PaisDateTimePais_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_ntxDecimalPais'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_ntxDecimalPais')" class="">
+                                   <div class="form-group">
+                                       <div id="UIValidacoes_divDecimalPais" class="" >
+                                           <label data-bind="attr: { title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_ntxDecimalPais')}, text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_ntxDecimalPais')" id="UIValidacoes_lblDecimalPais" for="UIValidacoes_ntxDecimalPais" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UIValidacoes_ntxDecimalPais" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalPais', css: { vmEditing: $root.UIValidacoes().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxDecimalPais') ? ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxDecimalPais') : (!isEmptyEntityFn($data) && $root.UIValidacoes().enabledForEditing()) }, igNumericEditor: { value: DecimalPais, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxDecimalPais') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxDecimalPais') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIValidacoes().entitySearchRange.has_PaisDecimalPais(), 'icon-ok': $root.UIValidacoes().entitySearchRange.has_PaisDecimalPais(), hide: $root.UIValidacoes().status() !== 'C' }, popoverWithBind: { template: '#UIValidacoes_rgDecimalPais', vm: $root.UIValidacoes().entitySearchRange, ctrlName: 'UIValidacoes_rgcDecimalPais', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UIValidacoes_rgDecimalPais" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIValidacoes_ntxbDecimalPais" class="IsEditableStyle" data-bind="igNumericEditor: { value: PaisDecimalPais_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIValidacoes_ntxDecimalPais').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIValidacoes_ntxeDecimalPais').igNumericEditor('option', 'value') != null ? true : false)); $('#UIValidacoes_ntxeDecimalPais').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIValidacoes_ntxeDecimalPais" class="IsEditableStyle" data-bind="igNumericEditor: { value: PaisDecimalPais_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIValidacoes_ntxDecimalPais').igNumericEditor('option', 'readOnly', ($('#UIValidacoes_ntxbDecimalPais').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIValidacoes_ntxbDecimalPais').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_ntxIdPais'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_ntxIdPais')" class="">
+                                   <div class="form-group">
+                                       <div id="UIValidacoes_divIdPais" class="" >
+                                           <label data-bind="css: { 'content-required': $root.UIValidacoes().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_ntxIdPais')}, text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_ntxIdPais')" id="UIValidacoes_lblIdPais" for="UIValidacoes_ntxIdPais" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UIValidacoes_ntxIdPais" class="form-control numericFilterRange " data-bind="validatedField: 'IdPais', css: { vmEditing: $root.UIValidacoes().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxIdPais') ? ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxIdPais') : (!isEmptyEntityFn($data) && $root.UIValidacoes().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdPais, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxIdPais') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxIdPais') : (isEmptyEntityFn($data) || !($root.UIValidacoes().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIValidacoes().entitySearchRange.has_PaisIdPais(), 'icon-ok': $root.UIValidacoes().entitySearchRange.has_PaisIdPais(), hide: $root.UIValidacoes().status() !== 'C' }, popoverWithBind: { template: '#UIValidacoes_rgIdPais', vm: $root.UIValidacoes().entitySearchRange, ctrlName: 'UIValidacoes_rgcIdPais', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UIValidacoes_rgIdPais" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIValidacoes_ntxbIdPais" class="IsEditableStyle" data-bind="igNumericEditor: { value: PaisIdPais_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIValidacoes_ntxIdPais').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIValidacoes_ntxeIdPais').igNumericEditor('option', 'value') != null ? true : false)); $('#UIValidacoes_ntxeIdPais').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIValidacoes_ntxeIdPais" class="IsEditableStyle" data-bind="igNumericEditor: { value: PaisIdPais_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIValidacoes_ntxIdPais').igNumericEditor('option', 'readOnly', ($('#UIValidacoes_ntxbIdPais').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIValidacoes_ntxbIdPais').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_tbNomePais'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_tbNomePais')" class="">
+                                   <div class="form-group">
+                                       <div id="UIValidacoes_divNomePais" class="" >
+                                           <label data-bind="attr: { title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_tbNomePais')}, text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_tbNomePais')" id="UIValidacoes_lblNomePais" for="UIValidacoes_tbNomePais" class="control-label ellipsis">
+                                           </label>
+                                           <input id="UIValidacoes_tbNomePais" class="form-control ellipsis" data-bind="attr: { title: NomePais }, validatedField: 'NomePais', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_tbNomePais') ? ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_tbNomePais') : (!isEmptyEntityFn($data) && $root.UIValidacoes().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: NomePais, readOnly: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_tbNomePais') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_tbNomePais') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_PAIS.IdPais'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_PAIS.IdPais')" class="">
+                                   <div class="form-group">
+                                       <div id="UIValidacoes_divPAIS.IdPais" class="" >
+                                           <div id="UIValidacoes_PAIS.IdPais" class="form-control  media-small" data-bind="template: { name: getTemplateImageName($root.UIValidacoes().status(), 'form'), afterRender: function (element, data) { KO_afterRenderImageTemplate(data, element, 'PAIS', getAbsoluteValue(IdPais), $root.UIValidacoes(), $root) } }" title="Media (PAIS)"></div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+           <div id="UIValidacoes_tcPaisTabControl"  data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_tcPaisTabControl'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_tcPaisTabControl')"  class="tabbable tabbable-custom box" >
+              <div class="container-tab">
+                 <div id="UIValidacoes_tcPaisTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                 <div id="UIValidacoes_tcPaisTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                 <div id="UIValidacoes_tcPaisTabControl_wrapper" class="wrapper">
+                    <ul id="UIValidacoes_tcPaisTabControl_list" class="nav nav-tabs list">
+                       <li id="UIValidacoes_tiEstadoTabItem" class="active"><a data-bind="text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_tiEstadoTabItem'), attr: {title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_tiEstadoTabItem')}" href="#UIValidacoes_tabEstadoTabItem" data-toggle="tab"></a></li>
+                    </ul>
+                    </div>
+                 </div>
+              <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="UIValidacoes_tabEstadoTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+                       <div id="UIValidacoes_dGridEstado_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.UIValidacoes().getWithBinding(currentDataItem, $root.UIValidacoes().rootDataTypeName)">
+                           <button id="UIValidacoes_dGridEstado_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.UIValidacoes().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.UIValidacoes().createAndNotifyEstado($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="UIValidacoes_dGridEstado_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.UIValidacoes().status() === 'E', 
+                           click: function () {
+                              $root.UIValidacoes().deleteGrid('#UIValidacoes_dGridEstado', 'Estado', 'vm.currentDataItem().currentEstado;vm.currentDataItem().EstadoList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="UIValidacoes_dGridEstado_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.UIValidacoes().openEditor('#UIValidacoes_dGridEstado', 'Estado', 'vm.currentDataItem().currentEstado;vm.currentDataItem().EstadoList', 'Estado;vm.currentDataItem()', 'Estado(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="UIValidacoes_dGridEstado_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.UIValidacoes().openEditor('#UIValidacoes_dGridEstado', 'Estado', 'vm.currentDataItem().currentEstado;vm.currentDataItem().EstadoList', 'Estado;vm.currentDataItem()', 'Estado(vm.currentDataItem())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="UIValidacoes_dGridEstado_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#UIValidacoes_dGridEstado_templateLayout', vm: function(){return $root.UIValidacoes().gridSaveStates['UIValidacoes_dGridEstado'];}, ctrlName: 'UIValidacoes_dGridEstado_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                           <script id="UIValidacoes_dGridEstado_templateLayout" type="text/html" tabindex="-1">
+                               <div id="UIValidacoes_dGridEstado_gb" class="layout-popover">
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                           <div class="col-md-10">
+                                               <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                           </div>
+                                           <div  class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="col-md-10">
+                                               <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                           </div>
+                                           <div class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </script>
+                           <button id="UIValidacoes_dGridEstado_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UIValidacoes().dataToolbar.canGridExport(), click: function () {$root.UIValidacoes().exportDataDetails($data, 'Estado', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="UIValidacoes_dGridEstado" data-bind="css: { IsEditableStyle: $root.UIValidacoes().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+
+                   <div id="dialogEstado"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegEstado" onClick="$(this).backRegEstado();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberEstado">0</label><label>/</label><label id="totalNumberEstado">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegEstado" onClick="$(this).nextRegEstado();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegEstado" onClick="$(this).addRegEstado();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegEstado" onClick="$(this).delRegEstado();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegEstado" onClick="$(this).okRegEstado();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="UIValidacoes_templateEstado" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.UIValidacoes().getWithBinding(currentDataItem, $root.UIValidacoes().rootDataTypeName)"><div data-bind="with: $root.UIValidacoes().getWithBinding(currentEstado, 'Estado')">
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_cmbEstado_ComboboxEstado'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_cmbEstado_ComboboxEstado')" class="">
+                               <div class="form-group">
+                                   <div id="UIValidacoes_divEstado_ComboboxEstadoTemplate" class="" >
+                                       <label data-bind="css: { 'content-required': $root.UIValidacoes().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_cmbEstado_ComboboxEstado')}, text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_cmbEstado_ComboboxEstado')" id="UIValidacoes_lblEstado_ComboboxEstado" for="UIValidacoes_cmbEstado_ComboboxEstado" class="control-label ellipsis">
+                                       </label>
+                                       <span id="UIValidacoes_cmbEstado_ComboboxEstado" class="form-control " data-bind="validatedField: 'ComboboxEstado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbEstado_ComboboxEstado') ? ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbEstado_ComboboxEstado') : (!isEmptyEntityFn($data) && $root.UIValidacoes().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbEstado_ComboboxEstado') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbEstado_ComboboxEstado') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbEstado_ComboboxEstado') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbEstado_ComboboxEstado') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()), igCombo: {
+                                          selectedItems: ComboboxEstado,
+                                          dataSource:  $root.UIValidacoes().dataDomains.getItems('LX_COMBOBOX_ESTADO', ''),
+                                          textKey: 'name',
+                                          valueKey: 'id',
+                                          allowCustomValue : true,
+                                          enableSelectionChangedUpdate: true,
+                                          enableClearButton: false,
+                                          dropDownOnFocus: true,
+                                          disabled: (ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbEstado_ComboboxEstado') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_cmbEstado_ComboboxEstado') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing())),
+                                          mode: 'editable',
+                                          width:'100%'
+                                       }"></span>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_dtEstado_DateTimeEstado'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_dtEstado_DateTimeEstado')" class="">
+                               <div class="form-group">
+                                   <div id="UIValidacoes_divEstado_DateTimeEstadoTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_dtEstado_DateTimeEstado')}, text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_dtEstado_DateTimeEstado')" id="UIValidacoes_lblEstado_DateTimeEstado" for="UIValidacoes_dtEstado_DateTimeEstado" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group" >
+                                           <span id="UIValidacoes_dtEstado_DateTimeEstado" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DateTimeEstado', css: { vmEditing: $root.UIValidacoes().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtEstado_DateTimeEstado') ? ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtEstado_DateTimeEstado') : (!isEmptyEntityFn($data) && $root.UIValidacoes().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtEstado_DateTimeEstado') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtEstado_DateTimeEstado') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()) },  igDatePicker: { value: DateTimeEstado, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.UIValidacoes().entitySearchRange.has_EstadoDateTimeEstado()?true:ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtEstado_DateTimeEstado') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_dtEstado_DateTimeEstado') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                           <span class="input-group-btn" title="Filtro de datas">
+                                              <button id="UIValidacoes_rgbtnEstado_DateTimeEstado"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIValidacoes().entitySearchRange.has_EstadoDateTimeEstado(), 'icon-ok': $root.UIValidacoes().entitySearchRange.has_EstadoDateTimeEstado(), hide: $root.UIValidacoes().status() !== 'C' }, popoverWithBind: { template: '#UIValidacoes_rgEstado_DateTimeEstado', vm: $root.UIValidacoes().entitySearchRange, ctrlName: 'UIValidacoes_rgcEstado_DateTimeEstado', headerText:'Filtro de datas' }"  /></span>
+                                              <script id="UIValidacoes_rgEstado_DateTimeEstado" type="text/html" tabindex="-1">
+                                              <div class="range-radio-group">
+                                                  <input type="radio" data-bind="enable: !has_EstadoDateTimeEstado(), checked:EstadoDateTimeEstado_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                  <input type="radio" data-bind="enable: !has_EstadoDateTimeEstado(), checked:EstadoDateTimeEstado_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                              </div>
+                                              <div class="range-input-group" id="UIValidacoes_divrgEstado_DateTimeEstado" >
+                                                  <div class="filterByRange" data-bind="visible: EstadoDateTimeEstado_typeRange() == 'R'">
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UIValidacoes_dtbEstado_DateTimeEstado" class="IsEditableStyle date" data-bind="igDatePicker: { value: EstadoDateTimeEstado_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIValidacoes_dtEstado_DateTimeEstado').igDatePicker('option', 'readOnly', (ui.value != null || $('#UIValidacoes_dteEstado_DateTimeEstado').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UIValidacoes_dtbEstado_DateTimeEstado').igDatePicker('value'); var valorMax = $('#UIValidacoes_dteEstado_DateTimeEstado').igDatePicker('value');if (valorMax != null && valorMin > valorMax){EstadoDateTimeEstado_begin(valorMax); $('#UIValidacoes_dtbEstado_DateTimeEstado').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UIValidacoes_dteEstado_DateTimeEstado" class="IsEditableStyle date" data-bind="igDatePicker: { value: EstadoDateTimeEstado_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIValidacoes_dtEstado_DateTimeEstado').igDatePicker('option', 'readOnly', ($('#UIValidacoes_dtbEstado_DateTimeEstado').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UIValidacoes_dtbEstado_DateTimeEstado').igDatePicker('value'); var valorMax = $('#UIValidacoes_dteEstado_DateTimeEstado').igDatePicker('value');if (valorMin != null && valorMax < valorMin){EstadoDateTimeEstado_end(valorMin); $('#UIValidacoes_dteEstado_DateTimeEstado').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                  </div>
+                                                  <div class="filterByPredefined " data-bind="visible: EstadoDateTimeEstado_typeRange() == 'P'">
+                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: EstadoDateTimeEstado_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                      <div class="row predefValue" data-bind="visible: EstadoDateTimeEstado_predefFilter() != null && EstadoDateTimeEstado_predefFilter()[0] && EstadoDateTimeEstado_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: EstadoDateTimeEstado_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                  </div>
+                                              </div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_ntxEstado_DecimalEstado'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_ntxEstado_DecimalEstado')" class="">
+                               <div class="form-group">
+                                   <div id="UIValidacoes_divEstado_DecimalEstadoTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_ntxEstado_DecimalEstado')}, text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_ntxEstado_DecimalEstado')" id="UIValidacoes_lblEstado_DecimalEstado" for="UIValidacoes_ntxEstado_DecimalEstado" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIValidacoes_ntxEstado_DecimalEstado" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalEstado', css: { vmEditing: $root.UIValidacoes().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxEstado_DecimalEstado') ? ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxEstado_DecimalEstado') : (!isEmptyEntityFn($data) && $root.UIValidacoes().enabledForEditing()) }, igNumericEditor: { value: DecimalEstado, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxEstado_DecimalEstado') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxEstado_DecimalEstado') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIValidacoes().entitySearchRange.has_EstadoDecimalEstado(), 'icon-ok': $root.UIValidacoes().entitySearchRange.has_EstadoDecimalEstado(), hide: $root.UIValidacoes().status() !== 'C' }, popoverWithBind: { template: '#UIValidacoes_rgEstado_DecimalEstado', vm: $root.UIValidacoes().entitySearchRange, ctrlName: 'UIValidacoes_rgcEstado_DecimalEstado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIValidacoes_rgEstado_DecimalEstado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIValidacoes_ntxbEstado_DecimalEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoDecimalEstado_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIValidacoes_ntxEstado_DecimalEstado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIValidacoes_ntxeEstado_DecimalEstado').igNumericEditor('option', 'value') != null ? true : false)); $('#UIValidacoes_ntxeEstado_DecimalEstado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIValidacoes_ntxeEstado_DecimalEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoDecimalEstado_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIValidacoes_ntxEstado_DecimalEstado').igNumericEditor('option', 'readOnly', ($('#UIValidacoes_ntxbEstado_DecimalEstado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIValidacoes_ntxbEstado_DecimalEstado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_ntxEstado_IdEstado'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_ntxEstado_IdEstado')" class="">
+                               <div class="form-group">
+                                   <div id="UIValidacoes_divEstado_IdEstadoTemplate" class="" >
+                                       <label data-bind="css: { 'content-required': $root.UIValidacoes().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_ntxEstado_IdEstado')}, text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_ntxEstado_IdEstado')" id="UIValidacoes_lblEstado_IdEstado" for="UIValidacoes_ntxEstado_IdEstado" class="control-label ellipsis">
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="UIValidacoes_ntxEstado_IdEstado" class="form-control numericFilterRange " data-bind="validatedField: 'IdEstado', css: { vmEditing: $root.UIValidacoes().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxEstado_IdEstado') ? ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxEstado_IdEstado') : (!isEmptyEntityFn($data) && $root.UIValidacoes().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdEstado, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxEstado_IdEstado') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_ntxEstado_IdEstado') : (isEmptyEntityFn($data) || !($root.UIValidacoes().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIValidacoes().entitySearchRange.has_EstadoIdEstado(), 'icon-ok': $root.UIValidacoes().entitySearchRange.has_EstadoIdEstado(), hide: $root.UIValidacoes().status() !== 'C' }, popoverWithBind: { template: '#UIValidacoes_rgEstado_IdEstado', vm: $root.UIValidacoes().entitySearchRange, ctrlName: 'UIValidacoes_rgcEstado_IdEstado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="UIValidacoes_rgEstado_IdEstado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIValidacoes_ntxbEstado_IdEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoIdEstado_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIValidacoes_ntxEstado_IdEstado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIValidacoes_ntxeEstado_IdEstado').igNumericEditor('option', 'value') != null ? true : false)); $('#UIValidacoes_ntxeEstado_IdEstado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIValidacoes_ntxeEstado_IdEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoIdEstado_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIValidacoes_ntxEstado_IdEstado').igNumericEditor('option', 'readOnly', ($('#UIValidacoes_ntxbEstado_IdEstado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIValidacoes_ntxbEstado_IdEstado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_lUpEstado_IdPais'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_lUpEstado_IdPais')" class="">
+                               <div class="form-group">
+                                   <div id="UIValidacoes_divEstado_IdPaisTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_lUpEstado_IdPais')}, text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_lUpEstado_IdPais')" id="UIValidacoes_lblEstado_IdPais" for="UIValidacoes_lUpEstado_IdPais" class="control-label ellipsis">
+                                       </label>
+                                       <div id="UIValidacoes_lUpEstado_IdPais" class="form-control input-group " data-bind="validatedField: 'IdPais', css: { vmEditing: $root.UIValidacoes().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_lUpEstado_IdPais') ? ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_lUpEstado_IdPais') : (!isEmptyEntityFn($data) && $root.UIValidacoes().enabledForEditing()) }, lookupControl: { vm: $root.UIValidacoes(), value: IdPais, maxLength: 12,lookupName: '', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.UIValidacoes().entitySearchRange.IdPais, fieldName: 'IdPais', disabled:ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_lUpEstado_IdPais') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_lUpEstado_IdPais') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_tbEstado_NomeEstado'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_tbEstado_NomeEstado')" class="">
+                               <div class="form-group">
+                                   <div id="UIValidacoes_divEstado_NomeEstadoTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_tbEstado_NomeEstado')}, text: $root.UIValidacoes().getLayoutDisplayName('UIValidacoes_tbEstado_NomeEstado')" id="UIValidacoes_lblEstado_NomeEstado" for="UIValidacoes_tbEstado_NomeEstado" class="control-label ellipsis">
+                                       </label>
+                                       <input id="UIValidacoes_tbEstado_NomeEstado" class="form-control ellipsis" data-bind="attr: { title: NomeEstado }, validatedField: 'NomeEstado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_tbEstado_NomeEstado') ? ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_tbEstado_NomeEstado') : (!isEmptyEntityFn($data) && $root.UIValidacoes().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: NomeEstado, readOnly: ctrl.hasCustomEnable($root.UIValidacoes(), 'UIValidacoes_tbEstado_NomeEstado') ? !ctrl.getCustomEnable($root.UIValidacoes(), 'UIValidacoes_tbEstado_NomeEstado') : (isEmptyEntityFn($data) || !$root.UIValidacoes().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.UIValidacoes().getLayoutColumnSpan('UIValidacoes_Estado_ESTADO.IdEstado'), visible: $root.UIValidacoes().getLayoutVisible('UIValidacoes_Estado_ESTADO.IdEstado')" class="">
+                               <div class="form-group">
+                                   <div id="UIValidacoes_divEstado_ESTADO.IdEstadoTemplate" class="" >
+                                       <div id="UIValidacoes_Estado_ESTADO.IdEstado" class="form-control  media-small" data-bind="template: { name: getTemplateImageName($root.UIValidacoes().status(), 'form'), afterRender: function (element, data) { KO_afterRenderImageTemplate(data, element, 'ESTADO', getAbsoluteValue(IdEstado), $root.UIValidacoes(), $root) } }" title="Media (ESTADO)"></div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+           </div>
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="UIValidacoes_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.UIValidacoes().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyUIValidacoes_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyUIValidacoes_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyUIValidacoes_dGrid_templateLayout', vm: function(){return $root.UIValidacoes().gridSaveStates['scyUIValidacoes_dGrid'];}, ctrlName: 'scyUIValidacoes_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyUIValidacoes_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyUIValidacoes_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyUIValidacoes_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UIValidacoes().dataToolbar.canExport(), click: function () {$root.UIValidacoes().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyUIValidacoes_dGrid" data-bind="css: { IsEditableStyle: $root.UIValidacoes().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

@@ -1,0 +1,120 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Linx.Data;
+using Linx.Tools;
+using System.Data.Entity.Core.Objects;
+using System.ComponentModel;
+using System.Data.Common;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.Linq.Expressions;
+using Linx.LinqExtensions.Query;
+using Linx.LinqExtensions.Functional;
+using Linx.LinqExtensions.Expressions;
+using System.Data.Linq.SqlClient;
+using System.Reflection;
+using System.Data.Entity.Core.Objects.DataClasses;
+using System.ComponentModel.DataAnnotations;
+using System.ServiceModel.Channels;
+
+namespace Linx.Demo.BV.Representacao
+{
+	
+	#region Automatic Authorization
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////Update CustomAuthorization Definition ////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public partial class ClienteRepresentacaoUpdateCustomAuthorizationAutoAttribute : AuthorizationAttribute
+	{
+	
+		RepresentacaoDomainService _domainService = null;
+		protected override AuthorizationResult IsAuthorized(System.Security.Principal.IPrincipal principal, AuthorizationContext authorizationContext)
+		{
+				if (_domainService == null) _domainService = authorizationContext == null ? null : authorizationContext.GetService(typeof(RepresentacaoDomainService)) as RepresentacaoDomainService;
+				return (_domainService != null && _domainService.IsSecure) ? AuthorizationResult.Allowed : Linx.Business.Tools.LinxAutorization.ValidateAuthorization(AuthorizationType.Update, "Linx.Demo.BV#Linx.Demo.BV.Representacao#Linx.Demo.BV.Representacao.ClienteRepresentacao", (_domainService == null ? ServiceHelper.GetHttpHeaders() : _domainService.Headers));
+		}
+		
+		public AuthorizationResult Authorize(RepresentacaoDomainService domainService = null)
+		{
+				_domainService = domainService;
+				return IsAuthorized(null, null);
+		}
+	
+	}
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////Insert CustomAuthorization Definition ////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public partial class ClienteRepresentacaoInsertCustomAuthorizationAutoAttribute : AuthorizationAttribute
+	{
+	
+		RepresentacaoDomainService _domainService = null;
+		protected override AuthorizationResult IsAuthorized(System.Security.Principal.IPrincipal principal, AuthorizationContext authorizationContext)
+		{
+				if (_domainService == null) _domainService = authorizationContext == null ? null : authorizationContext.GetService(typeof(RepresentacaoDomainService)) as RepresentacaoDomainService;
+				return (_domainService != null && _domainService.IsSecure) ? AuthorizationResult.Allowed : Linx.Business.Tools.LinxAutorization.ValidateAuthorization(AuthorizationType.Insert, "Linx.Demo.BV#Linx.Demo.BV.Representacao#Linx.Demo.BV.Representacao.ClienteRepresentacao", (_domainService == null ? ServiceHelper.GetHttpHeaders() : _domainService.Headers));
+		}
+		
+		public AuthorizationResult Authorize(RepresentacaoDomainService domainService = null)
+		{
+				_domainService = domainService;
+				return IsAuthorized(null, null);
+		}
+	
+	}
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////Delete CustomAuthorization Definition ////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public partial class ClienteRepresentacaoDeleteCustomAuthorizationAutoAttribute : AuthorizationAttribute
+	{
+	
+		RepresentacaoDomainService _domainService = null;
+		protected override AuthorizationResult IsAuthorized(System.Security.Principal.IPrincipal principal, AuthorizationContext authorizationContext)
+		{
+				if (_domainService == null) _domainService = authorizationContext == null ? null : authorizationContext.GetService(typeof(RepresentacaoDomainService)) as RepresentacaoDomainService;
+				return (_domainService != null && _domainService.IsSecure) ? AuthorizationResult.Allowed : Linx.Business.Tools.LinxAutorization.ValidateAuthorization(AuthorizationType.Delete, "Linx.Demo.BV#Linx.Demo.BV.Representacao#Linx.Demo.BV.Representacao.ClienteRepresentacao", (_domainService == null ? ServiceHelper.GetHttpHeaders() : _domainService.Headers));
+		}
+		
+		public AuthorizationResult Authorize(RepresentacaoDomainService domainService = null)
+		{
+				_domainService = domainService;
+				return IsAuthorized(null, null);
+		}
+	
+	}
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////Query CustomAuthorization Definition ////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public partial class ClienteRepresentacaoQueryCustomAuthorizationAutoAttribute : AuthorizationAttribute
+	{
+	
+		RepresentacaoDomainService _domainService = null;
+		protected override AuthorizationResult IsAuthorized(System.Security.Principal.IPrincipal principal, AuthorizationContext authorizationContext)
+		{
+				if (_domainService == null) _domainService = authorizationContext == null ? null : authorizationContext.GetService(typeof(RepresentacaoDomainService)) as RepresentacaoDomainService;
+				return (_domainService != null && _domainService.IsSecure) ? AuthorizationResult.Allowed : Linx.Business.Tools.LinxAutorization.ValidateAuthorization(AuthorizationType.Query, "Linx.Demo.BV#Linx.Demo.BV.Representacao#Linx.Demo.BV.Representacao.ClienteRepresentacao", (_domainService == null ? ServiceHelper.GetHttpHeaders() : _domainService.Headers));
+		}
+		
+		public AuthorizationResult Authorize(RepresentacaoDomainService domainService = null)
+		{
+				_domainService = domainService;
+				return IsAuthorized(null, null);
+		}
+	
+	}
+	
+	#endregion Automatic Authorization
+	
+}

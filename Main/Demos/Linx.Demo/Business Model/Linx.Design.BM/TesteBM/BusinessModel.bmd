@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<businessModelDesignerRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="da3053e3-df4d-473b-a2c2-91ff53c573e2" name="" documentName="BusinessModel.bmd" targetNamespace="TesteBM" documentPath="C:\Users\anderson.dsantos\Documents\Visual Studio 2012\Projects\TesteBM\TesteBM" noCode="false" dataContextName="TesteBM" removeAutomaticIndexes="false" removeRequiredAttributes="false" xmlns="http://schemas.microsoft.com/dsltools/BusinessModelDesigner">
+  <types>
+    <modelClass Id="3a8a59fd-c7ee-42b5-a06b-430e2e4a4978" name="CLIENTE" table="CLIENTE" primaryKeyConstraintName="PK_dbo.CLIENTE" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false">
+      <attributes>
+        <modelAttribute Id="287e2faf-c3e1-4b7b-9458-901566f4ca01" name="ID_CLIENTE" dataType="Int" columnName="ID_CLIENTE" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="a391a9b0-285f-4262-a77a-4c9f2f7864f3" name="RAZAO_SOCIAL" columnName="RAZAO_SOCIAL" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="8980d0bb-a62b-4ce9-9732-a749e188cf79" name="CPF_CNPJ" columnName="CPF_CNPJ" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="25" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="33b1bd0b-2175-4f05-b130-b047a9d81baf" name="PJ" dataType="Boolean" columnName="PJ" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" isDimensionFilterSuggestion="false" />
+      </attributes>
+      <targetModelClasses>
+        <association Id="dcfa6790-9294-41e3-841a-3d3b277061a2" foreignKeyConstraintName="FK_VENDA_34bc2f" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//VENDA" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="2dad4b3a-3dbc-43bc-bd02-7f502278f2dc" name="PRODUTO" table="PRODUTO" primaryKeyConstraintName="PK_dbo.PRODUTO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false">
+      <attributes>
+        <modelAttribute Id="71b92fa7-66d7-4925-9bf7-ef0e1e6c119c" name="ID_PRODUTO" dataType="Int" columnName="ID_PRODUTO" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="cfa49ae0-e58d-4683-84a4-4c91dca6e768" name="NOME_PRODUTO" columnName="NOME_PRODUTO" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" />
+      </attributes>
+      <targetModelClasses>
+        <association Id="d8f44a1d-c92a-4e5d-8800-9b22d3052a0d" foreignKeyConstraintName="FK_VENDA_ITEM_7beda7" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//VENDA_ITEM" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="10ac8510-e87e-4f7a-bf33-c83641edc240" name="VENDA" table="VENDA" primaryKeyConstraintName="PK_dbo.VENDA" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false">
+      <attributes>
+        <modelAttribute Id="029572d9-d8a3-4028-941a-18235de2b491" name="ID_VENDA" dataType="Int" columnName="ID_VENDA" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="004b7f51-b351-403c-b16e-6b044285d13d" name="EMISSAO" dataType="DateTime" columnName="EMISSAO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="fb787133-fc56-43d4-9ee2-e96861743cd3" name="ID_CLIENTE" dataType="Int" columnName="ID_CLIENTE" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="FK_VENDA_34bc2f.ID_CLIENTE" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="d2f570a5-10cf-4cb1-91cd-fcab48a5569a" name="QTDE_TOTAL" dataType="Int" columnName="QTDE_TOTAL" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="527b3f84-1551-4e3d-9c5b-bd5631e9f013" name="VALOR_TOTAL" dataType="Decimal" columnName="VALOR_TOTAL" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="13" scale="2" notMapped="false" isComputed="false" maxLength="13" isDimensionFilterSuggestion="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="8237e32d-2a82-40aa-a60c-514e3a89bbfe">
+          <modelIndex Id="578fb8ea-6c71-40de-a6cd-912b1ede125b" name="IX_ID_CLIENTE" properties="ID_CLIENTE" isUnique="false" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="5b6c540c-8bcb-4d08-a9ce-155d9bb5b29a" foreignKeyConstraintName="FK_VENDA_ITEM_ce4bb6" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="true">
+          <modelClassMoniker name="//VENDA_ITEM" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="5dfb120b-bb6c-45b4-a891-8d121dc0ae42" name="VENDA_ITEM" table="VENDA_ITEM" primaryKeyConstraintName="PK_dbo.VENDA_ITEM" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false">
+      <attributes>
+        <modelAttribute Id="450f6962-a9a5-47cc-938a-3c27dedc2e2e" name="ID_VENDA_ITEM" dataType="Int" columnName="ID_VENDA_ITEM" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="56fed0b2-f8fe-45d1-9221-b7602ca73e2a" name="ID_VENDA" dataType="Int" columnName="ID_VENDA" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="FK_VENDA_ITEM_ce4bb6.ID_VENDA" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="e29541b3-0446-47ae-ba3d-cebeb3327ad4" name="QTDE" dataType="Int" columnName="QTDE" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="01c06511-9bce-48f7-a460-9e8f57339edf" name="PRECO" dataType="Decimal" columnName="PRECO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="13" scale="2" notMapped="false" isComputed="false" maxLength="13" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="4b965c2c-b5d6-4e94-bf5c-47b0d3f10e63" name="VALOR" dataType="Decimal" columnName="VALOR" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="13" scale="2" notMapped="false" isComputed="false" maxLength="13" isDimensionFilterSuggestion="false" />
+        <modelAttribute Id="7cb938f3-18bf-4ca1-9aa9-db6e4a56ccc5" name="ID_PRODUTO" dataType="Int" columnName="ID_PRODUTO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="FK_VENDA_ITEM_7beda7.ID_PRODUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="3c758509-577a-406d-9549-4ce554ecf971">
+          <modelIndex Id="e7dcbe95-5d6d-422b-83a3-2496b15160ac" name="IX_ID_PRODUTO" properties="ID_PRODUTO" isUnique="false" isClustered="false" />
+        </classHasIndexes>
+        <classHasIndexes Id="bd4cf41d-454c-4859-bc1a-5e4ba4141e25">
+          <modelIndex Id="b8ae7d6a-fdb6-4b7d-ace5-2f7985c94cb6" name="IX_ID_VENDA" properties="ID_VENDA" isUnique="false" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+    </modelClass>
+  </types>
+  <dbProviders>
+    <businessModelDesignerRootHasDbProviders Id="16d56bcf-5e85-4de5-8c43-7b9dbdd09fed">
+      <dbProvider Id="6763c6b9-c52d-4428-b187-e430fc6c49b6" name="DbProvider1" server=".\SQLEXPRESS" catalog="TesteLookUp" windowsAuthentication="true" isDefault="true" />
+    </businessModelDesignerRootHasDbProviders>
+  </dbProviders>
+</businessModelDesignerRoot>

@@ -1,0 +1,2120 @@
+<MacroScript>
+
+  <Macro Name="SetValue" Description="Set a new value to an object's property." Domain="All" ParameterCount="3" Delimiter=";;" Document="@SetValue(ObjectInstance;;PropertyName;;Expr)">
+    <Output Name="CSharp">{0}.{1} = {2}</Output>
+    <Output Name="JavaScript">
+      (function(){setAbsoluteValue({0}, '{1}', {2}); if({0}.typeName === vm.rootDataTypeName) vm.lazyRefreshBinding();})()
+    </Output>
+    <Output Name="JavaScriptMobile">common.setAbsoluteValue({0}, '{1}', {2})</Output>
+  </Macro>
+
+  <Macro Name="GetValue" Description="Get a value from an object's property." Domain="All" ParameterCount="2" Delimiter=";;" Document="@GetValue(ObjectInstance;;PropertyName)">
+    <Output Name="CSharp">{0}.{1}</Output>
+    <Output Name="JavaScript">getAbsoluteValue({0}.{1})</Output>
+    <Output Name="JavaScriptMobile">common.getAbsoluteValue({0}.{1})</Output>
+  </Macro>
+
+  <Macro Name="Self" Description="Get the current object's reference." Domain="ClientEntity" ParameterCount="0" Delimiter=";;" Document="@Self()">
+    <Output Name="JavaScript">ownerReference</Output>
+    <Output Name="JavaScriptMobile">ownerReference</Output>
+  </Macro>
+
+  <Macro Name="SumPerc" Description="Calculates the sum of an object list." Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@SumPerc(Collection;;propertyName;;ColumnPerc)">
+    <Output Name="JavaScript">
+      (function(){
+      var collection = {0};
+      var propertyName = '{1}';
+      var ColumnPerc = '{2}';
+      var SomaTotal = 0;
+      for (var eIndex = 0; eIndex &lt; collection.length; eIndex++)
+      { SomaTotal += getAbsoluteValue(collection[eIndex][propertyName]); }
+      for (var eIndex = 0; eIndex &lt; collection.length; eIndex++)
+      { setAbsoluteValue(collection[eIndex], ColumnPerc, ((getAbsoluteValue(collection[eIndex][propertyName]) / SomaTotal))) }
+      })()
+    </Output>
+    <Output Name="JavaScriptMobile">
+      (function(){
+      var collection = {0};
+      var propertyName = '{1}';
+      var ColumnPerc = '{2}';
+      var SomaTotal = 0;
+      for (var eIndex = 0; eIndex &lt; collection.length; eIndex++)
+      { SomaTotal += common.getAbsoluteValue(collection[eIndex][propertyName]); }
+      for (var eIndex = 0; eIndex &lt; collection.length; eIndex++)
+      { common.setAbsoluteValue(collection[eIndex], ColumnPerc, ((common.getAbsoluteValue(collection[eIndex][propertyName]) / SomaTotal))) }
+      })()
+    </Output>
+  </Macro>
+
+  <Macro Name="SumPercPieChart" Description="Calculates the sum of an object list to display information in a Pie Chart." Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@SumPercPieChart(Collection;;propertyName;;ColumnPerc)">
+    <Output Name="JavaScript">
+      (function(){
+      var collection = {0};
+      var propertyName = '{1}';
+      var ColumnPerc = '{2}';
+      var SomaTotal = 0;
+      for (var eIndex = 0; eIndex &lt; collection.length; eIndex++)
+      { SomaTotal += getAbsoluteValue(collection[eIndex][propertyName]); }
+      for (var eIndex = 0; eIndex &lt; collection.length; eIndex++)
+      { setAbsoluteValue(collection[eIndex], ColumnPerc, ((getAbsoluteValue(collection[eIndex][propertyName]) / SomaTotal) * 100 ).toFixed(2)) }
+      })()
+    </Output>
+    <Output Name="JavaScriptMobile">
+      (function(){
+      var collection = {0};
+      var propertyName = '{1}';
+      var ColumnPerc = '{2}';
+      var SomaTotal = 0;
+      for (var eIndex = 0; eIndex &lt; collection.length; eIndex++)
+      { SomaTotal += common.getAbsoluteValue(collection[eIndex][propertyName]); }
+      for (var eIndex = 0; eIndex &lt; collection.length; eIndex++)
+      { common.setAbsoluteValue(collection[eIndex], ColumnPerc, ((common.getAbsoluteValue(collection[eIndex][propertyName]) / SomaTotal) * 100 ).toFixed(2)) }
+      })()
+    </Output>
+  </Macro>
+
+  <Macro Name="Sum" Description="Calculates the sum of an object list." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@Sum(Collection;;propertyName)">
+    <Output Name="JavaScript">(function () { var collection = {0}; var propertyName = '{1}'; var result = 0; for (var eIndex = 0; eIndex &lt; collection.length; eIndex++) { result += getAbsoluteValue(collection[eIndex][propertyName]); } return result; })()</Output>
+    <Output Name="JavaScriptMobile">(function () { var collection = {0}; var propertyName = '{1}'; var result = 0; for (var eIndex = 0; eIndex &lt; collection.length; eIndex++) { result += common.getAbsoluteValue(collection[eIndex][propertyName]); } return result; })()</Output>
+  </Macro>
+
+  <Macro Name="Max" Description="Calculates the max value of an object list." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@Max(Collection;;propertyName)">
+    <Output Name="JavaScript">(function () { var collection = {0}; var propertyName = '{1}'; var result = 0; for (var eIndex = 0; eIndex &lt; collection.length; eIndex++) { if (result &lt; getAbsoluteValue(collection[eIndex][propertyName])) result = getAbsoluteValue(collection[eIndex][propertyName]); } return result; })()</Output>
+    <Output Name="JavaScriptMobile">(function () { var collection = {0}; var propertyName = '{1}'; var result = 0; for (var eIndex = 0; eIndex &lt; collection.length; eIndex++) { if (result &lt; common.getAbsoluteValue(collection[eIndex][propertyName])) result = common.getAbsoluteValue(collection[eIndex][propertyName]); } return result; })()</Output>
+  </Macro>
+
+  <Macro Name="Min" Description="Calculates the min value of an object list." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@Min(Collection;;propertyName)">
+    <Output Name="JavaScript">(function () { var collection = {0}; var propertyName = '{1}'; var result = collection.length!=0 ? getAbsoluteValue(collection[0][propertyName]) : 0; for (var eIndex = 0; eIndex &lt; collection.length; eIndex++) { if (result &gt; getAbsoluteValue(collection[eIndex][propertyName])) result = getAbsoluteValue(collection[eIndex][propertyName]); } return result; })()</Output>
+    <Output Name="JavaScriptMobile">(function () { var collection = {0}; var propertyName = '{1}'; var result = collection.length!=0 ? common.getAbsoluteValue(collection[0][propertyName]) : 0; for (var eIndex = 0; eIndex &lt; collection.length; eIndex++) { if (result &gt; common.getAbsoluteValue(collection[eIndex][propertyName])) result = common.getAbsoluteValue(collection[eIndex][propertyName]); } return result; })()</Output>
+  </Macro>
+
+  <Macro Name="Avg" Description="Calculates the average value of an object list." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@Avg(Collection;;propertyName)">
+    <Output Name="JavaScript">(function () { var collection = {0}; if (collection.length == 0) return 0; var propertyName = '{1}'; var result = 0; for (var eIndex = 0; eIndex &lt; collection.length; eIndex++) { result += getAbsoluteValue(collection[eIndex][propertyName]); } return result/collection.length; })()</Output>
+    <Output Name="JavaScriptMobile">(function () { var collection = {0}; if (collection.length == 0) return 0; var propertyName = '{1}'; var result = 0; for (var eIndex = 0; eIndex &lt; collection.length; eIndex++) { result += common.getAbsoluteValue(collection[eIndex][propertyName]); } return result/collection.length; })()</Output>
+  </Macro>
+
+  <Macro Name="Count" Description="Calculates the quantity of objects over a list." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@Count(Collection)">
+    <Output Name="JavaScript">{0}.length</Output>
+    <Output Name="JavaScriptMobile">{0}.length</Output>
+  </Macro>
+
+  <Macro Name="Summarize" Description="Generate summarizated data. Parameters: originArray, dimensionsArray, measuresArray" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@Summarize(@TbDataList();;['RazaoSocialX', 'LxTipoVendaName'];;['QtdeTotal', 'Count'])">
+    <Output Name="JavaScript">lxSummarize({0}, {1}, {2}, vm)</Output>
+    <Output Name="JavaScriptMobile"></Output>
+  </Macro>
+
+  <Macro Name="StringJoinList" Description="Seek a list and concatenate the items" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@StringJoinList(Collection;;propertyName;;',')">
+    <Output Name="JavaScript">(function () { var collection = {0}; var propertyName = '{1}'; var list = []; for (var eIndex = 0; eIndex &lt; collection.length; eIndex++){list.push(getAbsoluteValue(collection[eIndex][propertyName]));}return list.join({2}); })()</Output>
+    <Output Name="JavaScriptMobile">(function () { var collection = {0}; var propertyName = '{1}'; var list = []; for (var eIndex = 0; eIndex &lt; collection.length; eIndex++){list.push(common.getAbsoluteValue(collection[eIndex][propertyName]));}return list.join({2}); })()</Output>
+  </Macro>
+
+  <Macro Name="Foreach" Description="Foreach command that exposes a variable named element." Domain="All" ParameterCount="2" Delimiter=";;" Document="@Foreach(Collection;;Body) // expose element">
+    <Output Name="CSharp">
+      foreach (var element in {0})
+      {
+      {1}
+      }
+    </Output>
+    <Output Name="JavaScript">
+      for (var eIndex = 0; eIndex &lt; {0}.length; eIndex++) {
+      var element = {0}[eIndex];
+      {1}
+      }
+    </Output>
+    <Output Name="JavaScriptMobile">
+      for (var eIndex = 0; eIndex &lt; {0}.length; eIndex++) {
+      var element = {0}[eIndex];
+      {1}
+      }
+    </Output>
+    <Output Name="EntitySQL"></Output>
+  </Macro>
+
+  <Macro Name="For" Description="For command that exposes a variable named eIndex." Domain="All" ParameterCount="2" Delimiter=";;" Document="@For(Collection;;Body) // eIndex">
+    <Output Name="CSharp">
+      for (int eIndex = 0; eIndex &lt; {0}.Count; eIndex++)
+      {
+      {1}
+      }
+    </Output>
+    <Output Name="JavaScript">
+      for (var eIndex = 0; eIndex &lt; {0}.length; eIndex++) {
+      {1}
+      }
+    </Output>
+    <Output Name="JavaScriptMobile">
+      for (var eIndex = 0; eIndex &lt; {0}.length; eIndex++) {
+      {1}
+      }
+    </Output>
+    <Output Name="EntitySQL">
+    </Output>
+  </Macro>
+
+  <Macro Name="Iif" Description="Ternary operator condition." Domain="All" ParameterCount="3" Delimiter=";;" Document="@Iif(MacroCondition;;TrueMacroExpression;;FalseMacroExpression)">
+    <Output Name="CSharp">({0} ? {1} : {2})</Output>
+    <Output Name="JavaScript">({0} ? {1} : {2})</Output>
+    <Output Name="JavaScriptMobile">({0} ? {1} : {2})</Output>
+    <Output Name="EntitySQL">CASE WHEN {0} THEN {1} ELSE {2} END</Output>
+  </Macro>
+
+  <Macro Name="IsNullOrEmpty" Description="Null or empty test." Domain="All" ParameterCount="1" Delimiter=";;" Document="@IsNullOrEmpty(Expr)">
+    <Output Name="CSharp">{0}.IsNullOrEmpty()</Output>
+    <Output Name="JavaScript">isNullOrEmpty({0})</Output>
+    <Output Name="JavaScriptMobile">common.isNullOrEmpty({0})</Output>
+  </Macro>
+
+  <Macro Name="IsNull" Description="Null test." Domain="All" ParameterCount="1" Delimiter=";;" Document="@IsNull(Expr)">
+    <Output Name="CSharp">{0}.IsNull()</Output>
+    <Output Name="JavaScript">isNull({0})</Output>
+    <Output Name="JavaScriptMobile">common.isNull({0})</Output>
+    <Output Name="EntitySQL">{0} IS NULL</Output>
+  </Macro>
+
+  <Macro Name="CreateDetail" Description="Creates a detail entity." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@CreateDetail(entityName;;parent)">
+    <Output Name="JavaScript">create{0}({1})</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.create{0}({1})</Output>
+  </Macro>
+
+  <Macro Name="CreateDetailNoCurrent" Description="Creates a detail entity, but without set the current element." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@CreateDetailNoCurrent(entityName;;parent)">
+    <Output Name="JavaScript">create{0}({1}, true)</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.create{0}({1})</Output>
+  </Macro>
+
+  <Macro Name="CreateEntity" Description="Creates a top parent entity." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@CreateEntity(entityName)">
+    <Output Name="JavaScript">create{0}()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataToolBar.goToItem(dataBusiness.create{0}())</Output>
+  </Macro>
+
+  <Macro Name="IsAdded" Description="Tests if an entity is added." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@IsAdded(entity)">
+    <Output Name="JavaScript">{0}.isAdded()</Output>
+    <Output Name="JavaScriptMobile">{0}.isAdded()</Output>
+  </Macro>
+
+  <Macro Name="IsDeleted" Description="Tests if an entity is deleted." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@IsDeleted(entity)">
+    <Output Name="JavaScript">{0}.isDeleted()</Output>
+    <Output Name="JavaScriptMobile">{0}.isDeleted()</Output>
+  </Macro>
+
+  <Macro Name="IsModified" Description="Tests if an entity is modified." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@IsModified(entity)">
+    <Output Name="JavaScript">{0}.isModified()</Output>
+    <Output Name="JavaScriptMobile">{0}.isModified()</Output>
+  </Macro>
+
+  <Macro Name="IsUnchanged" Description="Tests if an entity is unchanged." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@IsUnchanged(entity)">
+    <Output Name="JavaScript">{0}.isUnchanged()</Output>
+    <Output Name="JavaScriptMobile">{0}.isUnchanged()</Output>
+  </Macro>
+
+  <Macro Name="SetDeleted" Description="Set an entity as deleted." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetDeleted(entity)">
+    <Output Name="JavaScript">{0}.delete()</Output>
+    <Output Name="JavaScriptMobile">{0}.entityAspect.setDeleted()</Output>
+  </Macro>
+
+  <Macro Name="SetModified" Description="Set an entity as modified." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetModified(entity)">
+    <Output Name="JavaScript">{0}.setModified()</Output>
+    <Output Name="JavaScriptMobile">if(!{0}.isPOCO) {0}.entityAspect.setModified()</Output>
+  </Macro>
+
+  <Macro Name="SetAdded" Description="Set an entity as added." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetAdded(entity)">
+    <Output Name="JavaScript">if({0}.isPOCO) {0}.ChangeState = 'I'; else {0}.entityAspect.setAdded();</Output>
+    <Output Name="JavaScriptMobile">if(!{0}.isPOCO) {0}.entityAspect.setAdded()</Output>
+  </Macro>
+
+  <Macro Name="SetUnchanged" Description="Set an entity as unchanged." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetUnchanged(entity)">
+    <Output Name="JavaScript">{0}.setUnchanged()</Output>
+    <Output Name="JavaScriptMobile">if(!{0}.isPOCO) {0}.entityAspect.setUnchanged()</Output>
+  </Macro>
+
+  <Macro Name="DetachEntity" Description="Dettach an entity from a context." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@DetachEntity(entity)">
+    <Output Name="JavaScript">
+      {
+      if (!{0}.isPOCO) {
+      dataContext.detachEntity({0});
+      }
+      else {
+      {0}.ChangeState = 'I';
+      vm.deleteEntity({0});
+      }
+      }
+    </Output>
+    <Output Name="JavaScriptMobile">if(!{0}.isPOCO) dataBusiness.getDataContext().detachEntity({0})</Output>
+  </Macro>
+
+  <Macro Name="AttachEntity" Description="Attach an entity to a context." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@AttachEntity(entity)">
+    <Output Name="JavaScript">if(!{0}.isPOCO) dataContext.attachEntity({0})</Output>
+    <Output Name="JavaScriptMobile">if(!{0}.isPOCO) dataBusiness.getDataContext().attachEntity({0})</Output>
+  </Macro>
+
+  <Macro Name="CancelChanges" Description="Cancel all changes." Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="@CancelChanges()">
+    <Output Name="JavaScript">dataContext.cancelChanges()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.getDataContext().cancelChanges()</Output>
+  </Macro>
+
+  <Macro Name="SetSharedData" Description="Create a dictionary key for storing a value." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@SetSharedData('key';;value)">
+    <Output Name="JavaScript">dataContext.sharedData[{0}] = {1}</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.getDataContext().sharedData[{0}] = {1}</Output>
+  </Macro>
+
+  <Macro Name="GetSharedData" Description="Get a value from a shared dictionary key." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@GetSharedData('key')">
+    <Output Name="JavaScript">dataContext.sharedData[{0}]</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.getDataContext().sharedData[{0}]</Output>
+  </Macro>
+
+  <Macro Name="TbQuery" Description="Execute the query function from toolbar." Domain="ClientContext" ParameterCount="0" Delimiter=";;" Document="@TbQuery()">
+    <Output Name="JavaScript">query()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataToolbar.query()</Output>
+  </Macro>
+
+  <Macro Name="TbAddNew" Description="Add new entity function from toolbar." Domain="ClientContext" ParameterCount="0" Delimiter=";;" Document="@TbAddNew()">
+    <Output Name="JavaScript">addNew()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataToolbar.addNew()</Output>
+  </Macro>
+
+  <Macro Name="TbSave" Description="Execute the save function from toolbar." Domain="ClientContext" ParameterCount="0" Delimiter=";;" Document="@TbSave()">
+    <Output Name="JavaScript">save()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataToolbar.save()</Output>
+  </Macro>
+
+  <Macro Name="TbEdit" Description="Execute the edit function from toolbar." Domain="ClientContext" ParameterCount="0" Delimiter=";;" Document="@TbEdit()">
+    <Output Name="JavaScript">edit()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataToolbar.edit()</Output>
+  </Macro>
+
+  <Macro Name="TbDelete" Description="Execute the delete function from toolbar." Domain="ClientContext" ParameterCount="0" Delimiter=";;" Document="@TbDelete()">
+    <Output Name="JavaScript">remove()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataToolbar.remove()</Output>
+  </Macro>
+
+  <Macro Name="TbUndo" Description="Execute the undo function from toolbar." Domain="ClientContext" ParameterCount="0" Delimiter=";;" Document="@TbUndo()">
+    <Output Name="JavaScript">undo()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataToolbar.undo()</Output>
+  </Macro>
+
+  <Macro Name="TbReport" Description="Execute the report function from toolbar." Domain="ClientContext" ParameterCount="0" Delimiter=";;" Document="@TbReport()">
+    <Output Name="JavaScript"></Output>
+    <Output Name="JavaScriptMobile"></Output>
+  </Macro>
+
+  <Macro Name="TbClear" Description="Execute the clear function from toolbar." Domain="ClientContext" ParameterCount="0" Delimiter=";;" Document="@TbClear()">
+    <Output Name="JavaScript">clear()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataToolbar.clear()</Output>
+  </Macro>
+
+  <Macro Name="TbCurrentData" Description="Get the selected data from toolbar." Domain="ClientContext" ParameterCount="0" Delimiter=";;" Document="@TbCurrentData()">
+    <Output Name="JavaScript">currentDataItem()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.currentDataItem()</Output>
+  </Macro>
+
+  <Macro Name="ClearLookUp" Description="Clears the specified lookup" Domain="ClientEntity" ParameterCount="1" Delimiter=";;" Document="@ClearLookUp(NameLookUp)">
+    <Output Name="JavaScript">ownerReference.clearLookUp('{0}')</Output>
+    <Output Name="JavaScriptMobile">ownerReference.clear{0}()</Output>
+  </Macro>
+
+  <Macro Name="IsPOCO" Description="Return if the entity is POCO" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@IsPOCO(entity)">
+    <Output Name="JavaScript">{0}.isPOCO</Output>
+    <Output Name="JavaScriptMobile">{0}.isPOCO</Output>
+  </Macro>
+
+  <Macro Name="SelfParent" Description="Get the parent of record" Domain="ClientEntity" ParameterCount="0" Delimiter=";;" Document="@SelfParent()">
+    <Output Name="JavaScript">ownerReference.getParent()</Output>
+    <Output Name="JavaScriptMobile">ownerReference.getParent()</Output>
+  </Macro>
+
+  <Macro Name="SelfList" Description="Return sibilings array" Domain="ClientEntity" ParameterCount="0" Delimiter=";;" Document="@SelfList()">
+    <Output Name="JavaScript">ownerReference.getSelfList()</Output>
+    <Output Name="JavaScriptMobile">ownerReference.getSelfList()</Output>
+  </Macro>
+
+  <Macro Name="TbDataList" Description="Get the parent data list from toolbar." Domain="ClientContext" ParameterCount="0" Delimiter=";;" Document="@TbDataList()">
+    <Output Name="JavaScript">dataView()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataView()</Output>
+  </Macro>
+
+  <Macro Name="RefreshAllDetails" Description="Refresh all details from a specific business record." Domain="ClientEntity" ParameterCount="1" Delimiter=";;" Document="@RefreshAllDetails(objectReference)">
+    <Output Name="JavaScript">{0}.fillDetails(true)</Output>
+    <Output Name="JavaScriptMobile">{0}.fillDetails(true)</Output>
+  </Macro>
+
+  <Macro Name="RefreshDetail" Description="Refresh only one detail from a specific business record." Domain="ClientEntity" ParameterCount="2" Delimiter=";;" Document="@RefreshDetail(objectReference;;'detailName')">
+    <Output Name="JavaScript">{0}.fillDetails(true, {1})</Output>
+    <Output Name="JavaScriptMobile">{0}.fillDetails(true, {1})</Output>
+  </Macro>
+
+  <Macro Name="ExecuteLookUp" Description="Execute a specific LookUp." Domain="ClientAll" ParameterCount="5" Delimiter=";;" Document="@ExecuteLookUp(objectReference;;'lookupName';;'fieldToSearch';;valueToSearch;;allowMultiSelectionInSearch)">
+    <Output Name="JavaScript">{0}.executeLookUp({1}, {2}, null, vm, {3}, null, null, {4})</Output>
+  </Macro>
+
+  <Macro Name="Query" Description="Execute a GET action from a Web Api asynchronously." Domain="ClientContext" ParameterCount="7" Delimiter=";;" Document="@Query('getMethod';;'JExpression';;'order';;skip;;take;;noTracking;;Body) // expose dataResults">
+    <Output Name="JavaScript">
+      dataContext.executeQuery({0}, {1}, {2}, {3}, {4}, {5}, function(dataResults) {
+      {6}
+      })
+    </Output>
+    <Output Name="JavaScriptMobile">
+      dataContext.executeQuery({0}, {1}, {2}, {3}, {4}, {5}, function(dataResults) {
+      {6}
+      })
+    </Output>
+  </Macro>
+
+  <Macro Name="Ajax" Description="Execute a ajax call." Domain="ClientContext" ParameterCount="6" Delimiter=";;" Document="@Ajax('LinxController';;'LinxAction/CompleteUrl';;'GET/POST/PUT/DELETE';;data;;'Mensagem de aguarde';;Body) // expose result">
+    <Output Name="JavaScript">
+      var controllerName = {0};
+      var urlDef = '';
+      if (!isNullOrEmpty(controllerName)) { urlDef = vm.getDataContext().getServiceAddress(controllerName) + '/'; }
+      urlDef += {1};
+
+      vm.dataToolbar.isBusy(true);
+      $.ajax({
+      contentType: 'application/json;charset=UTF-8',
+      crossDomain: true,
+      url: urlDef,
+      type:{2},
+      data:isNullOrEmpty({3})?null:JSON.stringify({3}),
+      messageUser: {4},
+      globalError: true,
+      headers: managerAuth.getHeaders(),
+      async: true,
+      cache: false,
+      error: function (jqXHR, textStatus, errorThrown) {
+      vm.dataToolbar.isBusy(false);
+      app.showMessage(jqXHR.responseText, 'Error');
+      },
+      success: function (result) {
+      vm.dataToolbar.isBusy(false);
+      {5}
+      }
+      })
+    </Output>
+
+  </Macro>
+
+
+  <Macro Name="Year" Description="Get the year part from a date." Domain="All" ParameterCount="1" Delimiter=";;" Document="@Year(DateExp)">
+    <Output Name="CSharp">{0}.Year</Output>
+    <Output Name="JavaScript">{0}.getUTCFullYear()</Output>
+    <Output Name="JavaScriptMobile">{0}.getUTCFullYear()</Output>
+    <Output Name="EntitySQL">SqlServer.YEAR({0})</Output>
+  </Macro>
+
+  <Macro Name="Month" Description="Get the month part from a date." Domain="All" ParameterCount="1" Delimiter=";;" Document="@Month(DateExp)">
+    <Output Name="CSharp">{0}.Month</Output>
+    <Output Name="JavaScript">({0}.getUTCMonth() + 1)</Output>
+    <Output Name="JavaScriptMobile">({0}.getUTCMonth() + 1)</Output>
+    <Output Name="EntitySQL">SqlServer.MONTH({0})</Output>
+  </Macro>
+
+  <Macro Name="Day" Description="Get the day part from a date." Domain="All" ParameterCount="1" Delimiter=";;" Document="@Day(DateExp)">
+    <Output Name="CSharp">{0}.Day</Output>
+    <Output Name="JavaScript">{0}.getUTCDate()</Output>
+    <Output Name="JavaScriptMobile">{0}.getUTCDate()</Output>
+    <Output Name="EntitySQL">SqlServer.DAY({0})</Output>
+  </Macro>
+  <Macro Name="DayWeekName" Description="Get the dayWeekName part a date." Domain="All" ParameterCount="1" Delimiter=";;" Document="@DayWeekName(DateExp)">
+    <Output Name="JavaScript">{0}.toLocaleString('pt-BR', {weekday: 'long'})</Output>
+  </Macro>
+  <Macro Name="Hours" Description="Get the hours part from a date." Domain="All" ParameterCount="1" Delimiter=";;" Document="@Hours(DateExp)">
+    <Output Name="CSharp">{0}.Hour</Output>
+    <Output Name="JavaScript">{0}.getHours()</Output>
+    <Output Name="JavaScriptMobile">{0}.getHours()</Output>
+    <Output Name="EntitySQL">SqlServer.DATEPART('hour', {0})</Output>
+  </Macro>
+
+  <Macro Name="Minutes" Description="Get the minutes part from a date." Domain="All" ParameterCount="1" Delimiter=";;" Document="@Minutes(DateExp)">
+    <Output Name="CSharp">{0}.Minute</Output>
+    <Output Name="JavaScript">{0}.getMinutes()</Output>
+    <Output Name="JavaScriptMobile">{0}.getMinutes()</Output>
+    <Output Name="EntitySQL">SqlServer.DATEPART('minute', {0})</Output>
+  </Macro>
+
+  <Macro Name="Seconds" Description="Get the seconds part from a date." Domain="All" ParameterCount="1" Delimiter=";;" Document="@Seconds(DateExp)">
+    <Output Name="CSharp">{0}.Second</Output>
+    <Output Name="JavaScript">{0}.getSeconds()</Output>
+    <Output Name="JavaScriptMobile">{0}.getSeconds()</Output>
+    <Output Name="EntitySQL">SqlServer.DATEPART('second', {0})</Output>
+  </Macro>
+
+  <Macro Name="MilliSeconds" Description="Get the milliSeconds part from a date." Domain="All" ParameterCount="1" Delimiter=";;" Document="@MilliSeconds(DateExp)">
+    <Output Name="CSharp">{0}.Millisecond</Output>
+    <Output Name="JavaScript">{0}.getMilliseconds()</Output>
+    <Output Name="JavaScriptMobile">{0}.getMilliseconds()</Output>
+    <Output Name="EntitySQL">SqlServer.DATEPART('millisecond', {0})</Output>
+  </Macro>
+
+  <Macro Name="NewGuid" Description="Create a new guid." Domain="All" ParameterCount="0" Delimiter=";;" Document="@NewGuid()">
+    <Output Name="CSharp">System.Guid.NewGuid()</Output>
+    <Output Name="JavaScript">dataContext.getNewGuid()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.getDataContext().getNewGuid()</Output>
+    <Output Name="EntitySQL">SqlServer.NEWID()</Output>
+  </Macro>
+
+  <Macro Name="CurrentDate" Description="Get the current date." Domain="All" ParameterCount="0" Delimiter=";;" Document="@CurrentDate()">
+    <Output Name="CSharp">System.DateTime.Now</Output>
+    <Output Name="JavaScript">getCurrentDate()</Output>
+    <Output Name="JavaScriptMobile">common.getCurrentDate()</Output>
+    <Output Name="EntitySQL">SqlServer.GETDATE()</Output>
+  </Macro>
+
+  <Macro Name="NewDate" Description="Create a new Date." Domain="All" ParameterCount="3" Delimiter=";;" Document="@NewDate(year;;month;;day)">
+    <Output Name="CSharp">new System.DateTime({0}, {1}, {2})</Output>
+    <Output Name="JavaScript">new Date({0}, {1}, {2})</Output>
+    <Output Name="JavaScriptMobile">new Date({0}, {1}, {2})</Output>
+    <Output Name="EntitySQL">DATETIME'{0}-{1}-{2} 00:00'</Output>
+  </Macro>
+  <Macro Name="AddDays" Description="add days to date" Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@AddDays(totalDays;;DateExp)">
+    <Output Name="JavaScript">{1}.setDate({1}.getDate() + {0})</Output>
+    <Output Name="JavaScriptMobile">{1}.setDate({1}.getDate() + {0})</Output>
+  </Macro>
+  <Macro Name="ShortDate" Description="Pega a data abreviada de uma data longa no padrão pt-BR" Domain="All" ParameterCount="1" Delimiter=";;" Document="@ShortDate(DateExp)">
+    <Output Name="JavaScript">{0}.toLocaleDateString('pt-BR',{timeZone: 'UTC'})</Output>
+  </Macro>
+  <Macro Name="AddDaysLINQ" Description="add days to date using LINQ to Entities or EntitySQL." Domain="ServerAll" ParameterCount="2" Delimiter=";;" Document="@AddDaysLINQ(totalDays;;DateExp)">
+    <Output Name="CSharp">System.Data.Entity.DbFunctions.AddDays({1}, {0})</Output>
+    <Output Name="EntitySQL">SqlServer.DATEADD('day', {0}, {1})</Output>
+  </Macro>
+  <Macro Name="DayOfWeekLINQ" Description="add days to date using LINQ to Entities or EntitySQL." Domain="ServerAll" ParameterCount="1" Delimiter=";;" Document="@DayOfWeekLINQ(DateExp)">
+    <Output Name="CSharp">System.Data.Entity.SqlServer.SqlFunctions.DatePart("dw", {0})</Output>
+    <Output Name="EntitySQL">SqlServer.DATEPART('dw', {0})</Output>
+  </Macro>
+  <Macro Name="NullableValue" Description="Return value of the nullable object" Domain="ServerAll" ParameterCount="1" Delimiter=";;" Document="@NullableValue(nullableRef)">
+    <Output Name="CSharp">{0}.Value</Output>
+    <Output Name="EntitySQL">{0}</Output>
+  </Macro>
+  <Macro Name="Divide" Description="Divide two numbers by testing the denominator if equals zero." Domain="All" ParameterCount="2" Delimiter=";;" Document="@Divide(NumeratorExp;;DenominatorExp)">
+    <Output Name="CSharp">({1} == 0 ? 0 : {1} / {2})</Output>
+    <Output Name="JavaScript">({1} == 0 ? 0 : {0} / {1})</Output>
+    <Output Name="JavaScriptMobile">({1} == 0 ? 0 : {0} / {1})</Output>
+    <Output Name="EntitySQL">CASE WHEN {1} IS NULL OR {1} = 0 THEN 0 ELSE {0} / {1} END</Output>
+  </Macro>
+
+  <Macro Name="NotifyParent" Description="Notify all visual controls that are showing parent data." Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="@NotifyParent()">
+    <Output Name="JavaScript">dataContext.notifyPresentation('dataView')</Output>
+  </Macro>
+
+  <Macro Name="NotifyDetail" Description="Notify all visual controls that are showing detail data." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@NotifyDetail(DetailName)">
+    <Output Name="JavaScript">notifyPresentation('{0}List')</Output>
+  </Macro>
+
+  <Macro Name="NotifyAll" Description="Notify all visual controls for refreshing from datasource." Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="@NotifyAll()">
+    <Output Name="JavaScript">notifyPresentation('')</Output>
+  </Macro>
+
+  <Macro Name="CommitPendings" Description="Commit pendings." Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="@CommitPendings()">
+    <Output Name="JavaScript">vm.dataBind('', true)</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataBind('', true)</Output>
+  </Macro>
+
+  <Macro Name="AddNewToInnerUI" Description="Add new row in a inner UI." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@AddNewToInnerUI(parentEntity;;UserInterfaceName)">
+    <Output Name="JavaScript">vm.addNewToInnerUI({0}, {1})</Output>
+  </Macro>
+
+  <Macro Name="ShowInformation" Description="Show information message." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@ShowInformation(message)">
+    <Output Name="JavaScript">app.showMessage(({0}).toString(), 'Informação', ['Ok'])</Output>
+    <Output Name="JavaScriptMobile">dialog.showAlert(({0}).toString(), 'Informação')</Output>
+  </Macro>
+
+  <Macro Name="IsBusy" Description="Set busy status." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@IsBusy(busy)">
+    <Output Name="JavaScript">vm.dataToolbar.isBusy({0})</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataToolbar.isBusy({0})</Output>
+  </Macro>
+
+  <Macro Name="RefreshCurrentParent" Description="Refresh current parent data." Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="@RefreshCurrentParent()">
+    <Output Name="JavaScript">vm.dataToolbar.refreshCurrentData()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.dataToolbar.refreshCurrentData()</Output>
+  </Macro>
+
+  <Macro Name="RefreshEntity" Description="Refresh current parent data." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@RefreshEntity(entity)">
+    <Output Name="JavaScript">{0}.refreshData()</Output>
+    <Output Name="JavaScriptMobile">{0}.refreshData()</Output>
+  </Macro>
+
+  <Macro Name="ShowWaitWindow" Description="Show wait message." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@ShowWaitWindow(message;;percent)">
+    <Output Name="JavaScript">showWaitWindow({0}, {1})</Output>
+  </Macro>
+
+  <Macro Name="CloseWaitWindow" Description="Close wait message." Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="@CloseWaitWindow()">
+    <Output Name="JavaScript">closeWaitWindow()</Output>
+  </Macro>
+
+  <Macro Name="ShowError" Description="Show error message." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@ShowError('message';;'details')">
+    <Output Name="JavaScript">logger.logError(({0}).toString() + ': ' + ({1}).toString(), null, 0, true)</Output>
+    <Output Name="JavaScriptMobile">$log.log(({0}).toString() + ': ' + ({1}).toString());dialog.showAlert(({0}).toString() + ': ' + {1}, 'Erro')</Output>
+  </Macro>
+
+  <Macro Name="ShowLog" Description="Show log message." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@ShowLog('message')">
+    <Output Name="JavaScript">logger.log(({0}).toString(), null, 0, true)</Output>
+    <Output Name="JavaScriptMobile">$log.log(({0}).toString());dialog.showAlert(({0}).toString(), 'Mensagem')</Output>
+  </Macro>
+
+  <Macro Name="ShowAlert" Description="Show alert message." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@ShowAlert('message')">
+    <Output Name="JavaScript">app.showMessage(({0}).toString(), 'Alerta', ['Ok'])</Output>
+    <Output Name="JavaScriptMobile">dialog.showAlert(({0}).toString(), 'Alerta')</Output>
+  </Macro>
+
+  <Macro Name="ShowQuestion" Description="Ask a question." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@ShowQuestion('message';;Body) // expose yesResponse">
+    <Output Name="JavaScript">
+      app.showMessage(({0}).toString(), 'Alerta', ['Yes', 'No'])
+      .then(function (selectedOption) {
+      var yesResponse = (selectedOption === 'Yes')
+      {1}
+      })
+    </Output>
+    <Output Name="JavaScriptMobile">
+      dialog.showMessage({0}.toString(), 'Alerta', 'Yes', 'Não')
+      .then(function (yesResponse) {
+      {1}
+      })
+    </Output>
+  </Macro>
+  <Macro Name="SetFocus" Description="Adjust the focus on the control." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetFocus(ControlName)">
+    <Output Name="JavaScript">
+      {
+      var control = $lx(vm, '#{0}');
+      if('{0}'.indexOf('lUp') > -1)
+      control = $lx(vm, '#{0}_inputLookUp');
+
+      if(control.length)
+      control.focus();
+      else if (managerAuth.shellMode == 'DEV')
+      console.warn("Controle({0}) não encontrado, verifique o nome do mesmo.");
+      }
+    </Output>
+  </Macro>
+  <Macro Name="SetVisible" Description="Adjust a visual control visibility." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@SetVisible(ControlName;;boolExprVisible)">
+    <Output Name="JavaScript">
+      setVisibility(vm, '{0}',{1});
+    </Output>
+  </Macro>
+
+  <Macro Name="SetTabVisible" Description="Adjust a visual Tab control visibility." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@SetTabVisible(ControlName;;boolExprVisible)">
+    <Output Name="JavaScript">
+        setTabVisibility(vm, '{0}', {1}) ;
+    </Output>
+  </Macro>
+
+  <Macro Name="SetTabVisible2" Description="Adjust a visual Tab control visibility with option to set the tab active." Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@SetTabVisible2(ControlName;;boolExprVisible;;setTabActive)">
+    <Output Name="JavaScript">
+      setTabVisibility(vm, '{0}', {1}, {2}) ;
+    </Output>
+  </Macro>
+  
+  <Macro Name="SetTabItemActive" Description="Set a TabItem active." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetTabItemActive(ControlName)">
+    <Output Name="JavaScript">
+      setTabItemActive(vm, '{0}');
+    </Output>
+  </Macro>
+
+  <Macro Name="SetTabActivate" Description="Adjust a visual Tab control Activate." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetTabActivate(TabControlName)">
+    <Output Name="JavaScript">
+      {
+      if('{0}'.indexOf('tc') > -1)
+      var controlTab = $lx(vm, '#{0}');
+      else
+      var controlTab = $lx(vm, '#tc{0}');
+
+      if(controlTab.length){
+      setTimeout(function () {
+      controlTab.find('li:visible > a').first().tab("show");
+      }, 500);
+      }
+      else if (managerAuth.shellMode == 'DEV')
+      console.warn("Controle({0}) não encontrado, verifique o nome do mesmo.");
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="ButtonNextWizard" Description="Click Next Wizard." Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="@ButtonNextWizard()">
+    <Output Name="JavaScript">
+      $('.button-next').click()
+    </Output>
+  </Macro>
+
+  <Macro Name="ButtonSubmitWizard" Description="Click Submit Wizard." Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="@ButtonSubmitWizard()">
+    <Output Name="JavaScript">
+      $('.button-submit').click()
+    </Output>
+  </Macro>
+
+  <Macro Name="ButtonPreviousWizard" Description="Click Previous Wizard." Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="@ButtonPreviousWizard()">
+    <Output Name="JavaScript">
+      $('.button-previous').click()
+    </Output>
+  </Macro>
+
+  <Macro Name="SetStepWizard" Description="Set a Step Wizard." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@SetStepWizard(ControlName;;indexTab)">
+    <Output Name="JavaScript">
+      setTimeout(function () {
+      $lx(vm, '#{0}').bootstrapWizard('show',{1});
+      }, 500);
+    </Output>
+  </Macro>
+
+  <Macro Name="GetStepWizard" Description="Get a Step Wizard." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@GetStepWizard(ControlName)">
+    <Output Name="JavaScript">
+      $lx(vm, '#{0}').bootstrapWizard('currentIndex')
+    </Output>
+  </Macro>
+
+  <Macro Name="SetVisibleStepWizard" Description="Set a Step Wizard." Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@SetVisibleStepWizard(ControlName;;indexTab;;boolExpr)">
+    <Output Name="JavaScript">
+      {
+      if ({2}) {
+      $lx(vm, '#{0}').bootstrapWizard('hide',{1})
+      }
+      else {
+      $lx(vm, '#{0}').bootstrapWizard('display',{1})
+      }
+      }
+    </Output>
+  </Macro>
+  <Macro Name="SetDisableVisaoTabular" Description="Set Visao Tabular Disabled." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetDisableVisaoTabular(boolExpr)">
+    <Output Name="JavaScript">
+      {
+      if({0}){
+      if(!$(".btn-default.link-index-page").first().hasClass('disabled'))
+      $(".btn-default.link-index-page").first().addClass('disabled');
+      }
+      else{
+      $(".btn-default.link-index-page").first().removeClass('disabled');
+      }
+
+      }
+    </Output>
+  </Macro>
+  <Macro Name="SetDisableGrid" Description="Set Grid Disabled." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@SetDisableGrid(GridName;;boolExpr)">
+    <Output Name="JavaScript">
+      <![CDATA[{
+  if(isNull(dataContext.sharedData['EnableGrid_{0}'])){
+    console.error("Não foi executada a macro DisableGridLoaded({0}), no evento loaded da tela.")
+    return;
+  }
+  if('{0}'.indexOf('dGrid') > -1)
+    var gridSelector = $lx(vm, '#{0}');
+  else
+    var gridSelector = $lx(vm, '#dGrid{0}');
+  
+  dataContext.sharedData['EnableGrid_{0}'] = !{1};
+  if($(gridSelector).data('igGridUpdating') && !dataContext.sharedData['EnableGrid_{0}'] && $(gridSelector).igGridUpdating('isEditing')){
+    $(gridSelector).igGridUpdating('endEdit');
+  }
+  console.log(dataContext.sharedData['EnableGrid_{0}'] ? 'Enable Grid [{0}]': 'Disable Grid [{0}]');
+
+}]]>
+    </Output>
+  </Macro>
+  <Macro Name="DisableGridLoaded" Description="Prepare Grid for disable/enable programmatically." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@DisableGridLoaded(GridName)">
+    <Output Name="JavaScript">
+      <![CDATA[{
+  dataContext.sharedData['EnableGrid_{0}'] = true;
+
+  var handle = function(){ return dataContext.sharedData['EnableGrid_{0}']; };      
+       
+  if('{0}'.indexOf('dGrid') > -1)
+    var gridSelector = $lx(vm, '#{0}');
+  else
+    var gridSelector = $lx(vm, '#dGrid{0}');
+  //event
+  $(document).delegate(gridSelector, 'iggridupdatingeditcellstarting', handle);	
+}]]>
+    </Output>
+  </Macro>
+  <Macro Name="SetPivotLayout" Description="Set layout Pivot." Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@SetPivotLayout(PivotName;;LayoutName;;boolHideConfigFields)">
+    <Output Name="JavaScript">
+        alert('Favor entrar em contato com a equipe de Framework caso necessite utilizar essa Macro');
+    </Output>
+  </Macro>
+  <Macro Name="HideConfiguratorPivot" Description="Hide selector fields Pivot." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@HideConfiguratorPivot(PivotName)">
+    <Output Name="JavaScript">
+        alert('Favor entrar em contato com a equipe de Framework caso necessite utilizar essa Macro');
+    </Output>
+  </Macro>
+  <Macro Name="SetDisableColGrid" Description="Set a Col Grid Disabled." Domain="ClientAll" ParameterCount="4" Delimiter=";;" Document="@SetDisableColGrid(GridName;;ControlName;;boolExprGrid;;boolExprForm)">
+    <Output Name="JavaScript">
+      setColGridEditable(vm, '{0}', '{1}', {2}, {3});
+    </Output>
+  </Macro>
+  <Macro Name="SetVisibleColGrid" Description="Set a Col Grid Visibility." Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@SetVisibleColGrid(ControlName;;ColName;;boolExprVisible)">
+    <Output Name="JavaScript">
+      setColGridVisibility(vm, '{0}', {1}, {2});
+    </Output>
+  </Macro>
+  <Macro Name="SetVisibleGrid" Description="Set a Grid Visibility." Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@SetVisibleGrid(ControlGridName;;boolExprVisible;;boolExprForceBind)">
+    <Output Name="JavaScript">
+      setGridVisibility(vm, '{0}', {1}, {2});
+    </Output>
+  </Macro>
+
+  <Macro Name="SetEditable" Description="Adjust a custom visual control edition." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@SetEditable(tbNomeFantasia;;boolExpr)">
+    <Output Name="JavaScript">ctrl.setCustomEnable(vm, '#{0}', {1}); </Output>
+  </Macro>
+  <Macro Name="SetEditableAll" Description="Adjust all visual control edition." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetEditableAll(boolExpr)">
+    <Output Name="JavaScript">ctrl.setCustomEnableAll(vm, {0}); </Output>
+  </Macro>
+  <Macro Name="SetEditableAllByContainer" Description="Adjust all visual control in container edition." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@SetEditableAllByContainer(boolExpr;;#telaXPTO_div1)">
+    <Output Name="JavaScript">ctrl.setCustomEnableAll(vm, {0}, '{1}'); </Output>
+  </Macro>
+  <Macro Name="RemoveCustomEditable" Description="remove a custom visual control edition." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@RemoveCustomEditable(tbNomeFantasia)">
+    <Output Name="JavaScript">ctrl.removeCustomEnable(vm, '#{0}'); </Output>
+  </Macro>
+  <Macro Name="SetMask" Description="Adjust a visual control mask." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@SetMask(ControlName;;MaskValue)">
+    <Output Name="JavaScript">$lx(vm, '#{0}').igMaskEditor('option', 'inputMask', {1})</Output>
+  </Macro>
+
+  <Macro Name="SetFormat" Description="Adjust a visual control format." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@SetFormat(ControlName;;FormatValue)">
+    <Output Name="JavaScript">
+      {
+      var control = $lx(vm, '#{0}');
+      var dataControl = control.data();
+      if (dataControl.igDatePicker != null) {
+      control.igDatePicker("option", "dateDisplayFormat", format);
+      control.igDatePicker("option", "dateInputFormat", format);
+      }
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="SetLabel" Description="Adjust a label text." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@SetLabel(LabelName;;TextValue)">
+    <Output Name="JavaScript">$lx(vm, '#{0}').html({1})</Output>
+  </Macro>
+
+  <Macro Name="GetStatus" Description="Get status from the toolbar." Domain="ClientContext" ParameterCount="0" Delimiter=";;" Document="@GetStatus()">
+    //Returns: 'Q', 'C', 'E'
+    <Output Name="JavaScript">status()</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.status()</Output>
+  </Macro>
+
+  <Macro Name="SetStatus" Description="Set status to the toolbar." Domain="ClientContext" ParameterCount="1" Delimiter=";;" Document="@SetStatus(status)">
+    //Sets: 'Q', 'C', 'E'
+    <Output Name="JavaScript">status({0})</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.status({0})</Output>
+  </Macro>
+
+  <Macro Name="FilterMetaData" Description="Generates the metadata filter expression for applying on a business view." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@FilterMetaData(Idproduct,ProductName,TotalValue)">
+    <Output Name="JavaScript">'LinqValidProperties{LinqValidProperties#==#S{0}}'</Output>
+    <Output Name="JavaScriptMobile">'LinqValidProperties{LinqValidProperties#==#S{0}}'</Output>
+  </Macro>
+
+  <Macro Name="OpenUI" Description="Open an external form and executing a query. Parameters: Title, ModuleName, Properties for Searching and Toolbar Settings." Domain="ClientContext" ParameterCount="4" Delimiter=";;" Document="@OpenUI(Title;;Linx.BV.Products.SPA/FrmProduct;;{IdProduct:1,DescProduct:'Shirt'};;{removeDataToolbar:false,canAddNew:true,canClear:true,canCustomSearch:true,canDelete:true,canEdit:true,canLayout:true,canNavigate:true,canPrint:true,canSearch:true,noBusyLoading:false})">
+    <Output Name="JavaScript">
+      var str = '{1}'; while (str.indexOf('.') !== -1) { str = str.replace('.', '-'); };
+      var currentModal = (modal.inUse ? modal2 : modal);
+      currentModal.showModal('pkg_' + strExtract('#' + str.toLowerCase(), '#', '/') + '/viewmodels/' + strExtract(str + '#', '/', '#'), {  executeQuery: true, parentUI: {vm: vm}, querySetters: {2}, toolbarSettings: {3} }, '{0}', ['Ok'], 'large')
+    </Output>
+  </Macro>
+
+  <Macro Name="OpenUIQueryOption" Description="Open an external form and executing a query according the parameter. Parameters: Title, ModuleName, Properties for Searching and Toolbar Settings, Execute Query." Domain="ClientContext" ParameterCount="5" Delimiter=";;" Document="@OpenUIQueryOption(Title;;Linx.BV.Products.SPA/FrmProduct;;{IdProduct:1,DescProduct:'Shirt'};;{removeDataToolbar:false,canAddNew:true,canClear:true,canCustomSearch:true,canDelete:true,canEdit:true,canLayout:true,canNavigate:true,canPrint:true,canSearch:true,noBusyLoading:false};; executeQuery)">
+    <Output Name="JavaScript">
+      var str = '{1}'; while (str.indexOf('.') !== -1) { str = str.replace('.', '-'); };
+      var currentModal = (modal.inUse ? modal2 : modal);
+      currentModal.showModal('pkg_' + strExtract('#' + str.toLowerCase(), '#', '/') + '/viewmodels/' + strExtract(str + '#', '/', '#'), {  executeQuery: {4}, parentUI: {vm: vm}, querySetters: {2}, toolbarSettings: {3} }, '{0}', ['Ok'], 'large')
+    </Output>
+  </Macro>
+
+  <Macro Name="OpenTabUI" Description="Open an UI in new Tab. Parameters: ViewName, objectQuery(in string), executeQuery" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@OpenTabUI(testes-novo2-bv-spa-teste001;;'IDCliente:'+@GetValue(@TbCurrentData();;IDCliente)+';Sobrenome:Silva';;true)">
+    <Output Name="JavaScript">
+      {
+      var url = '/PageOpen.html?viewId={0}&amp;objectQuery='+{1}+'&amp;executeQuery={2}';
+      var win = window.open(url, '_blank');
+      if(win)win.focus();
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="OpenView" Description="Open a View on current shell. Parameters: 1 - ViewPath; 2 - object for use in QBE; 3 - if execute search" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@OpenView(Linx.BV.Products.SPA/FrmProduct;;IDSku:1;NomeProduto:'a%';;true)">
+    <Output Name="JavaScript">
+      var str = '{0}'.toLowerCase();
+      while (str.indexOf('.') !== -1) { str = str.replace('.', '-').replace('/', '-'); };
+      vm.common.go('#' + str, 'objectQuery={1}&amp;executeQuery={2}')
+    </Output>
+  </Macro>
+  <Macro Name="NavigateView" Description="Open a View on current shell. Parameters: 1 - Data Business Object; 2 - View Name" Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@NavigateView(dataBusinessInstance;;'ViewName')">
+    <Output Name="JavaScriptMobile">
+      var formName = {1}.substr(0,1).toLowerCase() + {1}.substr(1);
+      {0}.navigateTo(formName);
+    </Output>
+  </Macro>
+  <Macro Name="NavigateAppView" Description="Open a View on current shell. Parameters: 1 - Application Name; 2 - View Name; 3 - Object As Parameter" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@NavigateAppView('AppName';;'ViewName';;ParameterAsObject)">
+    <Output Name="JavaScriptMobile">
+      var formName = {1}.substr(0,1).toLowerCase() + {1}.substr(1);
+      $state.go(namespace.common.routeName(formName, {0}), { args: {2} });
+    </Output>
+  </Macro>
+  <Macro Name="GetParameter" Description="Return the parameter value" Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@GetParameter(parameterName;;body) // expose values">
+    <Output Name="JavaScript">globalDataParameters.getParameter('{0}', (vm?vm:dataContext).managerAuth, function(values){ {1} });</Output>
+  </Macro>
+
+  <Macro Name="If" Description="Runs Body if the expression (boolExpr) is true." Domain="All" ParameterCount="2" Delimiter=";;" Document="@If(boolExpr;;Body)">
+    <Output Name="CSharp">
+      if({0})
+      {
+      {1}
+      }
+    </Output>
+    <Output Name="JavaScript">
+      if({0}){
+      {1}
+      }
+    </Output>
+    <Output Name="JavaScriptMobile">
+      if({0}){
+      {1}
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="IfElse" Description="Runs BodyTrue if the expression is true, otherwise execute the BodyFalse." Domain="All" ParameterCount="3" Delimiter=";;" Document="@IfElse(boolExpr;;BodyTrue;;BodyFalse)">
+    <Output Name="CSharp">
+      if({0})
+      {
+      {1}
+      }
+      else
+      {
+      {2}
+      }
+    </Output>
+    <Output Name="JavaScript">
+      if({0}){
+      {1}
+      } else {
+      {2}
+      }
+    </Output>
+    <Output Name="JavaScriptMobile">
+      if({0}){
+      {1}
+      } else {
+      {2}
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="GetUTCDate" Description="Get date." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@GetUTCDate(date)">
+    <Output Name="JavaScript">getUTCDate({0})</Output>
+    <Output Name="JavaScriptMobile">getUTCDate({0})</Output>
+  </Macro>
+
+  <Macro Name="DaysDiffLINQ" Description="Difference in days, between two dates." Domain="All" ParameterCount="2" Delimiter=";;" Document="@DaysDiffLINQ(dateBegin;;dateEnd)">
+    <Output Name="CSharp">System.Data.Entity.DbFunctions.DiffDays({0}, {1})</Output>
+    <Output Name="EntitySQL">SqlServer.DATEDIFF('day', {0}, {1})</Output>
+  </Macro>
+  <Macro Name="DaysDiff" Description="Difference in days, between two dates." Domain="All" ParameterCount="2" Delimiter=";;" Document="@DaysDiff(dateBegin;;dateEnd)">
+    <Output Name="CSharp">{1}.Subtract({0}).TotalDays</Output>
+    <Output Name="JavaScript">daysDiff({0}, {1})</Output>
+    <Output Name="JavaScriptMobile">daysDiff({0}, {1})</Output>
+  </Macro>
+
+  <Macro Name="GetUIControlValue" Description="Set a value in dashboard." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@GetUIControlValue(ControlName)">
+    <Output Name="JavaScript">getUIControlValue(vmControlName(vm, '#{0}'))</Output>
+  </Macro>
+
+  <Macro Name="SetUIControlValue" Description="Set a value in dashboard." Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@SetUIControlValue(ControlName;;'Value')">
+    <Output Name="JavaScript">
+      {
+      var control = $lx(vm, '#{0}');
+      if(control.length)
+      setUIControlValue(vmControlName(vm, '#{0}'), {1})
+      else if (managerAuth.shellMode == 'DEV')
+      console.warn("Controle({0}) não encontrado, verifique o nome do mesmo.");
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="CreateComboBox" Description="Creates a Combobox" Domain="ClientAll" ParameterCount="4" Delimiter=";;" Document="@CreateComboBox(ControlName;;arrayItems;;'textKey';;'valueKey')">
+    <Output Name="JavaScript">createCombo(vmControlName(vm, '#{0}'), {1}, {2}, {3})</Output>
+  </Macro>
+
+  <Macro Name="RegisterUI" Description="Creates a Combobox" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@RegisterUI('name';;Linx.BV.Products.SPA/FrmProduct;;{removeDataToolbar:false,displayName:'Products',canAddNew:true,canClear:true,canCustomSearch:true,canDelete:true,canEdit:true,canLayout:true,canNavigate:true,canPrint:true,canSearch:true,noBusyLoading:false,parentSelectorDataName: 'EntityView',parentSelectorDataCondition: 'data.LxMov == 10',parentFieldsRelation:['IDPai'],detailFieldsRelation:['IDPai']})">
+    <Output Name="JavaScript">var str = {1}; while (str.indexOf('.') !== -1) { str = str.replace('.', '-'); };registerUI({0}, 'pkg_' + strExtract('#' + str.toLowerCase(), '#', '/') + '/viewmodels/' + strExtract(str + '#', '/', '#'), {2});</Output>
+  </Macro>
+  <Macro Name="ShowRegisteredUI" Description="Creates a Combobox" Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@ShowRegisteredUI('name';;parentContainerName)">
+    <Output Name="JavaScript">vm.showRegisteredUI({0}, vmControlName(vm, '#{1}').substr(1));</Output>
+  </Macro>
+  <Macro Name="SetDisplayName" Description="Set Display name element" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@SetDisplayName(objectEntity;;'propertyName';;'displayName')">
+    <Output Name="JavaScript">
+      var prop = {1}.replace("'", "");
+      var control = $lx(vm, '#' + prop);
+      var option = 2;
+      var param = {2};
+      changeValuesItems(vm.layoutDesigner());
+      function changeValuesItems(item) {
+      if (item.Items) item.Items.forEach(function (item) {
+      if (item.Name == control[0].id) {
+      if (option == 1)
+      vm.flattenLayout()[item.Name].ColumnSpan = param;
+      else if (option == 2)
+      vm.flattenLayout()[item.Name].DisplayName = param;
+      else if (option == 3)
+      vm.flattenLayout()[item.Name].Visible = JSON.parse(param);
+      hasChange = true;
+      }
+      else if (item.Items) {
+      return changeValuesItems(item);
+      }
+      });
+      }
+      if (hasChange) {
+      vm.flattenLayout(vm.flattenLayout());
+      }
+    </Output>
+    <Output Name="JavaScriptMobile">
+      {0}.setDisplayName({1}, {2});
+      var _dc = dataBusiness.getDataContext();
+
+      for(var ii = 0; ii &lt; _dc.metadataInfo[{0}.typeName].length; ii++){
+      if(_dc.metadataInfo[{0}.typeName][ii].key == {1})
+      _dc.metadataInfo[{0}.typeName][ii].headerText = {2};
+      }
+
+    </Output>
+  </Macro>
+
+  <Macro Name="SetGridHeaderTitle" Description="Change a column title in grid" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@SetGridHeaderTitle(dGridName;;propertyName;;title)">
+    <Output Name="JavaScript">
+      {
+      var coluna = {1};
+      var valor = {2};
+
+      var grid = $lx(vm, '#{0}');
+      var gridId = grid.prop('id');
+
+      if (grid.data('igGrid') != null){
+
+      coluna = (typeof coluna == "object" ? coluna : [coluna]);
+      valor = (typeof valor == "object" ? valor : [valor]);
+
+      var gridColumns = grid.igGrid("option", "columns");
+
+      $.each(coluna, function (i, e){
+      var col = gridColumns.filter(function (ele) { if (ele.key === coluna[i]) return ele; });
+      if (col.length > 0) {
+      col[0].headerText = valor[i];
+      grid.igGrid("headersTable").find('th[id="' + gridId + '_' + col[0].key + '"] > a > span.ui-iggrid-headertext').text(valor[i]);
+      grid.igGrid("headersTable").find('th[id="' + gridId + '_' + col[0].key + '"] > span.ui-iggrid-headertext').text(valor[i]);
+      $lx(vm, '#lbl' + col[0].key).text(valor[i]);
+      }
+      });
+
+      }
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="SetEditorFormGridVisible" Description="Grid Editor template form is visible" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetEditorFormGridVisible(dGridName)">
+    <Output Name="JavaScript">
+      var control = $lx(vm, '#{0}')
+      var name = "{0}".replace("dGrid", "");
+      restartGrid(control[0].id, name, true);
+      var grid = $lx(vm, '#{0}_FormBtn');
+      grid.trigger('click');
+    </Output>
+  </Macro>
+
+  <Macro Name="SetHtmlEditor" Description="Generate html editor" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetHtmlEditor(cntName)" >
+    <Output Name="JavaScript">
+
+      $lx(vm, '#{0}').igHtmlEditor({
+      height: 300,
+      width: "98%",
+      });
+
+      var idContentEditor = $lx(vm, '#{0}_editor')[0].id;
+      var elementEditor = $lx(vm, '#{0}')[0].id;
+      var btnHtml = <![CDATA['<button id="' + elementEditor + "_Imprimir" + '" style="margin-left:7px;margin-bottom:21px;" class="btn default background-color-theme" data-placement="top" title="Imprimir"><i class="fa fa-print" aria-hidden="true"></i></button>']]>;
+
+      $lx(vm,'#{0}_toolbars_textToolbar_toolbar_buttons').append(btnHtml);
+
+      $lx(vm,'#{0}_Imprimir').click(function(){
+      document.getElementById(idContentEditor).contentWindow.print();
+      });
+
+    </Output>
+  </Macro>
+
+  <Macro Name="UngroupGrid" Description="Ungroup a grid" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@UngroupGrid(dGridName)">
+    <Output Name="JavaScript">
+      {
+      var grid = $lx(vm, '#{0}');
+
+      if (grid.data('igGrid') != null){
+      grid.igGridGroupBy("ungroupAll");
+      }
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="Cancel" Description="return Cancel message to service" Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="return @Cancel()">
+    <Output Name="JavaScript">'Error'</Output>
+    <Output Name="JavaScriptMobile">'Error'</Output>
+  </Macro>
+
+  <Macro Name="GetShellMode" Description="Get the value for ShellMode, the value is 'DEV' or 'PROD'" Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="@GetShellMode()">
+    <Output Name="JavaScript">managerAuth.shellMode</Output>
+    <Output Name="JavaScriptMobile">authService.shellMode</Output>
+  </Macro>
+
+  <Macro Name="GetAbsoluteDate" Description="Get the date value in UTC format with no time" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@GetAbsoluteDate(DateValue);">
+    <Output Name="JavaScript">new Date({0}.getUTCFullYear(), {0}.getUTCMonth(), {0}.getUTCDate());</Output>
+    <Output Name="JavaScriptMobile">new Date({0}.getUTCFullYear(), {0}.getUTCMonth(), {0}.getUTCDate());</Output>
+  </Macro>
+
+  <Macro Name="SetServiceBusUrl" Description="Set the url to ServiceBusAddress" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SetServiceBusUrl('http://localhost:1710')">
+    <Output Name="JavaScript">vm.getDataContext().setServiceBusUrl({0});</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.getDataContext().setServiceBusUrl({0})</Output>
+  </Macro>
+
+  <Macro Name="RestoreServiceBusUrl" Description="Restore ServiceBusAddress" Domain="ClientAll" ParameterCount="0" Delimiter=";;" Document="@RestoreServiceBusUrl()">
+    <Output Name="JavaScript">vm.getDataContext().setServiceBusUrl();</Output>
+    <Output Name="JavaScriptMobile">dataBusiness.getDataContext().setServiceBusUrl()</Output>
+  </Macro>
+
+  <Macro Name="CreateDropdownButton" Description="return a dropdown button" Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@CreateDropdownButton('title';;options)">
+    <Output Name="JavaScript">
+      (function () {
+      var options = {1};
+      var list = [];
+      for (var i in options){
+      var opt = options[i];
+      list.push('&lt;li&gt;&lt;a href="javascript:;" data-id="' + i + '" &gt;' + opt.name + '&lt;/a&gt;&lt;/li&gt;');
+      }
+      var btn = $(["&lt;div class='btn-group'&gt;",
+      "&lt;button class='form-control btn-press ellipsis dropdown-toggle' type='button' data-toggle='dropdown' aria-expanded='false' style='margin-right: 10px' data-placement='top'&gt;",
+      {0},
+      "&lt;/button&gt;",
+      "&lt;ul class='dropdown-menu' role='menu'&gt;",
+      list.join(""),
+      "&lt;/ul&gt;",
+      "&lt;/div&gt;"].join(""));
+      btn.find('ul > li > a').click(function (elem) {
+      var index = $(this).attr('data-id');
+      options[index].click();
+      });
+      return btn;
+      })();
+
+    </Output>
+  </Macro>
+
+  <Macro Name="ConfigPivot" Description="Set the pivot configuration" Domain="ClientAll" ParameterCount="4" Delimiter=";;" Document="@ConfigPivot('pivotName';;arrayRows;;arrayColumns;;arrayMeasures);">
+    <Output Name="JavaScript">
+      {
+      var pivot = flexmonster.getInstanceByPivotName({0});
+
+      if (pivot)
+      {
+      var arrayRows = {1};
+      var arrayColumns = {2};
+      var arrayMeasures = {3};
+
+      var rows = [];
+      for (var i in arrayRows)
+      {
+      var r = arrayRows[i];
+      rows.push({uniqueName: r});
+      }
+
+      var columns = [];
+      for (var i in arrayColumns)
+      {
+      var r = arrayColumns[i];
+      columns.push({uniqueName: r});
+      }
+
+      var measures = [];
+      for (var i in arrayMeasures)
+      {
+      var r = arrayMeasures[i];
+      measures.push({uniqueName: r});
+      }
+
+
+      var slice =
+      {
+      rows: rows,
+      columns: columns,
+      measures: measures
+      };
+
+      pivot.runQuery(slice);
+      pivot.refresh();
+      }
+      }
+    </Output>
+  </Macro>
+  <Macro Name="jExpression" Description="returns the jExpression for used in search" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@jExpression('ProductColorsView{ColorName#==#Sred}');">
+    <Output Name="JavaScript"> {0} </Output>
+  </Macro>
+  <Macro Name="GetControl" Description="Get jQuery control" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@GetControl(ControlName)">
+    <Output Name="JavaScript">$lx(vm, '#{0}')</Output>
+  </Macro>
+  <Macro Name="SetPropertyControls" Description="alter visible or columnspan or visible of control" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@SetPropertyControls(ControlName;;option;;param)">
+    <Output Name="JavaScript">
+      var control = $lx(vm, '#{0}')
+      if (control.hasClass('gbox'))
+      control.removeClass("hide");
+      var option = {1};
+      var param = {2};
+      changeValuesItems(vm.layoutDesigner());
+      function changeValuesItems(item) {
+      if (item.Items) item.Items.forEach(function (item) {
+      if (item.Name == control[0].id) {
+      if (option == 1)
+      vm.flattenLayout()[item.Name].ColumnSpan = param;
+      else if (option == 2)
+      vm.flattenLayout()[item.Name].DisplayName = param;
+      else if (option == 3)
+      vm.flattenLayout()[item.Name].Visible = JSON.parse(param);
+      hasChange = true;
+      }
+      else if (item.Items) {
+      return changeValuesItems(item);
+      }
+      });
+      }
+      if (hasChange) {
+      vm.flattenLayout(vm.flattenLayout());
+      }
+    </Output>
+  </Macro>
+  <Macro Name="WhereList" Description="Return the list that match the predicate" Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@WhereList(dataList;;predicate) //expose item, i ">
+    <Output Name="JavaScript">jQuery.grep({0}, function (item, i) { return ({1}); })</Output>
+  </Macro>
+  <Macro Name="VerifyEnviromentAccess" Description="Verify if the connection string of the user has access to one or more enviroments; Return true if has access" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@VerifyEnviromentAccess(aEnviroments;;bBlock;;'message');">
+    <Output Name="JavaScript">
+      (function () {
+      var aAmbientes = {0};
+      var block = {1};
+      var msg = {2};
+      var hasAccess = vm.managerAuth.loginInfo.Ambientes.filter(function (element, index) { return aAmbientes.indexOf(element.IdTcsAplicativo) >= 0 }).length == aAmbientes.length;
+      if (!hasAccess &amp;&amp; vm.managerAuth.shellMode != 'DEV'){
+      if (block){
+      var formViewer =  $('[data-view="' + vm.__moduleId__.replace('viewmodels','views') + '"] #' + vm.viewName + '_formViewer');
+      var screenView =  $('[data-view="' + vm.__moduleId__.replace('viewmodels','views') + '"] .screen-view').children();
+      var elementToBlock = (formViewer.length == 0 ? screenView : formViewer);
+      elementToBlock.block({
+      message: '',
+      css: {
+      border: 'none',
+      backgroundColor: 'transparent',
+      },
+      overlayCSS: { opacity: 0, cursor: 'not-allowed' },
+      baseZ: 10001
+      });
+      elementToBlock.find('.blockOverlay').attr('style', function(i,s) { return s + 'z-index: 1000!important;position:absolute!important' });
+      setSecurity(false, false, false, false, false,false, false, false, false, false);
+      }
+      if (msg &amp;&amp; msg.length > 0){
+      setTimeout(function () {
+      app.showMessage(msg, 'Alerta', ['Ok']);
+      },0);
+      }
+      return false;
+      }
+      else {
+      return true;
+      }
+      })();
+    </Output>
+  </Macro>
+
+  <Macro Name="ImportaArquivoSKUs" Description="Importa Lista de SKUs" Domain="ClientAll" ParameterCount="6" Delimiter=";;" Document="@ImportaArquivoSKUs(formData;;tipoArquivo;;salvaDadosServidor;;salvaLog;;nomeArquivoLog;;callback);">
+    <Output Name="JavaScript">
+      var formDataParam = {0};
+      var tipoArquivoParam = {1};
+      var salvaDadosServidorParam = {2};
+      var salvaLogParam = {3};
+      var nomeArquivoLogParam = {4};
+      var callback = {5};
+
+      vm.dataToolbar.isBusy(true);
+      $.ajax({
+      url: vm.getServiceAddress('LinxComumBVImportacaoArquivo/ImportaArquivoSKUs?tipoArquivo=' + tipoArquivoParam + '&amp;salvaDadosNoServidor=' + salvaDadosServidorParam),
+      data: formDataParam,
+      cache: false,
+      contentType: false,
+      processData: false,
+      type: 'POST',
+      error: function (jqXHR, textStatus, errorThrown) {
+      vm.dataToolbar.isBusy(false);
+      app.showMessage('Não foi possível importar o arquivo.', 'Alerta', ['OK']);
+      callback('erro');
+      },
+      success: function (data) {
+      vm.dataToolbar.isBusy(false);
+
+      if (data.Sucesso == true) {
+      if (data.Mensagem != "") {
+      if (data.PossuiCriticasImportacao == true)
+      app.showMessage("&lt;div style='width:500px;height:300px;overflow-y: scroll;'&gt;" + data.Mensagem + "&lt;/div&gt;", "Alerta", ["OK"]).then(
+      function(opt)
+      {
+      if (opt == 'OK')
+      callback(true, data);
+      });
+      else
+      app.showMessage(data.Mensagem, 'Alerta', ['OK']).then(function(opt)
+      {
+      if (opt == 'OK')
+      callback(true, data);
+      });
+      }
+
+      if (salvaLogParam == true) {
+      if (data.ArquivoLog != null &amp;&amp; data.ArquivoLog != "") {
+      var blob = b64toBlobMacro(data.ArquivoLog, 'application/text');
+
+      if (nomeArquivoLogParam == '') nomeArquivoLogParam = 'Log.txt';
+      if (navigator.msSaveBlob) {
+      navigator.msSaveBlob(blob, nomeArquivoLogParam);
+      }
+      else {
+      var blobUrl = URL.createObjectURL(blob);
+      downloadMacro(blobUrl, nomeArquivoLogParam);
+      }
+      }
+      }
+      //callback(true, data);
+      }
+      else {
+      app.showMessage(data.Mensagem, 'Alerta', ['OK']).then(function(opt)
+      {
+      if (opt == 'OK')
+      callback(true, data);
+      });
+      }
+      }
+      });
+
+      var b64toBlobMacro = function (b64Data, contentType, sliceSize) {
+      contentType = contentType || '';
+      sliceSize = sliceSize || 512;
+
+      var byteCharacters = atob(b64Data);
+      var byteArrays = [];
+
+      for (var offset = 0; offset &lt; byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i &lt; slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+      }
+      var blob = new Blob(byteArrays, { type: contentType });
+      return blob;
+      }
+
+      var downloadMacro = function (blobUrl, filename) {
+      var a = document.createElement('a');
+      if (a.click) {
+      // Use a.click() if available. Otherwise, Chrome might show
+      // "Unsafe JavaScript attempt to initiate a navigation change
+      //  for frame with URL" and not open the PDF at all.
+      // Supported by (not mentioned = untested):
+      // - Firefox 6 - 19 (4- does not support a.click, 5 ignores a.click)
+      // - Chrome 19 - 26 (18- does not support a.click)
+      // - Opera 9 - 12.15
+      // - Internet Explorer 6 - 10
+      // - Safari 6 (5.1- does not support a.click)
+      a.href = blobUrl;
+      a.target = '_parent';
+      // Use a.download if available. This increases the likelihood that
+      // the file is downloaded instead of opened by another PDF plugin.
+      if ('download' in a) {
+      a.download = filename;
+      }
+      // &lt;a&gt; must be in the document for IE and recent Firefox versions.
+      // (otherwise .click() is ignored)
+      (document.body || document.documentElement).appendChild(a);
+      a.click();
+      a.parentNode.removeChild(a);
+      }
+      else {
+      if (window.top === window &amp;&amp; blobUrl.split('#')[0] === window.location.href.split('#')[0]) {
+      // If _parent == self, then opening an identical URL with different
+      // location hash will only cause a navigation, not a download.
+      var padCharacter = blobUrl.indexOf('?') === -1 ? '?' : '&amp;';
+      blobUrl = blobUrl.replace(/#|$/, padCharacter + '$&amp;');
+      }
+      window.open(blobUrl, '_parent');
+      }
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="ImportaArquivoGenerico" Description="Importa Arquivo Generico" Domain="ClientAll" ParameterCount="6" Delimiter=";;" Document="@ImportaArquivoGenerico(formData;;tipoArquivo;;salvaDadosServidor;;salvaLog;;nomeArquivoLog;;callback);">
+    <Output Name="JavaScript">
+      var formDataParam = {0};
+      var tipoArquivoParam = {1};
+      var salvaDadosServidorParam = {2};
+      var salvaLogParam = {3};
+      var nomeArquivoLogParam = {4};
+      var callback = {5};
+
+      vm.dataToolbar.isBusy(true);
+      $.ajax({
+      url: vm.getServiceAddress('LinxComumBVImportacaoArquivo/ImportaArquivoGenerico?tipoArquivo=' + tipoArquivoParam + '&amp;salvaDadosNoServidor=' + salvaDadosServidorParam),
+      data: formDataParam,
+      cache: false,
+      contentType: false,
+      processData: false,
+      type: 'POST',
+      error: function (jqXHR, textStatus, errorThrown) {
+      vm.dataToolbar.isBusy(false);
+      app.showMessage('Não foi possível importar o arquivo.', 'Alerta', ['OK']);
+      callback('erro');
+      },
+      success: function (data) {
+      vm.dataToolbar.isBusy(false);
+
+      if (data.Sucesso == true) {
+      if (data.Mensagem != "") {
+      if (data.PossuiCriticasImportacao == true)
+      app.showMessage("&lt;div style='width:500px;height:300px;overflow-y: scroll;'&gt;" + data.Mensagem + "&lt;/div&gt;", "Alerta", ["OK"]).then(
+      function(opt)
+      {
+      if (opt == 'OK')
+      callback(true, data);
+      });
+      else
+      app.showMessage(data.Mensagem, 'Alerta', ['OK']).then(function(opt)
+      {
+      if (opt == 'OK')
+      callback(true, data);
+      });
+      }
+
+      if (salvaLogParam == true) {
+      if (data.ArquivoLog != null &amp;&amp; data.ArquivoLog != "") {
+      var blob = b64toBlobMacro(data.ArquivoLog, 'application/text');
+
+      if (nomeArquivoLogParam == '') nomeArquivoLogParam = 'Log.txt';
+      if (navigator.msSaveBlob) {
+      navigator.msSaveBlob(blob, nomeArquivoLogParam);
+      }
+      else {
+      var blobUrl = URL.createObjectURL(blob);
+      downloadMacro(blobUrl, nomeArquivoLogParam);
+      }
+      }
+      }
+      //callback(true, data);
+      }
+      else {
+      app.showMessage(data.Mensagem, 'Alerta', ['OK']).then(function(opt)
+      {
+      if (opt == 'OK')
+      callback(true, data);
+      });
+      }
+      }
+      });
+
+      var b64toBlobMacro = function (b64Data, contentType, sliceSize) {
+      contentType = contentType || '';
+      sliceSize = sliceSize || 512;
+
+      var byteCharacters = atob(b64Data);
+      var byteArrays = [];
+
+      for (var offset = 0; offset &lt; byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i &lt; slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+      }
+      var blob = new Blob(byteArrays, { type: contentType });
+      return blob;
+      }
+
+      var downloadMacro = function (blobUrl, filename) {
+      var a = document.createElement('a');
+      if (a.click) {
+      // Use a.click() if available. Otherwise, Chrome might show
+      // "Unsafe JavaScript attempt to initiate a navigation change
+      //  for frame with URL" and not open the PDF at all.
+      // Supported by (not mentioned = untested):
+      // - Firefox 6 - 19 (4- does not support a.click, 5 ignores a.click)
+      // - Chrome 19 - 26 (18- does not support a.click)
+      // - Opera 9 - 12.15
+      // - Internet Explorer 6 - 10
+      // - Safari 6 (5.1- does not support a.click)
+      a.href = blobUrl;
+      a.target = '_parent';
+      // Use a.download if available. This increases the likelihood that
+      // the file is downloaded instead of opened by another PDF plugin.
+      if ('download' in a) {
+      a.download = filename;
+      }
+      // &lt;a&gt; must be in the document for IE and recent Firefox versions.
+      // (otherwise .click() is ignored)
+      (document.body || document.documentElement).appendChild(a);
+      a.click();
+      a.parentNode.removeChild(a);
+      }
+      else {
+      if (window.top === window &amp;&amp; blobUrl.split('#')[0] === window.location.href.split('#')[0]) {
+      // If _parent == self, then opening an identical URL with different
+      // location hash will only cause a navigation, not a download.
+      var padCharacter = blobUrl.indexOf('?') === -1 ? '?' : '&amp;';
+      blobUrl = blobUrl.replace(/#|$/, padCharacter + '$&amp;');
+      }
+      window.open(blobUrl, '_parent');
+      }
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="CreateModalViewText" Description="Cria modal com campo de texto" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@CreateModalViewText(nameModal);">
+    <Output Name="JavaScript">
+      {
+      var nameModal = {0};
+      if ($('.' + nameModal).length == 0) {
+      var div = $('&lt;div class="' + nameModal + '"&gt;&lt;/div&gt;');
+      var title = $('&lt;h3&gt; &lt;/h3&gt;');
+      var content = $('&lt;div class="' + nameModal + 'Content"&gt;&lt;textarea id="iTexto" style="width:100%; height: 350px; border: 1px solid #eee" frameborder="0"&gt;&lt;/textarea&gt;&lt;/div&gt;');
+      var buttonDiv = $('&lt;button id="' + nameModal + 'btnOK" class="btn"&gt;OK&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;');
+      div.append(title);
+      div.append(content);
+      div.append(buttonDiv);
+
+      $('#main').append(div);
+
+      iTexto.addEventListener('load', function () {
+      if (isIE())
+      $(iXML.document.body).append('');
+      else
+      $(iXML).contents().find('body').append('');
+      }, true);
+
+      var buttonOK = $('#' + nameModal + 'btnOK');
+      buttonOK.on('click', function () {
+      $('.' + nameModal).igDialog("close");
+      });
+
+      div.hide();
+
+      $('.' + nameModal).igDialog({
+      showHeader: false,
+      showFooter: false,
+      state: 'closed',
+      modal: true,
+      draggable: false,
+      resizable: false,
+      showCloseButton: false,
+      height: "500px",
+      width: "1000px",
+      stateChanged: function (evt, ui) {
+      if (ui.action == "close") {
+
+      }
+      else if (ui.action == "open") {
+      $('#iTexto').scrollTop(0);
+      }
+      }
+      });
+      }
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="OpenModalViewText" Description="Abre modal com o texto enviado e formado" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@OpenModalViewText(nameModal;;texto;;formato);">
+    <Output Name="JavaScript">
+      {
+      function formatXml(xml) {
+      var reg = /(&gt;)\s*(&lt;)(\/*)/g;
+      var wsexp = / *(.*) +\n/g;
+      var contexp = /(&lt;.+&gt;)(.+\n)/g;
+      xml = xml.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
+      var pad = 0;
+      var formatted = '';
+      var lines = xml.split('\n');
+      var indent = 0;
+      var lastType = 'other';
+      // 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions
+      var transitions = {
+      'single-&gt;single': 0,
+      'single-&gt;closing': -1,
+      'single-&gt;opening': 0,
+      'single-&gt;other': 0,
+      'closing-&gt;single': 0,
+      'closing-&gt;closing': -1,
+      'closing-&gt;opening': 0,
+      'closing-&gt;other': 0,
+      'opening-&gt;single': 1,
+      'opening-&gt;closing': 0,
+      'opening-&gt;opening': 1,
+      'opening-&gt;other': 1,
+      'other-&gt;single': 0,
+      'other-&gt;closing': -1,
+      'other-&gt;opening': 0,
+      'other-&gt;other': 0
+      };
+
+      for (var i = 0; i &lt; lines.length; i++) {
+      var ln = lines[i];
+      var single = Boolean(ln.match(/&lt;.+\/&gt;/)); // is this line a single tag? ex. &lt;br /&gt;
+      var closing = Boolean(ln.match(/&lt;\/.+&gt;/)); // is this a closing tag? ex. &lt;/a&gt;
+      var opening = Boolean(ln.match(/&lt;[^!].*&gt;/)); // is this even a tag (that's not &lt;!something&gt;)
+      var type = single ? 'single' : closing ? 'closing' : opening ? 'opening' : 'other';
+      var fromTo = lastType + '-&gt;' + type;
+      lastType = type;
+      var padding = '';
+
+      indent += transitions[fromTo];
+      for (var j = 0; j &lt; indent; j++) {
+      padding += '\t';
+      }
+      if (fromTo == 'opening-&gt;closing')
+      formatted = formatted.substr(0, formatted.length - 1) + ln + '\n'; // substr removes line break (\n) from prev loop
+      else
+      formatted += padding + ln + '\n';
+      }
+
+      return formatted;
+      }
+
+      var nameModal = {0};
+      var text = {1};
+      var format = {2};
+
+      if (format == 'xml') text = formatXml(text);
+      if (format == 'json') text = JSON.stringify(JSON.parse(text), null, "\t");
+      innerDoc = iTexto;
+      $(innerDoc).text(text);
+      $('.' + nameModal).igDialog("open");
+      }
+    </Output>
+  </Macro>
+
+  <Macro Name="OpenHTML" Description="Open a new window and shows Html." Domain="ClientContext" ParameterCount="5" Delimiter=";;" Document="@OpenHTML('name';;'Window Title';;'Html';;width;;height)">
+    <Output Name="JavaScript">
+      <![CDATA[      
+    var _window = window.open("", {0}, "location=no,directories=no,width="+(isNullOrEmpty(({3}))?400:({3}).toString())+",height="+(isNullOrEmpty(({4}))?300:({4}).toString()));
+    _window.document.write({2});
+    _window.document.title = {1};
+      ]]>
+    </Output>
+
+  </Macro>
+
+  <Macro Name="ShowQuestionOptions" Description="Ask a question." Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@ShowQuestionOptions('message';;arrayButtonsOptions;;Body)">
+    <Output Name="JavaScript">
+      var buttons = {1};
+      app.showMessage(({0}).toString(), 'Alerta', buttons)
+      .then(function (selectedOption) {
+      {2};
+      });
+    </Output>
+  </Macro>
+
+  <Macro Name="DownloadArquivo" Description="Efetua download arquivo" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@DownloadArquivo(nomeArquivoLog;;dadosArquivo;;callback);">
+    <Output Name="JavaScript">
+      var b64toBlobMacro = function (b64Data, contentType, sliceSize) {
+      contentType = contentType || '';
+      sliceSize = sliceSize || 512;
+
+      var byteCharacters = atob(b64Data);
+      var byteArrays = [];
+
+      for (var offset = 0; offset &lt; byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i &lt; slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+      }
+      var blob = new Blob(byteArrays, { type: contentType });
+      return blob;
+      }
+
+      var downloadMacro = function (blobUrl, filename) {
+      var a = document.createElement('a');
+      if (a.click) {
+      // Use a.click() if available. Otherwise, Chrome might show
+      // "Unsafe JavaScript attempt to initiate a navigation change
+      //  for frame with URL" and not open the PDF at all.
+      // Supported by (not mentioned = untested):
+      // - Firefox 6 - 19 (4- does not support a.click, 5 ignores a.click)
+      // - Chrome 19 - 26 (18- does not support a.click)
+      // - Opera 9 - 12.15
+      // - Internet Explorer 6 - 10
+      // - Safari 6 (5.1- does not support a.click)
+      a.href = blobUrl;
+      a.target = '_parent';
+      // Use a.download if available. This increases the likelihood that
+      // the file is downloaded instead of opened by another PDF plugin.
+      if ('download' in a) {
+      a.download = filename;
+      }
+      // &lt;a&gt; must be in the document for IE and recent Firefox versions.
+      // (otherwise .click() is ignored)
+      (document.body || document.documentElement).appendChild(a);
+      a.click();
+      a.parentNode.removeChild(a);
+      }
+      else {
+      if (window.top === window &amp;&amp; blobUrl.split('#')[0] === window.location.href.split('#')[0]) {
+      // If _parent == self, then opening an identical URL with different
+      // location hash will only cause a navigation, not a download.
+      var padCharacter = blobUrl.indexOf('?') === -1 ? '?' : '&amp;';
+      blobUrl = blobUrl.replace(/#|$/, padCharacter + '$&amp;');
+      }
+      window.open(blobUrl, '_parent');
+      }
+      }
+
+
+
+      var nomeArquivoParam = {0};
+      var arquivoParam = {1};
+      var callback = {2};
+
+
+      vm.dataToolbar.isBusy(true);
+      if (arquivoParam != null &amp;&amp; arquivoParam != "") {
+      var blob = b64toBlobMacro(arquivoParam, 'application/text');
+
+      if (navigator.msSaveBlob) {
+      navigator.msSaveBlob(blob, nomeArquivoParam);
+      }
+      else {
+      var blobUrl = URL.createObjectURL(blob);
+      downloadMacro(blobUrl, nomeArquivoParam);
+      }
+
+      vm.dataToolbar.isBusy(false);
+      }
+
+    </Output>
+  </Macro>
+
+  <Macro Name="WizardModeVisible" Description="Set the visibility of Wizard Mode. True to make it visible, false to hide;" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@WizardModeVisible(false);">
+    <Output Name="JavaScript">
+      var visible = {0} === true;
+      $("[id='chkHideWizards']").bootstrapSwitch('state', !visible);
+    </Output>
+  </Macro>
+
+  <Macro Name="GetExternalUI" Description="Get a external UI by name. Use only name of the UI." Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@GetExternalUI('CadastroProduto')">
+    <Output Name="JavaScript">
+      vm[{0}]()
+    </Output>
+  </Macro>
+
+  <Macro Name="ValidDateFilter" Description="Valida se foi efetuado o filtro de data, inclusive período" Domain="ClientAll" ParameterCount="6" Delimiter=";;" Document="@ValidDateFilter(viewModel;;nomeUI;;entidade;;propriedade;;campo;;limiteDias);">
+    <Output Name="JavaScript">
+
+      function() {
+
+      var datainicio = {0}.entitySearchRange.{1}{3}_begin();
+      var datafim = {0}.entitySearchRange.{1}{3}_end();
+      var data = getAbsoluteValue({2}.{3});
+
+      if (data == null) {
+      if(datainicio == null || datafim == null)
+      {
+      app.showMessage(('O filtro do campo ' + {4} + ' é obrigatório.').toString(), 'Alerta', ['Ok']);
+      return false;
+      }
+
+      if(datainicio != null &amp;&amp; datafim != null &amp;&amp; {5} > 0)
+      {
+      var dataDif = new Date(datafim - datainicio);
+      var dias = dataDif/1000/60/60/24;
+      if(dias > {5})
+      {
+      app.showMessage(('O intervalo de pesquisa do campo ' + {4} + ' não pode exceder ' + {5} + ' dias.').toString(), 'Alerta', ['Ok']);
+      return false;
+      }
+      }
+      }
+
+      return true;
+      }();
+    </Output>
+  </Macro>
+  <Macro Name="AddScriptFile" Description="Adiciona o script na pagina atual @AddScriptFile('Linx.Framework.BV.SPA';;'customScript/script1.js');" Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@AddScriptFile(spaAssemblyName;;urlScipt);">
+    <Output Name="JavaScript">
+      require(['managers/__route'], function(r){
+      var _mod = $.grep(r.MODULES_VERSION, function(elem, ind){ return  elem.assemblyName == {0}})
+      if(_mod.length == 1){
+      var _url = _mod[0].moduleName + '/' + _mod[0].requireId + '/App/'+{1};
+      //if(_url.endsWith('.js')) _url = _url.substr(0, _url.length-3) + 'min.js';
+      var fRef = document.createElement('script');
+      fRef.setAttribute("type", "text/javascript");
+      fRef.setAttribute("src", _url);
+      document.getElementsByTagName("head")[0].appendChild(fRef);
+      }
+      });
+    </Output>
+  </Macro>
+  <Macro Name="AddStyleFile" Description="Adiciona o script na pagina atual @AddStyleFile('Linx.Framework.BV.SPA';;'customStyles/style1.css');" Domain="ClientAll" ParameterCount="2" Delimiter=";;" Document="@AddStyleFile(spaAssemblyName;;urlStyle);">
+    <Output Name="JavaScript">
+      require(['managers/__route'], function(r){
+      var _mod = $.grep(r.MODULES_VERSION, function(elem, ind){ return  elem.assemblyName == {0}})
+      if(_mod.length == 1){
+      var _url = _mod[0].moduleName + '/' + _mod[0].requireId + '/App/'+{1};
+
+      var fRef = document.createElement('link');
+      fRef.setAttribute("rel", "stylesheet");
+      fRef.setAttribute("type", "text/css");
+      fRef.setAttribute("href", _url);
+      document.getElementsByTagName("head")[0].appendChild(fRef);
+      }
+      });
+    </Output>
+  </Macro>
+  <Macro Name="ButtonYoutube" Description="Adiciona botão de youtube na tollbar para acesso ao youtube" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@ButtonYoutube(spa;;title;;link);">
+    <Output Name="JavaScript">
+
+      var spa = {0};
+      var title = {1};
+      var link = {2};
+
+      var buttonYoutube = {
+      helpers: {
+      toolbar: function () {
+      return $('div[data-view='+ "'" + spa + "'" +']').find('#screen-options-link-wrap').first();
+      },
+      },
+      viewModel: {},
+      initialize: function (e) {
+      var self = this;
+      if (!self.initialized) {
+      self.viewModel = e;
+      self.criaBotoesToolbar();
+      }
+      },
+      criaBotoesToolbar: function () {
+      var self = this;
+      var containerExists = false;
+      var customToolBarContainer;
+      if ($('.pcToolbarContainer').length == 0)
+      customToolBarContainer = $("&lt;div class='pcToolbarContainer' style='display:inline;margin-left:20px'&gt;&lt;a class='btn btn-sm btn-default' href="+ link +" target='_blank' title='" + title + "'&gt;&lt;i class='fa fa-youtube-play'&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;");
+      else {
+      customToolBarContainer = $('.pcToolbarContainer')[0];
+      containerExists = true;
+      }
+      if (self.helpers.toolbar().find('.pcToolbarContainer').length == 0)
+      self.helpers.toolbar().prepend(customToolBarContainer);
+      }
+      }
+      buttonYoutube.initialize(vm);
+    </Output>
+  </Macro>
+
+  <Macro Name="SelectorClass" Description="Recupera o componente html via jquery por classe" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SelectorClass(className);">
+    <Output Name="JavaScript">
+      $('.{0}')
+    </Output>
+  </Macro>
+
+  <Macro Name="SelectorId" Description="Recupera o componente html via jquery por id" Domain="ClientAll" ParameterCount="1" Delimiter=";;" Document="@SelectorClass(idComponent);">
+    <Output Name="JavaScript">
+      $('#{0}')
+    </Output>
+  </Macro>
+
+  <Macro Name="OpenToastrDialog" Description="Abrir um toastr de notificaÃ§Ã£o do tipo dialog no canto inferior direito da tela." Domain="ClientAll" ParameterCount="5" Delimiter=";;" Document="@OpenToastrDialog(title;;content;;type;;keephistory;;time);">
+    <Output Name="JavaScript">
+      var _title = {0};
+      var _content = {1};
+      var _type = {2}; //info, success, error, warning, linx
+      var _keephistory = {3};
+      var _time = {4} * 1000;
+
+      // CSS DIALOG
+      //=========================================================
+      if(!$('style[rel=cssDialog]').length)
+      {
+      var i_background = '#d9edf7 !important', i_border = '1px solid #bce8f1 !important', i_titlecolor = '#31708f !important', i_contentcolor = '#31708f !important';
+      var s_background = '#dff0d8 !important', s_border = '1px solid #d6e9c6 !important', s_titlecolor = '#288442 !important', s_contentcolor = '#288442 !important';
+      var e_background = '#f2dede !important', e_border = '1px solid #ebccd1 !important', e_titlecolor = '#bc2c16 !important', e_contentcolor = '#bc2c16 !important';
+      var w_background = '#fcf8e3 !important', w_border = '1px solid #faebcc !important', w_titlecolor = '#cc7500 !important', w_contentcolor = '#cc7500 !important';
+      var l_background = '#5b2e90 !important', l_border = '1px solid #5b2e90 !important', l_titlecolor = '#ffffff !important', l_contentcolor = '#333333 !important';
+
+      if(_title) i_background = s_background = e_background = w_background = l_background = '#fff !important';
+
+      var _style =
+      `&lt;style type='text/css' rel='cssDialog'&gt;
+      .containerAllDialogs { position:fixed; right:10px; bottom:0; width:90%; max-width:550px; z-index:999; }
+      .dialogElement { overflow:hidden !important; position:relative; left:0 !important; margin:0 0 8px 0; padding:0; width:100%; height:auto !important; min-height:60px !important; -webkit-box-shadow:-5px 5px 10px 0px rgba(0,0,0,0.30); -moz-box-shadow:-5px 5px 10px 0px rgba(0,0,0,0.30); box-shadow:-5px 5px 10px 0px rgba(0,0,0,0.30); }
+      .dialogElement.info    { border:` + i_border + `; background-color:` + i_background + `; }
+      .dialogElement.success { border:` + s_border + `; background-color:` + s_background + `; }
+      .dialogElement.error   { border:` + e_border + `; background-color:` + e_background + `; }
+      .dialogElement.warning { border:` + w_border + `; background-color:` + w_background + `; }
+      .dialogElement.linx    { border:` + l_border + `; background-color:` + l_background + `; }
+      .dialogElement.info .ui-dialog-titlebar    { color:` + i_titlecolor + `; background-color:` + i_background + `; border-bottom:` + i_border + `; }
+      .dialogElement.success .ui-dialog-titlebar { color:` + s_titlecolor + `; background-color:` + s_background + `; border-bottom:` + s_border + `; }
+      .dialogElement.error .ui-dialog-titlebar   { color:` + e_titlecolor + `; background-color:` + e_background + `; border-bottom:` + e_border + `; }
+      .dialogElement.warning .ui-dialog-titlebar { color:` + w_titlecolor + `; background-color:` + w_background + `; border-bottom:` + w_border + `; }
+      .dialogElement.linx .ui-dialog-titlebar    { color:` + l_titlecolor + `; background-color:` + l_background + `; border-bottom:` + l_border + `; }
+      .dialogElement .ui-dialog-title { font-weight:500 !important; font-size:18px; }
+      .dialogElement .ui-dialog-titlebar-close { top:5px; right:5px; margin:0; padding:0px !important; background:none; border:none; }
+      .dialogElement .ui-dialog-titlebar-close.vmiddle { top:20px; right:5px; margin:0; }
+      .dialogElement.info .ui-dialog-titlebar-close    { color:` + i_titlecolor +`; }
+      .dialogElement.success .ui-dialog-titlebar-close { color:` + s_titlecolor +`; }
+      .dialogElement.error .ui-dialog-titlebar-close   { color:` + e_titlecolor +`; }
+      .dialogElement.warning .ui-dialog-titlebar-close { color:` + w_titlecolor +`; }
+      .dialogElement.linx .ui-dialog-titlebar-close    { color:` + l_titlecolor +`; }
+      .dialogElement .ui-dialog-titlebar-close:hover { background:none; border:none; }
+      .dialogElement .ui-dialog-content { margin:0 !important; padding:20px !important; height:auto !important; min-height: 25px !important; border:0; font-size:14px; font-family:'Dosis-Medium',Verdana,sans-serif; }
+      .dialogElement.info .ui-dialog-content    { color:` + i_contentcolor + `; }
+      .dialogElement.success .ui-dialog-content { color:` + s_contentcolor + `; }
+      .dialogElement.error .ui-dialog-content   { color:` + e_contentcolor + `; }
+      .dialogElement.warning .ui-dialog-content { color:` + w_contentcolor + `; }
+      .dialogElement.linx .ui-dialog-content    { color:` + l_contentcolor + `; }
+      &lt;/style&gt;`;
+
+      $('body').append(_style);
+      }
+
+      // HTML DIALOG
+      //=========================================================
+      if($("body .ui-dialog-content").length &amp;&amp; !_keephistory) {
+      $(".dialogElement").animate({ opacity:'hide', top:'-40px', 'z-index':'-1' }, 600, 'linear', function() {
+      $(".ui-dialog-content", this).dialog("destroy").remove();
+      });
+      }
+
+      if(!$('body .containerAllDialogs').length)
+      $('body').append('&lt;div class="containerAllDialogs"&gt;&lt;/div&gt;');
+
+      var qtdElement = $('body .containerDialog').length + 1;
+      var idElement = "dialog_" + qtdElement;
+      var containerDialog = "containerDialog_" + qtdElement;
+      var htmlDialog = '&lt;div class="' + containerDialog + ' containerDialog"&gt;&lt;div id="' + idElement + '" rel="' + qtdElement + '" title="' + _title + '"&gt;' + _content + '&lt;/div&gt;&lt;/div&gt;';
+
+      $('body .containerAllDialogs').append(htmlDialog);
+
+      var dialogElement = $("#" + idElement);
+      dialogElement.dialog({
+      appendTo: '.' + containerDialog,
+      autoOpen: false,
+      modal: false,
+      resizable: false,
+      draggable: false,
+      dialogClass: 'dialogElement ' + _type,
+      closeText: "Fechar",
+      width: "100%",
+      position: ['right', 'bottom'],
+      show: { effect: "slide", direction: "down", duration: 1000, easing: "easeOutQuint" },
+      hide: { effect: "slide", direction: "down", duration: 600, easing: "swing" },
+      open: function(e) {
+      $(this).closest('div.ui-widget').removeClass("ui-widget-content");
+
+      if(_time){ setTimeout(function(elem){ elem.dialog("close"); }, _time, $(this)); }
+      },
+      close: function(e) {
+      $(this).dialog("destroy");
+      $(this).remove();
+      }
+      });
+
+      var btnClose = $('.' + containerDialog).find('button.ui-dialog-titlebar-close');
+      btnClose.attr('title','Fechar').html('&lt;i class="icon-remove"&gt;&lt;/i&gt;');
+
+      if(!_title) {
+      btnClose.addClass('vmiddle').appendTo(dialogElement.closest('.ui-dialog-content'));
+      $('.' + containerDialog).find('.ui-dialog-titlebar').remove();
+      }
+
+      dialogElement.dialog('open');
+    </Output>
+  </Macro>
+
+
+  <Macro Name="DownloadArquivoModeloImportacao" Description="Download Modelo de Importação" Domain="ClientAll" ParameterCount="3" Delimiter=";;" Document="@DownloadArquivoModeloImportacao(spa;;arrayColunas;;nomeArquivoCsv.csv);">
+    <Output Name="JavaScript">
+      var spa = {0};
+      var row = {1};
+      var nomeArquivoCsv = {2};
+      var buttonDownloadM = {
+      helpers: {
+      toolbar: function () {
+      return $('div[data-view='+ "'" + spa + "'" +']').find('#screen-options-link-wrap').first();
+      },
+      },
+      viewModel: {},
+      initialize: function (e) {
+      var self = this;
+      if (!self.initialized) {
+      self.viewModel = e;
+      self.criaBotoesToolbar();
+      }
+      },
+      criaBotoesToolbar: function () {
+      var self = this;
+      var containerExists = false;
+      var customToolBarContainerDownload;
+      if ($('.pcToolbarContainerDownload').length == 0)
+      customToolBarContainerDownload = $("&lt;div class='pcToolbarContainerDownload' style='display:inline;'&gt;&lt;a class='btn btn-sm btn-default' id='btnModeloImportacao'  title='Download Modelo Importação'&gt;&lt;i class='fa fa fa-download'&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;");
+      else {
+      customToolBarContainerDownload = $('.pcToolbarContainerDownload')[0];
+      containerExists = true;
+      }
+      if (self.helpers.toolbar().find('.pcToolbarContainerDownload').length == 0)
+      self.helpers.toolbar().prepend(customToolBarContainerDownload);
+      $("#btnModeloImportacao").click(function () {
+      var rows =  row;
+      var csvFile = '';
+      for (var i = 0; i &lt; rows.length; i++) {csvFile += rows[i].replace(/^\s+/,"").replace(/\s+$/,"") + '\n';}
+      var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
+      if (navigator.msSaveBlob) { // IE 10+
+      navigator.msSaveBlob(blob, nomeArquivoCsv );
+      }
+      else {
+      var link = document.createElement("a");
+      if (link.download !== undefined) {
+      var url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", nomeArquivoCsv);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      }
+      }
+      function isIE() {
+      var rv = -1;
+      if (navigator.appName == 'Microsoft Internet Explorer') {
+      var ua = navigator.userAgent;
+      var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+      if (re.exec(ua) != null)
+      rv = parseFloat(RegExp.$1);
+      }
+      else if (navigator.appName == 'Netscape') {
+      var ua = navigator.userAgent;
+      var re = new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})");
+      if (re.exec(ua) != null)
+      rv = parseFloat(RegExp.$1);
+      }
+      return rv == -1 ? false : true;
+      }
+      function b64toBlob(b64Data, contentType, sliceSize) {
+      contentType = contentType || '';
+      sliceSize = sliceSize || 512;
+      var byteCharacters = b64Data;
+      var byteArrays = [];
+      for (var offset = 0; offset &lt; byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i &lt; slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+      }
+      var byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+      }
+      var blob = new Blob(byteArrays, { type: 'text/csv;charset=utf-8;' });
+      return blob;
+      }
+      var download = function (blobUrl, filename) {
+      var a = document.createElement('a');
+      if (a.click) {
+      a.href = blobUrl;
+      a.target = '_parent';
+      if ('download' in a) {
+      a.download = nomeArquivoCsv
+      }
+      (document.body || document.documentElement).appendChild(a);
+      a.click();
+      a.parentNode.removeChild(a);
+      } else {
+      if (window.top === window &amp;&amp;
+      blobUrl.split('#')[0] === window.location.href.split('#')[0]) {
+      var padCharacter = blobUrl.indexOf('?') === -1 ? '?' : '&amp;';
+      blobUrl = blobUrl.replace(/#|$/, padCharacter + '$&amp;');
+      }
+      window.open(blobUrl, '_parent');
+      }
+      };
+      })
+      }
+      }
+      buttonDownloadM.initialize(vm);
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.setDisplayName" Description="Seta o Display Name (caption) de um campo da Pivot" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.setDisplayName(vm, 'Nome da Pivot', {'Campo da Pivot': 'Display Name', 'Campo da Pivot' : 'Display Name', ...});">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.updateLayout" Description="Atualiza o layout da Pivot (DisplayName e Visible) depois de uma alteração" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.updateLayout(vm, 'Nome da Pivot');">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+  
+<Macro Name="pivotLayout.addField" Description="Adiciona o campo na lista de campos disponíveis" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.addField(vm, 'Nome da Pivot', ['Campo', 'Campo', ...]);">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.removeField" Description="Remove o campo da lista de campos disponíveis" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.removeField(vm, 'Nome da Pivot', ['Campo', 'Campo', ...]);">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.addMeasure" Description="Adiciona o campo na lista de Valor (measure) com a função de agregação indicada na posição informada" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.addMeasure(vm, 'Nome da Pivot', [{ measure : 'Campo de Valor',  position : Posição, aggregation : 'Função de Agregação'}, { measure : 'Campo de Valor',  position : Posição, aggregation : 'Função de Agregação'},...]);">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.removeMeasure" Description="Remove o campo da lista Valor (Measure) da pivot" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.removeMeasure(vm, 'Nome da Pivot', ['Campo de Valor', 'Campo de Valor', ...]);">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.addFilter" Description="Adiciona o campo na lista de filtro na pivot na posição informada" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.addFilter(vm, 'Nome da Pivot', {'Campo de Filtro' : Posição, 'Campo de Filtro' : Posição, ...});">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.removeFilter" Description="Remove o campo da lista de filtro da pivot" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.removeFilter(vm, 'Nome da Pivot', ['Campo de Filtro', 'Campo de Filtro', ...]);">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.addColumn" Description="Adiciona o campo na lista de coluna na pivot na posição informada" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.addColumn(vm, 'Nome da Pivot', {'Campo de Coluna' : Posição, 'Campo de Coluna' : Posição, ...});">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.removeColumn" Description="Remove o campo da lista de coluna da pivot" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.removeColumn(vm, 'Nome da Pivot', ['Campo de Coluna', 'Campo de Coluna', ...]);">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.addRow" Description="Adiciona o campo na lista de linha na pivot na posição informada" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.addRow(vm, 'Nome da Pivot', {'Campo de Linha' : Posição, 'Campo de Linha' : Posição, ...});">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.removeRow" Description="Remove o campo da lista de linha da pivot" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.removeRow(vm, 'Nome da Pivot', ['Campo de Linha', 'Campo de Linha', ...]);">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+
+  <Macro Name="pivotLayout.getPivotInstance" Description="Retorna a instância da Pivot" Domain="ClientAll" ParameterCount="0" Delimiter="," Document="pivotLayout.getPivotInstance(vm, 'Nome da Pivot');">
+    <Output Name="JavaScript">
+    </Output>
+  </Macro>
+  
+</MacroScript>

@@ -1,0 +1,55 @@
+{{#if options.odata}}
+
+<ion-list can-swipe="true">
+    <ion-item ng-repeat="item in vm.dataBusiness.currentDataItem().{{options.repeater}}List">
+        <p ng-bind="item.{{ options.headerPropertie }}"></p>
+
+        {{#ifvalue options.excludeButton value="true"}}
+        <ion-option-button class="button-assertive" ng-click="{{options.excludeFunction}}">
+            Excluir
+        </ion-option-button>
+        {{/ifvalue}}
+
+        {{#ifvalue options.editButton value="true"}}
+        <ion-option-button class="button-positive" ng-click="{{options.editFunction}}">
+            Editar
+        </ion-option-button>
+        {{/ifvalue}}
+
+        {{#ifvalue options.customButton value="true"}}
+        <ion-option-button class="button-calm" ng-click="{{options.customFunction}}">
+            {{options.customLabel}}
+        </ion-option-button>
+        {{/ifvalue}}
+
+    </ion-item>
+</ion-list>
+
+{{else}}
+
+<ion-list can-swipe="true">
+    <ion-item ng-repeat="item in {{options.repeater}}">
+        <p ng-bind="item.{{ options.headerPropertie }}"></p>
+
+        {{#ifvalue options.excludeButton value="true"}}
+        <ion-option-button class="button-assertive" ng-click="{{options.excludeFunction}}">
+            Excluir
+        </ion-option-button>
+        {{/ifvalue}}
+
+        {{#ifvalue options.editButton value="true"}}
+        <ion-option-button class="button-positive" ng-click="{{options.editFunction}}">
+            Editar
+        </ion-option-button>
+        {{/ifvalue}}
+
+        {{#ifvalue options.customButton value="true"}}
+        <ion-option-button class="button-calm" ng-click="{{options.customFunction}}">
+            {{options.customLabel}}
+        </ion-option-button>
+        {{/ifvalue}}
+
+    </ion-item>
+</ion-list>
+
+{{/if}}

@@ -1,0 +1,98 @@
+{{#if isAutoGen}}
+//------------------------------------------------------------------------------
+//  Auto Generated
+//    This code was generated from a template.
+//
+//    Manual changes to this file may cause unexpected behavior in your application.
+//    Manual changes to this file will be overwritten if the code is regenerated.
+{{/if}}
+//------------------------------------------------------------------------------
+//  Creation date: {{date}}
+//  User name: {{user}}
+//------------------------------------------------------------------------------
+//  Linx AppBuilder: {{appBuilderVersion}}
+//  Linx AppBuilder Designer: {{appBuilderDesignerVersion}}
+//  Linx AppBuilder Service: {{appBuilderServiceVersion}}
+//------------------------------------------------------------------------------
+
+'use strict';
+
+function {{className}}Controller($scope, $state, $stateParams, {{oDataService}}{{#each dependencies}}, {{this}}{{/each}}) {
+	
+    var vm = this;
+	vm.init = init;
+	vm.getById = getById;
+	vm.getAll = getAll;
+	vm.create = create;
+	vm.update = update;
+	vm.remove = remove;
+	vm.title = $state.current.displayName;
+
+	function init() {	
+		getAll();	
+	}
+
+	function getById() {
+        var id = 1;
+		{{oDataService}}.getById(id)
+			.then(function(data) {
+
+			})
+			.catch(function(error) {
+
+			});
+	}
+
+	function getAll() {
+		{{oDataService}}.query()
+			.then(function(data) {
+				vm.data = data;
+			})
+			.catch(function(error) {
+
+			});
+	}
+
+	function create() {
+		// TODO: Add insert logic here
+
+        var item = {};
+		{{oDataService}}.create(item)
+			.then(function(data) {
+
+			})
+			.catch(function(error) {
+
+			});
+	}
+
+	function update() {
+		// TODO: Add update logic here
+
+        var item = {};
+		{{oDataService}}.update(item)
+			.then(function(data) {
+
+			})
+			.catch(function(error) {
+
+			});
+	}
+
+	function remove() {
+		// TODO: Add delete logic here
+
+        var item = {};
+		{{oDataService}}.delete(item)
+			.then(function(data) {
+
+			})
+			.catch(function(error) {
+
+			});
+	} 
+}
+
+module.exports = function (appModule) {
+    appModule.controller('{{injectName}}Controller', {{className}}Controller);
+};

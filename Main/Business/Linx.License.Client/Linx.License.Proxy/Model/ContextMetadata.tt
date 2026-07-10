@@ -1,0 +1,293 @@
+<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension=".json" #>
+<#@ include file = "..\Includes\DynamicModels.ttinclude"#>
+<#@ assembly name = "C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Common\Linx\Desktop\GAC\Linx.Tools.dll" #>
+<#@ import namespace = "Linx.Tools" #>
+<#@ import namespace = "System.Collections.Generic" #>
+<# 
+List<BusinessModelDesignerRoot> models = GetModels();	
+List<string> connections = new List<string>();
+List<string> domains = new List<string>();
+
+if (models.Count > 0)
+{
+var rootDesigner = models[0].GetMainModel(models);
+var defaultProvider = rootDesigner.GetDefaultProvider();
+var modelClasses = rootDesigner.GetModelClasses(models);
+#> 
+{
+  "Name": "<#=rootDesigner.DataContextName#>",
+  "Namespace": "<#=rootDesigner.TargetNamespace#>",
+  "ConnectionName": "<#=rootDesigner.GetConnectionName()#>",
+  "AuthorizationEnabled": <#=rootDesigner.HasAutomaticAuthorization().ToString().ToLower()#>,
+  "Entities": [
+	  
+<#
+	string classSeparator = "";
+    foreach(var classType in modelClasses)
+    {	 
+	  if (!classType.NotMapped)  
+	  {	   
+#>
+		<#=classSeparator#>{
+			"Name": "<#=classType.Name#>",
+			"Schema": "<#=classType.Schema#>",
+			"Table": "<#=classType.Table#>",
+			"BaseTypeName": "<#=(classType.Superclass != null ? classType.Superclass.Name : (classType.SuperclassSh != null ? classType.SuperclassSh.Name : ""))#>",
+			"Properties": [
+
+
+<#		
+		string propSeparator = "";
+        foreach(ModelAttribute attribute in classType.Attributes)
+        {
+			if (attribute.InStudy || (rootDesigner.HasAutomaticAuthorization() && (classType.EnableIdLinxForSearching || classType.EnableIdLinxForInserting) && attribute.Name == "ID_LINX"))
+				continue;
+#>
+						<#=propSeparator#>{
+							"Name": "<#=attribute.Name#>",
+							"DataType": "<#=attribute.GetDataType()#>",
+							"IsNullable": <#=attribute.IsNullable.ToString().ToLower()#>,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+<#				
+			string decSeparator = "";
+			var lookupInfo = attribute.GetAllLookUpInfo(modelClasses);
+			if(!lookupInfo.IsNullOrEmpty())
+            {
+#>
+        <#=decSeparator#>"<#=lookupInfo.Replace("\"", "'")#>"
+<#
+				decSeparator = ",";
+            }
+			if(attribute.IsPrimaryKey && !attribute.IsNotMapped() && !classType.NotMapped)
+            {
+#>
+                   <#=decSeparator#>"[Key]"
+<#
+				decSeparator = ",";
+            }
+			if(attribute.DataType == ModelDataType.Timestamp && !attribute.IsNotMapped() && !classType.NotMapped)
+            {
+#>
+                   <#=decSeparator#>"[Timestamp]"
+<#
+				decSeparator = ",";
+            }			
+            if(!attribute.IsNotMapped() && !classType.NotMapped)
+            {
+				string columnName = (ClassKindHelper.IsModelViewBehavior(classType.Kind) ? (attribute.ColumnName.IsNullOrEmpty() ? (attribute.ModelViewSource.IsNullOrEmpty() ? attribute.Name : attribute.ModelViewSource.Left("(")) : attribute.ColumnName) : (attribute.ColumnName.IsNullOrEmpty() ? attribute.Name : attribute.ColumnName));
+				if (!columnName.IsNullOrEmpty())
+				{
+#>
+                   <#=decSeparator#>"[Column('<#= columnName #>'<#if(defaultProvider == Provider.SQLServer){ #>,  TypeName = '<#= attribute.ColumnType #>'<#}#>, Order=<#= attribute.GetOrder() #> )]"
+<#
+					decSeparator = ",";
+				}
+			}
+            if(attribute.IsPrimaryKey || attribute.IsIdentityDB())
+            {
+#>
+                   <#=decSeparator#>"[DatabaseGenerated(DatabaseGeneratedOption.<#= (attribute.IsIdentity && attribute.ForeignKey.IsNullOrEmpty() ? "Identity" : "None") #>)]"
+<#
+				decSeparator = ",";
+            }
+            if(!attribute.IsNullable && !rootDesigner.RemoveRequiredAttributes && !attribute.IsNotMapped() && !classType.NotMapped)
+            {
+#>
+                   <#=decSeparator#>"[Required<#= (attribute.GetDataType() == "string" ? "(AllowEmptyStrings=true)" : "") #>]"
+<#
+				decSeparator = ",";
+            }
+            if(!attribute.DisplayName.IsNullOrEmpty())
+            {
+#>
+                   <#=decSeparator#>"[Display(Name='<#=attribute.DisplayName.Replace("\t", "").Replace("\r", "").Replace("\n", "")#>')]"
+<#
+				decSeparator = ",";
+            }
+			string fkNav = attribute.GetForeignKeyNavigation(models);
+			if(!fkNav.IsNullOrEmpty())
+            {
+#>
+                   <#=decSeparator#>"[ForeignKey('<#=fkNav#>')]"
+<#
+				decSeparator = ",";
+            }
+			if(attribute.IsComputed && !attribute.IsNotMapped() && !classType.NotMapped)
+            {
+#>
+                   <#=decSeparator#>"[DatabaseGenerated(DatabaseGeneratedOption.Computed)]"
+<#
+				decSeparator = ",";
+            }
+			if(!attribute.Range.IsNullOrEmpty())
+            {
+#>
+                   <#=decSeparator#>"[Range(<#=attribute.Range#>)]"
+<#
+				decSeparator = ",";
+            }
+			if(attribute.BrandDecimalsControl)
+            {
+#>
+                   <#=decSeparator#>"[BrandDecimals]"
+<#
+				decSeparator = ",";
+            }
+			if(!attribute.Precision.IsNullOrEmpty())
+            {
+#>
+                   <#=decSeparator#>"[Precision(<#=attribute.Precision#>)]"
+<#
+				decSeparator = ",";
+            }
+			if(!attribute.Scale.IsNullOrEmpty())
+            {
+#>
+                   <#=decSeparator#>"[Scale(<#=attribute.Scale#>)]"
+<#
+				decSeparator = ",";
+            }
+			if(!attribute.CustomAttributes.IsNullOrEmpty())
+            {
+#>
+                   <#=decSeparator#>"[<#=attribute.CustomAttributes.Replace("\"", "'")#>"
+<#
+				decSeparator = ",";
+            }
+			if(!attribute.DomainName.IsNullOrEmpty())
+            {
+#>
+                   <#=decSeparator#>"[FunctionalPoint('DomainName[<#= attribute.DomainName #>]')]"
+<#
+				decSeparator = ",";
+            }
+            if(attribute.MaxLength > 0 && attribute.GetDataType() == "string" && attribute.DataType != ModelDataType.StringText)
+            {
+#>
+                   <#=decSeparator#>"[MaxLength(<#= attribute.MaxLength #>)]"
+<#
+				decSeparator = ",";
+            }
+#>
+
+							]
+						}
+<#	
+			propSeparator = ",";
+        }
+
+	List<string> navigations = new List<string>();
+	var fkDef = classType.GetForeignKeyProperties(models, "").Replace("\"", "'").Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+	if (fkDef.Length > 0)
+		navigations.AddRange(fkDef);
+	fkDef = classType.GetForeignKeyCollecions(models, "").Replace("\"", "'").Replace("\"", "'").Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+	if (fkDef.Length > 0)
+		navigations.AddRange(fkDef);
+	fkDef = classType.GetModelViewCollecions(models, "").Replace("\"", "'").Replace("\"", "'").Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+	if (fkDef.Length > 0)
+		navigations.AddRange(fkDef);
+
+	Dictionary<string, List<string>> navProps = new Dictionary<string, List<string>>();		
+	List<string> decorators = new List<string>();
+	foreach (var nav in navigations)
+	{
+		if (nav.StartsWith("public virtual "))
+		{
+			navProps.Add(nav.Extract("public virtual ", " { get; set; }"), decorators);
+			decorators = new List<string>();
+		}
+		else 
+		{
+			decorators.Add(nav);
+		}
+	}
+	
+	foreach (var navProp in navProps)
+	{
+		
+#>
+						<#=propSeparator#>{
+							"Name": "<#=navProp.Key.Right(" ")#>",
+							"DataType": "<#=navProp.Key.Left(" ")#>",
+							"IsNullable": false,
+							"IsNavigation": <#=(!navProp.Key.Contains("ICollection<")).ToString().ToLower()#>,
+							"IsCollection": <#=navProp.Key.Contains("ICollection<").ToString().ToLower()#>,
+							"Decorators": [
+<#
+	var decSeparator = "";
+	foreach (var decProp in navProp.Value)
+	{
+#>
+								<#=decSeparator#>"<#=decProp#>"
+<#
+		decSeparator = ",";
+	}
+#>
+							]
+						}
+						
+<#
+		propSeparator = ",";
+	}
+#>
+
+		   ]
+		}
+<#
+		classSeparator = ",";
+      }
+	}
+#>
+
+
+  ],
+  "Domains": [
+  
+<#
+string domainSeparator = "";
+foreach(BusinessModelDesignerRoot model in models)
+{	 
+	  foreach (var domainRef in model.GetAllDomains())
+	  {
+		if (!domains.Contains(domainRef.Name))
+		{
+			domains.Add(domainRef.Name); 
+
+#>
+			<#=domainSeparator#>{
+				"Name": "<#=domainRef.Name#>",
+				"Values": [
+<#
+			string dvSeparator = "";
+			foreach(var domainValue in domainRef.DomainValues)
+			{
+#>
+					<#=dvSeparator#>{
+						"Name": "<#=domainValue.Name#>",
+						"DisplayName": "<#=domainValue.DisplayName.Replace("\t", "").Replace("\r", "").Replace("\n", "")#>",
+						"Value": "<#=domainValue.Value.Replace("\"", "'")#>"
+					}
+<#
+				dvSeparator = ",";
+			}
+#>
+				]
+			}
+<#
+			domainSeparator = ",";
+		}	  
+	  }
+}
+#>
+  
+  ]
+		
+}
+<#
+}
+#>

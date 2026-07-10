@@ -1,0 +1,244 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+        <div class="col-md-12 remove-pl remove-pr">
+            <section>
+                <div class="screen-view">
+                               <div id="WizardNRede_wizWizard_d71b4906824a4788a656b686296fe25d" class="form-wizard col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+               <div class="form-body">
+                   <div class="row">
+                       <div class="col-md-10">
+                           <ul class="nav nav-pills nav-justified steps">
+                               <li >
+                                   <a href="#WizardNRede_tabWizardItem" data-toggle="tab" class="step active" style="cursor: default" >
+                                       <span class="number">1</span>
+                                       <span class="desc"><i class="fa fa-check"></i>VendasView</span>
+                                   </a>
+                               </li>
+                           </ul>
+                          <div id="WizardNRede_wizWizard_d71b4906824a4788a656b686296fe25d_bar" class="progress progress-striped active">
+                              <div class="progress-bar progress-bar-success"></div>
+                          </div>
+                       </div>
+                       <div class="col-md-2 position-absolute-btnWizard">
+                           <div class="form-actions right btnWizard-bottom remove-pb">
+                               <a href="javascript:;" class="btn default button-previous button-previous-wizard"><i class="m-icon-swapleft"></i>Voltar</a>
+                               <a href="javascript:;" class="btn blue button-next button-next-wizard">Continuar<i class="m-icon-swapright m-icon-white"></i></a>
+                               <a href="javascript:;" class="btn green button-submit button-submit-wizard">Submeter<i class="m-icon-swapright m-icon-white"></i></a>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="WizardNRede_tabWizardItem">
+                   <div class="ui-helper-clearfix input-box-wizard">
+                       <div data-bind="with: $root.WizardNRede().getWithBinding(currentDataItem, $root.WizardNRede().rootDataTypeName)">
+                       <div class="">
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardNRede_divData" class="" >
+                                       <label id="WizardNRede_lblData" for="WizardNRede_dtData" data-bind="css: { 'content-required': $root.WizardNRede().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Data">Data
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-small">
+                                               <div class="input-group box-input-small" >
+                                                   <span id="WizardNRede_dtData" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'Data', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'WizardNRede_dtData') ? ctrl.getCustomEnable($root, 'WizardNRede_dtData') : (!isEmptyEntityFn($data) && $root.WizardNRede().enabledForEditing())},  igDatePicker: { value: Data, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'WizardNRede_dtData') ? !ctrl.getCustomEnable($root, 'WizardNRede_dtData') : (isEmptyEntityFn($data) || !$root.WizardNRede().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'WizardNRede_dtData') ? !ctrl.getCustomEnable($root, 'WizardNRede_dtData') : (isEmptyEntityFn($data) || !$root.WizardNRede().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="WizardNRede_rgbtnData"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardNRede().entitySearchRange.has_VendasViewData(), 'icon-ok': $root.WizardNRede().entitySearchRange.has_VendasViewData(), hide: $root.WizardNRede().status() !== 'C' }, popoverWithBind: { template: '#WizardNRede_rgData', vm: $root.WizardNRede().entitySearchRange, ctrlName: 'WizardNRede_rgcData', headerText:'Filtro de datas' }"  /></span>
+                                                   <script id="WizardNRede_rgData" type="text/html" tabindex="-1">
+                                                      <input type="radio" data-bind="checked:VendasViewData_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:VendasViewData_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      <div id="WizardNRede_divrgData" >
+                                                          <div class="filterByRange" data-bind="visible: VendasViewData_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="WizardNRede_dtbData" class="IsEditableStyle" data-bind="igDatePicker: { value: VendasViewData_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#WizardNRede_dtData').igDatePicker('option', 'readOnly', (ui.value != null || $('#WizardNRede_dteData').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#WizardNRede_dtbData').igDatePicker('value'); var valorMax = $('#WizardNRede_dteData').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#WizardNRede_dtbData').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                              <p></p>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="WizardNRede_dteData" class="IsEditableStyle" data-bind="igDatePicker: { value: VendasViewData_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#WizardNRede_dtData').igDatePicker('option', 'readOnly', ($('#WizardNRede_dtbData').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#WizardNRede_dtbData').igDatePicker('value'); var valorMax = $('#WizardNRede_dteData').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#WizardNRede_dteData').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: VendasViewData_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendasViewData_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <p/>
+                                                              <div class="row predefValue" data-bind="visible: VendasViewData_predefFilter() != null && VendasViewData_predefFilter()[0] && VendasViewData_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendasViewData_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardNRede_divIDClientes" class="" >
+                                       <label id="WizardNRede_lblIDClientes" for="WizardNRede_lUpIDClientes" data-bind="css: { 'content-required': $root.WizardNRede().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID Clientes">ID Clientes
+                                       </label>
+                                       <div class="">
+                                           <div id="WizardNRede_lUpIDClientes" class="form-control box-input-xmedium pull-left input-group " data-bind="validatedField: 'IDClientes', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'WizardNRede_lUpIDClientes') ? ctrl.getCustomEnable($root, 'WizardNRede_lUpIDClientes') : (!isEmptyEntityFn($data) && $root.WizardNRede().status() === 'C') }, lookupControl: { value: IDClientes, maxLength: 36,lookupName: 'LookUpClientes', inputClass:'input-xmedium', isMultiSelection: false, multiSelectionValue: $root.WizardNRede().entitySearchRange.IDClientes, fieldName: 'IDClientes', disabled:ctrl.hasCustomEnable($root, 'WizardNRede_lUpIDClientes') ? !ctrl.getCustomEnable($root, 'WizardNRede_lUpIDClientes') : (isEmptyEntityFn($data) || $root.WizardNRede().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 36, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardNRede_divIDVendas" class="" >
+                                       <label id="WizardNRede_lblIDVendas" for="WizardNRede_ntxIDVendas" data-bind="css: { 'content-required': $root.WizardNRede().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID Vendas">ID Vendas
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-min-medium">
+                                               <div class="input-group box-input-min-medium">
+                                                   <input id="WizardNRede_ntxIDVendas" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'IDVendas', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'WizardNRede_ntxIDVendas') ? ctrl.getCustomEnable($root, 'WizardNRede_ntxIDVendas') : (!isEmptyEntityFn($data) && $root.WizardNRede().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IDVendas, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'WizardNRede_ntxIDVendas') ? !ctrl.getCustomEnable($root, 'WizardNRede_ntxIDVendas') : (isEmptyEntityFn($data) || !($root.WizardNRede().status() === 'C' || ($data.isAdded && $data.isAdded()))), disabled: ctrl.hasCustomEnable($root, 'WizardNRede_ntxIDVendas') ? !ctrl.getCustomEnable($root, 'WizardNRede_ntxIDVendas') : (isEmptyEntityFn($data) || !($root.WizardNRede().status() === 'C' || ($data.isAdded && $data.isAdded()))) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardNRede().entitySearchRange.has_VendasViewIDVendas(), 'icon-ok': $root.WizardNRede().entitySearchRange.has_VendasViewIDVendas(), hide: $root.WizardNRede().status() !== 'C' }, popoverWithBind: { template: '#WizardNRede_rgIDVendas', vm: $root.WizardNRede().entitySearchRange, ctrlName: 'WizardNRede_rgcIDVendas', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="WizardNRede_rgIDVendas" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardNRede_ntxbIDVendas" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: VendasViewIDVendas_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardNRede_ntxIDVendas').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardNRede_ntxeIDVendas').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardNRede_ntxeIDVendas').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardNRede_ntxeIDVendas" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: VendasViewIDVendas_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardNRede_ntxIDVendas').igNumericEditor('option', 'readOnly', ($('#WizardNRede_ntxbIDVendas').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardNRede_ntxbIDVendas').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardNRede_divNome" class="" >
+                                       <label id="WizardNRede_lblNome" for="WizardNRede_lUpNome" class="control-label ellipsis" title="Nome">Nome
+                                       </label>
+                                       <div class="">
+                                           <div id="WizardNRede_lUpNome" class="form-control box-input-xlarge pull-left input-group " data-bind="validatedField: 'Nome', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'WizardNRede_lUpNome') ? ctrl.getCustomEnable($root, 'WizardNRede_lUpNome') : (!isEmptyEntityFn($data) && $root.WizardNRede().enabledForEditing()) }, lookupControl: { value: Nome, maxLength: 40,lookupName: 'LookUpClientes', inputClass:'input-xlarge', isMultiSelection: false, multiSelectionValue: $root.WizardNRede().entitySearchRange.Nome, fieldName: 'Nome', disabled:ctrl.hasCustomEnable($root, 'WizardNRede_lUpNome') ? !ctrl.getCustomEnable($root, 'WizardNRede_lUpNome') : (isEmptyEntityFn($data) || !$root.WizardNRede().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 40, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardNRede_divOrigem" class="" >
+                                       <label id="WizardNRede_lblOrigem" for="WizardNRede_cmbOrigem" class="control-label ellipsis" title="Origem">Origem
+                                       </label>
+                                       <div class="controls">
+                                           <div class="input-medium">
+                                               <span id="WizardNRede_cmbOrigem" class="form-control input-medium" data-bind="validatedField: 'Origem', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'WizardNRede_cmbOrigem') ? ctrl.getCustomEnable($root, 'WizardNRede_cmbOrigem') : (!isEmptyEntityFn($data) && $root.WizardNRede().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root, 'WizardNRede_cmbOrigem') ? !ctrl.getCustomEnable($root, 'WizardNRede_cmbOrigem') : (isEmptyEntityFn($data) || !$root.WizardNRede().enabledForEditing()) }, enable: ctrl.hasCustomEnable($root, 'WizardNRede_cmbOrigem') ? ctrl.getCustomEnable($root, 'WizardNRede_cmbOrigem') : (!isEmptyEntityFn($data) && $root.WizardNRede().enabledForEditing()), igCombo: {
+                                                  selectedItems: Origem,
+                                                  dataSource:  $root.WizardNRede().dataDomains.getItems('LXOrigem', ''),
+                                                  textKey: 'name',
+                                                  valueKey: 'id',
+                                                  allowCustomValue : true,
+                                                  enableSelectionChangedUpdate: true,
+                                                  enableClearButton: true,
+                                                  dropDownOnFocus: true,
+                                                  disabled: (ctrl.hasCustomEnable($root, 'WizardNRede_cmbOrigem') ? !ctrl.getCustomEnable($root, 'WizardNRede_cmbOrigem') : (isEmptyEntityFn($data) || !$root.WizardNRede().enabledForEditing())),
+                                                  mode: 'editable',
+                                                  width:'100%'
+                                               }"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardNRede_divValorTotal" class="" >
+                                       <label id="WizardNRede_lblValorTotal" for="WizardNRede_ntxValorTotal" class="control-label ellipsis" title="ValorTotal">ValorTotal
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-small">
+                                               <div class="input-group box-input-small">
+                                                   <input id="WizardNRede_ntxValorTotal" class="form-control numericFilterRange input-small" data-bind="validatedField: 'ValorTotal', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'WizardNRede_ntxValorTotal') ? ctrl.getCustomEnable($root, 'WizardNRede_ntxValorTotal') : (!isEmptyEntityFn($data) && $root.WizardNRede().enabledForEditing()) }, igNumericEditor: { value: ValorTotal, minValue: 0, maxValue: 99999999.99,  maxLength: 11,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'WizardNRede_ntxValorTotal') ? !ctrl.getCustomEnable($root, 'WizardNRede_ntxValorTotal') : (isEmptyEntityFn($data) || !$root.WizardNRede().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'WizardNRede_ntxValorTotal') ? !ctrl.getCustomEnable($root, 'WizardNRede_ntxValorTotal') : (isEmptyEntityFn($data) || !$root.WizardNRede().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardNRede().entitySearchRange.has_VendasViewValorTotal(), 'icon-ok': $root.WizardNRede().entitySearchRange.has_VendasViewValorTotal(), hide: $root.WizardNRede().status() !== 'C' }, popoverWithBind: { template: '#WizardNRede_rgValorTotal', vm: $root.WizardNRede().entitySearchRange, ctrlName: 'WizardNRede_rgcValorTotal', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="WizardNRede_rgValorTotal" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardNRede_ntxbValorTotal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: VendasViewValorTotal_begin, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#WizardNRede_ntxValorTotal').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardNRede_ntxeValorTotal').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardNRede_ntxeValorTotal').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardNRede_ntxeValorTotal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: VendasViewValorTotal_end, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#WizardNRede_ntxValorTotal').igNumericEditor('option', 'readOnly', ($('#WizardNRede_ntxbValorTotal').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardNRede_ntxbValorTotal').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardNRede_divVendaVip" class="" >
+                                       <div class="controls">
+                                           <div class="input-small">
+                                               <label class="input-small">
+                                                 <input id="WizardNRede_ckVendaVip" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'WizardNRede_ckVendaVip') ? ctrl.getCustomEnable($root, 'WizardNRede_ckVendaVip') : (!isEmptyEntityFn($data) && $root.WizardNRede().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'WizardNRede_ckVendaVip') ? ctrl.getCustomEnable($root, 'WizardNRede_ckVendaVip') : (!isEmptyEntityFn($data) && $root.WizardNRede().enabledForEditing()), nullableChecked: VendaVip" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lblWizardNRede_ckVendaVip" class="align-label-checkbox">VendaVip</span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+               </div>
+
+
+
+                   </div>
+               </div>
+               </div>
+
+
+                </div>
+            </section>
+        </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

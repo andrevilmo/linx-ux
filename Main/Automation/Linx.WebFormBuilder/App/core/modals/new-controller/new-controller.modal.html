@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h3 class="modal-title">Criar nova controller</h3>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal">
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Nome da Controller:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" ng-model="vm.controllerName">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">URL da rota:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" ng-model="vm.controllerRoute">
+        </div>
+      </div>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="vm.create()" ng-disabled="vm.controllerName == null || vm.controllerRoute == null || vm.controllerName.trim().length < 3 || vm.controllerRoute.trim().length < 3">Criar</button>
+    <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancelar</button>
+</div>

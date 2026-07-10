@@ -1,0 +1,46 @@
+﻿<div class="topo-container">
+    <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header' }-->
+        <!--/ko-->
+    </div>
+</div>
+<div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+<div class="clearfix">
+</div>
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container noform">
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- BEGIN PAGE CONTENT-->
+        <div class="row">
+            <div class="col-md-12" data-bind="foreach: MENUS_VM">
+
+                <div class="tiles">
+                    <a data-bind="attr: { href: urlLink }">
+                        <div data-bind="attr: { class: classType }">
+                            <div class="tile-body">
+                                <i data-bind="attr: { class: iconName }"></i>
+                            </div>
+
+                            <!-- ko if: isTransaction == true -->
+                            <div class="consult-mode" title="Modo Inclusão" data-bind="click: function () { $root.UI_linkModoInclusao_Click(urlLink) }">
+                                <span>&nbsp;</span>
+                            </div>
+                            <!-- /ko -->
+                            
+                            <div class="tile-object">
+                                <div class="title ellipsis" data-bind="attr: { title: displayName + ' :: v' + lxShellCompiledVersion }, text: displayName"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <!-- END PAGE CONTENT-->
+    </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+

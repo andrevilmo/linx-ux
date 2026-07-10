@@ -1,0 +1,258 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="ChamaAPI_SetaCampo_formViewer" class="panelTransaition">
+            <figure id="ChamaAPI_SetaCampo_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.ChamaAPI_SetaCampo().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="ChamaAPI_SetaCampo_gbProduto" data-bind="css: $root.ChamaAPI_SetaCampo().getLayoutColumnSpan('ChamaAPI_SetaCampo_gbProduto'), visible: $root.ChamaAPI_SetaCampo().getLayoutVisible('ChamaAPI_SetaCampo_gbProduto')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_gbProduto')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="ChamaAPI_SetaCampo_gbProduto_anchor" href="#ChamaAPI_SetaCampo_gbProduto_body" role="button" data-toggle="collapse" data-parent="#ChamaAPI_SetaCampo_gbProduto" aria-controls="#ChamaAPI_SetaCampo_gbProduto_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="ChamaAPI_SetaCampo_gbProduto_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.ChamaAPI_SetaCampo().getWithBinding(currentDataItem, $root.ChamaAPI_SetaCampo().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.ChamaAPI_SetaCampo().getLayoutColumnSpan('ChamaAPI_SetaCampo_ntxIdProduto'), visible: $root.ChamaAPI_SetaCampo().getLayoutVisible('ChamaAPI_SetaCampo_ntxIdProduto')" class="">
+                                   <div class="form-group">
+                                       <div id="ChamaAPI_SetaCampo_divIdProduto" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ChamaAPI_SetaCampo().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_ntxIdProduto')}, text: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_ntxIdProduto')" id="ChamaAPI_SetaCampo_lblIdProduto" for="ChamaAPI_SetaCampo_ntxIdProduto" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="ChamaAPI_SetaCampo_ntxIdProduto" class="form-control numericFilterRange " data-bind="validatedField: 'IdProduto', css: { vmEditing: $root.ChamaAPI_SetaCampo().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_ntxIdProduto') ? ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_ntxIdProduto') : (!isEmptyEntityFn($data) && $root.ChamaAPI_SetaCampo().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdProduto, maxValue: null,  maxLength: 10,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_ntxIdProduto') ? !ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_ntxIdProduto') : (isEmptyEntityFn($data) || !($root.ChamaAPI_SetaCampo().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ChamaAPI_SetaCampo().entitySearchRange.has_ProdutoIdProduto(), 'icon-ok': $root.ChamaAPI_SetaCampo().entitySearchRange.has_ProdutoIdProduto(), hide: $root.ChamaAPI_SetaCampo().status() !== 'C' }, popoverWithBind: { template: '#ChamaAPI_SetaCampo_rgIdProduto', vm: $root.ChamaAPI_SetaCampo().entitySearchRange, ctrlName: 'ChamaAPI_SetaCampo_rgcIdProduto', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="ChamaAPI_SetaCampo_rgIdProduto" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="ChamaAPI_SetaCampo_ntxbIdProduto" class="IsEditableStyle" data-bind="igNumericEditor: { value: ProdutoIdProduto_begin, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#ChamaAPI_SetaCampo_ntxIdProduto').igNumericEditor('option', 'readOnly', (ui.value != null || $('#ChamaAPI_SetaCampo_ntxeIdProduto').igNumericEditor('option', 'value') != null ? true : false)); $('#ChamaAPI_SetaCampo_ntxeIdProduto').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="ChamaAPI_SetaCampo_ntxeIdProduto" class="IsEditableStyle" data-bind="igNumericEditor: { value: ProdutoIdProduto_end, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#ChamaAPI_SetaCampo_ntxIdProduto').igNumericEditor('option', 'readOnly', ($('#ChamaAPI_SetaCampo_ntxbIdProduto').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#ChamaAPI_SetaCampo_ntxbIdProduto').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ChamaAPI_SetaCampo().getLayoutColumnSpan('ChamaAPI_SetaCampo_tbNmProduto'), visible: $root.ChamaAPI_SetaCampo().getLayoutVisible('ChamaAPI_SetaCampo_tbNmProduto')" class="">
+                                   <div class="form-group">
+                                       <div id="ChamaAPI_SetaCampo_divNmProduto" class="" >
+                                           <label data-bind="attr: { title: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_tbNmProduto')}, text: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_tbNmProduto')" id="ChamaAPI_SetaCampo_lblNmProduto" for="ChamaAPI_SetaCampo_tbNmProduto" class="control-label ellipsis">
+                                           </label>
+                                           <input id="ChamaAPI_SetaCampo_tbNmProduto" class="form-control ellipsis" data-bind="attr: { title: NmProduto }, validatedField: 'NmProduto', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbNmProduto') ? ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbNmProduto') : (!isEmptyEntityFn($data) && $root.ChamaAPI_SetaCampo().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: NmProduto, readOnly: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbNmProduto') ? !ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbNmProduto') : (isEmptyEntityFn($data) || !$root.ChamaAPI_SetaCampo().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ChamaAPI_SetaCampo().getLayoutColumnSpan('ChamaAPI_SetaCampo_tbDescProduto'), visible: $root.ChamaAPI_SetaCampo().getLayoutVisible('ChamaAPI_SetaCampo_tbDescProduto')" class="">
+                                   <div class="form-group">
+                                       <div id="ChamaAPI_SetaCampo_divDescProduto" class="" >
+                                           <label data-bind="attr: { title: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_tbDescProduto')}, text: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_tbDescProduto')" id="ChamaAPI_SetaCampo_lblDescProduto" for="ChamaAPI_SetaCampo_tbDescProduto" class="control-label ellipsis">
+                                           </label>
+                                           <input id="ChamaAPI_SetaCampo_tbDescProduto" class="form-control ellipsis" data-bind="attr: { title: DescProduto }, validatedField: 'DescProduto', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDescProduto') ? ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDescProduto') : (!isEmptyEntityFn($data) && $root.ChamaAPI_SetaCampo().enabledForEditing()) }, igTextEditor: { maxLength: 100, value: DescProduto, readOnly: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDescProduto') ? !ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDescProduto') : (isEmptyEntityFn($data) || !$root.ChamaAPI_SetaCampo().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ChamaAPI_SetaCampo().getLayoutColumnSpan('ChamaAPI_SetaCampo_dtDataCadastro'), visible: $root.ChamaAPI_SetaCampo().getLayoutVisible('ChamaAPI_SetaCampo_dtDataCadastro')" class="">
+                                   <div class="form-group">
+                                       <div id="ChamaAPI_SetaCampo_divDataCadastro" class="" >
+                                           <label data-bind="attr: { title: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_dtDataCadastro')}, text: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_dtDataCadastro')" id="ChamaAPI_SetaCampo_lblDataCadastro" for="ChamaAPI_SetaCampo_dtDataCadastro" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="ChamaAPI_SetaCampo_dtDataCadastro" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DataCadastro', css: { vmEditing: $root.ChamaAPI_SetaCampo().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_dtDataCadastro') ? ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_dtDataCadastro') : (!isEmptyEntityFn($data) && $root.ChamaAPI_SetaCampo().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_dtDataCadastro') ? !ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_dtDataCadastro') : (isEmptyEntityFn($data) || !$root.ChamaAPI_SetaCampo().enabledForEditing()) },  igDatePicker: { value: DataCadastro, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.ChamaAPI_SetaCampo().entitySearchRange.has_ProdutoDataCadastro()?true:ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_dtDataCadastro') ? !ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_dtDataCadastro') : (isEmptyEntityFn($data) || !$root.ChamaAPI_SetaCampo().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="ChamaAPI_SetaCampo_rgbtnDataCadastro"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ChamaAPI_SetaCampo().entitySearchRange.has_ProdutoDataCadastro(), 'icon-ok': $root.ChamaAPI_SetaCampo().entitySearchRange.has_ProdutoDataCadastro(), hide: $root.ChamaAPI_SetaCampo().status() !== 'C' }, popoverWithBind: { template: '#ChamaAPI_SetaCampo_rgDataCadastro', vm: $root.ChamaAPI_SetaCampo().entitySearchRange, ctrlName: 'ChamaAPI_SetaCampo_rgcDataCadastro', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="ChamaAPI_SetaCampo_rgDataCadastro" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="enable: !has_ProdutoDataCadastro(), checked:ProdutoDataCadastro_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="enable: !has_ProdutoDataCadastro(), checked:ProdutoDataCadastro_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="ChamaAPI_SetaCampo_divrgDataCadastro" >
+                                                      <div class="filterByRange" data-bind="visible: ProdutoDataCadastro_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="ChamaAPI_SetaCampo_dtbDataCadastro" class="IsEditableStyle date" data-bind="igDatePicker: { value: ProdutoDataCadastro_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ChamaAPI_SetaCampo_dtDataCadastro').igDatePicker('option', 'readOnly', (ui.value != null || $('#ChamaAPI_SetaCampo_dteDataCadastro').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#ChamaAPI_SetaCampo_dtbDataCadastro').igDatePicker('value'); var valorMax = $('#ChamaAPI_SetaCampo_dteDataCadastro').igDatePicker('value');if (valorMax != null && valorMin > valorMax){ProdutoDataCadastro_begin(valorMax); $('#ChamaAPI_SetaCampo_dtbDataCadastro').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="ChamaAPI_SetaCampo_dteDataCadastro" class="IsEditableStyle date" data-bind="igDatePicker: { value: ProdutoDataCadastro_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ChamaAPI_SetaCampo_dtDataCadastro').igDatePicker('option', 'readOnly', ($('#ChamaAPI_SetaCampo_dtbDataCadastro').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#ChamaAPI_SetaCampo_dtbDataCadastro').igDatePicker('value'); var valorMax = $('#ChamaAPI_SetaCampo_dteDataCadastro').igDatePicker('value');if (valorMin != null && valorMax < valorMin){ProdutoDataCadastro_end(valorMin); $('#ChamaAPI_SetaCampo_dteDataCadastro').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: ProdutoDataCadastro_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ProdutoDataCadastro_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: ProdutoDataCadastro_predefFilter() != null && ProdutoDataCadastro_predefFilter()[0] && ProdutoDataCadastro_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ProdutoDataCadastro_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ChamaAPI_SetaCampo().getLayoutColumnSpan('ChamaAPI_SetaCampo_ntxTipoUnidade'), visible: $root.ChamaAPI_SetaCampo().getLayoutVisible('ChamaAPI_SetaCampo_ntxTipoUnidade')" class="">
+                                   <div class="form-group">
+                                       <div id="ChamaAPI_SetaCampo_divTipoUnidade" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ChamaAPI_SetaCampo().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_ntxTipoUnidade')}, text: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_ntxTipoUnidade')" id="ChamaAPI_SetaCampo_lblTipoUnidade" for="ChamaAPI_SetaCampo_ntxTipoUnidade" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="ChamaAPI_SetaCampo_ntxTipoUnidade" class="form-control numericFilterRange " data-bind="validatedField: 'TipoUnidade', css: { vmEditing: $root.ChamaAPI_SetaCampo().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_ntxTipoUnidade') ? ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_ntxTipoUnidade') : (!isEmptyEntityFn($data) && $root.ChamaAPI_SetaCampo().enabledForEditing()) }, igNumericEditor: { value: TipoUnidade, minValue: 0, maxValue: null,  maxLength: 3,  dataMode: 'byte', readOnly: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_ntxTipoUnidade') ? !ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_ntxTipoUnidade') : (isEmptyEntityFn($data) || !$root.ChamaAPI_SetaCampo().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ChamaAPI_SetaCampo().entitySearchRange.has_ProdutoTipoUnidade(), 'icon-ok': $root.ChamaAPI_SetaCampo().entitySearchRange.has_ProdutoTipoUnidade(), hide: $root.ChamaAPI_SetaCampo().status() !== 'C' }, popoverWithBind: { template: '#ChamaAPI_SetaCampo_rgTipoUnidade', vm: $root.ChamaAPI_SetaCampo().entitySearchRange, ctrlName: 'ChamaAPI_SetaCampo_rgcTipoUnidade', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="ChamaAPI_SetaCampo_rgTipoUnidade" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="ChamaAPI_SetaCampo_ntxbTipoUnidade" class="IsEditableStyle" data-bind="igNumericEditor: { value: ProdutoTipoUnidade_begin, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#ChamaAPI_SetaCampo_ntxTipoUnidade').igNumericEditor('option', 'readOnly', (ui.value != null || $('#ChamaAPI_SetaCampo_ntxeTipoUnidade').igNumericEditor('option', 'value') != null ? true : false)); $('#ChamaAPI_SetaCampo_ntxeTipoUnidade').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="ChamaAPI_SetaCampo_ntxeTipoUnidade" class="IsEditableStyle" data-bind="igNumericEditor: { value: ProdutoTipoUnidade_end, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#ChamaAPI_SetaCampo_ntxTipoUnidade').igNumericEditor('option', 'readOnly', ($('#ChamaAPI_SetaCampo_ntxbTipoUnidade').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#ChamaAPI_SetaCampo_ntxbTipoUnidade').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ChamaAPI_SetaCampo().getLayoutColumnSpan('ChamaAPI_SetaCampo_btnGetProduto'), visible: $root.ChamaAPI_SetaCampo().getLayoutVisible('ChamaAPI_SetaCampo_btnGetProduto')" class="">
+                                   <div class="form-group">
+                                       <div id="ChamaAPI_SetaCampo_divGetProduto" class="" >
+                                           <button id="ChamaAPI_SetaCampo_btnGetProduto" class="form-control btn-block btn-press ellipsis " data-bind="text: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_btnGetProduto'), attr: {title: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_btnGetProduto')}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_btnGetProduto') ? ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_btnGetProduto') : (!isEmptyEntityFn($data) && true) }, enable: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_btnGetProduto') ? ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_btnGetProduto') : (!isEmptyEntityFn($data) && true), click:function(){ if (typeof $root.ChamaAPI_SetaCampo().GetProduto_Click == 'function') $root.ChamaAPI_SetaCampo().GetProduto_Click(); if ($root.ChamaAPI_SetaCampo().custom) $root.ChamaAPI_SetaCampo().custom.GetProduto_Click({viewModel: $root.ChamaAPI_SetaCampo()}); }"></button>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ChamaAPI_SetaCampo().getLayoutColumnSpan('ChamaAPI_SetaCampo_tbDescEstoque'), visible: $root.ChamaAPI_SetaCampo().getLayoutVisible('ChamaAPI_SetaCampo_tbDescEstoque')" class="">
+                                   <div class="form-group">
+                                       <div id="ChamaAPI_SetaCampo_divDescEstoque" class="" >
+                                           <label data-bind="attr: { title: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_tbDescEstoque')}, text: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_tbDescEstoque')" id="ChamaAPI_SetaCampo_lblDescEstoque" for="ChamaAPI_SetaCampo_tbDescEstoque" class="control-label ellipsis">
+                                           </label>
+                                           <input id="ChamaAPI_SetaCampo_tbDescEstoque" class="form-control ellipsis" data-bind="attr: { title: DescEstoque }, validatedField: 'DescEstoque', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDescEstoque') ? ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDescEstoque') : (!isEmptyEntityFn($data) && $root.ChamaAPI_SetaCampo().status() === 'C') }, igTextEditor: { value: DescEstoque, readOnly: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDescEstoque') ? !ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDescEstoque') : (isEmptyEntityFn($data) || $root.ChamaAPI_SetaCampo().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ChamaAPI_SetaCampo().getLayoutColumnSpan('ChamaAPI_SetaCampo_tbQtdeEstoque'), visible: $root.ChamaAPI_SetaCampo().getLayoutVisible('ChamaAPI_SetaCampo_tbQtdeEstoque')" class="">
+                                   <div class="form-group">
+                                       <div id="ChamaAPI_SetaCampo_divQtdeEstoque" class="" >
+                                           <label data-bind="attr: { title: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_tbQtdeEstoque')}, text: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_tbQtdeEstoque')" id="ChamaAPI_SetaCampo_lblQtdeEstoque" for="ChamaAPI_SetaCampo_tbQtdeEstoque" class="control-label ellipsis">
+                                           </label>
+                                           <input id="ChamaAPI_SetaCampo_tbQtdeEstoque" class="form-control ellipsis" data-bind="attr: { title: QtdeEstoque }, validatedField: 'QtdeEstoque', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbQtdeEstoque') ? ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbQtdeEstoque') : (!isEmptyEntityFn($data) && $root.ChamaAPI_SetaCampo().status() === 'C') }, igTextEditor: { value: QtdeEstoque, readOnly: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbQtdeEstoque') ? !ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbQtdeEstoque') : (isEmptyEntityFn($data) || $root.ChamaAPI_SetaCampo().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ChamaAPI_SetaCampo().getLayoutColumnSpan('ChamaAPI_SetaCampo_tbDtEntrada'), visible: $root.ChamaAPI_SetaCampo().getLayoutVisible('ChamaAPI_SetaCampo_tbDtEntrada')" class="">
+                                   <div class="form-group">
+                                       <div id="ChamaAPI_SetaCampo_divDtEntrada" class="" >
+                                           <label data-bind="attr: { title: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_tbDtEntrada')}, text: $root.ChamaAPI_SetaCampo().getLayoutDisplayName('ChamaAPI_SetaCampo_tbDtEntrada')" id="ChamaAPI_SetaCampo_lblDtEntrada" for="ChamaAPI_SetaCampo_tbDtEntrada" class="control-label ellipsis">
+                                           </label>
+                                           <input id="ChamaAPI_SetaCampo_tbDtEntrada" class="form-control ellipsis" data-bind="attr: { title: DtEntrada }, validatedField: 'DtEntrada', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDtEntrada') ? ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDtEntrada') : (!isEmptyEntityFn($data) && $root.ChamaAPI_SetaCampo().status() === 'C') }, igTextEditor: { value: DtEntrada, readOnly: ctrl.hasCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDtEntrada') ? !ctrl.getCustomEnable($root.ChamaAPI_SetaCampo(), 'ChamaAPI_SetaCampo_tbDtEntrada') : (isEmptyEntityFn($data) || $root.ChamaAPI_SetaCampo().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="ChamaAPI_SetaCampo_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.ChamaAPI_SetaCampo().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyChamaAPI_SetaCampo_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyChamaAPI_SetaCampo_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyChamaAPI_SetaCampo_dGrid_templateLayout', vm: function(){return $root.ChamaAPI_SetaCampo().gridSaveStates['scyChamaAPI_SetaCampo_dGrid'];}, ctrlName: 'scyChamaAPI_SetaCampo_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyChamaAPI_SetaCampo_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyChamaAPI_SetaCampo_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyChamaAPI_SetaCampo_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.ChamaAPI_SetaCampo().dataToolbar.canExport(), click: function () {$root.ChamaAPI_SetaCampo().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyChamaAPI_SetaCampo_dGrid" data-bind="css: { IsEditableStyle: $root.ChamaAPI_SetaCampo().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

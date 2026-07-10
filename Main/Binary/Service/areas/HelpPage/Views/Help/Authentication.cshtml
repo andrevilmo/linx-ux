@@ -1,0 +1,87 @@
+@using System.Web.Http
+@using Linx.ServiceBus.Starter.Areas.HelpPage.Models
+@model ActionFake
+@{ViewBag.Title = Model.Name;}
+
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <div class="text">
+                <p>
+                    @if (Request.UrlReferrer != null)
+                    {
+                        <a class="bottomNav" onclick="history.go(-1); return false;" href="#">Back</a><br />
+                    }
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+        <h1>@Model.Name</h1>
+        <h3>@Model.Method &nbsp; @Model.RelativePath</h3>
+        <div>
+            <p>@Model.Documentation </p>
+
+
+            <h2>Request Information</h2>
+
+            <h3>Parameters</h3>
+            <table class="help-page-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Additional information</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ParameterFake parameter in Model.Parameters)
+                    {
+                        <tr>
+                            <td class="parameter-name"><b>@parameter.Name</b></td>
+                            <td class="parameter-documentation">
+                                <pre>@parameter.Documentation</pre>
+                            </td>
+                            <td class="parameter-source">
+                                <p>Define this parameter in the request <b>URI</b>.</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @if (Model.HasSampleRequests)
+            {
+                <h3>Request body formats</h3>
+                @Html.DisplayFor(apiModel => apiModel.SampleRequests, "Samples")
+            }
+
+
+
+            <h2>Response Information</h2>
+            @if (Model.HasSampleResponses)
+            {
+                <h3>Response body formats</h3>
+                @Html.DisplayFor(apiModel => apiModel.SampleResponses, "Samples")
+            }
+
+            @if (Model.HasAdditionalInformation)
+            {
+                <h2>Additional Information</h2>
+                foreach (var info in Model.AdditionalInformation)
+                {
+                <h4 class="sample-header">@info.Key</h4>
+
+                <div class="sample-content">@Html.DisplayFor(s => info.Value)</div>
+                }
+
+            }
+        </div>
+    </section>
+</div>
+@Html.DisplayForModel("TestClientDialogs")
+@section Scripts {
+    @Html.DisplayForModel("TestClientReferences")
+    <link type="text/css" href="~/Areas/HelpPage/HelpPage.css" rel="stylesheet" />
+    <link type="text/css" href="~/Areas/HelpPage/Site.css" rel="stylesheet" />
+}

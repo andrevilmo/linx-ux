@@ -1,0 +1,76 @@
+﻿<header class="float-l is--fixed">
+    <div class="row">
+        <!-- Título da tela -->
+        <!-- ko if: $root.managerAuth.isShellDevMode -->
+        <h1 class="title truncate" data-bind="html: router.activeInstruction().config.title, attr: { title: router.activeInstruction().config.title }"></h1>
+        <!--/ko -->
+        <!-- ko if: $root.managerAuth.isShellSetupMode -->
+        <h1 class="title truncate" data-bind="html: router.activeInstruction().config.title, attr: { title: router.activeInstruction().config.title }"></h1>
+        <!-- /ko -->
+        <!-- ko if: $root.managerAuth.isShellProdMode -->
+        <h1 class="title truncate" data-bind="html: router.activeInstruction().config.title, attr: { title: router.activeInstruction().config.title }"></h1>
+        <!-- /ko -->
+
+        <div class="tools text-right">
+            <ul class="tools__list">
+                <li class="item">
+                    <a href="javascript:void(0)" title="Abrir menu lateral" data-bind="click: UIOpenSideBar">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </a>
+                </li>
+
+                <!-- ko if: managerAuth.messageServiceEnabled && managerAuth.isShellProdMode && !managerAuth.loginInfo.IsSupportMode && !managerAuth.isLoginPOSUXMode -->
+                <li class="item notification">
+                    <a href="javascript:void(0)" title="Mensagens" data-bind="click: UIOpenNotificationBar">
+                        <span class="badge badge-danger" data-bind="text: managerMessage.unread()"></span>
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <!--/ko-->
+            </ul>
+        </div>
+
+        <!-- ko if: router.activeInstruction().config.moduleId.indexOf('viewmodels/modules') > -1  -->
+        <!-- ko if: $root._menu.wizardTransactions().length > 0 || $root._menu.dashboardTransactions().length > 0 -->
+        <ul class="change-mode">
+            <li data-bind="visible: _menu.wizardTransactions().length > 0 && common.getHideWizards() == false, attr: { class: activeMode() == 0 ? 'change-mode-item active' : 'change-mode-item' }, click: function () { changeMode(0); }">
+                <a href="javascript:void(0)" title="Assistente">
+                    <i class="fa fa-magic" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li data-bind="visible: _menu.dashboardTransactions().length > 0, attr: { class: activeMode() == 1 ? 'change-mode-item active' : 'change-mode-item' }, click: function () { changeMode(1); }">
+                <a href="javascript:void(0)" title="Dashboard">
+                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li data-bind="attr: { class: activeMode() == 2 ? 'change-mode-item active' : 'change-mode-item' }, click: function () { changeMode(2); }">
+                <a href="javascript:void(0)" title="Módulos">
+                    <i class="fa fa-cubes" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+        <!--/ko-->
+        <!--/ko-->
+        <!-- ko if: parentVM != null -->
+        <!-- ko if: parentVM.hasBrand && parentVM.status() == 'Q' -->
+        <div data-bind="widget: { kind: 'branditem', vm: parentVM }, visible: !$root.managerAuth.isLoginPOSUXMode"></div>
+        <!--/ko-->
+        <!-- ko if: parentVM.hasBrand && parentVM.status() == 'C' -->
+        <div class="pull-right redebar" data-bind="widget: { kind: 'brand', vm: parentVM }, visible: !$root.managerAuth.isLoginPOSUXMode "></div>
+        <!--/ko-->
+        <!-- ko if: !parentVM.hideToolbar() -->
+        <div data-bind="widget: { kind: 'datatoolbar', vm: parentVM }"></div>
+        <!--/ko-->
+        <!--/ko-->
+    </div>
+</header>
+
+<div data-bind="if: BREADCRUMB_VM">
+    <section id="tab" class="is--fixed">
+        <ul class="breadcrumb__list" data-bind="foreach: BREADCRUMB_VM">
+            <li class="breadcrumb-item">
+                <a data-bind="text: displayName, attr: { href: urlLink, title: displayName }"></a>
+            </li>
+        </ul>
+    </section>
+</div>

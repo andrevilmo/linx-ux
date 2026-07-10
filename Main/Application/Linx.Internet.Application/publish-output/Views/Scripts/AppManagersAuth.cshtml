@@ -1,0 +1,395 @@
+﻿    @using Linx.Internet.Application.Framework.Web
+@{
+    Layout = null;
+    Response.ContentType = "application/javascript";
+    var Properties = Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Model, Newtonsoft.Json.Formatting.Indented).Replace("{", "").Replace("}", "");
+}
+define(['json!../../../../config.json'],
+    function (configJson) {
+         return {
+            // client configs
+            serviceBus: configJson['serviceBus'],
+            imageServiceBus: configJson['imageServiceBus'],
+            portal: configJson['portal'],
+            handleErrorJavascript: configJson['handleErrorJavascript'],
+            flexMonsterLicenseKey: configJson['flexMonsterLicenseKey'],
+            customSearch: configJson['customSearch'],
+            startUrl: configJson['startUrl'],
+            profilerEnabled: configJson['profilerEnabled'],
+            configCheckVersion: configJson['configCheckVersion'],
+            messageCheckInterval: configJson['messageCheckInterval'],
+            messageServiceEnabled: configJson['messageServiceEnable'],
+
+            // meta config
+            META_ROOT: $('meta[name=linx-internet-application-root]').attr("content"),
+            META_MODULE_ID: $('meta[name=linx-internet-application-module-id]').attr("content"),
+            META_HASH: $('meta[name=linx-internet-application-hash]').attr("content"),
+            SHELL_VERSION: $('meta[name=linx-internet-application-version]').attr("content"),
+            SHELL_BUILD_DATE: $('meta[name=linx-internet-application-date-version]').attr("content"),
+            traceMode: $('meta[name=linx-internet-application-trace-mode]').attr("content").bool(),
+
+            // server configs
+            YEAR: @System.DateTime.Now.Year,
+            @Html.Raw(Properties),
+            loginInfo: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.loginInfo, Newtonsoft.Json.Formatting.Indented)),
+            
+            ///////////////////////
+            // method: getIdTcsAmbiente()
+            ///////////////////////
+            getIdTcsAmbiente: function(){
+                    var idTcsAmbiente = 0;
+                    var router = require('plugins/router');
+                    if (router.activeInstruction() != null && router.activeInstruction().config.currentData != null){
+                           idTcsAmbiente = router.activeInstruction().config.currentData.IdTcsAmbiente;
+                    }
+                    else if (this.loginInfo.Ambientes.length == 1){
+                           idTcsAmbiente = this.loginInfo.IdTcsAmbienteDefault;
+                    }
+                    return idTcsAmbiente;
+            },
+
+            serviceAddress : function (api, assemblyName, idTcsAmbiente, buildUrl) {
+                if (!idTcsAmbiente){
+                    idTcsAmbiente = this.getIdTcsAmbiente();
+                }
+
+                var url = '';
+
+                if (api){
+                    var apiName = api;
+                    if(apiName.indexOf('/') > -1){
+                        apiName = strLeft(apiName, apiName.lastIndexOf('/'));
+                        if (apiName.indexOf('/') > -1){
+                            apiName = apiName.replace(strLeft(apiName, apiName.lastIndexOf('/')) + '/', '');
+                        }
+                    }
+
+                    var services = require('managers/user').SERVICES;
+
+                    var servico = $.grep(services, function (element, index) { return element.IdTcsAmbiente == idTcsAmbiente && element.Servico.toUpperCase() == apiName.toUpperCase() });
+                    if (servico.length > 0) {
+                        url = servico[0].Url;
+                    }
+                    else if (assemblyName) {
+                        servico = $.grep(services, function (element, index) { return element.IdTcsAmbiente == idTcsAmbiente && element.Servico.toUpperCase() == assemblyName.toUpperCase() });
+                        if (servico.length > 0) {
+                            url = servico[0].Url;
+                        }
+                    }
+                }
+                else {
+                    api = '';
+                }
+
+                if (url == ''){
+                    idTcsAmbiente = (idTcsAmbiente == 0 ? this.loginInfo.IdTcsAmbienteDefault : idTcsAmbiente);
+                    var serviceBus = $.grep(this.loginInfo.Ambientes, function (element, index) { return element.IdTcsAmbiente == idTcsAmbiente });
+                    url = (serviceBus.length > 0 && serviceBus[0].UrlServiceBus) ? serviceBus[0].UrlServiceBus : url;
+                }
+
+                url = (url == '' ? this.serviceBus : url);
+
+                if (buildUrl){
+                      url = url + (api.length > 0 && url.length > 0 && api[0] !== '/' && url[url.length - 1] !== '/' ? '/' : '') + api;
+                }
+
+                return url;
+            },
+
+
+            ///////////////////////
+            // method: getServiceAddress()
+            ///////////////////////
+            getServiceAddress: function getServiceAddress(api, assemblyName, idTcsAmbiente) {
+                return this.serviceAddress(api, assemblyName, idTcsAmbiente, true);
+            },
+
+            ///////////////////////
+            // method: getBaseServiceAddress()
+            ///////////////////////
+            getBaseServiceAddress: function getBaseServiceAddress(api, assemblyName, idTcsAmbiente) {
+                return this.serviceAddress(api, assemblyName, idTcsAmbiente, false);
+            },
+
+            ///////////////////////
+            // method: getFormAccess()
+            ///////////////////////
+            getFormAccess: function (formName, successCallback, logger) {
+               
+                if (this.shellMode == "PROD"){
+                    $.ajax({
+                        type: 'GET',
+                        globalError: false,
+                        headers : this.getHeaders(),
+                        url: this.getServiceAddress('LinxFrameworkTransacao', 'Linx.Framework.BV') + '/GetTransactionAccess?transaction=' + formName,
+                        dataType: 'json',
+                        cache: false,
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            if (logger) {
+                                var msg = 'Falha na checagem de autorização do formulário [' + formName + '].';
+                                logger.logError(msg, errorThrown, 'GET Fail', true);
+                            }
+                        },
+                        success: function (data) {
+                            if (successCallback)
+                                successCallback(data);
+                        }
+                    });    
+                }
+                else if (this.shellMode == "DEV") {
+                    var devFormAccess = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.devFormAccess, Newtonsoft.Json.Formatting.Indented));       
+                    if (successCallback)
+                        successCallback(devFormAccess);
+                }
+
+            },
+
+            ///////////////////////
+            // method: getCurrentIdTcsAplicativo()
+            ///////////////////////
+            getCurrentIdTcsAplicativo: function() {
+                    var router = require('plugins/router');
+                    if (router.activeInstruction() != null && router.activeInstruction().config.currentData != null){
+                        return router.activeInstruction().config.currentData.IdTcsAplicativo;
+                    }
+                    else if (this.shellMode == "DEV"){
+                        return this.loginInfo.Ambientes[0].IdTcsAplicativo;
+                    }
+                    return null;
+            },
+
+
+            ///////////////////////
+            // method: getDescTcsAplicativo()
+            ///////////////////////
+            getDescTcsAplicativo: function(idTcsAplicativo) {
+                    var info = $.grep(this.loginInfo.Ambientes, function(element, index) { return element.IdTcsAplicativo == idTcsAplicativo });
+                    if (info.length > 0){
+                        return info[0].DescricaoAplicativo;
+                    }
+                    else {
+                        return '';
+                     }
+            },
+
+            ///////////////////////
+            // method: getUrlTcsAplicativo()
+            ///////////////////////
+            getUrlTcsAplicativo: function(idTcsAplicativo) {
+                    var info = $.grep(this.loginInfo.Ambientes, function(element, index) { return element.IdTcsAplicativo == idTcsAplicativo });
+                    if (info.length > 0){
+                        return info[0].UrlAplicativo;
+                    }
+                    else {
+                        return '';
+                     }
+            },
+
+            ///////////////////////
+            // method: getEnvironmentInfo()
+            ///////////////////////
+            getEnvironmentInfo: function(idTcsAmbiente) {
+                    var info = $.grep(this.loginInfo.Ambientes, function(element, index) { return element.IdTcsAmbiente == idTcsAmbiente });
+                    if (info.length > 0){
+                        return info[0];
+                    }
+                    else {
+                        return null;
+                    }
+            },
+
+            ///////////////////////
+            // method: isMultiGpecon()
+            ///////////////////////
+            isMultiGpecon: function(idTcsAmbiente) {
+                    if (!idTcsAmbiente){
+                        idTcsAmbiente = this.getIdTcsAmbiente();
+                    }
+                    var info = $.grep(this.loginInfo.Ambientes, function(element, index) { return element.IdTcsAmbiente == idTcsAmbiente });
+                    if (info.length > 0){
+                        return info[0].IndicaMultiGpecon;
+                    }
+                    else {
+                        return false;
+                    }
+            },
+
+            ///////////////////////
+            // method: loadParameters(data)
+            ///////////////////////
+            loadParameters: function(data) {
+                for (var i = 0; i < this.loginInfo.Ambientes.length; i++) {
+                    var item = this.loginInfo.Ambientes[i];
+                    var parameterList = $.grep(data, function(element, index) { return element.IdTcsAmbiente == item.IdTcsAmbiente });
+                    item.Parametros = [];
+                    for (var ii = 0; ii < parameterList.length; ii++) {
+                         var parametro = parameterList[ii];
+                        item.Parametros.push({ TituloParametro: parametro.TituloParametro, ValorParametro:  parametro.ValorParametro });
+                    }
+                }
+            },
+
+            ///////////////////////
+            // method: getParameter()
+            ///////////////////////
+            getParameter: function(tituloParametro, idTcsAmbiente) {
+                    if (!idTcsAmbiente) {
+                        idTcsAmbiente = this.loginInfo.IdTcsAmbienteDefault;
+                    }
+
+                    var info = $.grep(this.loginInfo.Ambientes, function(element, index) { return element.IdTcsAmbiente == idTcsAmbiente });
+                    if (info.length > 0 && info[0].Parametros != null){
+                        var parameter = $.grep(info[0].Parametros, function(element, index) { return element.TituloParametro == tituloParametro });
+                        if (parameter.length > 0){
+                            return parameter[0].ValorParametro;
+                        }
+                        return null;
+                    }
+            },
+
+            ///////////////////////
+            // method: setParameter()
+            ///////////////////////
+            setParameter: function(tituloParametro, valorParametro, idTcsAmbiente) {
+                    if (!idTcsAmbiente) {
+                        idTcsAmbiente = this.loginInfo.IdTcsAmbienteDefault;
+                    }
+
+                    var info = $.grep(this.loginInfo.Ambientes, function(element, index) { return element.IdTcsAmbiente == idTcsAmbiente });
+                    if (info.length > 0){
+                        var parameter = $.grep(info[0].Parametros, function(element, index) { return element.TituloParametro == tituloParametro });
+                        if (parameter.length > 0){
+                            parameter[0].ValorParametro = valorParametro;
+                        }
+                    }
+            },
+
+            ///////////////////////
+            // method: getCompanyId()
+            ///////////////////////
+            getCompanyId: function() {
+                 var router = require('plugins/router');
+
+                 if (router.activeInstruction() == null){
+                    console.warn("Retornou Empresa Default");
+                    return this.loginInfo.Ambientes[0].UidEmpresa;
+                }
+                else if (router.activeInstruction().config.currentData){
+                     var info = this.getEnvironmentInfo(router.activeInstruction().config.currentData.IdTcsAmbiente);
+                     if (info){
+                            return info.UidEmpresa;
+                     }
+                }
+                return null;
+            },
+
+            ///////////////////////
+            // method: getEnvironmentId()
+            ///////////////////////
+            getEnvironmentId: function() {
+                 var router = require('plugins/router');
+
+                 if (router.activeInstruction() == null){
+                    console.warn("Retornou Ambiente Default");
+                    return this.loginInfo.Ambientes[0].IdTcsAmbiente;
+                }
+                else if (router.activeInstruction().config.currentData){
+                     var info = this.getEnvironmentInfo(router.activeInstruction().config.currentData.IdTcsAmbiente);
+                     if (info){
+                            return info.IdTcsAmbiente;
+                     }
+                }
+                return null;
+            },
+
+            ///////////////////////
+            // method: getHeaders()
+            ///////////////////////
+            getHeaders: function(idTcsAmbiente) {
+                if (!idTcsAmbiente){
+                        idTcsAmbiente = 0;
+
+                        var router = require('plugins/router');
+
+                        if (this.shellMode == "DEV"){
+                            idTcsAmbiente = this.loginInfo.IdTcsAmbienteDefault;
+                        }
+                        else {
+                        if (router.activeInstruction() == null){
+                            return {
+                                    'Application' : this.loginInfo.Ambientes[0].UidAplicacao,
+                                    'CurrentCompany' : this.loginInfo.Ambientes[0].UidEmpresa,
+                                    'AuthorizationToken' : this.loginInfo.Ambientes[0].Token,
+                                    'CurrentUser' : this.loginInfo.UidUsuario,
+                                    'Environment' : this.loginInfo.Ambientes[0].IdTcsAmbiente,
+                                    'EconomicGroup' : this.loginInfo.UidGrupoEconomico,
+                                    'SessionID' : this.sessionID,
+                                    'LoginMode' : this.loginMode,
+                                    'Branch' : this.idFilialPfj
+                            };
+                        }
+                        else if (router.activeInstruction().queryString &&  router.activeInstruction().queryString.indexOf('&environmentId=') > -1) {
+                            idTcsAmbiente = strExtract(router.activeInstruction().queryString, '&environmentId=', '&back=');
+                        }
+                        else if (router.activeInstruction().config.currentData){
+                            idTcsAmbiente = router.activeInstruction().config.currentData.IdTcsAmbiente
+                        }
+                    }
+                 }
+                
+                 var info = this.getEnvironmentInfo(idTcsAmbiente);
+                 if (info){
+                        return {
+                                    'Application' : info.UidAplicacao,
+                                    'CurrentCompany' : info.UidEmpresa,
+                                    'AuthorizationToken' : info.Token,
+                                    'CurrentUser' : this.loginInfo.UidUsuario,
+                                    'Environment' : info.IdTcsAmbiente,
+                                    'EconomicGroup' : this.loginInfo.UidGrupoEconomico,
+                                    'SessionID' : this.sessionID,
+                                    'LoginMode' : this.loginMode,
+                                    'Branch' : this.idFilialPfj
+                                };
+                  }
+                return [];
+            },
+
+
+            ///////////////////////
+            // method: getEconomicGroupList()
+            ///////////////////////
+            getEconomicGroupList: function() {
+                    return this.loginInfo.GruposEconomicos;
+            },
+
+            ///////////////////////
+            // method: buildRootUrl()
+            ///////////////////////
+            buildRoot: function(url) {
+                return this.META_ROOT + url;
+            },
+
+            ///////////////////////
+            // method: buildRootUrl()
+            ///////////////////////
+            buildRootUrl: function(url) {
+                return this.META_ROOT + this.META_MODULE_ID + '/' + url;
+            },
+
+            ///////////////////////
+            // method: buildUrl()
+            ///////////////////////
+            buildUrl: function(url, width, heigth) {
+                if (url.indexOf('http') > -1)
+                    return url;
+
+                width = convertToString(width);
+                heigth = convertToString(heigth);
+
+                var paramWidth = (width.length > 0 ? "?width=" + width : '');
+                var paramHeigth = (heigth.length > 0 ? "&heigth=" + heigth : '');
+                
+                return this.buildRootUrl(url + paramWidth + paramHeigth);
+            }
+        };
+    });

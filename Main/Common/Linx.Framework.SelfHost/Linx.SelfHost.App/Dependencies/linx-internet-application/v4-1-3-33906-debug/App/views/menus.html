@@ -1,0 +1,100 @@
+﻿<div class="topo-container">
+    <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header' }-->
+        <!--/ko-->
+    </div>
+</div>
+<div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+<div class="clearfix">
+</div>
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container noform">
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- BEGIN PAGE CONTENT-->
+        <div class="row">
+            <div class="col-md-12" data-bind="foreach: MENUS_VM">
+
+                <div class="tiles">
+                    <a data-bind="attr: { href: urlLink, target: target, id: nameLink }">
+                        <div data-bind="attr: { class: classType }">
+                            <div class="corner" data-bind="click: $root.UI_openListOptions">
+                                <span>&nbsp;</span>
+
+                                <ul>
+                                    <!-- ko if: isFavorite == false -->
+                                    <li>
+                                        <span data-bind="click: function () { $root.UI_linkFavAdd_Click(moduleKey, uidModule, isTransaction, objRef) }"><i class="fa fa-star"></i>adicionar</span>
+                                    </li>
+                                    <!-- /ko -->
+
+                                    <!-- ko if: isFavorite == true -->
+                                    <li>
+                                        <span data-bind="click: function () { $root.UI_linkFavDel_Click(moduleKey, uidModule, isTransaction, objRef) }"><i class="fa fa-star-o"></i>remover</span>
+                                    </li>
+                                    <!-- /ko -->
+
+                                    <!-- ko if: isHome == false -->
+                                    <li>
+                                        <span data-bind="click: function () { $root.UI_linkHomeAdd_Click(objRef) }"><i class="fa fa-home"></i>adicionar home</span>
+                                    </li>
+                                    <!-- /ko -->
+
+                                    <!-- ko if: isHome == true -->
+                                    <li>
+                                        <span data-bind="click: function () { $root.UI_linkHomeDel_Click(objRef) }"><i class="fa fa-ban"></i>remover home</span>
+                                    </li>
+                                    <!-- /ko -->
+                                </ul>
+                            </div>
+                            
+                            <!-- ko if: isTransaction == true -->
+                            <div class="consult-mode" title="Modo Inclusão" data-bind="click: function () { $root.UI_linkModoInclusao_Click(urlLink) }">
+                                <span>&nbsp;</span>
+                            </div>
+                            <!-- /ko -->
+
+                            <span class="position-incons">
+                                <!-- ko if: isFavorite == true && isModuleFavorite == false -->
+                                <i class="fa fa-star star"></i>
+                                <!-- /ko -->
+                            
+                                <!-- ko if: isHome == true -->
+                                <i class="fa fa-home"></i>
+                                <!-- /ko -->
+                            </span>
+
+                            <div class="tile-body menus-prod">
+                                <!-- ko if: iconName.length == 0 -->
+                                <img data-bind="attr: { src: $root.managerAuth.buildUrl(imagePath, 64) }" src="#" width="64" height="64" alt="" class="pull-right" />
+                                <!-- /ko -->
+
+                                <!-- ko if: iconName.length > 0 -->
+                                <i data-bind="attr: { class: iconName }"></i>
+                                <!-- /ko -->
+
+                            </div>
+
+                            <div class="tile-object">
+                                <div class="name">
+                                    <div class="name" data-bind="text: displayName"></div>
+                                </div>
+                                <!--div class="number">
+										6
+									</div>-->
+                            </div>
+
+                        </div>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- END PAGE CONTENT-->
+    </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+

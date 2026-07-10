@@ -1,0 +1,183 @@
+<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension=".json" #>
+<#@ include file = "..\Includes\EntityAdapterDynamicModels.ttinclude"#>
+<#@ assembly name = "#GAC#Linx.Tools.dll" #>
+<#@ import namespace = "Linx.Tools" #>
+<#@ import namespace = "System.Collections.Generic" #>
+<#@ assembly name = "System.Core.dll" #>
+<#@ import namespace = "System.Linq" #>
+<#
+List<EntityAdapterDesignerRoot> models = GetModels();
+
+if (models.Count > 0)
+{
+
+#> 
+{
+"Models": [
+	  
+<#
+
+string modelSeparator = "";
+foreach (var EntityAdapterContext in models)
+{
+	string contextName = System.IO.Path.GetFileNameWithoutExtension(EntityAdapterContext.DocumentName);
+#>
+
+<#=modelSeparator#>{
+  "Name": "<#=contextName + "DomainService"#>",
+  "Namespace": "<#=EntityAdapterContext.TargetNamespace + "." + contextName#>",
+  "AuthorizationEnabled": <#=EntityAdapterContext.EnableAutomaticAuthorization.ToString().ToLower()#>,
+  "Entities": [
+
+<#
+	var modelClasses = EntityAdapterContext.GetEntities();
+	string classSeparator = "";
+    foreach(var classType in modelClasses)
+    {	 
+	   
+#>
+		<#=classSeparator#>{
+			"Name": "<#=classType.Name#>",
+			"BaseTypeName": "<#=(classType.BaseEntityAdapter != null ? classType.BaseEntityAdapter.Name : "")#>",
+			"Decorators": [	
+<#
+			string decSeparator = "";
+			var decorators = classType.GetPublicationAttributes("").Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+			if (!classType.IsPOCO)
+				decorators.Add(@"[FunctionalPoint(""ClassDescription[" + classType.Description + "];DisplayName[" + classType.DisplayName.Replace("\t", "").Replace("\r", "").Replace("\n", "") + "];SizeGridConfigurations[" + classType.SizeGridConfigurations + "];ReplicationKey[" + classType.GetReplicationKey(contextName) + "];CompositionHierarchy[" + classType.GetCompositionHierarchy() + "];IsOlap[" + classType.IsOlap().ToString().ToLower() + "];OlapCatalogName[" + (classType.IsOlap() ? classType.GetOlapCatalog().Name : "") + "];CubeName[" + (classType.IsOlap() ? classType.GetCubeName() : "") + "];IsAggregationView[" + classType.IsAggregationView.ToString().ToLower() + "];ForceAggregationPaging[" + classType.ForceAggregationPaging.ToString().ToLower() + "];HasLocalResultEntityAdapters[" + (classType.LocalResultEntityAdapters.Count > 0).ToString().ToLower() + "];TemporaryKeyName[" + classType.GetTemporaryKeyName() + "];ReadOnly[" + classType.IsReadOnly.ToString().ToLower() + "]" +  classType.GetEntitiesDescription() + @""")]");
+			foreach(var decorator in decorators)
+			{	
+#>
+			<#="								" + decSeparator + "\"" + decorator.Replace(@"\""", @"%#%").Replace(@"""", @"\""").Replace(@"%#%", @"\\\""") + "\""#>
+<#
+				decSeparator = ",";
+			}	
+#>
+			],
+			"Properties": [
+
+
+<#		
+		string propSeparator = "";
+		var lookUpsPropInfo = classType.GetAllLookUpPropertiesInfo(true);		
+        foreach(var attribute in classType.GetAllAttributes())
+        {
+#>
+						<#=propSeparator#>{
+							"Name": "<#=attribute.Name#>",
+							"DataType": "<#=attribute.Datatype#>",
+							"IsNullable": <#=attribute.IsNullable().ToString().ToLower()#>,
+							"Decorators": [	
+<#
+			decSeparator = "";
+			decorators = classType.GetAttributeDefinitions(attribute, contextName, lookUpsPropInfo, "", (!classType.GenerateDataMemberOrder ? -1 : classType.GetMemberOrder((attribute.DataMemberName.IsNullOrEmpty() ? attribute.Name : attribute.DataMemberName))), classType.IsPOCO, (classType.BaseEntityAdapter == null && classType.HasDynamicPrimaryKey()), false, false).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+			foreach(var decorator in decorators)
+			{	
+#>
+			<#="												" + decSeparator + "\"" + decorator.Replace(@"\""", @"%#%").Replace(@"""", @"\""").Replace(@"%#%", @"\\\""") + "\""#>
+<#
+				decSeparator = ",";
+			}	
+#>
+							]
+						}
+<#	
+			propSeparator = ",";
+        }		
+#>
+
+		   ]
+		}
+<#
+		classSeparator = ",";
+      }	
+#>
+
+  
+			 ]		
+  }
+
+<#
+  modelSeparator = ",";
+}
+#> 
+
+
+],
+
+"KPIs": [
+<#
+List<string> kpis = new List<string>();
+string kpiSeparator = "";
+foreach(var model in models)
+{	 
+	  foreach (var kpiRef in model.GetAllKpis())
+	  {
+		if (!kpis.Contains(kpiRef.ClassName))
+		{
+			kpis.Add(kpiRef.ClassName);
+#>
+<#=kpiSeparator#>{
+				"Name": "<#=kpiRef.ClassName#>",
+				"NameSpace": "<#=kpiRef.NameSpace??""#>",
+				"Description": "<#=kpiRef.Description#>",
+				"ShowType": "<#=kpiRef.ShowType#>"
+				}
+<#
+			kpiSeparator = ",";
+		}
+	  }
+}
+#>
+
+],
+
+"Domains": [
+
+<#
+List<string> domains = new List<string>();
+string domainSeparator = "";
+foreach(var model in models)
+{	 
+	  foreach (var domainRef in model.GetAllDomains())
+	  {
+		if (!domains.Contains(domainRef.ClassName))
+		{
+			domains.Add(domainRef.ClassName); 
+
+#>
+			<#=domainSeparator#>{
+				"Name": "<#=domainRef.ClassName#>",
+				"NameSpace": "<#=domainRef.NameSpace??""#>",
+				"Values": [
+<#
+			string dvSeparator = "";
+			foreach(var domainValue in domainRef.Values)
+			{
+#>
+					<#=dvSeparator#>{
+						"Name": "<#=domainValue.Name#>",
+						"DisplayName": "<#=domainValue.DisplayName.Replace("\t", "").Replace("\r", "").Replace("\n", "")#>",
+						"Value": "<#=domainValue.Value.Replace("\"", "'")#>"
+					}
+<#
+				dvSeparator = ",";
+			}
+#>
+				]
+			}
+<#
+			domainSeparator = ",";
+		}	  
+	  }
+}
+#>
+
+]
+
+}
+	  
+<#
+}
+#>

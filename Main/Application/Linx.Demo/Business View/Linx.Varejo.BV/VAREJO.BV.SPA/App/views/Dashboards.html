@@ -1,0 +1,375 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="Dashboards_formViewer" class="panelTransaition">
+            <figure id="Dashboards_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.Dashboards().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="Dashboards_gbVendaItem" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="Título não definido"><i class="icon-reorder"></i>Título não definido</div>
+                       <div class="tools">
+                           <a id="Dashboards_gbVendaItem_anchor" href="#Dashboards_gbVendaItem_body" role="button" data-toggle="collapse" data-parent="#Dashboards_gbVendaItem" aria-controls="#Dashboards_gbVendaItem_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="Dashboards_gbVendaItem_body" class="portlet-body collapse in" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="Dashboards_gbExpander_5cade9e1fd504018984fe5c5cf182122" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" title="Exemplos de Dashboard"><i class="icon-reorder"></i>Exemplos de Dashboard</div>
+                           <div class="tools">
+                               <a id="Dashboards_gbExpander_5cade9e1fd504018984fe5c5cf182122_anchor" href="#Dashboards_gbExpander_5cade9e1fd504018984fe5c5cf182122_body" role="button" data-toggle="collapse" data-parent="#Dashboards_gbExpander_5cade9e1fd504018984fe5c5cf182122" aria-controls="#Dashboards_gbExpander_5cade9e1fd504018984fe5c5cf182122_body" class="" title="Clique para expandir ou colapsar"></a>
+                           </div>
+                       </div>
+                       <div id="Dashboards_gbExpander_5cade9e1fd504018984fe5c5cf182122_body" class="portlet-body collapse in" >
+                           <div data-bind="with: $root.Dashboards().getWithBinding(currentDataItem, $root.Dashboards().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="Dashboards_divSmallIntVendaItem" class="" >
+                                               <div id="Dashboards_SmallIntVendaItem" class="dashboard-stat col-md-3" style="background-color:blue">
+                                                   <div class="visual">
+                                                       <i class="fa fa-adjust"></i>
+                                                   </div>
+                                                   <div class="details">
+                                                       <div class="number"><span id="Dashboards_SmallIntVendaItem_value"  data-bind="text: SmallIntVendaItem"/></div>
+                                                       <div class="desc">Small Int</div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="Dashboards_divIntVendaItem" class="" >
+                                               <div id="Dashboards_IntVendaItem" class="dashboard-stat col-md-6" style="background-color:rgb(0, 255, 64)">
+                                                   <div class="visual">
+                                                       <i class="fa fa-bar-chart"></i>
+                                                   </div>
+                                                   <div class="details">
+                                                       <div class="number"><span id="Dashboards_IntVendaItem_value"  data-bind="text: IntVendaItem"/></div>
+                                                       <div class="desc">Int Venda Item</div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="Dashboards_divBigIntVendaItem" class="" >
+                                               <div id="Dashboards_BigIntVendaItem" class="dashboard-stat col-md-12" style="background-color:rgb(255, 0, 0)">
+                                                   <div class="visual">
+                                                       <i class="fa fa-car"></i>
+                                                   </div>
+                                                   <div class="details">
+                                                       <div class="number"><span id="Dashboards_BigIntVendaItem_value"  data-bind="text: BigIntVendaItem"/></div>
+                                                       <div class="desc">Big Int Venda Item</div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="Dashboards_divDecimalVendaItem" class="" >
+                                               <div id="Dashboards_DecimalVendaItem" class="dashboard-stat col-md-12" style="background-color:rgb(255, 0, 0)">
+                                                   <div class="visual">
+                                                       <i class="fa fa-credit-card-alt"></i>
+                                                   </div>
+                                                   <div class="details">
+                                                       <div class="number"><span id="Dashboards_DecimalVendaItem_value"  data-bind="text: Globalize.format(getAbsoluteValue(DecimalVendaItem), 'N2')"/></div>
+                                                       <div class="desc">Decimal Venda Item</div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="Dashboards_gbExpander_32a5f9608c1d43389522cc8847eac239" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" title="Título não definido"><i class="icon-reorder"></i>Título não definido</div>
+                           <div class="tools">
+                               <a id="Dashboards_gbExpander_32a5f9608c1d43389522cc8847eac239_anchor" href="#Dashboards_gbExpander_32a5f9608c1d43389522cc8847eac239_body" role="button" data-toggle="collapse" data-parent="#Dashboards_gbExpander_32a5f9608c1d43389522cc8847eac239" aria-controls="#Dashboards_gbExpander_32a5f9608c1d43389522cc8847eac239_body" class="" title="Clique para expandir ou colapsar"></a>
+                           </div>
+                       </div>
+                       <div id="Dashboards_gbExpander_32a5f9608c1d43389522cc8847eac239_body" class="portlet-body collapse in" >
+                           <div data-bind="with: $root.Dashboards().getWithBinding(currentDataItem, $root.Dashboards().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="Dashboards_divBitVendaItem" class="" >
+                                               <label class="">
+                                                 <input id="Dashboards_ckBitVendaItem" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_ckBitVendaItem') ? ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_ckBitVendaItem') : (!isEmptyEntityFn($data) && $root.Dashboards().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_ckBitVendaItem') ? !ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_ckBitVendaItem') : (isEmptyEntityFn($data) || !$root.Dashboards().enabledForEditing()), nullableChecked: BitVendaItem" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lblDashboards_ckBitVendaItem" class="align-label-checkbox">Bit Venda Item</span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="Dashboards_divComboboxVendaItem" class="" >
+                                               <label id="Dashboards_lblComboboxVendaItem" for="Dashboards_cmbComboboxVendaItem" data-bind="css: { 'content-required': $root.Dashboards().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Combobox Venda Item">Combobox Venda Item
+                                               </label>
+                                               <span id="Dashboards_cmbComboboxVendaItem" class="form-control " data-bind="validatedField: 'ComboboxVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_cmbComboboxVendaItem') ? ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_cmbComboboxVendaItem') : (!isEmptyEntityFn($data) && $root.Dashboards().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_cmbComboboxVendaItem') ? !ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_cmbComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.Dashboards().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_cmbComboboxVendaItem') ? !ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_cmbComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.Dashboards().enabledForEditing()), igCombo: {
+                                                  selectedItems: ComboboxVendaItem,
+                                                  dataSource:  $root.Dashboards().dataDomains.getItems('LX_VENDA_ITEM', ''),
+                                                  textKey: 'name',
+                                                  valueKey: 'id',
+                                                  allowCustomValue : true,
+                                                  enableSelectionChangedUpdate: true,
+                                                  enableClearButton: false,
+                                                  dropDownOnFocus: true,
+                                                  disabled: (ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_cmbComboboxVendaItem') ? !ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_cmbComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.Dashboards().enabledForEditing())),
+                                                  mode: 'editable',
+                                                  width:'100%'
+                                               }"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="Dashboards_divDatetimeVendaItem" class="" >
+                                               <label id="Dashboards_lblDatetimeVendaItem" for="Dashboards_dtDatetimeVendaItem" class="control-label ellipsis" title="Datetime Venda Item">Datetime Venda Item
+                                               </label>
+                                               <div class="input-group" >
+                                                   <span id="Dashboards_dtDatetimeVendaItem" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVendaItem', css: { vmEditing: $root.Dashboards().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_dtDatetimeVendaItem') ? ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_dtDatetimeVendaItem') : (!isEmptyEntityFn($data) && $root.Dashboards().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_dtDatetimeVendaItem') ? !ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_dtDatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.Dashboards().enabledForEditing()) },  igDatePicker: { value: DatetimeVendaItem, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_dtDatetimeVendaItem') ? !ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_dtDatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.Dashboards().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="Dashboards_rgbtnDatetimeVendaItem"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Dashboards().entitySearchRange.has_VendaItemDatetimeVendaItem(), 'icon-ok': $root.Dashboards().entitySearchRange.has_VendaItemDatetimeVendaItem(), hide: $root.Dashboards().status() !== 'C' }, popoverWithBind: { template: '#Dashboards_rgDatetimeVendaItem', vm: $root.Dashboards().entitySearchRange, ctrlName: 'Dashboards_rgcDatetimeVendaItem', headerText:'Filtro de datas' }"  /></span>
+                                                      <script id="Dashboards_rgDatetimeVendaItem" type="text/html" tabindex="-1">
+                                                      <div class="range-radio-group">
+                                                          <input type="radio" data-bind="checked:VendaItemDatetimeVendaItem_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="checked:VendaItemDatetimeVendaItem_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      </div>
+                                                      <div class="range-input-group" id="Dashboards_divrgDatetimeVendaItem" >
+                                                          <div class="filterByRange" data-bind="visible: VendaItemDatetimeVendaItem_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="Dashboards_dtbDatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemDatetimeVendaItem_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#Dashboards_dtDatetimeVendaItem').igDatePicker('option', 'readOnly', (ui.value != null || $('#Dashboards_dteDatetimeVendaItem').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#Dashboards_dtbDatetimeVendaItem').igDatePicker('value'); var valorMax = $('#Dashboards_dteDatetimeVendaItem').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#Dashboards_dtbDatetimeVendaItem').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="Dashboards_dteDatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemDatetimeVendaItem_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#Dashboards_dtDatetimeVendaItem').igDatePicker('option', 'readOnly', ($('#Dashboards_dtbDatetimeVendaItem').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#Dashboards_dtbDatetimeVendaItem').igDatePicker('value'); var valorMax = $('#Dashboards_dteDatetimeVendaItem').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#Dashboards_dteDatetimeVendaItem').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: VendaItemDatetimeVendaItem_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaItemDatetimeVendaItem_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <div class="row predefValue" data-bind="visible: VendaItemDatetimeVendaItem_predefFilter() != null && VendaItemDatetimeVendaItem_predefFilter()[0] && VendaItemDatetimeVendaItem_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaItemDatetimeVendaItem_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="Dashboards_divIdVenda" class="" >
+                                               <label id="Dashboards_lblIdVenda" for="Dashboards_ntxIdVenda" class="control-label ellipsis" title="Id Venda">Id Venda
+                                               </label>
+                                               <div class="input-group">
+                                                   <input id="Dashboards_ntxIdVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.Dashboards().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_ntxIdVenda') ? ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_ntxIdVenda') : (!isEmptyEntityFn($data) && $root.Dashboards().enabledForEditing()) }, igNumericEditor: { value: IdVenda, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_ntxIdVenda') ? !ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_ntxIdVenda') : (isEmptyEntityFn($data) || !$root.Dashboards().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Dashboards().entitySearchRange.has_VendaItemIdVenda(), 'icon-ok': $root.Dashboards().entitySearchRange.has_VendaItemIdVenda(), hide: $root.Dashboards().status() !== 'C' }, popoverWithBind: { template: '#Dashboards_rgIdVenda', vm: $root.Dashboards().entitySearchRange, ctrlName: 'Dashboards_rgcIdVenda', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="Dashboards_rgIdVenda" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Dashboards_ntxbIdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVenda_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Dashboards_ntxIdVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Dashboards_ntxeIdVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#Dashboards_ntxeIdVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Dashboards_ntxeIdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVenda_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Dashboards_ntxIdVenda').igNumericEditor('option', 'readOnly', ($('#Dashboards_ntxbIdVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Dashboards_ntxbIdVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="Dashboards_divIdVendaItem" class="" >
+                                               <label id="Dashboards_lblIdVendaItem" for="Dashboards_ntxIdVendaItem" data-bind="css: { 'content-required': $root.Dashboards().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Id Venda Item">Id Venda Item
+                                               </label>
+                                               <div class="input-group">
+                                                   <input id="Dashboards_ntxIdVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'IdVendaItem', css: { vmEditing: $root.Dashboards().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_ntxIdVendaItem') ? ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_ntxIdVendaItem') : (!isEmptyEntityFn($data) && $root.Dashboards().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVendaItem, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_ntxIdVendaItem') ? !ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_ntxIdVendaItem') : (isEmptyEntityFn($data) || !($root.Dashboards().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Dashboards().entitySearchRange.has_VendaItemIdVendaItem(), 'icon-ok': $root.Dashboards().entitySearchRange.has_VendaItemIdVendaItem(), hide: $root.Dashboards().status() !== 'C' }, popoverWithBind: { template: '#Dashboards_rgIdVendaItem', vm: $root.Dashboards().entitySearchRange, ctrlName: 'Dashboards_rgcIdVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="Dashboards_rgIdVendaItem" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Dashboards_ntxbIdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVendaItem_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Dashboards_ntxIdVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Dashboards_ntxeIdVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#Dashboards_ntxeIdVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Dashboards_ntxeIdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVendaItem_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#Dashboards_ntxIdVendaItem').igNumericEditor('option', 'readOnly', ($('#Dashboards_ntxbIdVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Dashboards_ntxbIdVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="Dashboards_divBigIntVendaItemKpiInfo" class="" >
+                                               <label id="Dashboards_lblBigIntVendaItemKpiInfo" for="Dashboards_tbBigIntVendaItemKpiInfo" data-bind="css: { 'content-required': $root.Dashboards().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Big Int Venda Item (KPI)">Big Int Venda Item (KPI)
+                                               </label>
+                                               <input id="Dashboards_tbBigIntVendaItemKpiInfo" class="form-control ellipsis" data-bind="attr: { title: BigIntVendaItemKpiInfo }, validatedField: 'BigIntVendaItemKpiInfo', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_tbBigIntVendaItemKpiInfo') ? ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_tbBigIntVendaItemKpiInfo') : (!isEmptyEntityFn($data) && $root.Dashboards().status() === 'C') }, igTextEditor: { value: BigIntVendaItemKpiInfo, readOnly: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_tbBigIntVendaItemKpiInfo') ? !ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_tbBigIntVendaItemKpiInfo') : (isEmptyEntityFn($data) || $root.Dashboards().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="Dashboards_divStringVendaItem" class="" >
+                                               <label id="Dashboards_lblStringVendaItem" for="Dashboards_tbStringVendaItem" class="control-label ellipsis" title="String Venda Item">String Venda Item
+                                               </label>
+                                               <input id="Dashboards_tbStringVendaItem" class="form-control ellipsis" data-bind="attr: { title: StringVendaItem }, validatedField: 'StringVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_tbStringVendaItem') ? ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_tbStringVendaItem') : (!isEmptyEntityFn($data) && $root.Dashboards().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVendaItem, readOnly: ctrl.hasCustomEnable($root.Dashboards(), 'Dashboards_tbStringVendaItem') ? !ctrl.getCustomEnable($root.Dashboards(), 'Dashboards_tbStringVendaItem') : (isEmptyEntityFn($data) || !$root.Dashboards().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="Dashboards_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.Dashboards().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyDashboards_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyDashboards_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyDashboards_dGrid_templateLayout', vm: function(){return $root.Dashboards().gridSaveStates['scyDashboards_dGrid'];}, ctrlName: 'scyDashboards_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-external-link" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyDashboards_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyDashboards_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Salvar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como...</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyDashboards_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.Dashboards().dataToolbar.canExport(), click: function () {$root.Dashboards().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyDashboards_dGrid" data-bind="css: { IsEditableStyle: $root.Dashboards().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

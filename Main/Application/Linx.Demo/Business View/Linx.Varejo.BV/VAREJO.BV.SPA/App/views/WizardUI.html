@@ -1,0 +1,985 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+        <div class="col-md-12 remove-pl remove-pr">
+            <section>
+                           <div id="WizardUI_wizWizard_3ca1e4bbaa6c4d9dac76c927e968e514" class="form-wizard col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+               <div class="form-body">
+                   <div class="row">
+                       <div class="col-md-10">
+                           <ul class="nav nav-pills nav-justified steps">
+                               <li >
+                                   <a href="#WizardUI_tabWizardItem" data-toggle="tab" class="step active" style="cursor: default" >
+                                       <span class="number">1</span>
+                                       <span class="desc"><i class="fa fa-check"></i>Cliente</span>
+                                   </a>
+                               </li>
+                               <li >
+                                   <a href="#WizardUI_tabWizardItem_85932d9e6c814afc8376e03669981935" data-toggle="tab" class="step" style="cursor: default" >
+                                       <span class="number">2</span>
+                                       <span class="desc"><i class="fa fa-check"></i>WizardItem</span>
+                                   </a>
+                               </li>
+                               <li >
+                                   <a href="#WizardUI_tabWizardItem_e612fc8e661945d0b837894657d1618f" data-toggle="tab" class="step" style="cursor: default" >
+                                       <span class="number">3</span>
+                                       <span class="desc"><i class="fa fa-check"></i>WizardItem</span>
+                                   </a>
+                               </li>
+                               <li >
+                                   <a href="#WizardUI_tabWizardItem_25ea0b8f720444dc937a30089df5cd28" data-toggle="tab" class="step" style="cursor: default" >
+                                       <span class="number">4</span>
+                                       <span class="desc"><i class="fa fa-check"></i>WizardItem</span>
+                                   </a>
+                               </li>
+                           </ul>
+                          <div id="WizardUI_wizWizard_3ca1e4bbaa6c4d9dac76c927e968e514_bar" class="progress progress-striped active">
+                              <div class="progress-bar progress-bar-success"></div>
+                          </div>
+                       </div>
+                       <div class="col-md-2 position-absolute-btnWizard">
+                           <div class="form-actions right btnWizard-bottom remove-pb">
+                               <a href="javascript:;" class="btn default button-previous button-previous-wizard"><i class="m-icon-swapleft"></i>Voltar</a>
+                               <a href="javascript:;" class="btn blue button-next button-next-wizard">Continuar<i class="m-icon-swapright m-icon-white"></i></a>
+                               <a href="javascript:;" class="btn green button-submit button-submit-wizard">Submeter<i class="m-icon-swapright m-icon-white"></i></a>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="WizardUI_tabWizardItem">
+                   <div class="ui-helper-clearfix input-box-wizard">
+                       <div data-bind="with: $root.WizardUI().getWithBinding(currentDataItem, $root.WizardUI().rootDataTypeName)">
+                       <div class="">
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divIdCliente" class="" >
+                                       <label id="WizardUI_lblIdCliente" for="WizardUI_ntxIdCliente" data-bind="css: { 'content-required': $root.WizardUI().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Id Cliente">Id Cliente
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxIdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxIdCliente') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxIdCliente') : (!isEmptyEntityFn($data) && $root.WizardUI().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdCliente, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxIdCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxIdCliente') : (isEmptyEntityFn($data) || !($root.WizardUI().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_ClienteIdCliente(), 'icon-ok': $root.WizardUI().entitySearchRange.has_ClienteIdCliente(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgIdCliente', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcIdCliente', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgIdCliente" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxIdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeIdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeIdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxIdCliente').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbIdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbIdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divStringCliente" class="" >
+                                       <label id="WizardUI_lblStringCliente" for="WizardUI_tbStringCliente" class="control-label ellipsis" title="String Cliente">String Cliente
+                                       </label>
+                                       <input id="WizardUI_tbStringCliente" class="form-control ellipsis" data-bind="attr: { title: StringCliente }, validatedField: 'StringCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_tbStringCliente') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_tbStringCliente') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringCliente, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_tbStringCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_tbStringCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divBitCliente" class="" >
+                                       <label class="">
+                                         <input id="WizardUI_ckBitCliente" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ckBitCliente') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ckBitCliente') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ckBitCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ckBitCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), nullableChecked: BitCliente" title="Clique para marcar/desmarcar"/> 
+                                         <span id="lblWizardUI_ckBitCliente" class="align-label-checkbox">Bit Cliente</span>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+               </div>
+
+
+
+
+
+               <div class="tab-pane fade" id="WizardUI_tabWizardItem_85932d9e6c814afc8376e03669981935">
+                   <div class="ui-helper-clearfix input-box-wizard">
+                       <div data-bind="with: $root.WizardUI().getWithBinding(currentDataItem, $root.WizardUI().rootDataTypeName)">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divBigIntCliente" class="" >
+                                       <label id="WizardUI_lblBigIntCliente" for="WizardUI_ntxBigIntCliente" class="control-label ellipsis" title="Big Int Cliente">Big Int Cliente
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxBigIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntCliente', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxBigIntCliente') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxBigIntCliente') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: BigIntCliente, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxBigIntCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxBigIntCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_ClienteBigIntCliente(), 'icon-ok': $root.WizardUI().entitySearchRange.has_ClienteBigIntCliente(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgBigIntCliente', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcBigIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgBigIntCliente" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteBigIntCliente_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#WizardUI_ntxBigIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeBigIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeBigIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteBigIntCliente_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#WizardUI_ntxBigIntCliente').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbBigIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbBigIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divComboboxCliente" class="" >
+                                       <label id="WizardUI_lblComboboxCliente" for="WizardUI_cmbComboboxCliente" data-bind="css: { 'content-required': $root.WizardUI().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Combobox Cliente">Combobox Cliente
+                                       </label>
+                                       <span id="WizardUI_cmbComboboxCliente" class="form-control " data-bind="validatedField: 'ComboboxCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbComboboxCliente') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbComboboxCliente') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), igCombo: {
+                                          selectedItems: ComboboxCliente,
+                                          dataSource:  $root.WizardUI().dataDomains.getItems('LX_CLIENTE', ''),
+                                          textKey: 'name',
+                                          valueKey: 'id',
+                                          allowCustomValue : true,
+                                          enableSelectionChangedUpdate: true,
+                                          enableClearButton: false,
+                                          dropDownOnFocus: true,
+                                          disabled: (ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing())),
+                                          mode: 'editable',
+                                          width:'100%'
+                                       }"></span>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divDatetimeCliente" class="" >
+                                       <label id="WizardUI_lblDatetimeCliente" for="WizardUI_dtDatetimeCliente" class="control-label ellipsis" title="Datetime Cliente">Datetime Cliente
+                                       </label>
+                                       <div class="input-group" >
+                                           <span id="WizardUI_dtDatetimeCliente" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeCliente', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_dtDatetimeCliente') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_dtDatetimeCliente') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()) },  igDatePicker: { value: DatetimeCliente, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                           <span class="input-group-btn" title="Filtro de datas">
+                                              <button id="WizardUI_rgbtnDatetimeCliente"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_ClienteDatetimeCliente(), 'icon-ok': $root.WizardUI().entitySearchRange.has_ClienteDatetimeCliente(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgDatetimeCliente', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcDatetimeCliente', headerText:'Filtro de datas' }"  /></span>
+                                              <script id="WizardUI_rgDatetimeCliente" type="text/html" tabindex="-1">
+                                              <div class="range-radio-group">
+                                                  <input type="radio" data-bind="checked:ClienteDatetimeCliente_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                  <input type="radio" data-bind="checked:ClienteDatetimeCliente_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                              </div>
+                                              <div class="range-input-group" id="WizardUI_divrgDatetimeCliente" >
+                                                  <div class="filterByRange" data-bind="visible: ClienteDatetimeCliente_typeRange() == 'R'">
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="WizardUI_dtbDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteDatetimeCliente_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#WizardUI_dtDatetimeCliente').igDatePicker('option', 'readOnly', (ui.value != null || $('#WizardUI_dteDatetimeCliente').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#WizardUI_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#WizardUI_dteDatetimeCliente').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#WizardUI_dtbDatetimeCliente').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="WizardUI_dteDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteDatetimeCliente_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#WizardUI_dtDatetimeCliente').igDatePicker('option', 'readOnly', ($('#WizardUI_dtbDatetimeCliente').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#WizardUI_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#WizardUI_dteDatetimeCliente').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#WizardUI_dteDatetimeCliente').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                  </div>
+                                                  <div class="filterByPredefined " data-bind="visible: ClienteDatetimeCliente_typeRange() == 'P'">
+                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ClienteDatetimeCliente_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                      <div class="row predefValue" data-bind="visible: ClienteDatetimeCliente_predefFilter() != null && ClienteDatetimeCliente_predefFilter()[0] && ClienteDatetimeCliente_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ClienteDatetimeCliente_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                  </div>
+                                              </div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+               </div>
+
+
+
+
+
+               <div class="tab-pane fade" id="WizardUI_tabWizardItem_e612fc8e661945d0b837894657d1618f">
+                   <div class="ui-helper-clearfix input-box-wizard">
+                       <div data-bind="with: $root.WizardUI().getWithBinding(currentDataItem, $root.WizardUI().rootDataTypeName)">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divIdEstado" class="" >
+                                       <label id="WizardUI_lblIdEstado" for="WizardUI_lUpIdEstado" class="control-label ellipsis" title="Id Estado">Id Estado
+                                       </label>
+                                       <div id="WizardUI_lUpIdEstado" class="form-control input-group " data-bind="validatedField: 'IdEstado', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_lUpIdEstado') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_lUpIdEstado') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, lookupControl: { vm: $root.WizardUI(), value: IdEstado, maxLength: 12,lookupName: 'LookUpEstado', isMultiSelection: false, multiSelectionValue: $root.WizardUI().entitySearchRange.IdEstado, fieldName: 'IdEstado', disabled:ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_lUpIdEstado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_lUpIdEstado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divDecimalCliente" class="" >
+                                       <label id="WizardUI_lblDecimalCliente" for="WizardUI_ntxDecimalCliente" class="control-label ellipsis" title="Decimal Cliente">Decimal Cliente
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxDecimalCliente" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalCliente', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxDecimalCliente') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxDecimalCliente') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: DecimalCliente, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxDecimalCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxDecimalCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_ClienteDecimalCliente(), 'icon-ok': $root.WizardUI().entitySearchRange.has_ClienteDecimalCliente(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgDecimalCliente', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcDecimalCliente', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgDecimalCliente" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#WizardUI_ntxDecimalCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeDecimalCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeDecimalCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#WizardUI_ntxDecimalCliente').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbDecimalCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbDecimalCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+               </div>
+
+
+
+
+
+               <div class="tab-pane fade" id="WizardUI_tabWizardItem_25ea0b8f720444dc937a30089df5cd28">
+                   <div class="ui-helper-clearfix input-box-wizard">
+                       <div data-bind="with: $root.WizardUI().getWithBinding(currentDataItem, $root.WizardUI().rootDataTypeName)">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divSmallIntCliente" class="" >
+                                       <label id="WizardUI_lblSmallIntCliente" for="WizardUI_ntxSmallIntCliente" class="control-label ellipsis" title="Small Int Cliente">Small Int Cliente
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxSmallIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntCliente', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxSmallIntCliente') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxSmallIntCliente') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: SmallIntCliente, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxSmallIntCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxSmallIntCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_ClienteSmallIntCliente(), 'icon-ok': $root.WizardUI().entitySearchRange.has_ClienteSmallIntCliente(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgSmallIntCliente', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcSmallIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgSmallIntCliente" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteSmallIntCliente_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#WizardUI_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeSmallIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeSmallIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteSmallIntCliente_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#WizardUI_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbSmallIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbSmallIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divIntCliente" class="" >
+                                       <label id="WizardUI_lblIntCliente" for="WizardUI_ntxIntCliente" class="control-label ellipsis" title="Int Cliente">Int Cliente
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IntCliente', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxIntCliente') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxIntCliente') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: IntCliente, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxIntCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxIntCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_ClienteIntCliente(), 'icon-ok': $root.WizardUI().entitySearchRange.has_ClienteIntCliente(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgIntCliente', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgIntCliente" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxIntCliente').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+               </div>
+
+
+
+                   </div>
+               </div>
+               </div>
+
+           <div id="WizardUI_tcClienteTabControl" class="tabbable tabbable-custom box col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+              <div class="container-tab">
+                 <div id="WizardUI_tcClienteTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                 <div id="WizardUI_tcClienteTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                 <div id="WizardUI_tcClienteTabControl_wrapper" class="wrapper">
+                    <ul id="WizardUI_tcClienteTabControl_list" class="nav nav-tabs list">
+                       <li id="WizardUI_tiVendaTabItem" class="active"><a href="#WizardUI_tabVendaTabItem" data-toggle="tab" title="VendawwwwwwwwwwWWWWW">VendawwwwwwwwwwWWWWW</a></li>
+                       <li id="WizardUI_tiVendaAtacadoTabItem" class=""><a href="#WizardUI_tabVendaAtacadoTabItem" data-toggle="tab" title="VendaAtacadommmmmmmMMMMMM">VendaAtacadommmmmmmMMMMMM</a></li>
+                    </ul>
+                    </div>
+                 </div>
+              <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="WizardUI_tabVendaTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                       <div id="WizardUI_dGridVenda_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.WizardUI().getWithBinding(currentDataItem, $root.WizardUI().rootDataTypeName)">
+                           <button id="WizardUI_dGridVenda_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.WizardUI().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.WizardUI().createAndNotifyVenda($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="WizardUI_dGridVenda_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.WizardUI().status() === 'E', 
+                           click: function () {
+                              $root.WizardUI().deleteGrid('#WizardUI_dGridVenda', 'Venda', 'vm.currentDataItem().currentVenda;vm.currentDataItem().VendaList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="WizardUI_dGridVenda_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.WizardUI().openEditor('#WizardUI_dGridVenda', 'Venda', 'vm.currentDataItem().currentVenda;vm.currentDataItem().VendaList', 'Venda;vm.currentDataItem()', 'Venda(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="WizardUI_dGridVenda_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.WizardUI().openEditor('#WizardUI_dGridVenda', 'Venda', 'vm.currentDataItem().currentVenda;vm.currentDataItem().VendaList', 'Venda;vm.currentDataItem()', 'Venda(vm.currentDataItem())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="WizardUI_dGridVenda_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#WizardUI_dGridVenda_templateLayout', vm: function(){return $root.WizardUI().gridSaveStates['WizardUI_dGridVenda'];}, ctrlName: 'WizardUI_dGridVenda_gb', headerText:'Layout da grid' }"><i class="fa fa-external-link" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                           <script id="WizardUI_dGridVenda_templateLayout" type="text/html" tabindex="-1">
+                               <div id="WizardUI_dGridVenda_gb" class="layout-popover">
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                           <div class="col-md-10">
+                                               <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                           </div>
+                                           <div  class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="col-md-10">
+                                               <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Salvar...</button>
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como...</button>
+                                           </div>
+                                           <div class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </script>
+                           <button id="WizardUI_dGridVenda_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.WizardUI().dataToolbar.canGridExport(), click: function () {$root.WizardUI().exportDataDetails($data, 'Venda', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="WizardUI_dGridVenda" data-bind="css: { IsEditableStyle: $root.WizardUI().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+
+                   <div id="dialogVenda"  class="toolbar-dialog-template" title='' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegVenda" onClick="$(this).backRegVenda();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberVenda">0</label><label>/</label><label id="totalNumberVenda">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegVenda" onClick="$(this).nextRegVenda();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegVenda" onClick="$(this).addRegVenda();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegVenda" onClick="$(this).delRegVenda();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegVenda" onClick="$(this).okRegVenda();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="WizardUI_templateVenda" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.WizardUI().getWithBinding(currentDataItem, $root.WizardUI().rootDataTypeName)"><div data-bind="with: $root.WizardUI().getWithBinding(currentVenda, 'Venda')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVenda_BigIntVendaTemplate" class="" >
+                                       <label id="WizardUI_lblVenda_BigIntVenda" for="WizardUI_ntxVenda_BigIntVenda" class="control-label ellipsis" title="Big Int Venda">Big Int Venda
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVenda_BigIntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntVenda', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_BigIntVenda') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_BigIntVenda') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: BigIntVenda, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_BigIntVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_BigIntVenda') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaBigIntVenda(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaBigIntVenda(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVenda_BigIntVenda', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVenda_BigIntVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVenda_BigIntVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVenda_BigIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaBigIntVenda_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_BigIntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVenda_BigIntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVenda_BigIntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVenda_BigIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaBigIntVenda_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_BigIntVenda').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVenda_BigIntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVenda_BigIntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVenda_BitVendaTemplate" class="" >
+                                       <label class="">
+                                         <input id="WizardUI_ckVenda_BitVenda" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ckVenda_BitVenda') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ckVenda_BitVenda') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ckVenda_BitVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ckVenda_BitVenda') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), nullableChecked: BitVenda" title="Clique para marcar/desmarcar"/> 
+                                         <span id="lblWizardUI_ckVenda_BitVenda" class="align-label-checkbox">Bit Venda</span>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVenda_ComboboxVendaTemplate" class="" >
+                                       <label id="WizardUI_lblVenda_ComboboxVenda" for="WizardUI_cmbVenda_ComboboxVenda" data-bind="css: { 'content-required': $root.WizardUI().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Combobox Venda">Combobox Venda
+                                       </label>
+                                       <span id="WizardUI_cmbVenda_ComboboxVenda" class="form-control " data-bind="validatedField: 'ComboboxVenda', css: { IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbVenda_ComboboxVenda') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbVenda_ComboboxVenda') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbVenda_ComboboxVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbVenda_ComboboxVenda') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbVenda_ComboboxVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbVenda_ComboboxVenda') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), igCombo: {
+                                          selectedItems: ComboboxVenda,
+                                          dataSource:  $root.WizardUI().dataDomains.getItems('LX_VENDA', ''),
+                                          textKey: 'name',
+                                          valueKey: 'id',
+                                          allowCustomValue : true,
+                                          enableSelectionChangedUpdate: true,
+                                          enableClearButton: false,
+                                          dropDownOnFocus: true,
+                                          disabled: (ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbVenda_ComboboxVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbVenda_ComboboxVenda') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing())),
+                                          mode: 'editable',
+                                          width:'100%'
+                                       }"></span>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVenda_DatetimeVendaTemplate" class="" >
+                                       <label id="WizardUI_lblVenda_DatetimeVenda" for="WizardUI_dtVenda_DatetimeVenda" class="control-label ellipsis" title="Datetime Venda">Datetime Venda
+                                       </label>
+                                       <div class="input-group" >
+                                           <span id="WizardUI_dtVenda_DatetimeVenda" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVenda', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_dtVenda_DatetimeVenda') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_dtVenda_DatetimeVenda') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_dtVenda_DatetimeVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_dtVenda_DatetimeVenda') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()) },  igDatePicker: { value: DatetimeVenda, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_dtVenda_DatetimeVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_dtVenda_DatetimeVenda') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                           <span class="input-group-btn" title="Filtro de datas">
+                                              <button id="WizardUI_rgbtnVenda_DatetimeVenda"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaDatetimeVenda(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaDatetimeVenda(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVenda_DatetimeVenda', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVenda_DatetimeVenda', headerText:'Filtro de datas' }"  /></span>
+                                              <script id="WizardUI_rgVenda_DatetimeVenda" type="text/html" tabindex="-1">
+                                              <div class="range-radio-group">
+                                                  <input type="radio" data-bind="checked:VendaDatetimeVenda_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                  <input type="radio" data-bind="checked:VendaDatetimeVenda_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                              </div>
+                                              <div class="range-input-group" id="WizardUI_divrgVenda_DatetimeVenda" >
+                                                  <div class="filterByRange" data-bind="visible: VendaDatetimeVenda_typeRange() == 'R'">
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="WizardUI_dtbVenda_DatetimeVenda" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaDatetimeVenda_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#WizardUI_dtVenda_DatetimeVenda').igDatePicker('option', 'readOnly', (ui.value != null || $('#WizardUI_dteVenda_DatetimeVenda').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#WizardUI_dtbVenda_DatetimeVenda').igDatePicker('value'); var valorMax = $('#WizardUI_dteVenda_DatetimeVenda').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#WizardUI_dtbVenda_DatetimeVenda').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="WizardUI_dteVenda_DatetimeVenda" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaDatetimeVenda_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#WizardUI_dtVenda_DatetimeVenda').igDatePicker('option', 'readOnly', ($('#WizardUI_dtbVenda_DatetimeVenda').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#WizardUI_dtbVenda_DatetimeVenda').igDatePicker('value'); var valorMax = $('#WizardUI_dteVenda_DatetimeVenda').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#WizardUI_dteVenda_DatetimeVenda').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                  </div>
+                                                  <div class="filterByPredefined " data-bind="visible: VendaDatetimeVenda_typeRange() == 'P'">
+                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaDatetimeVenda_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                      <div class="row predefValue" data-bind="visible: VendaDatetimeVenda_predefFilter() != null && VendaDatetimeVenda_predefFilter()[0] && VendaDatetimeVenda_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaDatetimeVenda_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                  </div>
+                                              </div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVenda_DecimalVendaTemplate" class="" >
+                                       <label id="WizardUI_lblVenda_DecimalVenda" for="WizardUI_ntxVenda_DecimalVenda" class="control-label ellipsis" title="Decimal Venda">Decimal Venda
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVenda_DecimalVenda" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVenda', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_DecimalVenda') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_DecimalVenda') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: DecimalVenda, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_DecimalVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_DecimalVenda') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaDecimalVenda(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaDecimalVenda(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVenda_DecimalVenda', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVenda_DecimalVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVenda_DecimalVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVenda_DecimalVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaDecimalVenda_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_DecimalVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVenda_DecimalVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVenda_DecimalVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVenda_DecimalVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaDecimalVenda_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_DecimalVenda').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVenda_DecimalVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVenda_DecimalVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVenda_IdClienteTemplate" class="" >
+                                       <label id="WizardUI_lblVenda_IdCliente" for="WizardUI_ntxVenda_IdCliente" class="control-label ellipsis" title="Id Cliente">Id Cliente
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVenda_IdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IdCliente') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IdCliente') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: IdCliente, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IdCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IdCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaIdCliente(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaIdCliente(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVenda_IdCliente', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVenda_IdCliente', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVenda_IdCliente" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVenda_IdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdCliente_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_IdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVenda_IdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVenda_IdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVenda_IdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdCliente_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_IdCliente').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVenda_IdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVenda_IdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVenda_IdLojaTemplate" class="" >
+                                       <label id="WizardUI_lblVenda_IdLoja" for="WizardUI_lUpVenda_IdLoja" class="control-label ellipsis" title="Id Loja">Id Loja
+                                       </label>
+                                       <div id="WizardUI_lUpVenda_IdLoja" class="form-control input-group " data-bind="validatedField: 'IdLoja', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_lUpVenda_IdLoja') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_lUpVenda_IdLoja') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, lookupControl: { vm: $root.WizardUI(), value: IdLoja, maxLength: 12,lookupName: 'LookUpLoja', isMultiSelection: false, multiSelectionValue: $root.WizardUI().entitySearchRange.IdLoja, fieldName: 'IdLoja', disabled:ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_lUpVenda_IdLoja') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_lUpVenda_IdLoja') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVenda_IdVendaTemplate" class="" >
+                                       <label id="WizardUI_lblVenda_IdVenda" for="WizardUI_ntxVenda_IdVenda" data-bind="css: { 'content-required': $root.WizardUI().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Id Venda">Id Venda
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVenda_IdVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IdVenda') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IdVenda') : (!isEmptyEntityFn($data) && $root.WizardUI().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVenda, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IdVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IdVenda') : (isEmptyEntityFn($data) || !($root.WizardUI().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaIdVenda(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaIdVenda(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVenda_IdVenda', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVenda_IdVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVenda_IdVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVenda_IdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_IdVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVenda_IdVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVenda_IdVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVenda_IdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_IdVenda').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVenda_IdVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVenda_IdVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVenda_IntVendaTemplate" class="" >
+                                       <label id="WizardUI_lblVenda_IntVenda" for="WizardUI_ntxVenda_IntVenda" class="control-label ellipsis" title="Int Venda">Int Venda
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVenda_IntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IntVenda', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IntVenda') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IntVenda') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: IntVenda, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IntVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_IntVenda') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaIntVenda(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaIntVenda(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVenda_IntVenda', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVenda_IntVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVenda_IntVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVenda_IntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIntVenda_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_IntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVenda_IntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVenda_IntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVenda_IntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIntVenda_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_IntVenda').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVenda_IntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVenda_IntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVenda_SmallIntVendaTemplate" class="" >
+                                       <label id="WizardUI_lblVenda_SmallIntVenda" for="WizardUI_ntxVenda_SmallIntVenda" class="control-label ellipsis" title="Small Int Venda">Small Int Venda
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVenda_SmallIntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntVenda', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_SmallIntVenda') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_SmallIntVenda') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: SmallIntVenda, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_SmallIntVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVenda_SmallIntVenda') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaSmallIntVenda(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaSmallIntVenda(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVenda_SmallIntVenda', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVenda_SmallIntVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVenda_SmallIntVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVenda_SmallIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaSmallIntVenda_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_SmallIntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVenda_SmallIntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVenda_SmallIntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVenda_SmallIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaSmallIntVenda_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#WizardUI_ntxVenda_SmallIntVenda').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVenda_SmallIntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVenda_SmallIntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVenda_StringVendaTemplate" class="" >
+                                       <label id="WizardUI_lblVenda_StringVenda" for="WizardUI_tbVenda_StringVenda" class="control-label ellipsis" title="String Venda">String Venda
+                                       </label>
+                                       <input id="WizardUI_tbVenda_StringVenda" class="form-control ellipsis" data-bind="attr: { title: StringVenda }, validatedField: 'StringVenda', css: { IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_tbVenda_StringVenda') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_tbVenda_StringVenda') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVenda, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_tbVenda_StringVenda') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_tbVenda_StringVenda') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+
+                   <div id="dialogVendaAtacado"  class="toolbar-dialog-template" title='' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegVendaAtacado" onClick="$(this).backRegVendaAtacado();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberVendaAtacado">0</label><label>/</label><label id="totalNumberVendaAtacado">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegVendaAtacado" onClick="$(this).nextRegVendaAtacado();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegVendaAtacado" onClick="$(this).addRegVendaAtacado();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegVendaAtacado" onClick="$(this).delRegVendaAtacado();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegVendaAtacado" onClick="$(this).okRegVendaAtacado();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="WizardUI_templateVendaAtacado" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.WizardUI().getWithBinding(currentDataItem, $root.WizardUI().rootDataTypeName)"><div data-bind="with: $root.WizardUI().getWithBinding(currentVendaAtacado, 'VendaAtacado')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVendaAtacado_BigIntVendaAtacadoTemplate" class="" >
+                                       <label id="WizardUI_lblVendaAtacado_BigIntVendaAtacado" for="WizardUI_ntxVendaAtacado_BigIntVendaAtacado" class="control-label ellipsis" title="Big Int Venda Atacado">Big Int Venda Atacado
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVendaAtacado_BigIntVendaAtacado" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntVendaAtacado', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_BigIntVendaAtacado') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_BigIntVendaAtacado') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: BigIntVendaAtacado, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_BigIntVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_BigIntVendaAtacado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaAtacadoBigIntVendaAtacado(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaAtacadoBigIntVendaAtacado(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVendaAtacado_BigIntVendaAtacado', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVendaAtacado_BigIntVendaAtacado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVendaAtacado_BigIntVendaAtacado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVendaAtacado_BigIntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoBigIntVendaAtacado_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVendaAtacado_BigIntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoBigIntVendaAtacado_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVendaAtacado_BigIntVendaAtacado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVendaAtacado_BitVendaAtacadoTemplate" class="" >
+                                       <label class="">
+                                         <input id="WizardUI_ckVendaAtacado_BitVendaAtacado" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ckVendaAtacado_BitVendaAtacado') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ckVendaAtacado_BitVendaAtacado') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ckVendaAtacado_BitVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ckVendaAtacado_BitVendaAtacado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), nullableChecked: BitVendaAtacado" title="Clique para marcar/desmarcar"/> 
+                                         <span id="lblWizardUI_ckVendaAtacado_BitVendaAtacado" class="align-label-checkbox">Bit Venda Atacado</span>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVendaAtacado_ComboboxVendaAtacadoTemplate" class="" >
+                                       <label id="WizardUI_lblVendaAtacado_ComboboxVendaAtacado" for="WizardUI_cmbVendaAtacado_ComboboxVendaAtacado" data-bind="css: { 'content-required': $root.WizardUI().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Combobox Venda Atacado">Combobox Venda Atacado
+                                       </label>
+                                       <span id="WizardUI_cmbVendaAtacado_ComboboxVendaAtacado" class="form-control " data-bind="validatedField: 'ComboboxVendaAtacado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbVendaAtacado_ComboboxVendaAtacado') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbVendaAtacado_ComboboxVendaAtacado') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbVendaAtacado_ComboboxVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbVendaAtacado_ComboboxVendaAtacado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbVendaAtacado_ComboboxVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbVendaAtacado_ComboboxVendaAtacado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), igCombo: {
+                                          selectedItems: ComboboxVendaAtacado,
+                                          dataSource:  $root.WizardUI().dataDomains.getItems('LX_VENDA_ATACADO', ''),
+                                          textKey: 'name',
+                                          valueKey: 'id',
+                                          allowCustomValue : true,
+                                          enableSelectionChangedUpdate: true,
+                                          enableClearButton: false,
+                                          dropDownOnFocus: true,
+                                          disabled: (ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_cmbVendaAtacado_ComboboxVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_cmbVendaAtacado_ComboboxVendaAtacado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing())),
+                                          mode: 'editable',
+                                          width:'100%'
+                                       }"></span>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVendaAtacado_DatetimeVendaAtacadoTemplate" class="" >
+                                       <label id="WizardUI_lblVendaAtacado_DatetimeVendaAtacado" for="WizardUI_dtVendaAtacado_DatetimeVendaAtacado" class="control-label ellipsis" title="Datetime Venda Atacado">Datetime Venda Atacado
+                                       </label>
+                                       <div class="input-group" >
+                                           <span id="WizardUI_dtVendaAtacado_DatetimeVendaAtacado" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVendaAtacado', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_dtVendaAtacado_DatetimeVendaAtacado') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_dtVendaAtacado_DatetimeVendaAtacado') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_dtVendaAtacado_DatetimeVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_dtVendaAtacado_DatetimeVendaAtacado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()) },  igDatePicker: { value: DatetimeVendaAtacado, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_dtVendaAtacado_DatetimeVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_dtVendaAtacado_DatetimeVendaAtacado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                           <span class="input-group-btn" title="Filtro de datas">
+                                              <button id="WizardUI_rgbtnVendaAtacado_DatetimeVendaAtacado"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaAtacadoDatetimeVendaAtacado(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaAtacadoDatetimeVendaAtacado(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVendaAtacado_DatetimeVendaAtacado', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVendaAtacado_DatetimeVendaAtacado', headerText:'Filtro de datas' }"  /></span>
+                                              <script id="WizardUI_rgVendaAtacado_DatetimeVendaAtacado" type="text/html" tabindex="-1">
+                                              <div class="range-radio-group">
+                                                  <input type="radio" data-bind="checked:VendaAtacadoDatetimeVendaAtacado_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                  <input type="radio" data-bind="checked:VendaAtacadoDatetimeVendaAtacado_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                              </div>
+                                              <div class="range-input-group" id="WizardUI_divrgVendaAtacado_DatetimeVendaAtacado" >
+                                                  <div class="filterByRange" data-bind="visible: VendaAtacadoDatetimeVendaAtacado_typeRange() == 'R'">
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="WizardUI_dtbVendaAtacado_DatetimeVendaAtacado" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaAtacadoDatetimeVendaAtacado_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#WizardUI_dtVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'readOnly', (ui.value != null || $('#WizardUI_dteVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#WizardUI_dtbVendaAtacado_DatetimeVendaAtacado').igDatePicker('value'); var valorMax = $('#WizardUI_dteVendaAtacado_DatetimeVendaAtacado').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#WizardUI_dtbVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="WizardUI_dteVendaAtacado_DatetimeVendaAtacado" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaAtacadoDatetimeVendaAtacado_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#WizardUI_dtVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'readOnly', ($('#WizardUI_dtbVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#WizardUI_dtbVendaAtacado_DatetimeVendaAtacado').igDatePicker('value'); var valorMax = $('#WizardUI_dteVendaAtacado_DatetimeVendaAtacado').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#WizardUI_dteVendaAtacado_DatetimeVendaAtacado').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                  </div>
+                                                  <div class="filterByPredefined " data-bind="visible: VendaAtacadoDatetimeVendaAtacado_typeRange() == 'P'">
+                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaAtacadoDatetimeVendaAtacado_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                      <div class="row predefValue" data-bind="visible: VendaAtacadoDatetimeVendaAtacado_predefFilter() != null && VendaAtacadoDatetimeVendaAtacado_predefFilter()[0] && VendaAtacadoDatetimeVendaAtacado_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaAtacadoDatetimeVendaAtacado_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                  </div>
+                                              </div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVendaAtacado_DecimalVendaAtacadoTemplate" class="" >
+                                       <label id="WizardUI_lblVendaAtacado_DecimalVendaAtacado" for="WizardUI_ntxVendaAtacado_DecimalVendaAtacado" class="control-label ellipsis" title="Decimal Venda Atacado">Decimal Venda Atacado
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVendaAtacado_DecimalVendaAtacado" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVendaAtacado', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_DecimalVendaAtacado') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_DecimalVendaAtacado') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: DecimalVendaAtacado, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_DecimalVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_DecimalVendaAtacado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaAtacadoDecimalVendaAtacado(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaAtacadoDecimalVendaAtacado(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVendaAtacado_DecimalVendaAtacado', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVendaAtacado_DecimalVendaAtacado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVendaAtacado_DecimalVendaAtacado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVendaAtacado_DecimalVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoDecimalVendaAtacado_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVendaAtacado_DecimalVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoDecimalVendaAtacado_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVendaAtacado_DecimalVendaAtacado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVendaAtacado_IdClienteTemplate" class="" >
+                                       <label id="WizardUI_lblVendaAtacado_IdCliente" for="WizardUI_ntxVendaAtacado_IdCliente" class="control-label ellipsis" title="Id Cliente">Id Cliente
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVendaAtacado_IdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IdCliente') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IdCliente') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: IdCliente, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IdCliente') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IdCliente') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaAtacadoIdCliente(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaAtacadoIdCliente(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVendaAtacado_IdCliente', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVendaAtacado_IdCliente', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVendaAtacado_IdCliente" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVendaAtacado_IdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoIdCliente_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_IdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVendaAtacado_IdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVendaAtacado_IdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVendaAtacado_IdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoIdCliente_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_IdCliente').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVendaAtacado_IdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVendaAtacado_IdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVendaAtacado_IdVendaAtacadoTemplate" class="" >
+                                       <label id="WizardUI_lblVendaAtacado_IdVendaAtacado" for="WizardUI_ntxVendaAtacado_IdVendaAtacado" data-bind="css: { 'content-required': $root.WizardUI().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Id Venda Atacado">Id Venda Atacado
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVendaAtacado_IdVendaAtacado" class="form-control numericFilterRange " data-bind="validatedField: 'IdVendaAtacado', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IdVendaAtacado') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IdVendaAtacado') : (!isEmptyEntityFn($data) && $root.WizardUI().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVendaAtacado, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IdVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IdVendaAtacado') : (isEmptyEntityFn($data) || !($root.WizardUI().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaAtacadoIdVendaAtacado(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaAtacadoIdVendaAtacado(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVendaAtacado_IdVendaAtacado', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVendaAtacado_IdVendaAtacado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVendaAtacado_IdVendaAtacado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVendaAtacado_IdVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoIdVendaAtacado_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVendaAtacado_IdVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoIdVendaAtacado_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVendaAtacado_IdVendaAtacado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVendaAtacado_IntVendaAtacadoTemplate" class="" >
+                                       <label id="WizardUI_lblVendaAtacado_IntVendaAtacado" for="WizardUI_ntxVendaAtacado_IntVendaAtacado" class="control-label ellipsis" title="Int Venda Atacado">Int Venda Atacado
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVendaAtacado_IntVendaAtacado" class="form-control numericFilterRange " data-bind="validatedField: 'IntVendaAtacado', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IntVendaAtacado') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IntVendaAtacado') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: IntVendaAtacado, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IntVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_IntVendaAtacado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaAtacadoIntVendaAtacado(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaAtacadoIntVendaAtacado(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVendaAtacado_IntVendaAtacado', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVendaAtacado_IntVendaAtacado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVendaAtacado_IntVendaAtacado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVendaAtacado_IntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoIntVendaAtacado_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVendaAtacado_IntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoIntVendaAtacado_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVendaAtacado_IntVendaAtacado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVendaAtacado_SmallIntVendaAtacadoTemplate" class="" >
+                                       <label id="WizardUI_lblVendaAtacado_SmallIntVendaAtacado" for="WizardUI_ntxVendaAtacado_SmallIntVendaAtacado" class="control-label ellipsis" title="Small Int Venda Atacado">Small Int Venda Atacado
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="WizardUI_ntxVendaAtacado_SmallIntVendaAtacado" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntVendaAtacado', css: { vmEditing: $root.WizardUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_SmallIntVendaAtacado') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_SmallIntVendaAtacado') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igNumericEditor: { value: SmallIntVendaAtacado, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_SmallIntVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_ntxVendaAtacado_SmallIntVendaAtacado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.WizardUI().entitySearchRange.has_VendaAtacadoSmallIntVendaAtacado(), 'icon-ok': $root.WizardUI().entitySearchRange.has_VendaAtacadoSmallIntVendaAtacado(), hide: $root.WizardUI().status() !== 'C' }, popoverWithBind: { template: '#WizardUI_rgVendaAtacado_SmallIntVendaAtacado', vm: $root.WizardUI().entitySearchRange, ctrlName: 'WizardUI_rgcVendaAtacado_SmallIntVendaAtacado', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="WizardUI_rgVendaAtacado_SmallIntVendaAtacado" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="WizardUI_ntxbVendaAtacado_SmallIntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoSmallIntVendaAtacado_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#WizardUI_ntxeVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'value') != null ? true : false)); $('#WizardUI_ntxeVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="WizardUI_ntxeVendaAtacado_SmallIntVendaAtacado" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaAtacadoSmallIntVendaAtacado_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#WizardUI_ntxVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'readOnly', ($('#WizardUI_ntxbVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#WizardUI_ntxbVendaAtacado_SmallIntVendaAtacado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="WizardUI_divVendaAtacado_StringVendaAtacadoTemplate" class="" >
+                                       <label id="WizardUI_lblVendaAtacado_StringVendaAtacado" for="WizardUI_tbVendaAtacado_StringVendaAtacado" class="control-label ellipsis" title="String Venda Atacado">String Venda Atacado
+                                       </label>
+                                       <input id="WizardUI_tbVendaAtacado_StringVendaAtacado" class="form-control ellipsis" data-bind="attr: { title: StringVendaAtacado }, validatedField: 'StringVendaAtacado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_tbVendaAtacado_StringVendaAtacado') ? ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_tbVendaAtacado_StringVendaAtacado') : (!isEmptyEntityFn($data) && $root.WizardUI().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVendaAtacado, readOnly: ctrl.hasCustomEnable($root.WizardUI(), 'WizardUI_tbVendaAtacado_StringVendaAtacado') ? !ctrl.getCustomEnable($root.WizardUI(), 'WizardUI_tbVendaAtacado_StringVendaAtacado') : (isEmptyEntityFn($data) || !$root.WizardUI().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+
+
+               <div class="tab-pane fade" id="WizardUI_tabVendaAtacadoTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                       <div id="WizardUI_dGridVendaAtacado_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.WizardUI().getWithBinding(currentDataItem, $root.WizardUI().rootDataTypeName)">
+                           <button id="WizardUI_dGridVendaAtacado_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.WizardUI().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.WizardUI().createAndNotifyVendaAtacado($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="WizardUI_dGridVendaAtacado_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.WizardUI().status() === 'E', 
+                           click: function () {
+                              $root.WizardUI().deleteGrid('#WizardUI_dGridVendaAtacado', 'VendaAtacado', 'vm.currentDataItem().currentVendaAtacado;vm.currentDataItem().VendaAtacadoList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="WizardUI_dGridVendaAtacado_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.WizardUI().openEditor('#WizardUI_dGridVendaAtacado', 'VendaAtacado', 'vm.currentDataItem().currentVendaAtacado;vm.currentDataItem().VendaAtacadoList', 'VendaAtacado;vm.currentDataItem()', 'VendaAtacado(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="WizardUI_dGridVendaAtacado_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.WizardUI().openEditor('#WizardUI_dGridVendaAtacado', 'VendaAtacado', 'vm.currentDataItem().currentVendaAtacado;vm.currentDataItem().VendaAtacadoList', 'VendaAtacado;vm.currentDataItem()', 'VendaAtacado(vm.currentDataItem())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="WizardUI_dGridVendaAtacado_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#WizardUI_dGridVendaAtacado_templateLayout', vm: function(){return $root.WizardUI().gridSaveStates['WizardUI_dGridVendaAtacado'];}, ctrlName: 'WizardUI_dGridVendaAtacado_gb', headerText:'Layout da grid' }"><i class="fa fa-external-link" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                           <script id="WizardUI_dGridVendaAtacado_templateLayout" type="text/html" tabindex="-1">
+                               <div id="WizardUI_dGridVendaAtacado_gb" class="layout-popover">
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                           <div class="col-md-10">
+                                               <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                           </div>
+                                           <div  class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="col-md-10">
+                                               <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Salvar...</button>
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como...</button>
+                                           </div>
+                                           <div class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </script>
+                           <button id="WizardUI_dGridVendaAtacado_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.WizardUI().dataToolbar.canGridExport(), click: function () {$root.WizardUI().exportDataDetails($data, 'VendaAtacado', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="WizardUI_dGridVendaAtacado" data-bind="css: { IsEditableStyle: $root.WizardUI().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+           </div>
+           </div>
+
+
+            </section>
+        </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

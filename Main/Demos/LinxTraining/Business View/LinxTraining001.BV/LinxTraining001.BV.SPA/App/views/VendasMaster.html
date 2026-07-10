@@ -1,0 +1,277 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="VendasMaster_formViewer" class="panelTransaition">
+            <figure id="VendasMaster_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.VendasMaster().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="VendasMaster_gbGroupBox_40e0fe62c77940e088e420ec3e2438af" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gbox position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="New Group"><i class="icon-reorder"></i>New Group</div>
+                   </div>
+                   <div class="portlet-body" style="display:block ;">
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                   <style type="text/css">   
+                      .ig-chart-root {         
+                          width: 79%;          
+                          float: left;         
+                          margin-right: 1%;    
+                          margin-bottom: 5px; 
+                      }                        
+                                               
+                      .ig-chart-legend {       
+                          width: 19%;          
+                          float: left;         
+                      }                        
+                   </style>                     
+                   <div id="olapSampleRootVendasMaster_pChartPivotDrillDownChart_292335414f8f4609bb6587a1a58d8f8f" style="overflow: auto; min-height: 100px" >
+                       <div id="olapChartVendasMaster_pChartPivotDrillDownChart_292335414f8f4609bb6587a1a58d8f8f" class="ig-chart-root">
+                       </div>
+                       <div id="olapChartLegendVendasMaster_pChartPivotDrillDownChart_292335414f8f4609bb6587a1a58d8f8f" class="ig-chart-legend">
+                       </div>
+                      <label class="legend" style="float: left; margin-top: 10px">
+                          Transpor Legenda
+                          <span class="checker"><input type="checkbox" id="transposeVendasMaster_pChartPivotDrillDownChart_292335414f8f4609bb6587a1a58d8f8f" /></span> 
+                      </label>
+                   </div>
+
+               </div>
+
+
+
+               <div id="VendasMaster_gbVendasView" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" title="VendasView"><i class="icon-reorder"></i>VendasView</div>
+                           <div class="tools">
+                               <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                           </div>
+                       </div>
+                       <div class="portlet-body" style="display:block ;">
+                           <div data-bind="with: $root.VendasMaster().getWithBinding(currentDataItem, $root.VendasMaster().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="VendasMaster_divData" class="" >
+                                               <label id="VendasMaster_lblData" for="VendasMaster_dtData" data-bind="css: { 'content-required': $root.VendasMaster().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Data">Data
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="box-input-small">
+                                                       <div class="input-group box-input-small" >
+                                                           <span id="VendasMaster_dtData" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'Data', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'VendasMaster_dtData') ? ctrl.getCustomEnable($root, 'VendasMaster_dtData') : (!isEmptyEntityFn($data) && $root.VendasMaster().enabledForEditing())},  igDatePicker: { value: Data, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'VendasMaster_dtData') ? !ctrl.getCustomEnable($root, 'VendasMaster_dtData') : (isEmptyEntityFn($data) || !$root.VendasMaster().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'VendasMaster_dtData') ? !ctrl.getCustomEnable($root, 'VendasMaster_dtData') : (isEmptyEntityFn($data) || !$root.VendasMaster().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                           <span class="input-group-btn" title="Filtro de datas">
+                                                              <button id="VendasMaster_rgbtnData"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.VendasMaster().entitySearchRange.has_VendasViewData(), 'icon-ok': $root.VendasMaster().entitySearchRange.has_VendasViewData(), hide: $root.VendasMaster().status() !== 'C' }, popoverWithBind: { template: '#VendasMaster_rgData', vm: $root.VendasMaster().entitySearchRange, ctrlName: 'VendasMaster_rgcData', headerText:'Filtro de datas' }"  /></span>
+                                                           <script id="VendasMaster_rgData" type="text/html" tabindex="-1">
+                                                              <input type="radio" data-bind="checked:VendasViewData_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                              <input type="radio" data-bind="checked:VendasViewData_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                              <div id="VendasMaster_divrgData" >
+                                                                  <div class="filterByRange" data-bind="visible: VendasViewData_typeRange() == 'R'">
+                                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="VendasMaster_dtbData" class="IsEditableStyle" data-bind="igDatePicker: { value: VendasViewData_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#VendasMaster_dtData').igDatePicker('option', 'readOnly', (ui.value != null || $('#VendasMaster_dteData').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#VendasMaster_dtbData').igDatePicker('value'); var valorMax = $('#VendasMaster_dteData').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#VendasMaster_dtbData').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                                      <p></p>
+                                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="VendasMaster_dteData" class="IsEditableStyle" data-bind="igDatePicker: { value: VendasViewData_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#VendasMaster_dtData').igDatePicker('option', 'readOnly', ($('#VendasMaster_dtbData').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#VendasMaster_dtbData').igDatePicker('value'); var valorMax = $('#VendasMaster_dteData').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#VendasMaster_dteData').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                                  </div>
+                                                                  <div class="filterByPredefined " data-bind="visible: VendasViewData_typeRange() == 'P'">
+                                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendasViewData_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                                      <p/>
+                                                                      <div class="row predefValue" data-bind="visible: VendasViewData_predefFilter() != null && VendasViewData_predefFilter()[0] && VendasViewData_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendasViewData_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                                  </div>
+                                                              </div>
+                                                           </script>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="VendasMaster_divIDVendas" class="" >
+                                               <label id="VendasMaster_lblIDVendas" for="VendasMaster_ntxIDVendas" data-bind="css: { 'content-required': $root.VendasMaster().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID Vendas">ID Vendas
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="box-input-min-medium">
+                                                       <div class="input-group box-input-min-medium">
+                                                           <input id="VendasMaster_ntxIDVendas" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'IDVendas', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'VendasMaster_ntxIDVendas') ? ctrl.getCustomEnable($root, 'VendasMaster_ntxIDVendas') : (!isEmptyEntityFn($data) && $root.VendasMaster().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IDVendas, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'VendasMaster_ntxIDVendas') ? !ctrl.getCustomEnable($root, 'VendasMaster_ntxIDVendas') : (isEmptyEntityFn($data) || !($root.VendasMaster().status() === 'C' || ($data.isAdded && $data.isAdded()))), disabled: ctrl.hasCustomEnable($root, 'VendasMaster_ntxIDVendas') ? !ctrl.getCustomEnable($root, 'VendasMaster_ntxIDVendas') : (isEmptyEntityFn($data) || !($root.VendasMaster().status() === 'C' || ($data.isAdded && $data.isAdded()))) }" />
+                                                           <span class="input-group-btn" title="Filtro numérico">
+                                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.VendasMaster().entitySearchRange.has_VendasViewIDVendas(), 'icon-ok': $root.VendasMaster().entitySearchRange.has_VendasViewIDVendas(), hide: $root.VendasMaster().status() !== 'C' }, popoverWithBind: { template: '#VendasMaster_rgIDVendas', vm: $root.VendasMaster().entitySearchRange, ctrlName: 'VendasMaster_rgcIDVendas', headerText:'Filtro numérico' }"  /></span>
+                                                           <script id="VendasMaster_rgIDVendas" type="text/html" tabindex="-1">
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="VendasMaster_ntxbIDVendas" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: VendasViewIDVendas_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#VendasMaster_ntxIDVendas').igNumericEditor('option', 'readOnly', (ui.value != null || $('#VendasMaster_ntxeIDVendas').igNumericEditor('option', 'value') != null ? true : false)); $('#VendasMaster_ntxeIDVendas').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                               <p></p>
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="VendasMaster_ntxeIDVendas" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: VendasViewIDVendas_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#VendasMaster_ntxIDVendas').igNumericEditor('option', 'readOnly', ($('#VendasMaster_ntxbIDVendas').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#VendasMaster_ntxbIDVendas').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                           </script>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="VendasMaster_divIDClientes" class="" >
+                                               <label id="VendasMaster_lblIDClientes" for="VendasMaster_lUpIDClientes" data-bind="css: { 'content-required': $root.VendasMaster().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID Clientes">ID Clientes
+                                               </label>
+                                               <div class="">
+                                                   <div id="VendasMaster_lUpIDClientes" class="form-control box-input-xmedium pull-left input-group " data-bind="validatedField: 'IDClientes', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'VendasMaster_lUpIDClientes') ? ctrl.getCustomEnable($root, 'VendasMaster_lUpIDClientes') : (!isEmptyEntityFn($data) && $root.VendasMaster().status() === 'C') }, lookupControl: { value: IDClientes, maxLength: 12,lookupName: 'LookUpClientes', inputClass:'input-xmedium', isMultiSelection: false, multiSelectionValue: $root.VendasMaster().entitySearchRange.IDClientes, fieldName: 'IDClientes', disabled:ctrl.hasCustomEnable($root, 'VendasMaster_lUpIDClientes') ? !ctrl.getCustomEnable($root, 'VendasMaster_lUpIDClientes') : (isEmptyEntityFn($data) || $root.VendasMaster().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 12, defaultValue: ''}" />
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="VendasMaster_divNome" class="" >
+                                               <label id="VendasMaster_lblNome" for="VendasMaster_lUpNome" data-bind="css: { 'content-required': $root.VendasMaster().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Nome">Nome
+                                               </label>
+                                               <div class="">
+                                                   <div id="VendasMaster_lUpNome" class="form-control box-input-xlarge pull-left input-group " data-bind="validatedField: 'Nome', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'VendasMaster_lUpNome') ? ctrl.getCustomEnable($root, 'VendasMaster_lUpNome') : (!isEmptyEntityFn($data) && $root.VendasMaster().enabledForEditing()) }, lookupControl: { value: Nome, maxLength: 40,lookupName: 'LookUpClientes', inputClass:'input-xlarge', isMultiSelection: false, multiSelectionValue: $root.VendasMaster().entitySearchRange.Nome, fieldName: 'Nome', disabled:ctrl.hasCustomEnable($root, 'VendasMaster_lUpNome') ? !ctrl.getCustomEnable($root, 'VendasMaster_lUpNome') : (isEmptyEntityFn($data) || !$root.VendasMaster().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 40, defaultValue: ''}" />
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="VendasMaster_divOrigem" class="" >
+                                               <label id="VendasMaster_lblOrigem" for="VendasMaster_cmbOrigem" data-bind="css: { 'content-required': $root.VendasMaster().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Origem">Origem
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="input-medium">
+                                                       <span id="VendasMaster_cmbOrigem" class="form-control input-medium" data-bind="validatedField: 'Origem', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'VendasMaster_cmbOrigem') ? ctrl.getCustomEnable($root, 'VendasMaster_cmbOrigem') : (!isEmptyEntityFn($data) && $root.VendasMaster().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root, 'VendasMaster_cmbOrigem') ? !ctrl.getCustomEnable($root, 'VendasMaster_cmbOrigem') : (isEmptyEntityFn($data) || !$root.VendasMaster().enabledForEditing()) }, enable: ctrl.hasCustomEnable($root, 'VendasMaster_cmbOrigem') ? ctrl.getCustomEnable($root, 'VendasMaster_cmbOrigem') : (!isEmptyEntityFn($data) && $root.VendasMaster().enabledForEditing()), igCombo: {
+                                                          selectedItems: Origem,
+                                                          dataSource:  $root.VendasMaster().dataDomains.getItems('LXOrigem', ''),
+                                                          textKey: 'name',
+                                                          valueKey: 'id',
+                                                          allowCustomValue : true,
+                                                          enableSelectionChangedUpdate: true,
+                                                          enableClearButton: false,
+                                                          dropDownOnFocus: true,
+                                                          disabled: (ctrl.hasCustomEnable($root, 'VendasMaster_cmbOrigem') ? !ctrl.getCustomEnable($root, 'VendasMaster_cmbOrigem') : (isEmptyEntityFn($data) || !$root.VendasMaster().enabledForEditing())),
+                                                          mode: 'editable',
+                                                          width:'100%'
+                                                       }"></span>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="VendasMaster_divVendaVip" class="" >
+                                               <div class="controls">
+                                                   <div class="input-small">
+                                                       <label class="input-small">
+                                                         <input id="VendasMaster_ckVendaVip" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'VendasMaster_ckVendaVip') ? ctrl.getCustomEnable($root, 'VendasMaster_ckVendaVip') : (!isEmptyEntityFn($data) && $root.VendasMaster().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'VendasMaster_ckVendaVip') ? ctrl.getCustomEnable($root, 'VendasMaster_ckVendaVip') : (!isEmptyEntityFn($data) && $root.VendasMaster().enabledForEditing()), nullableChecked: VendaVip" title="Clique para marcar/desmarcar"/> 
+                                                         <span id="lblVendasMaster_ckVendaVip" data-bind="css: { 'content-required-checkbox': $root.VendasMaster().status() === 'E'}" class="align-label-checkbox">VendaVip</span>
+                                                       </label>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="VendasMaster_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.VendasMaster().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyVendasMaster_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyVendasMaster_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.VendasMaster().dataToolbar.canExport(), click: function () {$root.VendasMaster().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyVendasMaster_dGrid" data-bind="css: { IsEditableStyle: $root.VendasMaster().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

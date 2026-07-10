@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<businessModelDesignerRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="da3053e3-df4d-473b-a2c2-91ff53c573e2" name="" documentName="LicenseModel.bmd" targetNamespace="Linx.License.Client" documentPath="C:\Linx Workspace\Linx Framework\Dev\Business\Linx.License.Client\Linx.License.Client" noCode="false" dataContextName="LicenseContext" removeAutomaticIndexes="false" removeRequiredAttributes="false" enableAutomaticAuthorization="false" setIdLinxWithIdGpecon="false" forceDynamicForeignKeyNames="false" controlIdLinxByApplicative="false" isAspNetCore="true" xmlns="http://schemas.microsoft.com/dsltools/BusinessModelDesigner">
+  <comments>
+    <comment Id="61942c2c-2118-4ac8-adb3-29a7f4cdbe83" />
+    <comment Id="a4aa884e-0b15-4fd9-aaf3-611bdb00c4e7" />
+    <comment Id="81db4d0c-3331-4145-bc54-3844dc99d59d" text="Armazenamento de &#xA;licenças OffLine" />
+    <comment Id="f949ba7f-9c3a-4c5c-84e1-5c8bccdfd8e9" text="Estruturas de comunicação&#xA;para as APIs" />
+  </comments>
+  <types>
+    <domainView Id="1f66a175-eb04-4562-b07b-99cc9fe8dab6" name="STATUS_CHAVE">
+      <domainValues>
+        <domainViewHasDomainValues Id="d8563660-8ba0-4437-8d54-62c43f53e81e">
+          <domainValue Id="6f04ffb6-582b-43de-909e-4f66f23af323" name="ATIVO" value="1" displayName="Licença ativa" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="06ce9814-e893-4dfa-bd4f-32fced93a5bc">
+          <domainValue Id="acdee296-f79e-4f78-8526-1aafe13be73d" name="PENDENTE" value="2" displayName="Licença pendente" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="3fae8eba-81eb-4789-9e78-f850973961c8">
+          <domainValue Id="48ea5b29-84e3-49a1-8f87-26fb6c8d152c" name="REVOGADO" value="3" displayName="Licença revogada" />
+        </domainViewHasDomainValues>
+      </domainValues>
+    </domainView>
+    <modelClass Id="be690c66-86f6-40b8-805c-21e3ba7fd747" name="LicencaRequisicao" schema="" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="c86d53e1-8436-483d-905d-13f7c375670e" name="IdLR" dataType="Long" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="acfbaf96-45d6-42cb-bc9c-58489fae476a" name="IdLicenca" dataType="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Licença" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="0176ebe6-8f8e-4d7d-bc1b-f0e72cdb9e14" name="IdCliente" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Cliente" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="25d06844-cc06-4ae6-8022-31babc3740a3" name="Usuario" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="12eb3110-0291-4ae8-93d0-46d689dbfdbe" name="Chave" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="5c5d2024-5a65-4731-8634-ea39f5f50bdf" name="Terminal" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+      </attributes>
+      <targetModelClasses>
+        <association Id="b6671552-3a00-4458-a5a7-fb969eafe57f" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//LicencaUso" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="3c4dd782-812b-4827-ae59-9be7987d42b7" name="LicencaUso" schema="" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="f79b0c88-c1d6-4197-9edb-889003776b9b" name="IdLU" dataType="Long" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="421a15e9-8549-46d5-909b-657c615ee801" name="IdLicencaUso" dataType="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id da Licença de Uso" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="d9006703-9178-4d55-afd6-5b5266fda27c" name="LxStatusChave" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Lx Status Chave" domainName="STATUS_CHAVE" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="b42396a0-2f39-4071-948d-364136f8670a" name="Periodicidade" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Periodicidade" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="5bc142bb-c5bf-462a-9b75-309cefdc5ff5" name="DiasOffline" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Dias Offline" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="efccf1bf-f07f-4690-a3f0-d883b52e2ce8" name="Mensagem" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" displayName="Mensagem" notMapped="false" isComputed="false" maxLength="1000" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="82a35431-57fb-4cdb-850a-c87394ff7f36" name="TemporaryIdLicencaUso" dataType="Long" isPrimaryKey="false" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id da Licença de Uso" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="e46a1be6-a8d6-42d0-a058-fc752681a19a" name="Data" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="ba5142a8-e651-4ce4-8b6a-fa178f5eb5d9" name="IdLR" dataType="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="b6671552-3a00-4458-a5a7-fb969eafe57f.IdLR" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="6642a158-60fc-45a7-8181-442d433d0813" name="DataProcesso" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+      </attributes>
+    </modelClass>
+    <modelClass Id="fe0dccc9-5484-4c29-bbfb-07fc8c8aa912" name="LogInfo" notMapped="true" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="edc83992-7d5b-414a-891d-b0c1655997c4" name="IdProduto" dataType="Int" isPrimaryKey="true" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Produto" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="cfc4ff67-6b39-43e9-adb9-803b6d0f96a0" name="IdCliente" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Cliente" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="bd122ce3-81c2-4029-9951-bb6e2a7b920f" name="Chave" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="b73f5867-6bdf-4346-b681-2dbbe0d314d7" name="Usuario" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="4b0723de-3d9c-46e0-bc97-2640422827d5" name="Terminal" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="ccaa2818-b3d9-4d25-b7f1-8963584da89c" name="Data" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="a59abbe0-5e9b-404f-bad0-2f71e9ea4dca" name="Detalhes" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" customDataType="List&lt;string&gt;" brandDecimalsControl="false" />
+        <modelAttribute Id="35b62dec-2920-4698-8d60-d5e0d378460a" name="IdUsuario" dataType="Long" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="0b0eb0f4-e6c3-4a5a-8cad-c54b9907bf31" name="NomeAutenticacao" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="487e092a-5c35-4d40-89ed-4fec6b9685ea" name="IdLinx" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="3a18575b-ced9-40c4-a239-1ace38c27912" name="CodigoFilial" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="a819301b-ccc4-4887-96cd-d2823ccc8f16" name="NomeFilial" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="575450a9-47ad-4b34-9b42-cb0ce7bb0646" name="IndicaLoja" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+      </attributes>
+    </modelClass>
+    <modelClass Id="d40dee95-7240-45b9-abfd-d2dc9e5ea3a1" name="LicencaInfo" notMapped="true" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="bc0adae7-4939-424c-8248-fa475c3381f3" name="IdLicenca" dataType="Long" isPrimaryKey="true" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Licença" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="01e55359-b821-4472-bd78-04f7beb5912c" name="IdCliente" isPrimaryKey="true" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Cliente" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="ae197325-b5d4-4dbd-ae5e-32b048d94124" name="Chave" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="5ca81328-e71a-48e5-ac85-9229d372ac76" name="Usuario" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="ddac22be-1b7f-4edc-908d-6cb3ab9c165a" name="Terminal" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+      </attributes>
+    </modelClass>
+    <modelClass Id="6d3e4b5e-75b3-41b0-b8f8-8b27624958f9" name="LicencaRetorno" notMapped="true" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="60337dc9-a238-4272-a649-6228dd273f25" name="IdLR" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="ID LicencaResultado" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="b4f74344-953c-48c6-8225-b740f22cec3e" name="Valor" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="ec1772f9-0492-481f-a4f2-bfd3ac43e521" name="Tipo" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" domainName="RETORNO_TIPO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="cf0a0452-ce78-4308-97e9-5c8f4558932c" name="Descricao" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+        <modelAttribute Id="3a48cb57-1856-45e5-a340-4f6a6de6992b" name="Mensagem" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="1000" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" />
+      </attributes>
+    </modelClass>
+    <domainView Id="23bc0d91-cac9-4f3c-b4b4-5f8fe7cb7403" name="RETORNO_TIPO">
+      <domainValues>
+        <domainViewHasDomainValues Id="2290231a-cf4c-4d56-af92-9da29c52475f">
+          <domainValue Id="a280a9e4-e260-44a8-93c2-800f15ac1e28" name="Ok" value="1" displayName="Ok" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="e5cfce4d-187e-44c8-b671-ec23481da185">
+          <domainValue Id="4b05777f-97c4-4aec-a8c0-4d438d84a642" name="Alerta" value="2" displayName="Alerta" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="303ec703-49b6-41ce-b9f4-b155bedc11ad">
+          <domainValue Id="8ae69802-72de-45e8-ad2b-fe14c9d84215" name="Erro" value="3" displayName="Erro" />
+        </domainViewHasDomainValues>
+      </domainValues>
+    </domainView>
+  </types>
+  <dbProviders>
+    <businessModelDesignerRootHasDbProviders Id="dd5df56a-ec60-4242-804e-31757f81577a">
+      <dbProvider Id="8e86bef0-93d8-4f33-a910-d1cc98cb807b" name="DbProvider1" server=".\BusinessModules\BM\Linx.License.Client.Core\bin\License.db" windowsAuthentication="false" type="SQLite" isDefault="true" connectionName="CnLicense" />
+    </businessModelDesignerRootHasDbProviders>
+  </dbProviders>
+  <webApiControllers>
+    <businessModelDesignerRootHasWebApiControllers Id="e2a996c5-b798-47c4-aaf6-5265280b7c52">
+      <webApiController Id="45598303-f565-4e06-a067-e5a26fd690e2" name="Licenciamento" exposeAllContext="false">
+        <webApiActions>
+          <webApiControllerHasWebApiActions Id="3778ecfd-4c2c-493a-a022-6fdda5fef010">
+            <webApiAction Id="35efd1a3-12a0-463d-b807-3b611b958ca8" name="Validar" returnType="LicencaRetorno" parameters="Linx.License.Client.LicencaInfo info" isStatic="false" canOverride="false" overloadName="Validar" isShared="false" isPartial="false" isUniqueOverload="false" httpVerb="POST" enableRoutesForParameters="false" />
+          </webApiControllerHasWebApiActions>
+          <webApiControllerHasWebApiActions Id="af05e614-a5c2-4535-85f4-41d2c41136e9">
+            <webApiAction Id="68320b46-ccd0-4399-bb16-a65541ac3e6a" name="SalvarLog" returnType="LicencaRetorno" parameters="Linx.License.Client.LogInfo logContent" isStatic="false" canOverride="false" overloadName="SalvarLog" isShared="false" isPartial="false" isUniqueOverload="false" httpVerb="POST" enableRoutesForParameters="false" />
+          </webApiControllerHasWebApiActions>
+          <webApiControllerHasWebApiActions Id="822a2c1a-d176-4e68-b932-73b1a3b046b7">
+            <webApiAction Id="45c62542-a202-4cfb-909c-c7d7fbdafb6e" name="Remover" returnType="LicencaRetorno" parameters="Linx.License.Client.LicencaInfo info" isStatic="false" canOverride="false" overloadName="Remover" isShared="false" isPartial="false" isUniqueOverload="false" httpVerb="POST" enableRoutesForParameters="false" />
+          </webApiControllerHasWebApiActions>
+        </webApiActions>
+      </webApiController>
+    </businessModelDesignerRootHasWebApiControllers>
+  </webApiControllers>
+</businessModelDesignerRoot>

@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="current-app-style" content="">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <title>Linx.Mobile</title>
+</head>
+<body>
+
+    <!-- Cordova reference, this is added to your app when it's built. -->
+    <script type="text/javascript">
+
+        var isCordovaApp = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
+
+        window.onerror = function (message, url, lineNumber) {
+
+            if (isCordovaApp) {
+                alert("Error: " + message + " in " + url + " at line " + lineNumber)
+            }
+
+            console.error("Error: " + message + " in " + url + " at line " + lineNumber);
+        }
+
+        //dynamically load any javascript file.
+        var loadJS = function (src, main) {
+            var s = document.createElement('script');
+            s.src = src;
+            s.async = true;
+            s.setAttribute('data-main', main);
+            document.getElementsByTagName('head')[0].appendChild(s);
+        }
+
+        if (isCordovaApp) {
+            loadJS('cordova.js');
+            loadJS('scripts/platformOverrides.js');
+            loadJS('scripts/index.js');
+            loadJS('libs/require/v2.1.18/require.min.js', 'core/mainApp');
+        }
+        else {
+            loadJS('libs/require/v2.1.18/require.min.js', 'core/mainWeb');
+        }
+
+    </script>
+    <div id="divMain"></div>
+    <div id="divConsole"></div>
+</body>
+
+</html>

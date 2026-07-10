@@ -1,0 +1,1982 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Linx.Operacional.BM</RootNamespace>
+    <AssemblyName>Linx.Operacional.BM</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <ProjectGuid>{FE00740A-A642-4624-870C-F91F2085291E}</ProjectGuid>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\Linx.Small.Business.BM\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Service\bin\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Service\bin\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="InteractivePreGeneratedViews">
+      <HintPath>..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Library\Common\Microsoft\Desktop\CodeFirstMigration\InteractPreGenViewsEF\InteractivePreGeneratedViews.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Administrativo.BM.Contracts">
+      <HintPath>..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Service\bin\Linx.Administrativo.BM.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Business.Common">
+      <HintPath>..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Library\Business View\Linx.Business.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Business.Tools">
+      <HintPath>..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Library\Business View\Linx.Business.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Documento.BM">
+      <HintPath>..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Library\Business Model\Linx.Documento.BM.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Financeiro.BM.Contracts">
+      <HintPath>..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Library\Business Model\Linx.Financeiro.BM.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.LinqExtensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8777ffe46908f19f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Linx.Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=be0e657aecec4227, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Library\Common\Linx\AssemblyInfoShared\AssemblyInfoShared.cs">
+      <Link>Properties\AssemblyInfoShared.cs</Link>
+    </Compile>
+    <Compile Include="Domains\DomainViews.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DomainViews.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions\BusinessModelException.cs" />
+    <Compile Include="Migrations\Configuration.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Configuration.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ADT_LOG_OCORRENCIA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ADT_LOG_OCORRENCIA_DETALHE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\BusinessDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Coleta.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ColetaItem.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ConferenciaAdministradora.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ContextEvents.cs" />
+    <Compile Include="Model\ContextStartEvents.cs" />
+    <Compile Include="Model\ControleConferencia.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_ACAO_CONTATO_FEEDBACK.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_ACAO_CONTATO_STATUS.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_ACAO_LOG_CONTATO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_BANDEIRA_MAIL_MARKETING.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_BANDEIRA_REDE_CONFIG_PARCEIRO_ENVIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_BANDEIRA_REDE_CREDENCIAL_PARCEIRO_ENVIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CAMPANHA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CAMPANHA_ACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CAMPANHA_ACAO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CAMPANHA_ACAO_ITEM_ACOMPANHAMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CAMPANHA_ACAO_LIMITADOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CAMPANHA_ACAO_MEIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CAMPANHA_ACAO_OBJETIVO_ACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CAMPANHA_ACAO_TIPO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CAMPANHA_ACAO_VEICULO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CAMPANHA_ACAO_VENDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CAMPANHA_GERACAO_AUTOMATICA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CARGA_CLIENTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CARGA_LOJA_VENDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CARGA_LOJA_VENDA_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CARGA_LOJA_VENDA_PGTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CARGA_LOJA_VENDA_PROMOCAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CARGA_LOJA_VENDA_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CARGA_LOJA_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CARTEIRA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CATEGORIA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CATEGORIA_CUSTOMIZADA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CATEGORIA_FAIXA_FREQUENCIA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CATEGORIA_FAIXA_RECENCIA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CATEGORIA_FAIXA_VALOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CLASSIFICACAO_CLIENTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CONTA_BANDEIRA_CICLO_DE_VIDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_CORRECAO_VALORES_RFV.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_DATAS.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_DATAS_EVENTO_CALENDARIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_DATA_PROCESSAMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_ESCOLARIDADE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_EVENTO_ACAO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_EVENTO_CALENDARIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_EVENTO_MAIL_MARKETING.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FAIXA_ETARIA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FAIXA_RENDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_CATEGORIA_PONTOS.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_CLIENTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_CLIENTE_PARCEIRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_CONFIG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_CPF_BLOQUEIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_CPF_BLOQUEIO_MOTIVO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_CPF_BLOQUEIO_VENDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_CPF_DESBLOQUEIO_MOTIVO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_LANCAMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_LANCAMENTO_SUBTRACOES.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PARCEIRO_CONFIG_VALOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PARCEIRO_CONFIG_VALOR_LOG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PARCEIRO_PROGRAMA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PEDIDO_RESGATE_BRINDE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PEDIDO_RESGATE_BRINDE_STATUS_LOG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PREMIO_BRINDE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PREMIO_PONTOS.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PROGRAMA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PROGRAMA_CONFIG_VALOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PROGRAMA_CONFIG_VALOR_LOG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PROGRAMA_FILIAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PROGRAMA_MENSAGEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_PROGRAMA_OPERACAO_VENDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_SITE_AREA_CUSTOMIZADA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_SITE_PAGINA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_SITE_PAGINA_CONTEUDO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_SITE_REDES_SOCIAIS_PROGRAMA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_SITE_REDE_SOCIAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_TIPO_LANCAMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_TRANSFERENCIA_PONTOS_DE_PARCEIRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_TRANSFERENCIA_PONTOS_PARA_PARCEIRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_FID_TRANSFERENCIA_PONTOS_PARCEIRO_STATUS_LOG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_GRUPO_EVENTO_CALENDARIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_LISTA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_LISTA_FILTRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_LOG_CARGA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_PARAMETRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_PARAMETRO_REDE_VALOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_PARCEIRO_ENVIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_PFJ.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_PFJ_ATRIBUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_PFJ_CADASTRO_ORIGEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_PFJ_ENDERECO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_PFJ_END_ELETRONICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_PFJ_TELEFONE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_PROCESSAMENTO_RFV.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_PROFISSAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_QUADRANTE_FV.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_REGRA_ALOCACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_SEGMENTO_CLIENTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_SUBTIPO_CLIENTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_TIPO_CLIENTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRM_TIPO_OFERTA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DOC_CLASSIFICADOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DOC_MULTIMIDIA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DOC_MULTIMIDIA_CONFIG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DOC_MULTIMIDIA_TABELA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Endereco.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FIN_CREDENCIADORA_CARTAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FIN_TEF_BANDEIRA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FIN_TEF_REDE_BANDEIRA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GEO_CEP.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GEO_MUNICIPIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GEO_PAIS.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GEO_REGIAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GEO_REGIAO_MEMBRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GEO_UNIDADE_FEDERACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GERA_ROMANEIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GERA_ROMANEIO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GERA_ROMANEIO_ITEM_NF_RELACIONADA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GERA_ROMANEIO_RETORNO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GERA_ROMANEIO_RETORNO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Inventario.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Lancamento.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_AGRUPADOR_REGRA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_AGRUPADOR_REGRA_FILIAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_AGRUPADOR_REGRA_PFJ.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_AGRUPADOR_REGRA_PRODUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_CLASSIFICACAO_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_CLASSIF_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_CLASSIF_FISCAL_SERVICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_CODIGO_FISCAL_OPERACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_COD_ESPECIFICADOR_ST.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_COD_ESPECIFICADOR_ST_CLASSIF.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_COD_ESPECIFICADOR_ST_CLASSIF_LOCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_FINALIDADE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_ICMS_INTERESTADUAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_IMPOSTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_IMPOSTO_CST.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_IMPOSTO_MODALIDADE_BASE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_INDICADOR_FISCAL_PFJ.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_MODELO_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_NVE_ATRIBUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_NVE_ESPECIFICACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_OPERACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_OPERACAO_FINALIDADE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_OPERACAO_PERFIL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_OPERACAO_PRAZO_RETORNO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_OPERACAO_RELACIONADA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_ORIGEM_MERCADORIA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LCF_REGIME_TRIBUTARIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LGE_PEDIDO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LGE_PEDIDO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LGE_PEDIDO_PARCELA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LGE_PEDIDO_STATUS.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LGE_REQUISICAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LGE_REQUISICAO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LGE_REQUISICAO_ITEM_PEDIDO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LinxAuditoriaNew.cs" />
+    <Compile Include="Model\LJV_ADM_CARTAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ADM_CARTAO_TARIFA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_ACAO_PROMOCAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_ATRIBUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_CLASSIFICACAO_W1.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_DESCONTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_DOC_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_FIDELIDADE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_FISICO_W1.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_IMPOSTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_ITEM_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_ITEM_VENDEDOR_W.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_ITEM_VEND_AUX2_W.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_OPERACIONAL_VENDEDOR_W.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_PGTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_PGTO_ALTERACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_VEND_AUX1_W.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ATENDIMENTO_VEND_AUX_W.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CAD_REGRA_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CAIXA_CTRL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CAIXA_FECHAMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CAIXA_LANCAMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CAIXA_RECEBIMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CAIXA_RECEBIMENTO_DOC.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CAIXA_RECEBIMENTO_PGTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CANAL_VENDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_COMISSAO_PERIODO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_COMISSAO_PERIODO_DETALHE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_COMISSAO_PERIODO_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_COMISSAO_REGRA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_COMISSAO_REGRA_BASE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_COMISSAO_REGRA_META_SUPERAR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_COMISSAO_REGRA_OPERACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_COMISSAO_REGRA_PRODUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_COMISSAO_REGRA_PROMOCAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_COMISSAO_REGRA_TIPO_PGTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CONDICAO_PAGAMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CONDICAO_PAGAMENTO_LIMITE_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CONDICAO_PAGAMENTO_PARCELA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CTRL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CTRL_CONFERENCIA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_CTRL_LOG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ECF.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ECF_CONFIG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ECF_OPERACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ECF_REDUCAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ECF_REDUCAO_GERENCIAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ECF_REDUCAO_NAO_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ECF_REDUCAO_PGTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ECF_REDUCAO_TOTALIZADOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_FIDELIDADE_OPERACAO_VENDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_FIDELIDADE_PROGRAMA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_FIDELIDADE_PROGRAMA_MENSAGEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_GIFT_CARD.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_GIFT_CARD_DADO_ADICIONAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_GIFT_CARD_EAN.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_GIFT_CARD_PARCEIRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_GIFT_CARD_PARCEIRO_ACESSO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_GIFT_CARD_TRANSACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ID_PAF_ECF.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_ID_PAF_ECF_AUTORIZADO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_INTEGRACAO_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LANCAMENTO_TIPO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LOG_INTEGRACAO_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LOJA_AGRUPAMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LOJA_ATRIBUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LOJA_HORARIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LOJA_TRANSF_FILIAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LOTE_BANCO_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LOTE_BANCO_LOJA_ARQUIVO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LOTE_BANCO_LOJA_ARQUIVO_STEP.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LOTE_BANCO_LOJA_CONFIG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_LOTE_BANCO_LOJA_UPLOAD.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_META_CENARIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_META_PERIODO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_META_VALOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_META_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_MOTIVO_CANCELAMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_MOTIVO_CANCELAMENTO_BANDEIRA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_MOTIVO_DESCONTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_MOTIVO_DESCONTO_BANDEIRA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_MOTIVO_DEVOLUCAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_MOTIVO_DEVOLUCAO_BANDEIRA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_MOVIMENTO_TROCA_W.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_OPERACAO_VENDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_OPERACAO_VENDA_COND_PGTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_OPERACAO_VENDA_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_OPERACAO_VENDA_TIPO_CLIENTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO_ACAO_PROMOCAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO_ENTREGA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO_ITEM_CUSTOMIZADO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO_ITEM_MOV.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO_ITEM_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO_LISTA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO_LISTA_CONVIDADO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO_PGTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO_PGTO_DETALHE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_PEDIDO_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_REGRA_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_REGRA_FISCAL_EMBUTIDO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_REGRA_FISCAL_IMPOSTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_REGRA_FISCAL_SKU.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_TEF_LOG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_TEF_REDE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_TERMINAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_TIPO_PGTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_VENDEDOR_HORARIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV_VENDEDOR_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJV__GUID_BIGINT.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJ_ETL_EXP_LOTE_PROCESSAMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LJ_ETL_EXP_PROCESSO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LNF_CONDICAO_PAGAMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LNF_CONDICAO_PAGAMENTO_FILTRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LNF_CONDICAO_PAGAMENTO_PARCELA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LNF_OPERACAO_FILTRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Loja.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LojaRetorno.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ModelClass1.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_DOCUMENTO_CLASSE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_DOCUMENTO_STATUS.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_DOCUMENTO_STATUS_LOG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_DOCUMENTO_SUBCLASSE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_DOCUMENTO_TIPO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_DOC_TIPO_OPERACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_INTEGRACAO_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_LOG_INTEGRACAO_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_LOG_MANUTENCAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_LOG_MANUTENCAO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_OCORRENCIA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MVD_PONTEIRO_CONTROLE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\NfRomaneio.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Pagamento.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PagamentoItem.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PedidoFluxoCaixa.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_ARTIGO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_ARTIGO_APLICACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_ARTIGO_ATRIBUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_ARTIGO_BANDEIRA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_ARTIGO_CANAL_VENDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_ARTIGO_COORDENADO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_ARTIGO_MERCADOLOGICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_ARTIGO_VARIANTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_ARTIGO_VARIANTE_VALOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_CATALOGO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_CATALOGO_CANAL_VENDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_CLASSE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_CLASSE_ATRIBUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_CLASSE_ATRIBUTO_FILTRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_CLASSE_VARIANTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_CLASSE_VARIANTE_NIVEL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_COLECAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_COORDENADO_CARTELA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_COR_BASICA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_GRUPO_CLASSE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_INSTRUCAO_LAVAGEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_MARCA_FABRICANTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_MEDIDA_PRODUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_MERCADOLOGICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_MERCADOLOGICO_BANDEIRA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_MERCADOLOGICO_GRUPO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_MERCADOLOGICO_NIVEL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_PACK.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_PACK_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_REMARCACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_REMARCACAO_FILIAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_CEST.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_CODIGO_BARRA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_CONVERSAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_COORDENADO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_EMBALAGEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_FILIAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_FORNECEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_LIMITE_DESCONTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_NVE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_PRECO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_PRECO_HISTORICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_PRECO_STK.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_PRODUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_PRODUTO.Operations.cs" />
+    <Compile Include="Model\PRD_SKU_PRODUTO.Operations.shared.cs" />
+    <Compile Include="Model\PRD_SKU_REMARCACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_VENDA_SUGESTAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_SKU_VIEW_EXCLUIR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_STATUS.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_TABELA_MEDIDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_TABELA_MEDIDA_PRODUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_TABELA_PRECO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_TABELA_PRECO_GRUPO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_TABELA_PRECO_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRD_TIPO_PRECO_OPERACAO_FINALIDADE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_ARTIGO_BRINDE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_BRINDE_TERCEIRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_CUPOM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_CUPOM_CODIGO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_CUPOM_OFERTA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_ESCALA_VALORES.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_FILTRO_CEP.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_FILTRO_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_FILTRO_OPERACAO_VENDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_FILTRO_PRODUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_FILTRO_TIPO_PGTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_GRUPO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_HIERARQUIA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_HORARIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_TAG.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_PROMOCAO_TIPO_OFERTA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PRM_TIPO_OFERTA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PromocaoAtendimento.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Romaneio.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RomaneioAjuste.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RomaneioAjusteItem.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RomaneioStkSaldoView.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_COLETA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_COLETA_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_COLETA_ITEM_DETALHE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_CUSTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_DEPOSITO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_INVENTARIO_SETOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_LOCALIZACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_LOJA_SORTIMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_LOJA_SORTIMENTO_FILTRO_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_LOJA_SORTIMENTO_FILTRO_SKU.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_LOJA_SORTIMENTO_SKU.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_LOTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_NUMERO_SERIE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_ROMANEIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_ROMANEIO_AJUSTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_ROMANEIO_AJUSTE_DETALHE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_ROMANEIO_AJUSTE_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_ROMANEIO_CONFERENCIA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_ROMANEIO_DETALHE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_ROMANEIO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_ROMANEIO_ITEM_RELACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_ROMANEIO_NF.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_ROMANEIO_NF_RELACIONADA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_SALDO_DETALHE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_SALDO_ESTOQUE_PRODUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_SALDO_SKU.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STK_SKU_SOB_MEDIDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_BANDEIRA_REDE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_CLIENTE_ATACADO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_DATA_VIEW.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_FILIAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_FORNECEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_FORNECEDOR.Operations.cs" />
+    <Compile Include="Model\TBC_FORNECEDOR.Operations.shared.cs" />
+    <Compile Include="Model\TBC_GRUPO_ECONOMICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_GRUPO_ECONOMICO_TABELA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_PFJ.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_PFJ.Operations.cs" />
+    <Compile Include="Model\TBC_PFJ.Operations.shared.cs" />
+    <Compile Include="Model\TBC_PFJ_ATRIBUTO_ESPECIALISTA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_PFJ_ENDERECO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_PFJ_END_ELETRONICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_PFJ_TELEFONE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_REGIAO_COMERCIAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_TRANSPORTADORA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_TRANSPORTADORA.Operations.cs" />
+    <Compile Include="Model\TBC_TRANSPORTADORA.Operations.shared.cs" />
+    <Compile Include="Model\TBC_UNIDADE_MEDIDA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TBC_UNIDADE_MEDIDA_CONVERSAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_ATRIBUTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_ATRIBUTO_DEFINICAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_ATRIBUTO_DEFINICAO_FILTRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_ATRIBUTO_FILTRO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_ATRIBUTO_TIPO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_ATRIBUTO_VALOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_MOEDA_INDICADOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_MOEDA_INDICADOR_COTACAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_PERFIL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_USUARIO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_USUARIO_PERFIL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\VwConsultaMobileView.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\VW_DESCONTO_ATENDIMENTO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\VW_DESCONTO_ATENDIMENTO_ITEM_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\V_ATENDIMENTO_ITEM_PEDIDO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\V_ATENDIMENTO_PROMOCAO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\V_ATENDIMENTO_PROMOCAO_CONSOLIDADO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\V_CARGA_RESGATE_CARTAO_PRESENTE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\V_RELATORIO_DESCONTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\V_RESUMO_VENDAS.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\V_VENDEDOR_ATENDIMENTO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_GEO_ENDERECO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_ATENDIMENTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_ATENDIMENTO_FIDELIDADE_RESGATE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_ATENDIMENTO_ITEM.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_COMPARA_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_COMPARA_LOJA_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_LOJA_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_REALIZADO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_REALIZADO_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_REALIZADO_LOJA_BACKUP.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_REALIZADO_LOJA_BASE.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_REALIZADO_LOJA_VENDEDOR.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_META_REALIZADO_LOJA_VENDEDOR_BACKUP.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_REGRA_FISCAL_LOJA.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_LJV_REGRA_FISCAL_LOJA_IMPOSTO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_PRD_DEFINICAO_GRUPO_MERCADOLOGICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_PRD_GRUPO_MERCADOLOGICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_PRD_SKU_MERCADOLOGICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_PRD_SKU_PRODUTO_REGRA_FISCAL.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_PRD_SKU_PRODUTO_REGRA_FISCAL.Operations.cs" />
+    <Compile Include="Model\W_PRD_SKU_PRODUTO_REGRA_FISCAL.Operations.shared.cs" />
+    <Compile Include="Model\W_PRD_VALOR_ATRIBUTO_MERCADOLOGICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\W_STK_SALDO_DATA_ANALITICO.cs">
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\Atendimento\AtualizaNFAtendimento.cs" />
+    <Compile Include="Rules\Compras\RegraPedido.cs" />
+    <Compile Include="Rules\Compras\SugestaoCompras.cs" />
+    <Compile Include="Rules\Consumidor\RegraConsumidor.cs" />
+    <Compile Include="Rules\Consumidor\RepositorioConsumidor.cs" />
+    <Compile Include="Rules\Estoque\AtualizacaoNotaRomaneio.cs" />
+    <Compile Include="Rules\Estoque\AtualizacaoSaldoEstoque.cs" />
+    <Compile Include="Rules\Estoque\ControleEstoque.cs" />
+    <Compile Include="Rules\Estoque\EstoqueRegra.cs" />
+    <Compile Include="Rules\Estoque\GeraRomaneioNotaFiscal.cs" />
+    <Compile Include="Rules\Estoque\InventarioAjusteRegra.cs" />
+    <Compile Include="Rules\Estoque\RegraRomaneio.cs" />
+    <Compile Include="Rules\KeyBigInt.cs" />
+    <Compile Include="Rules\Loja\RegraLoja.cs" />
+    <Compile Include="Rules\Pfj\RegraPfj.cs" />
+    <Compile Include="Rules\Produto\RegraProduto.cs" />
+    <Compile Include="Rules\Produto\RepositorioProduto.cs" />
+    <Compile Include="Rules\Estoque\RepositorioRomaneio.cs" />
+    <Compile Include="Rules\Filial\RepositorioFilial.cs" />
+    <Compile Include="Rules\Loja\RepositorioLoja.cs" />
+    <Compile Include="Rules\OperacaoFinalidade\RepositorioOperacaoFinalidade.cs" />
+    <Compile Include="Rules\PedidoEntrada\PedidoItensExistentes.cs" />
+    <Compile Include="Rules\PedidoEntrada\RegraBaixaItemPedido.cs" />
+    <Compile Include="Rules\PedidoEntrada\RegraBaixaPedido.cs" />
+    <Compile Include="Rules\PedidoEntrada\RegraCancelamentoPedido.cs" />
+    <Compile Include="Rules\PedidoEntrada\RepositorioPedido.cs" />
+    <Compile Include="Rules\Pfj\RepositorioPfj.cs" />
+    <Compile Include="Rules\Preco\RepositorioPrecos.cs" />
+    <Compile Include="Util\Json.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AdmCartaoCredito.bmd" />
+    <None Include="AdmCartaoCredito.bmd.diagram">
+      <DependentUpon>AdmCartaoCredito.bmd</DependentUpon>
+    </None>
+    <None Include="Api.bmd" />
+    <None Include="Api.bmd.diagram">
+      <DependentUpon>Api.bmd</DependentUpon>
+    </None>
+    <None Include="App.config">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>App.tt</DependentUpon>
+    </None>
+    <None Include="App.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>App.config</LastGenOutput>
+    </None>
+    <None Include="Artigo.bmd" />
+    <None Include="Artigo.bmd.diagram">
+      <DependentUpon>Artigo.bmd</DependentUpon>
+    </None>
+    <None Include="Atributo.bmd" />
+    <None Include="Atributo.bmd.diagram">
+      <DependentUpon>Atributo.bmd</DependentUpon>
+    </None>
+    <None Include="BandeiraRede.bmd" />
+    <None Include="BandeiraRede.bmd.diagram">
+      <DependentUpon>BandeiraRede.bmd</DependentUpon>
+    </None>
+    <None Include="BMD\Administrativo\DocumentoClasse.bmd" />
+    <None Include="BMD\Administrativo\DocumentoClasse.bmd.diagram">
+      <DependentUpon>DocumentoClasse.bmd</DependentUpon>
+    </None>
+    <None Include="BMD\Comissao\Comissao.bmd" />
+    <None Include="BMD\Comissao\Comissao.bmd.diagram">
+      <DependentUpon>Comissao.bmd</DependentUpon>
+    </None>
+    <None Include="BMD\Fiscal\IntegracaoSPL.bmd" />
+    <None Include="BMD\Fiscal\IntegracaoSPL.bmd.diagram">
+      <DependentUpon>IntegracaoSPL.bmd</DependentUpon>
+    </None>
+    <None Include="BMD\Loja\CondicaoPagamentoLoja.bmd" />
+    <None Include="BMD\Loja\CondicaoPagamentoLoja.bmd.diagram">
+      <DependentUpon>CondicaoPagamentoLoja.bmd</DependentUpon>
+    </None>
+    <None Include="BMD\Romaneio\RomaneioRetornoDevolucao.bmd" />
+    <None Include="BMD\Romaneio\RomaneioRetornoDevolucao.bmd.diagram">
+      <DependentUpon>RomaneioRetornoDevolucao.bmd</DependentUpon>
+    </None>
+    <None Include="BMD\SKU\SkuKit.bmd" />
+    <None Include="BMD\SKU\SkuKit.bmd.diagram">
+      <DependentUpon>SkuKit.bmd</DependentUpon>
+    </None>
+    <None Include="CadastroPfj.bmd" />
+    <None Include="CadastroPfj.bmd.diagram">
+      <DependentUpon>CadastroPfj.bmd</DependentUpon>
+    </None>
+    <None Include="CadastroPfjRelacionado.bmd" />
+    <None Include="CadastroPfjRelacionado.bmd.diagram">
+      <DependentUpon>CadastroPfjRelacionado.bmd</DependentUpon>
+    </None>
+    <None Include="Caixa.bmd" />
+    <None Include="Caixa.bmd.diagram">
+      <DependentUpon>Caixa.bmd</DependentUpon>
+    </None>
+    <None Include="Calendario.bmd" />
+    <None Include="Calendario.bmd.diagram">
+      <DependentUpon>Calendario.bmd</DependentUpon>
+    </None>
+    <None Include="CampanhaAcao.bmd" />
+    <None Include="CampanhaAcao.bmd.diagram">
+      <DependentUpon>CampanhaAcao.bmd</DependentUpon>
+    </None>
+    <None Include="Carteira.bmd" />
+    <None Include="Carteira.bmd.diagram">
+      <DependentUpon>Carteira.bmd</DependentUpon>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Classe.bmd" />
+    <None Include="Classe.bmd.diagram">
+      <DependentUpon>Classe.bmd</DependentUpon>
+    </None>
+    <None Include="Classe.LojaImposto.bmd" />
+    <None Include="Classe.LojaImposto.bmd.diagram">
+      <DependentUpon>Classe.LojaImposto.bmd</DependentUpon>
+    </None>
+    <None Include="ClasseLoja.bmd" />
+    <None Include="ClasseLoja.bmd.diagram">
+      <DependentUpon>ClasseLoja.bmd</DependentUpon>
+    </None>
+    <None Include="Cliente.bmd" />
+    <None Include="Cliente.bmd.diagram">
+      <DependentUpon>Cliente.bmd</DependentUpon>
+    </None>
+    <None Include="ClienteAtacado.bmd" />
+    <None Include="ClienteAtacado.bmd.diagram">
+      <DependentUpon>ClienteAtacado.bmd</DependentUpon>
+    </None>
+    <None Include="Coleta.bmd.diagram">
+      <DependentUpon>Coleta.bmd</DependentUpon>
+    </None>
+    <None Include="CondicaoPagamentoPadrao.bmd" />
+    <None Include="CondicaoPagamentoPadrao.bmd.diagram">
+      <DependentUpon>CondicaoPagamentoPadrao.bmd</DependentUpon>
+    </None>
+    <None Include="Conta.bmd" />
+    <None Include="Coleta.bmd" />
+    <None Include="Conta.bmd.diagram">
+      <DependentUpon>Conta.bmd</DependentUpon>
+    </None>
+    <None Include="ContratoOperacional.bmd" />
+    <None Include="ContratoOperacional.bmd.diagram">
+      <DependentUpon>ContratoOperacional.bmd</DependentUpon>
+    </None>
+    <None Include="ControlePonteiro.bmd" />
+    <None Include="ControlePonteiro.bmd.diagram">
+      <DependentUpon>ControlePonteiro.bmd</DependentUpon>
+    </None>
+    <None Include="CoordenadoCartela.bmd" />
+    <None Include="CoordenadoCartela.bmd.diagram">
+      <DependentUpon>CoordenadoCartela.bmd</DependentUpon>
+    </None>
+    <None Include="Deposito.bmd" />
+    <None Include="Deposito.bmd.diagram">
+      <DependentUpon>Deposito.bmd</DependentUpon>
+    </None>
+    <None Include="DepositoLocalizacao.bmd" />
+    <None Include="DepositoLocalizacao.bmd.diagram">
+      <DependentUpon>DepositoLocalizacao.bmd</DependentUpon>
+    </None>
+    <None Include="DocMultimidia.bmd" />
+    <None Include="DocMultimidia.bmd.diagram">
+      <DependentUpon>DocMultimidia.bmd</DependentUpon>
+    </None>
+    <None Include="Domain.bmd" />
+    <None Include="Domain.bmd.diagram">
+      <DependentUpon>Domain.bmd</DependentUpon>
+    </None>
+    <None Include="DomainFramework.bmd" />
+    <None Include="DomainFramework.bmd.diagram">
+      <DependentUpon>DomainFramework.bmd</DependentUpon>
+    </None>
+    <None Include="Domains\DomainViews.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DomainViews.shared.cs</LastGenOutput>
+    </None>
+    <None Include="Embalagem.bmd" />
+    <None Include="Embalagem.bmd.diagram">
+      <DependentUpon>Embalagem.bmd</DependentUpon>
+    </None>
+    <None Include="EstoqueCardex.bmd" />
+    <None Include="EstoqueCardex.bmd.diagram">
+      <DependentUpon>EstoqueCardex.bmd</DependentUpon>
+    </None>
+    <None Include="EstoqueSaldo.bmd" />
+    <None Include="EstoqueSaldo.bmd.diagram">
+      <DependentUpon>EstoqueSaldo.bmd</DependentUpon>
+    </None>
+    <None Include="EstoqueSaldoData.bmd" />
+    <None Include="EstoqueSaldoData.bmd.diagram">
+      <DependentUpon>EstoqueSaldoData.bmd</DependentUpon>
+    </None>
+    <None Include="ETL.bmd" />
+    <None Include="ETL.bmd.diagram">
+      <DependentUpon>ETL.bmd</DependentUpon>
+    </None>
+    <None Include="FederadoLocal.bmd" />
+    <None Include="FederadoLocal.bmd.diagram">
+      <DependentUpon>FederadoLocal.bmd</DependentUpon>
+    </None>
+    <None Include="Fidelidade.bmd" />
+    <None Include="Fidelidade.bmd.diagram">
+      <DependentUpon>Fidelidade.bmd</DependentUpon>
+    </None>
+    <None Include="FidelidadeLJV.bmd" />
+    <None Include="FidelidadeLJV.bmd.diagram">
+      <DependentUpon>FidelidadeLJV.bmd</DependentUpon>
+    </None>
+    <None Include="Filial.bmd" />
+    <None Include="Filial.bmd.diagram">
+      <DependentUpon>Filial.bmd</DependentUpon>
+    </None>
+    <None Include="Fornecedor.bmd" />
+    <None Include="Fornecedor.bmd.diagram">
+      <DependentUpon>Fornecedor.bmd</DependentUpon>
+    </None>
+    <None Include="GeraRomaneio.bmd" />
+    <None Include="GeraRomaneio.bmd.diagram">
+      <DependentUpon>GeraRomaneio.bmd</DependentUpon>
+    </None>
+    <None Include="Gift.bmd" />
+    <None Include="Gift.bmd.diagram">
+      <DependentUpon>Gift.bmd</DependentUpon>
+    </None>
+    <None Include="GrupoEconomico.bmd" />
+    <None Include="GrupoEconomico.bmd.diagram">
+      <DependentUpon>GrupoEconomico.bmd</DependentUpon>
+    </None>
+    <None Include="GuidDePara.bmd" />
+    <None Include="GuidDePara.bmd.diagram">
+      <DependentUpon>GuidDePara.bmd</DependentUpon>
+    </None>
+    <None Include="Includes\DirectDynamicModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DirectDynamicModels.ttinclude</LastGenOutput>
+    </None>
+    <None Include="Includes\DirectDynamicModels.ttinclude">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DirectDynamicModels.tt</DependentUpon>
+    </None>
+    <None Include="Includes\DynamicModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DynamicModels.ttinclude</LastGenOutput>
+    </None>
+    <None Include="Includes\DynamicModels.ttinclude">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DynamicModels.tt</DependentUpon>
+    </None>
+    <None Include="IntegracaoFinanceiraLoja.bmd" />
+    <None Include="IntegracaoFinanceiraLoja.bmd.diagram">
+      <DependentUpon>IntegracaoFinanceiraLoja.bmd</DependentUpon>
+    </None>
+    <None Include="IntegracaoFiscal.bmd" />
+    <None Include="IntegracaoFiscal.bmd.diagram">
+      <DependentUpon>IntegracaoFiscal.bmd</DependentUpon>
+    </None>
+    <None Include="Lista.bmd" />
+    <None Include="Lista.bmd.diagram">
+      <DependentUpon>Lista.bmd</DependentUpon>
+    </None>
+    <None Include="LogAuditoria.bmd" />
+    <None Include="LogAuditoria.bmd.diagram">
+      <DependentUpon>LogAuditoria.bmd</DependentUpon>
+    </None>
+    <None Include="LogManutencaoDocumento.bmd" />
+    <None Include="LogManutencaoDocumento.bmd.diagram">
+      <DependentUpon>LogManutencaoDocumento.bmd</DependentUpon>
+    </None>
+    <None Include="Loja.bmd" />
+    <None Include="Loja.bmd.diagram">
+      <DependentUpon>Loja.bmd</DependentUpon>
+    </None>
+    <None Include="LojaMeta.bmd" />
+    <None Include="LojaMeta.bmd.diagram">
+      <DependentUpon>LojaMeta.bmd</DependentUpon>
+    </None>
+    <None Include="LojaMetaView.bmd" />
+    <None Include="LojaMetaView.bmd.diagram">
+      <DependentUpon>LojaMetaView.bmd</DependentUpon>
+    </None>
+    <None Include="LojaMotivo.bmd" />
+    <None Include="LojaMotivo.bmd.diagram">
+      <DependentUpon>LojaMotivo.bmd</DependentUpon>
+    </None>
+    <None Include="LojaView.bmd" />
+    <None Include="LojaView.bmd.diagram">
+      <DependentUpon>LojaView.bmd</DependentUpon>
+    </None>
+    <None Include="Look.bmd" />
+    <None Include="Look.bmd.diagram">
+      <DependentUpon>Look.bmd</DependentUpon>
+    </None>
+    <None Include="Mercadologico.bmd" />
+    <None Include="Mercadologico.bmd.diagram">
+      <DependentUpon>Mercadologico.bmd</DependentUpon>
+    </None>
+    <None Include="Migrations\Configuration.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Configuration.cs</LastGenOutput>
+    </None>
+    <None Include="Model\BusinessDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BusinessDataModel.cs</LastGenOutput>
+    </None>
+    <None Include="Moeda.bmd" />
+    <None Include="Moeda.bmd.diagram">
+      <DependentUpon>Moeda.bmd</DependentUpon>
+    </None>
+    <None Include="OperacaoFiltro.bmd" />
+    <None Include="OperacaoFiltro.bmd.diagram">
+      <DependentUpon>OperacaoFiltro.bmd</DependentUpon>
+    </None>
+    <None Include="OperacaoFinalidadePerfil.bmd" />
+    <None Include="OperacaoFinalidadePerfil.bmd.diagram">
+      <DependentUpon>OperacaoFinalidadePerfil.bmd</DependentUpon>
+    </None>
+    <None Include="OperacaoVenda.bmd" />
+    <None Include="OperacaoVenda.bmd.diagram">
+      <DependentUpon>OperacaoVenda.bmd</DependentUpon>
+    </None>
+    <None Include="Pack.bmd" />
+    <None Include="Pack.bmd.diagram">
+      <DependentUpon>Pack.bmd</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Parametros.bmd" />
+    <None Include="Parametros.bmd.diagram">
+      <DependentUpon>Parametros.bmd</DependentUpon>
+    </None>
+    <None Include="PedidoEntrada.bmd" />
+    <None Include="PedidoEntrada.bmd.diagram">
+      <DependentUpon>PedidoEntrada.bmd</DependentUpon>
+    </None>
+    <None Include="Preco.bmd" />
+    <None Include="Preco.bmd.diagram">
+      <DependentUpon>Preco.bmd</DependentUpon>
+    </None>
+    <None Include="PrecoOperacaoFinalidade.bmd" />
+    <None Include="PrecoOperacaoFinalidade.bmd.diagram">
+      <DependentUpon>PrecoOperacaoFinalidade.bmd</DependentUpon>
+    </None>
+    <None Include="PreVenda.bmd" />
+    <None Include="PreVenda.bmd.diagram">
+      <DependentUpon>PreVenda.bmd</DependentUpon>
+    </None>
+    <None Include="Promocao.bmd" />
+    <None Include="Promocao.bmd.diagram">
+      <DependentUpon>Promocao.bmd</DependentUpon>
+    </None>
+    <None Include="Provider.bmd" />
+    <None Include="Provider.bmd.diagram">
+      <DependentUpon>Provider.bmd</DependentUpon>
+    </None>
+    <None Include="ReducaoZ.bmd" />
+    <None Include="ReducaoZ.bmd.diagram">
+      <DependentUpon>ReducaoZ.bmd</DependentUpon>
+    </None>
+    <None Include="RegiaoComercial.bmd" />
+    <None Include="RegiaoComercial.bmd.diagram">
+      <DependentUpon>RegiaoComercial.bmd</DependentUpon>
+    </None>
+    <None Include="Requisicao.bmd" />
+    <None Include="Requisicao.bmd.diagram">
+      <DependentUpon>Requisicao.bmd</DependentUpon>
+    </None>
+    <None Include="RomaneioAjuste.bmd" />
+    <None Include="RomaneioAjuste.bmd.diagram">
+      <DependentUpon>RomaneioAjuste.bmd</DependentUpon>
+    </None>
+    <None Include="RomaneioMovLoja.bmd" />
+    <None Include="RomaneioMovLoja.bmd.diagram">
+      <DependentUpon>RomaneioMovLoja.bmd</DependentUpon>
+    </None>
+    <None Include="RomaneioNFEntrada.bmd" />
+    <None Include="RomaneioNFEntrada.bmd.diagram">
+      <DependentUpon>RomaneioNFEntrada.bmd</DependentUpon>
+    </None>
+    <None Include="RomaneioStkMov.bmd" />
+    <None Include="RomaneioStkMov.bmd.diagram">
+      <DependentUpon>RomaneioStkMov.bmd</DependentUpon>
+    </None>
+    <None Include="RomaneioStkMovView.bmd" />
+    <None Include="RomaneioStkMovView.bmd.diagram">
+      <DependentUpon>RomaneioStkMovView.bmd</DependentUpon>
+    </None>
+    <None Include="Shared\ContextInfo.shr" />
+    <None Include="Sku.bmd" />
+    <None Include="Sku.bmd.diagram">
+      <DependentUpon>Sku.bmd</DependentUpon>
+    </None>
+    <None Include="SkuConversao.bmd" />
+    <None Include="SkuConversao.bmd.diagram">
+      <DependentUpon>SkuConversao.bmd</DependentUpon>
+    </None>
+    <None Include="SkuSortimento.bmd" />
+    <None Include="SkuSortimento.bmd.diagram">
+      <DependentUpon>SkuSortimento.bmd</DependentUpon>
+    </None>
+    <None Include="SkuView.bmd" />
+    <None Include="SkuView.bmd.diagram">
+      <DependentUpon>SkuView.bmd</DependentUpon>
+    </None>
+    <None Include="StatusDocumento.bmd" />
+    <None Include="StatusDocumento.bmd.diagram">
+      <DependentUpon>StatusDocumento.bmd</DependentUpon>
+    </None>
+    <None Include="TabelaEspecialista.bmd" />
+    <None Include="TabelaEspecialista.bmd.diagram">
+      <DependentUpon>TabelaEspecialista.bmd</DependentUpon>
+    </None>
+    <None Include="TabelaMedidas.bmd" />
+    <None Include="TabelaMedidas.bmd.diagram">
+      <DependentUpon>TabelaMedidas.bmd</DependentUpon>
+    </None>
+    <None Include="Transportadora.bmd" />
+    <None Include="Transportadora.bmd.diagram">
+      <DependentUpon>Transportadora.bmd</DependentUpon>
+    </None>
+    <None Include="UnidadeMedida.bmd" />
+    <None Include="UnidadeMedida.bmd.diagram">
+      <DependentUpon>UnidadeMedida.bmd</DependentUpon>
+    </None>
+    <None Include="Usuario.bmd" />
+    <None Include="Usuario.bmd.diagram">
+      <DependentUpon>Usuario.bmd</DependentUpon>
+    </None>
+    <None Include="Venda.bmd" />
+    <None Include="Venda.bmd.diagram">
+      <DependentUpon>Venda.bmd</DependentUpon>
+    </None>
+    <None Include="VendaAtributo.bmd" />
+    <None Include="VendaAtributo.bmd.diagram">
+      <DependentUpon>VendaAtributo.bmd</DependentUpon>
+    </None>
+    <None Include="VendaDescontosView.bmd" />
+    <None Include="VendaDescontosView.bmd.diagram">
+      <DependentUpon>VendaDescontosView.bmd</DependentUpon>
+    </None>
+    <None Include="VendaHistorica.bmd" />
+    <None Include="VendaHistorica.bmd.diagram">
+      <DependentUpon>VendaHistorica.bmd</DependentUpon>
+    </None>
+    <None Include="VendaRegraFiscal.bmd" />
+    <None Include="VendaRegraFiscal.bmd.diagram">
+      <DependentUpon>VendaRegraFiscal.bmd</DependentUpon>
+    </None>
+    <None Include="VendaRegraFiscalView.bmd" />
+    <None Include="VendaRegraFiscalView.bmd.diagram">
+      <DependentUpon>VendaRegraFiscalView.bmd</DependentUpon>
+    </None>
+    <None Include="VendaView.bmd" />
+    <None Include="VendaView.bmd.diagram">
+      <DependentUpon>VendaView.bmd</DependentUpon>
+    </None>
+    <None Include="Vendedor.bmd" />
+    <None Include="Vendedor.bmd.diagram">
+      <DependentUpon>Vendedor.bmd</DependentUpon>
+    </None>
+    <None Include="Vis.DepositoLojaVarejo.bmd" />
+    <None Include="Vis.DepositoLojaVarejo.bmd.diagram">
+      <DependentUpon>Vis.DepositoLojaVarejo.bmd</DependentUpon>
+    </None>
+    <None Include="Vis.LojaRegraImposto.bmd" />
+    <None Include="Vis.LojaRegraImposto.bmd.diagram">
+      <DependentUpon>Vis.LojaRegraImposto.bmd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetName).dll*" "$(ProjectDir)..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Library\Business Model" /Y /R
+xcopy "$(TargetDir)*.dll" "$(ProjectDir)..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Service\bin" /Y /R
+cd "$(ProjectDir)..\..\..\..\..\..\..\Linx Framework\Dev\Binary\Service"
+XmlConfigMergeConsole "Web.config" -m "$(ProjectDir)App.config"</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

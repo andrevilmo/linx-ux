@@ -1,0 +1,332 @@
+﻿<!-- BEGIN QUICK SIDEBAR -->
+
+<a href="javascript:;" class="page-quick-sidebar-toggler"><i class="icon-close"></i></a>
+<div class="closeSidebarClick" style="display: none;"></div>
+
+<div class="page-quick-sidebar-wrapper">
+    <div class="page-quick-sidebar">
+        <div class="nav-justified">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active">
+                    <a href="#quick_sidebar_tab_1" data-toggle="tab">
+                        Telas
+                        <span class="badge badge-danger" data-bind="text: managerWindow.WINDOWS_VM().length"></span>
+                    </a>
+                </li>
+                <!--                <li>
+                    <a href="#quick_sidebar_tab_4" data-toggle="tab">Favoritos
+                    </a>
+                </li>-->
+                <li>
+                    <a href="#quick_sidebar_tab_2" data-toggle="tab">
+                        Misc
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active page-quick-sidebar-alerts" id="quick_sidebar_tab_1">
+                    <div class="page-quick-sidebar-list" style="position: relative; overflow: hidden; width: auto; height: 736px;">
+                        <div class="page-quick-sidebar-alerts-list" data-rail-color="#ddd" data-rail-visible="1" data-always-visible="1" data-wrapper-class="page-quick-sidebar-list" data-height="736" data-initialized="1" style="overflow: hidden; width: auto;">
+
+                            <!-- ko if: managerWindow.WINDOWS_VM().length > 0 -->
+                            <a href="click: UICloseAll" class="text-right list-heading" data-bind="click: UICloseAll">
+                                Fechar todas
+                            </a>
+
+                            <ul class="media-list list-items" data-bind="foreach: managerWindow.WINDOWS_VM">
+                                <li class="media">
+                                    <a class="media" href="#" data-bind="attr: { href: urlLink }">
+                                        <i class="fa fa-list-alt media-object"></i>
+                                        <!--                                        <div class="media-status">
+                                            <i class="fa fa-times" title="Fechar" data-bind="click: function() { $root.UIClose(urlLink)}"></i>
+                                        </div>-->
+
+                                        <div class="media-body">
+                                            <h4 class="media-heading ellipsis" data-bind="text: displayName, attr: { title: displayName }"></h4>
+                                            <div class="media-heading-sub ellipsis" data-bind="text: moduleName"></div>
+                                            <div class="media-heading-sub ellipsis" style="text-transform:none" data-bind="text: transactionCode"></div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- /ko -->
+
+                        </div>
+                        <div class="slimScrollBar" style="width: 12px; position: absolute; top: 0px; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; z-index: 99; right: 1px; height: 735.0013568521031px; display: none; opacity: 0.7; background: rgb(187, 187, 187);"></div>
+                        <div class="slimScrollRail" style="width: 12px; height: 100%; position: absolute; top: 0px; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(221, 221, 221);"></div>
+                    </div>
+                </div>
+                <div class="tab-pane page-quick-sidebar-alerts" id="quick_sidebar_tab_2">
+                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 736px;">
+                        <div class="page-quick-sidebar-alerts-list" data-height="736" data-initialized="1" style="overflow: hidden; width: auto; height: 736px;">
+
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left" data-bind="text: managerUser.USER_NAME">Nome</h3>
+
+                                <!-- ko if: managerAuth.isShellProdMode == true -->
+                                <ul class="pull-right feeds list-items">
+                                    <li style="display: inline-block;"><a href="javascript:void(0)" data-bind="click: UILogOut, text: sair, attr: { title: sair}," style="text-decoration: underline !important;"></a></li>
+                                </ul>
+                                <!--/ko-->
+                            </div>
+
+                            <!-- ko if: managerAuth.isShellProdMode && !managerAuth.loginInfo.IsSupportMode && !managerAuth.isLoginPOSUXMode -->
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left"></h3>
+                                <ul class="feeds list-items pull-right ">
+                                    <li style="display: inline-block;"><a href="javascript:void(0)" data-bind="click: UIChangeEnvironment, text: ambientes"></a></li>
+                                    <!-- ko if: !managerAuth.loginInfo.AutenticacaoWindows-->
+                                    |
+                                    <li style="display: inline-block;"><a href="javascript:void(0)" data-bind="click: UIChangePassword, text: alterarSenha">Alterar Senha</a></li>
+                                    |
+                                    <!--/ko-->
+                                    <li style="display: inline-block;"><a href="javascript:void(0)" data-bind="click: UIReauthenticate, text: reAutenticar">Re-Autenticar</a></li>
+                                </ul>
+                            </div>
+                            <!--/ko-->
+
+                            <div class="menu-info" style="display: none;">
+                                <h3 class="list-heading pull-left padding-top15" data-bind="text: temas"></h3>
+                                <ul class="feeds list-items pull-right">
+                                    <li>
+                                        <!-- BEGIN STYLE CUSTOMIZER -->
+                                        <div class="theme-panel hidden-xs hidden-sm">
+                                            <div class="theme-options" style="display: block;">
+                                                <div class="theme-option theme-colors clearfix">
+                                                    <ul>
+                                                        <li class="color-white current color-default" data-style="default" data-bind="click: function () { UIChangeTheme('default') }"></li>
+                                                        <li class="color-orange" data-style="orange" data-bind="click: function () { UIChangeTheme('orange') }"></li>
+                                                        <li class="color-black" data-style="black" data-bind="click: function () { UIChangeTheme('black') }"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END BEGIN STYLE CUSTOMIZER -->
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- <div class="separator-sidebar">
+                                <h3>Usuário</h3>
+                            </div>-->
+                            <!-- ko if: managerAuth.isShellProdMode && !managerAuth.isLoginPOSUXMode-->
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left" data-bind="text: grpEcon"></h3>
+                                <ul class="feeds list-items pull-right ">
+                                    <li class="economic-group-name ellipsis"><span data-bind="attr: { title: managerAuth.loginInfo.DescricaoGrupoEconomico }, text: managerAuth.loginInfo.DescricaoGrupoEconomico"></span></li>
+                                </ul>
+                            </div>
+
+                            <div data-bind="foreach: { data: managerAuth.loginInfo.Ambientes, afterRender: $root.afterRenderTable }">
+                                <div class="separator-sidebar">
+                                    <h3 data-bind="text: DescricaoAplicativo"></h3>
+                                </div>
+
+                                <div class="menu-info">
+                                    <h3 class="list-heading pull-left" data-bind="text: $root.empresa"></h3>
+                                    <ul class="feeds list-items pull-right ">
+                                        <li class="company-name ellipsis"><span data-bind="attr: { title: DescricaoEmpresa }, text: DescricaoEmpresa"></span></li>
+                                    </ul>
+                                </div>
+
+                                <div class="menu-info">
+                                    <h3 class="list-heading pull-left" data-bind="text: $root.redePadrao"></h3>
+                                    <ul class="feeds list-items pull-right ">
+                                        <li class="default-brand ellipsis">
+                                            <a href="javascript:;" title="" data-bind="attr: { id: 'brand_' + $data.IdTcsAmbiente }"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--/ko-->
+                            <!-- ko if: !managerAuth.isLoginPOSUXMode-->
+                            <div class="separator-sidebar">
+                                <h3 data-bind="text: configuracao">Configuração</h3>
+                            </div>
+
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left" data-bind="text: titlePaginaInicial"></h3>
+                                <ul class="feeds list-items pull-right">
+                                    <li class="default-brand ellipsis">
+
+                                        <!-- ko if: paginaInicial().length == 0 -->
+                                        <span>Módulos</span>
+                                        <!--/ko-->
+                                        <!-- ko if: paginaInicial().length > 0 -->
+                                        <span data-bind="attr: { title: paginaInicial() }, text: paginaInicial()"></span>
+                                        <i data-bind="click: UIClearHome" class="fa fa-times exclud"></i>
+                                        <!--/ko-->
+
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left" data-bind="text: resultadoTabular"></h3>
+                                <input class="pull-right" type="checkbox" name="chkGridMode" id="chkGridMode" data-size="small" data-on-text="<i class='fa fa-check'></i>" data-off-text="<i class='fa fa-times'></i>" data-animate="false" checked>
+                            </div>
+
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left" data-bind="text: manterUltimoFiltro"></h3>
+                                <input class="pull-right" type="checkbox" name="chkLastFilterMode" id="chkLastFilterMode" data-size="small" data-on-text="<i class='fa fa-check'></i>" data-off-text="<i class='fa fa-times'></i>" data-animate="false" checked>
+                            </div>
+
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left" data-bind="text: esconderAssistentes"></h3>
+                                <input class="pull-right" type="checkbox" name="chkHideWizards" id="chkHideWizards" data-size="small" data-on-text="<i class='fa fa-check'></i>" data-off-text="<i class='fa fa-times'></i>" data-animate="false">
+                            </div>
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left" data-bind="text: idioma"></h3>
+                                <select class="pull-right" name="cmbIdioma" id="cmbIdioma" data-bind="options: availableLanguages,
+                                        optionsText: 'name',
+                                        optionsValue: 'id',
+                                        value: selectedLanguage,
+                                        event:{change: selectionChanged}"
+                                        style="margin-right: 10px;margin-top: 10px;height: 23px;">
+                                </select>
+                            </div>
+
+                            <!--<div class="menu-info">
+                                <h3 class="list-heading pull-left">Barra Navegação</h3>
+                                <input class="pull-right" type="checkbox" name="chkBarraNavegacao" id="chkBarraNavegacao" data-size="small" data-on-text="<i class='fa fa-check'></i>" data-off-text="<i class='fa fa-times'></i>" data-animate="false" checked>
+                            </div>-->
+                            <!-- /ko -->
+                            <!-- ko if: managerAuth.isShellProdMode-->
+                            <div class="separator-sidebar">
+                                <h3 data-bind="text: cache"></h3>
+                            </div>
+
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left" data-bind="text: dados"></h3>
+                                <ul class="feeds list-items pull-right ">
+                                    <li><a href="javascript:void(0)" data-bind="click: UIClearStorage, text: limpar"></a> </li>
+                                </ul>
+                            </div>
+                            <!--/ko-->
+                            <!-- ko if: !managerAuth.isLoginPOSUXMode-->
+                            <!-- ko if: managerAuth.isShellProdMode && !managerAuth.loginInfo.IsSupportMode-->
+                            <div class="separator-sidebar">
+                                <h3 data-bind="text: suporte"></h3>
+                            </div>
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left" data-bind="text: gerarUrlSuporte"></h3>
+                                <ul class="feeds list-items pull-right ">
+                                    <li><a href="javascript:void(0)" data-bind="click: SupportRequest, text: urlSuporte"></a> </li>
+                                </ul>
+                            </div>
+
+                            <!--/ko-->
+                            <!-- ko if: managerAuth.isShellDevMode -->
+                            <div class="separator-sidebar">
+                                <h3>Dev Mode</h3>
+                            </div>
+
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left">Trace</h3>
+                                <input class="pull-right" type="checkbox" name="chkTrace" id="chkTrace" data-size="small" data-on-text="<i class='fa fa-check'></i>" data-off-text="<i class='fa fa-times'></i>" data-animate="false" checked>
+                            </div>
+                            <!-- ko if: managerAuth.isShellDevMode -->
+                            <!-- ko if:router.activeInstruction() != null && router.activeInstruction().config != null -->
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left">Módulo/Tela</h3>
+                                <ul class="feeds list-items pull-right ">
+                                    <li><a href="javascript:void(0)" data-bind="attr: { href: router.activeInstruction().config.lxDownloadModule }">Download</a> </li>
+                                </ul>
+                            </div>
+                            <!-- ko if:router.activeInstruction() != null && router.activeInstruction().config.lxExtractView != null -->
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left"></h3>
+                                <ul class="feeds list-items pull-right ">
+                                    <li><a href="javascript:void(0)" data-bind="attr: { href: router.activeInstruction().config.lxExtractView }" target="_blank">Extrair</a> </li>
+                                </ul>
+                            </div>
+                            <!--/ko-->
+
+                            <div class="menu-info">
+                                <h3 class="list-heading pull-left">Gen Deploy Setup</h3>
+                                <ul class="feeds list-items pull-right ">
+                                    <li><a href="javascript:void(0)" data-bind="attr: { href: 'deploy/download/modules.zip?appmode=setup' }">Download</a> </li>
+                                </ul>
+                            </div>
+                            <!--/ko-->
+                            <!--/ko-->
+                            <!--/ko-->
+                            <!--/ko-->
+                            <!--/ko-->
+                            <!--
+                            <ul class="feeds list-items">
+                                <li><span data-bind="text: router.activeInstruction().config.lxModule"></span> | <a data-bind="    attr: { href: router.activeInstruction().config.lxExtractModule }" target="_blank">Extrair</a> </li>
+                            </ul>
+                            -->
+                            <!--<div class="separator-sidebar">
+                                <h3>Versão</h3>
+                            </div>-->
+                            <!--<div class="menu-info">
+                                <h3 class="list-heading pull-left version">
+                                    5.0.0 :: 26/08/2015
+                                </h3>
+                                <ul class="feeds list-items pull-right ">
+                                    <li><a href="javascript:void(0)">Verificar</a> </li>
+                                </ul>
+                            </div>-->
+                            <!-- ko if: managerAuth.isShellDevMode -->
+                        </div>
+                        <div class="slimScrollBar" style="width: 14px; position: absolute; top: 0px; opacity: 0.7; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; z-index: 99; right: 1px; display: block; background: rgb(187, 187, 187);"></div>
+                        <div class="slimScrollRail" style="width: 14px; height: 100%; position: absolute; top: 0px; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; opacity: 0.5; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div>
+                    </div>
+                </div>
+                <!--
+                                    <div class="tab-pane page-quick-sidebar-settings" id="quick_sidebar_tab_4">
+                                        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 736px;"><div class="page-quick-sidebar-settings-list" data-height="736" data-initialized="1" style="overflow: hidden; width: auto; height: 736px;">
+                                            <h3 class="list-heading">General Settings</h3>
+                                            <ul class="list-items borderless">
+                                                <li>
+                                                     Enable Notifications <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-small bootstrap-switch-animate"><div class="bootstrap-switch-container"><span class="bootstrap-switch-handle-on bootstrap-switch-success">ON</span><label class="bootstrap-switch-label">&nbsp;</label><span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span><input type="checkbox" class="make-switch" checked="" data-size="small" data-on-color="success" data-on-text="ON" data-off-color="default" data-off-text="OFF"></div></div>
+                                                </li>
+                                                <li>
+                                                     Allow Tracking <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-off bootstrap-switch-small bootstrap-switch-animate"><div class="bootstrap-switch-container"><span class="bootstrap-switch-handle-on bootstrap-switch-info">ON</span><label class="bootstrap-switch-label">&nbsp;</label><span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span><input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="ON" data-off-color="default" data-off-text="OFF"></div></div>
+                                                </li>
+                                                <li>
+                                                     Log Errors <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-small bootstrap-switch-animate"><div class="bootstrap-switch-container"><span class="bootstrap-switch-handle-on bootstrap-switch-danger">ON</span><label class="bootstrap-switch-label">&nbsp;</label><span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span><input type="checkbox" class="make-switch" checked="" data-size="small" data-on-color="danger" data-on-text="ON" data-off-color="default" data-off-text="OFF"></div></div>
+                                                </li>
+                                                <li>
+                                                     Auto Sumbit Issues <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-off bootstrap-switch-small bootstrap-switch-animate"><div class="bootstrap-switch-container"><span class="bootstrap-switch-handle-on bootstrap-switch-warning">ON</span><label class="bootstrap-switch-label">&nbsp;</label><span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span><input type="checkbox" class="make-switch" data-size="small" data-on-color="warning" data-on-text="ON" data-off-color="default" data-off-text="OFF"></div></div>
+                                                </li>
+                                                <li>
+                                                     Enable SMS Alerts <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-small bootstrap-switch-animate"><div class="bootstrap-switch-container"><span class="bootstrap-switch-handle-on bootstrap-switch-success">ON</span><label class="bootstrap-switch-label">&nbsp;</label><span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span><input type="checkbox" class="make-switch" checked="" data-size="small" data-on-color="success" data-on-text="ON" data-off-color="default" data-off-text="OFF"></div></div>
+                                                </li>
+                                            </ul>
+                                            <h3 class="list-heading">System Settings</h3>
+                                            <ul class="list-items borderless">
+                                                <li>
+                                                     Security Level
+                                                    <select class="form-control input-inline input-sm input-small">
+                                                        <option value="1">Normal</option>
+                                                        <option value="2" selected="">Medium</option>
+                                                        <option value="e">High</option>
+                                                    </select>
+                                                </li>
+                                                <li>
+                                                     Failed Email Attempts <input class="form-control input-inline input-sm input-small" value="5">
+                                                </li>
+                                                <li>
+                                                     Secondary SMTP Port <input class="form-control input-inline input-sm input-small" value="3560">
+                                                </li>
+                                                <li>
+                                                     Notify On System Error <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-small bootstrap-switch-animate"><div class="bootstrap-switch-container"><span class="bootstrap-switch-handle-on bootstrap-switch-danger">ON</span><label class="bootstrap-switch-label">&nbsp;</label><span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span><input type="checkbox" class="make-switch" checked="" data-size="small" data-on-color="danger" data-on-text="ON" data-off-color="default" data-off-text="OFF"></div></div>
+                                                </li>
+                                                <li>
+                                                     Notify On SMTP Error <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-small bootstrap-switch-animate"><div class="bootstrap-switch-container"><span class="bootstrap-switch-handle-on bootstrap-switch-warning">ON</span><label class="bootstrap-switch-label">&nbsp;</label><span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span><input type="checkbox" class="make-switch" checked="" data-size="small" data-on-color="warning" data-on-text="ON" data-off-color="default" data-off-text="OFF"></div></div>
+                                                </li>
+                                            </ul>
+                                            <div class="inner-content">
+                                                <button class="btn btn-success"><i class="icon-settings"></i> Save Changes</button>
+                                            </div>
+                                        </div><div class="slimScrollBar" style="width: 7px; position: absolute; top: 0px; opacity: 0.4; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; z-index: 99; right: 1px; display: block; background: rgb(187, 187, 187);"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
+                                    </div>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END QUICK SIDEBAR -->

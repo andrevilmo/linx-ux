@@ -1,0 +1,316 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="OpenView_formViewer" class="panelTransaition">
+            <figure id="OpenView_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.OpenView().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="OpenView_gbVendaItem" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="VendaItem"><i class="icon-reorder"></i>VendaItem</div>
+                       <div class="tools">
+                           <a id="OpenView_gbVendaItem_anchor" href="#OpenView_gbVendaItem_body" role="button" data-toggle="collapse" data-parent="#OpenView_gbVendaItem" aria-controls="#OpenView_gbVendaItem_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="OpenView_gbVendaItem_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.OpenView().getWithBinding(currentDataItem, $root.OpenView().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="OpenView_divBigIntVendaItem" class="" >
+                                           <label id="OpenView_lblBigIntVendaItem" for="OpenView_ntxBigIntVendaItem" class="control-label ellipsis" title="Big Int Venda Item">Big Int Venda Item
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="OpenView_ntxBigIntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntVendaItem', css: { vmEditing: $root.OpenView().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ntxBigIntVendaItem') ? ctrl.getCustomEnable($root.OpenView(), 'OpenView_ntxBigIntVendaItem') : (!isEmptyEntityFn($data) && $root.OpenView().enabledForEditing()) }, igNumericEditor: { value: BigIntVendaItem, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ntxBigIntVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_ntxBigIntVendaItem') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.OpenView().entitySearchRange.has_VendaItemBigIntVendaItem(), 'icon-ok': $root.OpenView().entitySearchRange.has_VendaItemBigIntVendaItem(), hide: $root.OpenView().status() !== 'C' }, popoverWithBind: { template: '#OpenView_rgBigIntVendaItem', vm: $root.OpenView().entitySearchRange, ctrlName: 'OpenView_rgcBigIntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="OpenView_rgBigIntVendaItem" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="OpenView_ntxbBigIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemBigIntVendaItem_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#OpenView_ntxBigIntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#OpenView_ntxeBigIntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#OpenView_ntxeBigIntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="OpenView_ntxeBigIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemBigIntVendaItem_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#OpenView_ntxBigIntVendaItem').igNumericEditor('option', 'readOnly', ($('#OpenView_ntxbBigIntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#OpenView_ntxbBigIntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="OpenView_divBitVendaItem" class="" >
+                                           <label class="">
+                                             <input id="OpenView_ckBitVendaItem" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ckBitVendaItem') ? ctrl.getCustomEnable($root.OpenView(), 'OpenView_ckBitVendaItem') : (!isEmptyEntityFn($data) && $root.OpenView().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ckBitVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_ckBitVendaItem') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing()), nullableChecked: BitVendaItem" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblOpenView_ckBitVendaItem" class="align-label-checkbox">Bit Venda Item</span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="OpenView_divComboboxVendaItem" class="" >
+                                           <label id="OpenView_lblComboboxVendaItem" for="OpenView_cmbComboboxVendaItem" data-bind="css: { 'content-required': $root.OpenView().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Combobox Venda Item">Combobox Venda Item
+                                           </label>
+                                           <span id="OpenView_cmbComboboxVendaItem" class="form-control " data-bind="validatedField: 'ComboboxVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_cmbComboboxVendaItem') ? ctrl.getCustomEnable($root.OpenView(), 'OpenView_cmbComboboxVendaItem') : (!isEmptyEntityFn($data) && $root.OpenView().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_cmbComboboxVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_cmbComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_cmbComboboxVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_cmbComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing()), igCombo: {
+                                              selectedItems: ComboboxVendaItem,
+                                              dataSource:  $root.OpenView().dataDomains.getItems('DomainComZeroPai', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.OpenView(), 'OpenView_cmbComboboxVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_cmbComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="OpenView_divDatetimeVendaItem" class="" >
+                                           <label id="OpenView_lblDatetimeVendaItem" for="OpenView_dtDatetimeVendaItem" class="control-label ellipsis" title="Datetime Venda Item">Datetime Venda Item
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="OpenView_dtDatetimeVendaItem" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVendaItem', css: { vmEditing: $root.OpenView().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_dtDatetimeVendaItem') ? ctrl.getCustomEnable($root.OpenView(), 'OpenView_dtDatetimeVendaItem') : (!isEmptyEntityFn($data) && $root.OpenView().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_dtDatetimeVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_dtDatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing()) },  igDatePicker: { value: DatetimeVendaItem, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_dtDatetimeVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_dtDatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="OpenView_rgbtnDatetimeVendaItem"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.OpenView().entitySearchRange.has_VendaItemDatetimeVendaItem(), 'icon-ok': $root.OpenView().entitySearchRange.has_VendaItemDatetimeVendaItem(), hide: $root.OpenView().status() !== 'C' }, popoverWithBind: { template: '#OpenView_rgDatetimeVendaItem', vm: $root.OpenView().entitySearchRange, ctrlName: 'OpenView_rgcDatetimeVendaItem', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="OpenView_rgDatetimeVendaItem" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="checked:VendaItemDatetimeVendaItem_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:VendaItemDatetimeVendaItem_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="OpenView_divrgDatetimeVendaItem" >
+                                                      <div class="filterByRange" data-bind="visible: VendaItemDatetimeVendaItem_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="OpenView_dtbDatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemDatetimeVendaItem_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#OpenView_dtDatetimeVendaItem').igDatePicker('option', 'readOnly', (ui.value != null || $('#OpenView_dteDatetimeVendaItem').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#OpenView_dtbDatetimeVendaItem').igDatePicker('value'); var valorMax = $('#OpenView_dteDatetimeVendaItem').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#OpenView_dtbDatetimeVendaItem').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="OpenView_dteDatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemDatetimeVendaItem_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#OpenView_dtDatetimeVendaItem').igDatePicker('option', 'readOnly', ($('#OpenView_dtbDatetimeVendaItem').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#OpenView_dtbDatetimeVendaItem').igDatePicker('value'); var valorMax = $('#OpenView_dteDatetimeVendaItem').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#OpenView_dteDatetimeVendaItem').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: VendaItemDatetimeVendaItem_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaItemDatetimeVendaItem_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: VendaItemDatetimeVendaItem_predefFilter() != null && VendaItemDatetimeVendaItem_predefFilter()[0] && VendaItemDatetimeVendaItem_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaItemDatetimeVendaItem_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="OpenView_divDecimalVendaItem" class="" >
+                                           <label id="OpenView_lblDecimalVendaItem" for="OpenView_ntxDecimalVendaItem" class="control-label ellipsis" title="Decimal Venda Item">Decimal Venda Item
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="OpenView_ntxDecimalVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVendaItem', css: { vmEditing: $root.OpenView().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ntxDecimalVendaItem') ? ctrl.getCustomEnable($root.OpenView(), 'OpenView_ntxDecimalVendaItem') : (!isEmptyEntityFn($data) && $root.OpenView().enabledForEditing()) }, igNumericEditor: { value: DecimalVendaItem, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ntxDecimalVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_ntxDecimalVendaItem') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.OpenView().entitySearchRange.has_VendaItemDecimalVendaItem(), 'icon-ok': $root.OpenView().entitySearchRange.has_VendaItemDecimalVendaItem(), hide: $root.OpenView().status() !== 'C' }, popoverWithBind: { template: '#OpenView_rgDecimalVendaItem', vm: $root.OpenView().entitySearchRange, ctrlName: 'OpenView_rgcDecimalVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="OpenView_rgDecimalVendaItem" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="OpenView_ntxbDecimalVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemDecimalVendaItem_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#OpenView_ntxDecimalVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#OpenView_ntxeDecimalVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#OpenView_ntxeDecimalVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="OpenView_ntxeDecimalVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemDecimalVendaItem_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#OpenView_ntxDecimalVendaItem').igNumericEditor('option', 'readOnly', ($('#OpenView_ntxbDecimalVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#OpenView_ntxbDecimalVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="OpenView_divIdVenda" class="" >
+                                           <label id="OpenView_lblIdVenda" for="OpenView_lUpIdVenda" class="control-label ellipsis" title="Id Venda">Id Venda
+                                           </label>
+                                           <div id="OpenView_lUpIdVenda" class="form-control input-group " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.OpenView().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_lUpIdVenda') ? ctrl.getCustomEnable($root.OpenView(), 'OpenView_lUpIdVenda') : (!isEmptyEntityFn($data) && $root.OpenView().enabledForEditing()) }, lookupControl: { vm: $root.OpenView(), value: IdVenda, maxLength: 12,lookupName: '', isMultiSelection: false, multiSelectionValue: $root.OpenView().entitySearchRange.IdVenda, fieldName: 'IdVenda', disabled:ctrl.hasCustomEnable($root.OpenView(), 'OpenView_lUpIdVenda') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_lUpIdVenda') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="OpenView_divIdVendaItem" class="" >
+                                           <label id="OpenView_lblIdVendaItem" for="OpenView_ntxIdVendaItem" data-bind="css: { 'content-required': $root.OpenView().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Id Venda Item">Id Venda Item
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="OpenView_ntxIdVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'IdVendaItem', css: { vmEditing: $root.OpenView().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ntxIdVendaItem') ? ctrl.getCustomEnable($root.OpenView(), 'OpenView_ntxIdVendaItem') : (!isEmptyEntityFn($data) && $root.OpenView().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVendaItem, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ntxIdVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_ntxIdVendaItem') : (isEmptyEntityFn($data) || !($root.OpenView().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.OpenView().entitySearchRange.has_VendaItemIdVendaItem(), 'icon-ok': $root.OpenView().entitySearchRange.has_VendaItemIdVendaItem(), hide: $root.OpenView().status() !== 'C' }, popoverWithBind: { template: '#OpenView_rgIdVendaItem', vm: $root.OpenView().entitySearchRange, ctrlName: 'OpenView_rgcIdVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="OpenView_rgIdVendaItem" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="OpenView_ntxbIdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVendaItem_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#OpenView_ntxIdVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#OpenView_ntxeIdVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#OpenView_ntxeIdVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="OpenView_ntxeIdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVendaItem_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#OpenView_ntxIdVendaItem').igNumericEditor('option', 'readOnly', ($('#OpenView_ntxbIdVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#OpenView_ntxbIdVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="OpenView_divIntVendaItem" class="" >
+                                           <label id="OpenView_lblIntVendaItem" for="OpenView_ntxIntVendaItem" class="control-label ellipsis" title="Int Venda Item">Int Venda Item
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="OpenView_ntxIntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'IntVendaItem', css: { vmEditing: $root.OpenView().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ntxIntVendaItem') ? ctrl.getCustomEnable($root.OpenView(), 'OpenView_ntxIntVendaItem') : (!isEmptyEntityFn($data) && $root.OpenView().enabledForEditing()) }, igNumericEditor: { value: IntVendaItem, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ntxIntVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_ntxIntVendaItem') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.OpenView().entitySearchRange.has_VendaItemIntVendaItem(), 'icon-ok': $root.OpenView().entitySearchRange.has_VendaItemIntVendaItem(), hide: $root.OpenView().status() !== 'C' }, popoverWithBind: { template: '#OpenView_rgIntVendaItem', vm: $root.OpenView().entitySearchRange, ctrlName: 'OpenView_rgcIntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="OpenView_rgIntVendaItem" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="OpenView_ntxbIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIntVendaItem_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#OpenView_ntxIntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#OpenView_ntxeIntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#OpenView_ntxeIntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="OpenView_ntxeIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIntVendaItem_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#OpenView_ntxIntVendaItem').igNumericEditor('option', 'readOnly', ($('#OpenView_ntxbIntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#OpenView_ntxbIntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="OpenView_divSmallIntVendaItem" class="" >
+                                           <label id="OpenView_lblSmallIntVendaItem" for="OpenView_ntxSmallIntVendaItem" class="control-label ellipsis" title="Small Int Venda Item">Small Int Venda Item
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="OpenView_ntxSmallIntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntVendaItem', css: { vmEditing: $root.OpenView().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ntxSmallIntVendaItem') ? ctrl.getCustomEnable($root.OpenView(), 'OpenView_ntxSmallIntVendaItem') : (!isEmptyEntityFn($data) && $root.OpenView().enabledForEditing()) }, igNumericEditor: { value: SmallIntVendaItem, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_ntxSmallIntVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_ntxSmallIntVendaItem') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.OpenView().entitySearchRange.has_VendaItemSmallIntVendaItem(), 'icon-ok': $root.OpenView().entitySearchRange.has_VendaItemSmallIntVendaItem(), hide: $root.OpenView().status() !== 'C' }, popoverWithBind: { template: '#OpenView_rgSmallIntVendaItem', vm: $root.OpenView().entitySearchRange, ctrlName: 'OpenView_rgcSmallIntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="OpenView_rgSmallIntVendaItem" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="OpenView_ntxbSmallIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemSmallIntVendaItem_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#OpenView_ntxSmallIntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#OpenView_ntxeSmallIntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#OpenView_ntxeSmallIntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="OpenView_ntxeSmallIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemSmallIntVendaItem_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#OpenView_ntxSmallIntVendaItem').igNumericEditor('option', 'readOnly', ($('#OpenView_ntxbSmallIntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#OpenView_ntxbSmallIntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="OpenView_divStringVendaItem" class="" >
+                                           <label id="OpenView_lblStringVendaItem" for="OpenView_tbStringVendaItem" class="control-label ellipsis" title="String Venda Item">String Venda Item
+                                           </label>
+                                           <input id="OpenView_tbStringVendaItem" class="form-control ellipsis" data-bind="attr: { title: StringVendaItem }, validatedField: 'StringVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_tbStringVendaItem') ? ctrl.getCustomEnable($root.OpenView(), 'OpenView_tbStringVendaItem') : (!isEmptyEntityFn($data) && $root.OpenView().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVendaItem, readOnly: ctrl.hasCustomEnable($root.OpenView(), 'OpenView_tbStringVendaItem') ? !ctrl.getCustomEnable($root.OpenView(), 'OpenView_tbStringVendaItem') : (isEmptyEntityFn($data) || !$root.OpenView().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="OpenView_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.OpenView().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyOpenView_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyOpenView_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyOpenView_dGrid_templateLayout', vm: function(){return $root.OpenView().gridSaveStates['scyOpenView_dGrid'];}, ctrlName: 'scyOpenView_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-external-link" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyOpenView_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyOpenView_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Salvar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como...</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyOpenView_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.OpenView().dataToolbar.canExport(), click: function () {$root.OpenView().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyOpenView_dGrid" data-bind="css: { IsEditableStyle: $root.OpenView().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

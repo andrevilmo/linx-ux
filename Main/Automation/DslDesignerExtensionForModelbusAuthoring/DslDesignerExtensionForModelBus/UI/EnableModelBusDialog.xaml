@@ -1,0 +1,60 @@
+﻿<Window x:Class="Microsoft.VisualStudio.Modeling.Sdk.ModelBusAuthoringDslDesignerExtension.UI.EnableModelBusDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Background="#FFF0F0F0" MinHeight="425" MaxHeight="425" MinWidth="500" MaxWidth="500" Title="Enable ModelBus" Height="425" Width="500" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <RichTextBox Grid.Row="0" BorderThickness="0" Focusable="False" IsReadOnly="True" Padding="5">
+            <RichTextBox.Background>
+                <SolidColorBrush />
+            </RichTextBox.Background>
+            <FlowDocument >
+                <Paragraph>The purpose of this wizard is to let you, as a DSL author, decide if you want to:</Paragraph>
+                <List>
+                    <ListItem Margin="10,0,10,10">
+                        <Paragraph>
+                            <Bold>Expose your DSL to the ModelBus</Bold>. By exposing your DSL to the ModelBus, you will enable other DSLs to reference your models
+                        and model elements.</Paragraph>
+                        <Paragraph>Note that
+                            <Italic>
+                                exposing your DSL to the ModelBus will add a new project named ModelBusAdapter and modify the vsximanifest.tt in the DslPackage project to
+                                expose this new project as a MEF extension</Italic></Paragraph>
+                    </ListItem>
+                    <ListItem Margin="10,0,10,10">
+                        <Paragraph>
+                            <Bold>Enable your DSL to consume the ModelBus</Bold>. By enabling your DSL for ModelBus consumption, you will add the capability of having domain
+                        properties of type "ModelBusReference", that will reference other models or model elements in other models</Paragraph>
+                        <Paragraph>Note that
+                            <Italic>enabling your DSL for ModelBus consumption will be done by referencing the ModelBus assembly and adding a new
+                        External type "ModelBusReference". A new text template (ModelBusReferencesSerialization.tt) will be added in the Generated
+                            code folder of the Dsl project</Italic></Paragraph>
+                    </ListItem>
+
+                </List>
+            </FlowDocument>
+        </RichTextBox>
+
+        <StackPanel Grid.Row="1" Margin="50,10,5,5" >
+            <CheckBox Name="exposeToModelBus" Margin="5" BorderThickness="0">I want to expose this DSL to the ModelBus. </CheckBox>
+            <CheckBox Name="consumeModelBus"  Margin="5" BorderThickness="0">I want to enable this DSL to consume the ModelBus</CheckBox>
+        </StackPanel>
+        <Separator Margin="2,5,2,5" Grid.Row="2" />
+
+
+        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right" Margin="0" Grid.Row="3">
+            <Button Margin="5,5,5,5" Padding="2" Width="80" IsDefault="True" Click="OkButton_Click">
+                <Button.Content>Ok</Button.Content>
+
+            </Button>
+            <Button Margin="5,5,5,5" Padding="2" Width="80" IsCancel="True">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>

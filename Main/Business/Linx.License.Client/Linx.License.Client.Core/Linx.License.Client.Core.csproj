@@ -1,0 +1,95 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Linx.License.Client.Core</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqLite" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.7.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Linx.LinqExtensions.Core">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Linx.LinqExtensions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Tools.Core">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Linx.Tools.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>appsettings.tt</DependentUpon>
+    </None>
+    <None Update="appsettings.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>appsettings.json</LastGenOutput>
+    </None>
+    <None Update="DB\License.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Domains\DomainViews.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DomainViews.shared.cs</LastGenOutput>
+    </None>
+    <None Update="Includes\DirectDynamicModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DirectDynamicModels.ttinclude</LastGenOutput>
+    </None>
+    <None Update="Includes\DirectDynamicModels.ttinclude">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DirectDynamicModels.tt</DependentUpon>
+    </None>
+    <None Update="Includes\DynamicModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DynamicModels.ttinclude</LastGenOutput>
+    </None>
+    <None Update="Includes\DynamicModels.ttinclude">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DynamicModels.tt</DependentUpon>
+    </None>
+    <None Update="Model\BusinessDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BusinessDataModel.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Domains\DomainViews.shared.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DomainViews.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Model\BusinessDataModel.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BusinessDataModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="cd &quot;$(TargetDir)&quot;&#xD;&#xA;xcopy &quot;..\..\..\appsettings.json&quot; &quot;.&quot; /Y /R&#xD;&#xA;rename &quot;appsettings.json&quot; &quot;Linx.License.Client.Core.dll.json&quot;&#xD;&#xA;xcopy &quot;Linx.License.Client.Core.dll*&quot; &quot;..\..\..\..\..\..\Binary\Library\Common\Linx\Nuget\BM&quot; /Y /R&#xD;&#xA;xcopy &quot;Linx.License.Client.Core.dll&quot; &quot;..\..\..\..\..\..\Binary\CoreServiceBus\BusinessModules\BM\Linx.License.Client.Core\bin&quot; /Y /R&#xD;&#xA;xcopy &quot;DB&quot; &quot;..\..\..\..\..\..\Binary\CoreServiceBus\BusinessModules\BM\Linx.License.Client.Core\bin&quot; /Y /R&#xD;&#xA;" />
+  </Target>
+  
+</Project>

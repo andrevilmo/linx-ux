@@ -1,0 +1,36 @@
+﻿						<!-- BEGIN TODO DROPDOWN -->
+						<li class="dropdown" id="header_task_bar">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+								<i class="fa fa-tasks"></i>
+								<!-- ko if: managerWindow.WINDOWS_VM().length > 0 -->
+									<span class="badge" data-bind="text: managerWindow.WINDOWS_VM().length"></span>
+								<!-- /ko -->
+							</a>
+							<ul class="dropdown-menu extended tasks" data-bind="if: managerWindow.WINDOWS_VM().length > 0">
+								<li>
+									<p data-bind="text: 'Você tem ' + managerWindow.WINDOWS_VM().length + ' janela(s) aberta(s)'"></p>
+								</li>
+								<li>
+									<ul class="dropdown-menu-list scroller" style="height: 300px;">
+										<li data-bind="foreach: managerWindow.WINDOWS_VM">  
+											<a data-bind="attr: { href: urlLink }">
+												<span class="task">
+													<span class="desc" data-bind="text: displayName"></span>
+												</span>
+											</a>
+											<!--<a href="#"><i class="m-icon-swapright"></i></a>-->
+										</li>
+									</ul>
+								</li>
+								<li class="external">   
+									<a href="javascript:void(0)" data-bind="click: UICloseAll">Fechar todas <i class="fa fa-times"></i></a>
+								</li>
+							</ul>
+
+							<ul class="dropdown-menu extended tasks" data-bind="if: managerWindow.WINDOWS_VM().length == 0">
+								<li>
+									<p data-bind="text: 'Nenhuma janela aberta.'"></p>
+								</li>
+							</ul>
+						</li>
+						<!-- END TODO DROPDOWN -->

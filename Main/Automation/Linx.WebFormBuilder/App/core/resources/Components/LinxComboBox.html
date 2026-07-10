@@ -1,0 +1,25 @@
+{{#if options.odata}}
+ <label class="{{options.class}}">
+    <div class="input-label">
+      {{options.label}}
+    </div>
+    <select {{#each custom}} {{property}}="{{value}}" {{/each}}
+        ng-model="vm.dataBusiness.currentDataItem().{{options.odata.Name}}"
+        ng-change="{{options.change}}"
+        ng-options="{{options.options}}"
+        ng-show="{{options.visible}}">
+    </select>
+ </label>
+{{else}}
+ <label class="{{options.class}}">
+    <div class="input-label">
+      {{options.label}}
+    </div>
+    <select {{#each custom}} {{property}}="{{value}}" {{/each}}
+        ng-model="{{options.model}}"
+        ng-change="{{options.change}}"
+        ng-options="{{options.options}}"
+        ng-show="{{options.visible}}">
+    </select>
+ </label>
+{{/if}}

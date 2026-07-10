@@ -1,0 +1,23 @@
+{{#if options.odata}}
+<div class="list">
+
+    <a class="item item-thumbnail-left" ng-repeat="item in vm.dataBusiness.currentDataItem().{{options.repeater}}List" href="{{options.routeLink}}">
+        <img src="http://handlebarsjs.com/images/handlebars_logo.png">
+        <h2 ng-bind="item.{{ options.headerPropertie }}"></h2>
+        <p ng-bind="item.{{ options.legendPropertie }}"></p>
+    </a>
+
+</div>
+
+{{else}}
+
+<div class="list">
+
+    <a class="item item-thumbnail-left" ng-repeat="item in {{options.repeater}}" href="{{options.routeLink}}">
+        <img src="http://handlebarsjs.com/images/handlebars_logo.png">
+        <h2 ng-bind="item.{{ options.headerPropertie }}"></h2>
+        <p ng-bind="item.{{ options.legendPropertie }}"></p>
+    </a>
+
+</div>
+{{/if}}

@@ -1,0 +1,11 @@
+<div ng-init="vm.init()">
+    <!--Combo ambientes-->
+    <select ng-model="vm.groupId" ng-options="i as i.text for i in vm.groupNames track by i.key" ng-change="vm.groupChanged(i.key)" style="position: absolute;top: 5px;right: 5px;z-index:9999;"></select>
+    <!--FIM Combo ambientes-->
+
+    <ng-include src="'src/templates/directorTemplate.html'" ng-show="vm.isDirector"></ng-include>
+
+    <ng-include src="'src/templates/administratorTemplate.html'" ng-show="vm.isAdministrator"></ng-include>
+
+    <ng-include src="'src/templates/sellerTemplate.html'" ng-show="vm.isSeller"></ng-include>
+</div>

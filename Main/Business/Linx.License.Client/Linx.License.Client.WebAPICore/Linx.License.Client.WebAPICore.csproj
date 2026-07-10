@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Linx.License.Client.WebAPICore</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\Linx.License.Client.Core\appsettings.json" Link="appsettings.json" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqLite" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.OData.Edm" Version="7.3.1" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.7.6" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Linx.License.Client.Core\Linx.License.Client.Core.csproj">
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="Linx.Data.Core">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Linx.Data.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.DataService.Core">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Linx.DataService.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.LinqExtensions.Core">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Linx.LinqExtensions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Tools.Core">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Linx.Tools.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.OData">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Microsoft.AspNetCore.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Modular.Core">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Modular.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="cd &quot;$(TargetDir)&quot;&#xD;&#xA;xcopy &quot;Linx.License.Client.WebAPICore.dll&quot; &quot;..\..\..\..\..\..\Binary\CoreServiceBus\BusinessModules\API\Linx.License.Client.WebAPICore\bin&quot; /Y /R&#xD;&#xA;" />
+  </Target>
+
+</Project>

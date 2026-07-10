@@ -1,0 +1,279 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="TestePivotOLAP_formViewer" class="panelTransaition">
+            <figure id="TestePivotOLAP_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.TestePivotOLAP().viewType() === 'Main' ? '' : 'none' }">
+                                       <div id="TestePivotOLAP_gbPivoGridOlap" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="PivoGridOlap"><i class="icon-reorder"></i>PivoGridOlap</div>
+                       <div class="tools">
+                           <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div class="portlet-body" style="display:block ;">
+                       <div data-bind="with: $root.TestePivotOLAP().getWithBinding(currentDataItem, $root.TestePivotOLAP().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TestePivotOLAP_divAno" class="" >
+                                           <label id="TestePivotOLAP_lblAno" for="TestePivotOLAP_lUpAno" data-bind="css: { 'content-required': $root.TestePivotOLAP().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="AnoPai">AnoPai
+                                           </label>
+                                           <div class="">
+                                               <div id="TestePivotOLAP_lUpAno" class="form-control box-input-xmedium pull-left input-group " data-bind="validatedField: 'Ano', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TestePivotOLAP_lUpAno') ? ctrl.getCustomEnable($root, 'TestePivotOLAP_lUpAno') : (!isEmptyEntityFn($data) && $root.TestePivotOLAP().status() === 'C') }, lookupControl: { value: Ano,lookupName: 'LookUpPivoGridOlapAno', inputClass:'input-xmedium', isMultiSelection: false, multiSelectionValue: $root.TestePivotOLAP().entitySearchRange.Ano, fieldName: 'Ano', disabled:ctrl.hasCustomEnable($root, 'TestePivotOLAP_lUpAno') ? !ctrl.getCustomEnable($root, 'TestePivotOLAP_lUpAno') : (isEmptyEntityFn($data) || $root.TestePivotOLAP().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:32767, maxLength: 0, defaultValue: 0}" />
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TestePivotOLAP_divVlrBruto" class="" >
+                                           <label id="TestePivotOLAP_lblVlrBruto" for="TestePivotOLAP_ntxVlrBruto" data-bind="css: { 'content-required': $root.TestePivotOLAP().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Vlr Bruto">Vlr Bruto
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-medium">
+                                                   <div class="input-group box-input-medium">
+                                                       <input id="TestePivotOLAP_ntxVlrBruto" class="form-control numericFilterRange input-medium" data-bind="validatedField: 'VlrBruto', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TestePivotOLAP_ntxVlrBruto') ? ctrl.getCustomEnable($root, 'TestePivotOLAP_ntxVlrBruto') : (!isEmptyEntityFn($data) && $root.TestePivotOLAP().status() === 'C') }, igNumericEditor: { value: VlrBruto, minValue: 0, maxValue: 999999999999999999.99,  maxLength: 21,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'TestePivotOLAP_ntxVlrBruto') ? !ctrl.getCustomEnable($root, 'TestePivotOLAP_ntxVlrBruto') : (isEmptyEntityFn($data) || $root.TestePivotOLAP().status() !== 'C'), disabled: ctrl.hasCustomEnable($root, 'TestePivotOLAP_ntxVlrBruto') ? !ctrl.getCustomEnable($root, 'TestePivotOLAP_ntxVlrBruto') : (isEmptyEntityFn($data) || $root.TestePivotOLAP().status() !== 'C') }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TestePivotOLAP().entitySearchRange.has_PivoGridOlapVlrBruto(), 'icon-ok': $root.TestePivotOLAP().entitySearchRange.has_PivoGridOlapVlrBruto(), hide: $root.TestePivotOLAP().status() !== 'C' }, popoverWithBind: { template: '#TestePivotOLAP_rgVlrBruto', vm: $root.TestePivotOLAP().entitySearchRange, ctrlName: 'TestePivotOLAP_rgcVlrBruto', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TestePivotOLAP_rgVlrBruto" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TestePivotOLAP_ntxbVlrBruto" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: PivoGridOlapVlrBruto_begin, minValue: 0, maxLength: 18, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TestePivotOLAP_ntxVlrBruto').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TestePivotOLAP_ntxeVlrBruto').igNumericEditor('option', 'value') != null ? true : false)); $('#TestePivotOLAP_ntxeVlrBruto').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TestePivotOLAP_ntxeVlrBruto" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: PivoGridOlapVlrBruto_end, minValue: 0, maxLength: 18, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TestePivotOLAP_ntxVlrBruto').igNumericEditor('option', 'readOnly', ($('#TestePivotOLAP_ntxbVlrBruto').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TestePivotOLAP_ntxbVlrBruto').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+           <div id="TestePivotOLAP_tcPivoGridOlapTabControl" class="tabbable tabbable-custom box col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+              <div class="container-tab">
+                 <div id="TestePivotOLAP_tcPivoGridOlapTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                 <div id="TestePivotOLAP_tcPivoGridOlapTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                 <div id="TestePivotOLAP_tcPivoGridOlapTabControl_wrapper" class="wrapper">
+                    <ul id="TestePivotOLAP_tcPivoGridOlapTabControl_list" class="nav nav-tabs list">
+                       <li id="TestePivotOLAP_tiPivotGridOlapFilhaTabItem" class="active"><a href="#TestePivotOLAP_tabPivotGridOlapFilhaTabItem" data-toggle="tab" title="PivotGridOlapFilha">PivotGridOlapFilha</a></li>
+                    </ul>
+                    </div>
+                 </div>
+              <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="TestePivotOLAP_tabPivotGridOlapFilhaTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+                       <div id="TestePivotOLAP_dGridPivotGridOlapFilha_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.TestePivotOLAP().getWithBinding(currentDataItem, $root.TestePivotOLAP().rootDataTypeName)">
+                           <button id="TestePivotOLAP_dGridPivotGridOlapFilha_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.TestePivotOLAP().status() === 'E', click: function () { $root.TestePivotOLAP().createAndNotifyPivotGridOlapFilha($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="TestePivotOLAP_dGridPivotGridOlapFilha_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.TestePivotOLAP().status() === 'E', 
+                           click: function () {
+                              $root.TestePivotOLAP().deleteGrid('#TestePivotOLAP_dGridPivotGridOlapFilha', 'PivotGridOlapFilha', 'vm.currentDataItem().currentPivotGridOlapFilha;vm.currentDataItem().PivotGridOlapFilhaList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="TestePivotOLAP_dGridPivotGridOlapFilha_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.TestePivotOLAP().openEditor('#TestePivotOLAP_dGridPivotGridOlapFilha', 'PivotGridOlapFilha', 'vm.currentDataItem().currentPivotGridOlapFilha;vm.currentDataItem().PivotGridOlapFilhaList', 'PivotGridOlapFilha;vm.currentDataItem()', 'PivotGridOlapFilha(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="TestePivotOLAP_dGridPivotGridOlapFilha_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.TestePivotOLAP().openEditor('#TestePivotOLAP_dGridPivotGridOlapFilha', 'PivotGridOlapFilha', 'vm.currentDataItem().currentPivotGridOlapFilha;vm.currentDataItem().PivotGridOlapFilhaList', 'PivotGridOlapFilha;vm.currentDataItem()', 'PivotGridOlapFilha(vm.currentDataItem())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="TestePivotOLAP_dGridPivotGridOlapFilha_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.TestePivotOLAP().dataToolbar.canGridExport(), click: function () {$root.TestePivotOLAP().exportDataDetails($data, 'PivotGridOlapFilha', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="TestePivotOLAP_dGridPivotGridOlapFilha" data-bind="css: { IsEditableStyle: $root.TestePivotOLAP().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+
+                   <div id="dialogPivotGridOlapFilha"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegPivotGridOlapFilha" onClick="$(this).backRegPivotGridOlapFilha();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberPivotGridOlapFilha">0</label><label>/</label><label id="totalNumberPivotGridOlapFilha">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegPivotGridOlapFilha" onClick="$(this).nextRegPivotGridOlapFilha();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegPivotGridOlapFilha" onClick="$(this).addRegPivotGridOlapFilha();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegPivotGridOlapFilha" onClick="$(this).delRegPivotGridOlapFilha();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegPivotGridOlapFilha" onClick="$(this).okRegPivotGridOlapFilha();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="TestePivotOLAP_templatePivotGridOlapFilha" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.TestePivotOLAP().getWithBinding(currentDataItem, $root.TestePivotOLAP().rootDataTypeName)"><div data-bind="with: $root.TestePivotOLAP().getWithBinding(currentPivotGridOlapFilha, 'PivotGridOlapFilha')">
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TestePivotOLAP_divPivotGridOlapFilha_AnoTemplate" class="" >
+                                       <label id="TestePivotOLAP_lblPivotGridOlapFilha_Ano" for="TestePivotOLAP_lUpPivotGridOlapFilha_Ano" data-bind="css: { 'content-required': $root.TestePivotOLAP().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Ano">Ano
+                                       </label>
+                                       <div class="">
+                                           <div id="TestePivotOLAP_lUpPivotGridOlapFilha_Ano" class="form-control box-input-xmedium pull-left input-group " data-bind="validatedField: 'Ano', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TestePivotOLAP_lUpPivotGridOlapFilha_Ano') ? ctrl.getCustomEnable($root, 'TestePivotOLAP_lUpPivotGridOlapFilha_Ano') : (!isEmptyEntityFn($data) && $root.TestePivotOLAP().status() === 'C') }, lookupControl: { value: Ano,lookupName: 'LookUpEntityAdapter1Ano', inputClass:'input-xmedium', isMultiSelection: false, multiSelectionValue: $root.TestePivotOLAP().entitySearchRange.Ano, fieldName: 'Ano', disabled:ctrl.hasCustomEnable($root, 'TestePivotOLAP_lUpPivotGridOlapFilha_Ano') ? !ctrl.getCustomEnable($root, 'TestePivotOLAP_lUpPivotGridOlapFilha_Ano') : (isEmptyEntityFn($data) || $root.TestePivotOLAP().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:32767, maxLength: 0, defaultValue: 0}" />
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TestePivotOLAP_divPivotGridOlapFilha_VlrBrutoTemplate" class="" >
+                                       <label id="TestePivotOLAP_lblPivotGridOlapFilha_VlrBruto" for="TestePivotOLAP_ntxPivotGridOlapFilha_VlrBruto" data-bind="css: { 'content-required': $root.TestePivotOLAP().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Vlr Bruto">Vlr Bruto
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-medium">
+                                               <div class="input-group box-input-medium">
+                                                   <input id="TestePivotOLAP_ntxPivotGridOlapFilha_VlrBruto" class="form-control numericFilterRange input-medium" data-bind="validatedField: 'VlrBruto', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrBruto') ? ctrl.getCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrBruto') : (!isEmptyEntityFn($data) && $root.TestePivotOLAP().status() === 'C') }, igNumericEditor: { value: VlrBruto, minValue: 0, maxValue: 999999999999999999.99,  maxLength: 21,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrBruto') ? !ctrl.getCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrBruto') : (isEmptyEntityFn($data) || $root.TestePivotOLAP().status() !== 'C'), disabled: ctrl.hasCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrBruto') ? !ctrl.getCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrBruto') : (isEmptyEntityFn($data) || $root.TestePivotOLAP().status() !== 'C') }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TestePivotOLAP().entitySearchRange.has_PivotGridOlapFilhaVlrBruto(), 'icon-ok': $root.TestePivotOLAP().entitySearchRange.has_PivotGridOlapFilhaVlrBruto(), hide: $root.TestePivotOLAP().status() !== 'C' }, popoverWithBind: { template: '#TestePivotOLAP_rgPivotGridOlapFilha_VlrBruto', vm: $root.TestePivotOLAP().entitySearchRange, ctrlName: 'TestePivotOLAP_rgcPivotGridOlapFilha_VlrBruto', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TestePivotOLAP_rgPivotGridOlapFilha_VlrBruto" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TestePivotOLAP_ntxbPivotGridOlapFilha_VlrBruto" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: PivotGridOlapFilhaVlrBruto_begin, minValue: 0, maxLength: 18, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TestePivotOLAP_ntxPivotGridOlapFilha_VlrBruto').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TestePivotOLAP_ntxePivotGridOlapFilha_VlrBruto').igNumericEditor('option', 'value') != null ? true : false)); $('#TestePivotOLAP_ntxePivotGridOlapFilha_VlrBruto').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TestePivotOLAP_ntxePivotGridOlapFilha_VlrBruto" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: PivotGridOlapFilhaVlrBruto_end, minValue: 0, maxLength: 18, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TestePivotOLAP_ntxPivotGridOlapFilha_VlrBruto').igNumericEditor('option', 'readOnly', ($('#TestePivotOLAP_ntxbPivotGridOlapFilha_VlrBruto').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TestePivotOLAP_ntxbPivotGridOlapFilha_VlrBruto').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TestePivotOLAP_divPivotGridOlapFilha_VlrPagoTemplate" class="" >
+                                       <label id="TestePivotOLAP_lblPivotGridOlapFilha_VlrPago" for="TestePivotOLAP_ntxPivotGridOlapFilha_VlrPago" data-bind="css: { 'content-required': $root.TestePivotOLAP().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Vlr Pago">Vlr Pago
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-medium">
+                                               <div class="input-group box-input-medium">
+                                                   <input id="TestePivotOLAP_ntxPivotGridOlapFilha_VlrPago" class="form-control numericFilterRange input-medium" data-bind="validatedField: 'VlrPago', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrPago') ? ctrl.getCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrPago') : (!isEmptyEntityFn($data) && $root.TestePivotOLAP().status() === 'C') }, igNumericEditor: { value: VlrPago, minValue: 0, maxValue: 999999999999999999.99,  maxLength: 21,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrPago') ? !ctrl.getCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrPago') : (isEmptyEntityFn($data) || $root.TestePivotOLAP().status() !== 'C'), disabled: ctrl.hasCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrPago') ? !ctrl.getCustomEnable($root, 'TestePivotOLAP_ntxPivotGridOlapFilha_VlrPago') : (isEmptyEntityFn($data) || $root.TestePivotOLAP().status() !== 'C') }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TestePivotOLAP().entitySearchRange.has_PivotGridOlapFilhaVlrPago(), 'icon-ok': $root.TestePivotOLAP().entitySearchRange.has_PivotGridOlapFilhaVlrPago(), hide: $root.TestePivotOLAP().status() !== 'C' }, popoverWithBind: { template: '#TestePivotOLAP_rgPivotGridOlapFilha_VlrPago', vm: $root.TestePivotOLAP().entitySearchRange, ctrlName: 'TestePivotOLAP_rgcPivotGridOlapFilha_VlrPago', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TestePivotOLAP_rgPivotGridOlapFilha_VlrPago" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TestePivotOLAP_ntxbPivotGridOlapFilha_VlrPago" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: PivotGridOlapFilhaVlrPago_begin, minValue: 0, maxLength: 18, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TestePivotOLAP_ntxPivotGridOlapFilha_VlrPago').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TestePivotOLAP_ntxePivotGridOlapFilha_VlrPago').igNumericEditor('option', 'value') != null ? true : false)); $('#TestePivotOLAP_ntxePivotGridOlapFilha_VlrPago').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TestePivotOLAP_ntxePivotGridOlapFilha_VlrPago" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: PivotGridOlapFilhaVlrPago_end, minValue: 0, maxLength: 18, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TestePivotOLAP_ntxPivotGridOlapFilha_VlrPago').igNumericEditor('option', 'readOnly', ($('#TestePivotOLAP_ntxbPivotGridOlapFilha_VlrPago').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TestePivotOLAP_ntxbPivotGridOlapFilha_VlrPago').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+           </div>
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="TestePivotOLAP_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.TestePivotOLAP().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyTestePivotOLAP_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyTestePivotOLAP_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.TestePivotOLAP().dataToolbar.canExport(), click: function () {$root.TestePivotOLAP().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyTestePivotOLAP_dGrid" data-bind="css: { IsEditableStyle: $root.TestePivotOLAP().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

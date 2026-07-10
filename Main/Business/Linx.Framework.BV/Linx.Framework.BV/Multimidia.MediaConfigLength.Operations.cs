@@ -1,0 +1,48 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Linx.LinqExtensions.Query;
+using Linx.LinqExtensions.Functional;
+using Linx.LinqExtensions.Expressions;
+using Linx;
+using Linx.Tools;
+using System.Linq;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ServiceModel.DomainServices.Server;
+using Linx.Data;
+using System.Text;
+using System.Data.Entity.Core.Objects;
+using System.Data.Common;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.Data.Linq.SqlClient;
+using System.Reflection;
+using System.Data.Entity.Core.Objects.DataClasses;
+
+namespace Linx.Framework.BV.Multimidia
+{
+	
+	////////////////////////////////////////////////////////////////////////////
+	//////////////////////// Business Operations Definition ////////////////////
+	////////////////////////////////////////////////////////////////////////////
+	public partial class MediaConfigLength
+	{
+        public string GetApp()
+        {
+            var values = Linx.Framework.Domains.BM.Domains.IdAplicativo.GetNames();
+            if (values.ContainsKey(this.IdApp.ToString()))
+                return values[this.IdApp.ToString()];
+            else return "";
+        }
+
+        public string GetUse()
+        {
+            var values = Linx.Framework.Domains.BM.Domains.UsoMultimidia.GetNames();
+            if (values.ContainsKey(this.IdUse.ToString()))
+                return values[this.IdUse.ToString()];
+            else return "";
+        }
+    }
+}

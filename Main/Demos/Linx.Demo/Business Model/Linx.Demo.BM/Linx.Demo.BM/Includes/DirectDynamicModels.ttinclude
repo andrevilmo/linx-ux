@@ -1,0 +1,21 @@
+<#@ BusinessModelDesigner processor="BusinessModelDesignerDirectiveProcessor" requires="fileName='BMTeste.bmd'" provides="BusinessModelDesignerRoot=BusinessModelDesignerRoot0" #>
+	<#@ BusinessModelDesigner processor="BusinessModelDesignerDirectiveProcessor" requires="fileName='Domains.bmd'" provides="BusinessModelDesignerRoot=BusinessModelDesignerRoot1" #>
+	<#@ BusinessModelDesigner processor="BusinessModelDesignerDirectiveProcessor" requires="fileName='Provider.bmd'" provides="BusinessModelDesignerRoot=BusinessModelDesignerRoot2" #>
+	
+<#@ import namespace = "System.Collections.Generic" #>
+<#+
+private  List<BusinessModelDesignerRoot> GetModels()
+{
+  List<BusinessModelDesignerRoot> models = new List<BusinessModelDesignerRoot>();
+  //Add Models	
+
+	if (!this.BusinessModelDesignerRoot0.NoCode)
+		models.Add(this.BusinessModelDesignerRoot0);
+		if (!this.BusinessModelDesignerRoot1.NoCode)
+		models.Add(this.BusinessModelDesignerRoot1);
+		if (!this.BusinessModelDesignerRoot2.NoCode)
+		models.Add(this.BusinessModelDesignerRoot2);
+	
+  return models;
+}
+#>

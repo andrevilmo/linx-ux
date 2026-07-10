@@ -1,0 +1,49 @@
+﻿<div id="layout-editor">
+    <div class="header">
+        <div class="title" data-bind="text: title"></div>
+        <div class="toolbar">
+            <span class="action fa fa-copy" title="Salvar como"></span>
+            <span class="action fa fa-save" title="Salvar"></span>
+            <span class="action fa fa-close" title="Fechar"></span>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row col-md-7" style="height: 460px; margin: 0 auto; overflow-y: scroll;">
+            <div class="layout-tree">
+            </div>
+        </div>
+        <div class="layout-properties col-md-5">
+            <div class="form-group">
+                <label class="control-label ellipsis">Título</label>
+                <input data-bind="value: currentItem().DisplayName" class="ui-igedit-field form-control ellipsis IsEditableStyle ui-igedit ui-state-default ui-widget ui-corner-all"
+                       maxlength="60" style="display: inline-block" />
+            </div>
+            <div class="form-group">
+                <label class="control-label ellipsis">Tamanho</label>
+                <!--<input data-bind="value: currentItem().ColumnSpan" type="number" class="columnSpan ui-igedit-field form-control ellipsis IsEditableStyle ui-igedit ui-state-default ui-widget ui-corner-all"
+                   min="1" max="12"/>-->
+
+                <select class="wrapper" data-bind="value: currentItem().ColumnSpan, enable: currentItem().Editable">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" title="Clique para marcar/desmarcar" class="IsEditableStyle" data-bind="checked: currentItem().Visible, enable: currentItem().Editable" style="margin: 0px !important; height: 0px !important">
+                    <span class="align-label-checkbox" title="Visível">Visível</span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

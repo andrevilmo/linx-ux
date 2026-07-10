@@ -1,0 +1,45 @@
+<h3>Variáveis</h3>
+
+<div class="row">
+  <div class="form-group col-lg-12 col-sm-12">
+    <div class="row">
+    	
+    	<p class="preenchimento-lateral">Nome</p>
+    	
+    	<div class="col-lg-4">
+    		<input class="form-control" ng-model="vm.varName" type="text"/>
+    	</div>
+    	
+    	<div class="col-lg-1">
+    		<label> = </label>
+    	</div>
+    	
+    	<div class="col-lg-6 input-button">
+    		<input class="form-control" ng-model="vm.defaultValue" type="text" />
+
+    		<button class="btn btn-info" ng-click="vm.addVar();" ng-disabled="vm.varName.trim() == null || vm.varName.trim().length < 1">Adicionar</button>
+    	</div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row" ng-repeat="variable in vm.variablesList">
+  <div class="form-group col-lg-12 col-sm-12">
+  	<div class="row">
+  		<div class="col-lg-4">
+  			<input class="form-control" disabled type="text" value="{{variable.name}}">
+  		</div>
+			
+			<div class="col-lg-1">
+    		<label> = </label>
+    	</div>
+
+  		<div class="col-lg-6 input-button">
+  			<input class="form-control" type="text" ng-model="variable.defaultValue">
+  			<button class="btn btn-danger" ng-click="vm.deleteVar($index);">Remover</button>
+  		</div>
+  	</div>
+  </div>
+</div>

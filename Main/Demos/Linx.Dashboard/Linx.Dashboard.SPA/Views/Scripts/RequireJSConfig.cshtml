@@ -1,0 +1,9 @@
+﻿@using Linx.Internet.Application.Framework.Web
+@{
+	Layout = null;
+	Response.ContentType = "application/javascript";
+}
+requirejs.config({
+	packages: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.packages, Newtonsoft.Json.Formatting.Indented))
+});
+

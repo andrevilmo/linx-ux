@@ -1,0 +1,34 @@
+<#@ template language="C#" hostspecific="true" #>
+<#@ import namespace = "System.IO" #>
+<#@ assembly name = "Linx.Tools" #>
+<#@ import namespace = "Linx.Tools" #>
+<#@ output extension=".ttinclude" #>
+<#
+
+	string[] innerModelFiles = Directory.GetFiles(Path.Combine(Path.GetDirectoryName(Host.TemplateFile), @"..\"), "*.bmd", SearchOption.AllDirectories);
+	for(int fileIndex = 0; fileIndex < innerModelFiles.Length; fileIndex++)
+	{ #>
+\<#@ BusinessModelDesigner processor="BusinessModelDesignerDirectiveProcessor" requires="fileName='<#= Path.GetDirectoryName(Host.TemplateFile).GetRelativePath(innerModelFiles[fileIndex]).Replace(@"..\", "") #>'" provides="BusinessModelDesignerRoot=BusinessModelDesignerRoot<#=fileIndex#>" \#>
+	<#
+	}
+#>
+
+\<#@ import namespace = "System.Collections.Generic" \#>
+\<#+
+private  List<BusinessModelDesignerRoot> GetModels()
+{
+  List<BusinessModelDesignerRoot> models = new List<BusinessModelDesignerRoot>();
+  //Add Models	
+
+<#
+	for(int fileIndex = 0; fileIndex < innerModelFiles.Length; fileIndex++)
+	{ #>
+	if (!this.BusinessModelDesignerRoot<#=fileIndex#>.NoCode)
+		models.Add(this.BusinessModelDesignerRoot<#=fileIndex#>);
+	<#
+	}
+#>
+
+  return models;
+}
+\#>

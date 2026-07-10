@@ -1,0 +1,32 @@
+@using System.Web.Http
+@using Linx.ServiceBus.Starter.Areas.HelpPage.Models
+@model HelpPageApiModel
+
+@{
+    var description = Model.ApiDescription;
+    ViewBag.Title = description.HttpMethod.Method + " " + description.RelativePath;
+}
+
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <div class="text">
+                <p>
+                    @if (Request.UrlReferrer != null)
+                    {
+                        <a class="bottomNav" onclick="history.go(-1); return false;" href="#">Back</a><br />
+                    }
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+        @Html.DisplayFor(m => Model)
+    </section>
+</div>
+@Html.DisplayForModel("TestClientDialogs")
+@section Scripts {
+    @Html.DisplayForModel("TestClientReferences")
+    <link type="text/css" href="~/Areas/HelpPage/HelpPage.css" rel="stylesheet" />
+    <link type="text/css" href="~/Areas/HelpPage/Site.css" rel="stylesheet" />
+}

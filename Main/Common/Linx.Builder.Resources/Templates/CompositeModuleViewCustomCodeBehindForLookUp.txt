@@ -1,0 +1,148 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using Microsoft.Practices.Prism.Regions;
+using Microsoft.Practices.Prism.Modularity;
+using Linx.Tools;
+using Linx.Components;
+using Linx.Visual.Tools;
+using #dataNameSpace#;
+
+
+namespace #nameSpace#
+{    
+    public partial class #moduleClass#View : UserControl, ISpecializedLookUp
+    {
+        public #moduleClass#View()
+        {
+            InitializeComponent();
+        }
+
+        private string moduleName;
+        public string ModuleName
+        {
+            get
+            {
+                return moduleName;
+            }
+            set
+            {
+                moduleName = value;
+                this.moduleClassPage.ModuleName = moduleName;
+            }
+        }
+
+		private Linx.Dialogs.LinxLookUpValidator lookUpValidator;
+        private Linx.Controls.LinxDataGrid dataGrid;
+
+        public void InitializeDataStructure()   
+        {     
+			  moduleClassPage.Layout = #moduleLayout#;
+              this.moduleClassPage.DomainContextClassType = typeof(#dataNameSpace#.#domainContextClassName#);
+              this.moduleClassPage.DataClassType = typeof(#dataNameSpace#.#dataClassName#);              
+              this.moduleClassPage.CustomDataContainer = new LinxDynamicDataContainer();
+              this.moduleClassPage.CustomDataContainer.IsCustomized = true;
+			  this.moduleClassPage.CustomDataGridContainer = new LinxDynamicDataGridContainer();
+              this.moduleClassPage.CustomDataGridContainer.IsCustomized = true;
+              this.moduleClassPage.CustomDataContainer.Children.Add(new #moduleClass#Control() { DataToolbar = this.moduleClassPage.DataToolbar });
+			  this.moduleClassPage.CustomDataGridContainer.Children.Add(new #moduleClass#GridControl() { DataToolbar = this.moduleClassPage.DataToolbar });
+              this.moduleClassPage.DataToolbar.DomainDataSource = this.source;
+			  this.moduleClassPage.DataToolbar.LoadDetailsOnDemand = #loadDetailsOnDemand#;
+              this.Loaded += new RoutedEventHandler(ModuleView_Loaded);
+        }
+
+		void ModuleView_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Loaded -= new RoutedEventHandler(ModuleView_Loaded);
+
+            var content = this.GetAncestorByType("LinxContentControl") as Linx.Controls.LinxContentControl;
+            if (!content.IsNull() && !content.Tag.IsNull() && content.Tag is Linx.Dialogs.LinxLookUpValidator)
+            {
+                lookUpValidator = content.Tag as Linx.Dialogs.LinxLookUpValidator;
+                content.Tag = null; //Remove communication resource            				
+                this.moduleClassPage.DataToolbar.IsReadOnly = #IsReadOnly#;
+    
+				//Adjust DataToolbar access
+				this.moduleClassPage.DataToolbar.CanAddNew = #CanAddNew#;
+				this.moduleClassPage.DataToolbar.CanEdit = #CanEdit#;
+				this.moduleClassPage.DataToolbar.CanDelete = false;
+				this.moduleClassPage.DataToolbar.CanPrint = false;
+
+                lookUpValidator.SpecializedLookUp = this;
+                this.moduleClassPage.DataToolbar.AfterClear += new EventHandler(DataToolbar_AfterClear);
+                this.moduleClassPage.CustomDataGridContainer.Loaded += new RoutedEventHandler(CustomDataGridContainer_Loaded);
+				lookUpValidator.SizeChanged += new SizeChangedEventHandler(window_SizeChanged);
+            }
+
+            this.moduleClassPage.StartStructure();
+        }
+
+		void window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            lookUpValidator.MoveToCenter();
+        }
+
+        void CustomDataGridContainer_Loaded(object sender, RoutedEventArgs e)
+        {            
+             this.moduleClassPage.CustomDataGridContainer.Loaded -= new RoutedEventHandler(CustomDataGridContainer_Loaded);
+             dataGrid = this.moduleClassPage.CustomDataGridContainer.GetChild("#dataClassName#") as Linx.Controls.LinxDataGrid;
+             if (!dataGrid.IsNull() && lookUpValidator.IsMultiSelection)
+                    dataGrid.SelectionMode = SelectionMode.Extended;
+        }
+
+        void DataToolbar_AfterClear(object sender, EventArgs e)
+        {    
+			this.moduleClassPage.DataToolbar.AfterClear -= new EventHandler(DataToolbar_AfterClear);        
+            if (this.source.DataView.Count > 0)
+            {                
+                var element = this.source.DataView[0];
+                if (!element.IsNull()#LookUpEmptyConditionTest#)
+                {
+                    element.SetPropertyValue(lookUpValidator.FieldName, lookUpValidator.FieldValue);
+					this.moduleClassPage.DataToolbar.AfterQuery += new EventHandler(DataToolbar_AfterQuery);
+                    this.moduleClassPage.DataToolbar.OnButtonClick(ActionButton.Search);
+                }
+            }
+        }
+
+		void DataToolbar_AfterQuery(object sender, EventArgs e)
+        {
+            this.moduleClassPage.DataToolbar.AfterQuery -= new EventHandler(DataToolbar_AfterQuery);
+            if (!lookUpValidator.IsNull())
+            {
+                if (this.moduleClassPage.DataToolbar.DomainDataSource.DataView.Count == 1)
+                    lookUpValidator.ApplySelection();
+            }
+        }
+
+        public System.Collections.IEnumerable GetSelectedItems()
+        {
+            List<Object> result = new List<Object>();
+
+            if (this.moduleClassPage.DataToolbar.ControlStatus == ToolbarStatus.Searching)
+            {
+                if (moduleClassPage.Layout == UILayouts.ColumnsLayout)
+                    result.Add(this.source.DataView.CurrentItem);
+                else
+                {
+                    if (!dataGrid.IsNull())
+                    {
+                        foreach (var element in dataGrid.SelectedItems)
+                            result.Add(element);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+    }
+}

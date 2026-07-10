@@ -1,0 +1,1411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MacroSamples>
+
+  <MacroSample Macro="Query">
+    <![CDATA[@Query('getMethod[HttpVerbs=GET]';;'JExpression';;'order';;skip;;take;;noTracking;;Body) // expose dataResults
+/*Chama o método "GetTesteSimpleViewByEntitySearch", passando o JExpression "TesteSimpleView{IDTesteSimple#<=#I100}" (pesquisa a propriedade TesteSimpleView.IDTesteSimple menor que 100), ordenando pela coluna 'DataObrigatoria', Skip de 10 (Ignorando os 10 primeiros resultados), e Take (buscando) 100 registros, noTracking foi colocado como falso (não será rastreado pelo breeze), o Body ou callback será chamado após o retorno dos dados, nesse caso está sendo exibido um alert com o total de objetos retornados.*/
+@Query('GetTesteSimpleViewByEntitySearch';;'TesteSimpleView{IDTesteSimple#<=#I100}';;'DataObrigatoria';;10;;100;;false;;@ShowAlert(dataResults.length.toString()))
+@Query('GetTesteSimpleView';;null;;null;;0;;0;;false;;@ShowAlert(dataResults.length.toString()))]]>
+  </MacroSample>
+	<MacroSample Macro="jExpression">
+		<![CDATA[//Basic Structure JEntitySearch
+//BusinessViewName1
+//{
+//Condition1#FieldName1#operator1#T1Value1;
+//Condition2#FieldName2#operator2#T2Value2;
+//...
+//ConditionN#FieldNameN#operatorN#TNValueN;
+//}
+//BusinessViewName2
+//{
+//Condition1#FieldName1#operator1#T1Value1;
+//Condition2#FieldName2#operator2#T2Value2;
+//...
+//ConditionN#FieldNameN#operatorN#TNValueN;
+//}
+// 
+//Conditions: &&, ||
+//Operators: !=, ==, >=, <=, >, <, In, Like 
+//DataTypes: S: String, L: Long, H: Short, I: Int, 
+//           Y: Byte, D: Decimal, C: Char, T: DateTime, 
+//           B: Boolean, G: Guid, F: Float
+
+
+//Macro que roda no nível de BV;
+@jExpression('ProductView{ProductId#==#I234;||#ProductName#Like#Sabc%}');
+@jExpression('ProductColorsView{ColorName#==#Sred}');
+
+//Macro que roda no nível de BM;
+@jExpression('*{Cliente.NomeCliente#Like#SLinx Sis%}');
+    ]]>
+	</MacroSample>
+  <MacroSample Macro="GetControl">
+    <![CDATA[@GetControl(cmbLxTipoPessoa)]]>
+  </MacroSample>
+  <MacroSample Macro="ImportaArquivoSKUs">
+    <![CDATA[//Importa a Lista de SKUs
+    tipoArquivo:        1 - Definição de Inventário
+                          2 - Coleta de Inventário
+                          3 - Remarcação de Preços    
+    salvaDadosServidor: true          (efetuar o insert nas tabelas ou só retornar a lista dos dados lidos)
+                          false
+    salvaLog:           true          (se gera um arquivo de log para o usuário baixar)
+                          false
+    nomeArquivoLog:     arquivo.txt   (nome do arquivo do log)
+    callback:           'erro'        (se ocorreu um erro na chamada da API)
+                          true          (se a importacao ocorreu com sucesso)
+                          false         (se a importação não ocorreu com sucesso)
+                        
+    @ImportaArquivoSKUs(formData;;3;;true;;true;;'LogRemarcacaoPrecos.txt', function(retorno, data)
+			{
+				if (retorno == true) {
+					if (vm._ImportarAposSalvar == false){
+						@Foreach(data.Lista;;
+						
+							var sku = BuscarSKUListaSKU(element.IdSku);
+							
+							if (sku == null)
+							var sku = @CreateDetailNoCurrent(ListaSKU;;@TbCurrentData());
+							
+							@SetValue(sku;;IdSku;;element.IdSku);
+							@SetValue(sku;;CodSku;;element.CodSku);
+							@SetValue(sku;;DescSku;;element.DescSku);
+							@SetValue(sku;;Preco;;element.Preco);	
+						)
+						
+						@NotifyDetail(ListaSKU);
+					}
+					else {
+						vm._ImportarAposSalvar = false;
+						vm._ImportarFormData = null;
+						@RefreshCurrentParent();
+					}
+				} else if (retorno == 'erro') {
+					vm._ImportarAposSalvar = false;
+					vm._ImportarFormData = null;
+				}
+				
+			});
+    // expose element]]>
+  </MacroSample>
+  <MacroSample Macro="OpenHTML">
+    <![CDATA[//@OpenHTML(str_window_name;;str_title;;str_HTML_content";;int_width;;int_height);
+//sample
+var html = '<h2>Janela Modal</h2><p>Teste de texto sem formatação</p><p>Teste de texto sem formatação</p><p>Teste de texto sem formatação</p>';
+@OpenHTML('win1';;'Titulo da Janela';;html;;500;;400);]]>
+  </MacroSample>
+  <MacroSample Macro="ButtonYoutube">
+    <![CDATA[//Essa macro serve para criar um botão na toolbar da UI com o ícone do Youtube com o link para chamada
+@ButtonYoutube('pkg_linx-opl-estoque-inventario-bv-spa/views/DefinicaoInventario';;'Dica Linx';;'https://www.youtube.com/watch?v=Ueq106WgLcs');]]>
+  </MacroSample>
+  <MacroSample Macro="SelectorClass">
+    <![CDATA[//Recupera o componente html via jquery por classe
+    @SelectorClass(classereplicaTitulo).hide();
+    
+    esse código irá gerar o seguinte: $('.classereplicaTitulo').hide();
+    
+    ]]>
+  </MacroSample>
+  <MacroSample Macro="SelectorId">
+    <![CDATA[//Recupera o componente html via jquery por id
+    @SelectorId(idreplicaTitulo).hide();
+    
+    esse código irá gerar o seguinte: $('#idreplicaTitulo').hide();
+    
+    ]]>
+  </MacroSample>
+  <MacroSample Macro="OpenToastrDialog">
+    <![CDATA[
+    //Essa macro serve para abrir um toastr de notificação do tipo 'jQuery UI Dialog' posicionado no canto inferior direito da tela. Documentação do plugin: http://jqueryui.com/dialog/ 
+    //Tipos => info, success, error, warning, linx.
+    
+    //Abre um modal com título do tipo 'success' e fecha automaticamente em 15 segundos. O parâmetro 'false' diz para fechar os modais que estiverem abertos, ao abrir este.
+    @OpenToastrDialog('Titulo do modal';;'Conteúdo informativo.';;'success';;false;;15);
+    
+    //Abre um modal sem título do tipo 'info' e mantém aberto. O parâmetro 'true' diz para manter o histórico de modais aberto.
+    @OpenToastrDialog('';;'Conteúdo informativo.';;'info';;true;;0);
+    ]]>
+  </MacroSample>
+  <MacroSample Macro="DownloadArquivoModeloImportacao">
+    <![CDATA[    
+    @DownloadArquivoModeloImportacao(spa;;arrayColunas;;nomeArquivoCsv)
+    Parâmetros:
+    1 - spa = 'pkg_linx-operacional-compra-bv-spa/views/ConsultaPedidoCompra'
+    * não usar ;  na última coluna do array para não haver risco de existir espaço em branco, que ocasiona erro na importação
+    2 - arrayColunas = ['Codigo_SKU' + ';' + 'Quantidade', 'Codigo_001' + ';' + '100', 'Codigo_002' + ';' + '200', 'Codigo_003' + ';' + '300'];
+    ";" no array indica coluna no arquivo csv e  "," no array indica quebra de linha dentro do arquivo
+    3 - nomeArquivoCsv = 'ModeloImportacaoItensRomaneio.csv' 
+    nome desejado  +  a extensão .csv    
+    ]]>
+  </MacroSample>
+
+  <MacroSample Macro="AddDays">
+    <![CDATA[ 
+//A macro addDays soma um valor em dias a sua propria data atual. 
+//EX: campo com data de 01/01/2018 adiciona +5, o campo será atualizado para 06/01/2018.
+
+@AddDays(totalDays;;DateExp);
+Parâmetros:
+			totalDays - quantidade total de dias a ser somado, valor deve ser inteiro.
+			DateExp - Expressão que resulta em uma data valida. Uma property, uma variável, uma constant.  
+Exemplos:
+			@AddDays(10;;@GetValue(@TbCurrentData();;data1)); // Pega a data do campo data1 e soma +10 a ela.
+			
+			var teste= @AddDays(3;;new Date()); // Atribui a variavel teste a data atual +3 dias.
+			@SetValue(@TbCurrentData();;data2;;teste); // Seta no campo data2 o valor da variavel teste.
+			
+			var teste2=@GetValue(@TbCurrentData();;data1); // Atribui a variavel teste2 a data do campo data1.
+			@AddDays(3;;teste2); // Adiciona +3 dias a variavel teste2.
+			@SetValue(@TbCurrentData();;data3;;teste2); // Seta no campo data3 o valor da variavel teste2. sem alterar o campo data1 como no 1ª exemplo.	  
+]]>
+  </MacroSample>
+  <MacroSample Macro="NewDate">
+    <![CDATA[ 
+//A macro NewDate cria uma nova data passando como parametro os valores inteiros de ano, mês e dia, sendo que o mês vai de 0 a 11. 
+
+@NewDate(year;;month;;day);
+Parâmetros:
+			year - valor que representa o ano, valor deve ser inteiro.
+			month - Valor que representa o mês sendo Janeiro=0 e Dezembro=11. Valor deve ser inteiro.  
+			day - Valor que representa o dia de 1 a 31. Valor deve ser inteiro.
+Exemplos:
+			@SetValue(@TbCurrentData();;data1;;@NewDate(2018;;08;;1));
+
+			var teste=@NewDate(2018;;08;;1);
+			@SetValue(@TbCurrentData();;data2;;teste);
+
+			var teste1 =@GetValue(@TbCurrentData();;DIA);
+			var teste2 =@GetValue(@TbCurrentData();;MES);
+			var teste3 =@GetValue(@TbCurrentData();;ANO);
+			@SetValue(@TbCurrentData();;data3;;@NewDate(teste3;;teste2;;teste1));	  
+]]>
+  </MacroSample>
+  <MacroSample Macro="Day">
+    <![CDATA[ 
+//A macro @Day é usada para capturar o valor do dia de um Objeto/campo de data. 
+
+@Day(DateExp);
+Parâmetros:
+			DateExp - valor que representa uma data de onde será capturado o dia, valor deve ser uma data.
+
+Exemplos:
+			@SetValue(@TbCurrentData();;Filler;;@Day(@GetValue(@TbCurrentData();;data1)));
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="Month">
+    <![CDATA[ 
+//A macro @Month é usada para capturar o valor do mês de um objeto/campo de data. 
+
+@Month(DateExp);
+Parâmetros:
+			DateExp - valor que representa uma data de onde será capturado o mês, valor deve ser uma data.
+
+Exemplos:
+			@SetValue(@TbCurrentData();;Filler;;@Month(@GetValue(@TbCurrentData();;data1)));
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="Year">
+    <![CDATA[ 
+//A macro @Year é usada para capturar o valor do ano de um objeto/campo de data. 
+
+@Year(DateExp);
+Parâmetros:
+			DateExp - valor que representa uma data de onde será capturado o ano, valor deve ser uma data.
+
+Exemplos:
+			@SetValue(@TbCurrentData();;Filler;;@Year(@GetValue(@TbCurrentData();;data1)));
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="DaysDiff">
+    <![CDATA[ 
+//A macro @DaysDiff é usada para calcular a diferença entre duas datas em quantidade de dias. 
+
+@DaysDiff(dateBegin;;dateEnd);
+Parâmetros:
+			dateBegin - valor que representa uma data de inicio a ser calculada. Valor deve ser uma data.
+			dateEnd - valor que representa uma data de Fim a ser calculada. Valor deve ser um data.
+
+Exemplos:
+			var teste=@DaysDiff(@GetValue(@TbCurrentData();;data2);;@GetValue(@TbCurrentData();;data3));
+			@SetValue(@TbCurrentData();;IdNome;;teste); 
+			
+			var dtAtual=new Date();
+			@ShowInformation('Sua idade atual é '+ (@DaysDiff(@GetValue(@TbCurrentData();;data2);;new Date())/365));			
+]]>
+  </MacroSample>
+  <MacroSample Macro="DayWeekName">
+    <![CDATA[ 
+//A macro @DayWeekName é usada para identificar o dia da semana (seg a dom) corresponde determinada data. 
+
+@DayWeekName(DateExp);
+Parâmetros:
+			DateExp - valor que representa a data a ser identificado o dia da semana. Valor deve ser uma data.
+
+Exemplos:
+			var teste2=@GetValue(@TbCurrentData();;data3);
+			@ShowInformation('O dia da semana é '+@DayWeekName(teste2)); 
+]]>
+  </MacroSample>
+  <MacroSample Macro="CurrentDate">
+    <![CDATA[ 
+//A macro @CurrentDate é usada para capturar a data e hora atuais do sistema. 
+
+Estrutura:
+			@CurrentDate();
+Parâmetros:
+			não possui parametro.
+
+Exemplos:
+			@ShowInformation('A data atual do sistema é '+@CurrentDate()); 
+			@ShowInformation('A data atual do sistema é '+getCurrentDate());
+			@ShowInformation('A data atual do sistema é '+new Date());
+]]>
+  </MacroSample>
+  <MacroSample Macro="GetAbsoluteDate">
+    <![CDATA[ 
+//A macro GetAbsoluteDate aplica na data o formato UTC e despreza as horas. 
+
+@GetAbsoluteDate(DateValue);
+Parâmetros:
+			DateValue - uma data valida em qualquer formato de data/hora.
+
+Exemplos:
+			var teste=new Date();
+			var teste2=@GetAbsoluteDate(teste);
+			@ShowInformation('A data da variável teste é '+teste +'\nA data da variável teste2 é '+teste2);
+]]>
+  </MacroSample>
+  <MacroSample Macro="GetUTCDate">
+    <![CDATA[ 
+//A macro GetUTCDate é usada para transformar uma data/hora que está fora do padrão UTC local (-3:00 Brasil, Brasília). 
+
+@GetUTCDate(date);
+Parâmetros:
+			Date - uma data valida em formato de data/hora diferente da UTC local.
+
+Exemplos:
+			var teste1=new Date(2018,8,4,18,05,0);
+			@ShowAlert('resultado UTC é '+ @GetUTCDate(teste1)+' \n sem UTC é '+teste1);
+			
+			var teste2= @GetUTCDate(@GetValue(@TbCurrentData();;data3));
+			@ShowAlert('resultado UTC é '+ teste2);
+]]>
+  </MacroSample>
+  <MacroSample Macro="ShortDate">
+    <![CDATA[ 
+//A macro @ShortDate é usada para capturar a data curta em um Objeto/campo do tipo data que normalmente está em formato longo 
+  EX: new Date() resultado "Thu Sep 13 2018 11:55:40 GMT-0300 (Horário Padrão de Brasília)". 
+
+Estrutura:
+			@ShortDate(DateExp);
+Parâmetros:
+			DateExp - valor que representa uma data de onde será capturado em formato curto (abreviado dd/mm/yyyy).
+
+Exemplos:
+			var teste2=@GetValue(@TbCurrentData();;data3);
+			@ShowInformation('O dia é '+@ShortDate(teste2)+' \nsem a macro '+teste2);
+]]>
+  </MacroSample>
+  <MacroSample Macro="Hours">
+    <![CDATA[ 
+//A macro @Hours é usada para capturar apenas o valor da hora de um campo/objeto do tipo data/hora. 
+
+@Hours(DateExp);
+Parâmetros:
+			DateExp - valor que representa uma data e hora de onde será capturado o valor da hora. Valor deve ser uma data/hora.
+
+Exemplos:
+			var teste1=new Date();
+			var teste3 ='horas são'+@Hours(teste1);
+			@SetValue(@TbCurrentData();;Filler2;;teste3+ ' exemplo');
+			
+			@SetValue(@TbCurrentData();;Filler;;'horas são '+@Hours(@GetValue(@TbCurrentData();;data1)));
+]]>
+  </MacroSample>
+  <MacroSample Macro="Minutes">
+    <![CDATA[ 
+//A macro @Minutes é usada para capturar apenas o valor dos minutos de um campo/objeto do tipo data/hora. 
+
+@Minutes(DateExp);
+Parâmetros:
+			DateExp - valor que representa uma data e hora de onde será capturado o valor dos minutos. Valor deve ser uma data/hora.
+
+Exemplos:
+			var teste1=new Date();
+			var teste3 ='minutos são'+@Minutes(teste1);
+			@SetValue(@TbCurrentData();;Filler2;;teste3+ ' exemplo');
+			
+			@SetValue(@TbCurrentData();;Filler;;'horas '+@Minutes(@GetValue(@TbCurrentData();;data1)));
+]]>
+  </MacroSample>
+  <MacroSample Macro="Seconds">
+    <![CDATA[ 
+//A macro @Seconds é usada para capturar apenas o valor dos segundos de um campo/objeto do tipo data/hora. 
+
+@Seconds(DateExp);
+Parâmetros:
+			DateExp - uma data valida em formato de data/hora qualquer.
+
+Exemplos:
+			var teste1=new Date();
+			var teste3 ='segundos são'+@Seconds(teste1);
+			@SetValue(@TbCurrentData();;Filler2;;teste3+ ' exemplo');
+			
+			@SetValue(@TbCurrentData();;Filler;;'horas '+@Seconds(@GetValue(@TbCurrentData();;data1)));
+]]>
+  </MacroSample>
+  <MacroSample Macro="MilliSeconds">
+    <![CDATA[ 
+//A macro @MilliSeconds é usada para capturar apenas o valor dos Milisegundos de um campo/objeto do tipo data/hora. 
+
+@MilliSeconds(DateExp);
+Parâmetros:
+			DateExp - uma data valida em formato de data/hora qualquer.
+
+Exemplos:
+			var teste1=new Date();
+			var teste3 ='milisegundos são'+@MilliSeconds(teste1);
+			@SetValue(@TbCurrentData();;Filler2;;teste3+ ' exemplo');
+			
+			@SetValue(@TbCurrentData();;Filler;;'horas '+@MilliSeconds(@GetValue(@TbCurrentData();;data1)));
+]]>
+  </MacroSample>
+  <MacroSample Macro="AddScriptFile">
+    <![CDATA[ 
+//A macro @AddScriptFile é usada para adicionar/incorporar os arquivos de scripts customizados que foram adicionados ao projeto SPA a página em que se quer trabalhar.
+//Normalmente essa macro é inserida nos eventos OnLoading e OnLoaded da UI para que seja carregada assim que abrir a aplicação/tela.
+
+@AddScriptFile(spaAssemblyName;;urlScipt);
+Parâmetros:
+			spaAssemblyName - Nome do projeto SPA atual que se encontra na solução, terminado com .SPA.
+			urlScipt - Caminho e nome do arquivo .js que se quer carregar na página, sendo que a pasta raiz é a APP.
+
+Exemplos:
+			@AddScriptFile('ExemplosFrameWork.BV.SPA';;'Custom/vendor/Chart.js');
+			@AddScriptFile('ExemplosFrameWork.BV.SPA';;'Custom/src/demo.js');
+			
+]]>
+  </MacroSample>
+  <MacroSample Macro="AddStyleFile">
+    <![CDATA[ 
+//A macro @AddStyleFile é usada para adicionar/incorporar os arquivos de Estilo (.css) customizados que foram adicionados ao projeto SPA a página em que se quer trabalhar.
+//Normalmente essa macro é inserida nos eventos OnLoading e OnLoaded da UI para que seja carregada assim que abrir a aplicação/tela.
+
+@AddStyleFile(spaAssemblyName;;urlStyle);
+Parâmetros:
+			spaAssemblyName - Nome do projeto SPA atual que se encontra na solução, terminado com .SPA.
+			urlStyle - Caminho e nome do arquivo .css que se quer carregar na página, sendo que a pasta raiz é a APP.
+
+Exemplos:
+			@AddStyleFile('ExemplosFrameWork.BV.SPA';;'Custom/css/demo.css');
+			@AddStyleFile('ExemplosFrameWork.BV.SPA';;'Custom/css/Workareas.css');
+			
+]]>
+  </MacroSample>
+  <MacroSample Macro="Ajax">
+    <![CDATA[
+// A macro Ajax é usada para realizar chamadas do tipo ajax (Asynchronous JavaScript And XML) e pode ser trabalhada de 2 formas. Para realizar chamadas em ODATA que irá consumir algum serviço interno da sua aplicação ou FREE URL que irá consumir algum serviço externo (URL de terceiros por exemplo).
+
+@Ajax('LinxController';;'LinxAction|CompleteUrl(?param1=value1&param2)';;'GET/POST/PUT/DELETE';;data;;'Mensagem de aguarde';;Body);
+
+
+Parâmetros de entrada:
+			LinxController - Nome da controller do seu projeto que possui o serviço que irá chamar (preenchido quando for chamada ODATA).
+			LinxAction|CompleteUrl(?param1=value1&param2) - método (nome da action da controller) ou URL completa (inclusive com os parâmetros de entrada) para acessar o serviço no caso de chamada externa.
+			GET/POST/PUT/DELETE - método usado para realizar a chamada ajax, deve estar de acordo com o método /serviço que está sendo chamado.
+			data - Dados que são enviados na chamada quando se usa o método POST. 
+			mensagem - Mensagem apresentada durante espera do retorno da chamada.
+			body - trecho de código que irá tratar e trabalhar o retorno da chamda ajax.
+
+Exemplos:
+ 
+			OData Sample
+			@Ajax("LinxVendasCadastroBaseDS";;"GetAllLookUpProduto?$select=IdProduto,NomeProduto&$filter=IdProduto eq 1&orderby=IdProduto desc&$top=1";;"GET";;null;;"Aguarde...";;
+            if (result.length > 0) { 
+              app.showMessage("Produto retornado: " + result[0].NomeProduto, "Informação");
+            }  
+			);
+        
+			Free URL
+			@Ajax("";;"http://www.sampledata/getDataInfo";;"GET";;null;;"Aguarde...";;
+				if (result) { 
+				app.showMessage(result, "Informação");
+			}
+			);  
+    ]]>
+  </MacroSample>
+  <MacroSample Macro="SetDisplayName">
+    <![CDATA[ 
+//A macro @SetDisplayName é usada para alterar o nome do titulo de um campo no formulário.
+
+@SetDisplayName(objectEntity;;'prefixo+propertyName';;'NewDisplayName');
+
+Parâmetros:
+			objectEntity - Nome da entidade vinculada a UI - Esse parâmetro é usado quando for JavaScriptMobile.
+			prefixo+propertyName - Prefixo+propriedade a ser alterada (prefixo encontra-se no campo da frente ao da propriedade na janela de UI).
+			NewDisplayName - Novo nome que será aplicado ao Titulo daquele campo.
+
+Exemplos:
+			@SetDisplayName(Cliente;;'dtDatetimeCliente';;'DT Nasc.');
+						
+]]>
+  </MacroSample>
+  <MacroSample Macro="SetVisible">
+    <![CDATA[ 
+//A macro @SetVisible é usada para exibir ou ocultar um controle (campos,botoes e etc) no formulário da aplicação.
+
+@SetVisible(ControlName;;boolExpr);
+
+Parâmetros:
+			ControlName - Nome representativo do controle na aplicação. É a junção do prefixo+nome da propriedade que se encontra na Janela da UI.
+			boolExpr - Valor booleano (true ou false) para definir se o controle será exibido ou ocultado no formulário.
+
+Exemplos:
+			@SetVisible(btnTestevisao;;false);
+			@SetVisible(tbStringLoja;;false);
+						
+]]>
+  </MacroSample>
+  <MacroSample Macro="IsNull">
+    <![CDATA[
+//A macro @IsNull é usada para testar se o objeto/campo está nulo.
+
+@IsNull(Expr);
+
+Parâmetros:
+			Expr - Objeto/propriedade ou expressão a ser testado para identificar se é nulo.
+
+Exemplos:
+			var teste=1;
+			if (@IsNull(teste)){ @ShowAlert('Objeto está vazio');} else { @ShowAlert('Objeto não está vazio');}
+
+			if (@IsNull(@GetValue(@TbCurrentData();;NmProduto)))
+			{ @ShowAlert('Campo está vazio');} else {@ShowAlert('Campo não está vazio');}
+]]>
+  </MacroSample>
+  <MacroSample Macro="IsNullOrEmpty">
+    <![CDATA[
+//A macro @IsNullOrEmpty é usada para testar se o objeto/campo está nulo ou vazio.
+
+@IsNullOrEmpty(Expr);
+
+Parâmetros:
+			Expr - Objeto/propriedade ou expressão a ser testado para identificar se é nulo ou está vazia.
+
+Exemplos:
+			var teste='';
+			if (@IsNullOrEmpty(teste)){ @ShowAlert('teste está vazio ou nulo');} else { @ShowAlert('teste não está vazio ou nulo');}
+			
+			if (@IsNull(teste)){ @ShowAlert('teste está nulo');} else { @ShowAlert('teste não está nulo');}
+			
+			if (@IsNullOrEmpty(@GetValue(@TbCurrentData();;NmProduto)))
+			{ @ShowAlert('Campo está vazio ou nulo');} else {@ShowAlert('Campo não está vazio ou nulo');}
+]]>
+  </MacroSample>
+  <MacroSample Macro="Divide">
+    <![CDATA[
+//A macro @Divide é usada para testar se o divisor é igual a 0, caso falso realiza a divisão do numerador pelo divisor.
+
+@Divide(NumeratorExp;;DenominatorExp);
+
+Parâmetros:
+			NumeratorExp - Objeto/propriedade ou expressão numérico que sera dividida. Valor deve ser numérico.
+			DenominatorExp - Objeto/propriedade ou expressão numérico que será testada e usada como divisor.Valor deve ser numérico.
+
+Exemplos:
+			var teste=@Divide(10;;2);
+			@SetValue(@TbCurrentData();;NmProduto;;teste);
+			
+			var teste2=@GetValue(@TbCurrentData();;DescProduto);
+			@SetValue(@TbCurrentData();;IdProduto;;@Divide(teste2;;teste));
+]]>
+  </MacroSample>
+  <MacroSample Macro="ExecuteLookUp">
+    <![CDATA[
+//A macro @ExecuteLookUp é usada para Carregar um Lookup (relacionado a entidade) que pode ser iniciada já com filtro aplicado.
+
+@ExecuteLookUp(objectReference;;'lookupName';;'fieldToSearch';;valueToSearch;;allowMultiSelectionInSearch);
+
+Parâmetros:
+			objectReference - Objeto.
+			lookupName - Nome do lookUp que se pretende carregar na tela.
+			fieldToSearch - Nome da propriedade do lookUp que será a base para busca dos valores.
+			valueToSearch - Valor passado para se realizar a busca e ou Filtro para iniciar o lookUp.
+			allowMultiSelectionInSearch - Habilita ou desabilita a opção de multiseleção de registros do lookUp.
+
+Exemplos:
+			@ExecuteLookUp(@TbCurrentData();;'LookUpTbnome';;'Nome';;'cam%';;false);
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="SetValue">
+    <![CDATA[
+//A macro @SetValue é usada para atribuir um valor a um elemento da entidade, sendo que a macro testa o elemento para identificar se o objeto é uma função. Isso ocorre quando é utilizado o knockout.js, 
+Ex COM knockout.js  entidade.propriedade(Valor); SEM knockout.js entidade.propriedade=valor;
+
+@SetValue(ObjectInstance;;PropertyName;;Expr);
+
+Parâmetros:
+			objectReference - Objeto/entidade de referência.
+			PropertyName - Nome da propriedade do objeto/entidade a ser atribuida.
+			Expr - expressão/valor a ser atribuida a propriedade.
+
+Exemplos:
+			@SetValue(@TbCurrentData();;data1;;@NewDate(2018;;08;;1));
+
+			var teste=@NewDate(2018;;08;;1);
+			@SetValue(@TbCurrentData();;data2;;teste);
+
+			var teste1 =@GetValue(@TbCurrentData();;DIA);
+			var teste2 =@GetValue(@TbCurrentData();;MES);
+			var teste3 =@GetValue(@TbCurrentData();;ANO);
+			@SetValue(@TbCurrentData();;data3;;@NewDate(teste3;;teste2;;teste1));
+]]>
+  </MacroSample>
+  <MacroSample Macro="GetValue">
+    <![CDATA[
+//A macro @GetValue é usada para receber um valor de um elemento da entidade, sendo que a macro testa o elemento para identificar se o objeto é uma função. Isso ocorre quando é utilizado o knockout.js, 
+Ex COM knockout.js  entidade.propriedade(Valor); SEM knockout.js Valor=entidade.propriedade;
+
+@GetValue(ObjectInstance;;PropertyName);
+
+Parâmetros:
+			ObjectInstance - Objeto/entidade de referência.
+			PropertyName - Nome da propriedade do objeto/entidade a ser capturado.
+
+Exemplos:
+			var teste1 =@GetValue(@TbCurrentData();;DIA);
+			var teste2 =@GetValue(@TbCurrentData();;MES);
+			var teste3 =@GetValue(@TbCurrentData();;ANO);
+			@SetValue(@TbCurrentData();;data3;;@NewDate(teste3;;teste2;;teste1));
+			@ShowInformation('A data inserida foi '+teste1+'/'+(teste2+1)+'/'+teste3);
+]]>
+  </MacroSample>
+  <MacroSample Macro="Self">
+    <![CDATA[
+//A macro @Self é usada para retornar o registro atual e ou selecionado da entidade de referencia, ou seja, se o evento for na entidade Pai retorna os elementos do pai, se for na filha retorna elementos da filha.
+O comportamento da macro é similar o this do C# e só pode ser usada em Eventos do "Client Events/Actions". 
+
+@Self();
+
+Parâmetros:
+			Sem parâmetros.
+			
+Exemplos:
+			if(propertyName == 'data1'){
+			var dtNasc = @GetValue(@Self();;data1);
+			@SetValue(@Self();;data3;;dtNasc);
+			@ShowInformation('A data capturada foi '+@GetValue(@Self();;data3));
+			}			
+]]>
+  </MacroSample>
+  <MacroSample Macro="SelfList">
+    <![CDATA[
+//A macro @SelfList é usada para retornar a lista de registros da entidade de referencia, ou seja, se o evento for na entidade Pai retorna a lista dos elementos do pais, se for na filha retorna a lista de elementos da filha.
+O comportamento da macro é similar o this do C# e só pode ser usada em Eventos do "Client Events/Actions".
+
+@SelfList();
+
+Parâmetros:
+			Sem parâmetros.
+			
+Exemplos:
+			var teste = @SelfList();
+			var teste1;
+			for (var i=0;i<teste.length; i++){
+				teste1=teste1+teste[i].DescMunicipio +',\n';}
+			@ShowInformation('Resultado foi: '+teste1);
+]]>
+  </MacroSample>
+  <MacroSample Macro="SelfParent">
+<![CDATA[
+//A macro @SelfParent é usada para retornar o registro pai vinculado ao registro filha atual e ou selecionado da entidade de referencia, ou seja, o evento é executado na entidade filha que tem um registro selecionado, a macro retorna o registro da entidade Pai desta filha.
+
+
+@SelfParent();
+
+Parâmetros:
+			Sem parâmetros.
+			
+Exemplos:
+			if(propertyName=='DataEntrada'){
+			var teste=@SelfParent();	
+			var teste1=@GetValue(@SelfParent();;NmProduto);
+			@ShowAlert('Resultado é entidade pai: '+teste.typeName + '. Com o produto: '+teste.NmProduto()+
+			 ' outra forma: '+teste1);
+			}			
+]]>
+  </MacroSample>
+  <MacroSample Macro="If">
+    <![CDATA[
+// A macro @If tem o mesmo objetivo da condicional IF que é executar um bloco de código caso a condição seja verdadeira. A diferença em usar a macro ou o simples IF é caso ocorra uma mudança de estrutura/linguagem no framework, a sintese ou forma de monta-la precisa ser ajustada.
+Usando a macro não existirá essa preocupação pois o framework irá interpretala corretamente.
+
+@If(boolExpr;;Body);
+
+Parâmetros:
+			boolExpr - Expressão que resulta em um valor Booleano (true ou false).
+			Body - Bloco de código a ser executado caso a condição seja verdadeira.
+			
+Exemplos:
+
+			var teste1 =@GetValue(@TbCurrentData();;data1);
+			@If(@ShortDate(teste1)<@ShortDate(new Date());;
+			@ShowInformation('A data selecionada é menor que a data de Hoje.'));
+]]>
+  </MacroSample>
+  <MacroSample Macro="IfElse">
+    <![CDATA[
+// A macro @IfElse tem o mesmo objetivo da condicional IF e ELSE que é executar um bloco de código conforme a condição seja verdadeira ou falsa. A diferença em usar a macro ou o simples IF e ELSE é caso ocorra uma mudança de estrutura/linguagem no framework, a sintese ou forma de monta-la precisa ser ajustada.
+Usando a macro não existirá essa preocupação pois o framework irá interpreta-la corretamente.
+
+@IfElse(boolExpr;;BodyTrue;;BodyFalse);
+
+Parâmetros:
+			boolExpr - Expressão que resulta em um valor Booleano (true ou false).
+			BodyTrue - Bloco de código a ser executado caso a condição seja verdadeira.
+			BodyFalse - Bloco de código a ser executado caso a condição seja falsa.
+			
+Exemplos:
+			var teste1 =@GetValue(@TbCurrentData();;data1);
+			@IfElse(@ShortDate(teste1)<@ShortDate(new Date());;
+			@ShowInformation('A data selecionada é menor que a data de Hoje');;
+			@ShowInformation('A data selecionada é maior ou igual a data de Hoje'));	
+]]>
+  </MacroSample>
+  <MacroSample Macro="Iif">
+    <![CDATA[
+//A macro @Iif tem o mesmo objetivo do If ternário que é retornar um valor conforme a condição seja verdadeira ou falsa. Uma forma compacta para substituir o IF e ELSE em retornos simples.
+
+@Iif(MacroCondition;;TrueMacroExpression;;FalseMacroExpression);
+
+Parâmetros:
+			MacroCondition - Expressão que resulta em um valor Booleano (true ou false).
+			TrueMacroExpression - Valor a ser retornado caso condição seja verdadeira.
+			FalseMacroExpression - Valor a ser retornado caso condição seja falsa.
+			
+Exemplos:
+			var teste=@Iif((@GetValue(@TbCurrentData();;IdProduto)%2)==0;;'Id do produto é PAR';;'Id do produto é IMPAR');
+			@ShowAlert(teste);			
+]]>
+  </MacroSample>
+  <MacroSample Macro="SetFocus">
+    <![CDATA[
+//A macro @SetFocus é usada para dar foco (selecionar o componente/campo, mostrar o curso) em um elemento do formulario da aplicação.
+
+@SetFocus(ControlName);
+
+Parâmetros:
+			ControlName - Nome do controle que irá receber o foco, composta do prefixo (na janela de UI)+nome da propriedade.
+			
+Exemplos:
+			@IfElse((@GetValue(@TbCurrentData();;IdProduto)%2)==0;;@SetFocus(tbDescProduto);;@SetFocus(tbNmProduto));
+]]>
+  </MacroSample>
+  <MacroSample Macro="SetPropertyControls">
+    <![CDATA[
+//A macro @SetPropertyControls é usada para alterar as propriedades mais utilizadas dos elementos/campos. As propriedades são 1-ColumnSpan; 2-DisplayName;3-Visible.
+
+@SetPropertyControls(ControlName;;option;;param);
+
+Parâmetros:
+			ControlName - Nome do controle que irá receber o foco, composta do prefixo (na janela de UI)+nome da propriedade.
+			option - Número de 1 a 3 que corresponde a propriedade a ser alterada.
+			param - Novo valor a ser atribuida a propriedade, sendo:
+				- ColumnSpan: aceita de 1 a 12.
+				- DisplayName: 'novo String que será o nome do campo'.
+				- Visible: true para visível e false para esconder o campo/elemento.
+			
+Exemplos:
+			@SetPropertyControls(tbNomeCompleto;;1;;'3');
+			@SetPropertyControls(btnalterar;;2;;'Propriedade Alterada');
+			@SetPropertyControls(ntxidNomeCompleto;;3;;'false');
+    ]]>
+  </MacroSample>
+  <MacroSample Macro="SetDisableGrid">
+    <![CDATA[
+//A macro @SetDisableGrid é usada para habilitar/desabilitar a edição dos registros na grid, porém é possível inserir ou excluir registro, mas sem edita-los. 
+Para o devido funcionamento é necessário carregar o mecanismo que permite tal funcionalidade através da macro DisableGridLoaded.
+
+@SetDisableGrid(GridName;;boolExpr);
+
+Parâmetros:
+			ControlName - Nome atribuido a gird- pode ser encontrada na Janela de UI ao selecionar a grid. OBS - Deve ser utilizado o prefixo(dgrid)+Nome (dgridNomeGrid).
+			boolExpr - Expressão que resulte em um valor bolleano (true ou false).
+			
+Exemplos:
+			@SetDisableGrid(dgridDesabilita;;true);
+			@SetDisableGrid(dgridDesabilita;;false);
+	]]>
+  </MacroSample>
+  <MacroSample Macro="DisableGridLoaded">
+    <![CDATA[
+//A macro @DisableGridLoaded é usada para inicializar o mecanismo que permitirá habilitar/desabilitar a edição de registro em grid. Para habilitar ou desabilitar efetivamente uma grid,
+utilize a macro @SetDisableGrid. - OBS: Preferencialmente utilizar a macro no EVENTO ONLOADING ou ONLOADED.
+
+@DisableGridLoaded(GridName);
+
+Parâmetros:
+			ControlName - Nome atribuido a gird- pode ser encontrada na Janela de UI ao selecionar a grid.
+			OBS - Deve ser utilizado o prefixo(dgrid)+Nome (dgridNomeGrid).
+			
+Exemplos:
+			@DisableGridLoaded(dgridDesabilita);
+]]>
+  </MacroSample>
+  <MacroSample Macro="SetGridHeaderTitle">
+    <![CDATA[
+//A macro @SetGridHeaderTitle é usada para alterar o nome da coluna de uma grid, podendo alterar o nome todos as colunas em uma única chamada da macro.
+
+@SetGridHeaderTitle(dGridName;;propertyName;;title);
+
+Parâmetros:
+			dGridName - prefixo(dgrid)+Nome atribuido a gird - pode ser encontrada na Janela de UI ao selecionar a grid.
+			propertyName - Nome da propriedade que representa o campo. Use [] para alterar um grupo de colunas.
+			title - Novo nome a ser atribuido a coluna. Use [] para alterar um grupo de colunas.
+			
+Exemplos:
+			@SetGridHeaderTitle(dGridDesabilita;;'AnoNasc';;'Ano de Nasc.');
+			@SetGridHeaderTitle(dGridDesabilita;;['DescMunicipio','DtAtualiza'];;['Nome Municipio','DT. Atualização']);		
+    ]]>
+  </MacroSample>
+  <MacroSample Macro="For">
+    <![CDATA[
+    // A macro @For tem o mesmo objetivo do laço de repetição FOR que é executar um mesmo bloco de código varias fezes até atingir sua condição de saída. A diferença em usar a macro ou o simples FOR é caso ocorra uma mudança de estrutura/linguagem no framework, a sintese ou forma de monta-la precisa ser ajustada.
+Usando a macro não existirá essa preocupação pois o framework irá interpretala corretamente.
+
+@For(Collection;;Body);
+
+Parâmetros:
+			Collection - representa uma lista a ser percorrida onde será pego a quantidade Maxima de registros (.length).
+			Body - Bloco de código a ser executado em loop até atingir a condição de saida.
+			
+Exemplos:
+
+			var teste=@TbCurrentData().VendaprodutosList();
+			@For(teste;;@ShowAlert('Numero da intereção é '+eIndex+ ' com data de venda de '+@ShortDate(teste[eIndex].DtVenda)););
+    ]]>
+  </MacroSample>
+  <MacroSample Macro="SetVisibleColGrid">
+    <![CDATA[
+//A macro @SetVisibleColGrid é usada para ocultar ou exibir uma determinada Coluna em uma grid.
+
+@SetVisibleColGrid(ControlName;;ColName;;boolExpr);
+
+Parâmetros:
+			ControlName - Nome da grid (prefixo dGrid + nome).
+			ColName - Nome do campo que representa a coluna desejada. (Nome da coluna ou posição)
+			boolExpr - Expressão logica que resulte em valor booleano. (true ou false) para exibir ou ocultar a coluna.
+
+Exemplos:
+      Nome:
+			@SetVisibleColGrid(dGridProdutoVendas;;'IdProduto';;false);
+      
+      Posição (columnIndex):
+     	@SetVisibleColGrid(dGridProdutoVendas;;2;false);
+]]>
+  </MacroSample>
+  <MacroSample Macro="SetDisableColGrid">
+<![CDATA[
+//A macro @SetDisableColGrid é usada para bloquear uma determinada Coluna em uma grid.
+
+@SetDisableColGrid(GridName;;ControlName;;boolExpr;;boolExpr);
+
+Parâmetros:
+			GridName - Nome da grid (prefixo dGrid + nome).
+			ControlName - Nome da propriedade|Coluna desejada para ser bloqueada.
+			boolExpr - Expressão logica que resulte em valor booleano. (true ou false) para bloquear ou desbloquear a coluna no grid.
+			boolExpr - Expressão logica que resulte em valor booleano. (true ou false) para bloquear ou desbloquear o campo no formulário template.
+
+Exemplos:
+			@SetDisableColGrid(dGridProdutoVendas;;DtVenda;;true;;true);
+]]>
+  </MacroSample>
+  <MacroSample Macro="Foreach">
+<![CDATA[
+// A macro @Foreach tem o mesmo objetivo do laço de repetição FOREACH que é executar um mesmo bloco de código varias fezes até atingir sua condição de saída. A diferença em usar a macro ou o simples FOR é caso ocorra uma mudança de estrutura/linguagem no framework, a sintese ou forma de monta-la precisa ser ajustada.
+Usando a macro não existirá essa preocupação pois o framework irá interpretala corretamente.
+
+@Foreach(Collection;;Body);
+
+Parâmetros:
+			Collection - representa uma lista a ser percorrida onde será pego a quantidade Maxima de registros (.length).
+			Body - Bloco de código a ser executado em loop até atingir a condição de saida.
+			
+Exemplos:
+
+			var teste=@TbCurrentData().VendaprodutosList();
+			@Foreach(teste;;@ShowAlert('Numero da intereção é '+eIndex+ ' com data de venda de '+@ShortDate(teste[eIndex].DtVenda)););
+]]>
+  </MacroSample>
+  <MacroSample Macro="GetUIControlValue">
+    <![CDATA[
+// A macro @GetUIControlValue é usada para receber um valor de um elemento da entidade (propriedade/campo). É similar a macro GetValue com a diferença de trabalhar com controle que não tem binding.
+
+@GetUIControlValue(ControlName);
+
+Parâmetros:
+			ControlName - Nome do controle que será capturado o valor (prefixo+propriedade).
+
+Exemplos:
+			var teste=@GetUIControlValue(dtDatetimeCliente); - prefixo dt de um campo de data + propriedade DatetimeCliente.
+			@ShowInformation('valor do campo data é '+@ShortDate(teste));
+    ]]>
+  </MacroSample>
+  <MacroSample Macro="SetUIControlValue">
+<![CDATA[ 
+// A macro @SetUIControlValue é usada para atribuir um valor a um elemento da entidade (propriedade/campo). É similar a macro SetValue com a diferença de trabalhar com controle que não tem binding.
+
+@SetUIControlValue(ControlName;;'Value');
+
+Parâmetros:
+			ControlName - Nome do controle que recebera o valor (prefixo+propriedade).
+			Value - Expressão/valor que será atribuido ao controle.
+
+Exemplos:
+			var teste=@GetUIControlValue(dtDatetimeCliente); - prefixo dt de um campo de data + propriedade DatetimeCliente.
+			@SetUIControlValue(tbStringCliente;;@ShortDate(teste)); - atribui o valor a propriedade StringCliente.
+ 
+]]>
+  </MacroSample>
+  <MacroSample Macro="CreateComboBox">
+    <![CDATA[
+// A macro @CreateComboBox é usada para instanciar um objeto do tipo Combobox que já foi adicionada aos controles da UI sem vinculo a uma propriedade e seta uma array de valores a ela.
+
+@CreateComboBox(ControlName;;arrayItems;;'textKey';;'valueKey');
+
+Parâmetros:
+			ControlName - Nome do controle que recebera o valor, no caso um combobox (prefixo+propriedade).
+			arrayItems - Representa uma lista de itens que irá ser carregada no combobox. Podendo ser uma array de string simples ou de objetos complexos.
+			textKey - Texto que será usado para exibição no combobox. Deve ser usado quando se trabalha com objetos complexos.
+			valueKey - Valor do Item vinculado ao texto que será usado para exibição no combobox. Deve ser usado quando se trabalha com objetos complexos.
+
+Exemplos:
+			var listaCombo =@TbCurrentData().VendaList();
+			if(listaCombo.length==='undefined' || listaCombo.length<=0){
+				listaCombo =['mouse', 'monitor', 'livro', 'copo', 'ninja']; // complexa - listaCombo = [{id: 1, nome: 'João'}, {id: 2, nome: 'Fulano'}, {id: 3, nome: 'Ciclano'}];
+				@CreateComboBox(cmbComboLivre;;listaCombo;;null;;null);
+			}
+			else{
+				@CreateComboBox(cmbComboLivre;;listaCombo;;'StringVenda';;'intVenda');
+			}
+    ]]>
+  </MacroSample>
+  <MacroSample Macro="SetEditorFormGridVisible">
+<![CDATA[
+// A macro @SetEditorFormGridVisible é usada para ativar a exibição do registro selecionado em modo formulário da própria grid.
+
+@SetEditorFormGridVisible(dGridName);
+
+Parâmetros:
+			dGridName - prefixo(dgrid)+Nome atribuido a gird - pode ser encontrada na Janela de UI ao selecionar a grid.
+
+
+Exemplos:
+			@SetEditorFormGridVisible(dGridVenda);
+			
+]]>
+  </MacroSample>
+  <MacroSample Macro="SetHtmlEditor">
+ <![CDATA[
+// A macro @SetHtmlEditor é usada para ativar um editor de texto HTML usados para campos de texto longos com alguma formatação.
+OBS - Para utilizar a macro, antes é necessário realizar o seguinte procedimento de preparo:
+		 * Na janela de UI, adicione o componente 'contentcontrol' que se encontra no botão 'mais verde';
+		 * Adicione um compotente 'Control' dentro do novo contentcontrol, em seguida modifique ele para um componente 'Label'.
+		 * Selecione o novo contentcontrol e atribua um nome a ele em Name (prefixo cnt).
+		 * Selecione o novo label e apague o texto que se encontra no campo Display Name (abaixo de Name).
+		 * Ainda com o label selecionado desmarque a opção 'Current control is Visible' que fica logo acima das propriedades.
+
+@SetHtmlEditor(cntName);
+
+Parâmetros:
+			cntName - Nome atribuido ao contentcontrol junto com o prefixo(cnt) cnt+nome.
+
+Exemplos:
+			@SetHtmlEditor(cntEditor);
+    ]]>
+  </MacroSample>
+  <MacroSample Macro="ShowQuestionOptions">
+<![CDATA[
+// A macro @ShowQuestionOptions é usada para chamar uma caixa de diálogo do tipo confirmação onde existe uma interação com o usuário para fazer uma escolha.
+
+@ShowQuestionOptions('message';;arrayButtonsOptions;;Body);
+
+Parâmetros:
+			'message' - Texto que irá aparecer como a mensagem na caixa de diálogo.
+			arrayButtonsOptions - Representa conjunto de botões que irão aparecer na caixa de dialogo como opções.
+			Body - Estrutura de código a ser executado conforme escolha do usuário das opções disponíveis.
+
+Exemplos:
+			@ShowQuestionOptions('Deseja Salvar o texto?';;['sim','não','mais tarde','avise em 5min'];; 
+			if (selectedOption == 'sim')
+				app.showMessage('Texto Salvo com sucesso!', 'Alerta');
+			else if (selectedOption == 'mais tarde')
+				app.showMessage('Texto não foi salvo, mas não foi perdido!', 'Alerta');
+			else if (selectedOption == 'avise em 5min')
+				app.showMessage('OK, em 5min você será alertado!', 'Alerta');
+			else
+				app.showMessage('Texto será perdido!', 'Alerta');
+			);
+    ]]>
+  </MacroSample>
+  <MacroSample Macro="ShowQuestion">
+<![CDATA[
+// A macro @ShowQuestion é usada para chamar uma caixa de diálogo do tipo confirmação onde existe uma interação com o usuário para fazer uma escolha.
+OBS - O retorno é dado pelo objeto yesResponse.
+
+@ShowQuestion('message';;Body) // expose yesResponse
+
+Parâmetros:
+			'message' - Texto que irá aparecer como a mensagem na caixa de diálogo.
+			Body - Estrutura de código a ser executado conforme escolha do usuário.
+
+Exemplos:
+			@ShowQuestion('Escolha entre Yes ou No?';;
+			if(yesResponse){app.showMessage('Você escolheu Yes!', 'Alerta');}
+			else {app.showMessage('Você escolheu No!', 'Alerta');}
+			);
+]]>
+  </MacroSample>
+  <MacroSample Macro="ShowAlert">
+<![CDATA[
+// A macro @ShowAlert é usada para chamar uma caixa de diálogo do tipo Alert com titulo de Alerta.(usa o app.showMessage).
+
+@ShowAlert('message');
+
+Parâmetros:
+			'message' - Texto que irá aparecer como a mensagem na caixa de diálogo.
+
+Exemplos:
+			@ShowAlert('Texto da mensagem de Alerta');
+			var tipo='Alerta';
+			@ShowAlert('Texto da mensagem de '+ tipo);
+]]>
+  </MacroSample>
+  <MacroSample Macro="ShowInformation">
+<![CDATA[
+// A macro @ShowInformation é usada para chamar uma caixa de diálogo do tipo Alert com titulo de Informação.(usa o app.showMessage).
+
+@ShowInformation('message');
+
+Parâmetros:
+			'message' - Texto que irá aparecer como a mensagem na caixa de diálogo.
+
+Exemplos:
+			@ShowInformation('Texto da mensagem de Informação');
+			var tipo='Informação';
+			@ShowInformation('Texto da mensagem de '+ tipo);
+]]>
+  </MacroSample>
+  <MacroSample Macro="ShowError">
+<![CDATA[
+// A macro @ShowError é usada para chamar uma caixa de diálogo do tipo Alert com titulo de Erro.(usa o logger.logError).
+
+@ShowError('message';;'details');
+
+Parâmetros:
+			'message' - Texto que irá aparecer como a mensagem na caixa de diálogo.
+			'details' - Texto que pode ser usado para detalhar o erro apresentado.
+
+Exemplos:
+			@ShowError('Mensagem de Erro';;'Campos X, Y e Z são obrigatórios');
+			var tipoMensagem='Validação de Campo';
+			var detalhe='Campos X, Y e Z são obrigatórios';
+			@ShowError(tipoMensagem;;+ detalhe);
+]]>
+  </MacroSample>
+  <MacroSample Macro="ShowLog">
+<![CDATA[
+//A macro @ShowLog é usada para chamar uma caixa de diálogo do tipo Alert com titulo de mensagem.(usa o logger.log).
+
+@ShowLog('message');
+
+Parâmetros:
+			'message' - Texto que irá aparecer como a mensagem na caixa de diálogo.
+
+Exemplos:
+			@ShowLog('Texto da mensagem de log');
+			var tipo='log';
+			@ShowLog('Texto da mensagem de '+ tipo);
+]]>
+  </MacroSample>
+  <MacroSample Macro="ShowWaitWindow">
+<![CDATA[
+//A macro @ShowWaitWindow é usada para apresentar uma barra de aguardando enquanto os dados são carregados.
+
+@ShowWaitWindow(message;;percent);
+
+Parâmetros:
+			'message' - Texto que irá aparecer como mensagem da caixa de carregamento.
+			percent - Expressão/valor que resulte em um valor inteiro que representa o percentual já carregado.
+
+Exemplos:
+			@ShowWaitWindow('Aguarde...';;50);
+]]>
+  </MacroSample>
+  <MacroSample Macro="Avg">
+  <![CDATA[
+//A macro @Avg é usada para realizar o calculo de média simples de uma coleção de valores, sendo que essa coleção precisa possuir estrutura com nome de coluna.
+
+@Avg(Collection;;propertyName);
+
+Parâmetros:
+			Collection - Objeto que representa uma coleção de dados numéricos para se calcular a média simples dos seus valores.
+			propertyName - Nome da propriedade/coluna existente na estrutura dessa coleção que será usada para o calculo.
+
+Exemplos:
+			var lista=@TbCurrentData().VendaList();
+			var media=@Avg(lista;;IntVenda);
+			@SetValue(@TbCurrentData();;ValorCalculado;;media); 
+]]>
+  </MacroSample>
+  <MacroSample Macro="Min">
+  <![CDATA[
+//A macro @Min é usada para realizar o calculo e identificar o valor minimo de uma coleção de valores, sendo que essa coleção precisa possuir estrutura com nome de coluna.
+
+@Min(Collection;;propertyName);
+
+Parâmetros:
+			Collection - Objeto que representa uma coleção de dados numéricos para se calcular o valor minimo dos seus valores.
+			propertyName - Nome da propriedade/coluna existente na estrutura dessa coleção que será usada para o calculo.
+
+Exemplos:
+			var lista=@TbCurrentData().VendaList();
+			var minimo=@Min(lista;;IdVenda);
+			@SetValue(@TbCurrentData();;ValorCalculado;;minimo);
+]]>
+  </MacroSample>
+  <MacroSample Macro="Sum">
+  <![CDATA[
+//A macro @Sum é usada para realizar o calculo de soma de uma coleção de valores, sendo que essa coleção precisa possuir estrutura com nome de coluna.
+
+@Sum(Collection;;propertyName);
+
+Parâmetros:
+			Collection - Objeto que representa uma coleção de dados numéricos para se calcular a soma dos seus valores.
+			propertyName - Nome da propriedade/coluna existente na estrutura dessa coleção que será usada para o calculo.
+
+Exemplos:
+			var lista=@TbCurrentData().VendaList();
+			var soma=@Sum(lista;;SmallIntVenda);
+			@SetValue(@TbCurrentData();;ValorCalculado;;soma);
+]]>
+  </MacroSample>
+  <MacroSample Macro="Max">
+  <![CDATA[
+//A macro @Max é usada para realizar o calculo e identificar o valor máximo de uma coleção de valores, sendo que essa coleção precisa possuir estrutura com nome de coluna.
+
+@Max(Collection;;propertyName);
+
+Parâmetros:
+			Collection - Objeto que representa uma coleção de dados numéricos para se calcular o valor máximo dos seus valores.
+			propertyName - Nome da propriedade/coluna existente na estrutura dessa coleção que será usada para o calculo.
+
+Exemplos:
+			var lista=@TbCurrentData().VendaList();
+			var maximo=@Max(lista;;BigIntVenda);
+			@SetValue(@TbCurrentData();;ValorCalculado;;maximo);
+]]>
+  </MacroSample>
+  <MacroSample Macro="Count">
+  <![CDATA[
+//A macro @Count é usada para realizar a contagem de itens (registros) de uma coleção.
+
+@Count(Collection);
+
+Parâmetros:
+			Collection - Objeto que representa uma coleção de dados que terá seus itens (registros) contados.
+
+Exemplos:
+			var lista=@TbCurrentData().VendaList();
+			var contador=@Count(lista);
+			@SetValue(@TbCurrentData();;ValorCalculado;;contador);
+]]>
+  </MacroSample>
+  <MacroSample Macro="StringJoinList">
+  <![CDATA[
+//A macro @StringJoinList é usada para percorrer uma coleção de valores e concatena-la em uma string, separando os valores pelo delimitador definido, sendo que essa coleção precisa possuir estrutura com nome de coluna.
+
+@StringJoinList(Collection;;propertyName;;',');
+
+Parâmetros:
+			Collection - Objeto que representa uma coleção de dados a ser percorrido conforme propriedade indicada.
+			propertyName - Nome da propriedade/coluna existente na estrutura dessa coleção que será percorrida.
+			Delimitador - Carácter a ser definido para realizar a separação dos valores que serão concatenados.
+
+Exemplos:
+			var lista=@TbCurrentData().VendaList();
+			var resultado;
+			resultado=@StringJoinList(lista;;IntVenda;;';');
+			@ShowInformation('resultado é '+resultado);
+			resultado=@StringJoinList(lista;;IdVenda;;'-');
+			@ShowInformation('resultado é '+resultado);
+]]>
+  </MacroSample>
+  <MacroSample Macro="CloseWaitWindow">
+<![CDATA[
+//A macro @CloseWaitWindow é usada para fechar a janela de carregamento de dados que foi aberta anteriormente pela macro @ShowWaitWindow.
+
+@CloseWaitWindow();
+
+Parâmetros:
+			Sem parametros.
+
+Exemplos:
+			var t=0;
+			var x= setInterval(function(){@ShowWaitWindow('Aguarde...';;t);
+				t++;
+				if(t>=100){setTimeout(function(){clearInterval(x);
+					@CloseWaitWindow();	},2000);}
+			},50);
+]]>
+  </MacroSample>
+  <MacroSample Macro="SetVisibleGrid">
+<![CDATA[
+//A macro @SetVisibleGrid é usada para habilitar/desabilitar a visibilidade da grid, podendo forçar o seu bind ou não.
+
+@SetVisibleGrid(ControlGridName;;boolExprVisible;;boolExprBind)
+
+Parâmetros:
+			ControlGridName - Nome atribuido a gird- pode ser encontrada na Janela de UI ao selecionar a grid. OBS - Deve ser utilizado o prefixo(dgrid)+Nome (dgridNomeGrid).
+			boolExprVisible - Expressão que resulte em um valor bolleano (true ou false) para a visibilidade da grid.
+			boolExprBind - Expressão que resulte em um valor bolleano (true ou false) para forçar o bind de uma grid.
+			
+Exemplos:
+			@SetVisibleGrid(dGridvendas;;true;;true);
+			@SetVisibleGrid(dGridvendas;;false;;true);
+]]>
+  </MacroSample>
+  <MacroSample Macro="SetTabItemActive">
+<![CDATA[
+//A macro @SetTabItemActive é usada para tornar ativa um Item de tab de acordo com o nome apontado.
+
+@SetTabItemActive(ControlName)
+
+Parâmetros:
+			ControlName - Nome do controle atribuido a uma TabItem (prefixo ti)+Nome.
+			
+Exemplos:
+			@SetTabItemActive(tivendas);
+]]>
+  </MacroSample>
+  <MacroSample Macro="SetTabVisible">
+<![CDATA[
+//A macro @SetTabVisible é usada para habilitar/desabilitar a visibilidade da TabItem.
+
+@SetTabVisible(ControlName;;boolExprVisible;;boolExprActive)
+
+Parâmetros:
+			ControlName - Nome do controle atribuido a uma TabItem (prefixo ti)+Nome.
+			boolExprVisible - Expressão que resulte em um valor bolleano (true ou false) para a visibilidade da TabItem.
+			boolExprActive - Expressão que resulte em um valor bolleano (true ou false) para indicar se a TabItem deve ser ativada juntamente com a visualização.
+			
+Exemplos:
+			@SetTabVisible(tiexemplo;;true;;true);
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.setDisplayName">
+<![CDATA[
+//A function pivotLayout.setDisplayName é responsável por alterar o nome do título de uma ou mais colunas/campos da pivot, tanto na grid exibida quanto na janela de campos.
+
+pivotLayout.setDisplayName(vm, 'Nome da Pivot', {'Campo da Pivot':'Display Name',});
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			Campo da Pivot - Nome da propriedade/campo do objeto/entidade a ser usado.
+			Display Name - Novo nome que será atribuido/exibido no titulo.
+			
+Exemplos:
+			pivotLayout.setDisplayName(vm, 'Desabilita', {'AnoNasc':'Ano de Nasc'});
+			pivotLayout.setDisplayName(vm, 'Desabilita', {'QtdFilhos':'Quantidade Filhos','FaixaSal':'Faixa Salarial'});
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.addField">
+<![CDATA[
+//A function pivotLayout.addField é responsável por incluir um ou mais campos a lista de campos disponíveis a pivot, desta forma o usuário posteriormente 
+poderá usar estes campos nas demais listas como colunas ou linhas.
+
+pivotLayout.addField(vm, 'Nome da Pivot', ['Campos']);
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			[Campos,] - Nome das propriedades/campos do objeto/entidade a ser usado, separados por virgula.
+			
+Exemplos:
+			pivotLayout.addField(vm, 'Desabilita', ['AnoNasc','QtdFilhos']);
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.removeField">
+<![CDATA[
+//A function pivotLayout.removeField é responsável por remover um ou mais campos da lista de campos disponíveis, assim como das demais listas da pivot.
+
+pivotLayout.removeField(vm, 'Nome da Pivot', ['Campos']);
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			[Campo] - Nome das propriedades/campos do objeto/entidade a ser usado, separados por virgula.
+			
+Exemplos:
+			pivotLayout.removeField(vm, 'Desabilita', ['AnoNasc','QtdFilhos']);
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.addFilter">
+<![CDATA[
+//A function pivotLayout.addFilter é responsável por adicionar um ou mais dos campos na lista de Filtros da pivot.
+
+pivotLayout.addFilter(vm, 'Nome da Pivot', {'Campo de Filtro': intPosition,});
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			Campo de Filtro - Nome da propriedade/campo do objeto/entidade a ser incluido no grupo Filtros.
+			intPosition - Número da posição que o campo será incluindo, iniciando por 0.
+			
+Exemplos:
+			pivotLayout.addFilter(vm, 'Desabilita', {'Escolaridade': 0,'Idade': 1});
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.removeFilter">
+<![CDATA[
+//A function pivotLayout.removeFilter é responsável por remover um ou mais campos da lista de Filtros aplicado na pivot.
+
+pivotLayout.removeFilter(vm, 'Nome da Pivot', ['Campo de Filtro',]);
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			Campo de Filtro - Nome das propriedades/campos do objeto/entidade a ser(em) removido(s) no grupo Filtros.
+			
+Exemplos:
+			pivotLayout.removeFilter(vm, 'Desabilita', ['Escolaridade','Idade']);
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.addColumn">
+<![CDATA[
+//A function pivotLayout.addColumn é responsável por adicionar um ou mais campos da lista de Colunas aplicado na pivot.
+
+pivotLayout.addColumn(vm, 'Nome da Pivot', {'Campo de Coluna' : Posição,});
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			Campo de Coluna - Nome das propriedades/campos do objeto/entidade a ser(em) adicionados no grupo Colunas.
+			intPosition - Número da posição que o campo será incluindo, iniciando por 0.
+			
+Exemplos:
+			pivotLayout.addColumn(vm, 'Desabilita', {'Escolaridade':0,'Idade':1,'AnoNasc':2});
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.removeColumn">
+<![CDATA[
+//A function pivotLayout.removeColumn é responsável por remover um ou mais campos da lista de Colunas aplicado na pivot.
+
+pivotLayout.removeColumn(vm, 'Nome da Pivot', ['Campo de Coluna',]);
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			Campo de Coluna - Nome das propriedades/campos do objeto/entidade a ser(em) removidos no grupo Colunas.
+			
+Exemplos:
+			pivotLayout.removeColumn(vm, 'Desabilita', ['Escolaridade','AnoNasc']);
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.addRow">
+<![CDATA[
+//A function pivotLayout.addRow é responsável por adicionar um ou mais campos da lista de Linhas aplicado na pivot.
+
+pivotLayout.addRow(vm, 'Nome da Pivot', {'Campo da Linha' : Posição,});
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			Campo da Linha - Nome das propriedades/campos do objeto/entidade a ser(em) adicionados no grupo Linhas.
+			intPosition - Número da posição que o campo será incluindo, iniciando por 0.
+			
+Exemplos:
+			pivotLayout.addRow(vm, 'Desabilita', {'Escolaridade':0,'Idade':1,'AnoNasc':2});
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.removeRow">
+<![CDATA[
+//A function pivotLayout.removeRow é responsável por remover um ou mais campos da lista de Linhas aplicado na pivot.
+
+pivotLayout.removeRow(vm, 'Nome da Pivot', ['Campo da Linha',]);
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			Campo da Linha - Nome das propriedades/campos do objeto/entidade a ser(em) removidos no grupo Linhas.
+			
+Exemplos:
+			pivotLayout.removeRow(vm, 'Desabilita', ['Escolaridade','AnoNasc']);
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.addMeasure">
+<![CDATA[
+//A function pivotLayout.addMeasure é responsável por adicionar um ou mais campos da lista de Valores agregados aplicado na pivot,
+sendo as funções agregadas as seguinte (sum, count, distinctcount, average, product, min, max, percent, percentofcolumn, percentofrow,
+ index, difference, %difference, runningtotals, stdevp, stdevs)
+
+pivotLayout.addMeasure(vm, 'Nome da Pivot', [{ measure : 'Campo de Valor',  position : Posição, aggregation : 'Função de Agregação'}, {...},]);
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			measure : 'Campo de Valor' - Nome das propriedades/campos do objeto/entidade a ser(em) adicionados no grupo Valores.
+			position : Posição - Número da posição que o campo será incluindo, iniciando por 0.
+			aggregation : 'Função de Agregação' - Nome do agregador a ser usado para o campo.
+			
+Exemplos:
+			pivotLayout.addMeasure(vm, 'Desabilita', [{ measure : 'Idade',  position : 0, aggregation : 'count'}, 
+			{ measure : 'QtdFilhos',  position : 1, aggregation : 'average'}]);
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.removeMeasure">
+<![CDATA[
+//A function pivotLayout.removeMeasure é responsável por remover um ou mais campos da lista de Valores agregados aplicado na pivot.
+
+pivotLayout.removeMeasure(vm, 'Nome da Pivot', ['Campo de Valor',]);
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			Campo de Valor - Nome das propriedades/campos do objeto/entidade a ser(em) removidos no grupo Valores.
+			
+Exemplos:
+			pivotLayout.removeMeasure(vm, 'Desabilita', ['QtdFilhos','Idade']);
+
+]]>
+  </MacroSample>
+  <MacroSample Macro="pivotLayout.getPivotInstance">
+<![CDATA[
+//A function pivotLayout.getPivotInstance é responsável por capturar a instância da PIVOT que foi indicada.
+
+pivotLayout.getPivotInstance(vm, 'Nome da Pivot');
+
+Parâmetros:
+			vm - valor fixo, corresponde a view Model.
+			Nome da Pivot - Nome atribuido a uma Pivot (SEM o prefixo pivot).
+			
+Exemplos:
+			var mypivot=pivotLayout.getPivotInstance(vm, 'Desabilita');
+
+]]>
+  </MacroSample>
+</MacroSamples>

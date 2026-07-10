@@ -1,0 +1,148 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+        <div class="col-md-12 remove-pl remove-pr">
+            <section>
+                <div class="screen-view">
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroTabela().getLayoutVisible('CadastroTabela_dGridTcsTabelaAutorizacao') " >
+               <div id="CadastroTabela_dGridTcsTabelaAutorizacao_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="CadastroTabela_dGridTcsTabelaAutorizacao_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroTabela().hideToolbar() && $root.CadastroTabela().status() === 'E', click: function () { $root.CadastroTabela().dataToolbar.addNew(); }"><i class="fa fa-plus"></i></button>
+                   <button id="CadastroTabela_dGridTcsTabelaAutorizacao_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                   data-bind="visible: $root.CadastroTabela().status() === 'E', 
+                   click: function () { 
+                      $root.CadastroTabela().deleteGrid('#CadastroTabela_dGridTcsTabelaAutorizacao', 'TcsTabelaAutorizacao', 'vm.currentDataItem;vm.dataView', false);
+                   }"> 
+                   <i class="fa fa-trash-o"></i></button>
+                   <button id="CadastroTabela_dGridTcsTabelaAutorizacao_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                    data-bind="click:function () { 
+                      $root.CadastroTabela().openEditor('#CadastroTabela_dGridTcsTabelaAutorizacao', 'TcsTabelaAutorizacao', 'vm.currentDataItem;vm.dataView', ';vm', 'TcsTabelaAutorizacao()', false)
+                   }"><i class="fa fa-th"></i></button>
+                   <button id="CadastroTabela_dGridTcsTabelaAutorizacao_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                    data-bind="click:function () { 
+                      $root.CadastroTabela().openEditor('#CadastroTabela_dGridTcsTabelaAutorizacao', 'TcsTabelaAutorizacao', 'vm.currentDataItem;vm.dataView', ';vm', 'TcsTabelaAutorizacao()', true)
+                   }"><i class="fa fa-th-large"></i></button>
+                   <button id="CadastroTabela_dGridTcsTabelaAutorizacao_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroTabela_dGridTcsTabelaAutorizacao_templateLayout', vm: function(){return $root.CadastroTabela().gridSaveStates['CadastroTabela_dGridTcsTabelaAutorizacao'];}, ctrlName: 'CadastroTabela_dGridTcsTabelaAutorizacao_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="CadastroTabela_dGridTcsTabelaAutorizacao_templateLayout" type="text/html" tabindex="-1">
+                       <div id="CadastroTabela_dGridTcsTabelaAutorizacao_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="CadastroTabela_dGridTcsTabelaAutorizacao_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroTabela().dataToolbar.canExport(), click: function () {$root.CadastroTabela().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="CadastroTabela_dGridTcsTabelaAutorizacao" data-bind="css: { IsEditableStyle: $root.CadastroTabela().enabledForEditing }" />
+               </div>
+
+           </div>
+
+           <div id="dialogTcsTabelaAutorizacao"  class="toolbar-dialog-template" title='Tabela' style="display: none !important; overflow-y:auto;">
+              <button class="btn btn-sm btn-default backReg " id="backRegTcsTabelaAutorizacao" onClick="$(this).backRegTcsTabelaAutorizacao();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+              <span class="caption"><label id="currentNumberTcsTabelaAutorizacao">0</label><label>/</label><label id="totalNumberTcsTabelaAutorizacao">0</label></span>
+              <button class="btn btn-sm btn-default nextReg " id="nextRegTcsTabelaAutorizacao" onClick="$(this).nextRegTcsTabelaAutorizacao();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+              <button class="btn btn-sm btn-default addReg " id="addRegTcsTabelaAutorizacao" onClick="$(this).addRegTcsTabelaAutorizacao();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+              <button class="btn btn-sm btn-default delReg " id="delRegTcsTabelaAutorizacao" onClick="$(this).delRegTcsTabelaAutorizacao();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+              <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTcsTabelaAutorizacao" onClick="$(this).okRegTcsTabelaAutorizacao();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+           <div id="CadastroTabela_templateTcsTabelaAutorizacao" class="" style="width: 100%; height: 100%;" >
+               <div data-bind="with: $root.CadastroTabela().getWithBinding(currentDataItem, $root.CadastroTabela().rootDataTypeName)">
+
+               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div data-bind="css: $root.CadastroTabela().getLayoutColumnSpan('CadastroTabela_tbNomeTabela'), visible: $root.CadastroTabela().getLayoutVisible('CadastroTabela_tbNomeTabela')" class="">
+                       <div class="form-group">
+                           <div id="CadastroTabela_divNomeTabelaTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.CadastroTabela().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTabela().getLayoutDisplayName('CadastroTabela_tbNomeTabela')}, text: $root.CadastroTabela().getLayoutDisplayName('CadastroTabela_tbNomeTabela')" id="CadastroTabela_lblNomeTabela" for="CadastroTabela_tbNomeTabela" class="control-label ellipsis">
+                               </label>
+                               <input id="CadastroTabela_tbNomeTabela" class="form-control ellipsis" data-bind="attr: { title: NomeTabela }, validatedField: 'NomeTabela', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTabela(), 'CadastroTabela_tbNomeTabela') ? ctrl.getCustomEnable($root.CadastroTabela(), 'CadastroTabela_tbNomeTabela') : (!isEmptyEntityFn($data) && $root.CadastroTabela().enabledForEditing()) }, igTextEditor: { maxLength: 250, value: NomeTabela, readOnly: ctrl.hasCustomEnable($root.CadastroTabela(), 'CadastroTabela_tbNomeTabela') ? !ctrl.getCustomEnable($root.CadastroTabela(), 'CadastroTabela_tbNomeTabela') : (isEmptyEntityFn($data) || !$root.CadastroTabela().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.CadastroTabela().getLayoutColumnSpan('CadastroTabela_tbDescTabela'), visible: $root.CadastroTabela().getLayoutVisible('CadastroTabela_tbDescTabela')" class="">
+                       <div class="form-group">
+                           <div id="CadastroTabela_divDescTabelaTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.CadastroTabela().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTabela().getLayoutDisplayName('CadastroTabela_tbDescTabela')}, text: $root.CadastroTabela().getLayoutDisplayName('CadastroTabela_tbDescTabela')" id="CadastroTabela_lblDescTabela" for="CadastroTabela_tbDescTabela" class="control-label ellipsis">
+                               </label>
+                               <input id="CadastroTabela_tbDescTabela" class="form-control ellipsis" data-bind="attr: { title: DescTabela }, validatedField: 'DescTabela', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTabela(), 'CadastroTabela_tbDescTabela') ? ctrl.getCustomEnable($root.CadastroTabela(), 'CadastroTabela_tbDescTabela') : (!isEmptyEntityFn($data) && $root.CadastroTabela().enabledForEditing()) }, igTextEditor: { maxLength: 80, value: DescTabela, readOnly: ctrl.hasCustomEnable($root.CadastroTabela(), 'CadastroTabela_tbDescTabela') ? !ctrl.getCustomEnable($root.CadastroTabela(), 'CadastroTabela_tbDescTabela') : (isEmptyEntityFn($data) || !$root.CadastroTabela().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                           </div>
+                       </div>
+                   </div>
+
+
+               </div>
+
+               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div data-bind="css: $root.CadastroTabela().getLayoutColumnSpan('CadastroTabela_ckTabelaAutorizacao'), visible: $root.CadastroTabela().getLayoutVisible('CadastroTabela_ckTabelaAutorizacao')" class="">
+                       <div class="form-group">
+                           <div id="CadastroTabela_divTabelaAutorizacaoTemplate" class="" >
+                               <label class="">
+                                 <input id="CadastroTabela_ckTabelaAutorizacao" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTabela(), 'CadastroTabela_ckTabelaAutorizacao') ? ctrl.getCustomEnable($root.CadastroTabela(), 'CadastroTabela_ckTabelaAutorizacao') : (!isEmptyEntityFn($data) && $root.CadastroTabela().status() === 'C' || ($data.isAdded && $data.isAdded()))}, disable: ctrl.hasCustomEnable($root.CadastroTabela(), 'CadastroTabela_ckTabelaAutorizacao') ? !ctrl.getCustomEnable($root.CadastroTabela(), 'CadastroTabela_ckTabelaAutorizacao') : (isEmptyEntityFn($data) || !($root.CadastroTabela().status() === 'C' || ($data.isAdded && $data.isAdded()))), nullableChecked: TabelaAutorizacao" title="Clique para marcar/desmarcar"/> 
+                                 <span id="lblCadastroTabela_ckTabelaAutorizacao" data-bind="text: $root.CadastroTabela().getLayoutDisplayName('CadastroTabela_ckTabelaAutorizacao'), attr: {title: $root.CadastroTabela().getLayoutDisplayName('CadastroTabela_ckTabelaAutorizacao')}, css: { 'content-required-checkbox': $root.CadastroTabela().status() === 'E'}" class="align-label-checkbox"></span>
+                               </label>
+                           </div>
+                       </div>
+                   </div>
+
+
+               </div>
+
+           </div>
+           </div>
+       </div>
+
+
+                </div>
+            </section>
+        </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

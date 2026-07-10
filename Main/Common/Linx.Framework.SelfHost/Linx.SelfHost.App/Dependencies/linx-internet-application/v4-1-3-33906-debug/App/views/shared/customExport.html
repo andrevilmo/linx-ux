@@ -1,0 +1,82 @@
+﻿<div class="modal-dialog modal-dialog-large">
+    <div class="modal-content ">
+        <div class="modal-header">
+            <button type="button" data-bind="click: cancel_Click" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title" data-bind="text: title"></h4>
+        </div>
+        <div class="modal-body modal-app">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="hack-padding">
+                    <div id="customExportTabControl" style="height: 400px" class="tabbable box col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ul class="nav nav-tabs">
+                            <li id="customExport_FontesSalvasListItem" class="active"><a href="#customExport_FontesSalvasTabItem" data-toggle="tab" title="Fontes Salvas">Fontes Salvas</a></li>
+                            <li id="customExport_TemplateRelatorioListItem" class="" data-bind="visible: !isExcelDataSource()"><a href="#customExport_TemplateRelatorioTabItem" data-toggle="tab" title="Template de Relatório">Template de Relatório</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="customExport_FontesSalvasTabItem">
+                                <div class="ui-helper-clearfix">
+                                    <div class="group-buttons">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-5">
+                                                <button class="btn btn-ok btn-icon" data-bind="visible: canEditVisible, click: editConfiguration, enable: canEditConfiguration" title="Editar Fonte de Dados">
+                                                    <span class="fa fa-pencil"></span>
+                                                </button>
+
+                                                <button class="btn btn-ok btn-icon" data-bind="visible: canDelVisible, click: deleteConfiguration, enable: canEditConfiguration" title="Excluir Fonte de Dados">
+                                                    <span class="fa fa-trash-o"></span>
+                                                </button>
+
+                                                <button class="btn btn-ok btn-icon" data-bind="visible: canAddVisible, click: addNewConfiguration" title="Add Nova Fonte de Dados">
+                                                    <span class="glyphicon glyphicon-plus-sign"></span>
+                                                </button>
+                                            </div>
+
+                                            <div class="col-lg-7 col-md-7">
+                                                <button class="btn btn-ok btn-icon-texto" data-bind="click: defaultUrl_Click"><span class="fa fa-globe"></span>Link de Acesso Completo</button>
+                                                <button class="btn btn-ok btn-icon-texto" data-bind="click: dataSourceExport_Click, visible: !$root.isExcelDataSource()"><span class="fa fa-print"></span>Fonte de Relatório Completa</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row export-template-table">
+                                        <div class="col-lg-12 col-md-12">
+                                            <table id="exportTemplateTable" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="tab-pane fade" data-bind="visible: !isExcelDataSource()" id="customExport_TemplateRelatorioTabItem">
+                                <div class="ui-helper-clearfix">
+                                    <div data-bind="foreach: reportTemplates">
+                                        <div style="width: 200px">
+                                            <span data-bind="text: ReportTitle" />
+                                            <button class="flt-right btn-transparent" data-bind="click: function () { $root.templateDownload_Click(ReportPath); }"><i class="fa fa-cloud-download" /></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="group-buttons">
+                <div class="row">
+                    <div class="col-lg-10 col-md-10">
+                        <button class="btn btn-ok btn-icon-texto" data-bind="click: customReportExport_Click, visible: !$root.isExcelDataSource()"><span class="fa fa-print" />Fonte de Relatório Selecionada</button>
+                        <button class="btn btn-ok btn-icon-texto" data-bind="click: simpleExport_Click, visible: $root.isExcelDataSource()"><span class="fa fa-file-excel-o" />Exportar Planilha Fonte Selecionada</button>
+                        <button class="btn btn-ok btn-icon-texto" data-bind="click: customUrl_Click"><span class="fa fa-globe" />Link de Acesso Fonte Selecionada</button>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button class="btn btn-close" data-bind="click: cancel_Click">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

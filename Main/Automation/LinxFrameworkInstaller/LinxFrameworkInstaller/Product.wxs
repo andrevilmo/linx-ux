@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:VSExtension="http://schemas.microsoft.com/wix/VSExtension">
+
+  <?define Manufacturer = "Linx Sistemas S/A" ?>
+  <?define ProductVersion = "6.0.008" ?>
+  <?define ProductName = "Linx Framework 6" ?>
+  <?define ProductFolder = "Linx Framework 6.0.0" ?>
+  <?define FrameDocsURL = "https://grupolinx.sharepoint.com/sites/pesquisaedesenvolvimento/inovacao/Documentos%20Compartilhados/Equipe%20Framework%20(Pesquisa,%20Desenvolvimento%20e%20Inova%C3%A7%C3%A3o)/Linx%20Framework%20(DSL)" ?>
+ 
+
+  <Product Id="*" Name="$(var.ProductName)" Codepage="1252" Language="1046" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="c26bcb26-580b-4422-adff-f697dfe240ea">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" SummaryCodepage="1252" InstallPrivileges="elevated" Manufacturer="$(var.Manufacturer)" Languages="1046" />
+
+    <!--<UIRef Id="WixUI_Minimal"/>-->
+
+    <!-- Show the readme.txt file at the end of the installation -->
+    <!--<Property Id='NOTEPAD'>Notepad.exe</Property>
+    <CustomAction Id='LaunchFile' Property='NOTEPAD' ExeCommand='[INSTALLFOLDER]readme.txt' Return='asyncNoWait' />
+    <InstallExecuteSequence>
+      <Custom Action='LaunchFile' After='InstallFinalize'></Custom>
+    </InstallExecuteSequence>-->
+
+
+    <!--<Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="'Framework Components' instalados corretamente." />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Exibir documentação." />-->
+    
+
+    <CustomAction Id="CloseVSTBefore" ExeCommand="[INSTALLFOLDER]CloseVST.bat" Directory="INSTALLFOLDER" Execute="deferred" Return="asyncWait"/>
+    <CustomAction Id="CloseVSTAfter" ExeCommand="[INSTALLFOLDER]CloseVST.bat" Directory="INSTALLFOLDER" Execute="deferred" Return="asyncWait"/>
+    <CustomAction Id="UninstallGAC" ExeCommand="[INSTALLFOLDER]UninstallGACComponents.bat" Directory="INSTALLFOLDER" Execute="deferred" Return="asyncWait"/>
+    
+    <CustomAction Id="InstallBM" ExeCommand='[VS2017_ROOT_FOLDER]\Common7\IDE\VSIXInstaller.exe /q "[VSIX]Linx.BusinessModelDesigner.DslPackage.vsix"' Directory="VSIX" Execute="deferred" Return="check"/>
+    <CustomAction Id="InstallBV" ExeCommand='[VS2017_ROOT_FOLDER]\Common7\IDE\VSIXInstaller.exe /q "[VSIX]Linx.EntityAdapterDesigner.DslPackage.vsix"' Directory="VSIX" Execute="deferred" Return="check"/>
+    
+    <CustomAction Id="UninstallBM" ExeCommand='[VS2017_ROOT_FOLDER]\Common7\IDE\VSIXInstaller.exe /q /u:"5f92b837-d6aa-4bc6-9135-86f55732f61b"' Directory="VSIX" Execute="deferred" Return="check"/>
+    <CustomAction Id="UninstallBV" ExeCommand='[VS2017_ROOT_FOLDER]\Common7\IDE\VSIXInstaller.exe /q /u:"8763d601-a024-4873-9ef7-98724e3ce8cb"' Directory="VSIX" Execute="deferred" Return="check"/>
+  
+    <Property Id="WixShellExecTarget" Value="$(var.FrameDocsURL)"></Property>
+    <Property Id="ROOTDRIVE">
+      <![CDATA[C:\]]>
+    </Property>
+      
+    <CustomAction Id="OpenWebPage" BinaryKey ="WixCA" DllEntry="WixShellExec" Impersonate="yes"></CustomAction>
+    <InstallExecuteSequence>
+      <!--<Custom Action='OpenWebPage' After='InstallFinalize'>
+        NOT Installed
+      </Custom>-->
+      
+      <!--Close VS resources, after install files-->
+      <Custom Action="CloseVSTAfter" After="InstallFiles" >
+        NOT Installed
+      </Custom>
+        
+      <Custom Action="UninstallGAC" After="InstallFiles" >
+        NOT Installed
+      </Custom>
+      
+      <!--Install DSLs-->
+      <Custom Action="InstallBM" After="InstallFiles" >NOT Installed</Custom>
+      <Custom Action="InstallBV" After="InstallFiles" >NOT Installed</Custom> 
+
+      <!--Close VS resources, before uninstall files-->
+      <Custom Action="CloseVSTBefore" After='InstallInitialize'>REMOVE="ALL"</Custom> 
+      <!--Uninstall DSLs-->
+      <Custom Action="UninstallBM" After='InstallInitialize'>REMOVE="ALL"</Custom>    
+      <Custom Action="UninstallBV" After='InstallInitialize'>REMOVE="ALL"</Custom>     
+
+      <Custom Action='ShowEndMessageCustomAction' After='InstallFinalize'>
+        NOT Installed
+      </Custom>
+    </InstallExecuteSequence>
+
+    <!--Set Icon-->
+    <Icon Id="favicon.ico" SourceFile="favicon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="favicon.ico" />
+
+    <!--VS Install-->
+    <Property Id="VS2017_VSIX_INSTALLER" Value="[VS2017_ROOT_FOLDER]\Common7\IDE\VSIXInstaller.exe"></Property>    
+    <SetProperty
+     Id="VS2017_VSIX_INSTALLER"
+     Value="[VS2017_ROOT_FOLDER]\Common7\IDE\VSIXInstaller.exe"
+     After="LaunchConditions">
+        VS2017_ROOT_FOLDER
+   </SetProperty>
+    
+    <PropertyRef Id="VS2017DEVENV" />
+    <Condition Message="Microsoft Visual Studio 2017 is not installed. It is mandatory in order to install this product to have a valid Visual Studio 2017.">
+      <![CDATA[Installed OR VS2017DEVENV]]>
+    </Condition>
+    
+    <MajorUpgrade DowngradeErrorMessage="A newer version of $(var.ProductName) is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="$(var.ProductName)" Level="1">
+      <ComponentGroupRef Id="VsixComponents" />
+      <ComponentGroupRef Id="ServiceComponents" />
+      <!-- Install the shortcut -->
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+  </Product>
+
+  <!--https://www.add-in-express.com/creating-addins-blog/2014/01/29/create-wix-custom-actions/-->
+  <Fragment>
+    <Binary Id="CustomActionBinary" SourceFile="$(var.InstallerCustomAction.TargetDir)$(var.InstallerCustomAction.TargetName).CA.dll"/>
+    <CustomAction Id="ShowEndMessageCustomAction" BinaryKey="CustomActionBinary" DllEntry="ShowEndMessage" Execute="immediate" Return="check"/>
+  </Fragment>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+
+      <Directory Id="SystemFolder" Name="SystemFolder" />
+
+      <!--Files-->
+      <Directory Id="CustomProgramFilesFolder" Name="Linx Program Files">
+        <Directory Id="INSTALLFOLDER" Name="$(var.ProductFolder)" >
+          <Directory Id="VSIX" Name="vsix" />
+          <Directory Id="INFORMATION" Name="information" />
+          <!--Dynamic Directories-->
+          <?include ..\InstallerResources\ServiceDirectories.wsi?>
+          <?include ..\InstallerResources\AppDirectories.wsi?>
+          <?include ..\InstallerResources\PortalDirectories.wsi?>
+          <?include ..\InstallerResources\LibraryDirectories.wsi?>
+        </Directory>
+      </Directory>
+
+      <!--Menus-->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="$(var.ProductFolder)"/>
+      </Directory>
+
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <!-- Add the shortcut to your installer package -->
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="{6F44232F-1C0B-4278-AB2B-BFD34FAE8630}">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+             Name="$(var.ProductName) (IIS Service)"
+           Description="The Service Bus for $(var.ProductName)" Icon="favicon.ico"
+            Target="[#SERVICE_WEBIISEXPRESS.BAT]"
+                  WorkingDirectory="SERVICE"/>
+        <Shortcut Id="ApplicationStartMenuShortcut2"
+             Name="$(var.ProductName) (Cassini Service)"
+           Description="The Service Bus for $(var.ProductName)" Icon="favicon.ico"
+            Target="[#SERVICE_WEBDEVWEB.BAT]"
+                  WorkingDirectory="SERVICE"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\$(var.ProductFolder)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ServiceComponents">
+
+      <Component Id="UninstallGACComponents" Guid="B93F32FC-4B97-4BA7-BAA0-1670D22EC083" Directory="INSTALLFOLDER" KeyPath="yes">
+        <File Id="UninstallGACComponents.bat" Source="UninstallGACComponents.bat" />
+        <File Id="CloseVST.bat" Source="CloseVST.bat" />
+      </Component>
+        
+      <Component Id="SciLexer" Guid="B93F32FC-4B97-4BA7-BAA0-1670D22EC084" Directory="SystemFolder" KeyPath="yes">
+        <File Id="SciLexer.dll" Source="C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Common\ScintillaNET\SciLexer.dll" />
+        <File Id="SciLexer64.dll" Source="C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Common\ScintillaNET\SciLexer64.dll" />
+      </Component>
+
+      <?include ..\InstallerResources\ServiceFiles.wsi?>
+      <?include ..\InstallerResources\AppFiles.wsi?>
+      <?include ..\InstallerResources\PortalFiles.wsi?>
+      <?include ..\InstallerResources\LibraryFiles.wsi?>
+      <?include ..\InstallerResources\InformationFiles.wsi?>
+
+    </ComponentGroup>
+
+    <ComponentGroup Id="VsixComponents" Directory="VSIX">
+
+      <Component Id="BusinessModel" Guid="B93F32FC-4B97-4BA7-BAA0-1670D22EC088" KeyPath="yes">
+        <!--<Condition>VS2017DEVENV</Condition>-->
+        <!--<VSExtension:VsixPackage File="Linx.BusinessModelDesigner.DslPackage" VsixInstallerPathProperty="VS2017_VSIX_INSTALLER" PackageId="5f92b837-d6aa-4bc6-9135-86f55732f61b" Target="professional" TargetVersion="15.0" Vital="yes" Permanent="no" />-->
+        <File Id="Linx.BusinessModelDesigner.DslPackage" Name="Linx.BusinessModelDesigner.DslPackage.vsix" Source="C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Common\Linx\DSL\Linx.BusinessModelDesigner.DslPackage.vsix" />
+      </Component>
+
+      <Component Id="BusinessView" Guid="B93F32FC-4B97-4BA7-BAA0-1670D22EC089" KeyPath="yes">
+        <!--<Condition>VS2017DEVENV</Condition>-->
+        <!--<VSExtension:VsixPackage File="Linx.EntityAdapterDesigner.DslPackage" VsixInstallerPathProperty="VS2017_VSIX_INSTALLER" PackageId="8763d601-a024-4873-9ef7-98724e3ce8cb" Target="professional" TargetVersion="15.0" Vital="yes" Permanent="no" />-->
+        <File Id="Linx.EntityAdapterDesigner.DslPackage" Name="Linx.EntityAdapterDesigner.DslPackage.vsix" Source="C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Common\Linx\DSL\Linx.EntityAdapterDesigner.DslPackage.vsix" />
+      </Component>
+      
+
+    </ComponentGroup>
+  </Fragment>
+</Wix>

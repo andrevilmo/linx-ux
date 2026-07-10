@@ -1,0 +1,316 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="CadastroCliente_formViewer" class="panelTransaition">
+            <figure id="CadastroCliente_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.CadastroCliente().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="CadastroCliente_gbClienteWizard" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="ClienteWizard"><i class="icon-reorder"></i>ClienteWizard</div>
+                       <div class="tools">
+                           <a id="CadastroCliente_gbClienteWizard_anchor" href="#CadastroCliente_gbClienteWizard_body" role="button" data-toggle="collapse" data-parent="#CadastroCliente_gbClienteWizard" aria-controls="#CadastroCliente_gbClienteWizard_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="CadastroCliente_gbClienteWizard_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.CadastroCliente().getWithBinding(currentDataItem, $root.CadastroCliente().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroCliente_divBigIntCliente" class="" >
+                                           <label id="CadastroCliente_lblBigIntCliente" for="CadastroCliente_ntxBigIntCliente" class="control-label ellipsis" title="Big Int Cliente">Big Int Cliente
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="CadastroCliente_ntxBigIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntCliente', css: { vmEditing: $root.CadastroCliente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxBigIntCliente') ? ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxBigIntCliente') : (!isEmptyEntityFn($data) && $root.CadastroCliente().enabledForEditing()) }, igNumericEditor: { value: BigIntCliente, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxBigIntCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxBigIntCliente') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroCliente().entitySearchRange.has_ClienteWizardBigIntCliente(), 'icon-ok': $root.CadastroCliente().entitySearchRange.has_ClienteWizardBigIntCliente(), hide: $root.CadastroCliente().status() !== 'C' }, popoverWithBind: { template: '#CadastroCliente_rgBigIntCliente', vm: $root.CadastroCliente().entitySearchRange, ctrlName: 'CadastroCliente_rgcBigIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="CadastroCliente_rgBigIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroCliente_ntxbBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteWizardBigIntCliente_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#CadastroCliente_ntxBigIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroCliente_ntxeBigIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroCliente_ntxeBigIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroCliente_ntxeBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteWizardBigIntCliente_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#CadastroCliente_ntxBigIntCliente').igNumericEditor('option', 'readOnly', ($('#CadastroCliente_ntxbBigIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroCliente_ntxbBigIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroCliente_divBitCliente" class="" >
+                                           <label class="">
+                                             <input id="CadastroCliente_ckBitCliente" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ckBitCliente') ? ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ckBitCliente') : (!isEmptyEntityFn($data) && $root.CadastroCliente().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ckBitCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ckBitCliente') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing()), nullableChecked: BitCliente" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblCadastroCliente_ckBitCliente" class="align-label-checkbox">Bit Cliente</span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroCliente_divComboboxCliente" class="" >
+                                           <label id="CadastroCliente_lblComboboxCliente" for="CadastroCliente_cmbComboboxCliente" data-bind="css: { 'content-required': $root.CadastroCliente().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Combobox Cliente">Combobox Cliente
+                                           </label>
+                                           <span id="CadastroCliente_cmbComboboxCliente" class="form-control " data-bind="validatedField: 'ComboboxCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_cmbComboboxCliente') ? ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_cmbComboboxCliente') : (!isEmptyEntityFn($data) && $root.CadastroCliente().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing()), igCombo: {
+                                              selectedItems: ComboboxCliente,
+                                              dataSource:  $root.CadastroCliente().dataDomains.getItems('LX_CLIENTE', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroCliente_divDatetimeCliente" class="" >
+                                           <label id="CadastroCliente_lblDatetimeCliente" for="CadastroCliente_dtDatetimeCliente" class="control-label ellipsis" title="Datetime Cliente">Datetime Cliente
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="CadastroCliente_dtDatetimeCliente" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeCliente', css: { vmEditing: $root.CadastroCliente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_dtDatetimeCliente') ? ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_dtDatetimeCliente') : (!isEmptyEntityFn($data) && $root.CadastroCliente().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing()) },  igDatePicker: { value: DatetimeCliente, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="CadastroCliente_rgbtnDatetimeCliente"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroCliente().entitySearchRange.has_ClienteWizardDatetimeCliente(), 'icon-ok': $root.CadastroCliente().entitySearchRange.has_ClienteWizardDatetimeCliente(), hide: $root.CadastroCliente().status() !== 'C' }, popoverWithBind: { template: '#CadastroCliente_rgDatetimeCliente', vm: $root.CadastroCliente().entitySearchRange, ctrlName: 'CadastroCliente_rgcDatetimeCliente', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="CadastroCliente_rgDatetimeCliente" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="checked:ClienteWizardDatetimeCliente_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:ClienteWizardDatetimeCliente_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="CadastroCliente_divrgDatetimeCliente" >
+                                                      <div class="filterByRange" data-bind="visible: ClienteWizardDatetimeCliente_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="CadastroCliente_dtbDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteWizardDatetimeCliente_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#CadastroCliente_dtDatetimeCliente').igDatePicker('option', 'readOnly', (ui.value != null || $('#CadastroCliente_dteDatetimeCliente').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#CadastroCliente_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#CadastroCliente_dteDatetimeCliente').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#CadastroCliente_dtbDatetimeCliente').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="CadastroCliente_dteDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteWizardDatetimeCliente_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#CadastroCliente_dtDatetimeCliente').igDatePicker('option', 'readOnly', ($('#CadastroCliente_dtbDatetimeCliente').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#CadastroCliente_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#CadastroCliente_dteDatetimeCliente').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#CadastroCliente_dteDatetimeCliente').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: ClienteWizardDatetimeCliente_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ClienteWizardDatetimeCliente_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: ClienteWizardDatetimeCliente_predefFilter() != null && ClienteWizardDatetimeCliente_predefFilter()[0] && ClienteWizardDatetimeCliente_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ClienteWizardDatetimeCliente_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroCliente_divDecimalCliente" class="" >
+                                           <label id="CadastroCliente_lblDecimalCliente" for="CadastroCliente_ntxDecimalCliente" class="control-label ellipsis" title="Decimal Cliente">Decimal Cliente
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="CadastroCliente_ntxDecimalCliente" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalCliente', css: { vmEditing: $root.CadastroCliente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxDecimalCliente') ? ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxDecimalCliente') : (!isEmptyEntityFn($data) && $root.CadastroCliente().enabledForEditing()) }, igNumericEditor: { value: DecimalCliente, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxDecimalCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxDecimalCliente') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroCliente().entitySearchRange.has_ClienteWizardDecimalCliente(), 'icon-ok': $root.CadastroCliente().entitySearchRange.has_ClienteWizardDecimalCliente(), hide: $root.CadastroCliente().status() !== 'C' }, popoverWithBind: { template: '#CadastroCliente_rgDecimalCliente', vm: $root.CadastroCliente().entitySearchRange, ctrlName: 'CadastroCliente_rgcDecimalCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="CadastroCliente_rgDecimalCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroCliente_ntxbDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteWizardDecimalCliente_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#CadastroCliente_ntxDecimalCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroCliente_ntxeDecimalCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroCliente_ntxeDecimalCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroCliente_ntxeDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteWizardDecimalCliente_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#CadastroCliente_ntxDecimalCliente').igNumericEditor('option', 'readOnly', ($('#CadastroCliente_ntxbDecimalCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroCliente_ntxbDecimalCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroCliente_divIdCliente" class="" >
+                                           <label id="CadastroCliente_lblIdCliente" for="CadastroCliente_ntxIdCliente" data-bind="css: { 'content-required': $root.CadastroCliente().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Id Cliente">Id Cliente
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="CadastroCliente_ntxIdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.CadastroCliente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxIdCliente') ? ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxIdCliente') : (!isEmptyEntityFn($data) && $root.CadastroCliente().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdCliente, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxIdCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxIdCliente') : (isEmptyEntityFn($data) || !($root.CadastroCliente().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroCliente().entitySearchRange.has_ClienteWizardIdCliente(), 'icon-ok': $root.CadastroCliente().entitySearchRange.has_ClienteWizardIdCliente(), hide: $root.CadastroCliente().status() !== 'C' }, popoverWithBind: { template: '#CadastroCliente_rgIdCliente', vm: $root.CadastroCliente().entitySearchRange, ctrlName: 'CadastroCliente_rgcIdCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="CadastroCliente_rgIdCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroCliente_ntxbIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteWizardIdCliente_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#CadastroCliente_ntxIdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroCliente_ntxeIdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroCliente_ntxeIdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroCliente_ntxeIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteWizardIdCliente_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#CadastroCliente_ntxIdCliente').igNumericEditor('option', 'readOnly', ($('#CadastroCliente_ntxbIdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroCliente_ntxbIdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroCliente_divIdEstado" class="" >
+                                           <label id="CadastroCliente_lblIdEstado" for="CadastroCliente_lUpIdEstado" class="control-label ellipsis" title="Id Estado">Id Estado
+                                           </label>
+                                           <div id="CadastroCliente_lUpIdEstado" class="form-control input-group " data-bind="validatedField: 'IdEstado', css: { vmEditing: $root.CadastroCliente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_lUpIdEstado') ? ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_lUpIdEstado') : (!isEmptyEntityFn($data) && $root.CadastroCliente().enabledForEditing()) }, lookupControl: { vm: $root.CadastroCliente(), value: IdEstado, maxLength: 12,lookupName: '', isMultiSelection: false, multiSelectionValue: $root.CadastroCliente().entitySearchRange.IdEstado, fieldName: 'IdEstado', disabled:ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_lUpIdEstado') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_lUpIdEstado') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroCliente_divIntCliente" class="" >
+                                           <label id="CadastroCliente_lblIntCliente" for="CadastroCliente_ntxIntCliente" class="control-label ellipsis" title="Int Cliente">Int Cliente
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="CadastroCliente_ntxIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IntCliente', css: { vmEditing: $root.CadastroCliente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxIntCliente') ? ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxIntCliente') : (!isEmptyEntityFn($data) && $root.CadastroCliente().enabledForEditing()) }, igNumericEditor: { value: IntCliente, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxIntCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxIntCliente') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroCliente().entitySearchRange.has_ClienteWizardIntCliente(), 'icon-ok': $root.CadastroCliente().entitySearchRange.has_ClienteWizardIntCliente(), hide: $root.CadastroCliente().status() !== 'C' }, popoverWithBind: { template: '#CadastroCliente_rgIntCliente', vm: $root.CadastroCliente().entitySearchRange, ctrlName: 'CadastroCliente_rgcIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="CadastroCliente_rgIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroCliente_ntxbIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteWizardIntCliente_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#CadastroCliente_ntxIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroCliente_ntxeIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroCliente_ntxeIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroCliente_ntxeIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteWizardIntCliente_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#CadastroCliente_ntxIntCliente').igNumericEditor('option', 'readOnly', ($('#CadastroCliente_ntxbIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroCliente_ntxbIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroCliente_divSmallIntCliente" class="" >
+                                           <label id="CadastroCliente_lblSmallIntCliente" for="CadastroCliente_ntxSmallIntCliente" class="control-label ellipsis" title="Small Int Cliente">Small Int Cliente
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="CadastroCliente_ntxSmallIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntCliente', css: { vmEditing: $root.CadastroCliente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxSmallIntCliente') ? ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxSmallIntCliente') : (!isEmptyEntityFn($data) && $root.CadastroCliente().enabledForEditing()) }, igNumericEditor: { value: SmallIntCliente, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxSmallIntCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_ntxSmallIntCliente') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroCliente().entitySearchRange.has_ClienteWizardSmallIntCliente(), 'icon-ok': $root.CadastroCliente().entitySearchRange.has_ClienteWizardSmallIntCliente(), hide: $root.CadastroCliente().status() !== 'C' }, popoverWithBind: { template: '#CadastroCliente_rgSmallIntCliente', vm: $root.CadastroCliente().entitySearchRange, ctrlName: 'CadastroCliente_rgcSmallIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="CadastroCliente_rgSmallIntCliente" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroCliente_ntxbSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteWizardSmallIntCliente_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#CadastroCliente_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroCliente_ntxeSmallIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroCliente_ntxeSmallIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroCliente_ntxeSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteWizardSmallIntCliente_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#CadastroCliente_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', ($('#CadastroCliente_ntxbSmallIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroCliente_ntxbSmallIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="CadastroCliente_divStringCliente" class="" >
+                                           <label id="CadastroCliente_lblStringCliente" for="CadastroCliente_tbStringCliente" class="control-label ellipsis" title="String Cliente">String Cliente
+                                           </label>
+                                           <input id="CadastroCliente_tbStringCliente" class="form-control ellipsis" data-bind="attr: { title: StringCliente }, validatedField: 'StringCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_tbStringCliente') ? ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_tbStringCliente') : (!isEmptyEntityFn($data) && $root.CadastroCliente().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringCliente, readOnly: ctrl.hasCustomEnable($root.CadastroCliente(), 'CadastroCliente_tbStringCliente') ? !ctrl.getCustomEnable($root.CadastroCliente(), 'CadastroCliente_tbStringCliente') : (isEmptyEntityFn($data) || !$root.CadastroCliente().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="CadastroCliente_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.CadastroCliente().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyCadastroCliente_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyCadastroCliente_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyCadastroCliente_dGrid_templateLayout', vm: function(){return $root.CadastroCliente().gridSaveStates['scyCadastroCliente_dGrid'];}, ctrlName: 'scyCadastroCliente_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-external-link" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyCadastroCliente_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyCadastroCliente_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Salvar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como...</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyCadastroCliente_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroCliente().dataToolbar.canExport(), click: function () {$root.CadastroCliente().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyCadastroCliente_dGrid" data-bind="css: { IsEditableStyle: $root.CadastroCliente().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

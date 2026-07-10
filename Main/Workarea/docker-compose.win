@@ -1,0 +1,25 @@
+version: '2.1'
+services:
+    site:
+        build:
+            context: .
+            dockerfile: Dockerfile.win
+        container_name: my_workarea_site
+        environment:
+            NODE_ENV: production
+        ports:
+            - 8000
+networks:
+    default:
+        external:
+            name: nat
+
+
+################
+### cmds
+################
+#$ docker-compose -f docker-compose.win.yml up --build
+
+#$ docker-compose -f docker-compose.win.yml start
+#$ docker-compose -f docker-compose.win.yml stop
+#$ docker-compose -f docker-compose.win.yml rm

@@ -1,0 +1,1 @@
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Linx.Internet.Application.MvcApplication" Language="C#" %>

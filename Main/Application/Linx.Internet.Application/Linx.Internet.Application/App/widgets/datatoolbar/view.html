@@ -1,0 +1,193 @@
+﻿<div class="wr-datatoolbar">
+    <!-- ko if: (typeof dataToolbar.title === 'function') && !isNullOrEmpty(dataToolbar.title()) -->
+    <span class="txt-caption-externa ellipsis" data-bind="text: dataToolbar.title()"></span>
+    <!--/ko-->
+
+    <div id="screen-meta-links" class="pull-right">
+
+        <div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle options-link">
+
+            <!--XXXko if: dataToolbar.canChangeViewModeGrid() -->
+            <!--        <a class="btn btn-sm btn-default" data-trigger="hover" data-container="body" data-placement="bottom" title="Limpar" data-bind="click: dataToolbar.changeViewModeGrid"><i class="fa fa-table"></i></a>
+            -->
+            <!--XXX/ko-->
+
+            <!--XXXko if: dataToolbar.canChangeViewModeForm() -->
+            <!--        <a class="btn btn-sm btn-default" data-trigger="hover" data-container="body" data-placement="bottom" title="Limpar" data-bind="click: dataToolbar.changeViewModeForm"><i class="fa fa-list-alt"></i></a>
+            -->
+            <!--XXX/ko-->
+
+            <a class="btn btn-sm btn-default" data-trigger="hover" data-container="body" data-placement="bottom" title="Ajuda LinxShare" data-bind="click: dataToolbar.helper"><i class="fa fa-question"></i></a>
+
+            <!-- ko if: dataToolbar.canQuickSearch && dataToolbar.canQuickSearch() -->
+            <a class="btn btn-sm btn-default" data-trigger="hover" data-container="body" data-placement="bottom" title="Pesquisa rápida" data-bind="click: dataToolbar.quickSearch"><i id="icon-bolt" class="icon-bolt"></i></a>
+            <!--/ko-->
+
+            <!-- ko if: dataToolbar.canClear() -->
+            <a class="btn btn-sm btn-default" data-trigger="hover" data-container="body" data-placement="bottom" title="Limpar" data-bind="click: dataToolbar.clear"><i class="fa fa-eraser"></i></a>
+            <!--/ko-->
+
+            <!--ko if: dataToolbar.canCustomSearch() && $root.managerAuth.customSearch && !$root.managerAuth.isLoginPOSUXMode-->
+            <a class="btn btn-sm btn-default " data-trigger="hover" data-container="body" data-placement="bottom" title="Pesquisa Especial" data-bind="click: dataToolbar.customSearch"><i class="fa fa-filter"></i></a>
+            <!--/ko-->
+
+            <!-- ko if: dataToolbar.canQuery() -->
+            <a class="btn btn-sm btn-default" data-trigger="hover" data-container="body" data-placement="bottom" title="Pesquisar" data-bind="click: dataToolbar.query"><i class="fa fa-search"></i></a>
+            <!--/ko-->
+
+            <!-- ko if: dataToolbar.canRefreshCurrentData() -->
+            <a class="btn btn-sm btn-default " data-trigger="hover" data-container="body" data-placement="bottom" title="Atualizar informações" data-bind="click: dataToolbar.refreshCurrentData"><i class="fa fa-refresh"></i></a>
+            <a class="btn btn-sm btn-default " data-trigger="hover" data-container="body" data-placement="bottom" title="Filtro da pesquisa" data-bind="click: dataToolbar.lastSearchFilter"><i class="fa fa-filter"></i></a>
+            <!--/ko-->
+
+            <a href="" class="btn btn-sm btn-default " data-trigger="hover" data-container="body" data-placement="bottom" title="Primeiro" data-bind="css: { disabled: !dataToolbar.canGoFirst() }, visible: dataToolbar.canNavigate, click: dataToolbar.goFirst"><i class="fa fa-fast-backward"></i></a>
+            <a href="" class="btn btn-sm btn-default " data-trigger="hover" data-container="body" data-placement="bottom" title="Anterior" data-bind="css: { disabled: !dataToolbar.canGoBack() }, visible: dataToolbar.canNavigate, click: dataToolbar.goBack"><i class="fa fa-backward"></i></a>
+            <a href="" class="btn btn-sm btn-default link-index-page" title="Mudar Visão Atual (Formulário/Grade)" data-bind="css: { disabled: !dataToolbar.canViewInfo() }, visible: dataToolbar.canNavigate, click: dataToolbar.viewInfo"><span class="caption index-page" data-bind="    text: dataToolbar.currentRecordInfo">10000/10000</span></a>
+            <a href="" class="btn btn-sm btn-default " data-trigger="hover" data-container="body" data-placement="bottom" title="Próximo" data-bind="css: { disabled: !dataToolbar.canGoForward() }, visible: dataToolbar.canNavigate, click: dataToolbar.goForward"><i class="fa fa-forward"></i></a>
+            <a href="" class="btn btn-sm btn-default " data-trigger="hover" data-container="body" data-placement="bottom" title="Último" data-bind="css: { disabled: !dataToolbar.canGoLast() }, visible: dataToolbar.canNavigate, click: dataToolbar.goLast"><i class="fa fa-fast-forward"></i></a>
+
+
+            <!-- ko if: dataToolbar.canAddNew() -->
+            <a class="btn btn-sm btn-default green" data-trigger="hover" data-container="body" data-placement="bottom" title="Novo Registro" data-bind="click: dataToolbar.addNew"><i class="fa fa-plus"></i></a>
+            <!--/ko-->
+
+            <!-- ko if: dataToolbar.canEdit() -->
+            <a class="btn btn-sm btn-default editbtn yellow" data-trigger="hover" data-container="body" data-placement="bottom" title="Editar" data-bind="click: dataToolbar.edit"><i class="fa fa-edit"></i></a>
+            <!--/ko-->
+
+            <!-- ko if: dataToolbar.canRemove() -->
+            <a class="btn btn-sm btn-default red" data-trigger="hover" data-container="body" data-placement="bottom" title="Remover Registro" data-bind="click: dataToolbar.remove"><i class="fa fa-trash-o"></i></a>
+            <!--/ko-->
+
+            <!-- ko if: dataToolbar.canSave() -->
+            <a class="btn btn-sm btn-default green" data-trigger="hover" data-container="body" data-placement="bottom" title="Salvar" data-bind="click: dataToolbar.save"><i class="fa fa-save"></i></a>
+            <!--/ko-->
+
+            <!-- ko if: dataToolbar.canUndo() -->
+            <a class="btn btn-sm btn-default yellow" data-trigger="hover" data-container="body" data-placement="bottom" title="Cancelar Alterações" data-bind="click: dataToolbar.undo"><i class="fa fa-undo"></i></a>
+            <!--/ko-->
+
+            <!-- INICIO: BOTAO RELATORIO -->
+            <!-- ko if: dataToolbar.canPrint() && hasReports() -->
+            <!-- ko if: hasOneReport() -->
+
+            <a class="btn btn-sm btn-default " data-bind="attr: { href: firstReportLink() }" data-trigger="hover" data-container="body" data-placement="bottom" title="Imprimir" href="#"><i class="fa fa-print"></i></a>
+            <!--/ko-->
+
+            <!-- ko if: !hasOneReport() -->
+
+            <ul class="navbar-nav allmenu">
+                <li class="dropdown">
+                    <a href="#" title="Relatórios" class="dropdown-toggle btn btn-sm btn-default" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <i class="fa fa-print"></i>
+                    </a>
+                    <ul class="dropdown-menu extended export">
+                        <li>
+                            <ul class="dropdown-menu-list scroller" style="height: 250px;" data-bind="foreach: REPORTS_VM">
+                                <li>
+                                    <button class="btn btn-default" data-bind="click: $parent.UI_btnReport_Click, html: htmlLink"></button>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!--/ko-->
+            <!--/ko-->
+            <!-- FIM: BOTAO RELATORIO -->
+
+            <!-- INICIO: BOTOES EXTRAS -->
+            <!-- ko if: !$root.managerAuth.isLoginPOSUXMode && ( dataToolbar.canExport() || dataToolbar.hasDataFeed())-->
+            <ul class="navbar-nav allmenu">
+                <li class="dropdown">
+                    <a href="#" title="Utilitários" class="dropdown-toggle btn btn-sm btn-default" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><i class="fa fa-gear"></i></a>
+                    <ul class="dropdown-menu extended notification">
+                        <li>
+                            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; /*height: 250px;*/">
+                                <ul class="dropdown-menu-list scroller" style="/*height: 250px;*/">
+                                    <li data-bind="css: { disabled: !dataToolbar.canExport() }, visible: dataToolbar.canExport()">
+                                        <a href="javascript:;" class="cancel-rotate" title="Layouts de Planilhas Salvos" data-bind="click: function () { dataToolbar.exportData(false, true); }">
+                                            <i class="fa fa-file-excel-o"></i>
+                                            Layouts de Planilhas Salvos
+                                        </a>
+                                    </li>
+
+                                    <li data-bind="css: { disabled: !dataToolbar.canExport() }, visible: dataToolbar.canExport()">
+                                        <a href="javascript:;" class="cancel-rotate" title="Novo Layout de Planilha" data-bind="click: function () { dataToolbar.exportData(true, true); }">
+                                            <i class="fa fa-file-excel-o"></i>
+                                            Novo Layout de Planilha
+                                        </a>
+                                    </li>
+
+                                    <li data-bind="css: { disabled: !dataToolbar.canExport() }, visible: dataToolbar.canExport()">
+                                        <a href="javascript:;" class="cancel-rotate" title="Layouts UI" data-bind="click: function () { dataToolbar.customLayout(); }">
+                                            <i class="fa fa-file-excel-o"></i>
+                                            Layouts UI
+                                        </a>
+                                    </li>
+
+                                    <li data-bind="css: { disabled: !dataToolbar.canExport() }, visible: dataToolbar.canExport()">
+                                        <a href="javascript:;" class="cancel-rotate" title="Layouts de Relatórios Salvos" data-bind="click: function () { dataToolbar.exportData(false, false); }">
+                                            <i class="fa fa-print"></i>
+                                            Layouts de Relatórios Salvos
+                                        </a>
+                                    </li>
+
+                                    <li data-bind="css: { disabled: !dataToolbar.canExport() }, visible: dataToolbar.canExport()">
+                                        <a href="javascript:;" class="cancel-rotate" title="Novo Layout de Relatório" data-bind="click: function () { dataToolbar.exportData(true, false); }">
+                                            <i class="fa fa-print"></i>
+                                            Novo Layout de Relatório
+                                        </a>
+                                    </li>
+
+                                    <!--
+                                    <li data-bind="css: { disabled: !dataToolbar.canExport() }, visible: dataToolbar.canExport()">
+                                        <a href="javascript:;" class="cancel-rotate" title="Exportar para PDF"  data-bind="click: exportPDF" >
+                                            <i class="fa fa-file-pdf-o"></i>
+                                            Exportar para PDF
+                                        </a>
+                                    </li>
+                                    -->
+
+                                    <!--<li>
+                                    <a href="javascript:;" class="hide cancel-rotate" title="Template de Relatório" data-bind="css: { disabled: !dataToolbar.canExport() }, visible: dataToolbar.canExport(), click: dataToolbar.exportData">
+                                        <i class="fa fa-cloud-download"></i>
+                                        Template de Relatório
+                                    </a>
+                                </li>-->
+
+                                    <li data-bind="css: { disabled: !dataToolbar.hasDataFeed() }, visible: dataToolbar.hasDataFeed()">
+                                        <a href="javascript:;" class="cancel-rotate" title="Endereço do serviço" data-bind="click: dataToolbar.showDataFeedUrl">
+                                            <i class="fa fa-globe"></i>
+                                            Endereço do Serviço 
+                                        </a>
+                                    </li>
+
+
+
+                                    <!--                            
+                                <li>
+                                    <a href="javascript:;" class="cancel-rotate" title="Upload de Fotos" data-bind="click: dataToolbar.importPhoto">
+                                        <i class="fa fa-picture-o"></i>
+                                        Upload de Fotos
+                                    </a>
+                                </li>
+                                -->
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!--/ko-->
+
+            <!-- FIM: BOTOES EXTRAS -->
+
+        </div>
+
+    </div>
+
+    <!-- ko if: dataToolbar.canQuickSearch && dataToolbar.canQuickSearch() -->
+    <input id="quickSearchElement" type="hidden" class="bigdrop quickSearch" />
+    <!--/ko-->
+</div>

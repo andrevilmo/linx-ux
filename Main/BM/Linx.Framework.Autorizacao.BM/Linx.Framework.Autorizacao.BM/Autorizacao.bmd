@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<businessModelDesignerRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="52df9383-17d7-41e6-a8a1-cc09f086a33f" name="" documentName="Autorizacao.bmd" targetNamespace="Linx.Framework.Autorizacao.BM" documentPath="C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\BM\Linx.Framework.Autorizacao.BM\Linx.Framework.Autorizacao.BM" noCode="false" dataContextName="AutorizacaoContext" removeAutomaticIndexes="false" removeRequiredAttributes="false" enableAutomaticAuthorization="false" enableAccessConnectionControl="false" setIdLinxWithIdGpecon="false" forceDynamicForeignKeyNames="false" controlIdLinxByApplicative="false" xmlns="http://schemas.microsoft.com/dsltools/BusinessModelDesigner">
+  <comments>
+    <comment Id="2554c321-208e-49fb-bc4d-f8bcc9208b9c" text="1 - Console de Administração&#xA;2 - Linx Administrativo&#xA;3 - Linx Operacional&#xA;4 - Linx Fast Pass (App)&#xA;5 - Linx POS Manager&#xA;6 - Controle de Licenças Linx&#xA;7 - Linx MDM Fiscal">
+      <subjects>
+        <modelClassMoniker name="//TCS_APLICATIVO" />
+      </subjects>
+    </comment>
+  </comments>
+  <types>
+    <modelClass Id="5b8a41fe-c7ff-4d3d-b379-87eba373a08c" name="TCS_IDENTIDADE_EXTERNA" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_IDENTIDADE_EXTERNA" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="0ddd3a44-a3a3-48f6-85c4-62d987c9ce00" name="ID_IDENTIDADE_EXTERNA" dataType="Long" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="9270b75b-e783-443a-ba9d-df0d6fb3e24d" name="ID_USUARIO_FK" dataType="Long" columnName="ID_USUARIO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="FK_TCS_IDENTIDADE_EXT_853598E7.ID_USUARIO" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="b5a0a474-71f6-4388-967d-e72ca267e7c4" name="IDENTIDADE_EXTERNA" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="e0a70fc7-d0b5-4a1a-9952-9f747215f182" name="LX_TIPO_AUTENTICADOR" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" domainName="TipoAutenticador" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" inStudy="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="852795d9-89c7-408a-9ab8-324c2f493cf9" name="TOKEN" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="255" isDimensionFilterSuggestion="false" inStudy="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="abfbef3d-60b2-4368-9ee2-333c0bbad54a" name="EXPIRACAO" dataType="DateTime" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" inStudy="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+    </modelClass>
+    <modelClass Id="75ec5a73-156f-41fc-a770-cc3c13596d47" name="TCS_APLICACAO" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_APLICACAO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="ae8c8113-71d3-45e6-a68e-1cebca391996" name="ID_APLICACAO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="760f8134-d627-45a3-80ed-d34b56b53a65" name="DESCRICAO_APLICACAO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="c4d056e5-4c89-4a7e-9cf6-a632ef1640a2" name="URL" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="577eb683-05f6-4f42-b532-080cf9f4c709" name="EM_DESENVOLVIMENTO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="483993a8-dc32-4f3e-82dc-833c918e6df9" name="ID_TCS_APLICATIVO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Tcs Aplicativo" foreignKey="eab42df8-1cd9-4f05-bfc2-0a56256b4ca9.ID_TCS_APLICATIVO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="f4cefec1-9628-4106-bd77-c0efd43fc655" name="UID_APLICACAO" dataType="Guid" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="74184f89-3c97-4762-9cc1-537a9935df65" name="URL_WORK_AREA" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="5fa71a88-d6bc-441e-a7d7-ea81b3e4b0d9">
+          <modelIndex Id="b6bbce7f-8810-4a6d-962d-69bb76eedc07" name="XAK1_TCS_APLICACAO" properties="DESCRICAO_APLICACAO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+        <classHasIndexes Id="ffa12dc1-6b39-4f1f-8f63-00849d3224cf">
+          <modelIndex Id="bc8a999a-419f-4b8e-b781-dacb0ee8719c" name="XAK2_TCS_APLICACAO" properties="UID_APLICACAO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="99253ed9-4574-4b1b-9f7c-783c7f4db1a6" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_AMBIENTE" />
+        </association>
+        <association Id="2dfee158-e97b-4947-865c-3c94736fdf47" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_APLICACAO_VERSAO_HISTORICO" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="c20d51cc-dd12-4979-8b7f-7e37b1214c24" name="TCS_CONEXAO_DB" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_CONEXAO_DB" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="5450e379-c738-41e9-bcd0-bd2cd48e8118" name="ID_CONEXAO_DB" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="8f6169fe-8220-4414-b17d-9a38f3d1cc0c" name="NOME_CONEXAO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="3e2c4684-7cf0-4513-a218-c4a91da5350f">
+          <modelIndex Id="dd1b339f-ee54-4230-831d-917eb10c1a65" name="XAK_TCS_CONEXAO_DB" properties="NOME_CONEXAO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="0463017e-55fe-467a-9343-c801c279baa2" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_APLICATIVO_CONEXAO" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="805b9283-afad-4aea-858f-7b5f606f0321" name="TCS_EMPRESA_AUTENTICACAO" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_EMPRESA_AUTENTICACAO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" enableIdLinxForSearching="false" enableIdGpeconForSearching="false" enableIdLinxForInserting="false" enableIdGpeconForInserting="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="8cfa4a74-4c1b-4452-a79b-c7ad10e5286c" name="ID_LINX" dataType="Int" isPrimaryKey="true" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="a998cf13-ccb7-4627-ab47-69933b3e89cf" name="NOME_EMPRESA" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="d7edac7d-d68a-4dcc-89cf-72d94f4a714f" name="UID_EMPRESA" dataType="Guid" defaultValue="Guid.NewGuid()" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="054122c9-3165-4d51-9d04-b28f7fe3fe09" name="CNPJ_CPF" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="20" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="887874ee-1358-4a86-9cdd-57e62731c901">
+          <modelIndex Id="b77dfa6b-1436-424f-af84-b1170ac2314a" name="XAK1_TCS_EMPRESA_AUTENTICACAO" properties="NOME_EMPRESA" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+        <classHasIndexes Id="f817894f-6077-4947-88ba-2821afa9e028">
+          <modelIndex Id="ed96dc5b-27e6-437d-918e-d19ba8dba9d8" name="XAK2_TCS_EMPRESA_AUTENTICACAO" properties="UID_EMPRESA" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+        <classHasIndexes Id="5b361f13-23d3-4783-81ae-a7f25e1e4c39">
+          <modelIndex Id="f0a87b7e-bf4b-4a09-bf2b-fbc30e9b08fa" name="XAK3_TCS_EMPRESA_AUTENTICACAO" properties="CNPJ_CPF" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="118e8240-8552-4a7a-936d-3571c9d5fd11" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_USUARIO_AUTENTICACAO" />
+        </association>
+        <association Id="1b6d6b9c-d64d-4c8b-91d2-2879a8886224" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_AMBIENTE" />
+        </association>
+        <association Id="968b9b90-641c-414e-9cdc-d307b9d7258b" sourcePropertyNameToTarget="EMPRESA_LISTA" targetPropertyNameToSource="GPECON" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_EMPRESA_GPECON" />
+        </association>
+        <association Id="a46df971-1300-4337-8e6b-6c32221b2511" sourcePropertyNameToTarget="GPECON_LISTA" targetPropertyNameToSource="EMPRESA" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_EMPRESA_GPECON" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="ca885409-325b-4cbd-87c3-b8225d290e82" name="TCS_USUARIO_ACESSO" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_USUARIO_ACESSO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" enableIdLinxForSearching="false" enableIdGpeconForSearching="false" enableIdLinxForInserting="false" enableIdGpeconForInserting="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="61971825-05ba-4736-80ce-7318c474031f" name="ID_TCS_USUARIO_ACESSO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Tcs Usuario Acesso" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="ccc7b7a9-604a-4ee3-9bd8-dc70481d14a2" name="INDICA_ADMINISTRADOR" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" sqlDefault="0" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="8314674d-7561-4df5-b8fc-ffca9df855fa" name="INDICA_MULTI_GPECON" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" sqlDefault="0" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="4bd48708-0fc7-412c-a2bc-c6353b85df72" name="INDICA_ACESSO_PADRAO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" sqlDefault="0" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="7937300f-4f19-4269-8f4f-648b4e493035" name="ID_TCS_AMBIENTE" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Tcs Ambiente" foreignKey="a1e7ddb2-9c11-4389-b761-d175b8bf7884.ID_TCS_AMBIENTE" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="dea40888-ebb0-49cf-a83b-a1f72eb8bc23" name="ID_USUARIO" dataType="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="50774042-1a1f-48f2-9899-ad89d73e38af.ID_USUARIO" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="5a5de44b-e176-48e2-aa21-57ada282803a" name="ID_TCS_AMBIENTE_RELACIONADO" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" displayName="Id Tcs Ambiente" foreignKey="91811a9c-9340-498b-8752-663a92dc38ea.ID_TCS_AMBIENTE" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="3edd403d-046d-433b-8c42-3886df47ca42">
+          <modelIndex Id="1bbfadb5-e8de-4c46-8dcc-bb786e8c8ffe" name="XAK1_TCS_USUARIO_ACESSO" properties="ID_TCS_AMBIENTE, ID_USUARIO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="dd6b6221-c6ce-4731-8ec8-39d38ef13fc3" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_SUPORTE_ACESSO_LOG" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="a6cc7e44-4931-4b09-8a0b-86f30c95b611" name="TCS_USUARIO_AUTENTICACAO" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_USUARIO_AUTENTICACAO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" enableIdLinxForSearching="false" enableIdGpeconForSearching="false" enableIdLinxForInserting="false" enableIdGpeconForInserting="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="13614b8f-6525-4ab4-ad3a-fd1cafd43a01" name="ID_USUARIO" dataType="Long" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="a65d32c3-318d-4122-9575-9964de473421" name="UID_USUARIO" dataType="Guid" defaultValue="Guid.NewGuid()" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="2f7fe83b-c997-4d9c-ac52-9ea595946e6e" name="NOME_AUTENTICACAO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="66ee4283-35aa-45e0-9303-e39d91b6b682" name="NOME_CURTO_USUARIO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="9773eb59-a438-47b4-8d39-533a24cd0c33" name="NOME_USUARIO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="0e6c1d37-3882-4ff6-bac0-b046530bcf34" name="INATIVO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="6cb2d782-775e-4ac7-866e-a4beec12eb7a" name="VIGENCIA_INICIAL" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="8" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="de5e7e78-7105-440c-a935-ab82483f390c" name="VIGENCIA_FINAL" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="8" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="e1c80bc5-087d-4c97-9f0e-75daa7c9e948" name="DATA_EXPIRACAO_SENHA" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="8" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="403d7b3c-f3ce-4cc7-b7d6-d1c5904470a6" name="EMAIL" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="ac631d57-4d84-425b-8d11-f7fb68eb4ee7" name="ID_LINX_GPECON" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="118e8240-8552-4a7a-936d-3571c9d5fd11.ID_LINX" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="3dc9d99f-9c88-42aa-88f3-aea892d76adb" name="LX_PFJ_FISICA_JURIDICA" dataType="Byte" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" domainName="LX_PFJ_FISICA_JURIDICA" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="33d55e90-b0ad-4cdb-ac38-63a5c4d9b04c" name="CNPJ_CPF" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="20" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="b3249908-72d3-43ea-b0de-972b13a36936" name="INSCR_ESTADUAL_RG" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="20" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="a8e64c7f-de47-4a5f-bf7f-349542bd07bd" name="LX_TIPO_LOGRADOURO" dataType="Byte" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" domainName="LxTipoLogradouro" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="c75c96ab-cdf0-45bf-8b3d-46b930b6ecc9" name="LOGRADOURO" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="fd9c58df-7e02-498f-ac3b-f4e78baf8d71" name="NUMERO" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="bdbc5d64-b860-4124-854d-3fc4a8f16240" name="COMPLEMENTO" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="eada9647-dd92-418e-a584-c813aaa21e49" name="BAIRRO" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="8ff06ac8-ae4f-41fe-a2ed-226d77d5d8bf" name="MUNICIPIO" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="f1aa2268-7161-45c2-a3b4-928c75fc64f6" name="UF" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="4" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="612c4289-3dbd-4608-bf7c-4ac83524a347" name="CEP" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="eb25d182-f075-41ef-bfb0-19a8da499921" name="OBS_ENDERECO" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="5e00cf6d-a463-4752-b613-71caa3572a53" name="FONE_CELULAR" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="20" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="2f198eec-7c08-42a6-9195-d97d6089d9e7" name="FONE_FIXO" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="20" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="7edb6397-4a50-4cd7-a361-22552cf6edef" name="RAMAL" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="6" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="e8e34bfd-8d4f-4e94-a037-fac04e433f79" name="DATA_CADASTRO" dataType="DateTime" isPrimaryKey="false" isIdentity="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" sqlDefault="(getdate())" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="d33f7a89-715d-4834-9dcd-ed747941c86f" name="DATA_ALTERACAO" dataType="DateTime" isPrimaryKey="false" isIdentity="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" sqlDefault="(getdate())" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="89e5196f-9456-4162-9218-732b4e9e472e" name="AUTENTICACAO_WINDOWS" dataType="Boolean" defaultValue="false" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" sqlDefault="0" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="6ba99721-525e-40ba-88dc-f7785ddac91b" name="INDICA_ACESSO_SUPORTE" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" sqlDefault="0" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="6dd6747f-fc41-4f7a-a70f-0efbbc2c828e">
+          <modelIndex Id="b86bada4-e140-4ca7-b119-9f49e7532143" name="XAK1_TCS_USUARIO_AUTENTICACAO" properties="NOME_AUTENTICACAO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+        <classHasIndexes Id="9e388d62-a838-448a-9b84-c904828cdb3b">
+          <modelIndex Id="760ccc06-fc81-4163-8f9d-a094c835ab6f" name="XAK2_TCS_USUARIO_AUTENTICACAO" properties="UID_USUARIO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="8e9da8c1-595a-4a6a-8f2c-653680bdab05" foreignKeyConstraintName="FK_TCS_IDENTIDADE_EXT_853598E7" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="true" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_IDENTIDADE_EXTERNA" />
+        </association>
+        <association Id="50774042-1a1f-48f2-9899-ad89d73e38af" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_USUARIO_ACESSO" />
+        </association>
+        <association Id="7de82ff8-bc10-4ca1-bbf8-61cf63c37c60" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_USUARIO_AMBIENTE_TOKEN" />
+        </association>
+        <association Id="a54ee343-7e2b-4e03-a131-48af41c370b5" targetMultiplicity="ZeroMany" targetPropertyNameToSource="USUARIO_SUPORTE" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_SUPORTE_ACESSO_LOG" />
+        </association>
+        <association Id="b4ea7c5e-2efd-4980-add5-5d3bde626e71" targetPropertyNameToSource="USUARIO_ACESSO" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_SUPORTE_ACESSO_LOG" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="5f6b0ae2-b469-4924-965a-c7886cf9502f" name="TCS_AMBIENTE" schema="LX_TCS" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" enableIdLinxForSearching="false" enableIdGpeconForSearching="false" enableIdLinxForInserting="false" enableIdGpeconForInserting="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="ba391bfd-34d3-49ac-a274-9dda90a0c4e5" name="ID_TCS_AMBIENTE" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Tcs Ambiente" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="1bd570c3-ee1c-4d20-a945-d543f4f0a52e" name="DESCRICAO_AMBIENTE" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="69cfaf5c-38d0-4841-8809-b73ab860596a" name="ID_APLICACAO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="99253ed9-4574-4b1b-9f7c-783c7f4db1a6.ID_APLICACAO" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="5a8f7600-2943-417e-8287-0ce4a31871d6" name="ID_LINX" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="1b6d6b9c-d64d-4c8b-91d2-2879a8886224.ID_LINX" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="8e35c501-2a1b-42a0-9c05-08d6e04b77f4">
+          <modelIndex Id="ab6d3fbe-7815-4f9f-a8f6-34f4689bfb61" name="XAK1_TCS_AMBIENTE" properties="DESCRICAO_AMBIENTE" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="a004614f-f8f3-474d-b653-b4415275872c" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_AMBIENTE_SERVICO_EXCECAO" />
+        </association>
+        <association Id="f2e87cea-d384-4bd6-bc95-e632660c0280" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_AMBIENTE_CONEXAO" />
+        </association>
+        <association Id="a1e7ddb2-9c11-4389-b761-d175b8bf7884" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_USUARIO_ACESSO" />
+        </association>
+        <association Id="19a0759a-9afc-4378-9839-3c6643a75533" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_USUARIO_AMBIENTE_TOKEN" />
+        </association>
+        <association Id="91811a9c-9340-498b-8752-663a92dc38ea" targetMultiplicity="ZeroMany" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_USUARIO_ACESSO" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="1168e784-11ad-4750-a2a3-a176f0ccd82b" name="TCS_EMPRESA_GPECON" schema="LX_TCS" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" enableIdLinxForSearching="false" enableIdGpeconForSearching="false" enableIdLinxForInserting="false" enableIdGpeconForInserting="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="f978a9ab-b738-4907-9016-daebca132e55" name="ID_LINX" dataType="Int" isPrimaryKey="true" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="968b9b90-641c-414e-9cdc-d307b9d7258b.ID_LINX" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="61b98d12-b47c-4d39-a554-ab68cdc05f22" name="ID_LINX_GPECON" dataType="Int" isPrimaryKey="true" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="a46df971-1300-4337-8e6b-6c32221b2511.ID_LINX" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+    </modelClass>
+    <modelClass Id="52d1662b-0585-4966-8140-fa5144739433" name="TCS_BANCO_SERVIDOR" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_BANCO_SERVIDOR" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="ca510eb0-9165-4f37-9230-dbceeae7453d" name="ID_TCS_BANCO_SERVIDOR" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Tcs Banco Servidor" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="97946b8e-f1b8-4d7b-8a04-ff1058b90d09" name="DESCRICAO_BANCO_SERVIDOR" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="80" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="0056413e-3871-438c-a68e-3a1c3163e955" name="LX_TIPO_SERVIDOR" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" domainName="TipoServidor" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="7ac3982d-0e9b-48d1-986c-034de6ffcbca" name="NOME_SERVIDOR" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="e9bf90be-d7c0-4aa6-8588-80376d210801" name="NOME_BANCO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="b5f1f546-5578-4580-8ef5-9df7c966d0a5" name="STRING_CONEXAO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="1000" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="7a656c06-ec76-4dbc-8844-6ae72d5b1135" name="SEQUENCIAL_INICIAL" dataType="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="887fcc0c-b798-427b-a988-e43433055b30" name="INCREMENTO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="0c867498-2408-4977-9ecd-f586bf14d52b">
+          <modelIndex Id="5716befa-977b-4548-9b51-684bfa3c6c9c" name="XAK1_TCS_BANCO_SERVIDOR" properties="DESCRICAO_BANCO_SERVIDOR" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="c1d924dd-654c-4436-9c97-bb2efe6d54d2" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_AMBIENTE_CONEXAO" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="a8a329a2-166d-46e2-a34f-0f6ff25a7cce" name="TCS_APLICACAO_VERSAO_HISTORICO" table="TCS_APLICACAO_VERSAO_HIST" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_APLICACAO_VERSAO_HIST" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="361452d4-6224-42be-b705-a76ef85fbfdc" name="ID_TCS_APLICACAO_VERSAO_HISTORICO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Tcs Aplicacao Versao Historico" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="d1e37d62-8bc8-490b-b3ec-a8fe5e84f7ed" name="VERSAO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="25" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="dfbad872-940a-4835-ba67-bdebec8952d0" name="DATA_ATUALIZACAO" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="2251125e-0a58-4e95-a926-88de8cd64e5d" name="ID_APLICACAO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="2dfee158-e97b-4947-865c-3c94736fdf47.ID_APLICACAO" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+    </modelClass>
+    <modelClass Id="ac962838-783f-404f-a502-c3cfb70c24b1" name="TCS_SERVICO" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_SERVICO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="3690dde0-4673-492a-aa8d-b3321ff7f376" name="ID_TCS_SERVICO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Tcs Servico" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="3c616eaf-713c-4dd6-b9df-f8ffe12a048f" name="NOME_SERVICO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="5a6759ce-6799-4892-bae4-b6db9467c4fc">
+          <modelIndex Id="3c91f54b-82ef-4872-99de-dde06832ef06" name="XAK1_TCS_SERVICO" properties="NOME_SERVICO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="26fefd44-e935-4893-ab61-eeba3097916e" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_AMBIENTE_SERVICO_EXCECAO" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="6891c773-70a3-4da8-a936-17c39403dc3c" name="TCS_APLICATIVO_CONEXAO" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_APLICATIVO_CONEXAO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="e1aff9aa-843b-4413-9eb3-615c8e279dfb" name="ID_TCS_APLICATIVO_CONEXAO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Tcs Aplicativo Conexao" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="9ec907cf-cd48-41d8-9d43-c3d93a16617f" name="ID_CONEXAO_DB" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="0463017e-55fe-467a-9343-c801c279baa2.ID_CONEXAO_DB" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="6f976365-f6f4-45b7-ba24-06bc31a06649" name="ID_TCS_APLICATIVO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Tcs Aplicativo" foreignKey="78c46037-5db4-441d-a56d-8855e7cd2fc3.ID_TCS_APLICATIVO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="5e27698c-97cd-4f8c-ab7b-e45f0eafe237">
+          <modelIndex Id="d788e3f2-0b17-4fe9-9228-8f8c530bb79b" name="XAK1_TCS_APLICATIVO_CONEXAO" properties="ID_CONEXAO_DB,ID_TCS_APLICATIVO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="a0eca5bf-9e65-4f12-9c47-f829875f5b21" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_AMBIENTE_CONEXAO" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="baae3b7a-e18b-42dd-9ee0-0ab3479dc1bd" name="TCS_AMBIENTE_SERVICO_EXCECAO" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_AMBIENTE_SERVICO_EX" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="9f6999c7-f436-4dea-a8ff-9227b8b48677" name="ID_TCS_AMBIENTE_SERVICO_EXCECAO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Tcs Ambiente Servico Excecao" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="cafe35be-52ab-4665-b5a8-fc2ae64c3aac" name="ID_TCS_AMBIENTE" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Tcs Ambiente" foreignKey="a004614f-f8f3-474d-b653-b4415275872c.ID_TCS_AMBIENTE" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="d1af33b5-5229-48aa-bcb2-62cc4f8cde41" name="ID_TCS_SERVICO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Tcs Servico" foreignKey="26fefd44-e935-4893-ab61-eeba3097916e.ID_TCS_SERVICO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="471c860e-422e-4782-b4bc-253bc95e1321" name="URL" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="7589b22c-f248-4487-a963-093a8b9246cc">
+          <modelIndex Id="164f6820-1139-4f1a-a87c-0d18e5b05919" name="XAK1_TCS_AMBIENTE_SERVICO_E" properties="ID_TCS_AMBIENTE,ID_TCS_SERVICO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+    </modelClass>
+    <modelClass Id="85047d6c-6184-49de-aa87-2c0070a9d15a" name="TCS_APLICATIVO" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_APLICATIVO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="664df4af-3a03-4fba-8509-7166691a49f5" name="ID_TCS_APLICATIVO" dataType="Int" isPrimaryKey="true" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Tcs Aplicativo" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="d6509c5d-3e27-483e-a52e-4db8742316e7" name="DESCRICAO_APLICATIVO" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="b1208a33-ba1c-4b29-b8fc-55ac4affd230">
+          <modelIndex Id="e49f883e-6527-4b71-a3cd-48b1d1403a56" name="XAK1_TCS_APLICATIVO" properties="DESCRICAO_APLICATIVO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="78c46037-5db4-441d-a56d-8855e7cd2fc3" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_APLICATIVO_CONEXAO" />
+        </association>
+        <association Id="eab42df8-1cd9-4f05-bfc2-0a56256b4ca9" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false" removeAutomaticIndex="false">
+          <modelClassMoniker name="//TCS_APLICACAO" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="c1e817ae-cc73-4659-92ee-61e79a4e4380" name="TCS_AMBIENTE_CONEXAO" schema="LX_TCS" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" enableIdLinxForSearching="false" enableIdGpeconForSearching="false" enableIdLinxForInserting="false" enableIdGpeconForInserting="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="747345d1-0a1f-4e2c-a09e-bfc43097f397" name="ID_TCS_AMBIENTE_CONEXAO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Tcs Ambiente Conexao" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="3c18f3be-4603-45d2-9f1d-2814d79f96e0" name="ID_TCS_AMBIENTE" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Tcs Ambiente" foreignKey="f2e87cea-d384-4bd6-bc95-e632660c0280.ID_TCS_AMBIENTE" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="2c2b1860-388f-4967-bf82-d5a25325d09b" name="ID_TCS_APLICATIVO_CONEXAO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Tcs Aplicativo Conexao" foreignKey="a0eca5bf-9e65-4f12-9c47-f829875f5b21.ID_TCS_APLICATIVO_CONEXAO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="f37db28c-e62a-44e5-ab0e-71100f8b1d1b" name="ID_TCS_BANCO_SERVIDOR" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Tcs Banco Servidor" foreignKey="c1d924dd-654c-4436-9c97-bb2efe6d54d2.ID_TCS_BANCO_SERVIDOR" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="a0cf5578-2e66-4f30-a4da-b6e8d4f13a50">
+          <modelIndex Id="692a683c-907f-4387-bb27-9339d19adbb3" name="XAK1_TCS_AMBIENTE_CONEXAO" properties="ID_TCS_AMBIENTE,ID_TCS_APLICATIVO_CONEXAO,ID_TCS_BANCO_SERVIDOR" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+    </modelClass>
+    <modelClass Id="0ad91fce-4be7-4302-aa40-7232a54995f0" name="TCS_USUARIO_AMBIENTE_TOKEN" schema="LX_TCS" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="477cd4f3-9864-4c5b-ad48-45c4f4751dd6" name="ID_TCS_USUARIO_AMBIENTE_TOKEN" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Tcs Usuario Ambiente Token" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="79ff6578-d335-475e-95f6-446c9f6df60d" name="ID_TCS_AMBIENTE" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Tcs Ambiente" foreignKey="19a0759a-9afc-4378-9839-3c6643a75533.ID_TCS_AMBIENTE" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="8a17ad99-8289-48e5-9b7e-77f3bc8226fb" name="ID_USUARIO" dataType="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="7de82ff8-bc10-4ca1-bbf8-61cf63c37c60.ID_USUARIO" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="cd617680-415c-473b-a52b-f75428d3f6c0" name="TOKEN" dataType="Guid" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+    </modelClass>
+    <modelClass Id="e0308997-a186-4268-b511-69d27cbf6f9b" name="TCS_SUPORTE_ACESSO_LOG" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_SUPORTE_ACESSO_LOG" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" enableAudit="false">
+      <attributes>
+        <modelAttribute Id="511fc3c4-c381-40e6-9fce-22fed78cf703" name="ID_TCS_SUPORTE_ACESSO_LOG" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Tcs Suporte Acesso Log" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="d0ad9c61-1e31-40b2-8485-fdc010eae57d" name="ID_TCS_USUARIO_ACESSO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Tcs Usuario Acesso" foreignKey="dd6b6221-c6ce-4731-8ec8-39d38ef13fc3.ID_TCS_USUARIO_ACESSO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="d6ccc7d3-65ba-4d3d-8150-efa045646ad0" name="ID_USUARIO_ACESSO" dataType="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="b4ea7c5e-2efd-4980-add5-5d3bde626e71.ID_USUARIO" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="2a9dca82-391c-412e-830c-a01d2f7e8c05" name="ID_USUARIO_SUPORTE" dataType="Long" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" foreignKey="a54ee343-7e2b-4e03-a131-48af41c370b5.ID_USUARIO" notMapped="false" isComputed="false" maxLength="16" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="bdb71866-16c0-4b35-98a7-a8ace0b46b9b" name="DATA_CADASTRO" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="e858d008-6b85-4f1d-9584-507afd30360f" name="DATA_ACESSO" dataType="DateTime" isPrimaryKey="false" isIdentity="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+        <modelAttribute Id="43782419-4c5b-4fed-b267-aaea5219b48d" name="ACESSO_EXPIRADO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" brandDecimalsControl="false" hasAudit="false" />
+      </attributes>
+    </modelClass>
+  </types>
+  <dbProviders>
+    <businessModelDesignerRootHasDbProviders Id="bed950cb-3b17-4eff-883c-b7bd90b7635b">
+      <dbProvider Id="7d78a42d-11f2-4e17-a0ba-51ad4be81071" name="DbProvider1" server="a-srv111.linx-inves.com.br\sql2017" catalog="DEV-UX-Portal-Main" windowsAuthentication="true" isDefault="true" connectionName="FrameworkAutorizacao" />
+    </businessModelDesignerRootHasDbProviders>
+    <businessModelDesignerRootHasDbProviders Id="e6dfab71-f69e-47eb-9bea-6af58b65eaa2">
+      <dbProvider Id="64e0efca-41c2-4e23-ad72-9300cc7a6d14" name="DbProvider11" server="192.168.122.207;direct=True;sid=ORA11G;port=1521" userId="LX_TCS_LINXUX_AUTORIZACAO" password="LX_TCS_LINXUX_AUTORIZACAO" windowsAuthentication="false" type="Oracle" isDefault="false" connectionName="FrameworkAutorizacao" />
+    </businessModelDesignerRootHasDbProviders>
+  </dbProviders>
+</businessModelDesignerRoot>

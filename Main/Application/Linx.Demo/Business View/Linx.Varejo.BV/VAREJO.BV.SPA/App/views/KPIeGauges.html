@@ -1,0 +1,706 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="KPIeGauges_formViewer" class="panelTransaition">
+            <figure id="KPIeGauges_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.KPIeGauges().viewType() === 'Main' ? '' : 'none' }">
+                                       <div id="KPIeGauges_gbVenda" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="Venda"><i class="icon-reorder"></i>Venda</div>
+                       <div class="tools">
+                           <a id="KPIeGauges_gbVenda_anchor" href="#KPIeGauges_gbVenda_body" role="button" data-toggle="collapse" data-parent="#KPIeGauges_gbVenda" aria-controls="#KPIeGauges_gbVenda_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="KPIeGauges_gbVenda_body" class="portlet-body collapse in" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="KPIeGauges_gbExpander_b25548d0f53241a49fc1007dc603f28f" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gbox position-element"  >
+                   <div class="portlet box " >
+                       <div id="KPIeGauges_gbExpander_b25548d0f53241a49fc1007dc603f28f_body" class="portlet-body" >
+                           <div data-bind="with: $root.KPIeGauges().getWithBinding(currentDataItem, $root.KPIeGauges().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="KPIeGauges_divIdVenda" class="" >
+                                               <label id="KPIeGauges_lblIdVenda" for="KPIeGauges_ntxIdVenda" data-bind="css: { 'content-required': $root.KPIeGauges().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Id Venda">Id Venda
+                                               </label>
+                                               <div class="input-group">
+                                                   <input id="KPIeGauges_ntxIdVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.KPIeGauges().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxIdVenda') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxIdVenda') : (!isEmptyEntityFn($data) && $root.KPIeGauges().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVenda, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxIdVenda') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxIdVenda') : (isEmptyEntityFn($data) || !($root.KPIeGauges().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.KPIeGauges().entitySearchRange.has_VendaIdVenda(), 'icon-ok': $root.KPIeGauges().entitySearchRange.has_VendaIdVenda(), hide: $root.KPIeGauges().status() !== 'C' }, popoverWithBind: { template: '#KPIeGauges_rgIdVenda', vm: $root.KPIeGauges().entitySearchRange, ctrlName: 'KPIeGauges_rgcIdVenda', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="KPIeGauges_rgIdVenda" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="KPIeGauges_ntxbIdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxIdVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#KPIeGauges_ntxeIdVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#KPIeGauges_ntxeIdVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="KPIeGauges_ntxeIdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxIdVenda').igNumericEditor('option', 'readOnly', ($('#KPIeGauges_ntxbIdVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#KPIeGauges_ntxbIdVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="KPIeGauges_divBigIntVenda" class="" >
+                                               <label id="KPIeGauges_lblBigIntVenda" for="KPIeGauges_ntxBigIntVenda" class="control-label ellipsis" title="Big Int Venda">Big Int Venda
+                                               </label>
+                                               <div class="input-group">
+                                                   <input id="KPIeGauges_ntxBigIntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntVenda', css: { vmEditing: $root.KPIeGauges().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxBigIntVenda') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxBigIntVenda') : (!isEmptyEntityFn($data) && $root.KPIeGauges().enabledForEditing()) }, igNumericEditor: { value: BigIntVenda, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxBigIntVenda') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxBigIntVenda') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.KPIeGauges().entitySearchRange.has_VendaBigIntVenda(), 'icon-ok': $root.KPIeGauges().entitySearchRange.has_VendaBigIntVenda(), hide: $root.KPIeGauges().status() !== 'C' }, popoverWithBind: { template: '#KPIeGauges_rgBigIntVenda', vm: $root.KPIeGauges().entitySearchRange, ctrlName: 'KPIeGauges_rgcBigIntVenda', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="KPIeGauges_rgBigIntVenda" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="KPIeGauges_ntxbBigIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaBigIntVenda_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxBigIntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#KPIeGauges_ntxeBigIntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#KPIeGauges_ntxeBigIntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="KPIeGauges_ntxeBigIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaBigIntVenda_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxBigIntVenda').igNumericEditor('option', 'readOnly', ($('#KPIeGauges_ntxbBigIntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#KPIeGauges_ntxbBigIntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="KPIeGauges_divBigIntVendaKpiInfo" class="" >
+                                               <label id="KPIeGauges_lblBigIntVendaKpiInfo" for="KPIeGauges_tbBigIntVendaKpiInfo" data-bind="css: { 'content-required': $root.KPIeGauges().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Big Int Venda (KPI)">Big Int Venda (KPI)
+                                               </label>
+                                               <input id="KPIeGauges_tbBigIntVendaKpiInfo" class="form-control ellipsis" data-bind="attr: { title: BigIntVendaKpiInfo }, validatedField: 'BigIntVendaKpiInfo', css: { IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_tbBigIntVendaKpiInfo') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_tbBigIntVendaKpiInfo') : (!isEmptyEntityFn($data) && $root.KPIeGauges().status() === 'C') }, igTextEditor: { value: BigIntVendaKpiInfo, readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_tbBigIntVendaKpiInfo') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_tbBigIntVendaKpiInfo') : (isEmptyEntityFn($data) || $root.KPIeGauges().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="KPIeGauges_gbExpander_4f232fb4c56b4911825b18188983ca4c" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gbox position-element"  >
+                   <div class="portlet box " >
+                       <div id="KPIeGauges_gbExpander_4f232fb4c56b4911825b18188983ca4c_body" class="portlet-body" >
+                           <div data-bind="with: $root.KPIeGauges().getWithBinding(currentDataItem, $root.KPIeGauges().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="KPIeGauges_divCopy_18272609_BigIntVenda" class="" >
+                                               <label id="KPIeGauges_lblCopy_18272609_BigIntVenda" for="KPIeGauges_gaugeCopy_18272609_BigIntVenda" class="control-label ellipsis" title="Big Int Venda">Big Int Venda
+                                               </label>
+                                                   <div id="gaugeKPIeGauges_gaugeCopy_18272609_BigIntVenda" class="ig-chart-root">
+                                                   </div>
+                                                   <p class="gaugeLegend" ><span id="gaugeKPIeGauges_gaugeCopy_18272609_BigIntVenda_Legend"></span></p>
+                                                   <!-- ko template: {name: 'EmptyTemplate', data: $data, 
+                                                   afterRender: function(element) {
+                                                       var gauge = $("#gaugeKPIeGauges_gaugeCopy_18272609_BigIntVenda");
+                                                       
+$root.getGaugesFormularioRanges(completeKPIData);
+function completeKPIData(range, min, max){
+	gauge.kendoRadialGauge({
+	gaugeArea: {background: 'transparent'}
+	,pointer: {value: getAbsoluteValue(BigIntVenda), color: '#8B8386'}
+,scale: {
+	startAngle: 0
+	,endAngle: 180
+	,min: min
+	,max: max
+,labels: {
+	position: 'outside'
+	,format: 'C2'
+	,color: '#8B8386'
+	}
+	,ranges: range
+}
+});
+}
+$(window).on("resize", function() {kendo.resize($(gauge));});
+
+
+                                                   if(gauge.data("kendoRadialGauge") !== undefined){
+                                                      var valor = gauge.data("kendoRadialGauge").value().toString();
+                                                      if(valor.indexOf('0.') >= 0) valor = (parseFloat(valor) * 100).toFixed(2);
+                                                      else if(parseInt(valor) == 1 || parseInt(valor) == -1) valor = parseInt(valor) * 100;
+                                                      setTimeout(function () {
+                                                          $("#gaugeKPIeGauges_gaugeCopy_18272609_BigIntVenda_Legend").html('Val: ' + valor + '%');
+                                                      }, 50);
+                                                   }
+                                                   }} -->
+                                                   <!-- /ko -->
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="KPIeGauges_divCopy_18502656_BigIntVenda" class="" >
+                                               <label id="KPIeGauges_lblCopy_18502656_BigIntVenda" for="KPIeGauges_gaugeCopy_18502656_BigIntVenda" class="control-label ellipsis" title="Big Int Venda">Big Int Venda
+                                               </label>
+                                                   <div id="gaugeKPIeGauges_gaugeCopy_18502656_BigIntVenda" class="ig-chart-root">
+                                                   </div>
+                                                   <p class="gaugeLegend" ><span id="gaugeKPIeGauges_gaugeCopy_18502656_BigIntVenda_Legend"></span></p>
+                                                   <!-- ko template: {name: 'EmptyTemplate', data: $data, 
+                                                   afterRender: function(element) {
+                                                       var gauge = $("#gaugeKPIeGauges_gaugeCopy_18502656_BigIntVenda");
+                                                       
+$root.getGaugesFormularioRanges(completeKPIData);
+function completeKPIData(range, min, max){
+	gauge.kendoRadialGauge({
+	gaugeArea: {background: 'transparent'}
+	,pointer: {value: getAbsoluteValue(BigIntVenda), color: '#8B8386'}
+,scale: {
+	startAngle: -30
+	,endAngle: 210
+	,min: min
+	,max: max
+,labels: {
+	position: 'outside'
+	,format: 'C2'
+	,color: '#8B8386'
+	}
+	,ranges: range
+}
+});
+}
+$(window).on("resize", function() {kendo.resize($(gauge));});
+
+
+                                                   if(gauge.data("kendoRadialGauge") !== undefined){
+                                                      var valor = gauge.data("kendoRadialGauge").value().toString();
+                                                      if(valor.indexOf('0.') >= 0) valor = (parseFloat(valor) * 100).toFixed(2);
+                                                      else if(parseInt(valor) == 1 || parseInt(valor) == -1) valor = parseInt(valor) * 100;
+                                                      setTimeout(function () {
+                                                          $("#gaugeKPIeGauges_gaugeCopy_18502656_BigIntVenda_Legend").html('Val: ' + valor + '%');
+                                                      }, 50);
+                                                   }
+                                                   }} -->
+                                                   <!-- /ko -->
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="KPIeGauges_divCopy_18528500_BigIntVenda" class="" >
+                                               <label id="KPIeGauges_lblCopy_18528500_BigIntVenda" for="KPIeGauges_gaugeCopy_18528500_BigIntVenda" class="control-label ellipsis" title="Big Int Venda">Big Int Venda
+                                               </label>
+                                                   <div id="gaugeKPIeGauges_gaugeCopy_18528500_BigIntVenda" class="ig-chart-root">
+                                                   </div>
+                                                   <p class="gaugeLegend" ><span id="gaugeKPIeGauges_gaugeCopy_18528500_BigIntVenda_Legend"></span></p>
+                                                   <!-- ko template: {name: 'EmptyTemplate', data: $data, 
+                                                   afterRender: function(element) {
+                                                       var gauge = $("#gaugeKPIeGauges_gaugeCopy_18528500_BigIntVenda");
+                                                       
+$root.getGaugesFormularioRanges(completeKPIData);
+function completeKPIData(range, min, max){
+	gauge.kendoRadialGauge({
+	gaugeArea: {background: 'transparent'}
+	,pointer: {value: getAbsoluteValue(BigIntVenda), color: '#8B8386'}
+,scale: {
+	startAngle: -90
+	,endAngle: 90
+	,min: min
+	,max: max
+,labels: {
+	position: 'outside'
+	,format: 'C2'
+	,color: '#8B8386'
+	}
+	,ranges: range
+}
+});
+}
+$(window).on("resize", function() {kendo.resize($(gauge));});
+
+
+                                                   if(gauge.data("kendoRadialGauge") !== undefined){
+                                                      var valor = gauge.data("kendoRadialGauge").value().toString();
+                                                      if(valor.indexOf('0.') >= 0) valor = (parseFloat(valor) * 100).toFixed(2);
+                                                      else if(parseInt(valor) == 1 || parseInt(valor) == -1) valor = parseInt(valor) * 100;
+                                                      setTimeout(function () {
+                                                          $("#gaugeKPIeGauges_gaugeCopy_18528500_BigIntVenda_Legend").html('Val: ' + valor + '%');
+                                                      }, 50);
+                                                   }
+                                                   }} -->
+                                                   <!-- /ko -->
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+           <div id="KPIeGauges_tcVendaTabControl" class="tabbable tabbable-custom box col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+              <div class="container-tab">
+                 <div id="KPIeGauges_tcVendaTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                 <div id="KPIeGauges_tcVendaTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                 <div id="KPIeGauges_tcVendaTabControl_wrapper" class="wrapper">
+                    <ul id="KPIeGauges_tcVendaTabControl_list" class="nav nav-tabs list">
+                       <li id="KPIeGauges_tiVendaItemTabItem" class="active"><a href="#KPIeGauges_tabVendaItemTabItem" data-toggle="tab" title="VendaItem">VendaItem</a></li>
+                    </ul>
+                    </div>
+                 </div>
+              <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="KPIeGauges_tabVendaItemTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+                       <div id="KPIeGauges_dGridVendaItem_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.KPIeGauges().getWithBinding(currentDataItem, $root.KPIeGauges().rootDataTypeName)">
+                           <button id="KPIeGauges_dGridVendaItem_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.KPIeGauges().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.KPIeGauges().createAndNotifyVendaItem($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="KPIeGauges_dGridVendaItem_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.KPIeGauges().status() === 'E', 
+                           click: function () {
+                              $root.KPIeGauges().deleteGrid('#KPIeGauges_dGridVendaItem', 'VendaItem', 'vm.currentDataItem().currentVendaItem;vm.currentDataItem().VendaItemList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="KPIeGauges_dGridVendaItem_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.KPIeGauges().openEditor('#KPIeGauges_dGridVendaItem', 'VendaItem', 'vm.currentDataItem().currentVendaItem;vm.currentDataItem().VendaItemList', 'VendaItem;vm.currentDataItem()', 'VendaItem(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="KPIeGauges_dGridVendaItem_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.KPIeGauges().openEditor('#KPIeGauges_dGridVendaItem', 'VendaItem', 'vm.currentDataItem().currentVendaItem;vm.currentDataItem().VendaItemList', 'VendaItem;vm.currentDataItem()', 'VendaItem(vm.currentDataItem())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="KPIeGauges_dGridVendaItem_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#KPIeGauges_dGridVendaItem_templateLayout', vm: function(){return $root.KPIeGauges().gridSaveStates['KPIeGauges_dGridVendaItem'];}, ctrlName: 'KPIeGauges_dGridVendaItem_gb', headerText:'Layout da grid' }"><i class="fa fa-external-link" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                           <script id="KPIeGauges_dGridVendaItem_templateLayout" type="text/html" tabindex="-1">
+                               <div id="KPIeGauges_dGridVendaItem_gb" class="layout-popover">
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                           <div class="col-md-10">
+                                               <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                           </div>
+                                           <div  class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="col-md-10">
+                                               <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Salvar...</button>
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como...</button>
+                                           </div>
+                                           <div class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </script>
+                           <button id="KPIeGauges_dGridVendaItem_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.KPIeGauges().dataToolbar.canGridExport(), click: function () {$root.KPIeGauges().exportDataDetails($data, 'VendaItem', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="KPIeGauges_dGridVendaItem" data-bind="css: { IsEditableStyle: $root.KPIeGauges().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+
+                   <div id="dialogVendaItem"  class="toolbar-dialog-template" title='' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegVendaItem" onClick="$(this).backRegVendaItem();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberVendaItem">0</label><label>/</label><label id="totalNumberVendaItem">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegVendaItem" onClick="$(this).nextRegVendaItem();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegVendaItem" onClick="$(this).addRegVendaItem();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegVendaItem" onClick="$(this).delRegVendaItem();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegVendaItem" onClick="$(this).okRegVendaItem();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="KPIeGauges_templateVendaItem" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.KPIeGauges().getWithBinding(currentDataItem, $root.KPIeGauges().rootDataTypeName)"><div data-bind="with: $root.KPIeGauges().getWithBinding(currentVendaItem, 'VendaItem')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divVendaItem_BigIntVendaItemTemplate" class="" >
+                                       <label id="KPIeGauges_lblVendaItem_BigIntVendaItem" for="KPIeGauges_ntxVendaItem_BigIntVendaItem" class="control-label ellipsis" title="Big Int Venda Item">Big Int Venda Item
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="KPIeGauges_ntxVendaItem_BigIntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntVendaItem', css: { vmEditing: $root.KPIeGauges().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_BigIntVendaItem') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_BigIntVendaItem') : (!isEmptyEntityFn($data) && $root.KPIeGauges().enabledForEditing()) }, igNumericEditor: { value: BigIntVendaItem, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_BigIntVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_BigIntVendaItem') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.KPIeGauges().entitySearchRange.has_VendaItemBigIntVendaItem(), 'icon-ok': $root.KPIeGauges().entitySearchRange.has_VendaItemBigIntVendaItem(), hide: $root.KPIeGauges().status() !== 'C' }, popoverWithBind: { template: '#KPIeGauges_rgVendaItem_BigIntVendaItem', vm: $root.KPIeGauges().entitySearchRange, ctrlName: 'KPIeGauges_rgcVendaItem_BigIntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="KPIeGauges_rgVendaItem_BigIntVendaItem" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="KPIeGauges_ntxbVendaItem_BigIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemBigIntVendaItem_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_BigIntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#KPIeGauges_ntxeVendaItem_BigIntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#KPIeGauges_ntxeVendaItem_BigIntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="KPIeGauges_ntxeVendaItem_BigIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemBigIntVendaItem_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_BigIntVendaItem').igNumericEditor('option', 'readOnly', ($('#KPIeGauges_ntxbVendaItem_BigIntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#KPIeGauges_ntxbVendaItem_BigIntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divVendaItem_BigIntVendaItemKpiInfoTemplate" class="" >
+                                       <label id="KPIeGauges_lblVendaItem_BigIntVendaItemKpiInfo" for="KPIeGauges_VendaItem_BigIntVendaItemKpiInfo" data-bind="css: { 'content-required': $root.KPIeGauges().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Big Int Venda Item (KPI)">Big Int Venda Item (KPI)
+                                       </label>
+                                       <span id="KPIeGauges_VendaItem_BigIntVendaItemKpiInfo" class="text  bold "  data-bind="text: BigIntVendaItemKpiInfo"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divCopy_17324671_BigIntVendaItemKpiInfoTemplate" class="" >
+                                       <label id="KPIeGauges_lblCopy_17324671_BigIntVendaItemKpiInfo" for="KPIeGauges_gaugeCopy_17324671_BigIntVendaItemKpiInfo" data-bind="css: { 'content-required': $root.KPIeGauges().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Big Int Venda Item (Gauge)">Big Int Venda Item (Gauge)
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divVendaItem_BitVendaItemTemplate" class="" >
+                                       <label class="">
+                                         <input id="KPIeGauges_ckVendaItem_BitVendaItem" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ckVendaItem_BitVendaItem') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ckVendaItem_BitVendaItem') : (!isEmptyEntityFn($data) && $root.KPIeGauges().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ckVendaItem_BitVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ckVendaItem_BitVendaItem') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()), nullableChecked: BitVendaItem" title="Clique para marcar/desmarcar"/> 
+                                         <span id="lblKPIeGauges_ckVendaItem_BitVendaItem" class="align-label-checkbox">Bit Venda Item</span>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divVendaItem_ComboboxVendaItemTemplate" class="" >
+                                       <label id="KPIeGauges_lblVendaItem_ComboboxVendaItem" for="KPIeGauges_cmbVendaItem_ComboboxVendaItem" data-bind="css: { 'content-required': $root.KPIeGauges().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Combobox Venda Item">Combobox Venda Item
+                                       </label>
+                                       <span id="KPIeGauges_cmbVendaItem_ComboboxVendaItem" class="form-control " data-bind="validatedField: 'ComboboxVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_cmbVendaItem_ComboboxVendaItem') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_cmbVendaItem_ComboboxVendaItem') : (!isEmptyEntityFn($data) && $root.KPIeGauges().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_cmbVendaItem_ComboboxVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_cmbVendaItem_ComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_cmbVendaItem_ComboboxVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_cmbVendaItem_ComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()), igCombo: {
+                                          selectedItems: ComboboxVendaItem,
+                                          dataSource:  $root.KPIeGauges().dataDomains.getItems('LX_VENDA_ITEM', ''),
+                                          textKey: 'name',
+                                          valueKey: 'id',
+                                          allowCustomValue : true,
+                                          enableSelectionChangedUpdate: true,
+                                          enableClearButton: false,
+                                          dropDownOnFocus: true,
+                                          disabled: (ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_cmbVendaItem_ComboboxVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_cmbVendaItem_ComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing())),
+                                          mode: 'editable',
+                                          width:'100%'
+                                       }"></span>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divVendaItem_DatetimeVendaItemTemplate" class="" >
+                                       <label id="KPIeGauges_lblVendaItem_DatetimeVendaItem" for="KPIeGauges_dtVendaItem_DatetimeVendaItem" class="control-label ellipsis" title="Datetime Venda Item">Datetime Venda Item
+                                       </label>
+                                       <div class="input-group" >
+                                           <span id="KPIeGauges_dtVendaItem_DatetimeVendaItem" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVendaItem', css: { vmEditing: $root.KPIeGauges().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_dtVendaItem_DatetimeVendaItem') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_dtVendaItem_DatetimeVendaItem') : (!isEmptyEntityFn($data) && $root.KPIeGauges().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_dtVendaItem_DatetimeVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_dtVendaItem_DatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()) },  igDatePicker: { value: DatetimeVendaItem, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_dtVendaItem_DatetimeVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_dtVendaItem_DatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                           <span class="input-group-btn" title="Filtro de datas">
+                                              <button id="KPIeGauges_rgbtnVendaItem_DatetimeVendaItem"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.KPIeGauges().entitySearchRange.has_VendaItemDatetimeVendaItem(), 'icon-ok': $root.KPIeGauges().entitySearchRange.has_VendaItemDatetimeVendaItem(), hide: $root.KPIeGauges().status() !== 'C' }, popoverWithBind: { template: '#KPIeGauges_rgVendaItem_DatetimeVendaItem', vm: $root.KPIeGauges().entitySearchRange, ctrlName: 'KPIeGauges_rgcVendaItem_DatetimeVendaItem', headerText:'Filtro de datas' }"  /></span>
+                                              <script id="KPIeGauges_rgVendaItem_DatetimeVendaItem" type="text/html" tabindex="-1">
+                                              <div class="range-radio-group">
+                                                  <input type="radio" data-bind="checked:VendaItemDatetimeVendaItem_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                  <input type="radio" data-bind="checked:VendaItemDatetimeVendaItem_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                              </div>
+                                              <div class="range-input-group" id="KPIeGauges_divrgVendaItem_DatetimeVendaItem" >
+                                                  <div class="filterByRange" data-bind="visible: VendaItemDatetimeVendaItem_typeRange() == 'R'">
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="KPIeGauges_dtbVendaItem_DatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemDatetimeVendaItem_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#KPIeGauges_dtVendaItem_DatetimeVendaItem').igDatePicker('option', 'readOnly', (ui.value != null || $('#KPIeGauges_dteVendaItem_DatetimeVendaItem').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#KPIeGauges_dtbVendaItem_DatetimeVendaItem').igDatePicker('value'); var valorMax = $('#KPIeGauges_dteVendaItem_DatetimeVendaItem').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#KPIeGauges_dtbVendaItem_DatetimeVendaItem').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="KPIeGauges_dteVendaItem_DatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemDatetimeVendaItem_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#KPIeGauges_dtVendaItem_DatetimeVendaItem').igDatePicker('option', 'readOnly', ($('#KPIeGauges_dtbVendaItem_DatetimeVendaItem').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#KPIeGauges_dtbVendaItem_DatetimeVendaItem').igDatePicker('value'); var valorMax = $('#KPIeGauges_dteVendaItem_DatetimeVendaItem').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#KPIeGauges_dteVendaItem_DatetimeVendaItem').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                  </div>
+                                                  <div class="filterByPredefined " data-bind="visible: VendaItemDatetimeVendaItem_typeRange() == 'P'">
+                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaItemDatetimeVendaItem_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                      <div class="row predefValue" data-bind="visible: VendaItemDatetimeVendaItem_predefFilter() != null && VendaItemDatetimeVendaItem_predefFilter()[0] && VendaItemDatetimeVendaItem_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaItemDatetimeVendaItem_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                  </div>
+                                              </div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divVendaItem_DecimalVendaItemTemplate" class="" >
+                                       <label id="KPIeGauges_lblVendaItem_DecimalVendaItem" for="KPIeGauges_ntxVendaItem_DecimalVendaItem" class="control-label ellipsis" title="Decimal Venda Item">Decimal Venda Item
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="KPIeGauges_ntxVendaItem_DecimalVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVendaItem', css: { vmEditing: $root.KPIeGauges().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_DecimalVendaItem') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_DecimalVendaItem') : (!isEmptyEntityFn($data) && $root.KPIeGauges().enabledForEditing()) }, igNumericEditor: { value: DecimalVendaItem, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_DecimalVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_DecimalVendaItem') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.KPIeGauges().entitySearchRange.has_VendaItemDecimalVendaItem(), 'icon-ok': $root.KPIeGauges().entitySearchRange.has_VendaItemDecimalVendaItem(), hide: $root.KPIeGauges().status() !== 'C' }, popoverWithBind: { template: '#KPIeGauges_rgVendaItem_DecimalVendaItem', vm: $root.KPIeGauges().entitySearchRange, ctrlName: 'KPIeGauges_rgcVendaItem_DecimalVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="KPIeGauges_rgVendaItem_DecimalVendaItem" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="KPIeGauges_ntxbVendaItem_DecimalVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemDecimalVendaItem_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_DecimalVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#KPIeGauges_ntxeVendaItem_DecimalVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#KPIeGauges_ntxeVendaItem_DecimalVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="KPIeGauges_ntxeVendaItem_DecimalVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemDecimalVendaItem_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_DecimalVendaItem').igNumericEditor('option', 'readOnly', ($('#KPIeGauges_ntxbVendaItem_DecimalVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#KPIeGauges_ntxbVendaItem_DecimalVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divVendaItem_IdVendaTemplate" class="" >
+                                       <label id="KPIeGauges_lblVendaItem_IdVenda" for="KPIeGauges_ntxVendaItem_IdVenda" class="control-label ellipsis" title="Id Venda">Id Venda
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="KPIeGauges_ntxVendaItem_IdVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.KPIeGauges().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IdVenda') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IdVenda') : (!isEmptyEntityFn($data) && $root.KPIeGauges().enabledForEditing()) }, igNumericEditor: { value: IdVenda, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IdVenda') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IdVenda') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.KPIeGauges().entitySearchRange.has_VendaItemIdVenda(), 'icon-ok': $root.KPIeGauges().entitySearchRange.has_VendaItemIdVenda(), hide: $root.KPIeGauges().status() !== 'C' }, popoverWithBind: { template: '#KPIeGauges_rgVendaItem_IdVenda', vm: $root.KPIeGauges().entitySearchRange, ctrlName: 'KPIeGauges_rgcVendaItem_IdVenda', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="KPIeGauges_rgVendaItem_IdVenda" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="KPIeGauges_ntxbVendaItem_IdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVenda_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_IdVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#KPIeGauges_ntxeVendaItem_IdVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#KPIeGauges_ntxeVendaItem_IdVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="KPIeGauges_ntxeVendaItem_IdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVenda_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_IdVenda').igNumericEditor('option', 'readOnly', ($('#KPIeGauges_ntxbVendaItem_IdVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#KPIeGauges_ntxbVendaItem_IdVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divVendaItem_IdVendaItemTemplate" class="" >
+                                       <label id="KPIeGauges_lblVendaItem_IdVendaItem" for="KPIeGauges_ntxVendaItem_IdVendaItem" data-bind="css: { 'content-required': $root.KPIeGauges().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Id Venda Item">Id Venda Item
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="KPIeGauges_ntxVendaItem_IdVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'IdVendaItem', css: { vmEditing: $root.KPIeGauges().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IdVendaItem') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IdVendaItem') : (!isEmptyEntityFn($data) && $root.KPIeGauges().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVendaItem, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IdVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IdVendaItem') : (isEmptyEntityFn($data) || !($root.KPIeGauges().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.KPIeGauges().entitySearchRange.has_VendaItemIdVendaItem(), 'icon-ok': $root.KPIeGauges().entitySearchRange.has_VendaItemIdVendaItem(), hide: $root.KPIeGauges().status() !== 'C' }, popoverWithBind: { template: '#KPIeGauges_rgVendaItem_IdVendaItem', vm: $root.KPIeGauges().entitySearchRange, ctrlName: 'KPIeGauges_rgcVendaItem_IdVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="KPIeGauges_rgVendaItem_IdVendaItem" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="KPIeGauges_ntxbVendaItem_IdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVendaItem_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_IdVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#KPIeGauges_ntxeVendaItem_IdVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#KPIeGauges_ntxeVendaItem_IdVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="KPIeGauges_ntxeVendaItem_IdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVendaItem_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_IdVendaItem').igNumericEditor('option', 'readOnly', ($('#KPIeGauges_ntxbVendaItem_IdVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#KPIeGauges_ntxbVendaItem_IdVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divVendaItem_IntVendaItemTemplate" class="" >
+                                       <label id="KPIeGauges_lblVendaItem_IntVendaItem" for="KPIeGauges_ntxVendaItem_IntVendaItem" class="control-label ellipsis" title="Int Venda Item">Int Venda Item
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="KPIeGauges_ntxVendaItem_IntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'IntVendaItem', css: { vmEditing: $root.KPIeGauges().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IntVendaItem') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IntVendaItem') : (!isEmptyEntityFn($data) && $root.KPIeGauges().enabledForEditing()) }, igNumericEditor: { value: IntVendaItem, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IntVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_IntVendaItem') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.KPIeGauges().entitySearchRange.has_VendaItemIntVendaItem(), 'icon-ok': $root.KPIeGauges().entitySearchRange.has_VendaItemIntVendaItem(), hide: $root.KPIeGauges().status() !== 'C' }, popoverWithBind: { template: '#KPIeGauges_rgVendaItem_IntVendaItem', vm: $root.KPIeGauges().entitySearchRange, ctrlName: 'KPIeGauges_rgcVendaItem_IntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="KPIeGauges_rgVendaItem_IntVendaItem" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="KPIeGauges_ntxbVendaItem_IntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIntVendaItem_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_IntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#KPIeGauges_ntxeVendaItem_IntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#KPIeGauges_ntxeVendaItem_IntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="KPIeGauges_ntxeVendaItem_IntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIntVendaItem_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_IntVendaItem').igNumericEditor('option', 'readOnly', ($('#KPIeGauges_ntxbVendaItem_IntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#KPIeGauges_ntxbVendaItem_IntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divVendaItem_SmallIntVendaItemTemplate" class="" >
+                                       <label id="KPIeGauges_lblVendaItem_SmallIntVendaItem" for="KPIeGauges_ntxVendaItem_SmallIntVendaItem" class="control-label ellipsis" title="Small Int Venda Item">Small Int Venda Item
+                                       </label>
+                                       <div class="input-group">
+                                           <input id="KPIeGauges_ntxVendaItem_SmallIntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntVendaItem', css: { vmEditing: $root.KPIeGauges().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_SmallIntVendaItem') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_SmallIntVendaItem') : (!isEmptyEntityFn($data) && $root.KPIeGauges().enabledForEditing()) }, igNumericEditor: { value: SmallIntVendaItem, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_SmallIntVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_ntxVendaItem_SmallIntVendaItem') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                           <span class="input-group-btn" title="Filtro numérico">
+                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.KPIeGauges().entitySearchRange.has_VendaItemSmallIntVendaItem(), 'icon-ok': $root.KPIeGauges().entitySearchRange.has_VendaItemSmallIntVendaItem(), hide: $root.KPIeGauges().status() !== 'C' }, popoverWithBind: { template: '#KPIeGauges_rgVendaItem_SmallIntVendaItem', vm: $root.KPIeGauges().entitySearchRange, ctrlName: 'KPIeGauges_rgcVendaItem_SmallIntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                           <script id="KPIeGauges_rgVendaItem_SmallIntVendaItem" type="text/html" tabindex="-1">
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="KPIeGauges_ntxbVendaItem_SmallIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemSmallIntVendaItem_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_SmallIntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#KPIeGauges_ntxeVendaItem_SmallIntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#KPIeGauges_ntxeVendaItem_SmallIntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                               <p></p>
+                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="KPIeGauges_ntxeVendaItem_SmallIntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemSmallIntVendaItem_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#KPIeGauges_ntxVendaItem_SmallIntVendaItem').igNumericEditor('option', 'readOnly', ($('#KPIeGauges_ntxbVendaItem_SmallIntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#KPIeGauges_ntxbVendaItem_SmallIntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="KPIeGauges_divVendaItem_StringVendaItemTemplate" class="" >
+                                       <label id="KPIeGauges_lblVendaItem_StringVendaItem" for="KPIeGauges_tbVendaItem_StringVendaItem" class="control-label ellipsis" title="String Venda Item">String Venda Item
+                                       </label>
+                                       <input id="KPIeGauges_tbVendaItem_StringVendaItem" class="form-control ellipsis" data-bind="attr: { title: StringVendaItem }, validatedField: 'StringVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_tbVendaItem_StringVendaItem') ? ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_tbVendaItem_StringVendaItem') : (!isEmptyEntityFn($data) && $root.KPIeGauges().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVendaItem, readOnly: ctrl.hasCustomEnable($root.KPIeGauges(), 'KPIeGauges_tbVendaItem_StringVendaItem') ? !ctrl.getCustomEnable($root.KPIeGauges(), 'KPIeGauges_tbVendaItem_StringVendaItem') : (isEmptyEntityFn($data) || !$root.KPIeGauges().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+           </div>
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="KPIeGauges_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.KPIeGauges().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyKPIeGauges_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyKPIeGauges_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyKPIeGauges_dGrid_templateLayout', vm: function(){return $root.KPIeGauges().gridSaveStates['scyKPIeGauges_dGrid'];}, ctrlName: 'scyKPIeGauges_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-external-link" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyKPIeGauges_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyKPIeGauges_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Salvar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como...</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyKPIeGauges_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.KPIeGauges().dataToolbar.canExport(), click: function () {$root.KPIeGauges().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyKPIeGauges_dGrid" data-bind="css: { IsEditableStyle: $root.KPIeGauges().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

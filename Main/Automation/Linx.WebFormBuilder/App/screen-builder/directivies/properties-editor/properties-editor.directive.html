@@ -1,0 +1,47 @@
+﻿<div>
+    <h4>Editar Componente</h4>
+
+    <div class="list-group-grid">
+
+        <div class="form-group-grid form-group-title">
+            <label>PROPRIEDADES </label>
+        </div>
+
+        <!-- Propriedades de componente -->
+        <formly-form model="vm.editingComponent.options" fields="vm.formFields"></formly-form>
+
+        <!-- Propriedades do formulário -->
+        <formly-form model="vm.formProperties" fields="vm.formPropertiesFields"></formly-form>
+
+        <div class="form-group-grid" ng-show="vm.showEditingHtml">
+            <label class="title"> {{vm.editingHtmlLabel}} </label>
+            <label class="form-control" style="cursor:pointer;" ng-click="vm.openCodeModal()"> {{vm.editingHtmlLabel}} </label>
+        </div>
+
+        <div class="form-group-grid form-group-title">
+            <label>CUSTOMIZADAS </label>
+        </div>
+        <lx-properties-dynamic class="formly" components="vm.components"></lx-properties-dynamic>
+
+        <!--<div class="form-group-grid form-group-title">
+            <label>EVENTOS </label>
+        </div>
+
+        <div class="form-group-grid">
+            <label class="event" ng-repeat="event in vm.formEvents" ng-click="vm.editEvent()" popover="Clique para criar evento" popover-trigger="mouseenter">{{event.key}}</label>
+            <input type='text' class="form-control" placeholder="Digite o evento" ng-model="vm.editingComponent.options.event" />
+        </div>-->
+
+        <div class="form-group-grid form-group-title" ng-show="vm.formClass.length > 0">
+            <label>CLASSE CSS </label>
+        </div>
+
+        <formly-form model="vm.editingComponent.options" fields="vm.formClass"></formly-form>
+
+        <div class="button-box-bottom">
+            <button class="btn btn-clean pull-left submit-button" ng-click="vm.deleteComponent()"><i class="fa fa-trash"></i> Apagar</button>
+        </div>
+
+    </div>
+
+</div>

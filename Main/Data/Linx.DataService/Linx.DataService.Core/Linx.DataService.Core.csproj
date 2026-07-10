@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>1.0.2</VersionPrefix>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Linx.DataService.Core</AssemblyName>
+    <PackageId>Linx.DataService.Core</PackageId>
+    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <PostBuildEvent>xcopy "Linx.DataService.Core.*" "$(MSBuildProjectDirectory)\..\..\..\Binary\CoreServiceBus\" /Y /R
+xcopy "Linx.DataService.Core.*" "$(MSBuildProjectDirectory)\..\..\..\Binary\Library\Common\Linx\Nuget\Libs\" /Y /R</PostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Linx.Data.Core">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Linx.Data.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.DomainService.Core">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Linx.DomainService.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.Tools.Core">
+      <HintPath>..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Linx.Tools.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostcompileScript" AfterTargets="Build">
+   
+  </Target>
+
+</Project>

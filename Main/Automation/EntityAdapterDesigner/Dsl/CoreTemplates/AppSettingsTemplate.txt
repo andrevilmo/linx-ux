@@ -1,0 +1,37 @@
+﻿<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension=".json" #>
+<#@ include file = "Includes\DirectEntityAdapterDynamicModels.ttinclude"#>
+<#@ import namespace = "System.Collections.Generic" #>
+<# 
+List<EntityAdapterDesignerRoot> models = GetModels();	
+List<string> edms = new List<string>();
+List<string> olaps = new List<string>();
+
+if (models.Count > 0)
+{
+#> 
+{
+  "ConnectionStrings": {
+
+<#
+	string connectionStrings = "";
+	foreach(EntityAdapterDesignerRoot model in models)
+    {	 
+	  connectionStrings = model.GetJsonOlapCatalogStrings("		", olaps, connectionStrings);
+	  foreach (EntityDataModel edm in model.EntityDataModels)
+	  {
+		if (!edms.Contains(edm.Name))
+		{
+			edms.Add(edm.Name); 
+			connectionStrings = edm.GetJsonModelConnectionString("		", connectionStrings);				
+		}
+	  }
+    }
+#>
+<#=connectionStrings#>
+
+  }
+}
+<#
+}
+#>

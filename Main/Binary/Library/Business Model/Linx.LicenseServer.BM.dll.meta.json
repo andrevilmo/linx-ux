@@ -1,0 +1,2213 @@
+﻿			
+
+ 
+{
+  "Name": "LicenseContext",
+  "Namespace": "Linx.LicenseServer.BM",
+  "ConnectionName": "connLicenseServer",
+  "AuthorizationEnabled": true,
+  "Entities": [
+	  
+		{
+			"Name": "LCS_TIPO_LICENCA",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_TIPO_LICENCA",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_TIPO_LICENCA',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Tipo Licenca')]"
+
+							]
+						}
+						,{
+							"Name": "DESC_TIPO_LICENCA",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_TIPO_LICENCA',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "CONTROLA_QTDE",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CONTROLA_QTDE',  TypeName = 'bit', Order=2 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "LCS_LICENCA_LISTA",
+							"DataType": "ICollection<LCS_LICENCA>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_TIPO_LICENCA')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_CLIENTE",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_CLIENTE",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_CLIENTE',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Cliente')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX_CLIENTE",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX_CLIENTE',  TypeName = 'int', Order=1 )]"
+
+							]
+						}
+						,{
+							"Name": "CNPJ",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CNPJ',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(20)]"
+
+							]
+						}
+						,{
+							"Name": "RAZAO_SOCIAL",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('RAZAO_SOCIAL',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(120)]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX_COBRANCA",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX_COBRANCA',  TypeName = 'int', Order=4 )]"
+
+							]
+						}
+						,{
+							"Name": "CNPJ_COBRANCA",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CNPJ_COBRANCA',  TypeName = 'varchar', Order=5 )]"
+                   ,"[MaxLength(20)]"
+
+							]
+						}
+						,{
+							"Name": "CODIGO_CLIENTE",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CODIGO_CLIENTE',  TypeName = 'varchar', Order=6 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(20)]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_BLOQUEIO_FINANCEIRO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_BLOQUEIO_FINANCEIRO',  TypeName = 'bit', Order=7 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO',  TypeName = 'bit', Order=8 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "LCS_CLIENTE_LOJA_LISTA",
+							"DataType": "ICollection<LCS_CLIENTE_LOJA>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_CLIENTE')]"
+							]
+						}
+						
+						,{
+							"Name": "LCS_CLIENTE_USUARIO_LISTA",
+							"DataType": "ICollection<LCS_CLIENTE_USUARIO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_CLIENTE')]"
+							]
+						}
+						
+						,{
+							"Name": "LCS_LICENCA_CLIENTE_LISTA",
+							"DataType": "ICollection<LCS_LICENCA_CLIENTE>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_CLIENTE')]"
+							]
+						}
+						
+						,{
+							"Name": "LCS_LICENCA_LOG_LISTA",
+							"DataType": "ICollection<LCS_LICENCA_LOG>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_CLIENTE')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_LICENCA_CLIENTE",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_LICENCA_CLIENTE",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_LICENCA_CLIENTE',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca Cliente')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_LICENCA",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_LICENCA',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca')]"
+                   ,"[ForeignKey('LCS_LICENCA')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_CLIENTE",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_CLIENTE',  TypeName = 'bigint', Order=2 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Cliente')]"
+                   ,"[ForeignKey('LCS_CLIENTE')]"
+
+							]
+						}
+						,{
+							"Name": "QTDE_CONTRATADA",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('QTDE_CONTRATADA',  TypeName = 'int', Order=3 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "QTDE_EM_USO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('QTDE_EM_USO',  TypeName = 'int', Order=4 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_BLOQUEIO_FINANCEIRO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_BLOQUEIO_FINANCEIRO',  TypeName = 'bit', Order=5 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO',  TypeName = 'bit', Order=6 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "LX_STATUS_LICENCA",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_STATUS_LICENCA',  TypeName = 'tinyint', Order=7 )]"
+                   ,"[Required]"
+                   ,"[FunctionalPoint('DomainName[STATUS_LICENCA]')]"
+
+							]
+						}
+						,{
+							"Name": "LCS_CLIENTE",
+							"DataType": "LCS_CLIENTE",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LCS_LICENCA",
+							"DataType": "LCS_LICENCA",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LCS_LICENCA_MOV_LISTA",
+							"DataType": "ICollection<LCS_LICENCA_MOV>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_LICENCA_CLIENTE')]"
+							]
+						}
+						
+						,{
+							"Name": "LCS_LICENCA_USO_LISTA",
+							"DataType": "ICollection<LCS_LICENCA_USO>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_LICENCA_CLIENTE')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_LICENCA_USO_LOG",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_LICENCA_USO_LOG",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_LICENCA_USO_LOG',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca Uso Log')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_LICENCA_USO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_LICENCA_USO',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca Uso')]"
+                   ,"[ForeignKey('LCS_LICENCA_USO')]"
+
+							]
+						}
+						,{
+							"Name": "USUARIO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('USUARIO',  TypeName = 'varchar', Order=2 )]"
+                   ,"[MaxLength(120)]"
+
+							]
+						}
+						,{
+							"Name": "MAQUINA",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MAQUINA',  TypeName = 'varchar', Order=3 )]"
+                   ,"[MaxLength(120)]"
+
+							]
+						}
+						,{
+							"Name": "IP_ORIGEM",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('IP_ORIGEM',  TypeName = 'varchar', Order=4 )]"
+                   ,"[MaxLength(50)]"
+
+							]
+						}
+						,{
+							"Name": "LX_OPERACAO_CHAVE",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_OPERACAO_CHAVE',  TypeName = 'tinyint', Order=5 )]"
+                   ,"[Required]"
+                   ,"[FunctionalPoint('DomainName[OPERACAO_CHAVE]')]"
+
+							]
+						}
+						,{
+							"Name": "DATA_USO_LOG",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_USO_LOG',  TypeName = 'datetime', Order=6 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "LCS_LICENCA_USO",
+							"DataType": "LCS_LICENCA_USO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_LICENCA_ITEM_FISCAL",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_LICENCA_ITEM_FISCAL",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_LICENCA_ITEM_FISCAL',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca Item Fiscal')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_LICENCA",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_LICENCA',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca')]"
+                   ,"[ForeignKey('LCS_LICENCA')]"
+
+							]
+						}
+						,{
+							"Name": "ITEM_FISCAL",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ITEM_FISCAL',  TypeName = 'varchar', Order=2 )]"
+                   ,"[MaxLength(40)]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO',  TypeName = 'bit', Order=3 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "LCS_LICENCA",
+							"DataType": "LCS_LICENCA",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_PRODUTO",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_PRODUTO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_PRODUTO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.None)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Produto')]"
+
+							]
+						}
+						,{
+							"Name": "DESC_PRODUTO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_PRODUTO',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "INATIVO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INATIVO',  TypeName = 'bit', Order=2 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "LCS_LICENCA_LISTA",
+							"DataType": "ICollection<LCS_LICENCA>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_PRODUTO')]"
+							]
+						}
+						
+						,{
+							"Name": "LCS_LICENCA_LOG_LISTA",
+							"DataType": "ICollection<LCS_LICENCA_LOG>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_PRODUTO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_LICENCA_LOG",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_LICENCA_LOG",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_LICENCA_LOG',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca Log')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_CLIENTE",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_CLIENTE',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Cliente')]"
+                   ,"[ForeignKey('LCS_CLIENTE')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_PRODUTO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_PRODUTO',  TypeName = 'int', Order=2 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Produto')]"
+                   ,"[ForeignKey('LCS_PRODUTO')]"
+
+							]
+						}
+						,{
+							"Name": "CHAVE",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CHAVE',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "USUARIO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('USUARIO',  TypeName = 'varchar', Order=4 )]"
+                   ,"[MaxLength(120)]"
+
+							]
+						}
+						,{
+							"Name": "MAQUINA",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MAQUINA',  TypeName = 'varchar', Order=5 )]"
+                   ,"[MaxLength(120)]"
+
+							]
+						}
+						,{
+							"Name": "IP_ORIGEM",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('IP_ORIGEM',  TypeName = 'varchar', Order=6 )]"
+                   ,"[MaxLength(50)]"
+
+							]
+						}
+						,{
+							"Name": "DATA_LOG",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_LOG',  TypeName = 'datetime', Order=7 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "LCS_CLIENTE",
+							"DataType": "LCS_CLIENTE",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LCS_PRODUTO",
+							"DataType": "LCS_PRODUTO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LCS_LICENCA_LOG_DETALHE_LISTA",
+							"DataType": "ICollection<LCS_LICENCA_LOG_DETALHE>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_LICENCA_LOG')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_LICENCA_USO",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_LICENCA_USO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_LICENCA_USO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca Uso')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_LICENCA_CLIENTE",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_LICENCA_CLIENTE',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca Cliente')]"
+                   ,"[ForeignKey('LCS_LICENCA_CLIENTE')]"
+
+							]
+						}
+						,{
+							"Name": "CHAVE",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CHAVE',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "LX_STATUS_CHAVE",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_STATUS_CHAVE',  TypeName = 'tinyint', Order=3 )]"
+                   ,"[Required]"
+                   ,"[FunctionalPoint('DomainName[STATUS_CHAVE]')]"
+
+							]
+						}
+						,{
+							"Name": "VERSAO_PRODUTO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('VERSAO_PRODUTO',  TypeName = 'varchar', Order=4 )]"
+                   ,"[MaxLength(30)]"
+
+							]
+						}
+						,{
+							"Name": "LCS_LICENCA_CLIENTE",
+							"DataType": "LCS_LICENCA_CLIENTE",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LCS_LICENCA_USO_LOG_LISTA",
+							"DataType": "ICollection<LCS_LICENCA_USO_LOG>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_LICENCA_USO')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_CLIENTE_LOJA",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_CLIENTE_LOJA",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_CLIENTE_LOJA',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Cliente Loja')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_CLIENTE",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_CLIENTE',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Cliente')]"
+                   ,"[ForeignKey('LCS_CLIENTE')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LINX_CLIENTE",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LINX_CLIENTE',  TypeName = 'int', Order=2 )]"
+
+							]
+						}
+						,{
+							"Name": "CODIGO_FILIAL",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CODIGO_FILIAL',  TypeName = 'char', Order=3 )]"
+                   ,"[MaxLength(18)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_FILIAL",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_FILIAL',  TypeName = 'varchar', Order=4 )]"
+                   ,"[MaxLength(120)]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_MATRIZ_CONTABIL",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_MATRIZ_CONTABIL',  TypeName = 'bit', Order=5 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "INDICA_LOJA",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('INDICA_LOJA',  TypeName = 'bit', Order=6 )]"
+                   ,"[Required]"
+                   ,"[Precision(1)]"
+
+							]
+						}
+						,{
+							"Name": "LCS_CLIENTE",
+							"DataType": "LCS_CLIENTE",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_CLIENTE_USUARIO",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_CLIENTE_USUARIO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_CLIENTE_USUARIO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Cliente Usuario')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_CLIENTE",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_CLIENTE',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Cliente')]"
+                   ,"[ForeignKey('LCS_CLIENTE')]"
+
+							]
+						}
+						,{
+							"Name": "ID_USUARIO",
+							"DataType": "System.Nullable<long>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_USUARIO',  TypeName = 'bigint', Order=2 )]"
+
+							]
+						}
+						,{
+							"Name": "NOME_USUARIO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_USUARIO',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "NOME_AUTENTICACAO",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('NOME_AUTENTICACAO',  TypeName = 'varchar', Order=4 )]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "LCS_CLIENTE",
+							"DataType": "LCS_CLIENTE",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_LICENCA_LOG_DETALHE",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_LICENCA_LOG_DETALHE",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_LICENCA_LOG_DETALHE',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca Log Detalhe')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_LICENCA_LOG",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_LICENCA_LOG',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca Log')]"
+                   ,"[ForeignKey('LCS_LICENCA_LOG')]"
+
+							]
+						}
+						,{
+							"Name": "JSON",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('JSON',  TypeName = 'varchar(max)', Order=2 )]"
+
+							]
+						}
+						,{
+							"Name": "LCS_LICENCA_LOG",
+							"DataType": "LCS_LICENCA_LOG",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_LICENCA",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_LICENCA",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_LICENCA',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_PRODUTO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_PRODUTO',  TypeName = 'int', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Produto')]"
+                   ,"[ForeignKey('LCS_PRODUTO')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_TIPO_LICENCA",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_TIPO_LICENCA',  TypeName = 'int', Order=2 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Tipo Licenca')]"
+                   ,"[ForeignKey('LCS_TIPO_LICENCA')]"
+
+							]
+						}
+						,{
+							"Name": "DESC_LICENCA",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_LICENCA',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "OBS_LICENCA",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('OBS_LICENCA',  TypeName = 'varchar(max)', Order=4 )]"
+
+							]
+						}
+						,{
+							"Name": "PERIODICIDADE",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('PERIODICIDADE',  TypeName = 'int', Order=5 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "DIAS_OFFLINE",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DIAS_OFFLINE',  TypeName = 'int', Order=6 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "LX_STATUS_LICENCA",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_STATUS_LICENCA',  TypeName = 'tinyint', Order=7 )]"
+                   ,"[Required]"
+                   ,"[FunctionalPoint('DomainName[STATUS_LICENCA]')]"
+
+							]
+						}
+						,{
+							"Name": "LCS_TIPO_LICENCA",
+							"DataType": "LCS_TIPO_LICENCA",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LCS_PRODUTO",
+							"DataType": "LCS_PRODUTO",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+						,{
+							"Name": "LCS_LICENCA_CLIENTE_LISTA",
+							"DataType": "ICollection<LCS_LICENCA_CLIENTE>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_LICENCA')]"
+							]
+						}
+						
+						,{
+							"Name": "LCS_LICENCA_ITEM_FISCAL_LISTA",
+							"DataType": "ICollection<LCS_LICENCA_ITEM_FISCAL>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: License.bmd"
+								,"[InverseProperty('LCS_LICENCA')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_LICENCA_MOV",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_LICENCA_MOV",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_LICENCA_MOV',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca Mov')]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_LICENCA_CLIENTE",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_LICENCA_CLIENTE',  TypeName = 'bigint', Order=1 )]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Licenca Cliente')]"
+                   ,"[ForeignKey('LCS_LICENCA_CLIENTE')]"
+
+							]
+						}
+						,{
+							"Name": "QTDE_MOV",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('QTDE_MOV',  TypeName = 'int', Order=2 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "OBS_MOV",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('OBS_MOV',  TypeName = 'varchar(max)', Order=3 )]"
+
+							]
+						}
+						,{
+							"Name": "DESC_MOV",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_MOV',  TypeName = 'varchar', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "LX_STATUS_LICENCA_MOV",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_STATUS_LICENCA_MOV',  TypeName = 'tinyint', Order=5 )]"
+                   ,"[Required]"
+                   ,"[FunctionalPoint('DomainName[STATUS_LICENCA_MOV]')]"
+
+							]
+						}
+						,{
+							"Name": "LX_OPERACAO_LICENCA",
+							"DataType": "byte",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LX_OPERACAO_LICENCA',  TypeName = 'tinyint', Order=6 )]"
+                   ,"[Required]"
+                   ,"[FunctionalPoint('DomainName[OPERACAO_LICENCA]')]"
+
+							]
+						}
+						,{
+							"Name": "VIGENCIA_INICIAL",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('VIGENCIA_INICIAL',  TypeName = 'datetime', Order=7 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "VIGENCIA_FINAL",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('VIGENCIA_FINAL',  TypeName = 'datetime', Order=8 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "DATA_MOV",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_MOV',  TypeName = 'datetime', Order=9 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "CADASTRADO_POR",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CADASTRADO_POR',  TypeName = 'varchar', Order=10 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(120)]"
+
+							]
+						}
+						,{
+							"Name": "AUTORIZADO_POR",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('AUTORIZADO_POR',  TypeName = 'varchar', Order=11 )]"
+                   ,"[MaxLength(120)]"
+
+							]
+						}
+						,{
+							"Name": "DATA_AUTORIZACAO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_AUTORIZACAO',  TypeName = 'datetime', Order=12 )]"
+
+							]
+						}
+						,{
+							"Name": "LCS_LICENCA_CLIENTE",
+							"DataType": "LCS_LICENCA_CLIENTE",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LCS_LOG_ERRO",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "Table",
+			"Properties": [
+
+
+						{
+							"Name": "ID_LCS_LOG_ERRO",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_LCS_LOG_ERRO',  TypeName = 'bigint', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id Lcs Log Erro')]"
+
+							]
+						}
+						,{
+							"Name": "JSON",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('JSON',  TypeName = 'varchar(max)', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "MENSAGEM",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MENSAGEM',  TypeName = 'varchar(max)', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+
+							]
+						}
+						,{
+							"Name": "API",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('API',  TypeName = 'varchar', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(100)]"
+
+							]
+						}
+						,{
+							"Name": "DATA",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA',  TypeName = 'datetime', Order=4 )]"
+
+							]
+						}
+						,{
+							"Name": "PROCESSADO",
+							"DataType": "bool",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('PROCESSADO',  TypeName = 'bit', Order=5 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "ID_LICENCA",
+							"DataType": "System.Nullable<long>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LICENCA',  TypeName = 'bigint', Order=6 )]"
+                   ,"[Display(Name='Id Licenca')]"
+
+							]
+						}
+						,{
+							"Name": "ID_CLIENTE",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_CLIENTE',  TypeName = 'varchar', Order=7 )]"
+                   ,"[MaxLength(20)]"
+
+							]
+						}
+						,{
+							"Name": "ID_PRODUTO",
+							"DataType": "System.Nullable<int>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_PRODUTO',  TypeName = 'int', Order=8 )]"
+
+							]
+						}
+
+		   ]
+		}
+		,{
+			"Name": "W_LICENCA_USO",
+			"Schema": "LX_LCS",
+			"Table": "",
+			"BaseTypeName": "",
+			"StructureType" : "DatabaseView",
+			"Properties": [
+
+
+						{
+							"Name": "ID_W_LICENCA_USO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('ID_W_LICENCA_USO',  TypeName = 'int', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+                   ,"[Display(Name='Id W Licenca Uso')]"
+
+							]
+						}
+						,{
+							"Name": "CNPJ",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CNPJ',  TypeName = 'varchar', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(20)]"
+
+							]
+						}
+						,{
+							"Name": "RAZAO_SOCIAL",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('RAZAO_SOCIAL',  TypeName = 'varchar', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(120)]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_LICENCA",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_LICENCA',  TypeName = 'bigint', Order=3 )]"
+                   ,"[Required]"
+                   ,"[Precision(19)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_LICENCA",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_LICENCA',  TypeName = 'varchar', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_PRODUTO",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_PRODUTO',  TypeName = 'int', Order=5 )]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_PRODUTO",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_PRODUTO',  TypeName = 'varchar', Order=6 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "ID_LCS_TIPO_LICENCA",
+							"DataType": "int",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('ID_LCS_TIPO_LICENCA',  TypeName = 'int', Order=7 )]"
+                   ,"[Required]"
+                   ,"[Precision(10)]"
+
+							]
+						}
+						,{
+							"Name": "DESC_TIPO_LICENCA",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DESC_TIPO_LICENCA',  TypeName = 'varchar', Order=8 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(60)]"
+
+							]
+						}
+						,{
+							"Name": "CHAVE",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('CHAVE',  TypeName = 'varchar', Order=9 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "STATUS",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('STATUS',  TypeName = 'varchar', Order=10 )]"
+                   ,"[MaxLength(14)]"
+
+							]
+						}
+						,{
+							"Name": "MENOR_DATA_ADICAO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MENOR_DATA_ADICAO',  TypeName = 'datetime', Order=11 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "MENOR_DATA_REMOCAO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MENOR_DATA_REMOCAO',  TypeName = 'datetime', Order=12 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "MAIOR_DATA_ADICAO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MAIOR_DATA_ADICAO',  TypeName = 'datetime', Order=13 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "MAIOR_DATA_REMOCAO",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('MAIOR_DATA_REMOCAO',  TypeName = 'datetime', Order=14 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+						,{
+							"Name": "DATA_ULT_RESET",
+							"DataType": "System.Nullable<DateTime>",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DATA_ULT_RESET',  TypeName = 'datetime', Order=15 )]"
+                   ,"[Precision(23)]"
+                   ,"[Scale(3)]"
+
+							]
+						}
+
+		   ]
+		}
+
+
+  ],
+  "Domains": [
+  
+			{
+				"Name": "OPERACAO_CHAVE",
+				"Values": [
+					{
+						"Name": "ADD",
+						"DisplayName": "Adição de Licença",
+						"Value": "1"
+					}
+					,{
+						"Name": "DELETE",
+						"DisplayName": "Remoção de Licença",
+						"Value": "2"
+					}
+					,{
+						"Name": "RESET",
+						"DisplayName": "Reset de Licenças",
+						"Value": "3"
+					}
+					,{
+						"Name": "NAOAUTORIZADO",
+						"DisplayName": "Não Autorizada",
+						"Value": "4"
+					}
+				]
+			}
+			,{
+				"Name": "STATUS_CHAVE",
+				"Values": [
+					{
+						"Name": "ATIVO",
+						"DisplayName": "Ativo",
+						"Value": "1"
+					}
+					,{
+						"Name": "PENDENTE",
+						"DisplayName": "Pendente",
+						"Value": "2"
+					}
+					,{
+						"Name": "REVOGADO",
+						"DisplayName": "Revogado",
+						"Value": "3"
+					}
+					,{
+						"Name": "NAOAUTORIZADO",
+						"DisplayName": "Não Autorizado",
+						"Value": "4"
+					}
+				]
+			}
+			,{
+				"Name": "STATUS_LICENCA",
+				"Values": [
+					{
+						"Name": "TESTE",
+						"DisplayName": "Testes",
+						"Value": "1"
+					}
+					,{
+						"Name": "PRODUCAO",
+						"DisplayName": "Produção",
+						"Value": "2"
+					}
+					,{
+						"Name": "DESCONTINUADA",
+						"DisplayName": "Descontinuada",
+						"Value": "3"
+					}
+				]
+			}
+			,{
+				"Name": "OPERACAO_LICENCA",
+				"Values": [
+					{
+						"Name": "ADD",
+						"DisplayName": "Adição de Licença",
+						"Value": "1"
+					}
+					,{
+						"Name": "DELETE",
+						"DisplayName": "Remoção de Licença",
+						"Value": "2"
+					}
+					,{
+						"Name": "RESET",
+						"DisplayName": "Reset de Licenças",
+						"Value": "3"
+					}
+				]
+			}
+			,{
+				"Name": "STATUS_LICENCA_MOV",
+				"Values": [
+					{
+						"Name": "ATIVO",
+						"DisplayName": "Ativo",
+						"Value": "1"
+					}
+					,{
+						"Name": "PENDENTE",
+						"DisplayName": "Pendente",
+						"Value": "2"
+					}
+					,{
+						"Name": "REVOGADO",
+						"DisplayName": "Revogado",
+						"Value": "3"
+					}
+					,{
+						"Name": "AGUARDANDO",
+						"DisplayName": "Aguardando Início Vigência",
+						"Value": "4"
+					}
+				]
+			}
+  
+  ]
+		
+}

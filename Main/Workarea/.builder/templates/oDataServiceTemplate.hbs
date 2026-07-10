@@ -1,0 +1,30 @@
+{{#if isAutoGen}}
+//------------------------------------------------------------------------------
+//  Auto Generated
+//    This code was generated from a template.
+//
+//    Manual changes to this file may cause unexpected behavior in your application.
+//    Manual changes to this file will be overwritten if the code is regenerated.
+{{/if}}
+//------------------------------------------------------------------------------
+//  Creation date: {{date}}
+//  User name: {{user}}
+//------------------------------------------------------------------------------
+//  Linx AppBuilder: {{appBuilderVersion}}
+//  Linx AppBuilder Designer: {{appBuilderDesignerVersion}}
+//  Linx AppBuilder Service: {{appBuilderServiceVersion}}
+//------------------------------------------------------------------------------
+// ODataAngularResources reference: https://github.com/devnixs/ODataAngularResources
+
+'use strict';
+
+var Loader = require('loader');
+var ODataServiceBase = Loader.oDataServiceBase();
+
+function {{className}}Service($q, $odataresource, $http, configHost) {
+    ODataServiceBase.call(this, $q, $odataresource, configHost, '{{projectName}}', '{{context.name}}', '{{collection}}' , {{#singleMustache}} 'odatakey': '{{odatakey}}' {{/singleMustache}});
+}
+
+module.exports = function(appModule) {
+    appModule.service('{{injectName}}Service', {{className}}Service);
+};

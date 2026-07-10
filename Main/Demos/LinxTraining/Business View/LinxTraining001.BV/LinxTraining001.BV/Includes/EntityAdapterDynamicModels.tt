@@ -1,0 +1,29 @@
+<#@ template language="C#" hostspecific="true" #>
+<#@ import namespace = "System.IO" #>
+<#@ output extension=".ttinclude" #>
+<#
+	string[] innerModelFiles = Directory.GetFiles(Path.Combine(Path.GetDirectoryName(Host.TemplateFile), @"..\"), "*.ead", SearchOption.TopDirectoryOnly);
+	for(int fileIndex = 0; fileIndex < innerModelFiles.Length; fileIndex++)
+	{ #>
+\<#@ EntityAdapterDesigner processor="EntityAdapterDesignerDirectiveProcessor" requires="fileName='..\\<#= Path.GetFileName(innerModelFiles[fileIndex]) #>'" provides="EntityAdapterDesignerRoot=EntityAdapterDesignerRoot<#=fileIndex#>" \#>
+	<#
+	}
+#>
+
+\<#@ import namespace = "System.Collections.Generic" \#>
+\<#+
+private  List<EntityAdapterDesignerRoot> GetModels()
+{
+  List<EntityAdapterDesignerRoot> models = new List<EntityAdapterDesignerRoot>();
+  //Add Models	
+<#
+	for(int fileIndex = 0; fileIndex < innerModelFiles.Length; fileIndex++)
+	{ #>
+  models.Add(this.EntityAdapterDesignerRoot<#=fileIndex#>);
+	<#
+	}
+#>
+
+  return models;
+}
+\#>

@@ -1,0 +1,101 @@
+<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension=".shared.cs" #>
+<#@ include file = "Includes\DataEntityFunctions.ttinclude"#>
+<#@ import namespace = "System.Collections.Generic" #>
+<#@ assembly name="Linx.Tools" #>
+<#@ import namespace = "Linx.Tools" #>
+<#@ EntityAdapterDesigner processor = "EntityAdapterDesignerDirectiveProcessor" requires = "fileName='Venda02.ead'" provides = "EntityAdapterDesignerRoot=EntityAdapterContext" #>
+
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Linq.Expressions;
+using Linx.LinqExtensions.Query;
+using Linx.LinqExtensions.Functional;
+using Linx.LinqExtensions.Expressions;
+using System.Xml.Serialization;
+using Linx;
+using Linx.Tools;
+
+
+namespace <#= EntityAdapterContext.TargetNamespace + ".Venda02"#>
+{	
+<#    
+  //Generate entity class bodies
+  foreach (EntityAdapter entity in EntityAdapterContext.GetEntities())
+  {
+		GenerateExtendedFilters(entity);
+  }  
+#>
+}
+
+
+<#+
+	public void GenerateExtendedFilters(EntityAdapter entity)
+	{	
+		string baseIndent = String.Empty, indent = "    ";
+		List<CommonExtendedFilterProperty> extendedFilters = entity.GetCommonExtendedFilters();
+
+		if (extendedFilters.Count > 0)
+		{
+#>
+	
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////
+	<#=baseIndent#>////////////////////////// Data Class Definition //////////////////////
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////
+	<#=baseIndent#>public partial class <#=entity.Name#>
+	<#=baseIndent#>{
+
+	<#=baseIndent#>	public static List<PropertyDefinitions> GetExtendedFilterDefinitions()
+	<#=baseIndent#>	{		
+	<#=baseIndent+indent#>	List<PropertyDefinitions> dependences = new List<PropertyDefinitions>();
+	<#=baseIndent+indent#>	Type type;
+	<#=baseIndent+indent#>	string dataType;
+
+		<#+ 
+			
+		foreach(CommonExtendedFilterProperty efProp in extendedFilters)
+		{			
+			
+		  #>
+
+	<#=baseIndent+indent#>	//Adding <#=efProp.DisplayName#>
+	<#=baseIndent+indent#>	type = typeof(<#=efProp.DataType#>);
+	<#=baseIndent+indent#>	if (type.Name == "Nullable`1")
+	<#=baseIndent+indent#>	    dataType = type.FullName.Extract("System.Nullable`1[[System.", ",");
+	<#=baseIndent+indent#>	else
+	<#=baseIndent+indent#>	    dataType = type.Name;
+	<#=baseIndent+indent#>	dependences.Add(new PropertyDefinitions()
+	<#=baseIndent+indent#>	{
+	<#=baseIndent+indent#>		Name = "<#=efProp.Name#>",	
+	<#=baseIndent+indent#>		DataType = dataType,
+	<#=baseIndent+indent#>		FullDataType = type.FullName,
+	<#=baseIndent+indent#>		Caption = ((char)8730).ToString() + " " + "<#=efProp.DisplayName#>",
+	<#=baseIndent+indent#>		FilterDataKey = "<#=efProp.EdmKey#>"
+    <#=baseIndent+indent#>	});
+
+		  <#+
+		  
+		}  
+   
+   #>
+
+	<#=baseIndent+indent#>	return dependences.OrderBy(e => e.Caption).ToList();
+	<#=baseIndent#>	}
+
+	<#=baseIndent#>}
+
+   <#+
+
+	  }
+
+		foreach (EntityAdapter sourceEntity in entity.SourceEntityAdapters)
+        {
+			GenerateExtendedFilters(sourceEntity);
+        }   
+	  	
+	}
+#>

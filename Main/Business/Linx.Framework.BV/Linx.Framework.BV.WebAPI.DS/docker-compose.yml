@@ -1,0 +1,58 @@
+# Builds Linx.Framework.BV.WebAPI.DS.csproj with MSBuild inside a .NET Framework SDK image.
+#
+# Podman Desktop (Linux VM) / Linux Docker: do NOT use this file — Windows base images
+# will fail to pull/unpack or cannot run ("unpacking failed", "no such file or directory").
+# Use the VS Code task "Build" (host MSBuild) instead, or Docker Desktop with Windows containers.
+#
+# Requirements:
+# - Docker Desktop for Windows (or Windows Server Docker) with Windows containers enabled.
+# - Image tag should match your host OS version where possible, e.g.:
+#     windowsservercore-ltsc2022  -> Windows 11 / Server 2022
+#     windowsservercore-ltsc2019  -> Windows 10 (1809+) / Server 2019
+#   See: https://hub.docker.com/_/microsoft-dotnet-framework-sdk
+#
+# The project references DLLs under Main\Binary, so the bind mount context is the Main folder
+# (three levels above this file).
+#
+# Build outputs:
+#   - MSBuild still writes into the bind-mounted repo: <repo>\Main\...\bin\...
+#   - A mirrored copy of bin\Release is written to the named volume at C:\build-output.
+#   - Docker volume name: Linx.Framework.BV.WebAPI.DS-output
+#     Inspect:  docker volume inspect Linx.Framework.BV.WebAPI.DS-output
+#
+# Usage (from this directory):
+#   docker compose run --rm build
+#
+# Optional: override configuration:
+#   docker compose run --rm build msbuild Linx.Framework.BV.WebAPI.DS.csproj /p:Configuration=Debug
+
+services:
+  build:
+    image: ${DOTNET_FRAMEWORK_SDK_IMAGE:-mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2022}
+    platform: windows/amd64
+    volumes:
+      - type: bind
+        source: ../../..
+        target: C:\src
+      - type: volume
+        source: Linx.Framework.BV.WebAPI.DS-output
+        target: C:\build-output
+    working_dir: C:\src\Business\Linx.Framework.BV\Linx.Framework.BV.WebAPI.DS
+    command:
+      - powershell
+      - -NoProfile
+      - -ExecutionPolicy
+      - Bypass
+      - -Command
+      - >-
+        $$ErrorActionPreference = 'Stop';
+        msbuild Linx.Framework.BV.WebAPI.DS.csproj /p:Configuration=Release /m /v:minimal /nologo;
+        New-Item -ItemType Directory -Force -Path 'C:\build-output\Linx.Framework.BV.WebAPI.DS' | Out-Null;
+        $$binDir = Join-Path (Get-Location) 'bin';
+        if (Test-Path $$binDir) {
+          Copy-Item $$binDir (Join-Path 'C:\build-output\Linx.Framework.BV.WebAPI.DS') -Recurse -Force
+        }
+
+volumes:
+  Linx.Framework.BV.WebAPI.DS-output:
+    name: Linx.Framework.BV.WebAPI.DS-output

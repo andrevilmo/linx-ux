@@ -1,0 +1,453 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="UIExternaMaster_formViewer" class="panelTransaition">
+            <figure id="UIExternaMaster_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.UIExternaMaster().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="UIExternaMaster_gbExpander_5283c47111bf401897d59eeec35afdb8" data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_gbExpander_5283c47111bf401897d59eeec35afdb8'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_gbExpander_5283c47111bf401897d59eeec35afdb8')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_gbExpander_5283c47111bf401897d59eeec35afdb8')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="UIExternaMaster_gbExpander_5283c47111bf401897d59eeec35afdb8_anchor" href="#UIExternaMaster_gbExpander_5283c47111bf401897d59eeec35afdb8_body" role="button" data-toggle="collapse" data-parent="#UIExternaMaster_gbExpander_5283c47111bf401897d59eeec35afdb8" aria-controls="#UIExternaMaster_gbExpander_5283c47111bf401897d59eeec35afdb8_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="UIExternaMaster_gbExpander_5283c47111bf401897d59eeec35afdb8_body" class="portlet-body collapse in" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="UIExternaMaster_cntCliente" data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_cntCliente'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_cntCliente')" class="cnt  remove-pl remove-pr" >
+               <div>
+                   <div data-bind="with: $root.UIExternaMaster().getWithBinding(currentDataItem, $root.UIExternaMaster().rootDataTypeName)">
+
+                   <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_cmbComboboxCliente'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_cmbComboboxCliente')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divComboboxCliente" class="" >
+                                   <label data-bind="css: { 'content-required': $root.UIExternaMaster().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_cmbComboboxCliente')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_cmbComboboxCliente')" id="UIExternaMaster_lblComboboxCliente" for="UIExternaMaster_cmbComboboxCliente" class="control-label ellipsis">
+                                   </label>
+                                   <span id="UIExternaMaster_cmbComboboxCliente" class="form-control " data-bind="validatedField: 'ComboboxCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_cmbComboboxCliente') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_cmbComboboxCliente') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), igCombo: {
+                                      selectedItems: ComboboxCliente,
+                                      dataSource:  $root.UIExternaMaster().dataDomains.getItems('LX_CLIENTE', ''),
+                                      textKey: 'name',
+                                      valueKey: 'id',
+                                      allowCustomValue : true,
+                                      enableSelectionChangedUpdate: true,
+                                      enableClearButton: false,
+                                      dropDownOnFocus: true,
+                                      disabled: (ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_cmbComboboxCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_cmbComboboxCliente') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing())),
+                                      mode: 'editable',
+                                      width:'100%'
+                                   }"></span>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_lUpIdPais'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_lUpIdPais')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divIdPais" class="" >
+                                   <label data-bind="attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_lUpIdPais')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_lUpIdPais')" id="UIExternaMaster_lblIdPais" for="UIExternaMaster_lUpIdPais" class="control-label ellipsis">
+                                   </label>
+                                   <div id="UIExternaMaster_lUpIdPais" class="form-control input-group " data-bind="validatedField: 'IdPais', css: { vmEditing: $root.UIExternaMaster().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpIdPais') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpIdPais') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()) }, lookupControl: { vm: $root.UIExternaMaster(), value: IdPais, maxLength: 12,lookupName: 'LookUpEstado', isMultiSelection: false, multiSelectionValue: $root.UIExternaMaster().entitySearchRange.IdPais, fieldName: 'IdPais', disabled:ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpIdPais') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpIdPais') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_ntxIdCliente'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_ntxIdCliente')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divIdCliente" class="" >
+                                   <label data-bind="css: { 'content-required': $root.UIExternaMaster().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_ntxIdCliente')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_ntxIdCliente')" id="UIExternaMaster_lblIdCliente" for="UIExternaMaster_ntxIdCliente" class="control-label ellipsis">
+                                   </label>
+                                   <div class="input-group">
+                                       <input id="UIExternaMaster_ntxIdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.UIExternaMaster().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxIdCliente') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxIdCliente') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdCliente, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxIdCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxIdCliente') : (isEmptyEntityFn($data) || !($root.UIExternaMaster().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                       <span class="input-group-btn" title="Filtro numérico">
+                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExternaMaster().entitySearchRange.has_ClienteIdCliente(), 'icon-ok': $root.UIExternaMaster().entitySearchRange.has_ClienteIdCliente(), hide: $root.UIExternaMaster().status() !== 'C' }, popoverWithBind: { template: '#UIExternaMaster_rgIdCliente', vm: $root.UIExternaMaster().entitySearchRange, ctrlName: 'UIExternaMaster_rgcIdCliente', headerText:'Filtro numérico' }"  /></span>
+                                       <script id="UIExternaMaster_rgIdCliente" type="text/html" tabindex="-1">
+                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIExternaMaster_ntxbIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIExternaMaster_ntxIdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIExternaMaster_ntxeIdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UIExternaMaster_ntxeIdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                           <p></p>
+                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIExternaMaster_ntxeIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIdCliente_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIExternaMaster_ntxIdCliente').igNumericEditor('option', 'readOnly', ($('#UIExternaMaster_ntxbIdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIExternaMaster_ntxbIdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                       </script>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_dtDatetimeCliente'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_dtDatetimeCliente')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divDatetimeCliente" class="" >
+                                   <label data-bind="attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_dtDatetimeCliente')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_dtDatetimeCliente')" id="UIExternaMaster_lblDatetimeCliente" for="UIExternaMaster_dtDatetimeCliente" class="control-label ellipsis">
+                                   </label>
+                                   <div class="input-group" >
+                                       <span id="UIExternaMaster_dtDatetimeCliente" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeCliente', css: { vmEditing: $root.UIExternaMaster().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_dtDatetimeCliente') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_dtDatetimeCliente') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()) },  igDatePicker: { value: DatetimeCliente, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_dtDatetimeCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_dtDatetimeCliente') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                       <span class="input-group-btn" title="Filtro de datas">
+                                          <button id="UIExternaMaster_rgbtnDatetimeCliente"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExternaMaster().entitySearchRange.has_ClienteDatetimeCliente(), 'icon-ok': $root.UIExternaMaster().entitySearchRange.has_ClienteDatetimeCliente(), hide: $root.UIExternaMaster().status() !== 'C' }, popoverWithBind: { template: '#UIExternaMaster_rgDatetimeCliente', vm: $root.UIExternaMaster().entitySearchRange, ctrlName: 'UIExternaMaster_rgcDatetimeCliente', headerText:'Filtro de datas' }"  /></span>
+                                          <script id="UIExternaMaster_rgDatetimeCliente" type="text/html" tabindex="-1">
+                                          <div class="range-radio-group">
+                                              <input type="radio" data-bind="checked:ClienteDatetimeCliente_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                              <input type="radio" data-bind="checked:ClienteDatetimeCliente_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                          </div>
+                                          <div class="range-input-group" id="UIExternaMaster_divrgDatetimeCliente" >
+                                              <div class="filterByRange" data-bind="visible: ClienteDatetimeCliente_typeRange() == 'R'">
+                                                  <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UIExternaMaster_dtbDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteDatetimeCliente_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIExternaMaster_dtDatetimeCliente').igDatePicker('option', 'readOnly', (ui.value != null || $('#UIExternaMaster_dteDatetimeCliente').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UIExternaMaster_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#UIExternaMaster_dteDatetimeCliente').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#UIExternaMaster_dtbDatetimeCliente').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                  <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UIExternaMaster_dteDatetimeCliente" class="IsEditableStyle date" data-bind="igDatePicker: { value: ClienteDatetimeCliente_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIExternaMaster_dtDatetimeCliente').igDatePicker('option', 'readOnly', ($('#UIExternaMaster_dtbDatetimeCliente').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UIExternaMaster_dtbDatetimeCliente').igDatePicker('value'); var valorMax = $('#UIExternaMaster_dteDatetimeCliente').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#UIExternaMaster_dteDatetimeCliente').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                              </div>
+                                              <div class="filterByPredefined " data-bind="visible: ClienteDatetimeCliente_typeRange() == 'P'">
+                                                  <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ClienteDatetimeCliente_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                  <div class="row predefValue" data-bind="visible: ClienteDatetimeCliente_predefFilter() != null && ClienteDatetimeCliente_predefFilter()[0] && ClienteDatetimeCliente_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ClienteDatetimeCliente_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                              </div>
+                                          </div>
+                                       </script>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+
+
+                   </div>
+
+                   <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_ntxDecimalCliente'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_ntxDecimalCliente')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divDecimalCliente" class="" >
+                                   <label data-bind="attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_ntxDecimalCliente')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_ntxDecimalCliente')" id="UIExternaMaster_lblDecimalCliente" for="UIExternaMaster_ntxDecimalCliente" class="control-label ellipsis">
+                                   </label>
+                                   <div class="input-group">
+                                       <input id="UIExternaMaster_ntxDecimalCliente" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalCliente', css: { vmEditing: $root.UIExternaMaster().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxDecimalCliente') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxDecimalCliente') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()) }, igNumericEditor: { value: DecimalCliente, minValue: 0, maxValue: null,  maxLength: 18,  dataMode: 'number', minDecimals: 0, maxDecimals: 0, readOnly: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxDecimalCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxDecimalCliente') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                       <span class="input-group-btn" title="Filtro numérico">
+                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExternaMaster().entitySearchRange.has_ClienteDecimalCliente(), 'icon-ok': $root.UIExternaMaster().entitySearchRange.has_ClienteDecimalCliente(), hide: $root.UIExternaMaster().status() !== 'C' }, popoverWithBind: { template: '#UIExternaMaster_rgDecimalCliente', vm: $root.UIExternaMaster().entitySearchRange, ctrlName: 'UIExternaMaster_rgcDecimalCliente', headerText:'Filtro numérico' }"  /></span>
+                                       <script id="UIExternaMaster_rgDecimalCliente" type="text/html" tabindex="-1">
+                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIExternaMaster_ntxbDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_begin, minValue: 0, maxLength: 18, dataMode: 'number', minDecimals: 0, maxDecimals: 0, valueChanged: function (evt, ui) {$('#UIExternaMaster_ntxDecimalCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIExternaMaster_ntxeDecimalCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UIExternaMaster_ntxeDecimalCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                           <p></p>
+                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIExternaMaster_ntxeDecimalCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteDecimalCliente_end, minValue: 0, maxLength: 18, dataMode: 'number', minDecimals: 0, maxDecimals: 0, valueChanged: function (evt, ui) {$('#UIExternaMaster_ntxDecimalCliente').igNumericEditor('option', 'readOnly', ($('#UIExternaMaster_ntxbDecimalCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIExternaMaster_ntxbDecimalCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                       </script>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_ntxIntCliente'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_ntxIntCliente')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divIntCliente" class="" >
+                                   <label data-bind="attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_ntxIntCliente')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_ntxIntCliente')" id="UIExternaMaster_lblIntCliente" for="UIExternaMaster_ntxIntCliente" class="control-label ellipsis">
+                                   </label>
+                                   <div class="input-group">
+                                       <input id="UIExternaMaster_ntxIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IntCliente', css: { vmEditing: $root.UIExternaMaster().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxIntCliente') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxIntCliente') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()) }, igNumericEditor: { value: IntCliente, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxIntCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxIntCliente') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                       <span class="input-group-btn" title="Filtro numérico">
+                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExternaMaster().entitySearchRange.has_ClienteIntCliente(), 'icon-ok': $root.UIExternaMaster().entitySearchRange.has_ClienteIntCliente(), hide: $root.UIExternaMaster().status() !== 'C' }, popoverWithBind: { template: '#UIExternaMaster_rgIntCliente', vm: $root.UIExternaMaster().entitySearchRange, ctrlName: 'UIExternaMaster_rgcIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                       <script id="UIExternaMaster_rgIntCliente" type="text/html" tabindex="-1">
+                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIExternaMaster_ntxbIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIExternaMaster_ntxIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIExternaMaster_ntxeIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UIExternaMaster_ntxeIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                           <p></p>
+                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIExternaMaster_ntxeIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteIntCliente_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIExternaMaster_ntxIntCliente').igNumericEditor('option', 'readOnly', ($('#UIExternaMaster_ntxbIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIExternaMaster_ntxbIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                       </script>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_tbStringCliente'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_tbStringCliente')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divStringCliente" class="" >
+                                   <label data-bind="attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_tbStringCliente')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_tbStringCliente')" id="UIExternaMaster_lblStringCliente" for="UIExternaMaster_tbStringCliente" class="control-label ellipsis">
+                                   </label>
+                                   <input id="UIExternaMaster_tbStringCliente" class="form-control ellipsis" data-bind="attr: { title: StringCliente }, validatedField: 'StringCliente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_tbStringCliente') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_tbStringCliente') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringCliente, readOnly: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_tbStringCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_tbStringCliente') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_ntxBigIntCliente'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_ntxBigIntCliente')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divBigIntCliente" class="" >
+                                   <label data-bind="attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_ntxBigIntCliente')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_ntxBigIntCliente')" id="UIExternaMaster_lblBigIntCliente" for="UIExternaMaster_ntxBigIntCliente" class="control-label ellipsis">
+                                   </label>
+                                   <div class="input-group">
+                                       <input id="UIExternaMaster_ntxBigIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntCliente', css: { vmEditing: $root.UIExternaMaster().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxBigIntCliente') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxBigIntCliente') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()) }, igNumericEditor: { value: BigIntCliente, minValue: 0, maxValue: 9007199254740992,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxBigIntCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxBigIntCliente') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                       <span class="input-group-btn" title="Filtro numérico">
+                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExternaMaster().entitySearchRange.has_ClienteBigIntCliente(), 'icon-ok': $root.UIExternaMaster().entitySearchRange.has_ClienteBigIntCliente(), hide: $root.UIExternaMaster().status() !== 'C' }, popoverWithBind: { template: '#UIExternaMaster_rgBigIntCliente', vm: $root.UIExternaMaster().entitySearchRange, ctrlName: 'UIExternaMaster_rgcBigIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                       <script id="UIExternaMaster_rgBigIntCliente" type="text/html" tabindex="-1">
+                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIExternaMaster_ntxbBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteBigIntCliente_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIExternaMaster_ntxBigIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIExternaMaster_ntxeBigIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UIExternaMaster_ntxeBigIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                           <p></p>
+                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIExternaMaster_ntxeBigIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteBigIntCliente_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UIExternaMaster_ntxBigIntCliente').igNumericEditor('option', 'readOnly', ($('#UIExternaMaster_ntxbBigIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIExternaMaster_ntxbBigIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                       </script>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+
+
+                   </div>
+
+                   <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_ckBitCliente'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_ckBitCliente')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divBitCliente" class="" >
+                                   <label class="">
+                                     <input id="UIExternaMaster_ckBitCliente" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ckBitCliente') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ckBitCliente') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ckBitCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ckBitCliente') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), nullableChecked: BitCliente" title="Clique para marcar/desmarcar"/> 
+                                     <span id="lblUIExternaMaster_ckBitCliente" class="align-label-checkbox"></span>
+                                   </label>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_ntxSmallIntCliente'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_ntxSmallIntCliente')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divSmallIntCliente" class="" >
+                                   <label data-bind="attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_ntxSmallIntCliente')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_ntxSmallIntCliente')" id="UIExternaMaster_lblSmallIntCliente" for="UIExternaMaster_ntxSmallIntCliente" class="control-label ellipsis">
+                                   </label>
+                                   <div class="input-group">
+                                       <input id="UIExternaMaster_ntxSmallIntCliente" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntCliente', css: { vmEditing: $root.UIExternaMaster().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxSmallIntCliente') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxSmallIntCliente') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()) }, igNumericEditor: { value: SmallIntCliente, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxSmallIntCliente') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_ntxSmallIntCliente') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                       <span class="input-group-btn" title="Filtro numérico">
+                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIExternaMaster().entitySearchRange.has_ClienteSmallIntCliente(), 'icon-ok': $root.UIExternaMaster().entitySearchRange.has_ClienteSmallIntCliente(), hide: $root.UIExternaMaster().status() !== 'C' }, popoverWithBind: { template: '#UIExternaMaster_rgSmallIntCliente', vm: $root.UIExternaMaster().entitySearchRange, ctrlName: 'UIExternaMaster_rgcSmallIntCliente', headerText:'Filtro numérico' }"  /></span>
+                                       <script id="UIExternaMaster_rgSmallIntCliente" type="text/html" tabindex="-1">
+                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIExternaMaster_ntxbSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteSmallIntCliente_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIExternaMaster_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIExternaMaster_ntxeSmallIntCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#UIExternaMaster_ntxeSmallIntCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                           <p></p>
+                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIExternaMaster_ntxeSmallIntCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: ClienteSmallIntCliente_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UIExternaMaster_ntxSmallIntCliente').igNumericEditor('option', 'readOnly', ($('#UIExternaMaster_ntxbSmallIntCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIExternaMaster_ntxbSmallIntCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                       </script>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_lUpStringEstado'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_lUpStringEstado')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divStringEstado" class="" >
+                                   <label data-bind="attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_lUpStringEstado')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_lUpStringEstado')" id="UIExternaMaster_lblStringEstado" for="UIExternaMaster_lUpStringEstado" class="control-label ellipsis">
+                                   </label>
+                                   <div id="UIExternaMaster_lUpStringEstado" class="form-control input-group " data-bind="validatedField: 'StringEstado', css: { vmEditing: $root.UIExternaMaster().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpStringEstado') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpStringEstado') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()) }, lookupControl: { vm: $root.UIExternaMaster(), value: StringEstado, maxLength: 50,lookupName: 'LookUpEstado', isMultiSelection: false, multiSelectionValue: $root.UIExternaMaster().entitySearchRange.StringEstado, fieldName: 'StringEstado', disabled:ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpStringEstado') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpStringEstado') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 50, defaultValue: null}" />
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_lUpStringPais'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_lUpStringPais')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divStringPais" class="" >
+                                   <label data-bind="attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_lUpStringPais')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_lUpStringPais')" id="UIExternaMaster_lblStringPais" for="UIExternaMaster_lUpStringPais" class="control-label ellipsis">
+                                   </label>
+                                   <div id="UIExternaMaster_lUpStringPais" class="form-control input-group " data-bind="validatedField: 'StringPais', css: { vmEditing: $root.UIExternaMaster().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpStringPais') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpStringPais') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()) }, lookupControl: { vm: $root.UIExternaMaster(), value: StringPais, maxLength: 50,lookupName: 'LookUpEstado', isMultiSelection: false, multiSelectionValue: $root.UIExternaMaster().entitySearchRange.StringPais, fieldName: 'StringPais', disabled:ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpStringPais') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpStringPais') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 50, defaultValue: null}" />
+                               </div>
+                           </div>
+                       </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+               <div id="UIExternaMaster_tcTabControl_37c985ebeb6b49489dd094efe09c6809"  data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_tcTabControl_37c985ebeb6b49489dd094efe09c6809'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_tcTabControl_37c985ebeb6b49489dd094efe09c6809')"  class="tabbable tabbable-custom box" >
+                  <div class="container-tab">
+                     <div id="UIExternaMaster_tcTabControl_37c985ebeb6b49489dd094efe09c6809_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                     <div id="UIExternaMaster_tcTabControl_37c985ebeb6b49489dd094efe09c6809_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                     <div id="UIExternaMaster_tcTabControl_37c985ebeb6b49489dd094efe09c6809_wrapper" class="wrapper">
+                        <ul id="UIExternaMaster_tcTabControl_37c985ebeb6b49489dd094efe09c6809_list" class="nav nav-tabs list">
+                           <li id="UIExternaMaster_tiTabItem_c804b851b71743b9b51ffb99eb617c56" class="active"><a data-bind="text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_tiTabItem_c804b851b71743b9b51ffb99eb617c56'), attr: {title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_tiTabItem_c804b851b71743b9b51ffb99eb617c56')}" href="#UIExternaMaster_tabTabItem_c804b851b71743b9b51ffb99eb617c56" data-toggle="tab"></a></li>
+                           <li id="UIExternaMaster_tiTabItem_5e4d08f59b9b4f8fbc2d05fc29af9a33" class=""><a data-bind="text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_tiTabItem_5e4d08f59b9b4f8fbc2d05fc29af9a33'), attr: {title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_tiTabItem_5e4d08f59b9b4f8fbc2d05fc29af9a33')}" href="#UIExternaMaster_tabTabItem_5e4d08f59b9b4f8fbc2d05fc29af9a33" data-toggle="tab"></a></li>
+                           <li id="UIExternaMaster_tiTabItem_ae415a5a00f94c1db50db74965f6efcc" class=""><a data-bind="text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_tiTabItem_ae415a5a00f94c1db50db74965f6efcc'), attr: {title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_tiTabItem_ae415a5a00f94c1db50db74965f6efcc')}" href="#UIExternaMaster_tabTabItem_ae415a5a00f94c1db50db74965f6efcc" data-toggle="tab"></a></li>
+                        </ul>
+                        </div>
+                     </div>
+                  <div class="tab-content">
+
+
+
+                   <div class="tab-pane fade active in" id="UIExternaMaster_tabTabItem_c804b851b71743b9b51ffb99eb617c56">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div style="height:auto;">
+                           <div id="UIExternaMaster_euiExternalUI_f4f3a92367b04a5ca17aaebd7e6e9fd6" class="extenalUI" 
+                           data-bind="widget: { kind: 'pkg_linx-demo-bv-spa/viewmodels/UIExternaTab', parentVM: $root, uiSettings: { removeDataToolbar: false, shareParentBO: false, useFilterFromParent: false, parentSelectorDataName: 'Cliente', displayName: '', canClear: true, canSearch: true, canExport: true, canAddNew: true, canEdit: true, canDelete: true, canCustomSearch: true, canPrint: true, canLayout: true, canNavigate: true, canNavigate: true, applyFilterToParent: true, noSearch: false, noBusyLoading: false, parentFieldsRelation: ['IdCliente'], detailFieldsRelation: ['IdCliente'] } }" />
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="UIExternaMaster_tabTabItem_5e4d08f59b9b4f8fbc2d05fc29af9a33">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+
+
+                       <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_btnCustomControl7886006'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_btnCustomControl7886006')" class="">
+                           <div class="form-group">
+                               <div id="UIExternaMaster_divCustomControl7886006" class="" >
+                                   <button id="UIExternaMaster_btnCustomControl7886006" class="form-control btn-block btn-press ellipsis " data-bind="text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_btnCustomControl7886006'), attr: {title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_btnCustomControl7886006')}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_btnCustomControl7886006') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_btnCustomControl7886006') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()) }, enable: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_btnCustomControl7886006') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_btnCustomControl7886006') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()), click:function(){ if (typeof $root.UIExternaMaster().CustomControl7886006_Click == 'function') $root.UIExternaMaster().CustomControl7886006_Click(); if ($root.UIExternaMaster().custom) $root.UIExternaMaster().custom.CustomControl7886006_Click({viewModel: $root.UIExternaMaster()}); }"></button>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="UIExternaMaster_tabTabItem_ae415a5a00f94c1db50db74965f6efcc">
+                       <div class="ui-helper-clearfix">
+                           <div data-bind="with: $root.UIExternaMaster().getWithBinding(currentDataItem, $root.UIExternaMaster().rootDataTypeName)">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UIExternaMaster().getLayoutColumnSpan('UIExternaMaster_lUpIdEstado'), visible: $root.UIExternaMaster().getLayoutVisible('UIExternaMaster_lUpIdEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="UIExternaMaster_divIdEstado" class="" >
+                                           <label data-bind="attr: { title: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_lUpIdEstado')}, text: $root.UIExternaMaster().getLayoutDisplayName('UIExternaMaster_lUpIdEstado')" id="UIExternaMaster_lblIdEstado" for="UIExternaMaster_lUpIdEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div id="UIExternaMaster_lUpIdEstado" class="form-control input-group " data-bind="validatedField: 'IdEstado', css: { vmEditing: $root.UIExternaMaster().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpIdEstado') ? ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpIdEstado') : (!isEmptyEntityFn($data) && $root.UIExternaMaster().enabledForEditing()) }, lookupControl: { vm: $root.UIExternaMaster(), value: IdEstado, maxLength: 12,lookupName: 'LookUpEstado', isMultiSelection: false, multiSelectionValue: $root.UIExternaMaster().entitySearchRange.IdEstado, fieldName: 'IdEstado', disabled:ctrl.hasCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpIdEstado') ? !ctrl.getCustomEnable($root.UIExternaMaster(), 'UIExternaMaster_lUpIdEstado') : (isEmptyEntityFn($data) || !$root.UIExternaMaster().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="UIExternaMaster_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.UIExternaMaster().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyUIExternaMaster_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyUIExternaMaster_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyUIExternaMaster_dGrid_templateLayout', vm: function(){return $root.UIExternaMaster().gridSaveStates['scyUIExternaMaster_dGrid'];}, ctrlName: 'scyUIExternaMaster_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyUIExternaMaster_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyUIExternaMaster_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyUIExternaMaster_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UIExternaMaster().dataToolbar.canExport(), click: function () {$root.UIExternaMaster().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyUIExternaMaster_dGrid" data-bind="css: { IsEditableStyle: $root.UIExternaMaster().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

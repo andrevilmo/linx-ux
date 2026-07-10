@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+ 
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>AppApiCore</AssemblyName>
+    <PackageId>AppApiCore</PackageId>
+    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+	<PostBuildEvent>xcopy "AppApiCore.*" "C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Common\LinxHostCore\src\LinxHostCore\BusinessModules\API\AppApiCore\bin\" /Y /R</PostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.7.2" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.OData.Edm" Version="7.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Linx.Security.Core\Linx.Security.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Linx.DomainService.Core">
+      <HintPath>..\..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Linx.DomainService.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.OData">
+      <HintPath>..\..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Microsoft.AspNetCore.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Modular.Core">
+      <HintPath>..\..\..\..\Binary\Library\Common\Linx\Nuget\Libs\Modular.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+</Project>

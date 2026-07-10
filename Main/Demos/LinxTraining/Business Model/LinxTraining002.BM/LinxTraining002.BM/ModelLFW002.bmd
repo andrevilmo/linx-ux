@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<businessModelDesignerRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="da3053e3-df4d-473b-a2c2-91ff53c573e2" name="" documentName="ModelLFW002.bmd" targetNamespace="LinxTraining002.BM" documentPath="C:\Linx Workspace\Linx Framework\Dev\Demos\LinxTraining\Business Model\LinxTraining002.BM\LinxTraining002.BM" noCode="false" dataContextName="ModeloVendaCliente" removeAutomaticIndexes="false" removeRequiredAttributes="false" enableAutomaticAuthorization="false" setIdLinxWithIdGpecon="false" forceDynamicForeignKeyNames="false" xmlns="http://schemas.microsoft.com/dsltools/BusinessModelDesigner">
+  <types>
+    <modelClass Id="4706382a-cae0-4915-8515-00c3df390ce5" name="Clientes" table="Clientes" primaryKeyConstraintName="PK_dbo.Clientes" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false">
+      <attributes>
+        <modelAttribute Id="51bb01b0-1388-4b36-82a0-fc84213e015b" name="ID_Clientes" dataType="Guid" columnName="ID_Clientes" isPrimaryKey="true" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="0" sqlDefault="(newsequentialid())" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="d602d843-ac36-4564-ad35-9a2b80ba9c59" name="Nome" columnName="Nome" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="b96a828f-03f2-4c63-935c-a92b86da5de1" name="Tipo" dataType="Int" columnName="Tipo" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" domainName="LXTipoClientes" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <targetModelClasses>
+        <association Id="dd6fced4-2fe1-464d-a706-848aff3944f0" foreignKeyConstraintName="FK_Vendas_ebdb6b" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//Vendas" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="b3377f49-a214-4654-93cc-6090ea1cceff" name="Vendas" table="Vendas" primaryKeyConstraintName="PK_dbo.Vendas" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false">
+      <attributes>
+        <modelAttribute Id="d6ff3dd6-334a-4626-a3cc-be0ac9c2e970" name="ID_Vendas" dataType="Int" columnName="ID_Vendas" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="b0f19b89-43a8-4ed3-a713-2aa544c43887" name="Data" dataType="DateTime" columnName="Data" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="25ff50a8-e9f0-4ce0-ba18-83bdc9bd0755" name="ValorTotal" dataType="Decimal" columnName="ValorTotal" isPrimaryKey="false" isIdentity="false" precision="10" scale="2" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="56860e12-59ad-4ad9-b2e9-313da4bd654a" name="Origem" dataType="Int" columnName="Origem" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" domainName="LXOrigem" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="4a21d3ff-d187-43fd-81b6-8e0ab993dd15" name="VendaVip" dataType="Boolean" columnName="VendaVip" isPrimaryKey="false" isIdentity="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="372da3d4-4750-491a-b244-89e22514b76c" name="ID_Clientes" dataType="Guid" columnName="ID_Clientes" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" foreignKey="FK_Vendas_ebdb6b.ID_Clientes" notMapped="false" isComputed="false" maxLength="0" sqlDefault="(newsequentialid())" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <targetModelClasses>
+        <association Id="a423bf29-7598-4ef5-a9f6-dbe2a56e8039" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="true">
+          <modelClassMoniker name="//VendaDetalhe" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <domainView Id="865a735a-d1e8-4766-8e8e-377a83d2925a" name="LXOrigem">
+      <domainValues>
+        <domainViewHasDomainValues Id="48ca55f4-1ded-4ac8-945b-b6d390fbdadb">
+          <domainValue Id="93e7ad2c-84bc-4142-a7d6-39922bbc5a56" name="Internet" value="1" displayName="Internet" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="02056e91-f51f-4a4b-ab54-9bbbe616b0b0">
+          <domainValue Id="d8312a27-0779-47c2-afcc-2a3a49c41dbd" name="Lojafisica" value="2" displayName="Loja Física" />
+        </domainViewHasDomainValues>
+      </domainValues>
+    </domainView>
+    <domainView Id="840b6dc9-abbf-4ddf-bbce-a5d1d5993ddf" name="LXTipoClientes">
+      <domainValues>
+        <domainViewHasDomainValues Id="d003e5e8-8c6e-4329-8f1f-faf01528d11f">
+          <domainValue Id="fd189b91-307f-470e-8d74-cc581689c748" name="Pessoafisica" value="1" displayName="Pessoa Física" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="eb6f69e9-ff1f-4b96-a1a9-cd1b9ff3293b">
+          <domainValue Id="fb749fdd-0554-4090-b0f0-1f6001a9cf5a" name="Pessoajuridica" value="2" displayName="Pessoa Jurídica" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="b1382cba-2c19-402b-b96a-f0d99f5e9e14">
+          <domainValue Id="523df283-a93d-49b6-a8c1-6b54c6c69ae3" name="Fornecedor" value="3" displayName="Fornecedor" />
+        </domainViewHasDomainValues>
+      </domainValues>
+    </domainView>
+    <modelClass Id="067a4df8-df43-4288-8a36-75e2ad7397f6" name="VendaDetalhe" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false">
+      <attributes>
+        <modelAttribute Id="c2eed2f0-a8ac-49c7-a3f2-8c3549606467" name="ID_VendaDetalhe" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="ID VendaDetalhe" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="9947304e-fc35-48d9-b638-2c3e3d015089" name="ID_Vendas" dataType="Int" columnName="ID_Vendas" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="a423bf29-7598-4ef5-a9f6-dbe2a56e8039.ID_Vendas" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="a26ff4d7-da86-44b2-ad28-d18283ffbe46" name="Produto" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="f447c339-6250-4596-bfa0-dbc27e0b98d9" name="Preco" dataType="Decimal" isPrimaryKey="false" isIdentity="false" precision="10" scale="2" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="4d55ccaa-11f4-4c57-b218-61752f9067db" name="Quantidade" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="f055c47a-d3b5-4bf7-be42-22d6a7c1bfd3" name="Hora" dataType="DateTime" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+    </modelClass>
+    <modelClass Id="4dfa0692-3b42-4115-895f-ea037c92da1a" name="TiposCamposFilha" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false">
+      <attributes>
+        <modelAttribute Id="8803b0c1-a4a2-4a1c-b004-e4f338ba3e0d" name="ID_TiposCamposFilha" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="ID TiposCamposFilha" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="670d28b5-fe71-4aa7-81a4-94c96235875f" name="Byte" dataType="Byte" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="d6f19d77-066b-4d27-b169-2fba70125d51" name="UnsignedShort" dataType="UnsignedShort" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="011724bd-d4c7-4e9c-adca-2ee0f30ad572" name="Int" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="b5442fd3-6ede-4ad7-8ae4-a767825dab32" name="UnsignedInt" dataType="UnsignedInt" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="0d194c98-a704-43c5-bc7d-587097d31fa2" name="Long" dataType="Long" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="5b234819-f268-47ca-bf85-faf4d6d4fab3" name="UnsignedLong" dataType="UnsignedLong" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="32098340-e252-4127-b532-8a68709b2c1b" name="Short" dataType="Short" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="33cf9b8b-84d1-4a9e-b48e-73a215a16c34" name="String" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="524aba49-2712-4772-a127-03dc35775ec0" name="Decimal" dataType="Decimal" isPrimaryKey="false" isIdentity="false" precision="10" scale="2" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="23f4c165-de09-45ea-a4e8-82a05e2de083" name="Boolean" dataType="Boolean" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="7951e3bf-4540-4a4b-accd-d693c1f38050" name="DateTime" dataType="DateTime" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="7183bc40-1922-4201-8c81-a6ea95b812f6" name="StringChar" dataType="StringChar" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="f898bd4f-d88b-4f32-baa9-323ebff50e7e" name="Guid" dataType="Guid" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" sqlDefault="(newsequentialid())" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="1c1006d8-6380-4b14-9886-e88db325e0fb" name="ByteArray" dataType="ByteArray" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="3a2f487e-7463-44d5-9d50-ad3c11d08de3" name="StringText" dataType="StringText" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="cef9db17-691d-448d-898d-c3038077df33" name="Timestamp" dataType="Timestamp" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="f1e680b4-5ac8-4437-8913-5c65bd806b44" name="DateTimeOffset" dataType="DateTimeOffset" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="5b8cf213-86d8-41d2-927c-50462ff288b4" name="Date" dataType="Date" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="8fd677c4-98f7-4391-bcfd-ede98a886549" name="ID_TiposCampos" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="ID TiposCampos" foreignKey="e855379a-197d-4416-8c68-1388f3db7234.ID_TiposCampos" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+    </modelClass>
+    <modelClass Id="aee01cf9-3b8e-44c2-8ecf-89943ece28ff" name="TiposCampos" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false">
+      <attributes>
+        <modelAttribute Id="d43b5f2c-f0e9-4676-bcd1-a5a043077d5f" name="ID_TiposCampos" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="ID TiposCampos" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="01b126e5-5ab3-4e9b-878e-e99579f70ba3" name="Byte" dataType="Byte" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="2f5d6131-f373-4322-ac99-64e6e33361bc" name="UnsignedShort" dataType="UnsignedShort" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="796dbcdb-782c-4fdd-8dcf-3c7621cef882" name="Int" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="cb837d8d-a5cc-4fae-978b-11b7ca57d137" name="UnsignedInt" dataType="UnsignedInt" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="1546d5aa-1b6e-4924-bc7d-b9c8d3e453e6" name="Long" dataType="Long" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="9a554b1d-56da-4a8e-b25b-eb3ca67f13ea" name="UnsignedLong" dataType="UnsignedLong" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="b2dcf559-a995-41b6-a8af-b965ace4bf02" name="Short" dataType="Short" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="09a52296-d6a6-4556-92ef-01d4c66745ec" name="String" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" domainName="TstDomainString" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="1b48f8e9-fbec-484a-8d0e-5e2f7228d7eb" name="Decimal" dataType="Decimal" isPrimaryKey="false" isIdentity="false" precision="10" scale="2" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="26275d23-0249-4730-b648-c8eed2fe7b94" name="Boolean" dataType="Boolean" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="40b55e27-0aa7-4c36-8387-5acd277e9680" name="DateTime" dataType="DateTime" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="ea246296-bf9b-4546-a7b1-9148c15cb69c" name="StringChar" dataType="StringChar" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="a6e72104-893b-42b5-b4e2-7a87e3481007" name="Guid" dataType="Guid" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" sqlDefault="(newsequentialid())" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="278f45be-0c4e-4c7f-935b-acf60b76f0bd" name="ByteArray" dataType="ByteArray" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="8dd7ec02-cc92-40d3-b033-08d177c2c9a4" name="StringText" dataType="StringText" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="fe2770a0-9b7f-4129-bc48-6089dfd2dbd7" name="Timestamp" dataType="Timestamp" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="0301c2fd-be7d-4116-8d09-14ddbbfe9992" name="DateTimeOffset" dataType="DateTimeOffset" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="eddd153c-4c56-4e4d-a3fe-235eb1b296b5" name="Date" dataType="Date" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <targetModelClasses>
+        <association Id="e855379a-197d-4416-8c68-1388f3db7234" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//TiposCamposFilha" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="0f1c8f76-e66e-4eb0-bb39-28c726a40d46" name="TiposCamposError" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false">
+      <attributes>
+        <modelAttribute Id="daf76ac1-1f8f-4fc8-9e1d-9f5910e3cb78" name="ID_TiposCamposError" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="ID TiposCamposError" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="5928ef7b-ee9d-44f8-ab5e-c6714a63dc2a" name="SignedByte" dataType="SignedByte" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="b0909099-2ab6-488c-b0a5-34e85d3a0039" name="Float" dataType="Float" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="e0d1f976-6417-4359-ba17-3ff961ccf95c" name="Double" dataType="Double" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+    </modelClass>
+    <domainView Id="940a93d0-23a1-494c-93a7-b8f41228bc39" name="TstDomainString">
+      <domainValues>
+        <domainViewHasDomainValues Id="81e8eda0-a96a-4803-8c92-5741ba759492">
+          <domainValue Id="2c48a2f6-2de0-449e-9942-a14e059d0de5" name="st01" value="'01'" displayName="String 01" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="8c073c79-92f4-4aa7-8047-b975929ff644">
+          <domainValue Id="7d2cdf5f-0397-494f-8725-1e3724df0f3d" name="st02" value="'02'" displayName="String 02" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="151af913-be6d-42ea-8909-e520cc6c931e">
+          <domainValue Id="ded260dd-e27c-4556-b085-f876a8325d44" name="stA" value="&quot;A&quot;" displayName="String A" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="dd5d23ca-8ab9-43bb-b90d-08e6e63b504b">
+          <domainValue Id="b06b953c-8aee-4f77-920c-a933b238ceac" name="st01A" value="'01A'" displayName="String 01A" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="2182d695-7d6f-410f-92a0-5b24d6aaf1c5">
+          <domainValue Id="0299e424-ac0c-40f2-87bc-b7225ae777b7" name="sttst" value="&quot;sttst&quot;" displayName="String Teste" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="5e4aa624-12e6-460c-9ab1-dd96ea0ac36a">
+          <domainValue Id="bc75d4e1-00a7-4f2a-aac4-f4778355d52b" name="ststdd" value="&quot;ststdd&quot;" displayName="NewString" />
+        </domainViewHasDomainValues>
+        <domainViewHasDomainValues Id="7305cc77-128f-41a6-b29d-0bce302ca275">
+          <domainValue Id="22db0fb0-2818-418a-9966-1351d3d17530" name="ValString" value="&quot;ValString&quot;" displayName="ValString" />
+        </domainViewHasDomainValues>
+      </domainValues>
+    </domainView>
+    <modelClass Id="043428c1-c34e-4500-b245-27149b384b9b" name="PaiNotNull" table="PaiNotNull" primaryKeyConstraintName="PK_dbo.PaiNotNull" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false">
+      <attributes>
+        <modelAttribute Id="923992ef-24c0-41c6-be73-dcd110e7377f" name="ID_PaiNotNull" dataType="Int" columnName="ID_PaiNotNull" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="2629b3dd-8e4f-4cb4-8b8d-ec9a25b6ee88" name="Byte" dataType="Byte" columnName="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" notMapped="false" isComputed="false" maxLength="3" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="22741517-308c-42e3-b378-4c7e72122878" name="Int" dataType="Int" columnName="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="ab9bf183-be3b-478d-9ec7-455ed80125f8" name="Long" dataType="Long" columnName="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="19" scale="0" notMapped="false" isComputed="false" maxLength="19" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="382bd5da-4630-4caa-a89f-48477fe3c5e8" name="Short" dataType="Short" columnName="Short" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="5" scale="0" notMapped="false" isComputed="false" maxLength="5" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="6efc98c9-ed24-410b-9b39-a44f7e740831" name="String" columnName="String" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="5cd19170-ac4c-4c4f-95ce-1bad72196e75" name="Decimal" dataType="Decimal" columnName="Decimal" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="2" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="071f9cf0-078e-4824-98b8-6bb140aebb92" name="Boolean" dataType="Boolean" columnName="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="68642a23-bf32-475a-8349-2ebc29b355dd" name="DateTime" dataType="DateTime" columnName="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="deae133f-3902-430c-92b9-4a2a56019861" name="StringChar" dataType="StringChar" columnName="StringChar" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="cd506a3e-b7cd-4792-b4e2-6b1b1184c167" name="StringText" dataType="StringText" columnName="StringText" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="-1" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <targetModelClasses>
+        <association Id="27bf02c5-fa65-4b7d-baf8-5cea3533122b" foreignKeyConstraintName="FK_FilhaNotNull_d60af0" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//FilhaNotNull" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="6687be4a-8d99-4f03-89a9-dc5237183303" name="FilhaNotNull" table="FilhaNotNull" primaryKeyConstraintName="PK_dbo.FilhaNotNull" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false">
+      <attributes>
+        <modelAttribute Id="00309765-4244-45ed-9d7b-18b1f555d438" name="ID_FilhaNotNull" dataType="Int" columnName="ID_FilhaNotNull" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="25ebff62-c30c-44f2-8620-d392ed4d7498" name="Byte" dataType="Byte" columnName="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" notMapped="false" isComputed="false" maxLength="3" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="08790ebb-58b8-4a3e-abf6-a7e85c501cde" name="Int" dataType="Int" columnName="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="0231bfb0-16b4-4e68-88ff-87f335ecd42f" name="Long" dataType="Long" columnName="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="19" scale="0" notMapped="false" isComputed="false" maxLength="19" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="b6e2b68c-b683-41ae-bb06-a04b43e28d87" name="Short" dataType="Short" columnName="Short" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="5" scale="0" notMapped="false" isComputed="false" maxLength="5" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="9cdaab2f-6bd4-43d2-a76b-66d43990ff5c" name="String" columnName="String" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="e71c7fa6-cc09-4045-9912-ee3348c07936" name="Decimal" dataType="Decimal" columnName="Decimal" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="2" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="180b51df-f02c-4d33-b260-0ae029ae0fc6" name="Boolean" dataType="Boolean" columnName="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="85f58f0f-f41f-42ab-a105-7ce33944b6ea" name="DateTime" dataType="DateTime" columnName="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="acee5344-3d17-4da8-8ded-8c197cbca144" name="StringChar" dataType="StringChar" columnName="StringChar" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="97a0e6fa-76b0-434f-a743-1399328b1417" name="StringText" dataType="StringText" columnName="StringText" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="-1" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="00184891-633a-401e-9898-c55a15a3d546" name="ID_PaiNotNull" dataType="Int" columnName="ID_PaiNotNull" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="FK_FilhaNotNull_d60af0.ID_PaiNotNull" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="c0b391b6-a1c8-4688-bc7e-38fdc20e14d1">
+          <modelIndex Id="9f76ce1e-8cd8-4440-b77b-8ece3a897767" name="IX_ID_PaiNotNull" properties="ID_PaiNotNull" isUnique="false" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+    </modelClass>
+  </types>
+  <dbProviders>
+    <businessModelDesignerRootHasDbProviders Id="56a3a3b8-3259-4534-abbf-3a25e7149589">
+      <dbProvider Id="8e9d6b46-9845-4cab-a68c-ebf578a30eda" name="DbProvider1" server="." catalog="tstDDD" windowsAuthentication="true" isDefault="true" connectionName="ConnLFWTraining002" />
+    </businessModelDesignerRootHasDbProviders>
+  </dbProviders>
+  <webApiControllers>
+    <businessModelDesignerRootHasWebApiControllers Id="ba3c0283-e915-4023-aa49-c4f6737a5b88">
+      <webApiController Id="4e4dabdf-3cff-4442-800f-01108ab8ef71" name="ModelLFW002Controller1" exposeAllContext="true" />
+    </businessModelDesignerRootHasWebApiControllers>
+  </webApiControllers>
+</businessModelDesignerRoot>

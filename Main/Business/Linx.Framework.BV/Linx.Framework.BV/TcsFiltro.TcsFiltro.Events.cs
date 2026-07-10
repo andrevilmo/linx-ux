@@ -1,0 +1,52 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Linx.LinqExtensions.Query;
+using Linx.LinqExtensions.Functional;
+using Linx.LinqExtensions.Expressions;
+using Linx;
+using Linx.Tools;
+using System.Linq;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+#if !SILVERLIGHT
+using System.ServiceModel.DomainServices.Server;
+using Linx.Data;
+#endif
+using System.Text;
+using System.Data.Objects;
+using System.Data.Common;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.Data.Linq.SqlClient;
+using System.Reflection;
+using System.Data.Objects.DataClasses;
+using Linx.Framework.ControleSistema.BM;
+using System.ServiceModel.DomainServices.Hosting;
+using System.ServiceModel.DomainServices;
+
+namespace Linx.TCS0101.BO.TcsFiltro
+{
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////// Business Events Definition //////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    public partial class TcsFiltro
+    {
+
+        /// Execute before lookup on server side.
+        public static void OnLookUpingLookUpTcsObjetoFiltro(ref IQueryable<LookUpTcsObjetoFiltro> searchDefinition, string propertyName, EntitySearch entitySearch)
+        {
+            searchDefinition =
+                (from result in Utils.GetLookUpObjeto(entitySearch)
+                 select new LookUpTcsObjetoFiltro()
+                 {
+                     UidObjeto = result.UidObjeto,
+                     DescObjeto = result.DescObjeto,
+                     ClasseNome = result.ClasseNome,
+                     LxTipoObjeto = result.LxTipoObjeto
+                 });
+        }
+    }
+}

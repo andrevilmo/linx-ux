@@ -1,0 +1,72 @@
+<div id="dashboard" class="container-fluid" data-ng-controller="BuilderController as vm">
+  <div class="loaderWrap" ng-show="vm.loader">
+    <div class="spinner-loader" ng-show="vm.loader"></div>
+  </div>
+  <!-- #header -->
+  <div id="nav-top">
+
+    <div id="brand-header" ng-click="vm.home()">
+      <img src="./Content/Images/linx-logo.png" />
+    </div>
+
+    <div class="dropdown anchor pull-left">
+      <span dropdown on-toggle="toggled(open)">
+        <a href id="simple-dropdown" dropdown-toggle>
+          Arquivo
+          <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+          <li><a id="" ng-click="vm.home()"><i class="glyphicon glyphicon-home"></i> Home </a></li>
+          <li><a id="dashboard-select" ng-click="vm.save()"><i class="fa fa-cloud-download"></i> Salvar </a></li>
+        </ul>
+      </span>
+    </div>
+
+    <div class="row pull-right actions-view">
+      <div class="col-md-10">
+        <a class="anchor" ng-click="vm.fullScreen()">
+          <i class="fa fa-expand"></i>
+        </a>
+
+        <a class="anchor" ng-click="vm.minimize()">
+          <i class="fa fa-minus"></i>
+        </a>
+
+        <a class="anchor" ng-click="vm.close()">
+          <i class="fa fa-remove"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="row pull-right actions-view">
+      <div class="col-md-12" style="padding-right: 0;" ng-hide="vm.isPreview">
+        <a ng-click="vm.preview(vm.typePreview.type)" class="dropdown" ng-show="vm.typePreview.type != 'Preview'">
+          <i class="fa fa-play"></i> {{ vm.typePreview.type }}
+        </a>
+
+        <span class="dropdown" ng-show="!vm.isPreview">
+          <span dropdown on-toggle="toggled(open)">
+            <a id="simple-dropdown" dropdown-toggle>
+              <i class="glyphicon glyphicon-play" ng-show="vm.typePreview.type == 'Preview'"></i>
+              <span ng-show="vm.typePreview.type == 'Preview'">Preview</span>
+              <i class="fa fa-angle-down"></i>
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+              <li><a id="dashboard-select" ng-click="vm.preview('browser')"><i class="fa fa-caret-square-o-right"></i>&nbsp;&nbsp;Navegador </a></li>
+              <li><a id="dashboard-select" ng-click="vm.preview('builder')"><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Desenhador </a></li>
+            </ul>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <button class="btn btn-danger pull-right" ng-click="vm.pause()" ng-show="vm.isPreview">
+      <i class="fa fa-pause"></i>&nbsp; Voltar
+    </button>
+  </div>
+  <!-- #nav-top -->
+  <div id="content" class="row">
+    <div ui-view="main"></div>
+  </div>
+</div>

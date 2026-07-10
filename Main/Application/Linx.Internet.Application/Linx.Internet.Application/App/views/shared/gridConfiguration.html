@@ -1,0 +1,79 @@
+﻿<div class="modal-dialog modal-dialog-large">
+    <div class="modal-content ">
+        <div class="modal-header">
+            <button type="button" data-bind="click: cancel_Click" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title" data-bind="text: title"></h4>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="tbLayoutName" class="control-label ellipsis">Nome do Layout</label>
+
+                <div class="controls">
+                    <input id="tbLayoutName" class="form-control ellipsis input-medium IsEditableStyle" data-bind="enable:$root.CanEditNomeLayout(), value: $root.NomeLayout" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="control-label ellipsis" style="margin-bottom: 10px !important;font-weight: 600;">Permissões:</p>
+
+                    <div class="form-group ui-select-multi">
+                        <label for="cboUsersPermission" class="control-label ellipsis">Usuários</label>
+
+                        <div class="controls">
+                            <span id="cboUsersPermission" multiple="multiple" class="form-control select2-hidden-accessible"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group ui-select-multi">
+                        <label for="cboProfilePermission" class="control-label ellipsis">Perfis</label>
+
+                        <div class="controls">
+                            <span id="cboProfilesPermission" multiple="multiple" class="form-control select2-hidden-accessible"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row table-grid">
+                <div class="col-md-11">
+                    <table id="configColumns"></table>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-close btn-icon" data-bind="enable: $root.canMoveColumnUp, click: $root.moveColumnUp" title="Mover a coluna selecionada para cima">
+                        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-close btn-icon" data-bind="enable: $root.canMoveColumnDown,click: $root.moveColumnDown" title="Mover a coluna selecionada para baixo">
+                        <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="group-buttons">
+                <div class="row">
+                    <div class="col-md-6 text-left">
+                        <button class="btn btn-close btn-icon-texto" data-bind="click: $root.cancel_Click">
+                            Cancelar
+                        </button>
+                    </div>
+
+                    <div class="col-md-6">
+                        <button class="btn btn-ok btn-icon-texto" data-bind="click: $root.apply_click">
+                            Aplicar
+                        </button>
+                        <button class="btn btn-ok btn-icon-texto" data-bind="click: $root.save_click">
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

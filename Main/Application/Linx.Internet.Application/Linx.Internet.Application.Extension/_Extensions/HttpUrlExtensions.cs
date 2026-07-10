@@ -1,0 +1,43 @@
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using System.Web;
+
+//namespace Linx.Internet.Application.Extension
+//{
+//    public static class HttpUrlExtensions
+//    {
+//        public static Uri AddQueryString(this Uri uri, string name, string value)
+//        {
+//            var ub = new UriBuilder(uri);
+
+//            // decodes urlencoded pairs from uri.Query to HttpValueCollection
+//            var httpValueCollection = HttpUtility.ParseQueryString(uri.Query);
+
+//            httpValueCollection.Add(name, value);
+
+//            // urlencodes the whole HttpValueCollection
+//            ub.Query = httpValueCollection.ToString();
+
+//            return ub.Uri;
+//        }
+
+//        public static Uri AppendUrl(this Uri uri, string name, string value)
+//        {
+//            var ub = new UriBuilder(uri);
+
+//            ub.
+//            // decodes urlencoded pairs from uri.Query to HttpValueCollection
+//            var httpValueCollection = HttpUtility.ParseQueryString(uri.Query);
+
+//            httpValueCollection.Add(name, value);
+
+//            // urlencodes the whole HttpValueCollection
+//            ub.Query = httpValueCollection.ToString();
+
+//            return ub.Uri;
+//        }
+//    }
+//}

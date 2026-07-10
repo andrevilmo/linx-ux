@@ -1,0 +1,55 @@
+﻿<#+
+
+	private void ProcessDirectories(string targetDirectory, string parentDir = "", string indent="", string[] subdirectories=null) 
+    {
+			var directory = (parentDir == "" ? "" : parentDir + "_") + System.IO.Path.GetFileName(targetDirectory).ToUpper().Replace("-", "_").Replace(" ", "").Replace("(", "").Replace(")", "").Replace("@", "");
+			if (directory.Length > 60)
+				directory = directory.Substring(directory.Length - 60);
+#>
+			<#=indent#><Directory Id="<#=directory#>" Name="<#=System.IO.Path.GetFileName(targetDirectory)#>" >
+<#+
+        // Recurse into subdirectories of this directory.
+        string [] subdirectoryEntries = System.IO.Directory.GetDirectories(targetDirectory);
+        foreach(string subdirectory in subdirectoryEntries) {
+			if (subdirectories == null || subdirectories.Length == 0 || subdirectories.Contains(System.IO.Path.GetFileName(subdirectory))) ProcessDirectories(subdirectory, directory, indent + "  ");
+		}
+#>
+			<#=indent#></Directory >
+<#+
+    }
+
+	private void ProcessFiles(string targetDirectory, string parentDir = "", string[] subdirectories=null) 
+    {
+		var directory = (parentDir == "" ? "" : parentDir + "_") + System.IO.Path.GetFileName(targetDirectory).ToUpper().Replace("-", "_").Replace(" ", "").Replace("(", "").Replace(")", "").Replace("@", "");
+		if (directory.Length > 60)
+			directory = directory.Substring(directory.Length - 60);
+				
+        // Process the list of files found in the directory.
+        string [] fileEntries = System.IO.Directory.GetFiles(targetDirectory);
+		if (fileEntries.Length > 0) {
+		string componentId = System.Guid.NewGuid().ToString();
+		string componentPrefix = "_" + componentId.Replace("-", "");
+#>
+		<Component Id="<#=componentPrefix#>_CMP" Guid="{<#=componentId#>}" Directory="<#=directory#>">
+<#+
+        for (int fIndex = 0; fIndex < fileEntries.Length; fIndex++) {
+			string fileName = fileEntries[fIndex];
+			string fileId = (parentDir == "" ? directory + "_" + System.IO.Path.GetFileName(fileName).ToUpper().Replace("-", "_") : componentPrefix + "_" + fIndex.ToString());			
+#>
+			<File Id="<#=fileId#>" Source="<#=fileName#>" />
+<#+
+		}
+#>
+		</Component>
+<#+
+		}
+
+		// Recurse into subdirectories of this directory.
+        string [] subdirectoryEntries = System.IO.Directory.GetDirectories(targetDirectory);
+        foreach(string subdirectory in subdirectoryEntries) {
+            if (subdirectories == null || subdirectories.Length == 0 || subdirectories.Contains(System.IO.Path.GetFileName(subdirectory))) ProcessFiles(subdirectory, directory);
+	    }
+
+	}
+	
+#>

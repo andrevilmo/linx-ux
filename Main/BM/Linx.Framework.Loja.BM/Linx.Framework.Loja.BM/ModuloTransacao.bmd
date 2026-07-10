@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<businessModelDesignerRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="5be5370d-d89f-4326-bf93-bdbc93ab1fa2" name="" documentName="ModuloTransacao.bmd" targetNamespace="Linx.Framework.Loja.BM" documentPath="C:\Linx Workspace\Linx\Linx UX\Dev\5.X\BM\Linx.Framework.Loja.BM\Linx.Framework.Loja.BM" noCode="false" dataContextName="ModuloTransacaoContext" removeAutomaticIndexes="false" removeRequiredAttributes="false" setIdLinxWithIdGpecon="false" forceDynamicForeignKeyNames="false" controlIdLinxByApplicative="false" xmlns="http://schemas.microsoft.com/dsltools/BusinessModelDesigner">
+  <types>
+    <modelClass Id="ff6e550a-e69b-41fc-8bea-e48c1e7ad6b5" name="LJV_MODULO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="e452b2bc-aed1-4b3f-94ba-15c660d06b27" name="ID_MODULO" dataType="Long" isPrimaryKey="true" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="ID LjvModulo" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="74fdf385-96a2-4dc3-86a0-d0814f15298c" name="DESC_MODULO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="100" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="3e81ee67-9837-4cc4-8f4e-526a21443b1b" name="NOME_CURTO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="b787dd31-404f-49eb-9c27-f324dbf0034e" name="INATIVO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="ec45aff1-aed5-4af2-af9e-7449bf965a93" name="ICONE" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="a288c366-1483-4cbf-afb9-0b97b342b3d8" name="LX_COR_FUNDO" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="6fe2a550-de31-4720-ae03-042442e3aa8e" name="ORDEM_NAVEGACAO" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((1))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="3d674603-d7e6-4733-b5f0-9448b66abdc8" name="ID_TCS_APLICATIVO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <targetModelClasses>
+        <association Id="027fa1be-c8b5-4532-8b31-8d75d5b37209" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//LJV_MODULO_MENU" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="80ff85e6-7e67-4089-874a-67f037ed0bb4" name="LJV_MODULO_MENU" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="58ec4de5-de3c-4c04-99a6-c74f9fa2ad81" name="ID_MODULO_MENU" dataType="Long" isPrimaryKey="true" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Ljv Modulo Menu" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="edd976aa-6320-402b-bec4-cd2618925911" name="ID_MODULO_MENU_SUPERIOR" dataType="Long" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" displayName="Id Ljv Modulo Menu" foreignKey="911cf8eb-e0c3-461e-9459-0c5cc9f17c41.ID_MODULO_MENU" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="0b20f0ed-c56e-4d9b-8df4-4eea7513fa14" name="ID_MODULO" dataType="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="ID LjvModulo" foreignKey="027fa1be-c8b5-4532-8b31-8d75d5b37209.ID_MODULO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="362da6e1-2d65-4540-aca6-44315cd47d8a" name="DESC_MODULO_MENU" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="100" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="8ad5c990-ffa6-4e16-821b-acb664eb52db" name="NOME_CURTO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="3bffa1f4-f96a-47dd-bc64-f7c380bd6ac1" name="ORDEM_NAVEGACAO" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((1))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="4636e841-c735-4024-a45a-069f1b3142bb" name="ICONE" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="8132c634-0923-432b-9a00-2080a192853e" name="LX_COR_FUNDO" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <targetModelClasses>
+        <association Id="911cf8eb-e0c3-461e-9459-0c5cc9f17c41" targetMultiplicity="ZeroMany" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//LJV_MODULO_MENU" />
+        </association>
+        <association Id="30f04919-1dbb-4b43-9c40-f8b5ff0c8267" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//LJV_TRANSACAO_MENU" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="7cb76383-89f0-43af-b15e-01e436e7331b" name="LJV_TRANSACAO_MENU" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="54fc6678-2ffe-4708-b8ee-b782538e5a5a" name="ID_TRANSACAO_MENU" dataType="Long" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Ljv Transacao Menu Autorizacao" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="d1b73ebc-0fee-4686-928d-a98c5abc22bb" name="ID_MODULO_MENU" dataType="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Ljv Modulo Menu" foreignKey="30f04919-1dbb-4b43-9c40-f8b5ff0c8267.ID_MODULO_MENU" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="09bbc0e8-0fec-4b7c-8e8b-c742db270198" name="ID_TRANSACAO" dataType="Long" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Ljv Transacao" foreignKey="ede36177-c74e-4b5b-ad7d-b81df471ebea.ID_TRANSACAO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="22207066-25f6-4ccb-a826-fc91d1618d51" name="ORDEM_NAVEGACAO" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((1))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="f17feeb0-0b44-4421-875f-65a5e89dd101" name="INATIVO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+    </modelClass>
+    <modelClass Id="9d4d7d6a-93a3-4cd8-b371-65c6fc232411" name="LJV_TRANSACAO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="67630b0c-15ac-4d4e-a708-71fe5e3d91ea" name="ID_TRANSACAO" dataType="Long" isPrimaryKey="true" isIdentity="false" isNullable="false" precision="0" scale="0" displayName="Id Ljv Transacao" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="ea2ef7ae-fab3-485d-82b4-c99bebc8bf6e" name="COD_TRANSACAO" dataType="StringChar" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="4c99c078-9613-4ef4-94fd-7aa91e8b1bd2" name="DESC_TRANSACAO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="100" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="b796aa3f-ad29-474d-a2b9-aa9a3bf005d2" name="NOME_CURTO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="4dca8ef8-029a-4499-9f00-134fecfb77bb" name="LX_TIPO_TRANSACAO" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" notMapped="false" isComputed="false" maxLength="1" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="77930659-7277-469a-9ee6-49d84e0688c3" name="CLASSE_NOME" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="400" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="ecb72604-0aff-4110-a9c2-2b623cb85b22" name="INATIVO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="5f5594d1-2f35-464e-82fe-4cb41b3b8b6d" name="ICONE" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="61b20cbc-7ab1-404e-b8d5-64b87dc6051b" name="LX_COR_FUNDO" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <targetModelClasses>
+        <association Id="ede36177-c74e-4b5b-ad7d-b81df471ebea" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//LJV_TRANSACAO_MENU" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+  </types>
+</businessModelDesignerRoot>

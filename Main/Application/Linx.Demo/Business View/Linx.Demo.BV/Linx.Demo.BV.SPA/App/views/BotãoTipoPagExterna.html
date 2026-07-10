@@ -1,0 +1,316 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="BotãoTipoPagExterna_formViewer" class="panelTransaition">
+            <figure id="BotãoTipoPagExterna_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.BotãoTipoPagExterna().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="BotãoTipoPagExterna_gbFormaPagamento" data-bind="css: $root.BotãoTipoPagExterna().getLayoutColumnSpan('BotãoTipoPagExterna_gbFormaPagamento'), visible: $root.BotãoTipoPagExterna().getLayoutVisible('BotãoTipoPagExterna_gbFormaPagamento')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_gbFormaPagamento')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="BotãoTipoPagExterna_gbFormaPagamento_anchor" href="#BotãoTipoPagExterna_gbFormaPagamento_body" role="button" data-toggle="collapse" data-parent="#BotãoTipoPagExterna_gbFormaPagamento" aria-controls="#BotãoTipoPagExterna_gbFormaPagamento_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="BotãoTipoPagExterna_gbFormaPagamento_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.BotãoTipoPagExterna().getWithBinding(currentDataItem, $root.BotãoTipoPagExterna().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.BotãoTipoPagExterna().getLayoutColumnSpan('BotãoTipoPagExterna_ntxBigIntFormaPagamento'), visible: $root.BotãoTipoPagExterna().getLayoutVisible('BotãoTipoPagExterna_ntxBigIntFormaPagamento')" class="">
+                                   <div class="form-group">
+                                       <div id="BotãoTipoPagExterna_divBigIntFormaPagamento" class="" >
+                                           <label data-bind="attr: { title: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_ntxBigIntFormaPagamento')}, text: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_ntxBigIntFormaPagamento')" id="BotãoTipoPagExterna_lblBigIntFormaPagamento" for="BotãoTipoPagExterna_ntxBigIntFormaPagamento" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="BotãoTipoPagExterna_ntxBigIntFormaPagamento" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntFormaPagamento', css: { vmEditing: $root.BotãoTipoPagExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxBigIntFormaPagamento') ? ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxBigIntFormaPagamento') : (!isEmptyEntityFn($data) && $root.BotãoTipoPagExterna().enabledForEditing()) }, igNumericEditor: { value: BigIntFormaPagamento, minValue: 0, maxValue: 9007199254740992,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxBigIntFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxBigIntFormaPagamento') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoBigIntFormaPagamento(), 'icon-ok': $root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoBigIntFormaPagamento(), hide: $root.BotãoTipoPagExterna().status() !== 'C' }, popoverWithBind: { template: '#BotãoTipoPagExterna_rgBigIntFormaPagamento', vm: $root.BotãoTipoPagExterna().entitySearchRange, ctrlName: 'BotãoTipoPagExterna_rgcBigIntFormaPagamento', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="BotãoTipoPagExterna_rgBigIntFormaPagamento" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="BotãoTipoPagExterna_ntxbBigIntFormaPagamento" class="IsEditableStyle" data-bind="igNumericEditor: { value: FormaPagamentoBigIntFormaPagamento_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_ntxBigIntFormaPagamento').igNumericEditor('option', 'readOnly', (ui.value != null || $('#BotãoTipoPagExterna_ntxeBigIntFormaPagamento').igNumericEditor('option', 'value') != null ? true : false)); $('#BotãoTipoPagExterna_ntxeBigIntFormaPagamento').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="BotãoTipoPagExterna_ntxeBigIntFormaPagamento" class="IsEditableStyle" data-bind="igNumericEditor: { value: FormaPagamentoBigIntFormaPagamento_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_ntxBigIntFormaPagamento').igNumericEditor('option', 'readOnly', ($('#BotãoTipoPagExterna_ntxbBigIntFormaPagamento').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#BotãoTipoPagExterna_ntxbBigIntFormaPagamento').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.BotãoTipoPagExterna().getLayoutColumnSpan('BotãoTipoPagExterna_ckBitFormaPagamento'), visible: $root.BotãoTipoPagExterna().getLayoutVisible('BotãoTipoPagExterna_ckBitFormaPagamento')" class="">
+                                   <div class="form-group">
+                                       <div id="BotãoTipoPagExterna_divBitFormaPagamento" class="" >
+                                           <label class="">
+                                             <input id="BotãoTipoPagExterna_ckBitFormaPagamento" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ckBitFormaPagamento') ? ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ckBitFormaPagamento') : (!isEmptyEntityFn($data) && $root.BotãoTipoPagExterna().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ckBitFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ckBitFormaPagamento') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing()), nullableChecked: BitFormaPagamento" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblBotãoTipoPagExterna_ckBitFormaPagamento" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.BotãoTipoPagExterna().getLayoutColumnSpan('BotãoTipoPagExterna_cmbComboboxFormaPagamento'), visible: $root.BotãoTipoPagExterna().getLayoutVisible('BotãoTipoPagExterna_cmbComboboxFormaPagamento')" class="">
+                                   <div class="form-group">
+                                       <div id="BotãoTipoPagExterna_divComboboxFormaPagamento" class="" >
+                                           <label data-bind="css: { 'content-required': $root.BotãoTipoPagExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_cmbComboboxFormaPagamento')}, text: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_cmbComboboxFormaPagamento')" id="BotãoTipoPagExterna_lblComboboxFormaPagamento" for="BotãoTipoPagExterna_cmbComboboxFormaPagamento" class="control-label ellipsis">
+                                           </label>
+                                           <span id="BotãoTipoPagExterna_cmbComboboxFormaPagamento" class="form-control " data-bind="validatedField: 'ComboboxFormaPagamento', css: { IsEditableStyle: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_cmbComboboxFormaPagamento') ? ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_cmbComboboxFormaPagamento') : (!isEmptyEntityFn($data) && $root.BotãoTipoPagExterna().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_cmbComboboxFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_cmbComboboxFormaPagamento') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_cmbComboboxFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_cmbComboboxFormaPagamento') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing()), igCombo: {
+                                              selectedItems: ComboboxFormaPagamento,
+                                              dataSource:  $root.BotãoTipoPagExterna().dataDomains.getItems('LX_FORMA_PAGAMENTO', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_cmbComboboxFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_cmbComboboxFormaPagamento') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.BotãoTipoPagExterna().getLayoutColumnSpan('BotãoTipoPagExterna_dtDatetimeFormaPagamento'), visible: $root.BotãoTipoPagExterna().getLayoutVisible('BotãoTipoPagExterna_dtDatetimeFormaPagamento')" class="">
+                                   <div class="form-group">
+                                       <div id="BotãoTipoPagExterna_divDatetimeFormaPagamento" class="" >
+                                           <label data-bind="attr: { title: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_dtDatetimeFormaPagamento')}, text: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_dtDatetimeFormaPagamento')" id="BotãoTipoPagExterna_lblDatetimeFormaPagamento" for="BotãoTipoPagExterna_dtDatetimeFormaPagamento" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="BotãoTipoPagExterna_dtDatetimeFormaPagamento" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeFormaPagamento', css: { vmEditing: $root.BotãoTipoPagExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_dtDatetimeFormaPagamento') ? ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_dtDatetimeFormaPagamento') : (!isEmptyEntityFn($data) && $root.BotãoTipoPagExterna().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_dtDatetimeFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_dtDatetimeFormaPagamento') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing()) },  igDatePicker: { value: DatetimeFormaPagamento, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_dtDatetimeFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_dtDatetimeFormaPagamento') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="BotãoTipoPagExterna_rgbtnDatetimeFormaPagamento"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoDatetimeFormaPagamento(), 'icon-ok': $root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoDatetimeFormaPagamento(), hide: $root.BotãoTipoPagExterna().status() !== 'C' }, popoverWithBind: { template: '#BotãoTipoPagExterna_rgDatetimeFormaPagamento', vm: $root.BotãoTipoPagExterna().entitySearchRange, ctrlName: 'BotãoTipoPagExterna_rgcDatetimeFormaPagamento', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="BotãoTipoPagExterna_rgDatetimeFormaPagamento" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="checked:FormaPagamentoDatetimeFormaPagamento_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:FormaPagamentoDatetimeFormaPagamento_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="BotãoTipoPagExterna_divrgDatetimeFormaPagamento" >
+                                                      <div class="filterByRange" data-bind="visible: FormaPagamentoDatetimeFormaPagamento_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="BotãoTipoPagExterna_dtbDatetimeFormaPagamento" class="IsEditableStyle date" data-bind="igDatePicker: { value: FormaPagamentoDatetimeFormaPagamento_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_dtDatetimeFormaPagamento').igDatePicker('option', 'readOnly', (ui.value != null || $('#BotãoTipoPagExterna_dteDatetimeFormaPagamento').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#BotãoTipoPagExterna_dtbDatetimeFormaPagamento').igDatePicker('value'); var valorMax = $('#BotãoTipoPagExterna_dteDatetimeFormaPagamento').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#BotãoTipoPagExterna_dtbDatetimeFormaPagamento').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="BotãoTipoPagExterna_dteDatetimeFormaPagamento" class="IsEditableStyle date" data-bind="igDatePicker: { value: FormaPagamentoDatetimeFormaPagamento_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_dtDatetimeFormaPagamento').igDatePicker('option', 'readOnly', ($('#BotãoTipoPagExterna_dtbDatetimeFormaPagamento').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#BotãoTipoPagExterna_dtbDatetimeFormaPagamento').igDatePicker('value'); var valorMax = $('#BotãoTipoPagExterna_dteDatetimeFormaPagamento').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#BotãoTipoPagExterna_dteDatetimeFormaPagamento').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: FormaPagamentoDatetimeFormaPagamento_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: FormaPagamentoDatetimeFormaPagamento_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: FormaPagamentoDatetimeFormaPagamento_predefFilter() != null && FormaPagamentoDatetimeFormaPagamento_predefFilter()[0] && FormaPagamentoDatetimeFormaPagamento_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: FormaPagamentoDatetimeFormaPagamento_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.BotãoTipoPagExterna().getLayoutColumnSpan('BotãoTipoPagExterna_ntxDecimalFormaPagamento'), visible: $root.BotãoTipoPagExterna().getLayoutVisible('BotãoTipoPagExterna_ntxDecimalFormaPagamento')" class="">
+                                   <div class="form-group">
+                                       <div id="BotãoTipoPagExterna_divDecimalFormaPagamento" class="" >
+                                           <label data-bind="attr: { title: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_ntxDecimalFormaPagamento')}, text: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_ntxDecimalFormaPagamento')" id="BotãoTipoPagExterna_lblDecimalFormaPagamento" for="BotãoTipoPagExterna_ntxDecimalFormaPagamento" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="BotãoTipoPagExterna_ntxDecimalFormaPagamento" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalFormaPagamento', css: { vmEditing: $root.BotãoTipoPagExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxDecimalFormaPagamento') ? ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxDecimalFormaPagamento') : (!isEmptyEntityFn($data) && $root.BotãoTipoPagExterna().enabledForEditing()) }, igNumericEditor: { value: DecimalFormaPagamento, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxDecimalFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxDecimalFormaPagamento') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoDecimalFormaPagamento(), 'icon-ok': $root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoDecimalFormaPagamento(), hide: $root.BotãoTipoPagExterna().status() !== 'C' }, popoverWithBind: { template: '#BotãoTipoPagExterna_rgDecimalFormaPagamento', vm: $root.BotãoTipoPagExterna().entitySearchRange, ctrlName: 'BotãoTipoPagExterna_rgcDecimalFormaPagamento', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="BotãoTipoPagExterna_rgDecimalFormaPagamento" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="BotãoTipoPagExterna_ntxbDecimalFormaPagamento" class="IsEditableStyle" data-bind="igNumericEditor: { value: FormaPagamentoDecimalFormaPagamento_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_ntxDecimalFormaPagamento').igNumericEditor('option', 'readOnly', (ui.value != null || $('#BotãoTipoPagExterna_ntxeDecimalFormaPagamento').igNumericEditor('option', 'value') != null ? true : false)); $('#BotãoTipoPagExterna_ntxeDecimalFormaPagamento').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="BotãoTipoPagExterna_ntxeDecimalFormaPagamento" class="IsEditableStyle" data-bind="igNumericEditor: { value: FormaPagamentoDecimalFormaPagamento_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_ntxDecimalFormaPagamento').igNumericEditor('option', 'readOnly', ($('#BotãoTipoPagExterna_ntxbDecimalFormaPagamento').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#BotãoTipoPagExterna_ntxbDecimalFormaPagamento').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.BotãoTipoPagExterna().getLayoutColumnSpan('BotãoTipoPagExterna_ntxIdFormaPagamento'), visible: $root.BotãoTipoPagExterna().getLayoutVisible('BotãoTipoPagExterna_ntxIdFormaPagamento')" class="">
+                                   <div class="form-group">
+                                       <div id="BotãoTipoPagExterna_divIdFormaPagamento" class="" >
+                                           <label data-bind="css: { 'content-required': $root.BotãoTipoPagExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_ntxIdFormaPagamento')}, text: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_ntxIdFormaPagamento')" id="BotãoTipoPagExterna_lblIdFormaPagamento" for="BotãoTipoPagExterna_ntxIdFormaPagamento" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="BotãoTipoPagExterna_ntxIdFormaPagamento" class="form-control numericFilterRange " data-bind="validatedField: 'IdFormaPagamento', css: { vmEditing: $root.BotãoTipoPagExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxIdFormaPagamento') ? ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxIdFormaPagamento') : (!isEmptyEntityFn($data) && $root.BotãoTipoPagExterna().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdFormaPagamento, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxIdFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxIdFormaPagamento') : (isEmptyEntityFn($data) || !($root.BotãoTipoPagExterna().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoIdFormaPagamento(), 'icon-ok': $root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoIdFormaPagamento(), hide: $root.BotãoTipoPagExterna().status() !== 'C' }, popoverWithBind: { template: '#BotãoTipoPagExterna_rgIdFormaPagamento', vm: $root.BotãoTipoPagExterna().entitySearchRange, ctrlName: 'BotãoTipoPagExterna_rgcIdFormaPagamento', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="BotãoTipoPagExterna_rgIdFormaPagamento" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="BotãoTipoPagExterna_ntxbIdFormaPagamento" class="IsEditableStyle" data-bind="igNumericEditor: { value: FormaPagamentoIdFormaPagamento_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_ntxIdFormaPagamento').igNumericEditor('option', 'readOnly', (ui.value != null || $('#BotãoTipoPagExterna_ntxeIdFormaPagamento').igNumericEditor('option', 'value') != null ? true : false)); $('#BotãoTipoPagExterna_ntxeIdFormaPagamento').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="BotãoTipoPagExterna_ntxeIdFormaPagamento" class="IsEditableStyle" data-bind="igNumericEditor: { value: FormaPagamentoIdFormaPagamento_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_ntxIdFormaPagamento').igNumericEditor('option', 'readOnly', ($('#BotãoTipoPagExterna_ntxbIdFormaPagamento').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#BotãoTipoPagExterna_ntxbIdFormaPagamento').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.BotãoTipoPagExterna().getLayoutColumnSpan('BotãoTipoPagExterna_lUpIdVenda'), visible: $root.BotãoTipoPagExterna().getLayoutVisible('BotãoTipoPagExterna_lUpIdVenda')" class="">
+                                   <div class="form-group">
+                                       <div id="BotãoTipoPagExterna_divIdVenda" class="" >
+                                           <label data-bind="attr: { title: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_lUpIdVenda')}, text: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_lUpIdVenda')" id="BotãoTipoPagExterna_lblIdVenda" for="BotãoTipoPagExterna_lUpIdVenda" class="control-label ellipsis">
+                                           </label>
+                                           <div id="BotãoTipoPagExterna_lUpIdVenda" class="form-control input-group " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.BotãoTipoPagExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_lUpIdVenda') ? ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_lUpIdVenda') : (!isEmptyEntityFn($data) && $root.BotãoTipoPagExterna().enabledForEditing()) }, lookupControl: { vm: $root.BotãoTipoPagExterna(), value: IdVenda, maxLength: 12,lookupName: 'LookUpVenda', isMultiSelection: false, multiSelectionValue: $root.BotãoTipoPagExterna().entitySearchRange.IdVenda, fieldName: 'IdVenda', disabled:ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_lUpIdVenda') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_lUpIdVenda') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.BotãoTipoPagExterna().getLayoutColumnSpan('BotãoTipoPagExterna_ntxIntFormaPagamento'), visible: $root.BotãoTipoPagExterna().getLayoutVisible('BotãoTipoPagExterna_ntxIntFormaPagamento')" class="">
+                                   <div class="form-group">
+                                       <div id="BotãoTipoPagExterna_divIntFormaPagamento" class="" >
+                                           <label data-bind="attr: { title: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_ntxIntFormaPagamento')}, text: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_ntxIntFormaPagamento')" id="BotãoTipoPagExterna_lblIntFormaPagamento" for="BotãoTipoPagExterna_ntxIntFormaPagamento" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="BotãoTipoPagExterna_ntxIntFormaPagamento" class="form-control numericFilterRange " data-bind="validatedField: 'IntFormaPagamento', css: { vmEditing: $root.BotãoTipoPagExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxIntFormaPagamento') ? ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxIntFormaPagamento') : (!isEmptyEntityFn($data) && $root.BotãoTipoPagExterna().enabledForEditing()) }, igNumericEditor: { value: IntFormaPagamento, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxIntFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxIntFormaPagamento') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoIntFormaPagamento(), 'icon-ok': $root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoIntFormaPagamento(), hide: $root.BotãoTipoPagExterna().status() !== 'C' }, popoverWithBind: { template: '#BotãoTipoPagExterna_rgIntFormaPagamento', vm: $root.BotãoTipoPagExterna().entitySearchRange, ctrlName: 'BotãoTipoPagExterna_rgcIntFormaPagamento', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="BotãoTipoPagExterna_rgIntFormaPagamento" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="BotãoTipoPagExterna_ntxbIntFormaPagamento" class="IsEditableStyle" data-bind="igNumericEditor: { value: FormaPagamentoIntFormaPagamento_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_ntxIntFormaPagamento').igNumericEditor('option', 'readOnly', (ui.value != null || $('#BotãoTipoPagExterna_ntxeIntFormaPagamento').igNumericEditor('option', 'value') != null ? true : false)); $('#BotãoTipoPagExterna_ntxeIntFormaPagamento').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="BotãoTipoPagExterna_ntxeIntFormaPagamento" class="IsEditableStyle" data-bind="igNumericEditor: { value: FormaPagamentoIntFormaPagamento_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_ntxIntFormaPagamento').igNumericEditor('option', 'readOnly', ($('#BotãoTipoPagExterna_ntxbIntFormaPagamento').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#BotãoTipoPagExterna_ntxbIntFormaPagamento').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.BotãoTipoPagExterna().getLayoutColumnSpan('BotãoTipoPagExterna_ntxSmallIntFormaPagamento'), visible: $root.BotãoTipoPagExterna().getLayoutVisible('BotãoTipoPagExterna_ntxSmallIntFormaPagamento')" class="">
+                                   <div class="form-group">
+                                       <div id="BotãoTipoPagExterna_divSmallIntFormaPagamento" class="" >
+                                           <label data-bind="attr: { title: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_ntxSmallIntFormaPagamento')}, text: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_ntxSmallIntFormaPagamento')" id="BotãoTipoPagExterna_lblSmallIntFormaPagamento" for="BotãoTipoPagExterna_ntxSmallIntFormaPagamento" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="BotãoTipoPagExterna_ntxSmallIntFormaPagamento" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntFormaPagamento', css: { vmEditing: $root.BotãoTipoPagExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxSmallIntFormaPagamento') ? ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxSmallIntFormaPagamento') : (!isEmptyEntityFn($data) && $root.BotãoTipoPagExterna().enabledForEditing()) }, igNumericEditor: { value: SmallIntFormaPagamento, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxSmallIntFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_ntxSmallIntFormaPagamento') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoSmallIntFormaPagamento(), 'icon-ok': $root.BotãoTipoPagExterna().entitySearchRange.has_FormaPagamentoSmallIntFormaPagamento(), hide: $root.BotãoTipoPagExterna().status() !== 'C' }, popoverWithBind: { template: '#BotãoTipoPagExterna_rgSmallIntFormaPagamento', vm: $root.BotãoTipoPagExterna().entitySearchRange, ctrlName: 'BotãoTipoPagExterna_rgcSmallIntFormaPagamento', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="BotãoTipoPagExterna_rgSmallIntFormaPagamento" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="BotãoTipoPagExterna_ntxbSmallIntFormaPagamento" class="IsEditableStyle" data-bind="igNumericEditor: { value: FormaPagamentoSmallIntFormaPagamento_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_ntxSmallIntFormaPagamento').igNumericEditor('option', 'readOnly', (ui.value != null || $('#BotãoTipoPagExterna_ntxeSmallIntFormaPagamento').igNumericEditor('option', 'value') != null ? true : false)); $('#BotãoTipoPagExterna_ntxeSmallIntFormaPagamento').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="BotãoTipoPagExterna_ntxeSmallIntFormaPagamento" class="IsEditableStyle" data-bind="igNumericEditor: { value: FormaPagamentoSmallIntFormaPagamento_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#BotãoTipoPagExterna_ntxSmallIntFormaPagamento').igNumericEditor('option', 'readOnly', ($('#BotãoTipoPagExterna_ntxbSmallIntFormaPagamento').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#BotãoTipoPagExterna_ntxbSmallIntFormaPagamento').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.BotãoTipoPagExterna().getLayoutColumnSpan('BotãoTipoPagExterna_tbStringFormaPagamento'), visible: $root.BotãoTipoPagExterna().getLayoutVisible('BotãoTipoPagExterna_tbStringFormaPagamento')" class="">
+                                   <div class="form-group">
+                                       <div id="BotãoTipoPagExterna_divStringFormaPagamento" class="" >
+                                           <label data-bind="attr: { title: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_tbStringFormaPagamento')}, text: $root.BotãoTipoPagExterna().getLayoutDisplayName('BotãoTipoPagExterna_tbStringFormaPagamento')" id="BotãoTipoPagExterna_lblStringFormaPagamento" for="BotãoTipoPagExterna_tbStringFormaPagamento" class="control-label ellipsis">
+                                           </label>
+                                           <input id="BotãoTipoPagExterna_tbStringFormaPagamento" class="form-control ellipsis" data-bind="attr: { title: StringFormaPagamento }, validatedField: 'StringFormaPagamento', css: { IsEditableStyle: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_tbStringFormaPagamento') ? ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_tbStringFormaPagamento') : (!isEmptyEntityFn($data) && $root.BotãoTipoPagExterna().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringFormaPagamento, readOnly: ctrl.hasCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_tbStringFormaPagamento') ? !ctrl.getCustomEnable($root.BotãoTipoPagExterna(), 'BotãoTipoPagExterna_tbStringFormaPagamento') : (isEmptyEntityFn($data) || !$root.BotãoTipoPagExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="BotãoTipoPagExterna_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.BotãoTipoPagExterna().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyBotãoTipoPagExterna_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyBotãoTipoPagExterna_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyBotãoTipoPagExterna_dGrid_templateLayout', vm: function(){return $root.BotãoTipoPagExterna().gridSaveStates['scyBotãoTipoPagExterna_dGrid'];}, ctrlName: 'scyBotãoTipoPagExterna_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyBotãoTipoPagExterna_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyBotãoTipoPagExterna_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyBotãoTipoPagExterna_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.BotãoTipoPagExterna().dataToolbar.canExport(), click: function () {$root.BotãoTipoPagExterna().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyBotãoTipoPagExterna_dGrid" data-bind="css: { IsEditableStyle: $root.BotãoTipoPagExterna().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

@@ -1,0 +1,620 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+        <div class="col-md-12 remove-pl remove-pr">
+            <section>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="Exemplos_GRIDs_com_macro_dGridvendas_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="Exemplos_GRIDs_com_macro_dGridvendas_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.Exemplos_GRIDs_com_macro().hideToolbar() && $root.Exemplos_GRIDs_com_macro().status() === 'E', click: function () { $root.Exemplos_GRIDs_com_macro().dataToolbar.addNew(); }"><i class="fa fa-plus"></i></button>
+                   <button id="Exemplos_GRIDs_com_macro_dGridvendas_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                   data-bind="visible: $root.Exemplos_GRIDs_com_macro().status() === 'E', 
+                   click: function () { 
+                      $root.Exemplos_GRIDs_com_macro().deleteGrid('#Exemplos_GRIDs_com_macro_dGridvendas', 'Venda', 'vm.currentDataItem;vm.dataView', false);
+                   }"> 
+                   <i class="fa fa-trash-o"></i></button>
+                   <button id="Exemplos_GRIDs_com_macro_dGridvendas_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                    data-bind="click:function () { 
+                      $root.Exemplos_GRIDs_com_macro().openEditor('#Exemplos_GRIDs_com_macro_dGridvendas', 'Venda', 'vm.currentDataItem;vm.dataView', ';vm', 'Venda()', false)
+                   }"><i class="fa fa-th"></i></button>
+                   <button id="Exemplos_GRIDs_com_macro_dGridvendas_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                    data-bind="click:function () { 
+                      $root.Exemplos_GRIDs_com_macro().openEditor('#Exemplos_GRIDs_com_macro_dGridvendas', 'Venda', 'vm.currentDataItem;vm.dataView', ';vm', 'Venda()', true)
+                   }"><i class="fa fa-th-large"></i></button>
+                   <button id="Exemplos_GRIDs_com_macro_dGridvendas_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#Exemplos_GRIDs_com_macro_dGridvendas_templateLayout', vm: function(){return $root.Exemplos_GRIDs_com_macro().gridSaveStates['Exemplos_GRIDs_com_macro_dGridvendas'];}, ctrlName: 'Exemplos_GRIDs_com_macro_dGridvendas_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="Exemplos_GRIDs_com_macro_dGridvendas_templateLayout" type="text/html" tabindex="-1">
+                       <div id="Exemplos_GRIDs_com_macro_dGridvendas_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="Exemplos_GRIDs_com_macro_dGridvendas_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.Exemplos_GRIDs_com_macro().dataToolbar.canExport(), click: function () {$root.Exemplos_GRIDs_com_macro().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid">
+                      <table id="Exemplos_GRIDs_com_macro_dGridvendas" data-bind="css: { IsEditableStyle: $root.Exemplos_GRIDs_com_macro().enabledForEditing }"  />
+               </div>
+
+           </div>
+
+           <div id="Exemplos_GRIDs_com_macro_tcVendaTabControl"  data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_tcVendaTabControl'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_tcVendaTabControl')"  class="tabbable tabbable-custom box" >
+              <div class="container-tab">
+                 <div id="Exemplos_GRIDs_com_macro_tcVendaTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                 <div id="Exemplos_GRIDs_com_macro_tcVendaTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                 <div id="Exemplos_GRIDs_com_macro_tcVendaTabControl_wrapper" class="wrapper">
+                    <ul id="Exemplos_GRIDs_com_macro_tcVendaTabControl_list" class="nav nav-tabs list">
+                       <li id="Exemplos_GRIDs_com_macro_tiVendaItemTabItem" class="active"><a data-bind="text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tiVendaItemTabItem'), attr: {title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tiVendaItemTabItem')}" href="#Exemplos_GRIDs_com_macro_tabVendaItemTabItem" data-toggle="tab"></a></li>
+                    </ul>
+                    </div>
+                 </div>
+              <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="Exemplos_GRIDs_com_macro_tabVendaItemTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="light-data-grid-container col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+                       <div id="Exemplos_GRIDs_com_macro_dGridVendaItens_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.Exemplos_GRIDs_com_macro().getWithBinding(currentDataItem, $root.Exemplos_GRIDs_com_macro().rootDataTypeName)">
+                           <button id="Exemplos_GRIDs_com_macro_dGridVendaItens_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.Exemplos_GRIDs_com_macro().status() === 'E' && !isEmptyEntityFn($data), click: function () { 
+                              $root.Exemplos_GRIDs_com_macro().createAndNotifyVendaItem($data); 
+                           }"><i class="fa fa-plus"></i></button>
+                           <button id="Exemplos_GRIDs_com_macro_dGridVendaItens_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.Exemplos_GRIDs_com_macro().status() === 'E', 
+                           click: function () {
+                              $root.Exemplos_GRIDs_com_macro().deleteGrid('#Exemplos_GRIDs_com_macro_dGridVendaItens', 'VendaItem', 'vm.currentDataItem().currentVendaItem;vm.currentDataItem().VendaItemList', true);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="Exemplos_GRIDs_com_macro_dGridVendaItens_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.Exemplos_GRIDs_com_macro().openEditor('#Exemplos_GRIDs_com_macro_dGridVendaItens', 'VendaItem', 'vm.currentDataItem().currentVendaItem;vm.currentDataItem().VendaItemList', 'VendaItem;vm.currentDataItem()', 'VendaItem(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <script id="Exemplos_GRIDs_com_macro_dGridVendaItens_templateLayout" type="text/html" tabindex="-1">
+                               <div id="Exemplos_GRIDs_com_macro_dGridVendaItens_gb" class="layout-popover">
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                           <div class="col-md-10">
+                                               <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                           </div>
+                                           <div  class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="col-md-10">
+                                               <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                           </div>
+                                           <div class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </script>
+                           <button id="Exemplos_GRIDs_com_macro_dGridVendaItens_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.Exemplos_GRIDs_com_macro().dataToolbar.canGridExport(), click: function () {$root.Exemplos_GRIDs_com_macro().exportDataDetails($data, 'VendaItem', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="Exemplos_GRIDs_com_macro_dGridVendaItens" class="light-data-grid-table" data-bind="css: { IsEditableStyle: $root.Exemplos_GRIDs_com_macro().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+           </div>
+           </div>
+
+           <div id="dialogVenda"  class="toolbar-dialog-template" title='Venda' style="display: none !important; overflow-y:auto;">
+              <button class="btn btn-sm btn-default backReg " id="backRegVenda" onClick="$(this).backRegVenda();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+              <span class="caption"><label id="currentNumberVenda">0</label><label>/</label><label id="totalNumberVenda">0</label></span>
+              <button class="btn btn-sm btn-default nextReg " id="nextRegVenda" onClick="$(this).nextRegVenda();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+              <button class="btn btn-sm btn-default addReg " id="addRegVenda" onClick="$(this).addRegVenda();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+              <button class="btn btn-sm btn-default delReg " id="delRegVenda" onClick="$(this).delRegVenda();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+              <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegVenda" onClick="$(this).okRegVenda();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+           <div id="Exemplos_GRIDs_com_macro_templateVenda" class="" style="width: 100%; height: 100%;" >
+               <div data-bind="with: $root.Exemplos_GRIDs_com_macro().getWithBinding(currentDataItem, $root.Exemplos_GRIDs_com_macro().rootDataTypeName)">
+
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_ntxIdCliente'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_ntxIdCliente')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divIdClienteTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxIdCliente')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxIdCliente')" id="Exemplos_GRIDs_com_macro_lblIdCliente" for="Exemplos_GRIDs_com_macro_ntxIdCliente" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="Exemplos_GRIDs_com_macro_ntxIdCliente" class="form-control numericFilterRange " data-bind="validatedField: 'IdCliente', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIdCliente') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIdCliente') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, igNumericEditor: { value: IdCliente, minValue: 0, maxValue: null,  maxLength: 10,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIdCliente') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIdCliente') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaIdCliente(), 'icon-ok': $root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaIdCliente(), hide: $root.Exemplos_GRIDs_com_macro().status() !== 'C' }, popoverWithBind: { template: '#Exemplos_GRIDs_com_macro_rgIdCliente', vm: $root.Exemplos_GRIDs_com_macro().entitySearchRange, ctrlName: 'Exemplos_GRIDs_com_macro_rgcIdCliente', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="Exemplos_GRIDs_com_macro_rgIdCliente" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxbIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdCliente_begin, minValue: 0, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxIdCliente').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Exemplos_GRIDs_com_macro_ntxeIdCliente').igNumericEditor('option', 'value') != null ? true : false)); $('#Exemplos_GRIDs_com_macro_ntxeIdCliente').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxeIdCliente" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdCliente_end, minValue: 0, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxIdCliente').igNumericEditor('option', 'readOnly', ($('#Exemplos_GRIDs_com_macro_ntxbIdCliente').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Exemplos_GRIDs_com_macro_ntxbIdCliente').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_ntxIdVenda'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_ntxIdVenda')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divIdVendaTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.Exemplos_GRIDs_com_macro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxIdVenda')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxIdVenda')" id="Exemplos_GRIDs_com_macro_lblIdVenda" for="Exemplos_GRIDs_com_macro_ntxIdVenda" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="Exemplos_GRIDs_com_macro_ntxIdVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIdVenda') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIdVenda') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVenda, maxValue: null,  maxLength: 10,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIdVenda') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIdVenda') : (isEmptyEntityFn($data) || !($root.Exemplos_GRIDs_com_macro().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaIdVenda(), 'icon-ok': $root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaIdVenda(), hide: $root.Exemplos_GRIDs_com_macro().status() !== 'C' }, popoverWithBind: { template: '#Exemplos_GRIDs_com_macro_rgIdVenda', vm: $root.Exemplos_GRIDs_com_macro().entitySearchRange, ctrlName: 'Exemplos_GRIDs_com_macro_rgcIdVenda', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="Exemplos_GRIDs_com_macro_rgIdVenda" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxbIdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_begin, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxIdVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Exemplos_GRIDs_com_macro_ntxeIdVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#Exemplos_GRIDs_com_macro_ntxeIdVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxeIdVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIdVenda_end, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxIdVenda').igNumericEditor('option', 'readOnly', ($('#Exemplos_GRIDs_com_macro_ntxbIdVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Exemplos_GRIDs_com_macro_ntxbIdVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_tbStringVenda'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_tbStringVenda')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divStringVendaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbStringVenda')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbStringVenda')" id="Exemplos_GRIDs_com_macro_lblStringVenda" for="Exemplos_GRIDs_com_macro_tbStringVenda" class="control-label ellipsis">
+                               </label>
+                               <input id="Exemplos_GRIDs_com_macro_tbStringVenda" class="form-control ellipsis" data-bind="attr: { title: StringVenda }, validatedField: 'StringVenda', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbStringVenda') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbStringVenda') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVenda, readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbStringVenda') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbStringVenda') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_cmbComboboxVenda'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_cmbComboboxVenda')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divComboboxVendaTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.Exemplos_GRIDs_com_macro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_cmbComboboxVenda')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_cmbComboboxVenda')" id="Exemplos_GRIDs_com_macro_lblComboboxVenda" for="Exemplos_GRIDs_com_macro_cmbComboboxVenda" class="control-label ellipsis">
+                               </label>
+                               <span id="Exemplos_GRIDs_com_macro_cmbComboboxVenda" class="form-control " data-bind="validatedField: 'ComboboxVenda', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbComboboxVenda') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbComboboxVenda') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbComboboxVenda') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbComboboxVenda') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbComboboxVenda') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbComboboxVenda') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), igCombo: {
+                                  selectedItems: ComboboxVenda,
+                                  dataSource:  $root.Exemplos_GRIDs_com_macro().dataDomains.getItems('LX_VENDA', ''),
+                                  textKey: 'name',
+                                  valueKey: 'id',
+                                  allowCustomValue : true,
+                                  enableSelectionChangedUpdate: true,
+                                  enableClearButton: false,
+                                  dropDownOnFocus: true,
+                                  disabled: (ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbComboboxVenda') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbComboboxVenda') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing())),
+                                  mode: 'editable',
+                                  width:'100%'
+                               }"></span>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_ntxIntVenda'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_ntxIntVenda')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divIntVendaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxIntVenda')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxIntVenda')" id="Exemplos_GRIDs_com_macro_lblIntVenda" for="Exemplos_GRIDs_com_macro_ntxIntVenda" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="Exemplos_GRIDs_com_macro_ntxIntVenda" class="form-control numericFilterRange " data-bind="validatedField: 'IntVenda', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIntVenda') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIntVenda') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, igNumericEditor: { value: IntVenda, minValue: 0, maxValue: null,  maxLength: 10,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIntVenda') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxIntVenda') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaIntVenda(), 'icon-ok': $root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaIntVenda(), hide: $root.Exemplos_GRIDs_com_macro().status() !== 'C' }, popoverWithBind: { template: '#Exemplos_GRIDs_com_macro_rgIntVenda', vm: $root.Exemplos_GRIDs_com_macro().entitySearchRange, ctrlName: 'Exemplos_GRIDs_com_macro_rgcIntVenda', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="Exemplos_GRIDs_com_macro_rgIntVenda" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxbIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIntVenda_begin, minValue: 0, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxIntVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Exemplos_GRIDs_com_macro_ntxeIntVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#Exemplos_GRIDs_com_macro_ntxeIntVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxeIntVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaIntVenda_end, minValue: 0, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxIntVenda').igNumericEditor('option', 'readOnly', ($('#Exemplos_GRIDs_com_macro_ntxbIntVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Exemplos_GRIDs_com_macro_ntxbIntVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_tbSmallIntVenda'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_tbSmallIntVenda')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divSmallIntVendaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbSmallIntVenda')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbSmallIntVenda')" id="Exemplos_GRIDs_com_macro_lblSmallIntVenda" for="Exemplos_GRIDs_com_macro_tbSmallIntVenda" class="control-label ellipsis">
+                               </label>
+                               <input id="Exemplos_GRIDs_com_macro_tbSmallIntVenda" class="form-control ellipsis" data-bind="attr: { title: SmallIntVenda }, validatedField: 'SmallIntVenda', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbSmallIntVenda') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbSmallIntVenda') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, igTextEditor: { maxLength: 5, value: SmallIntVenda, readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbSmallIntVenda') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbSmallIntVenda') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_dtDatetimeVenda'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_dtDatetimeVenda')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divDatetimeVendaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_dtDatetimeVenda')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_dtDatetimeVenda')" id="Exemplos_GRIDs_com_macro_lblDatetimeVenda" for="Exemplos_GRIDs_com_macro_dtDatetimeVenda" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group" >
+                                   <span id="Exemplos_GRIDs_com_macro_dtDatetimeVenda" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVenda', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtDatetimeVenda') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtDatetimeVenda') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtDatetimeVenda') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtDatetimeVenda') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()) },  igDatePicker: { value: DatetimeVenda, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaDatetimeVenda()?true:ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtDatetimeVenda') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtDatetimeVenda') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                   <span class="input-group-btn" title="Filtro de datas">
+                                      <button id="Exemplos_GRIDs_com_macro_rgbtnDatetimeVenda"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaDatetimeVenda(), 'icon-ok': $root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaDatetimeVenda(), hide: $root.Exemplos_GRIDs_com_macro().status() !== 'C' }, popoverWithBind: { template: '#Exemplos_GRIDs_com_macro_rgDatetimeVenda', vm: $root.Exemplos_GRIDs_com_macro().entitySearchRange, ctrlName: 'Exemplos_GRIDs_com_macro_rgcDatetimeVenda', headerText:'Filtro de datas' }"  /></span>
+                                      <script id="Exemplos_GRIDs_com_macro_rgDatetimeVenda" type="text/html" tabindex="-1">
+                                      <div class="range-radio-group">
+                                          <input type="radio" data-bind="enable: !has_VendaDatetimeVenda(), checked:VendaDatetimeVenda_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                          <input type="radio" data-bind="enable: !has_VendaDatetimeVenda(), checked:VendaDatetimeVenda_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                      </div>
+                                      <div class="range-input-group" id="Exemplos_GRIDs_com_macro_divrgDatetimeVenda" >
+                                          <div class="filterByRange" data-bind="visible: VendaDatetimeVenda_typeRange() == 'R'">
+                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="Exemplos_GRIDs_com_macro_dtbDatetimeVenda" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaDatetimeVenda_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_dtDatetimeVenda').igDatePicker('option', 'readOnly', (ui.value != null || $('#Exemplos_GRIDs_com_macro_dteDatetimeVenda').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#Exemplos_GRIDs_com_macro_dtbDatetimeVenda').igDatePicker('value'); var valorMax = $('#Exemplos_GRIDs_com_macro_dteDatetimeVenda').igDatePicker('value');if (valorMax != null && valorMin > valorMax){VendaDatetimeVenda_begin(valorMax); $('#Exemplos_GRIDs_com_macro_dtbDatetimeVenda').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="Exemplos_GRIDs_com_macro_dteDatetimeVenda" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaDatetimeVenda_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_dtDatetimeVenda').igDatePicker('option', 'readOnly', ($('#Exemplos_GRIDs_com_macro_dtbDatetimeVenda').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#Exemplos_GRIDs_com_macro_dtbDatetimeVenda').igDatePicker('value'); var valorMax = $('#Exemplos_GRIDs_com_macro_dteDatetimeVenda').igDatePicker('value');if (valorMin != null && valorMax < valorMin){VendaDatetimeVenda_end(valorMin); $('#Exemplos_GRIDs_com_macro_dteDatetimeVenda').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                          </div>
+                                          <div class="filterByPredefined " data-bind="visible: VendaDatetimeVenda_typeRange() == 'P'">
+                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaDatetimeVenda_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                              <div class="row predefValue" data-bind="visible: VendaDatetimeVenda_predefFilter() != null && VendaDatetimeVenda_predefFilter()[0] && VendaDatetimeVenda_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaDatetimeVenda_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                          </div>
+                                      </div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_ntxDecimalVenda'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_ntxDecimalVenda')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divDecimalVendaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxDecimalVenda')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxDecimalVenda')" id="Exemplos_GRIDs_com_macro_lblDecimalVenda" for="Exemplos_GRIDs_com_macro_ntxDecimalVenda" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="Exemplos_GRIDs_com_macro_ntxDecimalVenda" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVenda', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxDecimalVenda') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxDecimalVenda') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, igNumericEditor: { value: DecimalVenda, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxDecimalVenda') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxDecimalVenda') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaDecimalVenda(), 'icon-ok': $root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaDecimalVenda(), hide: $root.Exemplos_GRIDs_com_macro().status() !== 'C' }, popoverWithBind: { template: '#Exemplos_GRIDs_com_macro_rgDecimalVenda', vm: $root.Exemplos_GRIDs_com_macro().entitySearchRange, ctrlName: 'Exemplos_GRIDs_com_macro_rgcDecimalVenda', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="Exemplos_GRIDs_com_macro_rgDecimalVenda" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxbDecimalVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaDecimalVenda_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxDecimalVenda').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Exemplos_GRIDs_com_macro_ntxeDecimalVenda').igNumericEditor('option', 'value') != null ? true : false)); $('#Exemplos_GRIDs_com_macro_ntxeDecimalVenda').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxeDecimalVenda" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaDecimalVenda_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxDecimalVenda').igNumericEditor('option', 'readOnly', ($('#Exemplos_GRIDs_com_macro_ntxbDecimalVenda').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Exemplos_GRIDs_com_macro_ntxbDecimalVenda').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_lUpStringLoja'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_lUpStringLoja')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divStringLojaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_lUpStringLoja')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_lUpStringLoja')" id="Exemplos_GRIDs_com_macro_lblStringLoja" for="Exemplos_GRIDs_com_macro_lUpStringLoja" class="control-label ellipsis">
+                               </label>
+                               <div id="Exemplos_GRIDs_com_macro_lUpStringLoja" class="form-control input-group " data-bind="validatedField: 'StringLoja', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpStringLoja') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpStringLoja') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, lookupControl: { vm: $root.Exemplos_GRIDs_com_macro(), value: StringLoja, maxLength: 50,lookupName: 'LookUpLoja', enableAutoComplete:true, autoCompleteMaxResults: 4, isMultiSelection: false, multiSelectionValue: $root.Exemplos_GRIDs_com_macro().entitySearchRange.StringLoja, fieldName: 'StringLoja', disabled:ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpStringLoja') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpStringLoja') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 50, defaultValue: ''}" />
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_lUpStringVendedor'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_lUpStringVendedor')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divStringVendedorTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_lUpStringVendedor')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_lUpStringVendedor')" id="Exemplos_GRIDs_com_macro_lblStringVendedor" for="Exemplos_GRIDs_com_macro_lUpStringVendedor" class="control-label ellipsis">
+                               </label>
+                               <div id="Exemplos_GRIDs_com_macro_lUpStringVendedor" class="form-control input-group " data-bind="validatedField: 'StringVendedor', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpStringVendedor') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpStringVendedor') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, lookupControl: { vm: $root.Exemplos_GRIDs_com_macro(), value: StringVendedor, maxLength: 50,lookupName: 'LookUpVendedor', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.Exemplos_GRIDs_com_macro().entitySearchRange.StringVendedor, fieldName: 'StringVendedor', disabled:ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpStringVendedor') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpStringVendedor') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 50, defaultValue: ''}" />
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_btnDesabilitaGrid'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_btnDesabilitaGrid')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divDesabilitaGridTemplate" class="" >
+                               <button id="Exemplos_GRIDs_com_macro_btnDesabilitaGrid" class="form-control btn-block btn-press ellipsis " data-bind="text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_btnDesabilitaGrid'), attr: {title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_btnDesabilitaGrid')}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_btnDesabilitaGrid') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_btnDesabilitaGrid') : (!isEmptyEntityFn($data) && true) }, enable: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_btnDesabilitaGrid') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_btnDesabilitaGrid') : (!isEmptyEntityFn($data) && true), click:function(){ if (typeof $root.Exemplos_GRIDs_com_macro().DesabilitaGrid_Click == 'function') $root.Exemplos_GRIDs_com_macro().DesabilitaGrid_Click(); if ($root.Exemplos_GRIDs_com_macro().custom) $root.Exemplos_GRIDs_com_macro().custom.DesabilitaGrid_Click({viewModel: $root.Exemplos_GRIDs_com_macro()}); }"></button>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_btnDesabilitaColuna'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_btnDesabilitaColuna')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divDesabilitaColunaTemplate" class="" >
+                               <button id="Exemplos_GRIDs_com_macro_btnDesabilitaColuna" class="form-control btn-block btn-press ellipsis " data-bind="text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_btnDesabilitaColuna'), attr: {title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_btnDesabilitaColuna')}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_btnDesabilitaColuna') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_btnDesabilitaColuna') : (!isEmptyEntityFn($data) && true) }, enable: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_btnDesabilitaColuna') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_btnDesabilitaColuna') : (!isEmptyEntityFn($data) && true), click:function(){ if (typeof $root.Exemplos_GRIDs_com_macro().DesabilitaColuna_Click == 'function') $root.Exemplos_GRIDs_com_macro().DesabilitaColuna_Click(); if ($root.Exemplos_GRIDs_com_macro().custom) $root.Exemplos_GRIDs_com_macro().custom.DesabilitaColuna_Click({viewModel: $root.Exemplos_GRIDs_com_macro()}); }"></button>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_lUpIdCidade'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_lUpIdCidade')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divIdCidadeTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_lUpIdCidade')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_lUpIdCidade')" id="Exemplos_GRIDs_com_macro_lblIdCidade" for="Exemplos_GRIDs_com_macro_lUpIdCidade" class="control-label ellipsis">
+                               </label>
+                               <div id="Exemplos_GRIDs_com_macro_lUpIdCidade" class="form-control input-group " data-bind="validatedField: 'IdCidade', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpIdCidade') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpIdCidade') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().status() === 'C') }, lookupControl: { vm: $root.Exemplos_GRIDs_com_macro(), value: IdCidade, maxLength: 10,lookupName: 'LookUpLoja', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.Exemplos_GRIDs_com_macro().entitySearchRange.IdCidade, fieldName: 'IdCidade', disabled:ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpIdCidade') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpIdCidade') : (isEmptyEntityFn($data) || $root.Exemplos_GRIDs_com_macro().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 10, defaultValue: null}" />
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_lUpNomeCidade'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_lUpNomeCidade')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divNomeCidadeTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_lUpNomeCidade')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_lUpNomeCidade')" id="Exemplos_GRIDs_com_macro_lblNomeCidade" for="Exemplos_GRIDs_com_macro_lUpNomeCidade" class="control-label ellipsis">
+                               </label>
+                               <div id="Exemplos_GRIDs_com_macro_lUpNomeCidade" class="form-control input-group " data-bind="validatedField: 'NomeCidade', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpNomeCidade') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpNomeCidade') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().status() === 'C') }, lookupControl: { vm: $root.Exemplos_GRIDs_com_macro(), value: NomeCidade, maxLength: 50,lookupName: 'LookUpLoja', enableAutoComplete:true, autoCompleteMaxResults: 4, isMultiSelection: false, multiSelectionValue: $root.Exemplos_GRIDs_com_macro().entitySearchRange.NomeCidade, fieldName: 'NomeCidade', disabled:ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpNomeCidade') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpNomeCidade') : (isEmptyEntityFn($data) || $root.Exemplos_GRIDs_com_macro().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 50, defaultValue: ''}" />
+                           </div>
+                       </div>
+                   </div>
+
+
+               </div>
+
+           </div>
+           </div>
+       </div>
+
+           <div id="dialogVendaItem"  class="toolbar-dialog-template" title='' style="display: none !important; overflow-y:auto;">
+              <button class="btn btn-sm btn-default backReg " id="backRegVendaItem" onClick="$(this).backRegVendaItem();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+              <span class="caption"><label id="currentNumberVendaItem">0</label><label>/</label><label id="totalNumberVendaItem">0</label></span>
+              <button class="btn btn-sm btn-default nextReg " id="nextRegVendaItem" onClick="$(this).nextRegVendaItem();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+              <button class="btn btn-sm btn-default addReg " id="addRegVendaItem" onClick="$(this).addRegVendaItem();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+              <button class="btn btn-sm btn-default delReg " id="delRegVendaItem" onClick="$(this).delRegVendaItem();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+              <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegVendaItem" onClick="$(this).okRegVendaItem();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+           <div id="Exemplos_GRIDs_com_macro_templateVendaItem" class="" style="width: 100%; height: 100%;" >
+               <div data-bind="with: $root.Exemplos_GRIDs_com_macro().getWithBinding(currentDataItem, $root.Exemplos_GRIDs_com_macro().rootDataTypeName)"><div data-bind="with: $root.Exemplos_GRIDs_com_macro().getWithBinding(currentVendaItem, 'VendaItem')">
+
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_lUpVendaItem_IdVenda'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_lUpVendaItem_IdVenda')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divVendaItem_IdVendaTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_lUpVendaItem_IdVenda')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_lUpVendaItem_IdVenda')" id="Exemplos_GRIDs_com_macro_lblVendaItem_IdVenda" for="Exemplos_GRIDs_com_macro_lUpVendaItem_IdVenda" class="control-label ellipsis">
+                               </label>
+                               <div id="Exemplos_GRIDs_com_macro_lUpVendaItem_IdVenda" class="form-control input-group " data-bind="validatedField: 'IdVenda', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpVendaItem_IdVenda') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpVendaItem_IdVenda') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, lookupControl: { vm: $root.Exemplos_GRIDs_com_macro(), value: IdVenda, maxLength: 10,lookupName: '', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.Exemplos_GRIDs_com_macro().entitySearchRange.IdVenda, fieldName: 'IdVenda', disabled:ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpVendaItem_IdVenda') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_lUpVendaItem_IdVenda') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 10, defaultValue: null}" />
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divVendaItem_ComboboxVendaItemTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.Exemplos_GRIDs_com_macro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem')" id="Exemplos_GRIDs_com_macro_lblVendaItem_ComboboxVendaItem" for="Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem" class="control-label ellipsis">
+                               </label>
+                               <span id="Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem" class="form-control " data-bind="validatedField: 'ComboboxVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), igCombo: {
+                                  selectedItems: ComboboxVendaItem,
+                                  dataSource:  $root.Exemplos_GRIDs_com_macro().dataDomains.getItems('LX_VENDA_ITEM', ''),
+                                  textKey: 'name',
+                                  valueKey: 'id',
+                                  allowCustomValue : true,
+                                  enableSelectionChangedUpdate: true,
+                                  enableClearButton: false,
+                                  dropDownOnFocus: true,
+                                  disabled: (ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_cmbVendaItem_ComboboxVendaItem') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing())),
+                                  mode: 'editable',
+                                  width:'100%'
+                               }"></span>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divVendaItem_DatetimeVendaItemTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem')" id="Exemplos_GRIDs_com_macro_lblVendaItem_DatetimeVendaItem" for="Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group" >
+                                   <span id="Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeVendaItem', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()) },  igDatePicker: { value: DatetimeVendaItem, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaItemDatetimeVendaItem()?true:ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                   <span class="input-group-btn" title="Filtro de datas">
+                                      <button id="Exemplos_GRIDs_com_macro_rgbtnVendaItem_DatetimeVendaItem"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaItemDatetimeVendaItem(), 'icon-ok': $root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaItemDatetimeVendaItem(), hide: $root.Exemplos_GRIDs_com_macro().status() !== 'C' }, popoverWithBind: { template: '#Exemplos_GRIDs_com_macro_rgVendaItem_DatetimeVendaItem', vm: $root.Exemplos_GRIDs_com_macro().entitySearchRange, ctrlName: 'Exemplos_GRIDs_com_macro_rgcVendaItem_DatetimeVendaItem', headerText:'Filtro de datas' }"  /></span>
+                                      <script id="Exemplos_GRIDs_com_macro_rgVendaItem_DatetimeVendaItem" type="text/html" tabindex="-1">
+                                      <div class="range-radio-group">
+                                          <input type="radio" data-bind="enable: !has_VendaItemDatetimeVendaItem(), checked:VendaItemDatetimeVendaItem_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                          <input type="radio" data-bind="enable: !has_VendaItemDatetimeVendaItem(), checked:VendaItemDatetimeVendaItem_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                      </div>
+                                      <div class="range-input-group" id="Exemplos_GRIDs_com_macro_divrgVendaItem_DatetimeVendaItem" >
+                                          <div class="filterByRange" data-bind="visible: VendaItemDatetimeVendaItem_typeRange() == 'R'">
+                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="Exemplos_GRIDs_com_macro_dtbVendaItem_DatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemDatetimeVendaItem_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem').igDatePicker('option', 'readOnly', (ui.value != null || $('#Exemplos_GRIDs_com_macro_dteVendaItem_DatetimeVendaItem').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#Exemplos_GRIDs_com_macro_dtbVendaItem_DatetimeVendaItem').igDatePicker('value'); var valorMax = $('#Exemplos_GRIDs_com_macro_dteVendaItem_DatetimeVendaItem').igDatePicker('value');if (valorMax != null && valorMin > valorMax){VendaItemDatetimeVendaItem_begin(valorMax); $('#Exemplos_GRIDs_com_macro_dtbVendaItem_DatetimeVendaItem').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="Exemplos_GRIDs_com_macro_dteVendaItem_DatetimeVendaItem" class="IsEditableStyle date" data-bind="igDatePicker: { value: VendaItemDatetimeVendaItem_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_dtVendaItem_DatetimeVendaItem').igDatePicker('option', 'readOnly', ($('#Exemplos_GRIDs_com_macro_dtbVendaItem_DatetimeVendaItem').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#Exemplos_GRIDs_com_macro_dtbVendaItem_DatetimeVendaItem').igDatePicker('value'); var valorMax = $('#Exemplos_GRIDs_com_macro_dteVendaItem_DatetimeVendaItem').igDatePicker('value');if (valorMin != null && valorMax < valorMin){VendaItemDatetimeVendaItem_end(valorMin); $('#Exemplos_GRIDs_com_macro_dteVendaItem_DatetimeVendaItem').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                          </div>
+                                          <div class="filterByPredefined " data-bind="visible: VendaItemDatetimeVendaItem_typeRange() == 'P'">
+                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendaItemDatetimeVendaItem_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                              <div class="row predefValue" data-bind="visible: VendaItemDatetimeVendaItem_predefFilter() != null && VendaItemDatetimeVendaItem_predefFilter()[0] && VendaItemDatetimeVendaItem_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendaItemDatetimeVendaItem_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                          </div>
+                                      </div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_tbVendaItem_SmallIntVendaItem'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_tbVendaItem_SmallIntVendaItem')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divVendaItem_SmallIntVendaItemTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbVendaItem_SmallIntVendaItem')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbVendaItem_SmallIntVendaItem')" id="Exemplos_GRIDs_com_macro_lblVendaItem_SmallIntVendaItem" for="Exemplos_GRIDs_com_macro_tbVendaItem_SmallIntVendaItem" class="control-label ellipsis">
+                               </label>
+                               <input id="Exemplos_GRIDs_com_macro_tbVendaItem_SmallIntVendaItem" class="form-control ellipsis" data-bind="attr: { title: SmallIntVendaItem }, validatedField: 'SmallIntVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_SmallIntVendaItem') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_SmallIntVendaItem') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, igTextEditor: { maxLength: 5, value: SmallIntVendaItem, readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_SmallIntVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_SmallIntVendaItem') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divVendaItem_IntVendaItemTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem')" id="Exemplos_GRIDs_com_macro_lblVendaItem_IntVendaItem" for="Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'IntVendaItem', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, igNumericEditor: { value: IntVendaItem, minValue: 0, maxValue: null,  maxLength: 10,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaItemIntVendaItem(), 'icon-ok': $root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaItemIntVendaItem(), hide: $root.Exemplos_GRIDs_com_macro().status() !== 'C' }, popoverWithBind: { template: '#Exemplos_GRIDs_com_macro_rgVendaItem_IntVendaItem', vm: $root.Exemplos_GRIDs_com_macro().entitySearchRange, ctrlName: 'Exemplos_GRIDs_com_macro_rgcVendaItem_IntVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="Exemplos_GRIDs_com_macro_rgVendaItem_IntVendaItem" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxbVendaItem_IntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIntVendaItem_begin, minValue: 0, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Exemplos_GRIDs_com_macro_ntxeVendaItem_IntVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#Exemplos_GRIDs_com_macro_ntxeVendaItem_IntVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxeVendaItem_IntVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIntVendaItem_end, minValue: 0, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxVendaItem_IntVendaItem').igNumericEditor('option', 'readOnly', ($('#Exemplos_GRIDs_com_macro_ntxbVendaItem_IntVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Exemplos_GRIDs_com_macro_ntxbVendaItem_IntVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_tbVendaItem_BitVendaItem'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_tbVendaItem_BitVendaItem')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divVendaItem_BitVendaItemTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbVendaItem_BitVendaItem')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbVendaItem_BitVendaItem')" id="Exemplos_GRIDs_com_macro_lblVendaItem_BitVendaItem" for="Exemplos_GRIDs_com_macro_tbVendaItem_BitVendaItem" class="control-label ellipsis">
+                               </label>
+                               <input id="Exemplos_GRIDs_com_macro_tbVendaItem_BitVendaItem" class="form-control ellipsis" data-bind="attr: { title: BitVendaItem }, validatedField: 'BitVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_BitVendaItem') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_BitVendaItem') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, igTextEditor: { value: BitVendaItem, readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_BitVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_BitVendaItem') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_tbVendaItem_BigIntVendaItem'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_tbVendaItem_BigIntVendaItem')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divVendaItem_BigIntVendaItemTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbVendaItem_BigIntVendaItem')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbVendaItem_BigIntVendaItem')" id="Exemplos_GRIDs_com_macro_lblVendaItem_BigIntVendaItem" for="Exemplos_GRIDs_com_macro_tbVendaItem_BigIntVendaItem" class="control-label ellipsis">
+                               </label>
+                               <input id="Exemplos_GRIDs_com_macro_tbVendaItem_BigIntVendaItem" class="form-control ellipsis" data-bind="attr: { title: BigIntVendaItem }, validatedField: 'BigIntVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_BigIntVendaItem') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_BigIntVendaItem') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, igTextEditor: { maxLength: 19, value: BigIntVendaItem, readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_BigIntVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_BigIntVendaItem') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divVendaItem_DecimalVendaItemTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem')" id="Exemplos_GRIDs_com_macro_lblVendaItem_DecimalVendaItem" for="Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalVendaItem', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, igNumericEditor: { value: DecimalVendaItem, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaItemDecimalVendaItem(), 'icon-ok': $root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaItemDecimalVendaItem(), hide: $root.Exemplos_GRIDs_com_macro().status() !== 'C' }, popoverWithBind: { template: '#Exemplos_GRIDs_com_macro_rgVendaItem_DecimalVendaItem', vm: $root.Exemplos_GRIDs_com_macro().entitySearchRange, ctrlName: 'Exemplos_GRIDs_com_macro_rgcVendaItem_DecimalVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="Exemplos_GRIDs_com_macro_rgVendaItem_DecimalVendaItem" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxbVendaItem_DecimalVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemDecimalVendaItem_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Exemplos_GRIDs_com_macro_ntxeVendaItem_DecimalVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#Exemplos_GRIDs_com_macro_ntxeVendaItem_DecimalVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxeVendaItem_DecimalVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemDecimalVendaItem_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxVendaItem_DecimalVendaItem').igNumericEditor('option', 'readOnly', ($('#Exemplos_GRIDs_com_macro_ntxbVendaItem_DecimalVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Exemplos_GRIDs_com_macro_ntxbVendaItem_DecimalVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divVendaItem_IdVendaItemTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.Exemplos_GRIDs_com_macro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem')" id="Exemplos_GRIDs_com_macro_lblVendaItem_IdVendaItem" for="Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem" class="form-control numericFilterRange " data-bind="validatedField: 'IdVendaItem', css: { vmEditing: $root.Exemplos_GRIDs_com_macro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdVendaItem, maxValue: null,  maxLength: 10,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem') : (isEmptyEntityFn($data) || !($root.Exemplos_GRIDs_com_macro().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaItemIdVendaItem(), 'icon-ok': $root.Exemplos_GRIDs_com_macro().entitySearchRange.has_VendaItemIdVendaItem(), hide: $root.Exemplos_GRIDs_com_macro().status() !== 'C' }, popoverWithBind: { template: '#Exemplos_GRIDs_com_macro_rgVendaItem_IdVendaItem', vm: $root.Exemplos_GRIDs_com_macro().entitySearchRange, ctrlName: 'Exemplos_GRIDs_com_macro_rgcVendaItem_IdVendaItem', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="Exemplos_GRIDs_com_macro_rgVendaItem_IdVendaItem" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxbVendaItem_IdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVendaItem_begin, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem').igNumericEditor('option', 'readOnly', (ui.value != null || $('#Exemplos_GRIDs_com_macro_ntxeVendaItem_IdVendaItem').igNumericEditor('option', 'value') != null ? true : false)); $('#Exemplos_GRIDs_com_macro_ntxeVendaItem_IdVendaItem').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="Exemplos_GRIDs_com_macro_ntxeVendaItem_IdVendaItem" class="IsEditableStyle" data-bind="igNumericEditor: { value: VendaItemIdVendaItem_end, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#Exemplos_GRIDs_com_macro_ntxVendaItem_IdVendaItem').igNumericEditor('option', 'readOnly', ($('#Exemplos_GRIDs_com_macro_ntxbVendaItem_IdVendaItem').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#Exemplos_GRIDs_com_macro_ntxbVendaItem_IdVendaItem').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.Exemplos_GRIDs_com_macro().getLayoutColumnSpan('Exemplos_GRIDs_com_macro_tbVendaItem_StringVendaItem'), visible: $root.Exemplos_GRIDs_com_macro().getLayoutVisible('Exemplos_GRIDs_com_macro_tbVendaItem_StringVendaItem')" class="">
+                       <div class="form-group">
+                           <div id="Exemplos_GRIDs_com_macro_divVendaItem_StringVendaItemTemplate" class="" >
+                               <label data-bind="attr: { title: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbVendaItem_StringVendaItem')}, text: $root.Exemplos_GRIDs_com_macro().getLayoutDisplayName('Exemplos_GRIDs_com_macro_tbVendaItem_StringVendaItem')" id="Exemplos_GRIDs_com_macro_lblVendaItem_StringVendaItem" for="Exemplos_GRIDs_com_macro_tbVendaItem_StringVendaItem" class="control-label ellipsis">
+                               </label>
+                               <input id="Exemplos_GRIDs_com_macro_tbVendaItem_StringVendaItem" class="form-control ellipsis" data-bind="attr: { title: StringVendaItem }, validatedField: 'StringVendaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_StringVendaItem') ? ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_StringVendaItem') : (!isEmptyEntityFn($data) && $root.Exemplos_GRIDs_com_macro().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringVendaItem, readOnly: ctrl.hasCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_StringVendaItem') ? !ctrl.getCustomEnable($root.Exemplos_GRIDs_com_macro(), 'Exemplos_GRIDs_com_macro_tbVendaItem_StringVendaItem') : (isEmptyEntityFn($data) || !$root.Exemplos_GRIDs_com_macro().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                           </div>
+                       </div>
+                   </div>
+
+
+               </div>
+
+           </div>
+           </div></div>
+       </div>
+
+
+            </section>
+        </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

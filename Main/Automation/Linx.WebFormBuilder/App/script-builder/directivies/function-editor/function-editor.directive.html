@@ -1,0 +1,57 @@
+<h3 class="preenchimento-lateral">Funções</h3>
+
+<h2>{{vm.nome}}</h2>
+
+<div class="row wr-editorJS">
+  <div class="col-lg-12 col-sm-12">
+    <div class="col-lg-10">
+      <label>Nome</label>
+      <input ng-model="vm.functionName" type="text"/>
+    
+      <label>Tipo</label>
+      
+      <select ng-model="vm.functionType">
+        <option selected="selected" value="automatica">Automática (IIFE)</option>
+        <option value="escopo">Escopo ($scope)</option>
+        <option value="simples">Simples</option>
+      </select>
+
+      <button class="btn btn-info" ng-disabled="vm.functionName.trim() == null || vm.functionName.trim() < 0" ng-click="vm.addNewFunction();">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top: 15px;">
+  <div ng-repeat="userFunction in vm.functionList">
+    <div class="row wr-editorJS">
+      <div class="col-lg-12 col-sm-12">
+        <div class="col-lg-10">
+          <label>Nome</label>
+          <input type="text" ng-model="userFunction.name">
+
+          <label>Tipo</label>
+          <select type="text" ng-model="userFunction.type">
+            <option selected="selected" value="automatica">Automática (IIFE)</option>
+            <option value="escopo">Escopo ($scope)</option>
+            <option value="simples">Simples</option>
+          </select>
+
+          <label>Argumentos</label>
+          <input ng-model="userFunction.args" type="text"/>
+
+          <button class="btn btn-danger" ng-click="vm.removeFn($index);">Remover</button>
+        </div>
+      </div>
+    </div>
+
+    <div ng-switch="userFunction.type" style="width: 95%;margin: 10px auto;">
+      <p ng-switch-when="automatica">var {{userFunction.name}} = (function() {</p>
+      <p ng-switch-when="escopo">$scope.{{userFunction.name}} = function({{userFunction.args}}) {</p>
+      <p ng-switch-when="simples">function {{userFunction.name}}({{userFunction.args}}) {</p>
+      <div ng-model="userFunction.fn" ui-ace="vm.aceOption"></div>
+      <p ng-switch-when="automatica">})();</p>
+      <p ng-switch-when="escopo">};</p>
+      <p ng-switch-when="simples">}</p>
+    </div>
+  </div>
+</div>

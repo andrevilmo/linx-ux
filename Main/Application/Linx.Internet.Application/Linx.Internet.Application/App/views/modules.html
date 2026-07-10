@@ -1,0 +1,95 @@
+﻿<div class="topo-container">
+    <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header' }-->
+        <!--/ko-->
+    </div>
+</div>
+
+<main role="main">
+    <section id="tab" class="is--fixed">
+        <ul class="tabs__list" data-bind="foreach: managerAuth.loginInfo.Ambientes">
+            <li class="aba-item" data-bind="attr: { 'data-id': IdTcsAmbiente }, click: function () { $root.setActiveEnviroment(IdTcsAmbiente); }">
+                <a href="#" title="Operacional" data-bind="text: DescricaoAplicativo, title: DescricaoAplicativo, attr: {class: (DescricaoAplicativo == null || DescricaoAplicativo == '')  ? 'hide' : ''}"></a>
+            </li>
+        </ul>
+    </section>
+    <div class="swiper-container mainSwiperContainer">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" data-bind="if:  _menu.wizardTransactions().length > 0">
+                <div id="wizard" style="padding: 30px 60px">
+                    <div class="swiper-container wizardSwiperContainer" style="height: calc(100vh - 150px)" >
+                        <div class="swiper-wrapper" data-bind="foreach: $root.currentWizards">
+                            <div class="swiper-slide">
+                                <div class="post-module">
+                                    <h1 class="post-title" data-bind="text: title"></h1>
+                                    <div class="post-body">
+                                        <!--ko compose: { model: pkg, alwaysTriggerAttach:true, activationData: { uiSettings: { } }, preserveContext: false }-->
+                                        <!--/ko-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide" data-bind="if:  _menu.dashboardTransactions().length > 0">
+                <div id="dashboards">
+                    <section id="content">
+                        <div class="container-fluid">
+                            <div class="row" data-bind="foreach: $root.currentDashboards">
+                                <div class="col-xs-12 col-sm-12" data-bind="css:{'col-md-6 col-lg-6': ($root.currentDashboards.length > 1), 'col-md-12 col-lg-12': ($root.currentDashboards.length <= 1)}">
+                                    <div class="dash-card">
+                                        <h1 class="dash-title" data-bind="html: title" />
+                                        <div class="dash-body">
+                                            <!--ko compose: { model: pkg, alwaysTriggerAttach:true, activationData: {
+                                            uiSettings: {
+                                                executeQuery: false,
+                                                removeDataToolbar: false,
+                                                canClear: true,
+                                                canSearch: true,
+                                                canExport: false,
+                                                canAddNew: false,
+                                                canEdit: false,
+                                                canDelete: false,
+                                                canCustomSearch: true,
+                                                canPrint: false,
+                                                canLayout: false,
+                                                canNavigate: false,
+                                                noSearch: false,
+                                                noBusyLoading: false
+                                            } }, preserveContext: false}-->
+                                            <!--/ko-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div id="modules">
+                    <section id="content" data-bind="foreach: managerAuth.loginInfo.Ambientes">
+                        <article class="aba-content" style="display:block">
+                            <div class="container-fluid">
+                                <div class="row" data-bind="foreach: $root.getVMByEnvironment(IdTcsAmbiente)">
+                                    <div data-bind="ifnot: isModuleFavorite">
+                                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                            <div class="card" style="cursor:pointer" data-bind="click: function () { $root.card_click(urlLink) }">
+                                                <i aria-hidden="true" data-bind="attr: { class: 'icon-module fa fa-' + iconName }"></i>
+                                                <p class="module-name" data-bind="text: shortName"></p>
+                                                <span class="description" data-bind="text: displayName"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>

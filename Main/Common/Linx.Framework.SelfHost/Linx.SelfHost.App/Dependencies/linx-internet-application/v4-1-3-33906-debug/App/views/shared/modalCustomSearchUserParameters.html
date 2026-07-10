@@ -1,0 +1,61 @@
+﻿<div class="modal-dialog modal-dialog-large">
+    <div class="modal-content">
+        <div class="modal-header">
+            <!--<button type="button" data-bind="click: cancel" class="close" data-dismiss="modal" aria-hidden="true"></button>-->
+            <h4 class="modal-title">Parâmetros de Usuário</h4>
+        </div>
+        <div class="modal-body wr-modal-body" style="overflow-x: hidden !important;">
+            <div class="row" style="height: 500px">
+                <div>
+                    <div class="row">
+                        <table class="parametros-usuario">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind='foreach: { data: searches }'>
+                                <tr>
+                                    <td class="col-md-12">
+                                        <span class="desc-filtro" data-bind="text: '' + descFiltro" style="font-weight: bold;"></span>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tbody-nivel2" data-bind='foreach: { data: parametroValor, afterRender: $root.afterRenderParametroValor }' style="line-height: 3;">
+                                                <tr>
+                                                    <td class="col-md-3">
+                                                        <span data-bind="text: description"></span>
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        <span data-bind="text: operator"></span>
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        <span data-bind="text: '( ' + name + ' )'"></span>
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        <input data-placement="right" data-bind="value: value, attr: { id: 'input_value_param_' + $data.uidLine }, event: { change: $root.onChangeInputValue($data) }" style="line-height: 0;" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ok" id="btnOk" data-bind="click: ok">Ok</button>
+            <button class="btn btn-close" id="btnCancel" data-bind="click: cancel">Cancelar</button>
+        </div>
+    </div>
+</div>
+

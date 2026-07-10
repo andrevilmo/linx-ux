@@ -1,0 +1,67 @@
+﻿<style>
+    html,
+    body {
+        height: 100% !important;
+    }
+
+    body {
+        margin: 0 !important;
+        background-color: #592C90 !important;
+        background: linear-gradient(45deg, #592C90, #592b90, #592b90) !important;
+    }
+
+    .container {
+        width: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    .dot {
+        width: 20px !important;
+        height: 20px !important;
+        border: 4px solid #ff9200 !important;
+        border-radius: 50% !important;
+        float: left !important;
+        margin: 0 5px !important;
+        transform: scale(0) !important;
+        animation: fx 1000ms ease infinite 0ms;
+    }
+
+    .loading {
+        color: #ff9200;
+        font-size: 1.4em;
+        line-height: 2em;
+
+        position: absolute;
+        top: 20px;
+    }
+
+    .dot:nth-child(2) {
+        animation: fx 1000ms ease infinite 300ms;
+    }
+
+    .dot:nth-child(3) {
+        animation: fx 1000ms ease infinite 600ms;
+    }
+
+    @@keyframes fx {
+        50% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+</style>
+<div class="container">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="loading">Carregando...</div>
+</div>

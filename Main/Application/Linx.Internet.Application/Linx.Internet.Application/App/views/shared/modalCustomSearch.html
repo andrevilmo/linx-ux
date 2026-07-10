@@ -1,0 +1,177 @@
+﻿<div class="modal-dialog modal-dialog-large">
+    <div class="modal-content">
+        <div class="modal-header">
+            <!--<button type="button" data-bind="click: cancel" class="close" data-dismiss="modal" aria-hidden="true"></button>-->
+
+            <h4 class="modal-title">pesquisa avançada</h4>
+        </div>
+
+        <div class="modal-body wr-modal-body">
+            <div id="divFiltros">
+                <div class="wr-buttons text-right">
+                    <div class="row">
+                        <div class="col-md-12 barra-topo">
+                            <a title="Adicionar" data-bind="click: $root.addFilterListItem"><i class="fa fa-plus reset-padding-rt"></i></a>
+                            <a title="Limpar tudo" data-bind="click: $root.clearFilterList"><i class="fa fa-eraser"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wrapper-table">
+                    <div class="row">
+                        <table id="tableFiltros">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-2">&nbsp</th>
+                                    <th class="">descrição</th>
+                                    <th class="col-md-1">&nbsp;</th>
+                                    <th class="col-md-2">Ações</th>
+                                </tr>
+                            </thead>
+
+                            <tbody data-bind='foreach: { data: filterList, afterRender: afterRenderTable }'>
+                                <tr>
+                                    <td class="col-md-2">
+                                        <select id="cmbCondition" data-bind="value: condition, attr: { id: 'cmbFCondition_' + $data.uidLinha }">
+                                            <option value="&&">E</option>
+                                            <option value="||">OU</option>
+                                        </select>
+                                        <select class="wrapper" data-bind="value: lParameter, attr: { id: 'cmbFLeftParameter_' + $data.uidLinha }">
+                                            <option value=" "></option>
+                                            <option value="(">(</option>
+                                            <option value="((">((</option>
+                                            <option value="(((">(((</option>
+                                        </select>
+                                    </td>
+                                    <td class="reformat-select2">
+                                        <div data-bind="attr: { id: 'select_' + $data.uidLinha }" class="form-control select2"></div>
+                                    </td>
+                                    <td class="col-md-1">
+                                        <select class="wrapper" data-bind="value: rParameter, attr: { id: 'cmbFRightParameter_' + $data.uidLinha }">
+                                            <option value=" "></option>
+                                            <option value=")">)</option>
+                                            <option value="))">))</option>
+                                            <option value=")))">)))</option>
+                                        </select>
+
+                                    </td>
+                                    <td class="option-actions col-md-3">
+                                        <a class="btn btn-sm" title="Salvar" data-bind="click: $root.saveFilter, attr: { id: 'btn_saveFilter_' + $data.uidLinha }"><i class="fa fa-save"></i></a>
+                                        <a class="btn btn-sm" title="Editar" data-bind="click: $root.editFilterListItem, attr: { id: 'btn_edit_' + $data.uidLinha }"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-sm" title="Excluir" data-bind="click: $root.removeFilterListItem, attr: { id: 'btn_remove_' + $data.uidLinha }"><i class="fa fa-times"></i></a>
+                                        <a class="btn btn-sm" title="Filtro da pesquisa" data-bind="attr: { id: 'btn_translate_' + $data.uidLinha }"><i class="fa fa-filter"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divEdicao" style="visibility: hidden; display: none">
+                <div class="wr-buttons text-right">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="javascript:;" id="edtDescFiltro" data-type="text" data-title="Descrição do Filtro"></a>
+                        </div>
+                        <div class="col-md-6 barra-topo">
+                            <a title="Adicionar" id="btnAddSearchLine" data-bind="click: addSearchCondition"><i class="fa fa-plus reset-padding-rt"></i></a>
+                            <a title="Salvar" id="btnSaveSearch" data-bind="click: saveSearch"><i class="fa fa-save"></i></a>
+                            <a title="Apagar" id="btnDeleteSearch" data-bind="click: deleteSearch"><i class="fa fa-trash-o"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divTranslatedSearch" style="visibility: hidden; display: none">
+                    <p id="pTranslatedSearch"></p>
+                </div>
+
+                <div id="divTableSearch" class="wrapper-table">
+                    <div class="row">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th>Entidade / Coluna</th>
+                                    <th>Operador</th>
+                                    <th>Valor</th>
+                                    <th>&nbsp;</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+
+                            <tbody data-bind='foreach: { data: searchConditions, afterRender: afterRenderTableEditor }'>
+                                <tr>
+                                    <td style="width: 105px;">
+                                        <div class="wrapper-select">
+                                            <select class="selectLogico" data-bind="value: condition, attr: { id: 'cmbCondition_' + $data.uidLine }, visible: !$data.index() == 0">
+                                                <option value="&&">E</option>
+                                                <option value="||">OU</option>
+                                            </select>
+                                            <select class="selectParentese" data-bind="value: lParameter, attr: { id: 'cmbLeftParameter_' + $data.uidLine }">
+                                                <option value=" "></option>
+                                                <option value="(">(</option>
+                                                <option value="((">((</option>
+                                                <option value="(((">(((</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td class="entidade-coluna">
+                                        <div>
+                                            <a class="btn btn-sm" title="Selecionar" data-bind="click: $root.showTreeView, text: entityDescription, attr: { id: 'btnShowTree_' + $data.uidLine }"></a>
+                                        </div>
+                                    </td>
+                                    <td class="operador">
+                                        <div>
+                                            <select class="selectOperador" data-bind="options: availableOperators, value: operator, optionsText: 'name', optionsValues: 'id', event: { change: $root.onChangeSelectOperator }, attr: { id: 'cmbOperator_' + $data.uidLine }, visible: !$data.isCustomSearch()"></select>
+                                        </div>
+                                    </td>
+                                    <td class="valor">
+                                        <div class="controle-campos">
+                                            <input data-placement="bottom" data-bind="value: currentValue, visible: ((!$data.isCustomSearch() && !$data.isBoolean() && $data.inputType() == 1) || $data.inputType() == 2), enable: ($data.enableCurrentValue()), event: { change: $root.onChangeInputValue($data) }, attr: { id: 'input_value_' + $data.uidLine }" />
+                                            <select data-bind="visible: (!$data.isCustomSearch() && $data.isBoolean() && $data.inputType() == 1), event: { change: $root.onChangeSelectBoolean($data) }, attr: { id: 'select_boolean_' + $data.uidLine }">
+                                                <option value="true">Verdadeiro</option>
+                                                <option value="false">Falso</option>
+                                            </select>
+                                            <select data-bind="value: parameterValue, visible: (!$data.isCustomSearch() && $data.inputType() == 3), attr: { id: 'select_parametro_' + $data.uidLine }, options: parameters, optionsText: 'text', optionsValue: 'id', event: { change: $root.onChangeSelectParametro }">
+                                            </select>
+
+                                            <div data-bind="visible: (!$data.isCustomSearch() && $data.inputType() == 4)">
+                                                <select data-bind="attr: { id: 'select_predefinido_' + $data.uidLine }, options: predefinedFilters, optionsText: 'text', optionsValue: 'id', event: { change: $root.onChangeSelectPredefinido }" />
+                                                <input class="predefinedFilterValue" data-bind="value: predefinedFilterValue, attr: { id: 'input_predefinido_' + $data.uidLine }, visible: predefinedFilter().hasValue, event: { change: $root.onChangeInputPredefinido }" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="width: 125px;">
+                                        <a href="javascript:;" title="Opções" data-bind="attr: { id: 'input_type_' + $data.uidLine }">
+                                            <i class="fa fa-wrench"></i>
+                                        </a>
+                                        <select data-bind="value: rParameter, attr: { id: 'cmbRightParameter_' + $data.uidLine }">
+                                            <option value=" "></option>
+                                            <option value=")">)</option>
+                                            <option value="))">))</option>
+                                            <option value=")))">)))</option>
+                                        </select>
+                                    </td>
+                                    <td class="option-actions" style="width: 125px;">
+                                        <a class="btn btn-sm" title="Adicionar" data-bind="click: $root.addSearchConditionAt"><i class="fa fa-plus"></i></a>
+                                        <a class="btn btn-sm" title="Excluir" data-bind="click: $root.removeSearchConditionAt"><i class="fa  fa-times"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-ok" id="btnOk" data-bind="click: ok">Ok</button>
+            <button class="btn btn-close" id="btnCancel" data-bind="click: cancel">Cancelar</button>
+
+            <button class="btn btn-ok" id="btnOkEditor" style="visibility: hidden; display: none" data-bind="click: okEditor">Ok</button>
+            <button class="btn btn-close" id="btnCancelEditor" style="visibility: hidden; display: none" data-bind="click: cancelEditor">Cancelar</button>
+        </div>
+    </div>
+</div>
+

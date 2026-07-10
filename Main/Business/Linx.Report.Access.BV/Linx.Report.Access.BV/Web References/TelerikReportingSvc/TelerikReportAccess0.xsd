@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Telerik.Reporting.Processing" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Telerik.Reporting.Processing" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:1710/TelerikReportAccess.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="Parameter">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AllowBlank" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AllowNull" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AutoRefresh" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AvailableValues" nillable="true" type="tns:ArrayOfParameterValue" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="ChildParameters" nillable="true" type="q1:ArrayOfstring" />
+      <xs:element minOccurs="0" name="ID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsVisible" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Multivalue" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Text" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Parameter" nillable="true" type="tns:Parameter" />
+  <xs:complexType name="ArrayOfParameterValue">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ParameterValue" nillable="true" type="tns:ParameterValue" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfParameterValue" nillable="true" type="tns:ArrayOfParameterValue" />
+  <xs:complexType name="ParameterValue">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ParameterValue" nillable="true" type="tns:ParameterValue" />
+</xs:schema>

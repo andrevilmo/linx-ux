@@ -1,0 +1,304 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="UILookUpDentroOutraUI_formViewer" class="panelTransaition">
+            <figure id="UILookUpDentroOutraUI_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.UILookUpDentroOutraUI().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="UILookUpDentroOutraUI_gbLoja" data-bind="css: $root.UILookUpDentroOutraUI().getLayoutColumnSpan('UILookUpDentroOutraUI_gbLoja'), visible: $root.UILookUpDentroOutraUI().getLayoutVisible('UILookUpDentroOutraUI_gbLoja')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_gbLoja')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="UILookUpDentroOutraUI_gbLoja_anchor" href="#UILookUpDentroOutraUI_gbLoja_body" role="button" data-toggle="collapse" data-parent="#UILookUpDentroOutraUI_gbLoja" aria-controls="#UILookUpDentroOutraUI_gbLoja_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="UILookUpDentroOutraUI_gbLoja_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.UILookUpDentroOutraUI().getWithBinding(currentDataItem, $root.UILookUpDentroOutraUI().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UILookUpDentroOutraUI().getLayoutColumnSpan('UILookUpDentroOutraUI_ntxBigIntLoja'), visible: $root.UILookUpDentroOutraUI().getLayoutVisible('UILookUpDentroOutraUI_ntxBigIntLoja')" class="">
+                                   <div class="form-group">
+                                       <div id="UILookUpDentroOutraUI_divBigIntLoja" class="" >
+                                           <label data-bind="attr: { title: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_ntxBigIntLoja')}, text: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_ntxBigIntLoja')" id="UILookUpDentroOutraUI_lblBigIntLoja" for="UILookUpDentroOutraUI_ntxBigIntLoja" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UILookUpDentroOutraUI_ntxBigIntLoja" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntLoja', css: { vmEditing: $root.UILookUpDentroOutraUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxBigIntLoja') ? ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxBigIntLoja') : (!isEmptyEntityFn($data) && $root.UILookUpDentroOutraUI().enabledForEditing()) }, igNumericEditor: { value: BigIntLoja, minValue: 0, maxValue: 9007199254740992,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxBigIntLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxBigIntLoja') : (isEmptyEntityFn($data) || !$root.UILookUpDentroOutraUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UILookUpDentroOutraUI().entitySearchRange.has_LojaBigIntLoja(), 'icon-ok': $root.UILookUpDentroOutraUI().entitySearchRange.has_LojaBigIntLoja(), hide: $root.UILookUpDentroOutraUI().status() !== 'C' }, popoverWithBind: { template: '#UILookUpDentroOutraUI_rgBigIntLoja', vm: $root.UILookUpDentroOutraUI().entitySearchRange, ctrlName: 'UILookUpDentroOutraUI_rgcBigIntLoja', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UILookUpDentroOutraUI_rgBigIntLoja" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UILookUpDentroOutraUI_ntxbBigIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaBigIntLoja_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_ntxBigIntLoja').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UILookUpDentroOutraUI_ntxeBigIntLoja').igNumericEditor('option', 'value') != null ? true : false)); $('#UILookUpDentroOutraUI_ntxeBigIntLoja').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UILookUpDentroOutraUI_ntxeBigIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaBigIntLoja_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_ntxBigIntLoja').igNumericEditor('option', 'readOnly', ($('#UILookUpDentroOutraUI_ntxbBigIntLoja').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UILookUpDentroOutraUI_ntxbBigIntLoja').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UILookUpDentroOutraUI().getLayoutColumnSpan('UILookUpDentroOutraUI_ckBitLoja'), visible: $root.UILookUpDentroOutraUI().getLayoutVisible('UILookUpDentroOutraUI_ckBitLoja')" class="">
+                                   <div class="form-group">
+                                       <div id="UILookUpDentroOutraUI_divBitLoja" class="" >
+                                           <label class="">
+                                             <input id="UILookUpDentroOutraUI_ckBitLoja" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ckBitLoja') ? ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ckBitLoja') : (!isEmptyEntityFn($data) && $root.UILookUpDentroOutraUI().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ckBitLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ckBitLoja') : (isEmptyEntityFn($data) || !$root.UILookUpDentroOutraUI().enabledForEditing()), nullableChecked: BitLoja" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblUILookUpDentroOutraUI_ckBitLoja" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UILookUpDentroOutraUI().getLayoutColumnSpan('UILookUpDentroOutraUI_cmbComboboxLoja'), visible: $root.UILookUpDentroOutraUI().getLayoutVisible('UILookUpDentroOutraUI_cmbComboboxLoja')" class="">
+                                   <div class="form-group">
+                                       <div id="UILookUpDentroOutraUI_divComboboxLoja" class="" >
+                                           <label data-bind="css: { 'content-required': $root.UILookUpDentroOutraUI().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_cmbComboboxLoja')}, text: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_cmbComboboxLoja')" id="UILookUpDentroOutraUI_lblComboboxLoja" for="UILookUpDentroOutraUI_cmbComboboxLoja" class="control-label ellipsis">
+                                           </label>
+                                           <span id="UILookUpDentroOutraUI_cmbComboboxLoja" class="form-control " data-bind="validatedField: 'ComboboxLoja', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_cmbComboboxLoja') ? ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_cmbComboboxLoja') : (!isEmptyEntityFn($data) && $root.UILookUpDentroOutraUI().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_cmbComboboxLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_cmbComboboxLoja') : (isEmptyEntityFn($data) || !$root.UILookUpDentroOutraUI().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_cmbComboboxLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_cmbComboboxLoja') : (isEmptyEntityFn($data) || !$root.UILookUpDentroOutraUI().enabledForEditing()), igCombo: {
+                                              selectedItems: ComboboxLoja,
+                                              dataSource:  $root.UILookUpDentroOutraUI().dataDomains.getItems('LX_LOJA', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_cmbComboboxLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_cmbComboboxLoja') : (isEmptyEntityFn($data) || !$root.UILookUpDentroOutraUI().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UILookUpDentroOutraUI().getLayoutColumnSpan('UILookUpDentroOutraUI_dtDatetimeLoja'), visible: $root.UILookUpDentroOutraUI().getLayoutVisible('UILookUpDentroOutraUI_dtDatetimeLoja')" class="">
+                                   <div class="form-group">
+                                       <div id="UILookUpDentroOutraUI_divDatetimeLoja" class="" >
+                                           <label data-bind="attr: { title: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_dtDatetimeLoja')}, text: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_dtDatetimeLoja')" id="UILookUpDentroOutraUI_lblDatetimeLoja" for="UILookUpDentroOutraUI_dtDatetimeLoja" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="UILookUpDentroOutraUI_dtDatetimeLoja" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeLoja', css: { vmEditing: $root.UILookUpDentroOutraUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_dtDatetimeLoja') ? ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_dtDatetimeLoja') : (!isEmptyEntityFn($data) && $root.UILookUpDentroOutraUI().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_dtDatetimeLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_dtDatetimeLoja') : (isEmptyEntityFn($data) || !$root.UILookUpDentroOutraUI().enabledForEditing()) },  igDatePicker: { value: DatetimeLoja, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_dtDatetimeLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_dtDatetimeLoja') : (isEmptyEntityFn($data) || !$root.UILookUpDentroOutraUI().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="UILookUpDentroOutraUI_rgbtnDatetimeLoja"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UILookUpDentroOutraUI().entitySearchRange.has_LojaDatetimeLoja(), 'icon-ok': $root.UILookUpDentroOutraUI().entitySearchRange.has_LojaDatetimeLoja(), hide: $root.UILookUpDentroOutraUI().status() !== 'C' }, popoverWithBind: { template: '#UILookUpDentroOutraUI_rgDatetimeLoja', vm: $root.UILookUpDentroOutraUI().entitySearchRange, ctrlName: 'UILookUpDentroOutraUI_rgcDatetimeLoja', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="UILookUpDentroOutraUI_rgDatetimeLoja" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="checked:LojaDatetimeLoja_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:LojaDatetimeLoja_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="UILookUpDentroOutraUI_divrgDatetimeLoja" >
+                                                      <div class="filterByRange" data-bind="visible: LojaDatetimeLoja_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UILookUpDentroOutraUI_dtbDatetimeLoja" class="IsEditableStyle date" data-bind="igDatePicker: { value: LojaDatetimeLoja_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_dtDatetimeLoja').igDatePicker('option', 'readOnly', (ui.value != null || $('#UILookUpDentroOutraUI_dteDatetimeLoja').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UILookUpDentroOutraUI_dtbDatetimeLoja').igDatePicker('value'); var valorMax = $('#UILookUpDentroOutraUI_dteDatetimeLoja').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#UILookUpDentroOutraUI_dtbDatetimeLoja').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UILookUpDentroOutraUI_dteDatetimeLoja" class="IsEditableStyle date" data-bind="igDatePicker: { value: LojaDatetimeLoja_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_dtDatetimeLoja').igDatePicker('option', 'readOnly', ($('#UILookUpDentroOutraUI_dtbDatetimeLoja').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UILookUpDentroOutraUI_dtbDatetimeLoja').igDatePicker('value'); var valorMax = $('#UILookUpDentroOutraUI_dteDatetimeLoja').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#UILookUpDentroOutraUI_dteDatetimeLoja').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: LojaDatetimeLoja_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: LojaDatetimeLoja_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: LojaDatetimeLoja_predefFilter() != null && LojaDatetimeLoja_predefFilter()[0] && LojaDatetimeLoja_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: LojaDatetimeLoja_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UILookUpDentroOutraUI().getLayoutColumnSpan('UILookUpDentroOutraUI_ntxDecimalLoja'), visible: $root.UILookUpDentroOutraUI().getLayoutVisible('UILookUpDentroOutraUI_ntxDecimalLoja')" class="">
+                                   <div class="form-group">
+                                       <div id="UILookUpDentroOutraUI_divDecimalLoja" class="" >
+                                           <label data-bind="attr: { title: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_ntxDecimalLoja')}, text: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_ntxDecimalLoja')" id="UILookUpDentroOutraUI_lblDecimalLoja" for="UILookUpDentroOutraUI_ntxDecimalLoja" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UILookUpDentroOutraUI_ntxDecimalLoja" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalLoja', css: { vmEditing: $root.UILookUpDentroOutraUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxDecimalLoja') ? ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxDecimalLoja') : (!isEmptyEntityFn($data) && $root.UILookUpDentroOutraUI().enabledForEditing()) }, igNumericEditor: { value: DecimalLoja, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxDecimalLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxDecimalLoja') : (isEmptyEntityFn($data) || !$root.UILookUpDentroOutraUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UILookUpDentroOutraUI().entitySearchRange.has_LojaDecimalLoja(), 'icon-ok': $root.UILookUpDentroOutraUI().entitySearchRange.has_LojaDecimalLoja(), hide: $root.UILookUpDentroOutraUI().status() !== 'C' }, popoverWithBind: { template: '#UILookUpDentroOutraUI_rgDecimalLoja', vm: $root.UILookUpDentroOutraUI().entitySearchRange, ctrlName: 'UILookUpDentroOutraUI_rgcDecimalLoja', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UILookUpDentroOutraUI_rgDecimalLoja" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UILookUpDentroOutraUI_ntxbDecimalLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaDecimalLoja_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_ntxDecimalLoja').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UILookUpDentroOutraUI_ntxeDecimalLoja').igNumericEditor('option', 'value') != null ? true : false)); $('#UILookUpDentroOutraUI_ntxeDecimalLoja').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UILookUpDentroOutraUI_ntxeDecimalLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaDecimalLoja_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_ntxDecimalLoja').igNumericEditor('option', 'readOnly', ($('#UILookUpDentroOutraUI_ntxbDecimalLoja').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UILookUpDentroOutraUI_ntxbDecimalLoja').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.UILookUpDentroOutraUI().getLayoutColumnSpan('UILookUpDentroOutraUI_ntxIdLoja'), visible: $root.UILookUpDentroOutraUI().getLayoutVisible('UILookUpDentroOutraUI_ntxIdLoja')" class="">
+                                   <div class="form-group">
+                                       <div id="UILookUpDentroOutraUI_divIdLoja" class="" >
+                                           <label data-bind="css: { 'content-required': $root.UILookUpDentroOutraUI().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_ntxIdLoja')}, text: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_ntxIdLoja')" id="UILookUpDentroOutraUI_lblIdLoja" for="UILookUpDentroOutraUI_ntxIdLoja" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UILookUpDentroOutraUI_ntxIdLoja" class="form-control numericFilterRange " data-bind="validatedField: 'IdLoja', css: { vmEditing: $root.UILookUpDentroOutraUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxIdLoja') ? ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxIdLoja') : (!isEmptyEntityFn($data) && $root.UILookUpDentroOutraUI().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdLoja, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxIdLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxIdLoja') : (isEmptyEntityFn($data) || !($root.UILookUpDentroOutraUI().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UILookUpDentroOutraUI().entitySearchRange.has_LojaIdLoja(), 'icon-ok': $root.UILookUpDentroOutraUI().entitySearchRange.has_LojaIdLoja(), hide: $root.UILookUpDentroOutraUI().status() !== 'C' }, popoverWithBind: { template: '#UILookUpDentroOutraUI_rgIdLoja', vm: $root.UILookUpDentroOutraUI().entitySearchRange, ctrlName: 'UILookUpDentroOutraUI_rgcIdLoja', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UILookUpDentroOutraUI_rgIdLoja" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UILookUpDentroOutraUI_ntxbIdLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaIdLoja_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_ntxIdLoja').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UILookUpDentroOutraUI_ntxeIdLoja').igNumericEditor('option', 'value') != null ? true : false)); $('#UILookUpDentroOutraUI_ntxeIdLoja').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UILookUpDentroOutraUI_ntxeIdLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaIdLoja_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_ntxIdLoja').igNumericEditor('option', 'readOnly', ($('#UILookUpDentroOutraUI_ntxbIdLoja').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UILookUpDentroOutraUI_ntxbIdLoja').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UILookUpDentroOutraUI().getLayoutColumnSpan('UILookUpDentroOutraUI_ntxIntLoja'), visible: $root.UILookUpDentroOutraUI().getLayoutVisible('UILookUpDentroOutraUI_ntxIntLoja')" class="">
+                                   <div class="form-group">
+                                       <div id="UILookUpDentroOutraUI_divIntLoja" class="" >
+                                           <label data-bind="attr: { title: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_ntxIntLoja')}, text: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_ntxIntLoja')" id="UILookUpDentroOutraUI_lblIntLoja" for="UILookUpDentroOutraUI_ntxIntLoja" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UILookUpDentroOutraUI_ntxIntLoja" class="form-control numericFilterRange " data-bind="validatedField: 'IntLoja', css: { vmEditing: $root.UILookUpDentroOutraUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxIntLoja') ? ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxIntLoja') : (!isEmptyEntityFn($data) && $root.UILookUpDentroOutraUI().enabledForEditing()) }, igNumericEditor: { value: IntLoja, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxIntLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxIntLoja') : (isEmptyEntityFn($data) || !$root.UILookUpDentroOutraUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UILookUpDentroOutraUI().entitySearchRange.has_LojaIntLoja(), 'icon-ok': $root.UILookUpDentroOutraUI().entitySearchRange.has_LojaIntLoja(), hide: $root.UILookUpDentroOutraUI().status() !== 'C' }, popoverWithBind: { template: '#UILookUpDentroOutraUI_rgIntLoja', vm: $root.UILookUpDentroOutraUI().entitySearchRange, ctrlName: 'UILookUpDentroOutraUI_rgcIntLoja', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UILookUpDentroOutraUI_rgIntLoja" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UILookUpDentroOutraUI_ntxbIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaIntLoja_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_ntxIntLoja').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UILookUpDentroOutraUI_ntxeIntLoja').igNumericEditor('option', 'value') != null ? true : false)); $('#UILookUpDentroOutraUI_ntxeIntLoja').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UILookUpDentroOutraUI_ntxeIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaIntLoja_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_ntxIntLoja').igNumericEditor('option', 'readOnly', ($('#UILookUpDentroOutraUI_ntxbIntLoja').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UILookUpDentroOutraUI_ntxbIntLoja').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UILookUpDentroOutraUI().getLayoutColumnSpan('UILookUpDentroOutraUI_ntxSmallIntLoja'), visible: $root.UILookUpDentroOutraUI().getLayoutVisible('UILookUpDentroOutraUI_ntxSmallIntLoja')" class="">
+                                   <div class="form-group">
+                                       <div id="UILookUpDentroOutraUI_divSmallIntLoja" class="" >
+                                           <label data-bind="attr: { title: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_ntxSmallIntLoja')}, text: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_ntxSmallIntLoja')" id="UILookUpDentroOutraUI_lblSmallIntLoja" for="UILookUpDentroOutraUI_ntxSmallIntLoja" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="UILookUpDentroOutraUI_ntxSmallIntLoja" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntLoja', css: { vmEditing: $root.UILookUpDentroOutraUI().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxSmallIntLoja') ? ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxSmallIntLoja') : (!isEmptyEntityFn($data) && $root.UILookUpDentroOutraUI().enabledForEditing()) }, igNumericEditor: { value: SmallIntLoja, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxSmallIntLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_ntxSmallIntLoja') : (isEmptyEntityFn($data) || !$root.UILookUpDentroOutraUI().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UILookUpDentroOutraUI().entitySearchRange.has_LojaSmallIntLoja(), 'icon-ok': $root.UILookUpDentroOutraUI().entitySearchRange.has_LojaSmallIntLoja(), hide: $root.UILookUpDentroOutraUI().status() !== 'C' }, popoverWithBind: { template: '#UILookUpDentroOutraUI_rgSmallIntLoja', vm: $root.UILookUpDentroOutraUI().entitySearchRange, ctrlName: 'UILookUpDentroOutraUI_rgcSmallIntLoja', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="UILookUpDentroOutraUI_rgSmallIntLoja" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UILookUpDentroOutraUI_ntxbSmallIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaSmallIntLoja_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_ntxSmallIntLoja').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UILookUpDentroOutraUI_ntxeSmallIntLoja').igNumericEditor('option', 'value') != null ? true : false)); $('#UILookUpDentroOutraUI_ntxeSmallIntLoja').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UILookUpDentroOutraUI_ntxeSmallIntLoja" class="IsEditableStyle" data-bind="igNumericEditor: { value: LojaSmallIntLoja_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#UILookUpDentroOutraUI_ntxSmallIntLoja').igNumericEditor('option', 'readOnly', ($('#UILookUpDentroOutraUI_ntxbSmallIntLoja').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UILookUpDentroOutraUI_ntxbSmallIntLoja').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.UILookUpDentroOutraUI().getLayoutColumnSpan('UILookUpDentroOutraUI_tbStringLoja'), visible: $root.UILookUpDentroOutraUI().getLayoutVisible('UILookUpDentroOutraUI_tbStringLoja')" class="">
+                                   <div class="form-group">
+                                       <div id="UILookUpDentroOutraUI_divStringLoja" class="" >
+                                           <label data-bind="attr: { title: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_tbStringLoja')}, text: $root.UILookUpDentroOutraUI().getLayoutDisplayName('UILookUpDentroOutraUI_tbStringLoja')" id="UILookUpDentroOutraUI_lblStringLoja" for="UILookUpDentroOutraUI_tbStringLoja" class="control-label ellipsis">
+                                           </label>
+                                           <input id="UILookUpDentroOutraUI_tbStringLoja" class="form-control ellipsis" data-bind="attr: { title: StringLoja }, validatedField: 'StringLoja', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_tbStringLoja') ? ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_tbStringLoja') : (!isEmptyEntityFn($data) && $root.UILookUpDentroOutraUI().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: StringLoja, readOnly: ctrl.hasCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_tbStringLoja') ? !ctrl.getCustomEnable($root.UILookUpDentroOutraUI(), 'UILookUpDentroOutraUI_tbStringLoja') : (isEmptyEntityFn($data) || !$root.UILookUpDentroOutraUI().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="UILookUpDentroOutraUI_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.UILookUpDentroOutraUI().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyUILookUpDentroOutraUI_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyUILookUpDentroOutraUI_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyUILookUpDentroOutraUI_dGrid_templateLayout', vm: function(){return $root.UILookUpDentroOutraUI().gridSaveStates['scyUILookUpDentroOutraUI_dGrid'];}, ctrlName: 'scyUILookUpDentroOutraUI_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyUILookUpDentroOutraUI_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyUILookUpDentroOutraUI_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyUILookUpDentroOutraUI_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UILookUpDentroOutraUI().dataToolbar.canExport(), click: function () {$root.UILookUpDentroOutraUI().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyUILookUpDentroOutraUI_dGrid" data-bind="css: { IsEditableStyle: $root.UILookUpDentroOutraUI().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

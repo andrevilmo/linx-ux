@@ -1,0 +1,106 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/.vscode/msbuild-build.ps1"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Build (host MSBuild + Podman volume + host expose)",
+      "dependsOn": "Build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Build (Windows container — Docker Compose)",
+      "type": "shell",
+      "command": "docker compose run --rm build",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build (Windows container — Podman Compose)",
+      "type": "shell",
+      "command": "podman compose run --rm build",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Windows SDK image (docker build)",
+      "type": "shell",
+      "command": "docker build -f Dockerfile -t linx-framework-bv-webapi-ds-build:ltsc2022 ..\\..\\..",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy (Podman volume + host expose)",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/.vscode/deploy-to-podman-volume.ps1"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy",
+      "dependsOn": "Deploy (Podman volume + host expose)",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Publish",
+      "dependsOn": "Publish (Podman volume + host expose)",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Publish (Podman volume + host expose)",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/.vscode/deploy-to-podman-volume.ps1"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

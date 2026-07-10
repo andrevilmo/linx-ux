@@ -1,0 +1,33 @@
+﻿Nuget - Reinstalar os pacotes na versão corrente
+	Update-Package -reinstall
+
+Windows Service
+	Abrir o prompt de comando como Administrador;
+	cd c:\windows\Microsoft.NET\Framework\v4.0.30319;
+	
+	Adicionar novo Windows Service -> Linx Framework SelfHost:
+		installutil "C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Common\Linx.Framework.SelfHost\Linx.SelfHost\bin\Debug\Linx.SelfHost.Exe"
+
+	Remover o serviço:
+		installutil -u "C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Common\Linx.Framework.SelfHost\Linx.SelfHost\bin\Debug\Linx.SelfHost.Exe"
+
+	Iniciar:
+		net start "Linx Framework SelfHost"
+
+	Parar:
+		net stop "Linx Framework SelfHost"
+
+Geração arquivo .zip
+	Click da direita no Projeto Linx.Selfhost e opção Unload Project;
+	Click da direita opção Edit Linx.SelfHost.csproj;
+	Procurar por <Target Name="AfterBuild">;
+	As opções para geração do arquivo estão contidas nessa sessão;
+	Efetuar alterações e salvar;
+	Click da direita e Reload Project.
+
+
+Testes dlls / Apis Linx
+	Copiar o conteúdo para a pasta \External\Linx.
+
+Ponto de atenção !
+	Verificar o conteúdo das pastas ao compilar, o arquivo .zip será gerado com todos os arquivos contidos!

@@ -1,0 +1,99 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using Microsoft.Practices.Prism.Regions;
+using Microsoft.Practices.Prism.Modularity;
+using Linx.Tools;
+using Linx.Components;
+using Linx.Visual.Tools;
+using #dataNameSpace#;
+
+
+namespace #nameSpace#
+{    
+    public partial class #moduleClass#View : UserControl, ISpecializedFilter
+    {
+        public #moduleClass#View()
+        {
+            InitializeComponent();
+        }
+
+        private string moduleName;
+        public string ModuleName
+        {
+            get
+            {
+                return moduleName;
+            }
+            set
+            {
+                moduleName = value;
+                this.moduleClassPage.ModuleName = moduleName;
+            }
+        }
+
+		private Linx.Controls.LinxSpecializedFilterValidator filterValidator;
+
+        public void InitializeDataStructure()   
+        {     
+			  moduleClassPage.Layout = #moduleLayout#;
+              this.moduleClassPage.DomainContextClassType = typeof(#dataNameSpace#.#domainContextClassName#);
+              this.moduleClassPage.DataClassType = typeof(#dataNameSpace#.#dataClassName#);              
+              this.moduleClassPage.CustomDataContainer = new LinxDynamicDataContainer();
+              this.moduleClassPage.CustomDataContainer.IsCustomized = true;
+			  this.moduleClassPage.CustomDataGridContainer = new LinxDynamicDataGridContainer();
+              this.moduleClassPage.CustomDataGridContainer.IsCustomized = true;
+              this.moduleClassPage.CustomDataContainer.Children.Add(new #moduleClass#Control() { DataToolbar = this.moduleClassPage.DataToolbar });
+			  this.moduleClassPage.CustomDataGridContainer.Children.Add(new #moduleClass#GridControl() { DataToolbar = this.moduleClassPage.DataToolbar });
+              this.moduleClassPage.DataToolbar.DomainDataSource = this.source;
+			  this.moduleClassPage.DataToolbar.LoadDetailsOnDemand = #loadDetailsOnDemand#;
+
+			  //Adjust DataToolbar access
+			  this.moduleClassPage.DataToolbar.CanClear = true;
+			  this.moduleClassPage.DataToolbar.CanSearch = false;
+			  this.moduleClassPage.DataToolbar.CanAddNew = false;
+			  this.moduleClassPage.DataToolbar.CanEdit = false;
+			  this.moduleClassPage.DataToolbar.CanDelete = false;
+			  this.moduleClassPage.DataToolbar.CanCustomSearch = true;
+			  this.moduleClassPage.DataToolbar.CanPrint = false;
+			  this.moduleClassPage.DataToolbar.CanLayout = false;
+			  this.moduleClassPage.DataToolbar.CanNavigate = false;
+
+			  this.Loaded += new RoutedEventHandler(ModuleView_Loaded);
+        }
+
+		void ModuleView_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Loaded -= new RoutedEventHandler(ModuleView_Loaded);	
+			
+			var content = this.GetAncestorByType("LinxContentControl") as Linx.Controls.LinxContentControl;
+            if (!content.IsNull() && !content.Tag.IsNull() && content.Tag is Linx.Controls.LinxSpecializedFilterValidator)
+            {
+                filterValidator = content.Tag as Linx.Controls.LinxSpecializedFilterValidator;
+                content.Tag = null; //Remove communication resource
+				filterValidator.SpecializedFilter = this;
+				filterValidator.ClearAutomatically = #ClearAutomatically#;
+            }
+								
+            this.moduleClassPage.StartStructure();
+        }
+		
+		public List<EntitySearch> GetEntitySearch()
+        {
+            return this.moduleClassPage.DataToolbar.GetEntitySearch(true, true);
+        }
+
+		public void Clear()
+        {
+            this.moduleClassPage.DataToolbar.ClearForQBE();
+        }
+    }
+}

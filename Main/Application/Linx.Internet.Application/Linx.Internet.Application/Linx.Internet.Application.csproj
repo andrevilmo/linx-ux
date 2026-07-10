@@ -1,0 +1,1843 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{10F5AF09-086E-431D-AE27-4E875405083C}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Linx.Internet.Application</RootNamespace>
+    <AssemblyName>Linx.Internet.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress>
+    </Use64BitIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxMin">
+      <HintPath>..\packages\AjaxMin.5.8.5172.27710\lib\net40\AjaxMin.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="AttributeRouting">
+      <HintPath>..\packages\AttributeRouting.Core.3.5.6\lib\net40\AttributeRouting.dll</HintPath>
+    </Reference>
+    <Reference Include="AttributeRouting.Web">
+      <HintPath>..\packages\AttributeRouting.Core.Web.3.5.6\lib\net40\AttributeRouting.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="AttributeRouting.Web.Mvc">
+      <HintPath>..\packages\AttributeRouting.3.5.6\lib\net40\AttributeRouting.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="BundleTransformer.Core">
+      <HintPath>..\packages\BundleTransformer.Core.1.8.29\lib\net40\BundleTransformer.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="BundleTransformer.Less">
+      <HintPath>..\packages\BundleTransformer.Less.1.8.29\lib\net40\BundleTransformer.Less.dll</HintPath>
+    </Reference>
+    <Reference Include="BundleTransformer.MicrosoftAjax">
+      <HintPath>..\packages\BundleTransformer.MicrosoftAjax.1.8.29\lib\net40\BundleTransformer.MicrosoftAjax.dll</HintPath>
+    </Reference>
+    <Reference Include="EcmaScript.NET">
+      <HintPath>..\packages\EcmaScript.Net.1.0.1.0\lib\net20\EcmaScript.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\packages\ImageResizer.3.4.3\lib\ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer.Mvc">
+      <HintPath>..\packages\ImageResizer.Mvc.3.4.3\lib\ImageResizer.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer.Plugins.DiskCache">
+      <HintPath>..\packages\ImageResizer.Plugins.DiskCache.3.4.3\lib\ImageResizer.Plugins.DiskCache.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer.Plugins.Watermark">
+      <HintPath>..\packages\ImageResizer.Plugins.Watermark.3.4.3\lib\ImageResizer.Plugins.Watermark.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetZip.1.9.7\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="JavaScriptEngineSwitcher.Core">
+      <HintPath>..\packages\JavaScriptEngineSwitcher.Core.1.1.3\lib\net40\JavaScriptEngineSwitcher.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="JavaScriptEngineSwitcher.Msie">
+      <HintPath>..\packages\JavaScriptEngineSwitcher.Msie.1.1.4\lib\net40\JavaScriptEngineSwitcher.Msie.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationServer.Caching.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsFabric.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsFabric.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsFabric.Data.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsFabric.Data.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniProfiler">
+      <HintPath>..\packages\MiniProfiler.3.1.1.140\lib\net40\MiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniProfiler.EntityFramework6">
+      <HintPath>..\packages\MiniProfiler.EF6.3.0.11\lib\net40\MiniProfiler.EntityFramework6.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniProfiler.Mvc">
+      <HintPath>..\packages\MiniProfiler.MVC4.3.0.11\lib\net40\MiniProfiler.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="MsieJavaScriptEngine">
+      <HintPath>..\packages\MsieJavaScriptEngine.1.4.2\lib\net40\MsieJavaScriptEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Spatial, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.OData">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.4.0.30506\lib\net40\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivatorEx">
+      <HintPath>..\..\..\Binary\Library\Common\Microsoft\Web API\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMarkupMin.Core, Version=0.8.18.0, Culture=neutral, PublicKeyToken=99472178d266584b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebMarkupMin.Core.0.8.18\lib\net40\WebMarkupMin.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMarkupMin.MsAjax">
+      <HintPath>..\packages\WebMarkupMin.MsAjax.0.8.18\lib\net40\WebMarkupMin.MsAjax.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMarkupMin.Mvc">
+      <HintPath>..\packages\WebMarkupMin.Mvc.0.8.1\lib\net40\WebMarkupMin.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMarkupMin.Web, Version=0.8.18.0, Culture=neutral, PublicKeyToken=99472178d266584b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebMarkupMin.Web.0.8.18\lib\net40\WebMarkupMin.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMarkupMin.Yui, Version=0.8.18.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebMarkupMin.Yui.0.8.18\lib\net40\WebMarkupMin.Yui.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+    <Reference Include="Yahoo.Yui.Compressor, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\YUICompressor.NET.2.4.0.0\lib\NET20\Yahoo.Yui.Compressor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Added for HotTowel SPA Template -->
+    <Reference Include="WebActivator">
+      <Private>True</Private>
+      <HintPath>..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\_Shared\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="App_Start\PostStart\FileWatcher.cs" />
+    <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="App_Start\ModuleConfig.cs" />
+    <Compile Include="App_Start\PostStart\ResizerConfig.cs" />
+    <Compile Include="App_Start\PostStart\MinifyConfig.cs" />
+    <Compile Include="App_Start\PreStart\AttributeRoutingConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\PostStart\LIAConfig.cs" />
+    <Compile Include="App_Start\PreStart\LIARouteConfig.cs" />
+    <Compile Include="Bundler.cs" />
+    <Compile Include="Controllers\AppCacheController.cs" />
+    <Compile Include="Controllers\ScriptsController.cs" />
+    <Compile Include="Controllers\DeployController.cs" />
+    <Compile Include="Controllers\ToolsController.cs" />
+    <Compile Include="Controllers\LIAController.cs" />
+    <Compile Include="Class\CompressionModuleCustom.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\BaseHelpers.cs" />
+    <Compile Include="Helpers\BundlerHelper.cs" />
+    <Compile Include="Helpers\HtmlHelper.cs" />
+    <EmbeddedResource Include="lib\breeze\breeze.js" />
+    <EmbeddedResource Include="lib\durandal\activator.js" />
+    <EmbeddedResource Include="lib\durandal\app.js" />
+    <EmbeddedResource Include="lib\durandal\binder.js" />
+    <EmbeddedResource Include="lib\durandal\composition.js" />
+    <EmbeddedResource Include="lib\durandal\events.js" />
+    <EmbeddedResource Include="lib\durandal\plugins\dialog.js" />
+    <EmbeddedResource Include="lib\durandal\plugins\history.js" />
+    <EmbeddedResource Include="lib\durandal\plugins\http.js" />
+    <EmbeddedResource Include="lib\durandal\plugins\observable.js" />
+    <EmbeddedResource Include="lib\durandal\plugins\router.js" />
+    <EmbeddedResource Include="lib\durandal\plugins\serializer.js" />
+    <EmbeddedResource Include="lib\durandal\plugins\widget.js" />
+    <EmbeddedResource Include="lib\durandal\system.js" />
+    <EmbeddedResource Include="lib\durandal\transitions\entrance.js" />
+    <EmbeddedResource Include="lib\durandal\viewEngine.js" />
+    <EmbeddedResource Include="lib\durandal\viewLocator.js" />
+    <EmbeddedResource Include="lib\flexmonster\flexmonster.js" />
+    <EmbeddedResource Include="lib\flexmonster\toolbar\language_toolbar\en-us.js" />
+    <EmbeddedResource Include="lib\font_awesome\fonts\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="lib\font_awesome\fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="lib\font_awesome\fonts\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="lib\font_awesome\fonts\FontAwesome.otf" />
+    <EmbeddedResource Include="App\viewmodels\shared\modal.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\infragistics-theme-original.less" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\infragistics-theme-default.less" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\infragistics-theme-black.less" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\expand.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\icon_sprite.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igBigPauseButton.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igBigPlayButton.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igBrowserLogos.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igCheckbox\ig_checkbox_off.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igCheckbox\ig_checkbox_off_hover.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igCheckbox\ig_checkbox_on.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igCheckbox\ig_checkbox_on_hover.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igCheckbox\ig_checkbox_partial.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igCheckbox\ig_checkbox_partial_hover.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igGrid\blank.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igGrid\diagonals-medium.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igGrid\filter-icons-333333.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igGrid\filter-icons-FFFFFF.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igGrid\group-by-label-right-edge.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igGrid\touch-icons.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igGrid\touch-icons.svg" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_BottomDragIndicator.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_Filter.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_FilterApplied.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_Fix.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_FixHover.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_header.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_sortAsc.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_sortDesc.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_Sprite.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_Sum.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_SumHover.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_SumPressed.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_TopDragIndicator.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_Unfix.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_UnfixHover.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igg_UnfixPressed.gif" />
+    <EmbeddedResource Include="lib\font_awesome\fonts\fontawesome-webfont.woff2" />
+    <EmbeddedResource Include="SelfHost\SelfHostBase.zip" />
+    <EmbeddedResource Include="lib\flexmonster\report_lang\loc_pt-br.json" />
+    <EmbeddedResource Include="lib\flexmonster\report_lang\report_pt-br.json" />
+    <EmbeddedResource Include="lib\flexmonster\theme\assets\flexmonster-icons.ttf" />
+    <EmbeddedResource Include="lib\flexmonster\theme\assets\flexmonster-icons.woff" />
+    <EmbeddedResource Include="lib\flexmonster\theme\default\flexmonster.less" />
+    <EmbeddedResource Include="lib\flexmonster\theme\flexmonster-base.less" />
+    <EmbeddedResource Include="lib\flexmonster\report_lang\report_olap_pt-br.json" />
+    <None Include="lib\flexmonster\theme\lightblue\flexmonster.less" />
+    <None Include="lib\flexmonster\theme\old\flexmonster.less" />
+    <None Include="lib\flexmonster\theme\orange\flexmonster.less" />
+    <None Include="lib\flexmonster\theme\teal\flexmonster.less" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\arrow_collapse.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\arrow_expand.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\arrow_redo.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\arrow_undo.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\background_color.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\check.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\cut.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\decrease-font-size.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\html.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\html_add.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\html_delete.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\html_go.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\html_valid.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\image_add.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\increase-font-size.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\link.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\link_add.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\link_break.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\page_copy.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\page_paste.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\table-delete-column-icon.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\table-insert-column-icon.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\table.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\table_row_delete.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\table_row_insert.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_align_center.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_align_justify.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_align_left.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_align_right.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_bold.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_color.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_horizontalrule.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_indent.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_indent_remove.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_italic.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_list_bullets.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_list_numbers.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_strikethrough.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\text_underline.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igLoadingSmall.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igPivot\dataselector-sprite.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igPivot\kpi-icons.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igPivot\pivot-header-icons.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igPopover\igPopoverArrowBottom.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igPopover\igPopoverArrowLeft.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igPopover\igPopoverArrowRight.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igPopover\igPopoverArrows.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igPopover\igPopoverArrowTop.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igRating\ig-rating-touch%402.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igRating\ig-rating-touch.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igVideoPlayer\igBigPauseButton.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igVideoPlayer\igBigPlayButton.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igVideoPlayer\igLoadingSmall.gif" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igVideoPlayer\igPlayButton24.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igVideoPlayer\igPlayButton32.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igVideoPlayer\igPlayButton48.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igVideoPlayer\igVPBackground.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igVideoPlayer\igVPBookmarkSprite.png" />
+    <None Include="lib\infragistics_igniteui\css\structure\images\igVideoPlayer\igWarningIcon.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-anim_basic_16x16.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-bg_glass_75_dadada_1x400.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-icons_222222_256x240.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-icons_2e83ff_256x240.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-icons_454545_256x240.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-icons_888888_256x240.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\ui-icons_cd0a0a_256x240.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\infragistics-min.css" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\infragistics.less" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\infragistics-theme-orange.less" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\i18n\infragistics-pt.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\jquery-rstorage.js" />
+    <EmbeddedResource Include="lib\linx\img\modules\module130000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module05c38c50-db97-46fd-a125-800433c33410.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module120000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module150000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module80000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module230000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module20000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module210000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module140000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module100000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module160000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module40000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module10000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module50000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module170000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module190000.png" />
+    <EmbeddedResource Include="lib\linx\img\linx.png" />
+    <EmbeddedResource Include="lib\linx\img\logo-linx.png" />
+    <EmbeddedResource Include="lib\jquery\plugins\jreject\css\jquery-reject.less" />
+    <EmbeddedResource Include="lib\linx\css\linx-common.less" />
+    <EmbeddedResource Include="lib\metronic\fonts\a.woff" />
+    <EmbeddedResource Include="lib\metronic\fonts\b.woff" />
+    <EmbeddedResource Include="lib\metronic\fonts\c.woff" />
+    <EmbeddedResource Include="lib\metronic\fonts\d.woff" />
+    <EmbeddedResource Include="lib\metronic\img\ajax-loading.gif" />
+    <EmbeddedResource Include="lib\metronic\img\ajax-modal-loading.gif" />
+    <EmbeddedResource Include="lib\metronic\img\loading.gif" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_editable\img\clear.png" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_editable\img\loading.gif" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_editable\js\bootstrap-editable-tree.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_editable\js\bootstrap-editable.js" />
+    <EmbeddedResource Include="lib\metronic\css\themes\black.less" />
+    <EmbeddedResource Include="lib\metronic\css\themes\default.less" />
+    <EmbeddedResource Include="lib\metronic\css\themes\orange.less" />
+    <EmbeddedResource Include="lib\metronic\css\components.less" />
+    <EmbeddedResource Include="App\views\shared\modalCustomSearchTreeView.html" />
+    <EmbeddedResource Include="App\viewmodels\shared\modalCustomSearchTreeView.js" />
+    <EmbeddedResource Include="App\viewmodels\shared\modalChangePassword.js" />
+    <EmbeddedResource Include="App\views\shared\modalChangePassword.html" />
+    <EmbeddedResource Include="App\managers\error.js" />
+    <EmbeddedResource Include="App\viewmodels\shared\modalConsole.js" />
+    <EmbeddedResource Include="App\views\shared\modalConsole.html" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\infragistics.theme.css" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\infragistics.theme.less" />
+    <EmbeddedResource Include="lib\linx\css\linx-common-responsive.less" />
+    <EmbeddedResource Include="lib\linx\css\linx-custom-flexmonster.less" />
+    <EmbeddedResource Include="lib\linx\css\font\OpenSans-Regular.ttf" />
+    <EmbeddedResource Include="lib\linx\css\linx-theme-default.less" />
+    <EmbeddedResource Include="lib\linx\css\font\Dosis-Bold.ttf" />
+    <EmbeddedResource Include="lib\linx\css\font\Dosis-Light.ttf" />
+    <EmbeddedResource Include="lib\linx\css\font\Dosis-Medium.ttf" />
+    <EmbeddedResource Include="lib\linx\css\font\Dosis-SemiBold.ttf" />
+    <EmbeddedResource Include="lib\linx\css\font\NeoSansPro-Bold.ttf" />
+    <EmbeddedResource Include="lib\linx\css\font\NeoSansPro-Light.ttf" />
+    <EmbeddedResource Include="lib\linx\css\font\NeoSansPro-Medium.ttf" />
+    <EmbeddedResource Include="lib\linx\css\font\NeoSansPro-Regular.ttf" />
+    <EmbeddedResource Include="lib\linx\css\font\icarros.eot" />
+    <EmbeddedResource Include="lib\linx\css\font\icarros.ttf" />
+    <EmbeddedResource Include="lib\linx\css\font\icarros.woff" />
+    <EmbeddedResource Include="lib\jspanel\fonts\jsglyph.svg" />
+    <EmbeddedResource Include="lib\jspanel\jquery.jspanel-compiled.js" />
+    <EmbeddedResource Include="lib\jspanel\jquery.jspanel-compiled.min.js" />
+    <EmbeddedResource Include="lib\jspanel\jquery.jspanel.js" />
+    <EmbeddedResource Include="lib\jspanel\jquery.jspanel.less" />
+    <EmbeddedResource Include="lib\jspanel\fonts\jsglyph.eot" />
+    <EmbeddedResource Include="lib\jspanel\fonts\jsglyph.ttf" />
+    <EmbeddedResource Include="lib\jspanel\fonts\jsglyph.woff" />
+    <EmbeddedResource Include="lib\jspanel\jquery.jspanel.sass" />
+    <EmbeddedResource Include="lib\jspanel\_jsglyph.sass" />
+    <EmbeddedResource Include="lib\jspanel\_themes.sass" />
+    <EmbeddedResource Include="lib\jspanel\_themes_mdl_styles.sass" />
+    <EmbeddedResource Include="App\views\shared\modalPivotSaveLayout.html" />
+    <EmbeddedResource Include="App\viewmodels\shared\modalPivotSaveLayout.js" />
+    <Content Include="lib\jstree\themes\default\style.less" />
+    <None Include="lib\metronic\plugins\bootstrap_modal\css\bootstrap-modal-bs3patch.less" />
+    <None Include="lib\metronic\plugins\bootstrap_modal\css\bootstrap-modal.less" />
+    <None Include="lib\metronic\plugins\bootstrap_modal\img\ajax-loader.gif" />
+    <None Include="lib\metronic\plugins\bootstrap_modal\js\bootstrap-modal.js" />
+    <None Include="lib\metronic\plugins\bootstrap_modal\js\bootstrap-modalmanager.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_toastr\toastr.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_editable\js\bootstrap-editable-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_wysihtml5\bootstrap-wysihtml5.js" />
+    <None Include="lib\metronic\plugins\bootstrap_wysihtml5\wysiwyg-color.css" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap\js\bootstrap.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\fancybox\source\blank.gif" />
+    <EmbeddedResource Include="lib\metronic\plugins\fancybox\source\fancybox_loading.gif" />
+    <EmbeddedResource Include="lib\metronic\plugins\fancybox\source\fancybox_overlay.png" />
+    <EmbeddedResource Include="lib\metronic\plugins\fancybox\source\fancybox_sprite.png" />
+    <None Include="lib\metronic\plugins\fancybox\source\helpers\fancybox_buttons.png" />
+    <EmbeddedResource Include="lib\metronic\plugins\fancybox\source\jquery-fancybox.less" />
+    <None Include="lib\metronic\plugins\font_awesome\css\font-awesome.css" />
+    <EmbeddedResource Include="lib\metronic\plugins\font_awesome\fonts\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="lib\metronic\plugins\font_awesome\fonts\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="lib\metronic\plugins\font_awesome\fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="lib\metronic\plugins\font_awesome\fonts\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="lib\metronic\plugins\font_awesome\fonts\FontAwesome.otf" />
+    <None Include="lib\metronic\plugins\jquery_file_upload\css\demo-ie8.css" />
+    <None Include="lib\metronic\plugins\jquery_file_upload\css\demo.css" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\css\jquery-fileupload-ui.less" />
+    <None Include="lib\metronic\plugins\jquery_file_upload\css\style.css" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\img\loading.gif" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\img\progressbar.gif" />
+    <None Include="lib\metronic\plugins\jquery_file_upload\js\app.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\select2\select2-spinner.gif" />
+    <EmbeddedResource Include="lib\metronic\plugins\select2\select2.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\select2\select2.png" />
+    <EmbeddedResource Include="lib\metronic\plugins\select2\select2x2.png" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_wizard\jquery-bootstrap-wizard-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_wizard\jquery-bootstrap-wizard.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_wysihtml5\wysihtml5-0-3-0.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery-blockui-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery-cookie-min.js" />
+    <None Include="lib\metronic\plugins\jquery_file_upload\css\jquery-fileupload-noscript.css" />
+    <None Include="lib\metronic\plugins\jquery_file_upload\css\jquery-fileupload-ui-noscript.css" />
+    <None Include="lib\metronic\plugins\jquery_file_upload\css\jquery-fileupload-ui.css" />
+    <None Include="lib\metronic\plugins\jquery_file_upload\css\jquery-fileupload.css" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\jquery-fileupload-angular.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\jquery-fileupload-audio.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\jquery-fileupload-image.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\jquery-fileupload-jquery-ui.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\jquery-fileupload-process.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\jquery-fileupload-ui.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\jquery-fileupload-validate.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\jquery-fileupload-video.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\jquery-fileupload.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\jquery-iframe-transport.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\vendor\canvas-to-blob-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\vendor\jquery-blueimp-gallery-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\vendor\jquery-ui-widget.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\vendor\load-image-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_file_upload\js\vendor\tmpl-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_slimscroll\jquery-slimscroll-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_slimscroll\jquery-slimscroll.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\moment-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\fancybox\source\jquery-fancybox-pack.js" />
+    <None Include="lib\metronic\plugins\fancybox\source\jquery-fancybox.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\excanvas-min.js" />
+    <None Include="lib\metronic\plugins\fancybox\source\helpers\jquery-fancybox-buttons.css" />
+    <None Include="lib\metronic\plugins\fancybox\source\helpers\jquery-fancybox-buttons.js" />
+    <None Include="lib\metronic\plugins\fancybox\source\helpers\jquery-fancybox-media.js" />
+    <None Include="lib\metronic\plugins\fancybox\source\helpers\jquery-fancybox-thumbs.css" />
+    <None Include="lib\metronic\plugins\fancybox\source\helpers\jquery-fancybox-thumbs.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_ui\jquery-ui-1-10-2-custom-min.js" />
+    <None Include="lib\metronic\plugins\font_awesome\css\font-awesome-min.css" />
+    <EmbeddedResource Include="lib\metronic\plugins\select2\select2_locale_pt-BR.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\simple_line_icons\fonts\Simple-Line-Icons.eot" />
+    <EmbeddedResource Include="lib\metronic\plugins\simple_line_icons\fonts\Simple-Line-Icons.ttf" />
+    <EmbeddedResource Include="lib\metronic\plugins\simple_line_icons\fonts\Simple-Line-Icons.woff" />
+    <EmbeddedResource Include="lib\metronic\plugins\uniform\css\uniform-default.less" />
+    <EmbeddedResource Include="lib\metronic\plugins\tabdrop\less\tabdrop.less" />
+    <None Include="lib\metronic\plugins\uniform\images\bg-input-focus.png" />
+    <None Include="lib\metronic\plugins\uniform\images\bg-input.png" />
+    <None Include="lib\metronic\plugins\uniform\images\sprite.png" />
+    <None Include="lib\metronic\plugins\uniform\images\sprite_original.png" />
+    <EmbeddedResource Include="lib\metronic\scripts\app.js" />
+    <EmbeddedResource Include="lib\metronic\scripts\form-components.js" />
+    <EmbeddedResource Include="lib\modernizr\modernizr-latest.js" />
+    <EmbeddedResource Include="lib\moment\moment.js" />
+    <EmbeddedResource Include="lib\q\q.js" />
+    <EmbeddedResource Include="lib\requirejs\r.js" />
+    <EmbeddedResource Include="lib\requirejs\require.js" />
+    <EmbeddedResource Include="lib\requirejs\text.js" />
+    <EmbeddedResource Include="App\viewmodels\shell\_footer.js" />
+    <EmbeddedResource Include="App\viewmodels\shell\_window.js" />
+    <EmbeddedResource Include="lib\metronic\img\loading-spinner-grey.gif" />
+    <EmbeddedResource Include="App\widgets\brand\view.html" />
+    <EmbeddedResource Include="App\widgets\brand\viewmodel.js" />
+    <EmbeddedResource Include="App\managers\brand.js" />
+    <EmbeddedResource Include="lib\linx\img\bg_logo.png" />
+    <EmbeddedResource Include="lib\linx\img\logo-marca.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module90000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module220000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module260000.png" />
+    <EmbeddedResource Include="lib\globalize\globalize.js" />
+    <EmbeddedResource Include="App\services\CustomSearchDataDomains.js" />
+    <EmbeddedResource Include="App\viewmodels\shared\modalCustomSearch.js" />
+    <EmbeddedResource Include="App\views\shared\modalCustomSearch.html" />
+    <EmbeddedResource Include="lib\font_awesome\font-awesome.less" />
+    <EmbeddedResource Include="lib\metronic\plugins\font_awesome\css\font-awesome.less" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap\css\bootstrap.less" />
+    <None Include="lib\metronic\plugins\select2\select2.less" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_wysihtml5\bootstrap-wysihtml5.less" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_editable\css\bootstrap-editable.less" />
+    <EmbeddedResource Include="lib\metronic\plugins\select2\select2_metro.less" />
+    <EmbeddedResource Include="lib\metronic\css\style-metronic.less" />
+    <EmbeddedResource Include="lib\metronic\fonts\font.less" />
+    <EmbeddedResource Include="lib\metronic\css\style.less" />
+    <EmbeddedResource Include="lib\metronic\css\style-responsive.less" />
+    <EmbeddedResource Include="lib\metronic\css\plugins.less" />
+    <EmbeddedResource Include="lib\metronic\css\custom.less" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_toastr\toastr.less" />
+    <EmbeddedResource Include="lib\linx\img\modules\module70000.png" />
+    <EmbeddedResource Include="App\managers\window.js" />
+    <EmbeddedResource Include="lib\linx\img\modules\module270000.png" />
+    <EmbeddedResource Include="App\views\shared\modalMultimidia.html" />
+    <EmbeddedResource Include="App\viewmodels\shared\modalMultimidia.js" />
+    <EmbeddedResource Include="App\views\shared\modal.html" />
+    <EmbeddedResource Include="App\widgets\thumb\view.html" />
+    <EmbeddedResource Include="App\widgets\thumb\viewmodel.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\jreject\images\background_browser.gif" />
+    <EmbeddedResource Include="lib\jquery\plugins\jreject\images\browser_chrome.gif" />
+    <EmbeddedResource Include="lib\jquery\plugins\jreject\images\browser_firefox.gif" />
+    <EmbeddedResource Include="lib\jquery\plugins\jreject\images\browser_konqueror.gif" />
+    <EmbeddedResource Include="lib\jquery\plugins\jreject\images\browser_msie.gif" />
+    <EmbeddedResource Include="lib\jquery\plugins\jreject\images\browser_opera.gif" />
+    <EmbeddedResource Include="lib\jquery\plugins\jreject\images\browser_safari.gif" />
+    <EmbeddedResource Include="App\viewmodels\report.js" />
+    <EmbeddedResource Include="App\views\report.html" />
+    <EmbeddedResource Include="App\views\shell\_sidebarcontent.html" />
+    <EmbeddedResource Include="App\viewmodels\shell\_sidebarcontent.js">
+      <LastGenOutput>_sidebar.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="lib\metronic\plugins\simple_line_icons\fonts\Simple-Line-Icons.svg" />
+    <None Include="lib\metronic\plugins\simple_line_icons\icons-lte-ie7.js" />
+    <None Include="lib\metronic\plugins\simple_line_icons\License.txt" />
+    <None Include="lib\metronic\plugins\simple_line_icons\Readme.txt" />
+    <None Include="lib\metronic\plugins\simple_line_icons\simple-line-icons.css" />
+    <EmbeddedResource Include="lib\metronic\scripts\quick-sidebar.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\simple_line_icons\simple-line-icons.less" />
+    <EmbeddedResource Include="lib\linx\img\modules\module60000.png" />
+    <EmbeddedResource Include="App\managers\globalevent.js" />
+    <EmbeddedResource Include="App\widgets\branditem\view.html" />
+    <EmbeddedResource Include="App\widgets\branditem\viewmodel.js" />
+    <EmbeddedResource Include="App\views\reportviewer.html" />
+    <EmbeddedResource Include="App\viewmodels\reportviewer.js" />
+    <EmbeddedResource Include="App\views\shell\_headerclean.html" />
+    <EmbeddedResource Include="App\viewmodels\shell\_headerclean.js" />
+    <EmbeddedResource Include="App\widgets\breadcrumb\view.html" />
+    <EmbeddedResource Include="App\widgets\breadcrumb\viewmodel.js" />
+    <EmbeddedResource Include="lib\telerik_kendoui\styles\BlueOpal\sprite.png" />
+    <EmbeddedResource Include="lib\linx\img\redes\logo-redes.png" />
+    <EmbeddedResource Include="lib\linx\img\redes\logo-redes-vazio.png" />
+    <EmbeddedResource Include="lib\linx\img\redes\logo-rede-vazio.png" />
+    <EmbeddedResource Include="App\widgets\datatoolbar\view.html" />
+    <EmbeddedResource Include="App\widgets\datatoolbar\viewmodel.js" />
+    <EmbeddedResource Include="lib\linx\img\pixel.gif" />
+    <EmbeddedResource Include="lib\breeze\breeze-base-min.js" />
+    <None Include="lib\breeze\breeze-base.js" />
+    <None Include="lib\breeze\breeze-intellisense.js" />
+    <EmbeddedResource Include="lib\breeze\breeze-min.js" />
+    <None Include="lib\font_awesome\font-awesome-ie7-min.css" />
+    <None Include="lib\font_awesome\font-awesome-min.css" />
+    <EmbeddedResource Include="lib\globalize\cultures\globalize-culture-pt-BR.js" />
+    <EmbeddedResource Include="lib\globalize\cultures\globalize-culture-pt-BR2.js" />
+    <EmbeddedResource Include="lib\globalize\cultures\globalize-cultures.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\iframeResizer-min.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\jquery-ui-1-10-3-custom-min.js" />
+    <None Include="lib\jquery\plugins\jquery-ui-1-10-3-custom.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\jquery-ui-datepicker-pt-BR.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\jreject\js\jquery-reject.js" />
+    <EmbeddedResource Include="lib\knockout\knockout-mapping-latest-min.js" />
+    <EmbeddedResource Include="lib\knockout\knockout-mapping-latest.js" />
+    <EmbeddedResource Include="lib\linx\js\linx-common.js" />
+    <EmbeddedResource Include="lib\math\Math-uuid.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_toastr\toastr-min.js" />
+    <None Include="lib\metronic\plugins\bootstrap\css\bootstrap-min.css" />
+    <None Include="lib\metronic\plugins\bootstrap\css\bootstrap.css" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap\js\bootstrap-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery-1-10-2-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery-migrate-1-2-1-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_ui\jquery-ui-1-10-3-custom-min.css" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_ui\jquery-ui-1-10-3-custom-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_ui\jquery-ui-1-10-3-custom.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\select2\select2-min.js" />
+    <None Include="lib\metronic\plugins\uniform\css\uniform-default-min.css" />
+    <EmbeddedResource Include="lib\metronic\plugins\uniform\jquery-uniform-min.js" />
+    <None Include="lib\metronic\plugins\uniform\jquery-uniform.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\simple_line_icons\fonts\Simple-Line-Icons-dev.svg" />
+    <None Include="lib\metronic\plugins\simple_line_icons\simple-line-icons-min.css" />
+    <EmbeddedResource Include="lib\moment\moment-min.js" />
+    <EmbeddedResource Include="lib\telerik_kendoui\js\jquery-min.js" />
+    <EmbeddedResource Include="lib\telerik_kendoui\js\kendo-all-min.js" />
+    <EmbeddedResource Include="lib\metronic\img\portlet-collapse-icon-white.png" />
+    <EmbeddedResource Include="lib\metronic\img\portlet-collapse-icon.png" />
+    <EmbeddedResource Include="lib\metronic\img\portlet-expand-icon-white.png" />
+    <EmbeddedResource Include="lib\metronic\img\portlet-expand-icon.png" />
+    <EmbeddedResource Include="lib\miniprofiler\includes.tmpl" />
+    <EmbeddedResource Include="App\views\shell\_mmenu.html" />
+    <EmbeddedResource Include="App\viewmodels\shell\_mmenu.js" />
+    <EmbeddedResource Include="lib\swiper\js\maps\swiper.jquery.min.js.map" />
+    <EmbeddedResource Include="lib\swiper\js\maps\swiper.jquery.umd.min.js.map" />
+    <EmbeddedResource Include="lib\swiper\js\maps\swiper.min.js.map" />
+    <None Include="lib\telerik_kendoui\js\kendo-dataviz-min.js" />
+    <None Include="lib\telerik_kendoui\js\kendo-web-min.js" />
+    <EmbeddedResource Include="lib\telerik_kendoui\styles\kendo-dataviz-default-min.css" />
+    <EmbeddedResource Include="lib\telerik_kendoui\styles\kendo-dataviz-min.css" />
+    <EmbeddedResource Include="lib\metronic\img\remove-icon-small-white.png" />
+    <EmbeddedResource Include="lib\metronic\img\remove-icon-small.png" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_tagsinput\bootstrap-tagsinput.css" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_tagsinput\bootstrap-tagsinput.js" />
+    <EmbeddedResource Include="lib\linx\js\linx-functions.js" />
+    <EmbeddedResource Include="lib\telerik_kendoui\js\print.min.js" />
+    <Content Include="PageOpen.html" />
+    <EmbeddedResource Include="lib\knockout\knockout-3-1-0.js" />
+    <EmbeddedResource Include="lib\knockout\knockout-3-1-0-min.js" />
+    <EmbeddedResource Include="lib\metronic\img\syncfusion-icons-white.png" />
+    <EmbeddedResource Include="lib\metronic\img\syncfusion-icons.png" />
+    <EmbeddedResource Include="lib\linx\js\start.js" />
+    <EmbeddedResource Include="lib\linx\js\config-require.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\tabdrop\css\tabdrop.css" />
+    <EmbeddedResource Include="lib\metronic\plugins\tabdrop\js\bootstrap-tabdrop.js" />
+    <EmbeddedResource Include="lib\metronic\img\menu-toggler.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module30000.png" />
+    <EmbeddedResource Include="lib\jquery\plugins\jquery_ezstorage\jquery-ezstorage.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\infragistics.css" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-datasource-knockoutjs-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-datasource-knockoutjs.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-ui-combo-knockout-extensions-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-ui-combo-knockout-extensions.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-ui-datachart-knockout-extensions-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-ui-datachart-knockout-extensions.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-ui-editors-knockout-extensions-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-ui-editors-knockout-extensions.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-ui-grid-knockout-extensions-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-ui-grid-knockout-extensions.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-ui-tree-knockout-extensions-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\extensions\infragistics-ui-tree-knockout-extensions.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\infragistics-core-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\infragistics-core.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\infragistics-dvv-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\infragistics-dvv.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\infragistics-loader-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\infragistics-loader.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\infragistics-lob-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\infragistics-lob.js" />
+    <None Include="lib\infragistics_igniteui\css\themes\infragistics\images\igRating\ig-rating.png" />
+    <None Include="lib\infragistics_igniteui\css\themes\infragistics\images\igVideoPlayer\igVideoPlayerIcons.png" />
+    <None Include="lib\infragistics_igniteui\css\themes\infragistics\images\igVideoPlayer\igVPBackground.png" />
+    <None Include="lib\infragistics_igniteui\css\themes\infragistics\images\igVideoPlayer\igVPBookmarkSprite.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\images\icon_sprite.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\images\ui-anim_basic_16x16.gif" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\images\ui-icons_222222_256x240.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\images\ui-icons_228ef1_256x240.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\images\ui-icons_888888_256x240.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\themes\infragistics\images\ui-icons_ffffff_256x240.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\modules\i18n\regional\infragistics-ui-regional-i18n-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\modules\i18n\regional\infragistics-ui-regional-i18n.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\modules\i18n\regional\infragistics-ui-regional-pt-BR.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\modules\infragistics-util-min.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\modules\infragistics-util.js" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\js\modules\i18n\regional\infragistics-ui-regional-pt-BR-min.js" />
+    <EmbeddedResource Include="lib\q\q-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_switch\js\bootstrap-switch-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_switch\css\bootstrap-switch-min.css" />
+    <EmbeddedResource Include="App\viewmodels\shared\modalLookUp.js" />
+    <EmbeddedResource Include="App\views\shared\modalLookUp.html" />
+    <EmbeddedResource Include="lib\jquery\plugins\jstree\jstree.min.js" />
+    <None Include="lib\jquery\plugins\jstree\libs\document-register-element.js" />
+    <None Include="lib\jquery\plugins\jstree\libs\jquery.js" />
+    <None Include="lib\jquery\plugins\jstree\libs\require.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\jstree\themes\default\32px.png" />
+    <EmbeddedResource Include="lib\jquery\plugins\jstree\themes\default\40px.png" />
+    <EmbeddedResource Include="lib\jquery\plugins\jstree\themes\default\style.less" />
+    <EmbeddedResource Include="lib\jquery\plugins\jstree\themes\default\style-min.less" />
+    <EmbeddedResource Include="lib\jquery\plugins\jstree\themes\default\throbber.gif" />
+    <None Include="lib\jquery\plugins\jsrender\jsrender.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\jsrender\jsrender-min.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\jstree\jstree.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery-1-10-2.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\jquery_lazy\jquery-lazy-min.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\jquery_lazy\jquery-lazy.js" />
+    <EmbeddedResource Include="App\viewmodels\shared\modalCustomSearchSaveDialog.js" />
+    <EmbeddedResource Include="App\views\shared\modalCustomSearchSaveDialog.html" />
+    <EmbeddedResource Include="lib\linx\img\modules\module200000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module110000.png" />
+    <EmbeddedResource Include="lib\linx\js\start-clean.js" />
+    <EmbeddedResource Include="App\views\shared\modalMultimidiaBatch.html" />
+    <EmbeddedResource Include="App\viewmodels\shared\modalMultimidiaBatch.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_validation\js\jquery-validate-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\jquery_validation\js\jquery-validate.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\ion_rangeslider\css\ion-rangeSlider-Metronic.less" />
+    <EmbeddedResource Include="lib\metronic\plugins\ion_rangeslider\js\ion-rangeSlider-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\ion_rangeslider\js\ion-rangeSlider.js" />
+    <None Include="lib\metronic\plugins\bootstrap_touchspin\css\jquery-bootstrap-touchspin.less" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_touchspin\js\jquery-bootstrap-touchspin-min.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\bootstrap_touchspin\js\jquery-bootstrap-touchspin.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\fullcalendar\fullcalendar.less" />
+    <EmbeddedResource Include="lib\metronic\plugins\fullcalendar\fullcalendar.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\fullcalendar\fullcalendar-min.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\fullcalendar-print.less" />
+    <None Include="lib\metronic\plugins\fullcalendar\gcal.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang-all.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\ar-ma.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\ar-sa.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\ar.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\bg.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\ca.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\cs.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\da.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\de-at.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\de.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\el.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\en-au.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\en-ca.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\en-gb.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\es.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\fa.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\fi.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\fr-ca.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\fr.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\hi.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\hr.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\hu.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\id.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\is.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\it.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\ja.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\ko.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\lt.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\lv.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\nl.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\pl.js" />
+    <EmbeddedResource Include="lib\metronic\plugins\fullcalendar\lang\pt-br.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\pt.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\ro.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\ru.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\sk.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\sl.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\sr-cyrl.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\sr.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\sv.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\th.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\tr.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\uk.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\vi.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\zh-cn.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lang\zh-tw.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\animated-overlay.gif" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-bg_flat_15_cd0a0a_40x100.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-bg_glass_100_e4f1fb_1x400.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-bg_glass_50_3baae3_1x400.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-bg_glass_80_d7ebf9_1x400.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-bg_highlight-hard_100_f2f5f7_1x100.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-bg_highlight-hard_70_000000_1x100.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-bg_highlight-soft_100_deedf7_1x100.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-bg_highlight-soft_25_ffef8f_1x100.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-icons_2694e8_256x240.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-icons_2e83ff_256x240.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-icons_3d80b3_256x240.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-icons_72a7cf_256x240.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\images\ui-icons_ffffff_256x240.png" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\cupertino\jquery-ui.min.css" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\jquery-ui.custom.min.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\jquery.min.js" />
+    <None Include="lib\metronic\plugins\fullcalendar\lib\moment.min.js" />
+    <EmbeddedResource Include="lib\linx\img\modules\module00000000-0000-0000-0000-000000000000.png" />
+    <EmbeddedResource Include="lib\jquery\plugins\gridster\css\jquery-gridster-min.less" />
+    <EmbeddedResource Include="lib\jquery\plugins\gridster\js\jquery-gridster-min.js" />
+    <EmbeddedResource Include="lib\linx\img\modules\module250000.png" />
+    <EmbeddedResource Include="App\managers\hub.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\signalr\jquery-signalr.js" />
+    <EmbeddedResource Include="lib\jquery\plugins\signalr\jquery-signalr-min.js" />
+    <EmbeddedResource Include="App\managers\routes.js" />
+    <EmbeddedResource Include="lib\miniprofiler\include.partial.html" />
+    <EmbeddedResource Include="lib\miniprofiler\includes.css" />
+    <EmbeddedResource Include="lib\miniprofiler\includes.js" />
+    <EmbeddedResource Include="lib\miniprofiler\share.html" />
+    <EmbeddedResource Include="App\viewmodels\shared\addCustomExport.js" />
+    <EmbeddedResource Include="App\viewmodels\shared\customExport.js" />
+    <EmbeddedResource Include="App\views\shared\customExport.html" />
+    <EmbeddedResource Include="App\views\shared\addCustomExport.html" />
+    <EmbeddedResource Include="lib\requirejs\cache.js" />
+    <EmbeddedResource Include="lib\telerik_kendoui\js\telerikReportViewer-9-0-15-422.js" />
+    <EmbeddedResource Include="lib\telerik_kendoui\js\telerikReportViewer-9-0-15-422-min.js" />
+    <EmbeddedResource Include="lib\telerik_kendoui\styles\telerikReportViewer-9-0-15-422.less" />
+    <EmbeddedResource Include="lib\telerik_kendoui\templates\telerikReportViewerTemplate-9-0-15-422.html" />
+    <EmbeddedResource Include="App\viewmodels\shared\modalCustomSearchUserParameters.js" />
+    <EmbeddedResource Include="App\views\shared\modalCustomSearchUserParameters.html" />
+    <EmbeddedResource Include="App\managers\predefinedFilters.js" />
+    <EmbeddedResource Include="lib\telerik_kendoui\js\cultures\kendo.culture.pt-BR.min.js" />
+    <EmbeddedResource Include="lib\lodash\lodash.min.js" />
+    <EmbeddedResource Include="App\views\shared\modal2.html" />
+    <EmbeddedResource Include="App\viewmodels\shared\modal2.js" />
+    <EmbeddedResource Include="App\viewmodels\shared\modalSupportRequestUrl.js" />
+    <EmbeddedResource Include="App\views\shared\modalSupportRequestUrl.html" />
+    <EmbeddedResource Include="lib\clipboard\clipboard.js" />
+    <EmbeddedResource Include="lib\clipboard\clipboard.min.js" />
+    <EmbeddedResource Include="lib\requirejs\json.js" />
+    <EmbeddedResource Include="lib\linx\img\favicon-16x16.png" />
+    <EmbeddedResource Include="lib\linx\img\favicon-32x32.png" />
+    <EmbeddedResource Include="lib\linx\img\favicon-96x96.png" />
+    <EmbeddedResource Include="AppLogin\common.js" />
+    <EmbeddedResource Include="AppLogin\main.js" />
+    <EmbeddedResource Include="AppLogin\managers\error.js" />
+    <EmbeddedResource Include="AppLogin\managers\routes.js" />
+    <EmbeddedResource Include="AppLogin\services\logger.js" />
+    <EmbeddedResource Include="AppLogin\viewmodels\404.js" />
+    <EmbeddedResource Include="AppLogin\viewmodels\routes.js" />
+    <EmbeddedResource Include="AppLogin\viewmodels\shell.js" />
+    <EmbeddedResource Include="AppLogin\viewmodels\shell\_footer.js" />
+    <EmbeddedResource Include="AppLogin\viewmodels\shell\_header.js" />
+    <EmbeddedResource Include="AppLogin\viewmodels\shell\_headerclean.js" />
+    <EmbeddedResource Include="AppLogin\viewmodels\tools.js" />
+    <EmbeddedResource Include="AppLogin\views\404.html" />
+    <EmbeddedResource Include="AppLogin\views\menus.html" />
+    <EmbeddedResource Include="AppLogin\views\menusdev.html" />
+    <EmbeddedResource Include="AppLogin\views\modules.html" />
+    <EmbeddedResource Include="AppLogin\views\modulesdev.html" />
+    <EmbeddedResource Include="AppLogin\views\routes.html" />
+    <EmbeddedResource Include="AppLogin\views\shell.html" />
+    <EmbeddedResource Include="AppLogin\views\shell\_footer.html" />
+    <EmbeddedResource Include="AppLogin\views\shell\_header.html" />
+    <EmbeddedResource Include="AppLogin\views\shell\_headerclean.html" />
+    <EmbeddedResource Include="AppLogin\views\tools.html" />
+    <EmbeddedResource Include="AppLogin\viewmodels\shared\modalConsole.js" />
+    <EmbeddedResource Include="AppLogin\views\shared\modalConsole.html" />
+    <EmbeddedResource Include="AppLogin\widgets\breadcrumb\view.html" />
+    <EmbeddedResource Include="AppLogin\widgets\breadcrumb\viewmodel.js" />
+    <EmbeddedResource Include="AppLogin\viewmodels\shared\modal.js" />
+    <EmbeddedResource Include="AppLogin\views\shared\modal.html" />
+    <EmbeddedResource Include="AppLogin\views\loginPOS.html" />
+    <EmbeddedResource Include="AppLogin\viewmodels\loginPOS.js" />
+    <EmbeddedResource Include="App\managers\authTOTP.js" />
+    <EmbeddedResource Include="App\views\embeddedApp.html" />
+    <EmbeddedResource Include="App\viewmodels\embeddedApp.js" />
+    <EmbeddedResource Include="App\viewmodels\shell\_menu.js" />
+    <EmbeddedResource Include="App\views\shell\_header_old.html" />
+    <EmbeddedResource Include="App\views\shell\_menu.html" />
+    <EmbeddedResource Include="App\viewmodels\shared\gridConfiguration.js" />
+    <EmbeddedResource Include="App\views\shared\gridConfiguration.html" />
+    <EmbeddedResource Include="App\viewmodels\shared\layoutEditor.js" />
+    <EmbeddedResource Include="App\views\shared\layoutEditor.html" />
+    <EmbeddedResource Include="App\views\shared\layoutConfiguration.html" />
+    <EmbeddedResource Include="App\viewmodels\shared\layoutConfiguration.js" />
+    <EmbeddedResource Include="App\viewmodels\shared\customLayoutForm.js" />
+    <EmbeddedResource Include="App\views\shared\customLayoutForm.html" />
+    <EmbeddedResource Include="App\managers\message.js" />
+    <EmbeddedResource Include="App\viewmodels\shell\_notificationbar.js">
+      <LastGenOutput>_sidebar.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\views\shell\_notificationbar.html" />
+    <EmbeddedResource Include="App\viewmodels\shell\_modalnotification.js" />
+    <EmbeddedResource Include="App\views\shell\_modalnotification.html" />
+    <EmbeddedResource Include="App\viewmodels\shared\languages_sidebar\sidebar_en-us.js" />
+    <EmbeddedResource Include="App\viewmodels\shared\languages_sidebar\sidebar_es-es.js" />
+    <Content Include="icon.png" />
+    <EmbeddedResource Include="lib\jsSHA\sha.js" />
+    <EmbeddedResource Include="lib\jsSHA\sha1.js" />
+    <EmbeddedResource Include="lib\jsSHA\sha256.js" />
+    <EmbeddedResource Include="lib\jsSHA\sha512.js" />
+    <EmbeddedResource Include="lib\jsSHA\sha_dev.js" />
+    <EmbeddedResource Include="lib\hi_base32\base32.js" />
+    <EmbeddedResource Include="lib\fuse\fuse.js" />
+    <EmbeddedResource Include="lib\hi_base32\base32.min.js" />
+    <EmbeddedResource Include="lib\linx\img\modules\module320000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module330000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module340000.png" />
+    <EmbeddedResource Include="lib\linx\img\modules\module350000.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\css\structure\images\igHtmlEditor\html-editor-sprite.png" />
+    <EmbeddedResource Include="lib\linx\css\img\logo.png" />
+    <EmbeddedResource Include="lib\infragistics_igniteui\CustomLinx\gridSaveStates.js" />
+    <EmbeddedResource Include="lib\gridster\jquery.gridster.css" />
+    <EmbeddedResource Include="lib\gridster\jquery.gridster.js" />
+    <EmbeddedResource Include="lib\gridster\jquery.gridster.min.css" />
+    <EmbeddedResource Include="lib\gridster\jquery.gridster.min.js" />
+    <EmbeddedResource Include="lib\gridster\jquery.gridster.with-extras.js" />
+    <EmbeddedResource Include="lib\gridster\jquery.gridster.with-extras.min.js" />
+    <EmbeddedResource Include="lib\swiper\css\swiper.css" />
+    <EmbeddedResource Include="lib\swiper\css\swiper.min.css" />
+    <EmbeddedResource Include="lib\swiper\js\swiper.jquery.js" />
+    <EmbeddedResource Include="lib\swiper\js\swiper.jquery.min.js" />
+    <EmbeddedResource Include="lib\swiper\js\swiper.jquery.umd.js" />
+    <EmbeddedResource Include="lib\swiper\js\swiper.jquery.umd.min.js" />
+    <EmbeddedResource Include="lib\swiper\js\swiper.js" />
+    <EmbeddedResource Include="lib\swiper\js\swiper.min.js" />
+    <EmbeddedResource Include="lib\linx\css\font\icarros.svg" />
+    <EmbeddedResource Include="lib\mark\jquery.mark.min.js" />
+    <EmbeddedResource Include="lib\sifter\sifter.min.js" />
+    <EmbeddedResource Include="lib\html2canvas\html2canvas.js" />
+    <EmbeddedResource Include="lib\html2canvas\html2canvas.svg.js" />
+    <EmbeddedResource Include="lib\pdfmake\pdfmake.min.js" />
+    <EmbeddedResource Include="lib\jspanel\jquery.jspanel.min.css" />
+    <EmbeddedResource Include="lib\jspanel\jquery.jspanel.min.js" />
+    <EmbeddedResource Include="lib\jspanel\LICENSE.TXT" />
+    <EmbeddedResource Include="lib\jstree\jstree.js" />
+    <EmbeddedResource Include="lib\jstree\jstree.min.js" />
+    <EmbeddedResource Include="lib\jstree\themes\default-dark\32px.png" />
+    <EmbeddedResource Include="lib\jstree\themes\default-dark\40px.png" />
+    <EmbeddedResource Include="lib\jstree\themes\default-dark\style.css" />
+    <EmbeddedResource Include="lib\jstree\themes\default-dark\style.min.css" />
+    <EmbeddedResource Include="lib\jstree\themes\default-dark\throbber.gif" />
+    <EmbeddedResource Include="lib\jstree\themes\default\32px.png" />
+    <EmbeddedResource Include="lib\jstree\themes\default\40px.png" />
+    <EmbeddedResource Include="lib\jstree\themes\default\style.min.css" />
+    <EmbeddedResource Include="lib\jstree\themes\default\throbber.gif" />
+    <EmbeddedResource Include="lib\flexmonster\flexmonster.css" />
+    <None Include="lib\flexmonster\flexmonster.min.css" />
+    <EmbeddedResource Include="lib\flexmonster\lib\canvg.min.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\d3.min.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\file.min.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\flexmonster.fusioncharts.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\flexmonster.googlecharts.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\flexmonster.highcharts.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\html2canvas.min.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\jquery.min.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\jspdf.min.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\jszip.min.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\promise.min.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\sha1.min.js" />
+    <EmbeddedResource Include="lib\flexmonster\lib\zlib.min.js" />
+    <None Include="lib\flexmonster\README - Translate.txt" />
+    <None Include="lib\flexmonster\theme\assets\flexmonster-icons.svg" />
+    <None Include="lib\flexmonster\theme\lightblue\flexmonster.css" />
+    <None Include="lib\flexmonster\theme\lightblue\flexmonster.min.css" />
+    <None Include="lib\flexmonster\theme\old\flexmonster.css" />
+    <None Include="lib\flexmonster\theme\old\flexmonster.min.css" />
+    <None Include="lib\flexmonster\theme\orange\flexmonster.css" />
+    <None Include="lib\flexmonster\theme\orange\flexmonster.min.css" />
+    <None Include="lib\flexmonster\theme\teal\flexmonster.css" />
+    <None Include="lib\flexmonster\theme\teal\flexmonster.min.css" />
+    <EmbeddedResource Include="lib\flexmonster\toolbar\flexmonster.toolbar.js" />
+    <EmbeddedResource Include="lib\flexmonster\_custom\flexmonster-custom.js" />
+    <None Include="lib\telerik_kendoui\js\Alterações TelerikReportViewer.txt" />
+    <Content Include="Views\Shared\_FooterClean.cshtml" />
+    <EmbeddedResource Include="lib\telerik_kendoui\styles\kendo-blueopal-min.less" />
+    <EmbeddedResource Include="lib\telerik_kendoui\styles\kendo-common-min.less" />
+    <None Include="lib\telerik_kendoui\styles\kendo-dataviz-default.less" />
+    <None Include="lib\telerik_kendoui\styles\kendo-dataviz.less" />
+    <Content Include="Views\LIA\PageOpen.cshtml" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Views\Scripts\AppConfig.cshtml" />
+    <Content Include="Views\Deploy\Info.cshtml" />
+    <Content Include="Views\Scripts\AppRoutes.cshtml" />
+    <None Include="WebMarkupMin.Configuration.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="_bundler\bundler.js" />
+    <None Include="_bundler\node.exe" />
+    <None Include="_bundler\node_modules\clean-css\index.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\clean.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\colors\hsl-to-hex.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\colors\long-to-short-hex.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\colors\rgb-to-hex.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\colors\shortener.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\images\url-rebase.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\images\url-rewriter.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\imports\inliner.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\properties\optimizer.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\properties\shorthand-notations.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\selectors\empty-removal.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\selectors\optimizer.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\selectors\tokenizer.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\text\comments.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\text\escape-store.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\text\expressions.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\text\free.js" />
+    <None Include="_bundler\node_modules\clean-css\lib\text\urls.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\browser.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\cake.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\coffee-script.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\command.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\grammar.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\helpers.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\index.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\lexer.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\nodes.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\optparse.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\parser.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\repl.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\rewriter.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\scope.js" />
+    <None Include="_bundler\node_modules\coffee-script\lib\coffee-script\sourcemap.js" />
+    <None Include="_bundler\node_modules\debug\debug.js" />
+    <None Include="_bundler\node_modules\debug\index.js" />
+    <None Include="_bundler\node_modules\debug\lib\debug.js" />
+    <None Include="_bundler\node_modules\less\lib\less\browser.js" />
+    <None Include="_bundler\node_modules\less\lib\less\colors.js" />
+    <None Include="_bundler\node_modules\less\lib\less\env.js" />
+    <None Include="_bundler\node_modules\less\lib\less\extend-visitor.js" />
+    <None Include="_bundler\node_modules\less\lib\less\functions.js" />
+    <None Include="_bundler\node_modules\less\lib\less\import-visitor.js" />
+    <None Include="_bundler\node_modules\less\lib\less\index.js" />
+    <None Include="_bundler\node_modules\less\lib\less\join-selector-visitor.js" />
+    <None Include="_bundler\node_modules\less\lib\less\lessc_helper.js" />
+    <None Include="_bundler\node_modules\less\lib\less\parser.js" />
+    <None Include="_bundler\node_modules\less\lib\less\rhino.js" />
+    <None Include="_bundler\node_modules\less\lib\less\source-map-output.js" />
+    <None Include="_bundler\node_modules\less\lib\less\to-css-visitor.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\alpha.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\anonymous.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\assignment.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\call.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\color.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\comment.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\condition.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\dimension.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\directive.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\element.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\expression.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\extend.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\import.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\javascript.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\keyword.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\media.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\mixin.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\negative.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\operation.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\paren.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\quoted.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\rule.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\ruleset.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\selector.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\unicode-descriptor.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\url.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\value.js" />
+    <None Include="_bundler\node_modules\less\lib\less\tree\variable.js" />
+    <None Include="_bundler\node_modules\less\lib\less\visitor.js" />
+    <None Include="_bundler\node_modules\lib\parse-js.js" />
+    <None Include="_bundler\node_modules\lib\process.js" />
+    <None Include="_bundler\node_modules\lib\squeeze-more.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\ast.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\browser.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\command.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\grammar.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\index.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\lang-ls.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\lexer.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\livescript.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\mode-ls.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\node.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\optparse.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\parser.js" />
+    <None Include="_bundler\node_modules\LiveScript\lib\slake.js" />
+    <None Include="_bundler\node_modules\nib\iconic\demo.html" />
+    <None Include="_bundler\node_modules\nib\iconic\iconic.css" />
+    <None Include="_bundler\node_modules\nib\iconic\iconic_stroke.svg" />
+    <None Include="_bundler\node_modules\nib\lib\nib.js" />
+    <None Include="_bundler\node_modules\nib\lib\nodes\color-image.js" />
+    <None Include="_bundler\node_modules\nib\lib\nodes\gradient.js" />
+    <None Include="_bundler\node_modules\nib\lib\nodes\vendor-helpers.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\bm.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\index.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\browserify.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\colors.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\convert\css.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\errors.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\functions\image.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\functions\index.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\functions\resolver.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\functions\url.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\lexer.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\middleware.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\arguments.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\binop.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\block.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\boolean.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\call.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\charset.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\comment.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\each.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\expression.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\extend.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\fontface.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\function.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\group.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\hsla.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\ident.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\if.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\import.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\index.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\jsliteral.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\keyframes.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\literal.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\media.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\mozdocument.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\node.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\null.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\page.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\params.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\property.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\return.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\rgba.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\root.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\selector.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\string.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\ternary.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\unaryop.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\nodes\unit.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\parser.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\renderer.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\stack\frame.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\stack\index.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\stack\scope.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\stylus.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\token.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\units.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\utils.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\visitor\compiler.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\visitor\evaluator.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\visitor\index.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\visitor\normalizer.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\clone.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\CSSFontFaceRule.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\CSSImportRule.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\CSSKeyframeRule.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\CSSKeyframesRule.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\CSSMediaRule.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\CSSRule.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\CSSStyleDeclaration.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\CSSStyleRule.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\CSSStyleSheet.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\index.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\MediaList.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\parse.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\lib\StyleSheet.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\examples\pow.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\index.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\chmod.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\clobber.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\mkdirp.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\perm.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\perm_sync.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\race.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\rel.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\return.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\return_sync.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\root.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\sync.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\umask.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\test\umask_sync.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\examples\big-not-pretty.xml" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\examples\example.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\examples\get-products.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\examples\hello-world.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\examples\not-pretty.xml" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\examples\pretty-print.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\examples\shopping.xml" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\examples\test.html" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\examples\test.xml" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\lib\sax.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\LICENSE-W3C.html" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\attribute-name.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\buffer-overrun.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\case.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\cdata-chunked.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\cdata-end-split.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\cdata-fake-end.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\cdata-multiple.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\cdata.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\cyrillic.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\duplicate-attribute.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\entities.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\entity-mega.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\index.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\issue-23.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\issue-30.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\issue-35.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\issue-47.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\issue-49.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\issue-84.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\parser-position.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\script-close-better.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\script.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\self-closing-child-strict.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\self-closing-child.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\self-closing-tag.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\stray-ending.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\trailing-attribute-no-value.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\trailing-non-whitespace.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\unclosed-root.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\unquoted.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\utf8-split.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\xmlns-issue-41.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\xmlns-rebinding.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\xmlns-strict.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\xmlns-unbound-element.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\xmlns-unbound.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\xmlns-xml-default-ns.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\xmlns-xml-default-prefix-attribute.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\xmlns-xml-default-prefix.js" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\test\xmlns-xml-default-redefine.js" />
+    <None Include="_bundler\node_modules\node-sass\build.js" />
+    <None Include="_bundler\node_modules\node-sass\lib\cli.js" />
+    <None Include="_bundler\node_modules\node-sass\lib\middleware.js" />
+    <None Include="_bundler\node_modules\node-sass\lib\render.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\colors\colors.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\colors\example.html" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\colors\example.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\colors\MIT-LICENSE.txt" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\colors\test.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\examples\pow.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\index.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\chmod.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\clobber.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\mkdirp.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\perm.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\perm_sync.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\race.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\rel.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\return.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\return_sync.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\root.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\sync.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\umask.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\test\umask_sync.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\node-watch\index.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\node-watch\lib\watch.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\bool.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\boolean_double.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\boolean_single.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\default_hash.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\default_singles.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\divide.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\line_count.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\line_count_options.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\line_count_wrap.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\nonopt.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\reflect.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\short.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\string.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\usage-options.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\example\xup.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\index.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\example\parse.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\index.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\test\dash.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\test\default_bool.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\test\dotted.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\test\long.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\test\parse.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\test\parse_modified.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\test\short.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\test\whitespace.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\wordwrap\example\center.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\wordwrap\example\meat.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\wordwrap\index.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\wordwrap\test\break.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\wordwrap\test\idleness.txt" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\wordwrap\test\wrap.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\test\dash.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\test\parse.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\test\parse_modified.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\test\short.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\test\usage.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\test\whitespace.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\test\_.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\test\_\argv.js" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\test\_\bin.js" />
+    <None Include="_bundler\node_modules\node-sass\sass.js" />
+    <None Include="_bundler\node_modules\node-sass\test.js" />
+    <None Include="_bundler\node_modules\step\lib\step.js" />
+    <None Include="_bundler\node_modules\stylus\bm.js" />
+    <None Include="_bundler\node_modules\stylus\index.js" />
+    <None Include="_bundler\node_modules\stylus\lib\browserify.js" />
+    <None Include="_bundler\node_modules\stylus\lib\colors.js" />
+    <None Include="_bundler\node_modules\stylus\lib\convert\css.js" />
+    <None Include="_bundler\node_modules\stylus\lib\errors.js" />
+    <None Include="_bundler\node_modules\stylus\lib\functions\image.js" />
+    <None Include="_bundler\node_modules\stylus\lib\functions\index.js" />
+    <None Include="_bundler\node_modules\stylus\lib\functions\resolver.js" />
+    <None Include="_bundler\node_modules\stylus\lib\functions\url.js" />
+    <None Include="_bundler\node_modules\stylus\lib\lexer.js" />
+    <None Include="_bundler\node_modules\stylus\lib\middleware.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\arguments.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\binop.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\block.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\boolean.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\call.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\charset.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\comment.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\each.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\expression.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\extend.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\fontface.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\function.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\group.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\hsla.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\ident.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\if.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\import.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\index.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\jsliteral.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\keyframes.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\literal.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\media.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\member.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\mozdocument.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\node.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\null.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\object.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\page.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\params.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\property.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\return.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\rgba.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\root.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\selector.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\string.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\ternary.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\unaryop.js" />
+    <None Include="_bundler\node_modules\stylus\lib\nodes\unit.js" />
+    <None Include="_bundler\node_modules\stylus\lib\parser.js" />
+    <None Include="_bundler\node_modules\stylus\lib\renderer.js" />
+    <None Include="_bundler\node_modules\stylus\lib\stack\frame.js" />
+    <None Include="_bundler\node_modules\stylus\lib\stack\index.js" />
+    <None Include="_bundler\node_modules\stylus\lib\stack\scope.js" />
+    <None Include="_bundler\node_modules\stylus\lib\stylus.js" />
+    <None Include="_bundler\node_modules\stylus\lib\token.js" />
+    <None Include="_bundler\node_modules\stylus\lib\units.js" />
+    <None Include="_bundler\node_modules\stylus\lib\utils.js" />
+    <None Include="_bundler\node_modules\stylus\lib\visitor\compiler.js" />
+    <None Include="_bundler\node_modules\stylus\lib\visitor\evaluator.js" />
+    <None Include="_bundler\node_modules\stylus\lib\visitor\index.js" />
+    <None Include="_bundler\node_modules\stylus\lib\visitor\normalizer.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\clone.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\CSSFontFaceRule.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\CSSImportRule.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\CSSKeyframeRule.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\CSSKeyframesRule.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\CSSMediaRule.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\CSSRule.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\CSSStyleDeclaration.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\CSSStyleRule.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\CSSStyleSheet.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\index.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\MediaList.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\parse.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\lib\StyleSheet.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\examples\pow.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\index.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\chmod.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\clobber.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\mkdirp.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\perm.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\perm_sync.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\race.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\rel.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\return.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\return_sync.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\root.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\sync.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\umask.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\test\umask_sync.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\examples\big-not-pretty.xml" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\examples\example.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\examples\get-products.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\examples\hello-world.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\examples\not-pretty.xml" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\examples\pretty-print.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\examples\shopping.xml" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\examples\test.html" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\examples\test.xml" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\lib\sax.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\LICENSE-W3C.html" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\attribute-name.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\buffer-overrun.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\case.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\cdata-chunked.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\cdata-end-split.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\cdata-fake-end.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\cdata-multiple.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\cdata.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\cyrillic.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\duplicate-attribute.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\entities.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\entity-mega.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\index.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\issue-23.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\issue-30.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\issue-35.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\issue-47.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\issue-49.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\issue-84.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\parser-position.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\script-close-better.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\script.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\self-closing-child-strict.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\self-closing-child.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\self-closing-tag.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\stray-ending.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\trailing-attribute-no-value.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\trailing-non-whitespace.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\unclosed-root.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\unquoted.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\utf8-split.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\xmlns-issue-41.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\xmlns-rebinding.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\xmlns-strict.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\xmlns-unbound-element.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\xmlns-unbound.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\xmlns-xml-default-ns.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\xmlns-xml-default-prefix-attribute.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\xmlns-xml-default-prefix.js" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\test\xmlns-xml-default-redefine.js" />
+    <None Include="_bundler\node_modules\uglify-js.js" />
+    <EmbeddedResource Include="App\viewmodels\404.js" />
+    <EmbeddedResource Include="App\viewmodels\tools.js" />
+    <EmbeddedResource Include="App\viewmodels\modulesdev.js" />
+    <EmbeddedResource Include="App\viewmodels\menusdev.js" />
+    <EmbeddedResource Include="App\views\404.html" />
+    <EmbeddedResource Include="App\views\tools.html" />
+    <EmbeddedResource Include="App\views\modulesdev.html" />
+    <EmbeddedResource Include="App\views\menusdev.html" />
+    <Compile Include="Helpers\IOHelper.cs" />
+    <Compile Include="Hubs\VersionHub.cs" />
+    <Compile Include="Class\MiniProfilerCustomUser.cs" />
+    <Compile Include="Models\BreadCrumbItem.cs" />
+    <Compile Include="Models\LoginInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="lib\font_awesome\font-awesome.css" />
+    <EmbeddedResource Include="lib\font_awesome\fonts\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="lib\font_awesome\images\glyphicons-halflings-white.png" />
+    <EmbeddedResource Include="lib\font_awesome\images\glyphicons-halflings.png" />
+    <EmbeddedResource Include="lib\linx\img\no-image.png" />
+    <Content Include="Views\Shared\Unauthorized.cshtml" />
+    <Content Include="Views\Shared\_LayoutClean.cshtml" />
+    <Content Include="Views\Scripts\AppManagersAuth.cshtml" />
+    <Content Include="Views\Shared\Authentication.cshtml" />
+    <None Include="_bundler\bundler.cmd" />
+    <None Include="_bundler\coffee.cmd" />
+    <None Include="_bundler\LICENSE" />
+    <None Include="_bundler\node_modules\clean-css\bin\cleancss" />
+    <None Include="_bundler\node_modules\coffee-script\bin\cake" />
+    <None Include="_bundler\node_modules\coffee-script\bin\coffee" />
+    <None Include="_bundler\node_modules\coffee-script\package.json" />
+    <None Include="_bundler\node_modules\debug\package.json" />
+    <None Include="_bundler\node_modules\debug\Readme.md" />
+    <None Include="_bundler\node_modules\less\bin\lessc" />
+    <None Include="_bundler\node_modules\less\package.json" />
+    <None Include="_bundler\node_modules\LiveScript\bin\livescript" />
+    <None Include="_bundler\node_modules\LiveScript\bin\lsc" />
+    <None Include="_bundler\node_modules\LiveScript\bin\slake" />
+    <None Include="_bundler\node_modules\LiveScript\package.json" />
+    <None Include="_bundler\node_modules\nib\iconic\iconic_stroke.eot" />
+    <None Include="_bundler\node_modules\nib\iconic\iconic_stroke.otf" />
+    <None Include="_bundler\node_modules\nib\iconic\iconic_stroke.ttf" />
+    <None Include="_bundler\node_modules\nib\index.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\border.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\clearfix.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\color-image.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\config.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\flex.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\gradients.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\iconic.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\image.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\index.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\overflow.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\positions.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\reset.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\size.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\text\aliases.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\text\ellipsis.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\text\hide-text.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\text\index.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\text\replace-text.styl" />
+    <None Include="_bundler\node_modules\nib\lib\nib\vendor.styl" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\bin\stylus" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\lib\functions\index.styl" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\LICENSE" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\package.json" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\cssom\README.mdown" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\LICENSE" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\package.json" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\mkdirp\readme.markdown" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\AUTHORS" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\component.json" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\examples\strict.dtd" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\LICENSE" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\package.json" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\node_modules\sax\README.md" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\package.json" />
+    <None Include="_bundler\node_modules\nib\node_modules\stylus\Readme.md" />
+    <None Include="_bundler\node_modules\nib\package.json" />
+    <None Include="_bundler\node_modules\nib\Readme.md" />
+    <None Include="_bundler\node_modules\node-sass\bin\node-sass" />
+    <None Include="_bundler\node_modules\node-sass\bin\win32-ia32-v8-3.14\binding.node" />
+    <None Include="_bundler\node_modules\node-sass\bin\win32-x64-v8-3.14\binding.node" />
+    <None Include="_bundler\node_modules\node-sass\CONTRIBUTING.md" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\colors\package.json" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\colors\ReadMe.md" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\LICENSE" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\package.json" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\mkdirp\readme.markdown" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\node-watch\LICENSE" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\node-watch\package.json" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\node-watch\README.md" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\LICENSE" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\LICENSE" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\package.json" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\minimist\readme.markdown" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\wordwrap\package.json" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\node_modules\wordwrap\README.markdown" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\package.json" />
+    <None Include="_bundler\node_modules\node-sass\node_modules\optimist\readme.markdown" />
+    <None Include="_bundler\node_modules\node-sass\package.json" />
+    <None Include="_bundler\node_modules\node-sass\precompiled\win32-ia32\README.md" />
+    <None Include="_bundler\node_modules\node-sass\precompiled\win32-x64\README.md" />
+    <None Include="_bundler\node_modules\node-sass\README.md" />
+    <None Include="_bundler\node_modules\step\package.json" />
+    <None Include="_bundler\node_modules\stylus\bin\stylus" />
+    <None Include="_bundler\node_modules\stylus\lib\functions\index.styl" />
+    <None Include="_bundler\node_modules\stylus\LICENSE" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\package.json" />
+    <None Include="_bundler\node_modules\stylus\node_modules\cssom\README.mdown" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\LICENSE" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\package.json" />
+    <None Include="_bundler\node_modules\stylus\node_modules\mkdirp\readme.markdown" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\AUTHORS" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\component.json" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\examples\strict.dtd" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\LICENSE" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\package.json" />
+    <None Include="_bundler\node_modules\stylus\node_modules\sax\README.md" />
+    <None Include="_bundler\node_modules\stylus\package.json" />
+    <None Include="_bundler\node_modules\stylus\Readme.md" />
+    <None Include="_bundler\uglifyjs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App\main.js" />
+    <EmbeddedResource Include="App\managers\user.js" />
+    <EmbeddedResource Include="App\services\logger.js" />
+    <EmbeddedResource Include="App\viewmodels\menus.js" />
+    <EmbeddedResource Include="App\viewmodels\modules.js" />
+    <EmbeddedResource Include="App\viewmodels\routes.js" />
+    <EmbeddedResource Include="App\viewmodels\shell\_header.js" />
+    <EmbeddedResource Include="App\viewmodels\shell.js" />
+    <EmbeddedResource Include="App\views\menus.html" />
+    <EmbeddedResource Include="App\views\routes.html" />
+    <EmbeddedResource Include="App\views\modules.html" />
+    <EmbeddedResource Include="App\views\shell\_footer.html" />
+    <EmbeddedResource Include="App\views\shell\_search.html" />
+    <EmbeddedResource Include="App\views\shell\_header.html" />
+    <EmbeddedResource Include="App\views\shell\_window.html" />
+    <EmbeddedResource Include="App\views\shell.html" />
+    <EmbeddedResource Include="App\common.js" />
+    <EmbeddedResource Include="App\viewmodels\shell\_shortcut.js" />
+    <EmbeddedResource Include="App\views\shell\_shortcut.html" />
+    <Content Include="favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Global.asax" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\LIA\Index.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Shared\_HeaderClean.cshtml" />
+    <Content Include="Views\Shared\Loading.cshtml" />
+    <Content Include="Views\Scripts\RequireJSConfig.cshtml" />
+    <Content Include="Views\Shared\_Templates.cshtml" />
+    <Content Include="Views\Scripts\AppManagersRoute.cshtml" />
+    <None Include="Properties\PublishProfiles\LIAShell.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Linx.Internet.Application.Common\Linx.Internet.Application.Common.csproj">
+      <Project>{951d1c68-8b1f-4fd4-ad57-ec937bd62ddd}</Project>
+      <Name>Linx.Internet.Application.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Linx.Internet.Application.Extension\Linx.Internet.Application.Extension.csproj">
+      <Project>{08760a51-2274-40b7-9bc5-14d64f1d6f74}</Project>
+      <Name>Linx.Internet.Application.Extension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Linx.Internet.Application.Framework.Contracts\Linx.Internet.Application.Framework.Contracts.csproj">
+      <Project>{450c8b9b-7624-48c0-af98-a87ab3d2b93a}</Project>
+      <Name>Linx.Internet.Application.Framework.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Linx.Internet.Application.Framework\Linx.Internet.Application.Framework.csproj">
+      <Project>{462e8eb6-0632-4e41-b8a6-122d58385079}</Project>
+      <Name>Linx.Internet.Application.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\logs\" />
+    <Folder Include="lib\flexmonster\toolbar\img\chart\" />
+    <Folder Include="lib\flexmonster\toolbar\img\colorIcons\" />
+    <Folder Include="lib\flexmonster\toolbar\img\colorPicker\" />
+    <Folder Include="lib\flexmonster\toolbar\img\controls\" />
+    <Folder Include="lib\flexmonster\toolbar\img\export\" />
+    <Folder Include="lib\flexmonster\toolbar\img\menu\" />
+    <Folder Include="lib\flexmonster\toolbar\img\style\" />
+    <Folder Include="lib\flexmonster\toolbar\img\toolbar\" />
+    <Folder Include="Scripts\" />
+    <Folder Include="_custom\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>63543</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:63000</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.                                                                                      
+       Other similar extension points exist, see Microsoft.Common.targets.                                                                                                                
+  <Target Name="BeforeBuild">                                                                                                                                                             
+  </Target>                                                                                                                                                                               
+  <Target Name="AfterBuild">                                                                                                                                                              
+  </Target> -->
+  <!--<Target Name="BeforeBuild">
+    <ItemGroup>
+      <EmbeddedResource Include="**\*.aspx;**\*.ascx;**\*.gif;**\*.css;**\*.js;**\*.cshtml;**\*.png;**\*.jpg;**\*.ico;**\*.html;**\*.htm;**\*.ttf;**\*.svg;**\*.woff;**\*.map;**\*.eot;**\*.otf" Exclude="obj\**;bin\**;" />
+    </ItemGroup>
+  </Target>-->
+  <PropertyGroup>
+    <PostBuildEvent>REM "$(ProjectDir)bundler\node.exe" "$(ProjectDir)bundler\bundler.js" "$(ProjectDir)Lib" "$(ProjectDir)App"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>

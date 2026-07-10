@@ -1,0 +1,606 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Linx.Demo.BV</RootNamespace>
+    <AssemblyName>Linx.Demo.BV</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <ProjectGuid>{BFD345AE-BE2C-4F09-9AB7-8DA87426F73D}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Library\Common\Microsoft\Desktop\CodeFirstMigration\EF\EntityFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Library\Common\Microsoft\Desktop\CodeFirstMigration\EF\EntityFramework.SqlServer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Linx.Business.Tools">
+      <HintPath>..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Library\Business View\Linx.Business.Tools.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Linx.Data">
+      <HintPath>..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Library\Common\Linx\Desktop\Data\Linx.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Linx.Demo.BM, Version=5.0.6802.24159, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Library\Business Model\Linx.Demo.BM.dll</HintPath>
+    </Reference>
+    <Reference Include="Linx.LinqExtensions">
+      <HintPath>..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Library\Common\Linx\Desktop\GAC\Linx.LinqExtensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Linx.Tools">
+      <HintPath>..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Library\Common\Linx\Desktop\GAC\Linx.Tools.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Binary\Library\Common\Linx\Desktop\GAC\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Activities.Presentation" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.DomainServices.Hosting">
+      <HintPath>..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Library\Common\Microsoft\DomainServices\System.ServiceModel.DomainServices.Hosting.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.ServiceModel.DomainServices.Server">
+      <HintPath>..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Library\Common\Microsoft\DomainServices\System.ServiceModel.DomainServices.Server.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\information\AssemblyInfoShared.cs">
+      <Link>Properties\AssemblyInfoShared.cs</Link>
+    </Compile>
+    <Compile Include="Domains\DomainViews.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DomainViews.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExAutocomplete.Cliente.CustomAuthorizationAuto.cs">
+      <DependentUpon>ExAutocomplete.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ExAutocomplete.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExAutocomplete.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExAutocomplete.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExAutocomplete.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExAutocomplete.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExAutocomplete.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExAutocomplete.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExAutocomplete.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExAutocomplete.Tbnmcompleto.CustomAuthorizationAuto.cs">
+      <DependentUpon>ExAutocomplete.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ExAutocomplete.TesteCkbView.CustomAuthorizationAuto.cs">
+      <DependentUpon>ExAutocomplete.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Graf_dash_KPI.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Graf_dash_KPI.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Graf_dash_KPI.Estoque.Events.cs">
+      <DependentUpon>Graf_dash_KPI.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Graf_dash_KPI.Estoque.Events.shared.cs">
+      <DependentUpon>Graf_dash_KPI.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Graf_dash_KPI.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Graf_dash_KPI.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Graf_dash_KPI.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Graf_dash_KPI.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Graf_dash_KPI.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Graf_dash_KPI.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Graf_dash_KPI.Produto.CustomAuthorizationAuto.cs">
+      <DependentUpon>Graf_dash_KPI.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Graf_dash_KPI.Produto.Events.cs">
+      <DependentUpon>Graf_dash_KPI.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Graf_dash_KPI.Produto.Events.shared.cs">
+      <DependentUpon>Graf_dash_KPI.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Grids_e_MacrosDeGrids.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Grids_e_MacrosDeGrids.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Grids_e_MacrosDeGrids.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Grids_e_MacrosDeGrids.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Grids_e_MacrosDeGrids.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Grids_e_MacrosDeGrids.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Grids_e_MacrosDeGrids.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Grids_e_MacrosDeGrids.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Grids_e_MacrosDeGrids.Venda.CustomAuthorizationAuto.cs">
+      <DependentUpon>Grids_e_MacrosDeGrids.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Grids_e_MacrosDeGrids.VendaItem.CustomAuthorizationAuto.cs">
+      <DependentUpon>Grids_e_MacrosDeGrids.ead</DependentUpon>
+    </Compile>
+    <Compile Include="MacrosEventosValidacoes.Arquivo.CustomAuthorizationAuto.cs">
+      <DependentUpon>MacrosEventosValidacoes.ead</DependentUpon>
+    </Compile>
+    <Compile Include="MacrosEventosValidacoes.Arquivo.Events.cs">
+      <DependentUpon>MacrosEventosValidacoes.ead</DependentUpon>
+    </Compile>
+    <Compile Include="MacrosEventosValidacoes.Arquivo.Events.shared.cs">
+      <DependentUpon>MacrosEventosValidacoes.ead</DependentUpon>
+    </Compile>
+    <Compile Include="MacrosEventosValidacoes.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MacrosEventosValidacoes.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MacrosEventosValidacoes.Estado.CustomAuthorizationAuto.cs">
+      <DependentUpon>MacrosEventosValidacoes.ead</DependentUpon>
+    </Compile>
+    <Compile Include="MacrosEventosValidacoes.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MacrosEventosValidacoes.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MacrosEventosValidacoes.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MacrosEventosValidacoes.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MacrosEventosValidacoes.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MacrosEventosValidacoes.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MacrosEventosValidacoes.Pais.CustomAuthorizationAuto.cs">
+      <DependentUpon>MacrosEventosValidacoes.ead</DependentUpon>
+    </Compile>
+    <Compile Include="MacrosEventosValidacoes.ValorVendas.CustomAuthorizationAuto.cs">
+      <DependentUpon>MacrosEventosValidacoes.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModalExterna.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModalExterna.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModalExterna.Estado.CustomAuthorizationAuto.cs">
+      <DependentUpon>ModalExterna.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModalExterna.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModalExterna.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModalExterna.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModalExterna.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModalExterna.Loja.CustomAuthorizationAuto.cs">
+      <DependentUpon>ModalExterna.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModalExterna.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModalExterna.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModalExterna.Pais.CustomAuthorizationAuto.cs">
+      <DependentUpon>ModalExterna.ead</DependentUpon>
+    </Compile>
+    <Compile Include="ModalExterna.Venda.CustomAuthorizationAuto.cs">
+      <DependentUpon>ModalExterna.ead</DependentUpon>
+    </Compile>
+    <Compile Include="PaiFilha.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PaiFilha.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaiFilha.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PaiFilha.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaiFilha.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PaiFilha.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaiFilha.Loja.CustomAuthorizationAuto.cs">
+      <DependentUpon>PaiFilha.ead</DependentUpon>
+    </Compile>
+    <Compile Include="PaiFilha.Loja.Events.cs">
+      <DependentUpon>PaiFilha.ead</DependentUpon>
+    </Compile>
+    <Compile Include="PaiFilha.Loja.Events.shared.cs">
+      <DependentUpon>PaiFilha.ead</DependentUpon>
+    </Compile>
+    <Compile Include="PaiFilha.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PaiFilha.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaiFilha.Venda.CustomAuthorizationAuto.cs">
+      <DependentUpon>PaiFilha.ead</DependentUpon>
+    </Compile>
+    <Compile Include="PaiFilha.VendaItem.CustomAuthorizationAuto.cs">
+      <DependentUpon>PaiFilha.ead</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="testes.DomainService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>testes.DomainService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="testes.ExtendedFilters.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>testes.ExtendedFilters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="testes.Formulas.shared.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>testes.Formulas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="testes.LookUps.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>testes.LookUps.tt</DependentUpon>
+    </Compile>
+    <Compile Include="testes.Produto.CustomAuthorizationAuto.cs">
+      <DependentUpon>testes.ead</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExAutocomplete.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ExAutocomplete.DomainService.cs</LastGenOutput>
+      <DependentUpon>ExAutocomplete.ead</DependentUpon>
+    </Content>
+    <Content Include="ExAutocomplete.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ExAutocomplete.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>ExAutocomplete.ead</DependentUpon>
+    </Content>
+    <Content Include="ExAutocomplete.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ExAutocomplete.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>ExAutocomplete.ead</DependentUpon>
+    </Content>
+    <Content Include="ExAutocomplete.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ExAutocomplete.LookUps.cs</LastGenOutput>
+      <DependentUpon>ExAutocomplete.ead</DependentUpon>
+    </Content>
+    <Content Include="Grids_e_MacrosDeGrids.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Grids_e_MacrosDeGrids.DomainService.cs</LastGenOutput>
+      <DependentUpon>Grids_e_MacrosDeGrids.ead</DependentUpon>
+    </Content>
+    <Content Include="Grids_e_MacrosDeGrids.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Grids_e_MacrosDeGrids.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Grids_e_MacrosDeGrids.ead</DependentUpon>
+    </Content>
+    <Content Include="Grids_e_MacrosDeGrids.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Grids_e_MacrosDeGrids.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Grids_e_MacrosDeGrids.ead</DependentUpon>
+    </Content>
+    <Content Include="Grids_e_MacrosDeGrids.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Grids_e_MacrosDeGrids.LookUps.cs</LastGenOutput>
+      <DependentUpon>Grids_e_MacrosDeGrids.ead</DependentUpon>
+    </Content>
+    <Content Include="testes.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>testes.DomainService.cs</LastGenOutput>
+      <DependentUpon>testes.ead</DependentUpon>
+    </Content>
+    <Content Include="testes.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>testes.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>testes.ead</DependentUpon>
+    </Content>
+    <Content Include="testes.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>testes.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>testes.ead</DependentUpon>
+    </Content>
+    <Content Include="testes.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>testes.LookUps.cs</LastGenOutput>
+      <DependentUpon>testes.ead</DependentUpon>
+    </Content>
+    <None Include="Domains\DataDomains.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DataDomains.js</LastGenOutput>
+    </None>
+    <None Include="Domains\DomainViews.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DomainViews.shared.cs</LastGenOutput>
+    </None>
+    <None Include="Domains\MobileDataDomains.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MobileDataDomains.js</LastGenOutput>
+    </None>
+    <None Include="ExAutocomplete.ead" />
+    <None Include="ExAutocomplete.ead.diagram">
+      <DependentUpon>ExAutocomplete.ead</DependentUpon>
+    </None>
+    <None Include="Graf_dash_KPI.ead" />
+    <None Include="Graf_dash_KPI.ead.diagram">
+      <DependentUpon>Graf_dash_KPI.ead</DependentUpon>
+    </None>
+    <None Include="Grids_e_MacrosDeGrids.ead" />
+    <None Include="Grids_e_MacrosDeGrids.ead.diagram">
+      <DependentUpon>Grids_e_MacrosDeGrids.ead</DependentUpon>
+    </None>
+    <None Include="Includes\DataEntityFunctions.ttinclude" />
+    <None Include="Includes\DirectEntityAdapterDynamicModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DirectEntityAdapterDynamicModels.ttinclude</LastGenOutput>
+    </None>
+    <None Include="Includes\DirectEntityAdapterDynamicModels.ttinclude">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DirectEntityAdapterDynamicModels.tt</DependentUpon>
+    </None>
+    <None Include="Includes\EntityAdapterDynamicModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EntityAdapterDynamicModels.ttinclude</LastGenOutput>
+    </None>
+    <None Include="Includes\EntityAdapterDynamicModels.ttinclude">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityAdapterDynamicModels.tt</DependentUpon>
+    </None>
+    <None Include="MacrosEventosValidacoes.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MacrosEventosValidacoes.DomainService.cs</LastGenOutput>
+      <DependentUpon>MacrosEventosValidacoes.ead</DependentUpon>
+    </None>
+    <None Include="MacrosEventosValidacoes.ead" />
+    <None Include="MacrosEventosValidacoes.ead.diagram">
+      <DependentUpon>MacrosEventosValidacoes.ead</DependentUpon>
+    </None>
+    <None Include="MacrosEventosValidacoes.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MacrosEventosValidacoes.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>MacrosEventosValidacoes.ead</DependentUpon>
+    </None>
+    <None Include="MacrosEventosValidacoes.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MacrosEventosValidacoes.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>MacrosEventosValidacoes.ead</DependentUpon>
+    </None>
+    <None Include="MacrosEventosValidacoes.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MacrosEventosValidacoes.LookUps.cs</LastGenOutput>
+      <DependentUpon>MacrosEventosValidacoes.ead</DependentUpon>
+    </None>
+    <None Include="ModalExterna.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModalExterna.DomainService.cs</LastGenOutput>
+      <DependentUpon>ModalExterna.ead</DependentUpon>
+    </None>
+    <None Include="ModalExterna.ead" />
+    <None Include="ModalExterna.ead.diagram">
+      <DependentUpon>ModalExterna.ead</DependentUpon>
+    </None>
+    <None Include="ModalExterna.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModalExterna.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>ModalExterna.ead</DependentUpon>
+    </None>
+    <None Include="ModalExterna.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModalExterna.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>ModalExterna.ead</DependentUpon>
+    </None>
+    <None Include="ModalExterna.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModalExterna.LookUps.cs</LastGenOutput>
+      <DependentUpon>ModalExterna.ead</DependentUpon>
+    </None>
+    <None Include="PaiFilha.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PaiFilha.DomainService.cs</LastGenOutput>
+      <DependentUpon>PaiFilha.ead</DependentUpon>
+    </None>
+    <None Include="PaiFilha.ead" />
+    <None Include="PaiFilha.ead.diagram">
+      <DependentUpon>PaiFilha.ead</DependentUpon>
+    </None>
+    <None Include="PaiFilha.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PaiFilha.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>PaiFilha.ead</DependentUpon>
+    </None>
+    <None Include="PaiFilha.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PaiFilha.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>PaiFilha.ead</DependentUpon>
+    </None>
+    <None Include="PaiFilha.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PaiFilha.LookUps.cs</LastGenOutput>
+      <DependentUpon>PaiFilha.ead</DependentUpon>
+    </None>
+    <Content Include="Domains\ClientErpDataDomainsFactory.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClientErpDataDomainsFactory.tt</DependentUpon>
+    </Content>
+    <Content Include="Domains\ClientErpDataDomainsFactory.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ClientErpDataDomainsFactory.js</LastGenOutput>
+    </Content>
+    <Content Include="Graf_dash_KPI.DomainService.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Graf_dash_KPI.DomainService.cs</LastGenOutput>
+      <DependentUpon>Graf_dash_KPI.ead</DependentUpon>
+    </Content>
+    <Content Include="Graf_dash_KPI.ExtendedFilters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Graf_dash_KPI.ExtendedFilters.shared.cs</LastGenOutput>
+      <DependentUpon>Graf_dash_KPI.ead</DependentUpon>
+    </Content>
+    <Content Include="Graf_dash_KPI.Formulas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Graf_dash_KPI.Formulas.shared.cs</LastGenOutput>
+      <DependentUpon>Graf_dash_KPI.ead</DependentUpon>
+    </Content>
+    <Content Include="Graf_dash_KPI.LookUps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Graf_dash_KPI.LookUps.cs</LastGenOutput>
+      <DependentUpon>Graf_dash_KPI.ead</DependentUpon>
+    </Content>
+    <Content Include="TerminalLojaTeste.xml" />
+    <None Include="TerminalLojaTeste.ead.diagram">
+      <DependentUpon>TerminalLojaTeste.xml</DependentUpon>
+    </None>
+    <None Include="testes.ead" />
+    <None Include="testes.ead.diagram">
+      <DependentUpon>testes.ead</DependentUpon>
+    </None>
+    <None Include="Web.config">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Web.tt</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Web.config</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4df5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Domains\DataDomains.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataDomains.tt</DependentUpon>
+    </Content>
+    <Content Include="Domains\MobileDataDomains.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MobileDataDomains.tt</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Help For Accessing\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)Linx.Demo.BV.dll*" "$(ProjectDir)..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Service\bin" /Y /R
+xcopy "$(TargetDir)Linx.Demo.BM.dll" "$(ProjectDir)..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Service\bin" /Y /R
+xcopy "$(TargetDir)Linx.Demo.BV.dll*" "$(ProjectDir)..\..\..\..\..\..\..\..\..\Linx\SelfHost\Service" /Y /R
+xcopy "$(TargetDir)Linx.Demo.BM.dll" "$(ProjectDir)..\..\..\..\..\..\..\..\..\Linx\SelfHost\Service" /Y /R
+xcopy "$(TargetName).dll*" "$(ProjectDir)..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Library\Business View" /Y /R
+xcopy "$(ProjectDir)Help For Accessing\*.*" "$(ProjectDir)..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Service\Help" /Y /R
+cd "$(ProjectDir)..\..\..\..\..\..\..\..\..\Linx Program Files\Linx Framework 6.0.0\Service"
+XmlConfigMergeConsole "Web.config" -m "$(ProjectDir)Web.config"cd "$(ProjectDir)..\..\..\..\..\..\..\..\..\Linx\SelfHost\Service"
+XmlConfigMergeConsole "Web.config" -m "$(ProjectDir)Web.config"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

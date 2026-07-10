@@ -1,0 +1,63 @@
+# Builds Linx.Internet.Application.sln with MSBuild inside a .NET Framework SDK image.
+#
+# Podman Desktop (Linux VM) / Linux Docker: do NOT use this file — Windows base images
+# will fail to pull/unpack or cannot run ("unpacking failed", "no such file or directory").
+# Use the VS Code task "Build" (host MSBuild) instead, or Docker Desktop with Windows containers.
+#
+# Requirements:
+# - Docker Desktop for Windows (or Windows Server Docker) with Windows containers enabled.
+# - Image tag should match your host OS version where possible, e.g.:
+#     windowsservercore-ltsc2022  -> Windows 11 / Server 2022
+#     windowsservercore-ltsc2019  -> Windows 10 (1809+) / Server 2019
+#   See: https://hub.docker.com/_/microsoft-dotnet-framework-sdk
+#
+# The solution references projects under Main\Business and Main\BM, so the bind mount
+# context is the Main folder (two levels above this file).
+#
+# Build outputs:
+#   - MSBuild still writes into the bind-mounted repo: <repo>\Main\...\bin\...
+#   - Mirrored copies of each direct child project's "bin" under Application\Linx.Internet.Application\
+#     are written to the named volume mounted at C:\build-output (see volumes: below).
+#   - Docker volume name: Linx.Internet.Application-output
+#     Inspect:  docker volume inspect Linx.Internet.Application-output
+#     Copy out: docker run --rm -v Linx.Internet.Application-output:C:\v -v "%CD%":C:\host ... (Windows)
+#
+# Usage (from this directory):
+#   docker compose run --rm build
+#
+# Optional: override configuration or skip the desktop host project if MSBuild fails on WPF/CefSharp:
+#   docker compose run --rm build msbuild Linx.Internet.Application.sln /p:Configuration=Debug /t:Linx.Internet.Application.Service
+
+services:
+  build:
+    image: ${DOTNET_FRAMEWORK_SDK_IMAGE:-mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2022}
+    platform: windows/amd64
+    volumes:
+      - type: bind
+        source: ../..
+        target: C:\src
+      - type: volume
+        source: Linx.Internet.Application-output
+        target: C:\build-output
+    working_dir: C:\src\Application\Linx.Internet.Application
+    command:
+      - powershell
+      - -NoProfile
+      - -ExecutionPolicy
+      - Bypass
+      - -Command
+      - >-
+        $$ErrorActionPreference = 'Stop';
+        nuget restore Linx.Internet.Application.sln -NonInteractive;
+        msbuild Linx.Internet.Application.sln /p:Configuration=Release /m /v:minimal /nologo;
+        New-Item -ItemType Directory -Force -Path 'C:\build-output' | Out-Null;
+        foreach ($$projDir in Get-ChildItem 'C:\src\Application\Linx.Internet.Application' -Directory) {
+          $$binDir = Join-Path $$projDir.FullName 'bin';
+          if (Test-Path $$binDir) {
+            Copy-Item $$binDir (Join-Path 'C:\build-output' $$projDir.Name) -Recurse -Force
+          }
+        }
+
+volumes:
+  Linx.Internet.Application-output:
+    name: Linx.Internet.Application-output

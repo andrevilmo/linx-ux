@@ -1,0 +1,21 @@
+<div class="formly-field" ng-repeat="item in vm.editingComponent.custom track by $index">
+  <div class="form-group-grid">
+    <div>
+      <label class="title title-new">
+        <input type="text" ng-model="item.property" class="form-control" placeholder="Propriedade"></input>
+      </label>
+      <input type="text" ng-model="item.value" class="form-control" placeholder="Valor" />
+      <span ng-show="item.property && item.value" class="delete-x" ng-click="vm.deleteNewProperty($index, item.property)">x</span>
+    </div>
+  </div>
+</div>
+<div class="formly-field" ng-show="vm.editingComponent.custom">
+  <div class="form-group-grid">
+    <div>
+      <label class="title title-new">
+        <input type="text" ng-model="vm.newProperty" class="form-control" placeholder="Propriedade" ng-blur="vm.createNewProperty()"></input>
+      </label>
+      <input type="text" ng-model="vm.newValue" class="form-control" placeholder="Valor" ng-blur="vm.createNewProperty()" />
+    </div>
+  </div>
+</div>

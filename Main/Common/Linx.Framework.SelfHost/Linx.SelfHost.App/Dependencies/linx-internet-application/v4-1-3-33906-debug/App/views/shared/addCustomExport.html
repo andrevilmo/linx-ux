@@ -1,0 +1,167 @@
+﻿<div class="modal-dialog modal-dialog-large">
+    <div class="modal-content ">
+
+        <div class="modal-header">
+            <button type="button" data-bind="click: $root.cancel_Click" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title" data-bind="text: $root.title"></h4>
+        </div>
+
+        <div class="modal-body modal-app">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!-- Begin Body -->
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="col-md-6 remove-pl">
+                                <div class="connected-field box-input-medium">
+                                    <label for="tbExportName" class="control-label ellipsis">Nome da Fonte de Dados</label>
+                                    <div class="controls">
+                                        <input id="tbExportName" class="form-control ellipsis input-medium IsEditableStyle" data-bind="attr: { title: exportName }, igTextEditor: { value: exportName }" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="connected-field box-input-medium">
+                                    <label for="cmbAdapters" class="control-label ellipsis">Grupo de Dados/Exportação</label>
+                                    <div class="controls">
+                                        <span id="cmbAdapters" class="form-control input-medium IsEditableStyle"
+                                            data-bind="igCombo: {
+    dataSource: $root.adapters,
+    textKey: 'display',
+    valueKey: 'name',
+    autoComplete: true,
+    selectedItems: $root.selectedAdapter,
+    enableSelectionChangedUpdate: true,
+    enableClearButton: false,
+    dropDownOnFocus: true,
+    mode: 'dropdown',
+    width: '100%'
+}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="portlet box row">
+                        <div class="portlet-title">
+                            <div class="caption" title="Filtro utilizado"><i class="icon-reorder"></i>Filtro utilizado</div>
+                        </div>
+
+                        <div class="portlet-body">
+                            <div class="controls">
+                                <div class="row">
+                                    <div class="col-md-12 txt-area">
+                                        <textarea readonly="readonly" data-bind="value: $root.lastFilterTranslated" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="portlet box row">
+                        <div class="portlet-title">
+                            <div class="caption" title="Seleção de Campos"><i class="icon-reorder"></i>Seleção de Campos</div>
+                        </div>
+
+                        <div class="portlet-body">
+                            <div class="row">
+                                <!--painel da esquerda-->
+                                <div class="col-md-4">
+                                    <span>Disponíveis</span>
+                                    <div class="area">
+                                        <select multiple="multiple" size="8" data-bind="options: availableFields, optionsText: 'headerText', selectedOptions: availableField" />
+                                    </div>
+                                </div>
+
+                                <!--ações-->
+                                <div class="col-md-3" style="padding-left: 0;">
+                                    <div class="actions">
+                                        <button class="btn btn-color-theme btn-icon-texto" data-bind="enable: $root.canAddItems(), click: $root.addItems" title="Adicionar Items Selecionados">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>Adicionar
+                                        </button>
+
+                                        <button class="btn btn-color-theme btn-icon-texto" data-bind="enable: $root.canAddAllItems(), click: $root.addAllItems" title="Adicionar Todos os Items Selecionados">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>Adicionar Todos
+                                        </button>
+
+                                        <button class="btn btn-color-theme btn-icon-texto" data-bind="enable: $root.canRemoveItems(), click: $root.removeItems" title="Remover Items Selecionados">
+                                            <span class="glyphicon glyphicon-chevron-left"></span>Remover
+                                        </button>
+
+                                        <button class="btn btn-color-theme btn-icon-texto" data-bind="enable: $root.canRemoveAllItems(), click: $root.removeAllItems" title="Remover Todos os Items Selecionados">
+                                            <span class="glyphicon glyphicon-chevron-left"></span>Remover Todos
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!--painel da direita-->
+                                <div class="col-md-4">
+                                    <span>Selecionados</span>
+                                    <div class="area">
+                                        <select multiple="multiple" size="8" data-bind="options: selectedFields, optionsText: 'headerText', selectedOptions: selectedField" />
+                                    </div>
+                                </div>
+
+                                <!--controle de ordenação-->
+                                <div class="col-md-1">
+                                    <div class="controle-ordenacao text-center">
+                                        <button class="btn btn-color-theme fa fa-long-arrow-up" data-bind="enable: canUpItem, click: upItem" title="Mover item para cima"></button>
+                                        <button class="btn btn-color-theme fa fa-long-arrow-down" data-bind="enable: canDownItem, click: downItem" title="Mover item para baixo"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  data-bind="visible: !$root.isExcelDataSource()">
+                    <div class="portlet box row">
+                        <div class="portlet-title">
+                            <div class="caption" title="Configurações para Relatórios"><i class="icon-reorder"></i>Configurações para Relatórios</div>
+                        </div>
+
+                        <div class="portlet-body">
+                            <div class="controls">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input id="Teste001_ckIsChecked" type="checkbox" data-bind="enable: $root.adapterAllowMedia, checked: $root.exportMedia" title="Clique para marcar/desmarcar" />
+                                        <span class="align-label-checkbox">Export Multimídias</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end Body -->
+
+
+            
+        </div>
+
+        <div class="modal-footer">
+                <div class="group-buttons">
+                    <div class="row">
+                        <div class="col-lg-10 col-md-10">
+                            <button class="btn btn-ok" data-bind="enable: visibleReportExport, visible: !$root.isExcelDataSource(), click: customReportExport_Click" title="Exportar Fonte do Relatório"><i class="fa fa-print" />Fonte do Relatório</button>
+                            <button class="btn btn-ok" data-bind="visible: $root.isExcelDataSource(), click: $root.simpleExport_Click" title="Exportar para o Excel"><i class="fa fa-file-excel-o"></i>Exportar</button>
+                            <button class="btn btn-ok" data-bind="click: $root.customUrl_Click" title="Link de Acesso Selecionado"><i class="fa fa-globe" />Link de acesso configurado</button>
+
+                            <button class="btn btn-ok" data-bind="visible: canOpenConfiguration, click: $root.openSavedConfigurations_click" title="Exibir Fontes Salvas"><i class="fa fa-tasks" />Fontes Salvas</button>
+                            <button class="btn btn-ok" data-bind="click: $root.save_Click" title="Salvar Layout Selecionado"><i class="fa fa-floppy-o" />Salvar Layout</button>
+                        </div>
+
+                        <div class="col-md-2">
+                            <button class="btn btn-close" data-bind="click: $root.cancel_Click" title="Cancelar">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>

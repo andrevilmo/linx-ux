@@ -1,0 +1,32 @@
+<div ng-controller="GitProjectController as vm" class="container">
+    <h1>Download Projeto Git</h1>
+    <div class="loaderWrap" ng-show="vm.loader">
+        <div class="spinner-loader" ng-show="vm.loader"></div>
+    </div>
+    <toaster-container></toaster-container>
+    <form>
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="projectName">URL do projeto:</label>
+                <input type="text" class="form-control" ng-model="vm.urlGitProject">
+            </div>
+        </div>
+
+        <label for="projectFolder">Pasta do projeto</label>
+        <div class="input-group">
+            <input disabled="disabled" ng-model="vm.gitDirectory" type="text" class="form-control">
+            <span class="input-group-addon cursor" ng-click="vm.folder()">Selecionar a pasta do projeto</span>
+        </div>
+        <p class="help-block">Selecione a pasta raiz do projeto onde deseja criar as telas via FormBuilder.</p>
+
+        <div class="card-navigation">
+            <a class="" ng-click="vm.exit()">VOLTAR</a>
+            <a type="submit" class="link pull-right" ng-click="vm.downloadGitProject();" ng-disabled="vm.urlGitProject == null || vm.directory == null || vm.urlGitProject.trim().length < 1">DOWNLOAD</a>
+        </div>
+    </form>
+    <tabset-log model="myLog">
+        <tab-log title="Git" id="git">
+            <div>Este é git</div>
+        </tab-log>
+
+</div>

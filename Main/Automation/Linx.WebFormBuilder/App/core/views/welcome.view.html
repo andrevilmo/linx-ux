@@ -1,0 +1,42 @@
+<div ng-controller="WelcomeController as vm" class="container">
+    <h1>BEM VINDO</h1>
+
+    <div class="loaderWrap" ng-show="vm.loader">
+        <div class="spinner-loader" ng-show="vm.loader"></div>
+    </div>
+
+    <div class="intro">
+        <a ui-sref="select-ProjectType" class="link">Criar um projeto</a> ou
+        <a ng-click="vm.selectProject()" class="link">Abrir projeto existente</a>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h3>Meus projetos recentes	 <small style="padding-top:5px;"><a class="link pull-right" ng-click="vm.clearRecentsProjects()">Limpar </a></small></h3>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-6 col-md-4" ng-repeat="project in vm.projects">
+
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>{{project.name}}</h3>
+                    <p>
+                        <i class="link fa fa-user"></i>&nbsp;&nbsp;<span>{{project.author}}</span><br />
+                        <i class="link fa fa-folder"></i>&nbsp;&nbsp;<span class="welcome-path">{{project.path}}</span>
+                    </p>
+                    <div class="card-navigation">
+                        <a class="" role="button" ng-click="vm.removeProject($index)">REMOVER</a>
+                        <a ng-click="vm.openProject(project.path)" class="pull-right link" role="button">ABRIR</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>

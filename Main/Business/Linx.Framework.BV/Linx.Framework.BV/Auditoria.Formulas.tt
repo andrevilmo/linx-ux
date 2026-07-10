@@ -1,0 +1,118 @@
+<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension=".shared.cs" #>
+<#@ include file = "Includes\DataEntityFunctions.ttinclude"#>
+<#@ import namespace = "System.Collections.Generic" #>
+<#@ assembly name = "C:\VSTS - GrupoLinx\Framework\Linx Framework\Main\Binary\Library\Common\Linx\Desktop\GAC\Linx.Tools.dll" #>
+<#@ import namespace = "Linx.Tools" #>
+<#@ EntityAdapterDesigner processor = "EntityAdapterDesignerDirectiveProcessor" requires = "fileName='Auditoria.ead'" provides = "EntityAdapterDesignerRoot=EntityAdapterContext" #>
+
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Xml.Serialization;
+using Linx;
+using Linx.Tools;
+
+
+namespace <#= EntityAdapterContext.TargetNamespace + ".Auditoria"#>
+{	
+<#    
+  //Generate entity class bodies
+  foreach (EntityAdapter entity in EntityAdapterContext.GetEntities())
+  {
+		GenerateEntityFormulas(entity, entity.GetCurrentDataModel(), false);
+  }  
+#>
+}
+
+
+<#+
+	public void GenerateEntityFormulas(EntityAdapter entity, EntityDataModel edm, bool isNetCore)
+	{	
+
+		if (entity.IsPOCO)
+			return;
+
+		string baseIndent = String.Empty, indent = "    ";
+#>
+	
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////
+	<#=baseIndent#>////////////////////////// Data Class Definition //////////////////////
+	<#=baseIndent#>///////////////////////////////////////////////////////////////////////
+	<#=baseIndent#>public partial class <#=entity.Name#>
+	<#=baseIndent#>{
+	
+	<#=entity.GetSizeGridCalculators(baseIndent+indent+indent)#>
+
+	<#+ 
+			
+		foreach(EntityAdapterFormula formula in entity.EntityAdapterFormulas)
+		{	
+
+		  if (!formula.Formula.IsNullOrEmpty() && !formula.KpiRelatedAttribute.IsNullOrEmpty())		
+		  {
+		  #>
+
+	<#=baseIndent+indent#>public string <#=formula.Formula#>
+    <#=baseIndent+indent#>{
+	<#=baseIndent+indent#>    <#=(isNetCore ? "" : "Linx.Business.Tools.KpiManager.UpdateKpiInfo(Get" + formula.KpiRelatedAttribute + "KPI());")#>
+	<#=baseIndent+indent#>    KpiRangeItem range = Get<#=formula.KpiRelatedAttribute#>KPI().GetRangeByValue((double)this.<#=formula.KpiRelatedAttribute#>);
+	<#=baseIndent+indent#>    if (!range.IsNull())
+    <#=baseIndent+indent#>        return range.Description;
+	<#=baseIndent+indent#>    else return String.Empty;
+    <#=baseIndent+indent#>}
+		  <#+
+		  }
+		  
+
+		  if (!formula.Formula.IsNullOrEmpty() && !formula.TriggerAttributes.IsNullOrEmpty())		
+		  {
+#>
+
+    <#=baseIndent+indent#>public void Calculate<#=formula.Name#>()
+    <#=baseIndent+indent#>{
+    <#=baseIndent+indent#>    <#=formula.Name#> = <#=formula.GetFormulaDefinition()#>;
+    <#=baseIndent+indent#>}
+<#+ 
+		  }	
+		}	
+
+		if (entity.EntityAdapterFormulas.Count > 0)
+		{
+#>
+
+    <#=baseIndent+indent#>protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    <#=baseIndent+indent#>{
+    <#=baseIndent+indent+indent#>base.OnPropertyChanged(e);
+    
+<#+				
+		foreach(EntityAdapterFormula formula in entity.EntityAdapterFormulas)
+		{	
+			if (!formula.Formula.IsNullOrEmpty() && !formula.TriggerAttributes.IsNullOrEmpty())		
+			{
+#>
+    <#=baseIndent+indent+indent#>if ((",<#=formula.TriggerAttributes.Replace(" ", "")#>,").IndexOf("," + e.PropertyName + ",") >= 0)
+    <#=baseIndent+indent+indent#>	Calculate<#=formula.Name#>(); 
+<#+ 
+			}
+		}
+#>
+	<#=baseIndent+indent#>}		
+		
+<#+ 	
+		}
+				
+#>
+
+	<#=baseIndent#>}
+<#+     
+		foreach (EntityAdapter sourceEntity in entity.SourceEntityAdapters)
+        {
+			GenerateEntityFormulas(sourceEntity, edm, false);
+        }   
+	}
+#>

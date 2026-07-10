@@ -1,0 +1,75 @@
+<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension=".shared.cs" #>
+<#@ include file = "..\Includes\EntityAdapterDynamicModels.ttinclude"#>
+<#@ import namespace = "System.Collections.Generic" #>
+<#@ import namespace = "System.Linq" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="Linx.Tools" #>
+<#@ import namespace = "Linx.Tools" #>
+<# 
+List<EntityAdapterDesignerRoot> models = GetModels();	
+List<string> kpis = new List<string>();
+
+if (models.Count > 0)
+{
+#>
+using System;
+using System.IO;
+using System.Configuration;
+using System.Collections.Generic;
+using Linx.Tools; 
+    
+namespace <#= models[0].TargetNamespace#>.KPIs
+{
+
+<#  
+  
+  string baseIndent = String.Empty, indent = "    ";
+  foreach(EntityAdapterDesignerRoot model in models)
+  {	 
+	  foreach (var kpiRef in model.GetAllKpis())
+	  {
+		if (!kpis.Contains(kpiRef.ClassName))
+		{
+			kpis.Add(kpiRef.ClassName);   
+#>
+			
+    public partial class <#= kpiRef.ClassName #> : <#=(String.IsNullOrEmpty(kpiRef.NameSpace) ? "KpiInfo" : kpiRef.NameSpace + "." + kpiRef.ClassName)#>
+    {
+
+		<#
+		if (String.IsNullOrEmpty(kpiRef.NameSpace))
+		{
+		#>
+
+			public <#= kpiRef.ClassName #>() : base()
+			{
+					this.Description = "<#= kpiRef.Description #>";
+					this.Name = "<#= kpiRef.ClassName.Trim() #>";
+					this.ShowType = KpiShowType.<#=kpiRef.ShowType.ToString()#>;
+			<#
+					foreach(var range in kpiRef.KpiRangeItems)
+					{
+					#>
+
+					this.Ranges.Add("<#= range.Name #>", new KpiRangeItem() { Description = "<#= range.Description.Trim() #>", StartValue = <#= range.StartValue #>, EndValue = <#= range.EndValue #>, Alpha = <#= range.Alpha #>, Red = <#= range.Red #>, Green = <#= range.Green #>, Blue = <#= range.Blue #>  });
+				    <#
+					}
+			#>
+
+			}
+		
+		<#
+		}
+		#>
+
+	}    
+<#    
+		}
+	  }
+  }
+  
+}  
+#>
+
+}

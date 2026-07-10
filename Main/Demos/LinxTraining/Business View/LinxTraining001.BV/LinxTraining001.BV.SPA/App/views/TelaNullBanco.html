@@ -1,0 +1,703 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="TelaNullBanco_formViewer" class="panelTransaition">
+            <figure id="TelaNullBanco_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.TelaNullBanco().viewType() === 'Main' ? '' : 'none' }">
+                                       <div id="TelaNullBanco_gbPaiNotNullView" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="PaiNotNullView"><i class="icon-reorder"></i>PaiNotNullView</div>
+                       <div class="tools">
+                           <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div class="portlet-body" style="display:block ;">
+                       <div data-bind="with: $root.TelaNullBanco().getWithBinding(currentDataItem, $root.TelaNullBanco().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBanco_divBoolean" class="" >
+                                           <div class="controls">
+                                               <div class="input-small">
+                                                   <label class="input-small">
+                                                     <input id="TelaNullBanco_ckBoolean" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ckBoolean') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ckBoolean') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TelaNullBanco_ckBoolean') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ckBoolean') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()), nullableChecked: Boolean" title="Clique para marcar/desmarcar"/> 
+                                                     <span id="lblTelaNullBanco_ckBoolean" data-bind="css: { 'content-required-checkbox': $root.TelaNullBanco().status() === 'E'}" class="align-label-checkbox">Boolean</span>
+                                                   </label>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBanco_divByte" class="" >
+                                           <label id="TelaNullBanco_lblByte" for="TelaNullBanco_ntxByte" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Byte">Byte
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-mini">
+                                                   <div class="input-group box-input-mini">
+                                                       <input id="TelaNullBanco_ntxByte" class="form-control numericFilterRange input-mini" data-bind="validatedField: 'Byte', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxByte') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxByte') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igNumericEditor: { value: Byte, minValue: 0, maxValue: null,  maxLength: 3,  dataMode: 'byte', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxByte') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxByte') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxByte') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxByte') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewByte(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewByte(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgByte', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcByte', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBanco_rgByte" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbByte" class="IsEditableStyle input-mini" data-bind="igNumericEditor: { value: PaiNotNullViewByte_begin, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxByte').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeByte').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeByte').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeByte" class="IsEditableStyle input-mini" data-bind="igNumericEditor: { value: PaiNotNullViewByte_end, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxByte').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbByte').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbByte').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBanco_divDateTime" class="" >
+                                           <label id="TelaNullBanco_lblDateTime" for="TelaNullBanco_dtDateTime" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="DateTime">DateTime
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small" >
+                                                       <span id="TelaNullBanco_dtDateTime" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'DateTime', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_dtDateTime') ? ctrl.getCustomEnable($root, 'TelaNullBanco_dtDateTime') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing())},  igDatePicker: { value: DateTime, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_dtDateTime') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_dtDateTime') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_dtDateTime') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_dtDateTime') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                       <span class="input-group-btn" title="Filtro de datas">
+                                                          <button id="TelaNullBanco_rgbtnDateTime"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewDateTime(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewDateTime(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgDateTime', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcDateTime', headerText:'Filtro de datas' }"  /></span>
+                                                       <script id="TelaNullBanco_rgDateTime" type="text/html" tabindex="-1">
+                                                          <input type="radio" data-bind="checked:PaiNotNullViewDateTime_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="checked:PaiNotNullViewDateTime_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                          <div id="TelaNullBanco_divrgDateTime" >
+                                                              <div class="filterByRange" data-bind="visible: PaiNotNullViewDateTime_typeRange() == 'R'">
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TelaNullBanco_dtbDateTime" class="IsEditableStyle" data-bind="igDatePicker: { value: PaiNotNullViewDateTime_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBanco_dtDateTime').igDatePicker('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_dteDateTime').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TelaNullBanco_dtbDateTime').igDatePicker('value'); var valorMax = $('#TelaNullBanco_dteDateTime').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TelaNullBanco_dtbDateTime').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                                  <p></p>
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TelaNullBanco_dteDateTime" class="IsEditableStyle" data-bind="igDatePicker: { value: PaiNotNullViewDateTime_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBanco_dtDateTime').igDatePicker('option', 'readOnly', ($('#TelaNullBanco_dtbDateTime').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TelaNullBanco_dtbDateTime').igDatePicker('value'); var valorMax = $('#TelaNullBanco_dteDateTime').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TelaNullBanco_dteDateTime').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                              </div>
+                                                              <div class="filterByPredefined " data-bind="visible: PaiNotNullViewDateTime_typeRange() == 'P'">
+                                                                  <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: PaiNotNullViewDateTime_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                                  <p/>
+                                                                  <div class="row predefValue" data-bind="visible: PaiNotNullViewDateTime_predefFilter() != null && PaiNotNullViewDateTime_predefFilter()[0] && PaiNotNullViewDateTime_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: PaiNotNullViewDateTime_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                              </div>
+                                                          </div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBanco_divDecimal" class="" >
+                                           <label id="TelaNullBanco_lblDecimal" for="TelaNullBanco_ntxDecimal" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Decimal">Decimal
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small">
+                                                       <input id="TelaNullBanco_ntxDecimal" class="form-control numericFilterRange input-small" data-bind="validatedField: 'Decimal', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxDecimal') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxDecimal') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igNumericEditor: { value: Decimal, minValue: 0, maxValue: 99999999.99,  maxLength: 11,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxDecimal') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxDecimal') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxDecimal') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxDecimal') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewDecimal(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewDecimal(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgDecimal', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcDecimal', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBanco_rgDecimal" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbDecimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: PaiNotNullViewDecimal_begin, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxDecimal').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeDecimal').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeDecimal').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeDecimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: PaiNotNullViewDecimal_end, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxDecimal').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbDecimal').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbDecimal').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBanco_divIDPaiNotNull" class="" >
+                                           <label id="TelaNullBanco_lblIDPaiNotNull" for="TelaNullBanco_ntxIDPaiNotNull" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID PaiNotNull">ID PaiNotNull
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-min-medium">
+                                                   <div class="input-group box-input-min-medium">
+                                                       <input id="TelaNullBanco_ntxIDPaiNotNull" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'IDPaiNotNull', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxIDPaiNotNull') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxIDPaiNotNull') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IDPaiNotNull, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxIDPaiNotNull') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxIDPaiNotNull') : (isEmptyEntityFn($data) || !($root.TelaNullBanco().status() === 'C' || ($data.isAdded && $data.isAdded()))), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxIDPaiNotNull') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxIDPaiNotNull') : (isEmptyEntityFn($data) || !($root.TelaNullBanco().status() === 'C' || ($data.isAdded && $data.isAdded()))) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewIDPaiNotNull(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewIDPaiNotNull(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgIDPaiNotNull', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcIDPaiNotNull', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBanco_rgIDPaiNotNull" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbIDPaiNotNull" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: PaiNotNullViewIDPaiNotNull_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxIDPaiNotNull').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeIDPaiNotNull').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeIDPaiNotNull').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeIDPaiNotNull" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: PaiNotNullViewIDPaiNotNull_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxIDPaiNotNull').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbIDPaiNotNull').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbIDPaiNotNull').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBanco_divInt" class="" >
+                                           <label id="TelaNullBanco_lblInt" for="TelaNullBanco_ntxInt" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Int">Int
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-min-medium">
+                                                   <div class="input-group box-input-min-medium">
+                                                       <input id="TelaNullBanco_ntxInt" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'Int', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxInt') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxInt') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igNumericEditor: { value: Int, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxInt') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxInt') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxInt') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxInt') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewInt(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewInt(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgInt', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcInt', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBanco_rgInt" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbInt" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: PaiNotNullViewInt_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxInt').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeInt').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeInt').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeInt" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: PaiNotNullViewInt_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxInt').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbInt').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbInt').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBanco_divLong" class="" >
+                                           <label id="TelaNullBanco_lblLong" for="TelaNullBanco_ntxLong" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Long">Long
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-xmedium">
+                                                   <div class="input-group box-input-xmedium">
+                                                       <input id="TelaNullBanco_ntxLong" class="form-control numericFilterRange input-xmedium" data-bind="validatedField: 'Long', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxLong') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxLong') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igNumericEditor: { value: Long, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxLong') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxLong') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxLong') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxLong') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewLong(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewLong(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgLong', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcLong', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBanco_rgLong" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbLong" class="IsEditableStyle input-xmedium" data-bind="igNumericEditor: { value: PaiNotNullViewLong_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxLong').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeLong').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeLong').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeLong" class="IsEditableStyle input-xmedium" data-bind="igNumericEditor: { value: PaiNotNullViewLong_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxLong').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbLong').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbLong').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBanco_divShort" class="" >
+                                           <label id="TelaNullBanco_lblShort" for="TelaNullBanco_ntxShort" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Short">Short
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-xsmall">
+                                                   <div class="input-group box-input-xsmall">
+                                                       <input id="TelaNullBanco_ntxShort" class="form-control numericFilterRange input-xsmall" data-bind="validatedField: 'Short', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxShort') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxShort') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igNumericEditor: { value: Short, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxShort') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxShort') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxShort') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxShort') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewShort(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_PaiNotNullViewShort(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgShort', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcShort', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaNullBanco_rgShort" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbShort" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: PaiNotNullViewShort_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxShort').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeShort').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeShort').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeShort" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: PaiNotNullViewShort_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxShort').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbShort').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbShort').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBanco_divString" class="" >
+                                           <label id="TelaNullBanco_lblString" for="TelaNullBanco_tbString" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="String">String
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-small">
+                                                   <input id="TelaNullBanco_tbString" class="form-control ellipsis input-small" data-bind="attr: { title: String }, validatedField: 'String', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbString') ? ctrl.getCustomEnable($root, 'TelaNullBanco_tbString') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: String, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbString') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_tbString') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbString') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_tbString') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBanco_divStringChar" class="" >
+                                           <label id="TelaNullBanco_lblStringChar" for="TelaNullBanco_tbStringChar" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="StringChar">StringChar
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-small">
+                                                   <input id="TelaNullBanco_tbStringChar" class="form-control ellipsis input-small" data-bind="attr: { title: StringChar }, validatedField: 'StringChar', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbStringChar') ? ctrl.getCustomEnable($root, 'TelaNullBanco_tbStringChar') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: StringChar, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbStringChar') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_tbStringChar') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbStringChar') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_tbStringChar') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaNullBanco_divStringText" class="" >
+                                           <label id="TelaNullBanco_lblStringText" for="TelaNullBanco_edStringText" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="StringText">StringText
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-xmedium">
+                                                   <textarea id="TelaNullBanco_edStringText" class="form-control input-xmedium"  data-bind="validatedField: 'StringText', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_edStringText') ? ctrl.getCustomEnable($root, 'TelaNullBanco_edStringText') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TelaNullBanco_edStringText') ? ctrl.getCustomEnable($root, 'TelaNullBanco_edStringText') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()), value: StringText" rows="2"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+           <div id="TelaNullBanco_tcPaiNotNullViewTabControl" class="tabbable tabbable-custom box col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+              <div class="container-tab">
+                 <div id="TelaNullBanco_tcPaiNotNullViewTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                 <div id="TelaNullBanco_tcPaiNotNullViewTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                 <div id="TelaNullBanco_tcPaiNotNullViewTabControl_wrapper" class="wrapper">
+                    <ul id="TelaNullBanco_tcPaiNotNullViewTabControl_list" class="nav nav-tabs list">
+                       <li id="TelaNullBanco_tiFilhaNotNullViewTabItem" class="active"><a href="#TelaNullBanco_tabFilhaNotNullViewTabItem" data-toggle="tab" title="FilhaNotNullView">FilhaNotNullView</a></li>
+                    </ul>
+                    </div>
+                 </div>
+              <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="TelaNullBanco_tabFilhaNotNullViewTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+                       <div id="TelaNullBanco_dGridFilhaNotNullView_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.TelaNullBanco().getWithBinding(currentDataItem, $root.TelaNullBanco().rootDataTypeName)">
+                           <button id="TelaNullBanco_dGridFilhaNotNullView_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.TelaNullBanco().status() === 'E', click: function () { $root.TelaNullBanco().createAndNotifyFilhaNotNullView($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="TelaNullBanco_dGridFilhaNotNullView_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.TelaNullBanco().status() === 'E', 
+                           click: function () {
+                              $root.TelaNullBanco().deleteGrid('#TelaNullBanco_dGridFilhaNotNullView', 'FilhaNotNullView', 'vm.currentDataItem().currentFilhaNotNullView;vm.currentDataItem().FilhaNotNullViewList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="TelaNullBanco_dGridFilhaNotNullView_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.TelaNullBanco().openEditor('#TelaNullBanco_dGridFilhaNotNullView', 'FilhaNotNullView', 'vm.currentDataItem().currentFilhaNotNullView;vm.currentDataItem().FilhaNotNullViewList', 'FilhaNotNullView;vm.currentDataItem()', 'FilhaNotNullView(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="TelaNullBanco_dGridFilhaNotNullView_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.TelaNullBanco().openEditor('#TelaNullBanco_dGridFilhaNotNullView', 'FilhaNotNullView', 'vm.currentDataItem().currentFilhaNotNullView;vm.currentDataItem().FilhaNotNullViewList', 'FilhaNotNullView;vm.currentDataItem()', 'FilhaNotNullView(vm.currentDataItem())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="TelaNullBanco_dGridFilhaNotNullView_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.TelaNullBanco().dataToolbar.canGridExport(), click: function () {$root.TelaNullBanco().exportDataDetails($data, 'FilhaNotNullView', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="TelaNullBanco_dGridFilhaNotNullView" data-bind="css: { IsEditableStyle: $root.TelaNullBanco().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+
+                   <div id="dialogFilhaNotNullView"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegFilhaNotNullView" onClick="$(this).backRegFilhaNotNullView();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberFilhaNotNullView">0</label><label>/</label><label id="totalNumberFilhaNotNullView">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegFilhaNotNullView" onClick="$(this).nextRegFilhaNotNullView();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegFilhaNotNullView" onClick="$(this).addRegFilhaNotNullView();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegFilhaNotNullView" onClick="$(this).delRegFilhaNotNullView();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegFilhaNotNullView" onClick="$(this).okRegFilhaNotNullView();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="TelaNullBanco_templateFilhaNotNullView" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.TelaNullBanco().getWithBinding(currentDataItem, $root.TelaNullBanco().rootDataTypeName)"><div data-bind="with: $root.TelaNullBanco().getWithBinding(currentFilhaNotNullView, 'FilhaNotNullView')">
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_BooleanTemplate" class="" >
+                                       <div class="controls">
+                                           <div class="input-small">
+                                               <label class="input-small">
+                                                 <input id="TelaNullBanco_ckFilhaNotNullView_Boolean" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ckFilhaNotNullView_Boolean') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ckFilhaNotNullView_Boolean') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TelaNullBanco_ckFilhaNotNullView_Boolean') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ckFilhaNotNullView_Boolean') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()), nullableChecked: Boolean" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lblTelaNullBanco_ckFilhaNotNullView_Boolean" data-bind="css: { 'content-required-checkbox': $root.TelaNullBanco().status() === 'E'}" class="align-label-checkbox">Boolean</span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_ByteTemplate" class="" >
+                                       <label id="TelaNullBanco_lblFilhaNotNullView_Byte" for="TelaNullBanco_ntxFilhaNotNullView_Byte" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Byte">Byte
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-mini">
+                                               <div class="input-group box-input-mini">
+                                                   <input id="TelaNullBanco_ntxFilhaNotNullView_Byte" class="form-control numericFilterRange input-mini" data-bind="validatedField: 'Byte', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Byte') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Byte') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igNumericEditor: { value: Byte, minValue: 0, maxValue: null,  maxLength: 3,  dataMode: 'byte', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Byte') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Byte') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Byte') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Byte') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewByte(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewByte(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgFilhaNotNullView_Byte', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcFilhaNotNullView_Byte', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBanco_rgFilhaNotNullView_Byte" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbFilhaNotNullView_Byte" class="IsEditableStyle input-mini" data-bind="igNumericEditor: { value: FilhaNotNullViewByte_begin, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_Byte').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeFilhaNotNullView_Byte').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeFilhaNotNullView_Byte').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeFilhaNotNullView_Byte" class="IsEditableStyle input-mini" data-bind="igNumericEditor: { value: FilhaNotNullViewByte_end, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_Byte').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbFilhaNotNullView_Byte').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbFilhaNotNullView_Byte').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_DateTimeTemplate" class="" >
+                                       <label id="TelaNullBanco_lblFilhaNotNullView_DateTime" for="TelaNullBanco_dtFilhaNotNullView_DateTime" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="DateTime">DateTime
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-small">
+                                               <div class="input-group box-input-small" >
+                                                   <span id="TelaNullBanco_dtFilhaNotNullView_DateTime" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'DateTime', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_dtFilhaNotNullView_DateTime') ? ctrl.getCustomEnable($root, 'TelaNullBanco_dtFilhaNotNullView_DateTime') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing())},  igDatePicker: { value: DateTime, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_dtFilhaNotNullView_DateTime') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_dtFilhaNotNullView_DateTime') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_dtFilhaNotNullView_DateTime') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_dtFilhaNotNullView_DateTime') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="TelaNullBanco_rgbtnFilhaNotNullView_DateTime"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewDateTime(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewDateTime(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgFilhaNotNullView_DateTime', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcFilhaNotNullView_DateTime', headerText:'Filtro de datas' }"  /></span>
+                                                   <script id="TelaNullBanco_rgFilhaNotNullView_DateTime" type="text/html" tabindex="-1">
+                                                      <input type="radio" data-bind="checked:FilhaNotNullViewDateTime_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:FilhaNotNullViewDateTime_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      <div id="TelaNullBanco_divrgFilhaNotNullView_DateTime" >
+                                                          <div class="filterByRange" data-bind="visible: FilhaNotNullViewDateTime_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TelaNullBanco_dtbFilhaNotNullView_DateTime" class="IsEditableStyle" data-bind="igDatePicker: { value: FilhaNotNullViewDateTime_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBanco_dtFilhaNotNullView_DateTime').igDatePicker('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_dteFilhaNotNullView_DateTime').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TelaNullBanco_dtbFilhaNotNullView_DateTime').igDatePicker('value'); var valorMax = $('#TelaNullBanco_dteFilhaNotNullView_DateTime').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TelaNullBanco_dtbFilhaNotNullView_DateTime').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                              <p></p>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TelaNullBanco_dteFilhaNotNullView_DateTime" class="IsEditableStyle" data-bind="igDatePicker: { value: FilhaNotNullViewDateTime_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaNullBanco_dtFilhaNotNullView_DateTime').igDatePicker('option', 'readOnly', ($('#TelaNullBanco_dtbFilhaNotNullView_DateTime').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TelaNullBanco_dtbFilhaNotNullView_DateTime').igDatePicker('value'); var valorMax = $('#TelaNullBanco_dteFilhaNotNullView_DateTime').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TelaNullBanco_dteFilhaNotNullView_DateTime').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: FilhaNotNullViewDateTime_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: FilhaNotNullViewDateTime_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <p/>
+                                                              <div class="row predefValue" data-bind="visible: FilhaNotNullViewDateTime_predefFilter() != null && FilhaNotNullViewDateTime_predefFilter()[0] && FilhaNotNullViewDateTime_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: FilhaNotNullViewDateTime_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_DecimalTemplate" class="" >
+                                       <label id="TelaNullBanco_lblFilhaNotNullView_Decimal" for="TelaNullBanco_ntxFilhaNotNullView_Decimal" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Decimal">Decimal
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-small">
+                                               <div class="input-group box-input-small">
+                                                   <input id="TelaNullBanco_ntxFilhaNotNullView_Decimal" class="form-control numericFilterRange input-small" data-bind="validatedField: 'Decimal', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Decimal') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Decimal') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igNumericEditor: { value: Decimal, minValue: 0, maxValue: 99999999.99,  maxLength: 11,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Decimal') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Decimal') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Decimal') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Decimal') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewDecimal(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewDecimal(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgFilhaNotNullView_Decimal', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcFilhaNotNullView_Decimal', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBanco_rgFilhaNotNullView_Decimal" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbFilhaNotNullView_Decimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: FilhaNotNullViewDecimal_begin, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_Decimal').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeFilhaNotNullView_Decimal').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeFilhaNotNullView_Decimal').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeFilhaNotNullView_Decimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: FilhaNotNullViewDecimal_end, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_Decimal').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbFilhaNotNullView_Decimal').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbFilhaNotNullView_Decimal').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_IDFilhaNotNullTemplate" class="" >
+                                       <label id="TelaNullBanco_lblFilhaNotNullView_IDFilhaNotNull" for="TelaNullBanco_ntxFilhaNotNullView_IDFilhaNotNull" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID FilhaNotNull">ID FilhaNotNull
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-min-medium">
+                                               <div class="input-group box-input-min-medium">
+                                                   <input id="TelaNullBanco_ntxFilhaNotNullView_IDFilhaNotNull" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'IDFilhaNotNull', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDFilhaNotNull') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDFilhaNotNull') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IDFilhaNotNull, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDFilhaNotNull') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDFilhaNotNull') : (isEmptyEntityFn($data) || !($root.TelaNullBanco().status() === 'C' || ($data.isAdded && $data.isAdded()))), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDFilhaNotNull') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDFilhaNotNull') : (isEmptyEntityFn($data) || !($root.TelaNullBanco().status() === 'C' || ($data.isAdded && $data.isAdded()))) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewIDFilhaNotNull(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewIDFilhaNotNull(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgFilhaNotNullView_IDFilhaNotNull', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcFilhaNotNullView_IDFilhaNotNull', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBanco_rgFilhaNotNullView_IDFilhaNotNull" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbFilhaNotNullView_IDFilhaNotNull" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: FilhaNotNullViewIDFilhaNotNull_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_IDFilhaNotNull').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeFilhaNotNullView_IDFilhaNotNull').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeFilhaNotNullView_IDFilhaNotNull').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeFilhaNotNullView_IDFilhaNotNull" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: FilhaNotNullViewIDFilhaNotNull_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_IDFilhaNotNull').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbFilhaNotNullView_IDFilhaNotNull').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbFilhaNotNullView_IDFilhaNotNull').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_IDPaiNotNullTemplate" class="" >
+                                       <label id="TelaNullBanco_lblFilhaNotNullView_IDPaiNotNull" for="TelaNullBanco_ntxFilhaNotNullView_IDPaiNotNull" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID PaiNotNull">ID PaiNotNull
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-min-medium">
+                                               <div class="input-group box-input-min-medium">
+                                                   <input id="TelaNullBanco_ntxFilhaNotNullView_IDPaiNotNull" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'IDPaiNotNull', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDPaiNotNull') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDPaiNotNull') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igNumericEditor: { value: IDPaiNotNull, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDPaiNotNull') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDPaiNotNull') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDPaiNotNull') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_IDPaiNotNull') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewIDPaiNotNull(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewIDPaiNotNull(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgFilhaNotNullView_IDPaiNotNull', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcFilhaNotNullView_IDPaiNotNull', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBanco_rgFilhaNotNullView_IDPaiNotNull" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbFilhaNotNullView_IDPaiNotNull" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: FilhaNotNullViewIDPaiNotNull_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_IDPaiNotNull').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeFilhaNotNullView_IDPaiNotNull').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeFilhaNotNullView_IDPaiNotNull').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeFilhaNotNullView_IDPaiNotNull" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: FilhaNotNullViewIDPaiNotNull_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_IDPaiNotNull').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbFilhaNotNullView_IDPaiNotNull').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbFilhaNotNullView_IDPaiNotNull').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_IntTemplate" class="" >
+                                       <label id="TelaNullBanco_lblFilhaNotNullView_Int" for="TelaNullBanco_ntxFilhaNotNullView_Int" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Int">Int
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-min-medium">
+                                               <div class="input-group box-input-min-medium">
+                                                   <input id="TelaNullBanco_ntxFilhaNotNullView_Int" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'Int', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Int') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Int') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igNumericEditor: { value: Int, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Int') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Int') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Int') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Int') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewInt(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewInt(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgFilhaNotNullView_Int', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcFilhaNotNullView_Int', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBanco_rgFilhaNotNullView_Int" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbFilhaNotNullView_Int" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: FilhaNotNullViewInt_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_Int').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeFilhaNotNullView_Int').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeFilhaNotNullView_Int').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeFilhaNotNullView_Int" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: FilhaNotNullViewInt_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_Int').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbFilhaNotNullView_Int').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbFilhaNotNullView_Int').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_LongTemplate" class="" >
+                                       <label id="TelaNullBanco_lblFilhaNotNullView_Long" for="TelaNullBanco_ntxFilhaNotNullView_Long" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Long">Long
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-xmedium">
+                                               <div class="input-group box-input-xmedium">
+                                                   <input id="TelaNullBanco_ntxFilhaNotNullView_Long" class="form-control numericFilterRange input-xmedium" data-bind="validatedField: 'Long', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Long') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Long') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igNumericEditor: { value: Long, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Long') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Long') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Long') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Long') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewLong(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewLong(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgFilhaNotNullView_Long', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcFilhaNotNullView_Long', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBanco_rgFilhaNotNullView_Long" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbFilhaNotNullView_Long" class="IsEditableStyle input-xmedium" data-bind="igNumericEditor: { value: FilhaNotNullViewLong_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_Long').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeFilhaNotNullView_Long').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeFilhaNotNullView_Long').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeFilhaNotNullView_Long" class="IsEditableStyle input-xmedium" data-bind="igNumericEditor: { value: FilhaNotNullViewLong_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_Long').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbFilhaNotNullView_Long').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbFilhaNotNullView_Long').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_ShortTemplate" class="" >
+                                       <label id="TelaNullBanco_lblFilhaNotNullView_Short" for="TelaNullBanco_ntxFilhaNotNullView_Short" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Short">Short
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-xsmall">
+                                               <div class="input-group box-input-xsmall">
+                                                   <input id="TelaNullBanco_ntxFilhaNotNullView_Short" class="form-control numericFilterRange input-xsmall" data-bind="validatedField: 'Short', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Short') ? ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Short') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igNumericEditor: { value: Short, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Short') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Short') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Short') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_ntxFilhaNotNullView_Short') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewShort(), 'icon-ok': $root.TelaNullBanco().entitySearchRange.has_FilhaNotNullViewShort(), hide: $root.TelaNullBanco().status() !== 'C' }, popoverWithBind: { template: '#TelaNullBanco_rgFilhaNotNullView_Short', vm: $root.TelaNullBanco().entitySearchRange, ctrlName: 'TelaNullBanco_rgcFilhaNotNullView_Short', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="TelaNullBanco_rgFilhaNotNullView_Short" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaNullBanco_ntxbFilhaNotNullView_Short" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: FilhaNotNullViewShort_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_Short').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaNullBanco_ntxeFilhaNotNullView_Short').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaNullBanco_ntxeFilhaNotNullView_Short').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaNullBanco_ntxeFilhaNotNullView_Short" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: FilhaNotNullViewShort_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaNullBanco_ntxFilhaNotNullView_Short').igNumericEditor('option', 'readOnly', ($('#TelaNullBanco_ntxbFilhaNotNullView_Short').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaNullBanco_ntxbFilhaNotNullView_Short').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_StringTemplate" class="" >
+                                       <label id="TelaNullBanco_lblFilhaNotNullView_String" for="TelaNullBanco_tbFilhaNotNullView_String" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="String">String
+                                       </label>
+                                       <div class="controls">
+                                           <div class="input-small">
+                                               <input id="TelaNullBanco_tbFilhaNotNullView_String" class="form-control ellipsis input-small" data-bind="attr: { title: String }, validatedField: 'String', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_String') ? ctrl.getCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_String') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: String, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_String') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_String') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_String') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_String') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing())  }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_StringCharTemplate" class="" >
+                                       <label id="TelaNullBanco_lblFilhaNotNullView_StringChar" for="TelaNullBanco_tbFilhaNotNullView_StringChar" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="StringChar">StringChar
+                                       </label>
+                                       <div class="controls">
+                                           <div class="input-small">
+                                               <input id="TelaNullBanco_tbFilhaNotNullView_StringChar" class="form-control ellipsis input-small" data-bind="attr: { title: StringChar }, validatedField: 'StringChar', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_StringChar') ? ctrl.getCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_StringChar') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: StringChar, readOnly: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_StringChar') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_StringChar') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_StringChar') ? !ctrl.getCustomEnable($root, 'TelaNullBanco_tbFilhaNotNullView_StringChar') : (isEmptyEntityFn($data) || !$root.TelaNullBanco().enabledForEditing())  }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="TelaNullBanco_divFilhaNotNullView_StringTextTemplate" class="" >
+                                       <label id="TelaNullBanco_lblFilhaNotNullView_StringText" for="TelaNullBanco_edFilhaNotNullView_StringText" data-bind="css: { 'content-required': $root.TelaNullBanco().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="StringText">StringText
+                                       </label>
+                                       <div class="controls">
+                                           <div class="input-xmedium">
+                                               <textarea id="TelaNullBanco_edFilhaNotNullView_StringText" class="form-control input-xmedium"  data-bind="validatedField: 'StringText', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaNullBanco_edFilhaNotNullView_StringText') ? ctrl.getCustomEnable($root, 'TelaNullBanco_edFilhaNotNullView_StringText') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TelaNullBanco_edFilhaNotNullView_StringText') ? ctrl.getCustomEnable($root, 'TelaNullBanco_edFilhaNotNullView_StringText') : (!isEmptyEntityFn($data) && $root.TelaNullBanco().enabledForEditing()), value: StringText" rows="2"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+           </div>
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="TelaNullBanco_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.TelaNullBanco().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyTelaNullBanco_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyTelaNullBanco_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.TelaNullBanco().dataToolbar.canExport(), click: function () {$root.TelaNullBanco().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyTelaNullBanco_dGrid" data-bind="css: { IsEditableStyle: $root.TelaNullBanco().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

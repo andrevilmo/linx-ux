@@ -1,0 +1,56 @@
+<div ng-controller="NewProjectCtrl as vm" class="container">
+    <h1>NOVO PROJETO</h1>
+    <div class="loaderWrap" ng-show="vm.loader">
+        <div class="spinner-loader" ng-show="vm.loader"></div>
+    </div>
+    <toaster-container></toaster-container>
+    <form>
+      <div class="row">
+          <div class="form-group col-sm-6">
+              <label for="projectName">Selecione o tipo de projeto: </label>
+              <div dropdown is-open="status.isopen">
+              <button class="btn btn-default" dropdown-toggle id="single-button" type="button">
+                {{vm.selectedProjectAction.name}}
+                <span class="caret"></span>
+              </button>
+              <ul aria-labelledby="single-button" class="dropdown-menu" role="menu">
+                <li ng-repeat="type in vm.projectType">
+                  <a ng-click="vm.setType(type)">{{type.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+      </div>
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <label for="projectName">Nome do projeto</label>
+                <input type="text" class="form-control" id="projectName" ng-model="vm.projectName">
+            </div>
+
+            <div class="form-group  col-sm-6">
+                <label for="author">Autor</label>
+                <input type="text" class="form-control" id="author" ng-model="vm.author">
+            </div>
+        </div>
+
+        <label for="projectFolder">Pasta do projeto</label>
+        <div class="input-group">
+            <input disabled="disabled" ng-model="vm.directory" type="text" class="form-control">
+            <span class="input-group-addon cursor" ng-click="vm.folder()">Selecionar a pasta do projeto</span>
+        </div>
+        <p class="help-block">Selecione a pasta raiz do projeto onde deseja criar as telas via FormBuilder.</p>
+
+        <div class="card-navigation">
+            <a class="" ng-click="vm.exit()">VOLTAR</a>
+            <a type="submit" class="link pull-right" ng-click="vm.save()">SALVAR</a>
+        </div>
+    </form>
+    <tabset-log model="myLog">
+        <tab-log title="Git" id="git">
+            <div>Este é git</div>
+        </tab-log>
+
+
+
+    </tabset-log>
+</div>

@@ -1,0 +1,85 @@
+<div class="tab-pane fade in active" id="solutionExplorer" role="tabpanel">
+  <div class="dropdown pull-right" dropdown is-open="status.isopen">
+    <!--div class="loaderWrap" ng-show="vm.loader">
+            <div class="spinner-loader" ng-show="vm.loader"></div>
+        </div>-->
+
+    <button class="btn btn-default" ng-class="{'btn-selectedOne':vm.explorerSelectedMode == 'css'}" ng-click="vm.toggleExplorerMode('css');" ng-disabled="vm.disableGitProject == true">CSS</button>
+    <button class="btn btn-default" ng-class="{'btn-selectedOne':vm.explorerSelectedMode == 'view'}" ng-click="vm.toggleExplorerMode('view');" tooltip="Views" ng-disabled="vm.disableGitProject == true">V</button>
+    <button class="btn btn-default" ng-class="{'btn-selectedOne':vm.explorerSelectedMode == 'controller'}" ng-click="vm.toggleExplorerMode('controller');" tooltip="Controllers" ng-disabled="vm.disableGitProject == true">C</button>
+    <button class="btn btn-default" ng-class="{'btn-selectedOne':vm.explorerSelectedMode == 'simple'}" ng-click="vm.toggleExplorerMode('simple');" tooltip="Simples" ng-disabled="vm.disableGitProject == true">S</button>
+    <button class="btn btn-default" ng-class="{'btn-selectedOne':vm.explorerSelectedMode == 'builder'}" ng-click="vm.toggleExplorerMode('builder');" tooltip="Builder" ng-disabled="vm.disableGitProject == true">B</button>
+    <button class="btn btn-default" ng-class="{'btn-selectedOne':vm.explorerSelectedMode == 'advanced'}" ng-click="vm.toggleExplorerMode('advanced');" tooltip="Avançado">A</button>
+
+    <button class="btn btn-default" dropdown-toggle id="single-button" type="button" ng-disabled="vm.disableGitProject == true">
+      Novo
+      <span class="caret"></span>
+    </button>
+    <ul aria-labelledby="single-button" class="dropdown-menu" role="menu">
+      <li>
+        <a ng-click="vm.newModal('controller');">Controller</a>
+      </li>
+      <li>
+        <a ng-click="vm.newModal('constant');">Constant</a>
+      </li>
+      <li>
+        <a ng-click="vm.newModal('factory');">Factory</a>
+      </li>
+      <li>
+        <a ng-click="vm.newModal('filter');">Filter</a>
+      </li>
+      <li>
+        <a ng-click="vm.newModal('runner');">Runner</a>
+      </li>
+      <li>
+        <a ng-click="vm.newModal('service');">Serviço</a>
+      </li>
+      <li>
+        <a ng-click="vm.newModal('view');">Tela</a>
+      </li>
+        <li>
+        <a ng-click="vm.newModal('css');">Css</a>
+      </li>
+      <li>
+        <a ng-click="vm.newModal('value');">Value</a>
+      </li>
+      <li>
+        <a ng-click="vm.newModal('linx-object');">Objeto de negócio</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="clearfix"></div>
+
+  <hr/>
+
+    <div class="tree-classic"
+         on-selection="vm.showSelected(node, selected, $parentNode, $index)"
+         options="vm.treeOptions"
+         tree-model="vm.dataForTheTree"
+         expanded-nodes="vm.expandedNodes"
+         order-by="type"
+         reverse-order
+         treecontrol>
+            <span context-menu class="panel"
+                 data-target="menuContext-{{ node.path }}">
+                    {{node.name}}
+            </span>
+            <div class="dropdown position-fixed" id="menuContext-{{ node.path }}" style="z-index:1000000;">
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                      <a class="pointer" role="menuitem" tabindex="1"
+                         ng-click="vm.removeItem(node.path);">
+                         Apagar
+                      </a>
+                    </li>
+                    <li>
+                      <a class="pointer" role="menuitem" tabindex="2"
+                         ng-click="vm.renameItem(node, $parentNode);">
+                         Renomear
+                      </a>
+                    </li>
+                </ul>
+            </div>
+    </div>
+</div>

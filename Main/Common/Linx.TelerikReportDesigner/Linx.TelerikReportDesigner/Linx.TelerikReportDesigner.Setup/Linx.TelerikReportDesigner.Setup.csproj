@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E72B215B-F4D9-47EC-BE04-B9E3B48020EB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Linx.TelerikReportDesigner.Setup</RootNamespace>
+    <AssemblyName>Linx.TelerikReportDesigner.Setup</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Linx.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Installer.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Linx Template.trtx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="Telerik_Reporting_Q1_2015_9.0.15.422_DEV.msi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EntityFramework.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="EntityFramework.SqlServer.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Linx.Business.Tools.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Linx.Data.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Linx.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Newtonsoft.Json.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Linx.TelerikReportDesigner.Library\Linx.TelerikReportDesigner.Library.csproj">
+      <Project>{2aa1a2e7-9724-4f8b-abdd-412a8c18a4ed}</Project>
+      <Name>Linx.TelerikReportDesigner.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Linx.TelerikReportDesigner.Report\Linx.TelerikReportDesigner.Report.csproj">
+      <Project>{136b1b70-183b-4406-ba6b-f7e638b4bf39}</Project>
+      <Name>Linx.TelerikReportDesigner.Report</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FileAssociation.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\..\Binary\Library\Common\Linx\Desktop\GAC\Linx.Tools.dll">
+      <Link>Linx.Tools.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\..\Binary\Library\Common\Microsoft\DomainServices\System.ServiceModel.DomainServices.Server.dll">
+      <Link>System.ServiceModel.DomainServices.Server.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Linx.TelerikReportDesigner.Publisher\bin\Debug\Linx.TelerikReportDesigner.Publisher.exe">
+      <Link>Linx.TelerikReportDesigner.Publisher.exe</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)Bin\Debug\Linx.ico" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\Linx.Data.dll" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\Linx.Tools.dll" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\System.ServiceModel.DomainServices.Server.dll" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\FileAssociation.dll" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\Newtonsoft.Json.dll" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\EntityFramework.dll" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\Linx Template.trtx" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\Linx.Business.Tools.dll" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\EntityFramework.SqlServer.dll" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\Linx.TelerikReportDesigner.Report.exe" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\Linx.TelerikReportDesigner.Library.dll" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\Linx.TelerikReportDesigner.Publisher.exe" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\Telerik_Reporting_Q1_2015_9.0.15.422_DEV.msi" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+xcopy "$(ProjectDir)Bin\Debug\Linx.TelerikReportDesigner.Setup.exe" "C:\Linx Workspace\Linx Framework\Dev\Binary\Library\Common\Linx\ReportDesignerSetup\" /Y /I
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

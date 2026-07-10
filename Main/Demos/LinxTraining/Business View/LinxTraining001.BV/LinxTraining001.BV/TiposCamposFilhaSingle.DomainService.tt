@@ -1,0 +1,82 @@
+<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension = ".cs" #>
+<#@ import namespace = "System.IO" #>
+<#@ import namespace = "System.Collections.Generic" #>
+<#@ assembly name="EnvDTE" #>
+<#@ assembly name = "Linx.Tools" #>
+<#@ import namespace = "Linx.Tools" #>
+<#@ include file = "Includes\DataEntityFunctions.ttinclude"#>
+<#@ EntityAdapterDesigner processor = "EntityAdapterDesignerDirectiveProcessor" requires = "fileName='TiposCamposFilhaSingle.ead'" provides = "EntityAdapterDesignerRoot=EntityAdapterContext" #>
+					
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Data.Entity.Core.Objects;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.Linq.Expressions;
+using Linx.LinqExtensions.Functional;
+using Linx.LinqExtensions.Expressions;
+using System.Data.Linq.SqlClient;
+using System.Reflection;
+using System.Data.Entity.Core.Objects.DataClasses;
+using System.Transactions;
+using System.Xml.Serialization;
+using System.ServiceModel.DomainServices.Server;
+using System.ServiceModel.DomainServices.Hosting;
+using System.ServiceModel.DomainServices;
+using System.ComponentModel.Composition;
+using Linx;
+using Linx.Data;
+using Linx.Tools;
+using Linx.LinqExtensions.Dynamic;
+using Linx.LinqExtensions.Query;
+<#  
+	  if (EntityAdapterContext.DTEReference == null)
+	  {
+		  var serviceProvider = (IServiceProvider)this.Host;
+		  EntityAdapterContext.DTEReference = (EnvDTE.DTE)serviceProvider.GetService(typeof(EnvDTE.DTE));
+	  }
+	  foreach (EntityDataModel edm in EntityAdapterContext.EntityDataModels)
+	  {
+			#>using <#= edm.TargetNamespace #>;
+<#    
+	  }
+	  
+  
+#>
+
+namespace <#= EntityAdapterContext.TargetNamespace + ".TiposCamposFilhaSingle"#>
+{  
+
+<#  
+  //Generate Entity Classes.
+   foreach (EntityAdapter entity in EntityAdapterContext.GetEntities())
+   {
+		GenerateEntityClassBody(entity, entity.GetCurrentDataModel(), "TiposCamposFilhaSingle", false);
+   }
+      
+   //Generate ParentComposition Classes.
+   foreach (EntityAdapter entity in EntityAdapterContext.GetEntities())
+   {
+		GenerateEntityClassBody(entity, entity.GetCurrentDataModel(), "TiposCamposFilhaSingle", true);
+   }
+
+   //Generate Repository Interfaces.
+   foreach (RepositoryInterface intf in EntityAdapterContext.RepositoryInterfaces)
+   {
+		GenerateRepositoryInterfaceBody(intf, EntityAdapterContext, "TiposCamposFilhaSingle");
+   }
+   
+  //Generate DomainService Classes.
+  GenerateDomainServiceClassBody("TiposCamposFilhaSingle", EntityAdapterContext.GetEdm(), EntityAdapterContext);
+  
+#>
+
+}

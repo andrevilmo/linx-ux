@@ -1,0 +1,252 @@
+﻿<div class="modal-dialog modal-dialog-large">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" id="btnCancel" data-bind="click: $root.UI_btnCancel_Click" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title">Visualização / Upload de Midias</h4>
+        </div>
+        <div class="modal-body tabbable-custom box" style="margin: 10px auto;">
+            <ul class="nav nav-tabs" style="position:relative; top: 2px;">
+
+                <li class="active"><a href="#tab_1_1" data-toggle="tab"><i class="fa fa-camera"></i>Imagens</a></li>
+                <li><a href="#tab_1_2" data-toggle="tab"><i class="fa fa-video-camera"></i>Videos</a></li>
+                <li><a href="#tab_1_3" data-toggle="tab"><i class="fa fa-file-text-o"></i>Documentos</a></li>
+                <li><a href="#tab_1_4" data-toggle="tab"><i class="fa fa-file"></i>Midias</a></li>
+
+                <li data-bind="visible: $root.enabledForEditing()"><a href="#tab_1_5" data-toggle="tab"><i class="fa fa-upload"></i>Upload</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="tab_1_1">
+                    <div class="row modal-content-height">
+                        <div class="col-md-12 remove-pr" data-bind="template: { name: 'item-multimidia-template', foreach: MULTIMIDIA_VM_COMPUTED(1) }" />
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab_1_2">
+                    <div class="row modal-content-height">
+                        <div class="col-md-12 remove-pr" data-bind="template: { name: 'item-multimidia-template', foreach: MULTIMIDIA_VM_COMPUTED(2) }" />
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab_1_3">
+                    <div class="row modal-content-height">
+                        <div class="col-md-12 remove-pr" data-bind="template: { name: 'item-multimidia-template', foreach: MULTIMIDIA_VM_COMPUTED(3) }" />
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab_1_4">
+                    <div class="row modal-content-height">
+                        <div class="col-md-12 remove-pr" data-bind="template: { name: 'item-multimidia-template', foreach: MULTIMIDIA_VM() }" />
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab_1_5">
+                    <!-- BEGIN PAGE CONTENT-->
+                    <div class="row modal-content-height">
+                        <div class="col-md-12">
+                            <form id="fileupload" action="upload.axd" method="POST" enctype="multipart/form-data">
+                                <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                                <div class="row fileupload-buttonbar">
+                                    <div class="col-lg-6">
+                                        <div class="pull-left">
+                                            <select class="form-control input-medium" id="selTipoMidia">
+                                                <option value="1" selected>Padrão</option>
+                                                <option value="2">Matriz Transformação</option>
+                                                <option value="3">Detalhe Estampa</option>
+                                                <option value="4">Imagem 360</option>
+                                                <option value="5">Video</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="pull-right">
+                                            <!-- The fileinput-button span is used to style the file input field as button -->
+                                            <span class="btn green fileinput-button">
+                                                <i class="fa fa-files-o"></i>
+                                                <span>Arquivos</span>
+                                                <input type="file" name="files[]" multiple>
+                                            </span>
+
+                                            
+                                            <!-- ko if: $root.KO_getBrowser() == 'chrome' -->
+                                            <span class="btn green fileinput-button">
+                                                <i class="fa fa-folder"></i>
+                                                <span>Diretório</span>
+                                                <input type="file" name="files[]" multiple directory webkitdirectory>
+                                            </span>
+                                            <!--/ko-->
+
+
+                                            <!--
+                                            <button type="submit" class="btn start">
+											    <i class="fa fa-upload"></i>
+											    <span>Iniciar</span>
+										    </button>
+										    <button type="reset" class="btn cancel">
+											    <i class="fa fa-ban"></i>
+											    <span>Cancelar</span>
+										    </button>
+										    <button type="button" class="btn delete">
+											    <i class="fa fa-trash-o"></i>
+											    <span>Apagar</span>
+										    </button>
+										    <input type="checkbox" class="toggle">
+                                            -->
+
+                                            <!-- The loading indicator is shown during file processing -->
+                                            <span class="fileupload-loading"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- The global progress information -->
+                                    <div class="col-lg-12 fileupload-progress fade">
+                                        <!-- The global progress bar -->
+                                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar progress-bar-success" style="width: 0%;"></div>
+                                        </div>
+                                        <!-- The extended global progress information -->
+                                        <div class="progress-extended">&nbsp;</div>
+                                    </div>
+                                </div>
+                                <!-- The table listing the files available for upload/download -->
+                                <table role="presentation" class="table table-striped clearfix">
+                                    <tbody class="files"></tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- END PAGE CONTENT-->
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-close" id="btnOK" data-bind="click: $root.UI_btnOK_Click">Fechar</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="item-multimidia-template">
+
+    <table role="presentation" class="table uploadtable table-striped clearfix">
+        <tbody class="files">
+            <tr class="template-upload fade in">
+                <td>
+                    <a class="pull-left" data-bind="attr: { href: Url }" target="_blank" href="#">
+                        <div class="media-small preview hasAClass" data-bind="template: { name: 'image-template-form', afterRender: function (element, data) { $root.KO_afterRenderImage(element, data, UrlThumbnailUI()) } }" ></div>
+                    </a>
+                </td>
+                <td>
+                    <p class="name">
+                        Arquivo<br />
+                        <a data-bind="attr: { href: Url }" target="_blank" href="#">
+                            <strong data-bind="text: NomeArquivo"></strong>
+                        </a>
+                    </p>
+
+                </td>
+                <td>
+                    <p class="size">
+                        Tamanho<br />
+                        <strong data-bind="text: $root.common.formatFileSize(TamanhoMidia())"></strong>
+                    </p>
+
+                </td>
+                <td>
+                    <p class="typedoc">
+                        Tipo Documento<br />
+                        <strong data-bind="text: DescricaoTipoDocumento"></strong>
+                    </p>
+
+                </td>
+                <td>
+
+
+                    <button class="btn btn-sm btn-close red pull-right" data-bind="visible: $root.enabledForEditing(), click: $root.UI_btnDeleteMidia_Click.bind($root)">
+                        <i class="glyphicon glyphicon-trash"></i>
+                        <span>Apagar</span>
+                    </button>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</script>
+
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+	<tr class="template-upload fade">
+		<td>
+			<span class="preview"></span>
+		</td>
+		<td>
+			<p class="name">{%=file.name%}</p>
+			<strong class="error text-danger"></strong>
+		</td>
+		<td>
+			<p class="size">Processing...</p>
+			<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+		</td>
+		<td>
+			{% if (!i && !o.options.autoUpload) { %}
+				<button class="btn btn-primary start" disabled>
+					<i class="glyphicon glyphicon-upload"></i>
+					<span>Iniciar</span>
+				</button>
+			{% } %}
+			{% if (!i) { %}
+				<button class="btn btn-warning cancel">
+					<i class="glyphicon glyphicon-ban-circle"></i>
+					<span>Cancelar</span>
+				</button>
+			{% } %}
+		</td>
+	</tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+	<tr class="template-download fade">
+		<td>
+			<div class="media-small preview hasAClass">
+				{% if (file.thumbnailUrl) { %}
+					<a href="{%=file.url%}" target="_blank" title="{%=file.name%}"><img class="lazy lx_linkimg" src="{%=file.loadingUrl%}" data-src="{%=file.thumbnailUrl%}"></a>
+				{% } %}
+			</div>
+		</td>
+		<td>
+			<p class="name">
+				{% if (file.url) { %}
+					<a href="{%=file.url%}" target="_blank" title="{%=file.name%}" {%=file.thumbnailUrl?'':''%}>{%=file.name%}</a>
+				{% } else { %}
+					<span>{%=file.name%}</span>
+				{% } %}
+			</p>
+			{% if (file.error) { %}
+				<div><span class="label label-danger">Erro</span> {%=file.error%}</div>
+			{% } %}
+		</td>
+		<td>
+			<span class="size">{%=o.formatFileSize(file.size)%}</span>
+		</td>
+		<td>
+		</td>
+	</tr>
+{% } %}
+</script>
+
+<!--            {% if (file.deleteUrl) { %}
+				<button class="btn btn-sm red" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+					<i class="glyphicon glyphicon-trash"></i>
+					<span>Apagar</span>
+				</button>
+				<input type="checkbox" name="delete" value="1" class="toggle">
+			{% } else { %}
+				<button class="btn btn-warning cancel">
+					<i class="glyphicon glyphicon-ban-circle"></i>
+					<span>Cancelar</span>
+				</button>
+			{% } %}
+-->

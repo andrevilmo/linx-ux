@@ -1,0 +1,20 @@
+<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension=".json" #>
+<#@ include file = "Includes\DirectDynamicModels.ttinclude"#>
+<#@ import namespace = "System.Collections.Generic" #>
+<# 
+List<BusinessModelDesignerRoot> models = GetModels();	
+List<string> connections = new List<string>();
+
+if (models.Count > 0)
+{
+var rootDesigner = models[0].GetMainModel(models);
+#> 
+{
+  "ConnectionStrings": {
+    <#=rootDesigner.GetConnectionString("		", connections, true)#>
+  }
+}
+<#
+}
+#>

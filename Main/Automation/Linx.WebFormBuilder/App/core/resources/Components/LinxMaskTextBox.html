@@ -1,0 +1,38 @@
+{{#if options.odata}}
+<label class="{{options.class}}">
+{{#ifvalue options.mode value="CPF"}}
+    <input {{#each custom}} {{property}}="{{value}}" {{/each}} type="number" placeholder="{{options.label}}" ng-model="vm.dataBusiness.currentDataItem().{{options.odata.Name}}" ng-show="{{options.visible}}" ng-disable="!vm.dataBusiness.enabledForEditing()" />
+    {{/ifvalue}}
+
+{{#ifvalue options.mode value="CNPJ"}}
+    <input {{#each custom}} {{property}}="{{value}}" {{/each}} type="number" placeholder="{{options.label}}" ng-model="vm.dataBusiness.currentDataItem().{{options.odata.Name}}" ng-show="{{options.visible}}" ng-disable="!vm.dataBusiness.enabledForEditing()" />
+    {{/ifvalue}}
+
+{{#ifvalue options.mode value="CEP"}}
+    <input {{#each custom}} {{property}}="{{value}}" {{/each}} type="number" placeholder="{{options.label}}" ng-model="vm.dataBusiness.currentDataItem().{{options.odata.Name}}" ng-show="{{options.visible}}" ng-disable="!vm.dataBusiness.enabledForEditing()" />
+    {{/ifvalue}}
+
+    {{#ifvalue options.mode value="FONE"}}
+    <input {{#each custom}} {{property}}="{{value}}" {{/each}} type="tel" placeholder="{{options.label}}" ng-model="vm.dataBusiness.currentDataItem().{{options.odata.Name}}" ng-show="{{options.visible}}" ng-disable="!vm.dataBusiness.enabledForEditing()" />
+    {{/ifvalue}}
+</label>
+
+{{else}}
+
+<label class="{{options.class}}">
+{{#ifvalue options.mode value="CPF"}}
+    <input {{#each custom}} {{property}}="{{value}}" {{/each}} type="number" placeholder="{{options.label}}" ng-model="{{options.model}}" ng-show="{{options.visible}}" ng-disable="!vm.dataBusiness.enabledForEditing()" />
+    {{/ifvalue}}
+
+{{#ifvalue options.mode value="CNPJ"}}
+    <input {{#each custom}} {{property}}="{{value}}" {{/each}} type="number" placeholder="{{options.label}}" ng-model="{{options.model}}" ng-show="{{options.visible}}" ng-disable="!vm.dataBusiness.enabledForEditing()" />
+    {{/ifvalue}}
+
+{{#ifvalue options.mode value="CEP"}}
+    <input {{#each custom}} {{property}}="{{value}}" {{/each}} type="number" placeholder="{{options.label}}" ng-model="{{options.model}}" ng-show="{{options.visible}}" ng-disable="!vm.dataBusiness.enabledForEditing()" />
+    {{/ifvalue}}
+
+    {{#ifvalue options.mode value="FONE"}}
+    <input {{#each custom}} {{property}}="{{value}}" {{/each}} type="tel" placeholder="{{options.label}}" ng-model="{{options.model}}" ng-show="{{options.visible}}" ng-disable="!vm.dataBusiness.enabledForEditing()" />
+    {{/ifvalue}}
+</label>

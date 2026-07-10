@@ -1,0 +1,99 @@
+<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension=".js" #>
+<#@ include file = "..\Includes\EntityAdapterDynamicModels.ttinclude"#>
+<#@ import namespace = "System.Collections.Generic" #>
+<#@ import namespace = "System.Linq" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="Linx.Tools" #>
+<#@ import namespace = "Linx.Tools" #>
+
+define([
+    '../app',
+    '../namespace',
+], function (module, namespace) {
+    'use strict';
+
+    var name = namespace.common.buildNameSpace('factories.MobileDataDomains');
+
+    var service = function () {
+
+		var dataDomain = {
+			domains: [],    
+			registerDomains: function () {
+
+		<# 
+		List<EntityAdapterDesignerRoot> models = GetModels();	
+		List<string> domains = new List<string>();
+		int dvTest;
+   
+		foreach(EntityAdapterDesignerRoot model in models)
+		{	 
+			  foreach (var domainRef in model.GetAllDomains())
+			  {
+				if (!domains.Contains(domainRef.ClassName))
+				{
+		#>
+				dataDomain.domains['<#=domainRef.ClassName#>'] = [];
+		<#
+
+					domains.Add(domainRef.ClassName);
+					for(int idx = 0; idx < domainRef.Values.Count; idx++)
+					{
+						var domainValue = domainRef.Values[idx];
+		#>
+				dataDomain.domains['<#=domainRef.ClassName#>'][<#=idx#>] = { id: <#= (int.TryParse(domainValue.Value, out dvTest) ? dvTest.ToString() : "'" + domainValue.Value.Replace("\"", "").Replace("'", "") + "'" ) #>, name: '<#=domainValue.DisplayName#>' };
+		<#
+					}
+				}
+			 }
+		}
+		#>
+			},
+			getItems: function (domainName, valuesFilter) {
+				var items = dataDomain.domains[domainName];
+				if (valuesFilter && valuesFilter != '' && items && items.length > 0) {
+					var sourceItems = items;
+					items = [];
+					for (var i = 0; i < sourceItems.length; i++) {
+						if ((',' + valuesFilter + ',').indexOf(',' + sourceItems[i].id.toString() + ',') > -1) {
+							items.push(sourceItems[i]);
+						}
+					}
+				}
+				return (items && items.length > 0 ? items : []);
+			},
+			getName: function (domainName, value) {
+				var name = '';
+				var domainItems = this.getItems(domainName);
+				if (domainItems) {
+					for (var i in domainItems) {
+						if (domainItems[i].id == value) {
+							name = domainItems[i].name;
+							break;
+						}
+					}
+				}
+				return name;
+			},
+			getId: function (domainName, name) {
+				var id = '';
+				var domainItems = this.getItems(domainName);
+				if (domainItems) {
+					for (var i in domainItems) {
+						if (domainItems[i].name == name) {
+							id = domainItems[i].id;
+							break;
+						}
+					}
+				}
+				return id;
+			}
+		};
+
+		dataDomain.registerDomains();
+		return dataDomain;
+    };
+
+    module.factory(name, [service]);
+
+});

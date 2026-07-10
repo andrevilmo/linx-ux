@@ -1,0 +1,17 @@
+{{#if options.odata}}
+    <label class="{{options.class}}">
+        <input type="radio" ng-model="vm.dataBusiness.currentDataItem().{{options.odata.Name}}" ng-show="{{options.visible}}">
+        <div {{#each custom}} {{property}}="{{value}}" {{/each}} class="item-content">
+            {{options.label}}
+        </div>
+        <i class="radio-icon ion-checkmark"></i>
+    </label>
+{{else}}
+    <label class="{{options.class}}">
+        <input type="radio" ng-model="{{options.model}}" ng-show="{{options.visible}}">
+        <div {{#each custom}} {{property}}="{{value}}" {{/each}} class="item-content">
+            {{options.label}}
+        </div>
+        <i class="radio-icon ion-checkmark"></i>
+    </label>
+{{/if}}

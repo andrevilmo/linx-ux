@@ -1,0 +1,1 @@
+﻿//usar o arquivo normal, não o minificado

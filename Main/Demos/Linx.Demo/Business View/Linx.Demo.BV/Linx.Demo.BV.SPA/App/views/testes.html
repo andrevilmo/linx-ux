@@ -1,0 +1,222 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="testes_formViewer" class="panelTransaition">
+            <figure id="testes_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.testes().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="testes_gbProduto" data-bind="css: $root.testes().getLayoutColumnSpan('testes_gbProduto'), visible: $root.testes().getLayoutVisible('testes_gbProduto')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.testes().getLayoutDisplayName('testes_gbProduto')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="testes_gbProduto_anchor" href="#testes_gbProduto_body" role="button" data-toggle="collapse" data-parent="#testes_gbProduto" aria-controls="#testes_gbProduto_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="testes_gbProduto_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.testes().getWithBinding(currentDataItem, $root.testes().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.testes().getLayoutColumnSpan('testes_dtDataCadastro'), visible: $root.testes().getLayoutVisible('testes_dtDataCadastro')" class="">
+                                   <div class="form-group">
+                                       <div id="testes_divDataCadastro" class="" >
+                                           <label data-bind="attr: { title: $root.testes().getLayoutDisplayName('testes_dtDataCadastro')}, text: $root.testes().getLayoutDisplayName('testes_dtDataCadastro')" id="testes_lblDataCadastro" for="testes_dtDataCadastro" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="testes_dtDataCadastro" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DataCadastro', css: { vmEditing: $root.testes().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.testes(), 'testes_dtDataCadastro') ? ctrl.getCustomEnable($root.testes(), 'testes_dtDataCadastro') : (!isEmptyEntityFn($data) && $root.testes().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.testes(), 'testes_dtDataCadastro') ? !ctrl.getCustomEnable($root.testes(), 'testes_dtDataCadastro') : (isEmptyEntityFn($data) || !$root.testes().enabledForEditing()) },  igDatePicker: { value: DataCadastro, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.testes().entitySearchRange.has_ProdutoDataCadastro()?true:ctrl.hasCustomEnable($root.testes(), 'testes_dtDataCadastro') ? !ctrl.getCustomEnable($root.testes(), 'testes_dtDataCadastro') : (isEmptyEntityFn($data) || !$root.testes().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="testes_rgbtnDataCadastro"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.testes().entitySearchRange.has_ProdutoDataCadastro(), 'icon-ok': $root.testes().entitySearchRange.has_ProdutoDataCadastro(), hide: $root.testes().status() !== 'C' }, popoverWithBind: { template: '#testes_rgDataCadastro', vm: $root.testes().entitySearchRange, ctrlName: 'testes_rgcDataCadastro', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="testes_rgDataCadastro" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="enable: !has_ProdutoDataCadastro(), checked:ProdutoDataCadastro_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="enable: !has_ProdutoDataCadastro(), checked:ProdutoDataCadastro_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="testes_divrgDataCadastro" >
+                                                      <div class="filterByRange" data-bind="visible: ProdutoDataCadastro_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="testes_dtbDataCadastro" class="IsEditableStyle date" data-bind="igDatePicker: { value: ProdutoDataCadastro_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#testes_dtDataCadastro').igDatePicker('option', 'readOnly', (ui.value != null || $('#testes_dteDataCadastro').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#testes_dtbDataCadastro').igDatePicker('value'); var valorMax = $('#testes_dteDataCadastro').igDatePicker('value');if (valorMax != null && valorMin > valorMax){ProdutoDataCadastro_begin(valorMax); $('#testes_dtbDataCadastro').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="testes_dteDataCadastro" class="IsEditableStyle date" data-bind="igDatePicker: { value: ProdutoDataCadastro_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#testes_dtDataCadastro').igDatePicker('option', 'readOnly', ($('#testes_dtbDataCadastro').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#testes_dtbDataCadastro').igDatePicker('value'); var valorMax = $('#testes_dteDataCadastro').igDatePicker('value');if (valorMin != null && valorMax < valorMin){ProdutoDataCadastro_end(valorMin); $('#testes_dteDataCadastro').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: ProdutoDataCadastro_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ProdutoDataCadastro_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: ProdutoDataCadastro_predefFilter() != null && ProdutoDataCadastro_predefFilter()[0] && ProdutoDataCadastro_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ProdutoDataCadastro_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.testes().getLayoutColumnSpan('testes_tbDescProduto'), visible: $root.testes().getLayoutVisible('testes_tbDescProduto')" class="">
+                                   <div class="form-group">
+                                       <div id="testes_divDescProduto" class="" >
+                                           <label data-bind="attr: { title: $root.testes().getLayoutDisplayName('testes_tbDescProduto')}, text: $root.testes().getLayoutDisplayName('testes_tbDescProduto')" id="testes_lblDescProduto" for="testes_tbDescProduto" class="control-label ellipsis">
+                                           </label>
+                                           <input id="testes_tbDescProduto" class="form-control ellipsis" data-bind="attr: { title: DescProduto }, validatedField: 'DescProduto', css: { IsEditableStyle: ctrl.hasCustomEnable($root.testes(), 'testes_tbDescProduto') ? ctrl.getCustomEnable($root.testes(), 'testes_tbDescProduto') : (!isEmptyEntityFn($data) && $root.testes().enabledForEditing()) }, igTextEditor: { maxLength: 100, value: DescProduto, readOnly: ctrl.hasCustomEnable($root.testes(), 'testes_tbDescProduto') ? !ctrl.getCustomEnable($root.testes(), 'testes_tbDescProduto') : (isEmptyEntityFn($data) || !$root.testes().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.testes().getLayoutColumnSpan('testes_ntxIdProduto'), visible: $root.testes().getLayoutVisible('testes_ntxIdProduto')" class="">
+                                   <div class="form-group">
+                                       <div id="testes_divIdProduto" class="" >
+                                           <label data-bind="css: { 'content-required': $root.testes().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.testes().getLayoutDisplayName('testes_ntxIdProduto')}, text: $root.testes().getLayoutDisplayName('testes_ntxIdProduto')" id="testes_lblIdProduto" for="testes_ntxIdProduto" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="testes_ntxIdProduto" class="form-control numericFilterRange " data-bind="validatedField: 'IdProduto', css: { vmEditing: $root.testes().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.testes(), 'testes_ntxIdProduto') ? ctrl.getCustomEnable($root.testes(), 'testes_ntxIdProduto') : (!isEmptyEntityFn($data) && $root.testes().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdProduto, maxValue: null,  maxLength: 10,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.testes(), 'testes_ntxIdProduto') ? !ctrl.getCustomEnable($root.testes(), 'testes_ntxIdProduto') : (isEmptyEntityFn($data) || !($root.testes().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.testes().entitySearchRange.has_ProdutoIdProduto(), 'icon-ok': $root.testes().entitySearchRange.has_ProdutoIdProduto(), hide: $root.testes().status() !== 'C' }, popoverWithBind: { template: '#testes_rgIdProduto', vm: $root.testes().entitySearchRange, ctrlName: 'testes_rgcIdProduto', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="testes_rgIdProduto" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="testes_ntxbIdProduto" class="IsEditableStyle" data-bind="igNumericEditor: { value: ProdutoIdProduto_begin, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#testes_ntxIdProduto').igNumericEditor('option', 'readOnly', (ui.value != null || $('#testes_ntxeIdProduto').igNumericEditor('option', 'value') != null ? true : false)); $('#testes_ntxeIdProduto').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="testes_ntxeIdProduto" class="IsEditableStyle" data-bind="igNumericEditor: { value: ProdutoIdProduto_end, maxLength: 10, dataMode: 'int', valueChanged: function (evt, ui) {$('#testes_ntxIdProduto').igNumericEditor('option', 'readOnly', ($('#testes_ntxbIdProduto').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#testes_ntxbIdProduto').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.testes().getLayoutColumnSpan('testes_tbNmProduto'), visible: $root.testes().getLayoutVisible('testes_tbNmProduto')" class="">
+                                   <div class="form-group">
+                                       <div id="testes_divNmProduto" class="" >
+                                           <label data-bind="attr: { title: $root.testes().getLayoutDisplayName('testes_tbNmProduto')}, text: $root.testes().getLayoutDisplayName('testes_tbNmProduto')" id="testes_lblNmProduto" for="testes_tbNmProduto" class="control-label ellipsis">
+                                           </label>
+                                           <input id="testes_tbNmProduto" class="form-control ellipsis" data-bind="attr: { title: NmProduto }, validatedField: 'NmProduto', css: { IsEditableStyle: ctrl.hasCustomEnable($root.testes(), 'testes_tbNmProduto') ? ctrl.getCustomEnable($root.testes(), 'testes_tbNmProduto') : (!isEmptyEntityFn($data) && $root.testes().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: NmProduto, readOnly: ctrl.hasCustomEnable($root.testes(), 'testes_tbNmProduto') ? !ctrl.getCustomEnable($root.testes(), 'testes_tbNmProduto') : (isEmptyEntityFn($data) || !$root.testes().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.testes().getLayoutColumnSpan('testes_ntxTipoUnidade'), visible: $root.testes().getLayoutVisible('testes_ntxTipoUnidade')" class="">
+                                   <div class="form-group">
+                                       <div id="testes_divTipoUnidade" class="" >
+                                           <label data-bind="css: { 'content-required': $root.testes().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.testes().getLayoutDisplayName('testes_ntxTipoUnidade')}, text: $root.testes().getLayoutDisplayName('testes_ntxTipoUnidade')" id="testes_lblTipoUnidade" for="testes_ntxTipoUnidade" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="testes_ntxTipoUnidade" class="form-control numericFilterRange " data-bind="validatedField: 'TipoUnidade', css: { vmEditing: $root.testes().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.testes(), 'testes_ntxTipoUnidade') ? ctrl.getCustomEnable($root.testes(), 'testes_ntxTipoUnidade') : (!isEmptyEntityFn($data) && $root.testes().enabledForEditing()) }, igNumericEditor: { value: TipoUnidade, minValue: 0, maxValue: null,  maxLength: 3,  dataMode: 'byte', readOnly: ctrl.hasCustomEnable($root.testes(), 'testes_ntxTipoUnidade') ? !ctrl.getCustomEnable($root.testes(), 'testes_ntxTipoUnidade') : (isEmptyEntityFn($data) || !$root.testes().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.testes().entitySearchRange.has_ProdutoTipoUnidade(), 'icon-ok': $root.testes().entitySearchRange.has_ProdutoTipoUnidade(), hide: $root.testes().status() !== 'C' }, popoverWithBind: { template: '#testes_rgTipoUnidade', vm: $root.testes().entitySearchRange, ctrlName: 'testes_rgcTipoUnidade', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="testes_rgTipoUnidade" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="testes_ntxbTipoUnidade" class="IsEditableStyle" data-bind="igNumericEditor: { value: ProdutoTipoUnidade_begin, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#testes_ntxTipoUnidade').igNumericEditor('option', 'readOnly', (ui.value != null || $('#testes_ntxeTipoUnidade').igNumericEditor('option', 'value') != null ? true : false)); $('#testes_ntxeTipoUnidade').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="testes_ntxeTipoUnidade" class="IsEditableStyle" data-bind="igNumericEditor: { value: ProdutoTipoUnidade_end, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#testes_ntxTipoUnidade').igNumericEditor('option', 'readOnly', ($('#testes_ntxbTipoUnidade').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#testes_ntxbTipoUnidade').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.testes().getLayoutColumnSpan('testes_btnteste'), visible: $root.testes().getLayoutVisible('testes_btnteste')" class="">
+                                   <div class="form-group">
+                                       <div id="testes_divteste" class="" >
+                                           <button id="testes_btnteste" class="form-control btn-block btn-press ellipsis " data-bind="text: $root.testes().getLayoutDisplayName('testes_btnteste'), attr: {title: $root.testes().getLayoutDisplayName('testes_btnteste')}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.testes(), 'testes_btnteste') ? ctrl.getCustomEnable($root.testes(), 'testes_btnteste') : (!isEmptyEntityFn($data) && true) }, enable: ctrl.hasCustomEnable($root.testes(), 'testes_btnteste') ? ctrl.getCustomEnable($root.testes(), 'testes_btnteste') : (!isEmptyEntityFn($data) && true), click:function(){ if (typeof $root.testes().teste_Click == 'function') $root.testes().teste_Click(); if ($root.testes().custom) $root.testes().custom.teste_Click({viewModel: $root.testes()}); }"></button>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="testes_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.testes().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scytestes_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scytestes_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scytestes_dGrid_templateLayout', vm: function(){return $root.testes().gridSaveStates['scytestes_dGrid'];}, ctrlName: 'scytestes_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scytestes_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scytestes_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scytestes_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.testes().dataToolbar.canExport(), click: function () {$root.testes().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scytestes_dGrid" data-bind="css: { IsEditableStyle: $root.testes().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

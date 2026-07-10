@@ -1,0 +1,46 @@
+<#="<?xml version=\"1.0\" encoding=\"utf-8\" ?>"#> 
+<#@ template language="C#" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" hostspecific="true" #>
+<#@ output extension=".config" #>
+<#@ include file = "Includes\DirectEntityAdapterDynamicModels.ttinclude"#>
+<#@ import namespace = "System.Collections.Generic" #>
+<# 
+List<EntityAdapterDesignerRoot> models = GetModels();	
+List<string> edms = new List<string>();
+List<string> olaps = new List<string>();
+
+if (models.Count > 0)
+{
+#> 
+<configuration>
+
+  <connectionStrings> 
+<#	
+	foreach(EntityAdapterDesignerRoot model in models)
+    {	 
+#>
+<#=model.GetOlapCatalogStrings("		", olaps)#>
+<#
+	  foreach (EntityDataModel edm in model.EntityDataModels)
+	  {
+		if (!edms.Contains(edm.Name))
+		{
+			edms.Add(edm.Name); 
+			var connectionString = edm.GetConnectionString().Replace("\"", "&quot;");
+			if (!System.String.IsNullOrWhiteSpace(connectionString))
+			{
+#>
+		<add name="<#=edm.ConnectionName#>" connectionString="<#=connectionString#>" providerName="<#=edm.GetProviderName()#>" />
+<#			  
+		    }
+		}
+	  }
+	}   
+#>
+
+  </connectionStrings> 
+  
+</configuration> 
+
+<#
+}
+#>

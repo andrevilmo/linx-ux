@@ -1,0 +1,282 @@
+﻿<div class="modal-dialog modal-dialog-large">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" id="btnCancel" data-bind="click: $root.UI_btnCancel_Click" class="close" data-dismiss="modal" aria-hidden="true"></button>
+			<h4 class="modal-title">Upload de Fotos</h4>
+		</div>
+		<div class="modal-body tabbable-custom box" style="margin: 10px auto;">
+			<div class="col-md-12">
+				<section>
+					<div id="wizWizard" class="form-wizard col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="form-body">
+
+							<div class="row">
+								<div class="col-md-12">
+									<ul class="nav nav-pills nav-justified steps">
+										<li>
+											<a href="#tabWizardItem_1" data-toggle="tab" class="step active" style="cursor: default">
+												<span class="number">1</span>
+												<span class="desc"><i class="fa fa-check"></i>Mascara de Importação</span>
+											</a>
+										</li>
+										<li>
+											<a href="#tabWizardItem_2" data-toggle="tab" class="step" style="cursor: default">
+												<span class="number">2</span>
+												<span class="desc"><i class="fa fa-check"></i>Arquivos de Fotos</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="tab-content">
+
+
+
+								<div class="tab-pane fade active in" id="tabWizardItem_1">
+									<div class="ui-helper-clearfix input-box-wizard">
+										<div class="row">
+
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+												<form class="form-horizontal" role="form">
+													<div class="form-body">
+
+														<div class="form-group">
+															<label class="col-md-3 control-label">Modo de Uso</label>
+															<div class="col-md-3">
+                                                                <select class="form-control input-small" id="selModoUso" data-bind="options: CONFIG_VM.modosUso(), optionsText: function (item) { return KO_getModoUso(item) }, value: CONFIG_VM.modo"></select>
+															</div>
+
+                                                            <div data-bind="visible: CONFIG_VM.modo() == 1">
+															    <label class="col-md-3 control-label">Delimitado Por</label>
+															    <div class="col-md-3">
+																    <input data-bind="value: CONFIG_VM.caracterDelimitador" class="form-control input-small" id="inpCaracterDelimitador" type="text" >
+															    </div>
+                                                            </div>
+														</div>
+														
+                                                        <div class="form-group">
+														    <label class="col-md-3 control-label">Mapeamento</label>
+														    <div class="col-md-9">
+	                                                            <table class="table">
+		                                                            <thead>
+			                                                            <tr>
+				                                                            <th data-bind="visible: CONFIG_VM.modo() == 1">Posição</th>
+				                                                            <th data-bind="visible: CONFIG_VM.modo() == 2">Posição</th>
+				                                                            <th>Campo</th>
+			                                                            </tr>
+		                                                            </thead>
+		                                                            <tfoot></tfoot>
+		                                                            <tbody data-bind="template: { name: 'item-propriedade-template', foreach: MAP_VM(), afterRender: function (element, data) { $root.KO_afterRenderPropriedadeTemplate(element, data) } }">
+		                                                            </tbody>
+	                                                            </table>
+														    </div>
+													    </div>
+                                                    
+                                                    </div>
+												</form>
+
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+
+								<div class="tab-pane fade" id="tabWizardItem_2">
+									<div class="ui-helper-clearfix input-box-wizard">
+										<div class="row modal-content-height">
+
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+												<form id="fileupload" action="upload.axd" method="POST" enctype="multipart/form-data">
+													<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+													<div class="row fileupload-buttonbar">
+														<div class="col-lg-6">
+															<div class="pull-left">
+																<select class="form-control input-medium" id="selTipoMidia">
+																	<option value="1" selected>Padrão</option>
+																	<option value="2">Matriz Transformação</option>
+																	<option value="3">Detalhe Estampa</option>
+																	<option value="4">Imagem 360</option>
+																	<option value="5">Video</option>
+																</select>
+															</div>
+														</div>
+
+														<div class="col-lg-6">
+															<div class="pull-right">
+																<!-- The fileinput-button span is used to style the file input field as button -->
+																<span class="btn green fileinput-button">
+																	<i class="fa fa-files-o"></i>
+																	<span>Arquivos</span>
+																	<input type="file" name="files[]" multiple>
+																</span>
+
+
+																<!-- ko if: $root.KO_getBrowser() == 'chrome' -->
+																<span class="btn green fileinput-button">
+																	<i class="fa fa-folder"></i>
+																	<span>Diretório</span>
+																	<input type="file" name="files[]" multiple directory webkitdirectory>
+																</span>
+																<!--/ko-->
+
+<!--																<button type="submit" class="btn start">
+																	<i class="fa fa-upload"></i>
+																	<span>Iniciar</span>
+																</button>-->
+<!--																<button type="reset" class="btn cancel" id="btnCancelar" name="btnCancelar">
+																	<i class="fa fa-ban"></i>
+																	<span>Cancelar</span>
+																</button>-->
+<!--																<button type="button" class="btn delete">
+																	<i class="fa fa-trash-o"></i>
+																	<span>Apagar</span>
+																</button>-->
+																<!--<input type="checkbox" class="toggle">-->
+
+
+																<!-- The loading indicator is shown during file processing -->
+																<span class="fileupload-loading"></span>
+															</div>
+														</div>
+
+														<!-- The global progress information -->
+														<div class="col-lg-12 fileupload-progress fade">
+															<!-- The global progress bar -->
+															<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+																<div class="progress-bar progress-bar-success" style="width: 0%;"></div>
+															</div>
+															<!-- The extended global progress information -->
+															<div class="progress-extended">&nbsp;</div>
+														</div>
+													</div>
+													<!-- The table listing the files available for upload/download -->
+													<table role="presentation" class="table table-striped clearfix">
+														<tbody class="files"></tbody>
+													</table>
+												</form>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+
+
+
+
+
+
+
+
+							</div>
+						</div>
+					</div>
+
+
+				</section>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="javascript:;" class="btn default button-previous button-previous-wizard" id="btnPrevious"><i class="m-icon-swapleft"></i>Voltar</a>
+			<a href="javascript:;" class="btn blue button-next button-next-wizard" id="btnNext">Continuar<i class="m-icon-swapright m-icon-white"></i></a>
+			<a href="javascript:;" class="btn green button-submit" id="btnSubmit">Importar <i class="m-icon-swapright m-icon-white"></i></a>
+
+			<!--            
+			<button class="btn btn-close" id="btnVoltar"><i class="m-icon-swapleft"></i>Voltar</button>
+			<button class="btn btn-close" id="btnContinuar">Continuar<i class="m-icon-swapright m-icon-white"></i></button>
+			-->
+
+			<!--<button class="btn btn-close" id="btnOK" data-bind="click: $root.UI_btnOK_Click">Fechar</button>-->
+		</div>
+	</div>
+</div>
+
+<script type="text/html" id="item-propriedade-template">
+	<!--Linha 1-->
+	<tr>
+		<td data-bind="visible: $root.CONFIG_VM.modo() == 1">
+			<input data-bind="attr: { id: 'del_' + index(), name: 'del_' + index() }" type="text" value="" />
+		</td>
+		<td data-bind="visible: $root.CONFIG_VM.modo() == 2">
+			<input data-bind="attr: { id: 'pos_' + index(), name: 'pos_' + index() }" type="text" value="" />
+		</td>
+		<td>
+		    <select id="select2" class="form-control select2"  data-bind="attr: { id: 'ent_' + index(), name: 'ent_' + index() }, foreach: $root.ENTIDADES_VM">
+                <optgroup data-bind="attr: { label: nome }, foreach: propriedades" label="">
+                   <option data-bind="attr: { value: ref, entidade: $parent.nome}, html: nome"/>
+                </optgroup>
+		    </select>
+		</td>
+	</tr>
+</script>
+
+
+
+
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+	<tr class="template-upload fade">
+		<td>
+			<span class="preview"></span>
+		</td>
+		<td>
+			<p class="name">{%=file.name%}</p>
+			<strong class="error text-danger"></strong>
+		</td>
+		<td>
+			<p class="size">Processing...</p>
+			<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+			<div class="progress-bar progress-bar-success" style="width:0%;"></div>
+			</div>
+		</td>
+		<td>
+			{% if (!i && !o.options.autoUpload) { %}
+				<button class="btn blue start" disabled style="display:none" id="btnStartUpload" name="btnStartUpload">
+					<i class="fa fa-upload"></i>
+					<span>Start</span>
+				</button>
+			{% } %}
+			{% if (!i) { %}
+				<button class="btn red cancel" id="btnCancelarUpload" name="btnCancelarUpload">
+					<i class="fa fa-ban"></i>
+					<span>Cancelar</span>
+				</button>
+			{% } %}
+		</td>
+
+	</tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+	<tr class="template-download fade">
+		<td>
+			{% if (file.thumbnailUrl) { %}
+			<div class="media-small preview hasAClass">
+					<a href="{%=file.url%}" target="_blank" title="{%=file.name%}"><img class="lazy lx_linkimg" src="{%=file.loadingUrl%}" data-src="{%=file.thumbnailUrl%}"></a>
+			</div>
+			{% } %}
+		</td>
+		<td>
+			<p class="name">
+				{% if (file.url) { %}
+					<a href="{%=file.url%}" target="_blank" title="{%=file.name%}" {%=file.thumbnailUrl?'':''%}>{%=file.name%}</a>
+				{% } else { %}
+					<span>{%=file.name%}</span>
+				{% } %}
+			</p>
+			{% if (file.error) { %}
+				<div><span class="label label-danger">Erro</span> {%=file.error%}</div>
+			{% } %}
+		</td>
+		<td>
+			<span class="size">{%=o.formatFileSize(file.size)%}</span>
+		</td>
+	</tr>
+{% } %}
+</script>

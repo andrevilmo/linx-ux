@@ -1,0 +1,29 @@
+﻿<div>
+    <div class="tab-content">
+        <div class="text-right notificationHeader">
+            <a href="javascript:void(0)" title="Atualizar" data-bind="click: function() { $root.refreshMessages() }">
+                <i class="notification-refresh fa fa-refresh" ></i>
+            </a>
+            <a href="javascript:void(0)" title="Fechar" data-bind="click: function() { $root.closeWindow() }">
+                <i class="notification-refresh fa fa-times"></i>
+            </a>
+        </div>
+
+        <ul class="media-list list-items" data-bind="foreach:{ data: managerMessage.messages()}">
+            <li class="media">
+                <a class="media" href="#">
+                    <i class="media-object fa " data-bind="attr : {title : ($data.lida() ? 'Lida' : 'Não Lida') }, css: {'fa-envelope-open-o' : $data.lida, 'fa-envelope-o' : !$data.lida() }, click: function() { $root.changeRead($data)} "></i>
+
+                    <div class="media-status">
+                        <i class="fa fa-times" title="Dispensar" data-bind="click: function() { $root.messageDismiss(idMensagem)}"></i>
+                    </div>
+
+                    <div class="media-body">
+                        <h4 class="media-heading ellipsis" data-bind="text: titulo, attr: { title: titulo }, click : function() {$root.openModal($data) }"></h4>
+                        <div class="media-heading-sub ellipsis" data-bind="text: corpo.substring(0, 100), click : function() {$root.openModal($data) }"></div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

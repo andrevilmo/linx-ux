@@ -1,0 +1,130 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="TesteOLAP_formViewer" class="panelTransaition">
+            <figure id="TesteOLAP_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.TesteOLAP().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="TesteOLAP_gbPivoGridOlap" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="PivoGridOlap"><i class="icon-reorder"></i>PivoGridOlap</div>
+                       <div class="tools">
+                           <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div class="portlet-body" style="display:block ;">
+                       <div data-bind="with: $root.TesteOLAP().getWithBinding(currentDataItem, $root.TesteOLAP().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TesteOLAP_divAno" class="" >
+                                           <label id="TesteOLAP_lblAno" for="TesteOLAP_lUpAno" data-bind="css: { 'content-required': $root.TesteOLAP().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Ano">Ano
+                                           </label>
+                                           <div class="">
+                                               <div id="TesteOLAP_lUpAno" class="form-control box-input-xmedium pull-left input-group " data-bind="validatedField: 'Ano', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TesteOLAP_lUpAno') ? ctrl.getCustomEnable($root, 'TesteOLAP_lUpAno') : (!isEmptyEntityFn($data) && $root.TesteOLAP().status() === 'C') }, lookupControl: { value: Ano,lookupName: 'LookUpPivoGridOlapAno', inputClass:'input-xmedium', isMultiSelection: false, multiSelectionValue: $root.TesteOLAP().entitySearchRange.Ano, fieldName: 'Ano', disabled:ctrl.hasCustomEnable($root, 'TesteOLAP_lUpAno') ? !ctrl.getCustomEnable($root, 'TesteOLAP_lUpAno') : (isEmptyEntityFn($data) || $root.TesteOLAP().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:32767, maxLength: 0, defaultValue: 0}" />
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TesteOLAP_divVlrBruto" class="" >
+                                           <label id="TesteOLAP_lblVlrBruto" for="TesteOLAP_ntxVlrBruto" data-bind="css: { 'content-required': $root.TesteOLAP().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Vlr Bruto">Vlr Bruto
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-medium">
+                                                   <div class="input-group box-input-medium">
+                                                       <input id="TesteOLAP_ntxVlrBruto" class="form-control numericFilterRange input-medium" data-bind="validatedField: 'VlrBruto', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TesteOLAP_ntxVlrBruto') ? ctrl.getCustomEnable($root, 'TesteOLAP_ntxVlrBruto') : (!isEmptyEntityFn($data) && $root.TesteOLAP().status() === 'C') }, igNumericEditor: { value: VlrBruto, minValue: 0, maxValue: 999999999999999999.99,  maxLength: 21,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'TesteOLAP_ntxVlrBruto') ? !ctrl.getCustomEnable($root, 'TesteOLAP_ntxVlrBruto') : (isEmptyEntityFn($data) || $root.TesteOLAP().status() !== 'C'), disabled: ctrl.hasCustomEnable($root, 'TesteOLAP_ntxVlrBruto') ? !ctrl.getCustomEnable($root, 'TesteOLAP_ntxVlrBruto') : (isEmptyEntityFn($data) || $root.TesteOLAP().status() !== 'C') }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TesteOLAP().entitySearchRange.has_PivoGridOlapVlrBruto(), 'icon-ok': $root.TesteOLAP().entitySearchRange.has_PivoGridOlapVlrBruto(), hide: $root.TesteOLAP().status() !== 'C' }, popoverWithBind: { template: '#TesteOLAP_rgVlrBruto', vm: $root.TesteOLAP().entitySearchRange, ctrlName: 'TesteOLAP_rgcVlrBruto', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TesteOLAP_rgVlrBruto" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TesteOLAP_ntxbVlrBruto" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: PivoGridOlapVlrBruto_begin, minValue: 0, maxLength: 18, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TesteOLAP_ntxVlrBruto').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TesteOLAP_ntxeVlrBruto').igNumericEditor('option', 'value') != null ? true : false)); $('#TesteOLAP_ntxeVlrBruto').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TesteOLAP_ntxeVlrBruto" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: PivoGridOlapVlrBruto_end, minValue: 0, maxLength: 18, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TesteOLAP_ntxVlrBruto').igNumericEditor('option', 'readOnly', ($('#TesteOLAP_ntxbVlrBruto').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TesteOLAP_ntxbVlrBruto').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="TesteOLAP_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.TesteOLAP().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyTesteOLAP_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyTesteOLAP_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.TesteOLAP().dataToolbar.canExport(), click: function () {$root.TesteOLAP().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyTesteOLAP_dGrid" data-bind="css: { IsEditableStyle: $root.TesteOLAP().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

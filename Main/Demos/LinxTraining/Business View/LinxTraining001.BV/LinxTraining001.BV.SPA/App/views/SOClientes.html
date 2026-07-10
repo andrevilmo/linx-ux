@@ -1,0 +1,151 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="SOClientes_formViewer" class="panelTransaition">
+            <figure id="SOClientes_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.SOClientes().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="SOClientes_gbClientesView" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="ClientesView"><i class="icon-reorder"></i>ClientesView</div>
+                       <div class="tools">
+                           <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div class="portlet-body" style="display:block ;">
+                       <div data-bind="with: $root.SOClientes().getWithBinding(currentDataItem, $root.SOClientes().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="SOClientes_divIDClientes" class="" >
+                                           <label id="SOClientes_lblIDClientes" for="SOClientes_tbIDClientes" data-bind="css: { 'content-required': $root.SOClientes().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID Clientes">ID Clientes
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-xmedium">
+                                                   <input id="SOClientes_tbIDClientes" class="form-control ellipsis input-xmedium" data-bind="attr: { title: IDClientes }, validatedField: 'IDClientes', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'SOClientes_tbIDClientes') ? ctrl.getCustomEnable($root, 'SOClientes_tbIDClientes') : (!isEmptyEntityFn($data) && $root.SOClientes().enabledForEditing()) }, igTextEditor: { maxLength: 36, value: IDClientes, readOnly: ctrl.hasCustomEnable($root, 'SOClientes_tbIDClientes') ? !ctrl.getCustomEnable($root, 'SOClientes_tbIDClientes') : (isEmptyEntityFn($data) || !$root.SOClientes().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'SOClientes_tbIDClientes') ? !ctrl.getCustomEnable($root, 'SOClientes_tbIDClientes') : (isEmptyEntityFn($data) || !$root.SOClientes().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="SOClientes_divNome" class="" >
+                                           <label id="SOClientes_lblNome" for="SOClientes_tbNome" class="control-label ellipsis" title="Nome">Nome
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-xlarge">
+                                                   <input id="SOClientes_tbNome" class="form-control ellipsis input-xlarge" data-bind="attr: { title: Nome }, validatedField: 'Nome', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'SOClientes_tbNome') ? ctrl.getCustomEnable($root, 'SOClientes_tbNome') : (!isEmptyEntityFn($data) && $root.SOClientes().enabledForEditing()) }, igTextEditor: { maxLength: 40, value: Nome, readOnly: ctrl.hasCustomEnable($root, 'SOClientes_tbNome') ? !ctrl.getCustomEnable($root, 'SOClientes_tbNome') : (isEmptyEntityFn($data) || !$root.SOClientes().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'SOClientes_tbNome') ? !ctrl.getCustomEnable($root, 'SOClientes_tbNome') : (isEmptyEntityFn($data) || !$root.SOClientes().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="SOClientes_divTipo" class="" >
+                                           <label id="SOClientes_lblTipo" for="SOClientes_cmbTipo" class="control-label ellipsis" title="Tipo">Tipo
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-medium">
+                                                   <span id="SOClientes_cmbTipo" class="form-control input-medium" data-bind="validatedField: 'Tipo', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'SOClientes_cmbTipo') ? ctrl.getCustomEnable($root, 'SOClientes_cmbTipo') : (!isEmptyEntityFn($data) && $root.SOClientes().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root, 'SOClientes_cmbTipo') ? !ctrl.getCustomEnable($root, 'SOClientes_cmbTipo') : (isEmptyEntityFn($data) || !$root.SOClientes().enabledForEditing()) }, enable: ctrl.hasCustomEnable($root, 'SOClientes_cmbTipo') ? ctrl.getCustomEnable($root, 'SOClientes_cmbTipo') : (!isEmptyEntityFn($data) && $root.SOClientes().enabledForEditing()), igCombo: {
+                                                      selectedItems: Tipo,
+                                                      dataSource:  $root.SOClientes().dataDomains.getItems('LXTipoClientes', ''),
+                                                      textKey: 'name',
+                                                      valueKey: 'id',
+                                                      allowCustomValue : true,
+                                                      enableSelectionChangedUpdate: true,
+                                                      enableClearButton: true,
+                                                      dropDownOnFocus: true,
+                                                      disabled: (ctrl.hasCustomEnable($root, 'SOClientes_cmbTipo') ? !ctrl.getCustomEnable($root, 'SOClientes_cmbTipo') : (isEmptyEntityFn($data) || !$root.SOClientes().enabledForEditing())),
+                                                      mode: 'editable',
+                                                      width:'100%'
+                                                   }"></span>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="SOClientes_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.SOClientes().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scySOClientes_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scySOClientes_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.SOClientes().dataToolbar.canExport(), click: function () {$root.SOClientes().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scySOClientes_dGrid" data-bind="css: { IsEditableStyle: $root.SOClientes().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

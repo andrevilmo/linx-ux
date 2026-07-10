@@ -1,0 +1,119 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+        <div class="col-md-12 remove-pl remove-pr">
+            <section>
+                <div class="screen-view">
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="Arquivo1_dGridArquivo_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="Arquivo1_dGridArquivo_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.Arquivo1().hideToolbar() && $root.Arquivo1().status() === 'E', click: function () { $root.Arquivo1().dataToolbar.addNew(); }"><i class="fa fa-plus"></i></button>
+                   <button id="Arquivo1_dGridArquivo_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                   data-bind="visible: $root.Arquivo1().status() === 'E', 
+                   click: function () { 
+                      $root.Arquivo1().deleteGrid('#Arquivo1_dGridArquivo', 'Arquivo', 'vm.currentDataItem;vm.dataView', false);
+                   }"> 
+                   <i class="fa fa-trash-o"></i></button>
+                   <button id="Arquivo1_dGridArquivo_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                    data-bind="click:function () { 
+                      $root.Arquivo1().openEditor('#Arquivo1_dGridArquivo', 'Arquivo', 'vm.currentDataItem;vm.dataView', ';vm', 'Arquivo()', false)
+                   }"><i class="fa fa-th"></i></button>
+                   <button id="Arquivo1_dGridArquivo_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                    data-bind="click:function () { 
+                      $root.Arquivo1().openEditor('#Arquivo1_dGridArquivo', 'Arquivo', 'vm.currentDataItem;vm.dataView', ';vm', 'Arquivo()', true)
+                   }"><i class="fa fa-th-large"></i></button>
+                   <button id="Arquivo1_dGridArquivo_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#Arquivo1_dGridArquivo_templateLayout', vm: function(){return $root.Arquivo1().gridSaveStates['Arquivo1_dGridArquivo'];}, ctrlName: 'Arquivo1_dGridArquivo_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="Arquivo1_dGridArquivo_templateLayout" type="text/html" tabindex="-1">
+                       <div id="Arquivo1_dGridArquivo_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="Arquivo1_dGridArquivo_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.Arquivo1().dataToolbar.canExport(), click: function () {$root.Arquivo1().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="Arquivo1_dGridArquivo" data-bind="css: { IsEditableStyle: $root.Arquivo1().enabledForEditing }"  />
+               </div>
+
+           </div>
+
+           <div id="dialogArquivo"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+              <button class="btn btn-sm btn-default backReg " id="backRegArquivo" onClick="$(this).backRegArquivo();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+              <span class="caption"><label id="currentNumberArquivo">0</label><label>/</label><label id="totalNumberArquivo">0</label></span>
+              <button class="btn btn-sm btn-default nextReg " id="nextRegArquivo" onClick="$(this).nextRegArquivo();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+              <button class="btn btn-sm btn-default addReg " id="addRegArquivo" onClick="$(this).addRegArquivo();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+              <button class="btn btn-sm btn-default delReg " id="delRegArquivo" onClick="$(this).delRegArquivo();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+              <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegArquivo" onClick="$(this).okRegArquivo();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+           <div id="Arquivo1_templateArquivo" class="" style="width: 100%; height: 100%;" >
+               <div data-bind="with: $root.Arquivo1().getWithBinding(currentDataItem, $root.Arquivo1().rootDataTypeName)">
+
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div data-bind="css: $root.Arquivo1().getLayoutColumnSpan('Arquivo1_tbNomeArquivo'), visible: $root.Arquivo1().getLayoutVisible('Arquivo1_tbNomeArquivo')" class="">
+                       <div class="form-group">
+                           <div id="Arquivo1_divNomeArquivoTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.Arquivo1().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.Arquivo1().getLayoutDisplayName('Arquivo1_tbNomeArquivo')}, text: $root.Arquivo1().getLayoutDisplayName('Arquivo1_tbNomeArquivo')" id="Arquivo1_lblNomeArquivo" for="Arquivo1_tbNomeArquivo" class="control-label ellipsis">
+                               </label>
+                               <input id="Arquivo1_tbNomeArquivo" class="form-control ellipsis" data-bind="attr: { title: NomeArquivo }, validatedField: 'NomeArquivo', css: { IsEditableStyle: ctrl.hasCustomEnable($root.Arquivo1(), 'Arquivo1_tbNomeArquivo') ? ctrl.getCustomEnable($root.Arquivo1(), 'Arquivo1_tbNomeArquivo') : (!isEmptyEntityFn($data) && $root.Arquivo1().status() === 'C') }, igTextEditor: { value: NomeArquivo, readOnly: ctrl.hasCustomEnable($root.Arquivo1(), 'Arquivo1_tbNomeArquivo') ? !ctrl.getCustomEnable($root.Arquivo1(), 'Arquivo1_tbNomeArquivo') : (isEmptyEntityFn($data) || $root.Arquivo1().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                           </div>
+                       </div>
+                   </div>
+
+
+               </div>
+
+           </div>
+           </div>
+       </div>
+
+
+                </div>
+            </section>
+        </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

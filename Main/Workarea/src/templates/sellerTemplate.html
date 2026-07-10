@@ -1,0 +1,170 @@
+<div class="seller" ng-show="vm.isSeller" style="max-width: 95%;margin: 0 auto;">
+    <section class="row">
+        <div class="col-md-4" role="Menu de navegação por módulos">
+            <h1 class="title"> Acesso rápido </h1>
+
+            <div class="row">
+                <div class="wrapper-col">
+                    <div class="panel panel-primary favorite-module" draggable="true" ng-click="vm.navigateByModule(vm.principalModule)">
+                        <div class="col-md-3 text-center">
+                            <i class="fa fa-{{vm.principalModule.ClassIcon?vm.principalModule.ClassIcon:'list-alt'}} Illustrative-icon" aria-hidden="true"></i>
+                        </div>
+
+                        <div class="col-md-9">
+                            <p class="title" title="{{vm.principalModule.DisplayName}}"> {{vm.principalModule.DisplayName}} </p>
+
+                            <p class="legend" title="{{vm.principalModule.UrlRoute}}"> {{vm.principalModule.UrlRoute}} </p>
+                        </div>
+                    </div>
+
+                    <h2 class="title"> Favoritos</h2>
+                </div>
+
+                <div class="others-modules">
+                    <div class="col-md-6" ng-repeat="module in vm.modules">
+                        <div id="drag1" class="panel panel-primary" draggable="true" ng-click="vm.navigateByModule(module)">
+                            <div class="panel-body text-center">
+                                <p class="name" title="{{module.DisplayName}}"> {{module.DisplayName}} </p>
+                            </div>
+
+                            <div class="panel-footer">
+                                <i class="fa fa-plus-circle module-options modo-inclusao" aria-hidden="true" title="Modo Inclusão"></i>
+
+                                <i class="fa fa-search module-options modo-pesquisa" aria-hidden="true" title="Modo Pesquisa"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4" role="Search">
+            <h1 class="title"> Evolutivo de Vendas </h1>
+
+            <div class="row" role="Quick Search">
+                <div class="col-md-9">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputSearch"> Nome da loja: </label>
+                            <input type="text" class="form-control" id="exampleInputSearch" placeholder="Search" autofocus="autofocus">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-md-3 has-floating-btn">
+                    <button type="submit" class="btn btn-primary" ng-click="isCollapsed = !isCollapsed"> Buscar </button>
+                </div>
+            </div>
+
+            <div class="row" role="Result Quick Search" uib-collapse="isCollapsed">
+                <div class="col-md-12">
+                    <img src="https://chart.googleapis.com/chart?cht=p3&chd=t:60,40&chs=425x200&chl=2017|2015" alt="Chart" />
+
+                    <p class="download">
+                        <a href="javascript:" title="Download"> Baixar planilha </a>
+                    </p>
+                </div>
+            </div>
+
+            <h2 class="title"> Buscados recentemente </h2>
+
+            <ul>
+                <li ng-repeat="search in [1,2,3]">
+                    <a href="javascript:" title="Lojas x"> Lojas x </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-4" role="Utilitários">
+            <h1 class="title"> Utilitários </h1>
+
+            <div class="row">
+                <div class="others-utilities">
+                    <div class="col-md-6">
+                        <div class="panel panel-primary panel-primary--b" draggable="true">
+                            <div class="panel-body text-center">
+                                <div class="widget-date">
+                                    <p> Quinta-feira </p>
+
+                                    <p> 8/05 </p>
+
+                                    <p> Junho </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="panel panel-primary" draggable="true">
+                            <div class="panel-body text-center">
+                                <div class="widget-calc">
+                                    <i class="fa fa-calculator" aria-hidden="true"></i>
+                                    <p> Calculadora </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="panel panel-primary" draggable="true">
+                            <div class="panel-body text-center">
+                                <div class="widget-hours">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    <p> 18:58 </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <!--  -->
+                        <div class="panel panel-primary panel-primary--b" draggable="true">
+                            <div class="panel-body text-center">
+                                <div class="widget-blah" ng-click="vm.redirectByUrl('http://cpf.receita.fazenda.gov.br/situacao/')">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                    <p> Consultar CPF </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="panel panel-primary panel-primary--b" draggable="true">
+                            <div class="panel-body text-center">
+                                <div class="widget-blah" ng-click="vm.redirectByUrl('https://www.linx.com.br/blog')">
+                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                    <p> Suporte LINX </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="panel panel-primary" draggable="true">
+                            <div class="panel-body text-center" style="padding: 5px;">
+                                <div class="widget-weather">
+                                    <p class="city"> Taboão da Serra </p>
+
+                                    <p class="min"> min 10° </p>
+
+                                    <p class="graus"> 19° </p>
+
+                                    <p class="max"> max 22° </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="delete">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+</div>

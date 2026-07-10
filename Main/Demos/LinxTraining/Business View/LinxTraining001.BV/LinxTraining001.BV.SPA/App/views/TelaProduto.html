@@ -1,0 +1,594 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="TelaProduto_formViewer" class="panelTransaition">
+            <figure id="TelaProduto_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.TelaProduto().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="TelaProduto_gbProductView" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="ProductView"><i class="icon-reorder"></i>ProductView</div>
+                       <div class="tools">
+                           <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div class="portlet-body" style="display:block ;">
+                       <div data-bind="with: $root.TelaProduto().getWithBinding(currentDataItem, $root.TelaProduto().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divColor" class="connected-field input-min-medium" >
+                                           <label id="TelaProduto_lblColor" for="TelaProduto_tbColor" class="control-label ellipsis" title="Color">Color
+                                           </label>
+                                           <div class="">
+                                               <div class="pull-left input-min-medium">
+                                                   <input id="TelaProduto_tbColor" class="form-control ellipsis input-min-medium" data-bind="attr: { title: Color }, validatedField: 'Color', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_tbColor') ? ctrl.getCustomEnable($root, 'TelaProduto_tbColor') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igTextEditor: { maxLength: 15, value: Color, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_tbColor') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbColor') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_tbColor') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbColor') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div id="TelaProduto_divClass" class="connected-field input-mini" >
+                                           <label id="TelaProduto_lblClass" for="TelaProduto_tbClass" class="control-label ellipsis" title="Class">Class
+                                           </label>
+                                           <div class="pull-left input-mini">
+                                               <input id="TelaProduto_tbClass" class="form-control ellipsis input-mini" data-bind="attr: { title: Class }, validatedField: 'Class', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_tbClass') ? ctrl.getCustomEnable($root, 'TelaProduto_tbClass') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igTextEditor: { maxLength: 2, value: Class, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_tbClass') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbClass') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_tbClass') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbClass') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing())  }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divDaysToManufacture" class="" >
+                                           <label id="TelaProduto_lblDaysToManufacture" for="TelaProduto_ntxDaysToManufacture" data-bind="css: { 'content-required': $root.TelaProduto().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="DaysToManufacture">DaysToManufacture
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-min-medium">
+                                                   <div class="input-group box-input-min-medium">
+                                                       <input id="TelaProduto_ntxDaysToManufacture" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'DaysToManufacture', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_ntxDaysToManufacture') ? ctrl.getCustomEnable($root, 'TelaProduto_ntxDaysToManufacture') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igNumericEditor: { value: DaysToManufacture, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_ntxDaysToManufacture') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxDaysToManufacture') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_ntxDaysToManufacture') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxDaysToManufacture') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaProduto().entitySearchRange.has_ProductViewDaysToManufacture(), 'icon-ok': $root.TelaProduto().entitySearchRange.has_ProductViewDaysToManufacture(), hide: $root.TelaProduto().status() !== 'C' }, popoverWithBind: { template: '#TelaProduto_rgDaysToManufacture', vm: $root.TelaProduto().entitySearchRange, ctrlName: 'TelaProduto_rgcDaysToManufacture', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaProduto_rgDaysToManufacture" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaProduto_ntxbDaysToManufacture" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: ProductViewDaysToManufacture_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaProduto_ntxDaysToManufacture').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaProduto_ntxeDaysToManufacture').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaProduto_ntxeDaysToManufacture').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaProduto_ntxeDaysToManufacture" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: ProductViewDaysToManufacture_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaProduto_ntxDaysToManufacture').igNumericEditor('option', 'readOnly', ($('#TelaProduto_ntxbDaysToManufacture').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaProduto_ntxbDaysToManufacture').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divProductSubcategoryID" class="connected-field box-input-min-medium" >
+                                           <label id="TelaProduto_lblProductSubcategoryID" for="TelaProduto_lUpProductSubcategoryID" class="control-label ellipsis" title="ProductSubcategoryIDOWERTJERTBEWRGKBEWRKTGBEWKRBTGKEWRTBGKELWRG">ProductSubcategoryIDOWERTJERTBEWRGKBEWRKTGBEWKRBTGKEWRTBGKELWRG
+                                           </label>
+                                           <div class="">
+                                               <div id="TelaProduto_lUpProductSubcategoryID" class="form-control box-input-min-medium pull-left input-group " data-bind="validatedField: 'ProductSubcategoryID', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_lUpProductSubcategoryID') ? ctrl.getCustomEnable($root, 'TelaProduto_lUpProductSubcategoryID') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, lookupControl: { value: ProductSubcategoryID, maxLength: 12,lookupName: 'LookUpProductSubcategory', inputClass:'input-min-medium', isMultiSelection: false, multiSelectionValue: $root.TelaProduto().entitySearchRange.ProductSubcategoryID, fieldName: 'ProductSubcategoryID', disabled:ctrl.hasCustomEnable($root, 'TelaProduto_lUpProductSubcategoryID') ? !ctrl.getCustomEnable($root, 'TelaProduto_lUpProductSubcategoryID') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                           </div>
+                                       </div>
+                                       <div id="TelaProduto_divUnitMeasureCode" class="connected-field box-input-xsmall" >
+                                           <label id="TelaProduto_lblUnitMeasureCode" for="TelaProduto_lUpUnitMeasureCode" class="control-label ellipsis" title="UnitMeasureCodeLIJASKDFKHASDF">UnitMeasureCodeLIJASKDFKHASDF
+                                           </label>
+                                           <div id="TelaProduto_lUpUnitMeasureCode" class="form-control box-input-xsmall pull-left input-group " data-bind="validatedField: 'UnitMeasureCode', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_lUpUnitMeasureCode') ? ctrl.getCustomEnable($root, 'TelaProduto_lUpUnitMeasureCode') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, lookupControl: { value: UnitMeasureCode, maxLength: 3,lookupName: 'LookUpUnitMeasure', inputClass:'input-xsmall', isMultiSelection: false, multiSelectionValue: $root.TelaProduto().entitySearchRange.UnitMeasureCode, fieldName: 'UnitMeasureCode', disabled:ctrl.hasCustomEnable($root, 'TelaProduto_lUpUnitMeasureCode') ? !ctrl.getCustomEnable($root, 'TelaProduto_lUpUnitMeasureCode') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 3, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divUnitMeasureCode1" class="" >
+                                           <label id="TelaProduto_lblUnitMeasureCode1" for="TelaProduto_lUpUnitMeasureCode1" class="control-label ellipsis" title="UnitMeasureCode1">UnitMeasureCode1
+                                           </label>
+                                           <div class="">
+                                               <div id="TelaProduto_lUpUnitMeasureCode1" class="form-control box-input-xsmall pull-left input-group " data-bind="validatedField: 'UnitMeasureCode1', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_lUpUnitMeasureCode1') ? ctrl.getCustomEnable($root, 'TelaProduto_lUpUnitMeasureCode1') : (!isEmptyEntityFn($data) && $root.TelaProduto().status() === 'C') }, lookupControl: { value: UnitMeasureCode1, maxLength: 3,lookupName: 'LookUpUnitMeasure1', inputClass:'input-xsmall', isMultiSelection: false, multiSelectionValue: $root.TelaProduto().entitySearchRange.UnitMeasureCode1, fieldName: 'UnitMeasureCode1', disabled:ctrl.hasCustomEnable($root, 'TelaProduto_lUpUnitMeasureCode1') ? !ctrl.getCustomEnable($root, 'TelaProduto_lUpUnitMeasureCode1') : (isEmptyEntityFn($data) || $root.TelaProduto().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 3, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divDiscontinuedDate" class="" >
+                                           <label id="TelaProduto_lblDiscontinuedDate" for="TelaProduto_dtDiscontinuedDate" class="control-label ellipsis" title="DiscontinuedDate">DiscontinuedDate
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small" >
+                                                       <span id="TelaProduto_dtDiscontinuedDate" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'DiscontinuedDate', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_dtDiscontinuedDate') ? ctrl.getCustomEnable($root, 'TelaProduto_dtDiscontinuedDate') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing())},  igDatePicker: { value: DiscontinuedDate, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_dtDiscontinuedDate') ? !ctrl.getCustomEnable($root, 'TelaProduto_dtDiscontinuedDate') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_dtDiscontinuedDate') ? !ctrl.getCustomEnable($root, 'TelaProduto_dtDiscontinuedDate') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                       <span class="input-group-btn" title="Filtro de datas">
+                                                          <button id="TelaProduto_rgbtnDiscontinuedDate"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaProduto().entitySearchRange.has_ProductViewDiscontinuedDate(), 'icon-ok': $root.TelaProduto().entitySearchRange.has_ProductViewDiscontinuedDate(), hide: $root.TelaProduto().status() !== 'C' }, popoverWithBind: { template: '#TelaProduto_rgDiscontinuedDate', vm: $root.TelaProduto().entitySearchRange, ctrlName: 'TelaProduto_rgcDiscontinuedDate', headerText:'Filtro de datas' }"  /></span>
+                                                       <script id="TelaProduto_rgDiscontinuedDate" type="text/html" tabindex="-1">
+                                                          <input type="radio" data-bind="checked:ProductViewDiscontinuedDate_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="checked:ProductViewDiscontinuedDate_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                          <div id="TelaProduto_divrgDiscontinuedDate" >
+                                                              <div class="filterByRange" data-bind="visible: ProductViewDiscontinuedDate_typeRange() == 'R'">
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TelaProduto_dtbDiscontinuedDate" class="IsEditableStyle" data-bind="igDatePicker: { value: ProductViewDiscontinuedDate_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaProduto_dtDiscontinuedDate').igDatePicker('option', 'readOnly', (ui.value != null || $('#TelaProduto_dteDiscontinuedDate').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TelaProduto_dtbDiscontinuedDate').igDatePicker('value'); var valorMax = $('#TelaProduto_dteDiscontinuedDate').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TelaProduto_dtbDiscontinuedDate').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                                  <p></p>
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TelaProduto_dteDiscontinuedDate" class="IsEditableStyle" data-bind="igDatePicker: { value: ProductViewDiscontinuedDate_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaProduto_dtDiscontinuedDate').igDatePicker('option', 'readOnly', ($('#TelaProduto_dtbDiscontinuedDate').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TelaProduto_dtbDiscontinuedDate').igDatePicker('value'); var valorMax = $('#TelaProduto_dteDiscontinuedDate').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TelaProduto_dteDiscontinuedDate').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                              </div>
+                                                              <div class="filterByPredefined " data-bind="visible: ProductViewDiscontinuedDate_typeRange() == 'P'">
+                                                                  <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ProductViewDiscontinuedDate_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                                  <p/>
+                                                                  <div class="row predefValue" data-bind="visible: ProductViewDiscontinuedDate_predefFilter() != null && ProductViewDiscontinuedDate_predefFilter()[0] && ProductViewDiscontinuedDate_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ProductViewDiscontinuedDate_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                              </div>
+                                                          </div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divFinishedGoodsFlag" class="" >
+                                           <div class="controls">
+                                               <div class="input-medium">
+                                                   <label class="input-medium">
+                                                     <input id="TelaProduto_ckFinishedGoodsFlag" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_ckFinishedGoodsFlag') ? ctrl.getCustomEnable($root, 'TelaProduto_ckFinishedGoodsFlag') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TelaProduto_ckFinishedGoodsFlag') ? ctrl.getCustomEnable($root, 'TelaProduto_ckFinishedGoodsFlag') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()), nullableChecked: FinishedGoodsFlag" title="Clique para marcar/desmarcar"/> 
+                                                     <span id="lblTelaProduto_ckFinishedGoodsFlag" data-bind="css: { 'content-required-checkbox': $root.TelaProduto().status() === 'E'}" class="align-label-checkbox">FinishedGoodsFlag</span>
+                                                   </label>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divProductModelID" class="" >
+                                           <label id="TelaProduto_lblProductModelID" for="TelaProduto_lUpProductModelID" class="control-label ellipsis" title="ProductModelID">ProductModelID
+                                           </label>
+                                           <div class="">
+                                               <div id="TelaProduto_lUpProductModelID" class="form-control box-input-min-medium pull-left input-group " data-bind="validatedField: 'ProductModelID', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_lUpProductModelID') ? ctrl.getCustomEnable($root, 'TelaProduto_lUpProductModelID') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, lookupControl: { value: ProductModelID, maxLength: 12,lookupName: 'LookUpProductModel', inputClass:'input-min-medium', isMultiSelection: false, multiSelectionValue: $root.TelaProduto().entitySearchRange.ProductModelID, fieldName: 'ProductModelID', disabled:ctrl.hasCustomEnable($root, 'TelaProduto_lUpProductModelID') ? !ctrl.getCustomEnable($root, 'TelaProduto_lUpProductModelID') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divListPrice" class="" >
+                                           <label id="TelaProduto_lblListPrice" for="TelaProduto_ntxListPrice" data-bind="css: { 'content-required': $root.TelaProduto().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ListPrice">ListPrice
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-medium">
+                                                   <div class="input-group box-input-medium">
+                                                       <input id="TelaProduto_ntxListPrice" class="form-control numericFilterRange input-medium" data-bind="validatedField: 'ListPrice', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_ntxListPrice') ? ctrl.getCustomEnable($root, 'TelaProduto_ntxListPrice') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igNumericEditor: { value: ListPrice, minValue: 0, maxValue: 999999999999999.9999,  maxLength: 20,  dataMode: 'number', minDecimals: 4, maxDecimals: 4, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_ntxListPrice') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxListPrice') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_ntxListPrice') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxListPrice') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaProduto().entitySearchRange.has_ProductViewListPrice(), 'icon-ok': $root.TelaProduto().entitySearchRange.has_ProductViewListPrice(), hide: $root.TelaProduto().status() !== 'C' }, popoverWithBind: { template: '#TelaProduto_rgListPrice', vm: $root.TelaProduto().entitySearchRange, ctrlName: 'TelaProduto_rgcListPrice', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaProduto_rgListPrice" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaProduto_ntxbListPrice" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: ProductViewListPrice_begin, minValue: 0, maxLength: 15, dataMode: 'number', minDecimals: 4, maxDecimals: 4, valueChanged: function (evt, ui) {$('#TelaProduto_ntxListPrice').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaProduto_ntxeListPrice').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaProduto_ntxeListPrice').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaProduto_ntxeListPrice" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: ProductViewListPrice_end, minValue: 0, maxLength: 15, dataMode: 'number', minDecimals: 4, maxDecimals: 4, valueChanged: function (evt, ui) {$('#TelaProduto_ntxListPrice').igNumericEditor('option', 'readOnly', ($('#TelaProduto_ntxbListPrice').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaProduto_ntxbListPrice').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divMakeFlag" class="" >
+                                           <div class="controls">
+                                               <div class="input-small">
+                                                   <label class="input-small">
+                                                     <input id="TelaProduto_ckMakeFlag" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_ckMakeFlag') ? ctrl.getCustomEnable($root, 'TelaProduto_ckMakeFlag') : (!isEmptyEntityFn($data) && $root.TelaProduto().status() === 'C')}, enable: ctrl.hasCustomEnable($root, 'TelaProduto_ckMakeFlag') ? ctrl.getCustomEnable($root, 'TelaProduto_ckMakeFlag') : (!isEmptyEntityFn($data) && $root.TelaProduto().status() === 'C'), nullableChecked: MakeFlag" title="Clique para marcar/desmarcar"/> 
+                                                     <span id="lblTelaProduto_ckMakeFlag" data-bind="css: { 'content-required-checkbox': $root.TelaProduto().status() === 'E'}" class="align-label-checkbox">MakeFlag</span>
+                                                   </label>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divModifiedDate" class="" >
+                                           <label id="TelaProduto_lblModifiedDate" for="TelaProduto_dtModifiedDate" data-bind="css: { 'content-required': $root.TelaProduto().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ModifiedDate">ModifiedDate
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small" >
+                                                       <span id="TelaProduto_dtModifiedDate" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'ModifiedDate', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_dtModifiedDate') ? ctrl.getCustomEnable($root, 'TelaProduto_dtModifiedDate') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing())},  igDatePicker: { value: ModifiedDate, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_dtModifiedDate') ? !ctrl.getCustomEnable($root, 'TelaProduto_dtModifiedDate') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_dtModifiedDate') ? !ctrl.getCustomEnable($root, 'TelaProduto_dtModifiedDate') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                       <span class="input-group-btn" title="Filtro de datas">
+                                                          <button id="TelaProduto_rgbtnModifiedDate"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaProduto().entitySearchRange.has_ProductViewModifiedDate(), 'icon-ok': $root.TelaProduto().entitySearchRange.has_ProductViewModifiedDate(), hide: $root.TelaProduto().status() !== 'C' }, popoverWithBind: { template: '#TelaProduto_rgModifiedDate', vm: $root.TelaProduto().entitySearchRange, ctrlName: 'TelaProduto_rgcModifiedDate', headerText:'Filtro de datas' }"  /></span>
+                                                       <script id="TelaProduto_rgModifiedDate" type="text/html" tabindex="-1">
+                                                          <input type="radio" data-bind="checked:ProductViewModifiedDate_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="checked:ProductViewModifiedDate_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                          <div id="TelaProduto_divrgModifiedDate" >
+                                                              <div class="filterByRange" data-bind="visible: ProductViewModifiedDate_typeRange() == 'R'">
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TelaProduto_dtbModifiedDate" class="IsEditableStyle" data-bind="igDatePicker: { value: ProductViewModifiedDate_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaProduto_dtModifiedDate').igDatePicker('option', 'readOnly', (ui.value != null || $('#TelaProduto_dteModifiedDate').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TelaProduto_dtbModifiedDate').igDatePicker('value'); var valorMax = $('#TelaProduto_dteModifiedDate').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TelaProduto_dtbModifiedDate').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                                  <p></p>
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TelaProduto_dteModifiedDate" class="IsEditableStyle" data-bind="igDatePicker: { value: ProductViewModifiedDate_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaProduto_dtModifiedDate').igDatePicker('option', 'readOnly', ($('#TelaProduto_dtbModifiedDate').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TelaProduto_dtbModifiedDate').igDatePicker('value'); var valorMax = $('#TelaProduto_dteModifiedDate').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TelaProduto_dteModifiedDate').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                              </div>
+                                                              <div class="filterByPredefined " data-bind="visible: ProductViewModifiedDate_typeRange() == 'P'">
+                                                                  <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ProductViewModifiedDate_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                                  <p/>
+                                                                  <div class="row predefValue" data-bind="visible: ProductViewModifiedDate_predefFilter() != null && ProductViewModifiedDate_predefFilter()[0] && ProductViewModifiedDate_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ProductViewModifiedDate_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                              </div>
+                                                          </div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divName" class="" >
+                                           <label id="TelaProduto_lblName" for="TelaProduto_tbName" data-bind="css: { 'content-required': $root.TelaProduto().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Name">Name
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-xlarge">
+                                                   <input id="TelaProduto_tbName" class="form-control ellipsis input-xlarge" data-bind="attr: { title: Name }, validatedField: 'Name', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_tbName') ? ctrl.getCustomEnable($root, 'TelaProduto_tbName') : (!isEmptyEntityFn($data) && $root.TelaProduto().status() === 'C') }, igTextEditor: { maxLength: 50, value: Name, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_tbName') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbName') : (isEmptyEntityFn($data) || $root.TelaProduto().status() !== 'C'), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_tbName') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbName') : (isEmptyEntityFn($data) || $root.TelaProduto().status() !== 'C')  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divProductID" class="" >
+                                           <label id="TelaProduto_lblProductID" for="TelaProduto_ntxProductID" data-bind="css: { 'content-required': $root.TelaProduto().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ProductID">ProductID
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-min-medium">
+                                                   <div class="input-group box-input-min-medium">
+                                                       <input id="TelaProduto_ntxProductID" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'ProductID', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_ntxProductID') ? ctrl.getCustomEnable($root, 'TelaProduto_ntxProductID') : (!isEmptyEntityFn($data) && $root.TelaProduto().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: ProductID, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_ntxProductID') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxProductID') : (isEmptyEntityFn($data) || !($root.TelaProduto().status() === 'C' || ($data.isAdded && $data.isAdded()))), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_ntxProductID') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxProductID') : (isEmptyEntityFn($data) || !($root.TelaProduto().status() === 'C' || ($data.isAdded && $data.isAdded()))) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaProduto().entitySearchRange.has_ProductViewProductID(), 'icon-ok': $root.TelaProduto().entitySearchRange.has_ProductViewProductID(), hide: $root.TelaProduto().status() !== 'C' }, popoverWithBind: { template: '#TelaProduto_rgProductID', vm: $root.TelaProduto().entitySearchRange, ctrlName: 'TelaProduto_rgcProductID', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaProduto_rgProductID" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaProduto_ntxbProductID" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: ProductViewProductID_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaProduto_ntxProductID').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaProduto_ntxeProductID').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaProduto_ntxeProductID').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaProduto_ntxeProductID" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: ProductViewProductID_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TelaProduto_ntxProductID').igNumericEditor('option', 'readOnly', ($('#TelaProduto_ntxbProductID').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaProduto_ntxbProductID').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divProductLine" class="" >
+                                           <label id="TelaProduto_lblProductLine" for="TelaProduto_tbProductLine" class="control-label ellipsis" title="ProductLine">ProductLine
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-mini">
+                                                   <input id="TelaProduto_tbProductLine" class="form-control ellipsis input-mini" data-bind="attr: { title: ProductLine }, validatedField: 'ProductLine', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_tbProductLine') ? ctrl.getCustomEnable($root, 'TelaProduto_tbProductLine') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igTextEditor: { maxLength: 2, value: ProductLine, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_tbProductLine') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbProductLine') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_tbProductLine') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbProductLine') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divProductNumber" class="" >
+                                           <label id="TelaProduto_lblProductNumber" for="TelaProduto_tbProductNumber" data-bind="css: { 'content-required': $root.TelaProduto().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ProductNumber">ProductNumber
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-xmedium">
+                                                   <input id="TelaProduto_tbProductNumber" class="form-control ellipsis input-xmedium" data-bind="attr: { title: ProductNumber }, validatedField: 'ProductNumber', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_tbProductNumber') ? ctrl.getCustomEnable($root, 'TelaProduto_tbProductNumber') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igTextEditor: { maxLength: 25, value: ProductNumber, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_tbProductNumber') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbProductNumber') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_tbProductNumber') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbProductNumber') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divReorderPoint" class="" >
+                                           <label id="TelaProduto_lblReorderPoint" for="TelaProduto_ntxReorderPoint" data-bind="css: { 'content-required': $root.TelaProduto().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ReorderPoint">ReorderPoint
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-xsmall">
+                                                   <div class="input-group box-input-xsmall">
+                                                       <input id="TelaProduto_ntxReorderPoint" class="form-control numericFilterRange input-xsmall" data-bind="validatedField: 'ReorderPoint', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_ntxReorderPoint') ? ctrl.getCustomEnable($root, 'TelaProduto_ntxReorderPoint') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igNumericEditor: { value: ReorderPoint, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_ntxReorderPoint') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxReorderPoint') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_ntxReorderPoint') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxReorderPoint') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaProduto().entitySearchRange.has_ProductViewReorderPoint(), 'icon-ok': $root.TelaProduto().entitySearchRange.has_ProductViewReorderPoint(), hide: $root.TelaProduto().status() !== 'C' }, popoverWithBind: { template: '#TelaProduto_rgReorderPoint', vm: $root.TelaProduto().entitySearchRange, ctrlName: 'TelaProduto_rgcReorderPoint', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaProduto_rgReorderPoint" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaProduto_ntxbReorderPoint" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: ProductViewReorderPoint_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaProduto_ntxReorderPoint').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaProduto_ntxeReorderPoint').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaProduto_ntxeReorderPoint').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaProduto_ntxeReorderPoint" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: ProductViewReorderPoint_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaProduto_ntxReorderPoint').igNumericEditor('option', 'readOnly', ($('#TelaProduto_ntxbReorderPoint').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaProduto_ntxbReorderPoint').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divSafetyStockLevel" class="" >
+                                           <label id="TelaProduto_lblSafetyStockLevel" for="TelaProduto_ntxSafetyStockLevel" data-bind="css: { 'content-required': $root.TelaProduto().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="SafetyStockLevel">SafetyStockLevel
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-xsmall">
+                                                   <div class="input-group box-input-xsmall">
+                                                       <input id="TelaProduto_ntxSafetyStockLevel" class="form-control numericFilterRange input-xsmall" data-bind="validatedField: 'SafetyStockLevel', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_ntxSafetyStockLevel') ? ctrl.getCustomEnable($root, 'TelaProduto_ntxSafetyStockLevel') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igNumericEditor: { value: SafetyStockLevel, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_ntxSafetyStockLevel') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxSafetyStockLevel') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_ntxSafetyStockLevel') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxSafetyStockLevel') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaProduto().entitySearchRange.has_ProductViewSafetyStockLevel(), 'icon-ok': $root.TelaProduto().entitySearchRange.has_ProductViewSafetyStockLevel(), hide: $root.TelaProduto().status() !== 'C' }, popoverWithBind: { template: '#TelaProduto_rgSafetyStockLevel', vm: $root.TelaProduto().entitySearchRange, ctrlName: 'TelaProduto_rgcSafetyStockLevel', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaProduto_rgSafetyStockLevel" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaProduto_ntxbSafetyStockLevel" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: ProductViewSafetyStockLevel_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaProduto_ntxSafetyStockLevel').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaProduto_ntxeSafetyStockLevel').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaProduto_ntxeSafetyStockLevel').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaProduto_ntxeSafetyStockLevel" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: ProductViewSafetyStockLevel_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TelaProduto_ntxSafetyStockLevel').igNumericEditor('option', 'readOnly', ($('#TelaProduto_ntxbSafetyStockLevel').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaProduto_ntxbSafetyStockLevel').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divSellEndDate" class="" >
+                                           <label id="TelaProduto_lblSellEndDate" for="TelaProduto_dtSellEndDate" class="control-label ellipsis" title="SellEndDate">SellEndDate
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small" >
+                                                       <span id="TelaProduto_dtSellEndDate" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'SellEndDate', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_dtSellEndDate') ? ctrl.getCustomEnable($root, 'TelaProduto_dtSellEndDate') : (!isEmptyEntityFn($data) && $root.TelaProduto().status() === 'C')},  igDatePicker: { value: SellEndDate, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_dtSellEndDate') ? !ctrl.getCustomEnable($root, 'TelaProduto_dtSellEndDate') : (isEmptyEntityFn($data) || $root.TelaProduto().status() !== 'C'), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_dtSellEndDate') ? !ctrl.getCustomEnable($root, 'TelaProduto_dtSellEndDate') : (isEmptyEntityFn($data) || $root.TelaProduto().status() !== 'C'), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                       <span class="input-group-btn" title="Filtro de datas">
+                                                          <button id="TelaProduto_rgbtnSellEndDate"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaProduto().entitySearchRange.has_ProductViewSellEndDate(), 'icon-ok': $root.TelaProduto().entitySearchRange.has_ProductViewSellEndDate(), hide: $root.TelaProduto().status() !== 'C' }, popoverWithBind: { template: '#TelaProduto_rgSellEndDate', vm: $root.TelaProduto().entitySearchRange, ctrlName: 'TelaProduto_rgcSellEndDate', headerText:'Filtro de datas' }"  /></span>
+                                                       <script id="TelaProduto_rgSellEndDate" type="text/html" tabindex="-1">
+                                                          <input type="radio" data-bind="checked:ProductViewSellEndDate_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="checked:ProductViewSellEndDate_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                          <div id="TelaProduto_divrgSellEndDate" >
+                                                              <div class="filterByRange" data-bind="visible: ProductViewSellEndDate_typeRange() == 'R'">
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TelaProduto_dtbSellEndDate" class="IsEditableStyle" data-bind="igDatePicker: { value: ProductViewSellEndDate_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaProduto_dtSellEndDate').igDatePicker('option', 'readOnly', (ui.value != null || $('#TelaProduto_dteSellEndDate').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TelaProduto_dtbSellEndDate').igDatePicker('value'); var valorMax = $('#TelaProduto_dteSellEndDate').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TelaProduto_dtbSellEndDate').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                                  <p></p>
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TelaProduto_dteSellEndDate" class="IsEditableStyle" data-bind="igDatePicker: { value: ProductViewSellEndDate_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaProduto_dtSellEndDate').igDatePicker('option', 'readOnly', ($('#TelaProduto_dtbSellEndDate').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TelaProduto_dtbSellEndDate').igDatePicker('value'); var valorMax = $('#TelaProduto_dteSellEndDate').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TelaProduto_dteSellEndDate').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                              </div>
+                                                              <div class="filterByPredefined " data-bind="visible: ProductViewSellEndDate_typeRange() == 'P'">
+                                                                  <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ProductViewSellEndDate_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                                  <p/>
+                                                                  <div class="row predefValue" data-bind="visible: ProductViewSellEndDate_predefFilter() != null && ProductViewSellEndDate_predefFilter()[0] && ProductViewSellEndDate_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ProductViewSellEndDate_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                              </div>
+                                                          </div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divSellStartDate" class="" >
+                                           <label id="TelaProduto_lblSellStartDate" for="TelaProduto_dtSellStartDate" data-bind="css: { 'content-required': $root.TelaProduto().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="SellStartDate">SellStartDate
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small" >
+                                                       <span id="TelaProduto_dtSellStartDate" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'SellStartDate', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_dtSellStartDate') ? ctrl.getCustomEnable($root, 'TelaProduto_dtSellStartDate') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing())},  igDatePicker: { value: SellStartDate, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_dtSellStartDate') ? !ctrl.getCustomEnable($root, 'TelaProduto_dtSellStartDate') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_dtSellStartDate') ? !ctrl.getCustomEnable($root, 'TelaProduto_dtSellStartDate') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                       <span class="input-group-btn" title="Filtro de datas">
+                                                          <button id="TelaProduto_rgbtnSellStartDate"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaProduto().entitySearchRange.has_ProductViewSellStartDate(), 'icon-ok': $root.TelaProduto().entitySearchRange.has_ProductViewSellStartDate(), hide: $root.TelaProduto().status() !== 'C' }, popoverWithBind: { template: '#TelaProduto_rgSellStartDate', vm: $root.TelaProduto().entitySearchRange, ctrlName: 'TelaProduto_rgcSellStartDate', headerText:'Filtro de datas' }"  /></span>
+                                                       <script id="TelaProduto_rgSellStartDate" type="text/html" tabindex="-1">
+                                                          <input type="radio" data-bind="checked:ProductViewSellStartDate_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="checked:ProductViewSellStartDate_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                          <div id="TelaProduto_divrgSellStartDate" >
+                                                              <div class="filterByRange" data-bind="visible: ProductViewSellStartDate_typeRange() == 'R'">
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TelaProduto_dtbSellStartDate" class="IsEditableStyle" data-bind="igDatePicker: { value: ProductViewSellStartDate_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaProduto_dtSellStartDate').igDatePicker('option', 'readOnly', (ui.value != null || $('#TelaProduto_dteSellStartDate').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TelaProduto_dtbSellStartDate').igDatePicker('value'); var valorMax = $('#TelaProduto_dteSellStartDate').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TelaProduto_dtbSellStartDate').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                                  <p></p>
+                                                                  <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TelaProduto_dteSellStartDate" class="IsEditableStyle" data-bind="igDatePicker: { value: ProductViewSellStartDate_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TelaProduto_dtSellStartDate').igDatePicker('option', 'readOnly', ($('#TelaProduto_dtbSellStartDate').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TelaProduto_dtbSellStartDate').igDatePicker('value'); var valorMax = $('#TelaProduto_dteSellStartDate').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TelaProduto_dteSellStartDate').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                              </div>
+                                                              <div class="filterByPredefined " data-bind="visible: ProductViewSellStartDate_typeRange() == 'P'">
+                                                                  <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: ProductViewSellStartDate_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                                  <p/>
+                                                                  <div class="row predefValue" data-bind="visible: ProductViewSellStartDate_predefFilter() != null && ProductViewSellStartDate_predefFilter()[0] && ProductViewSellStartDate_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: ProductViewSellStartDate_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                              </div>
+                                                          </div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divSize" class="" >
+                                           <label id="TelaProduto_lblSize" for="TelaProduto_tbSize" class="control-label ellipsis" title="Size">Size
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-xsmall">
+                                                   <input id="TelaProduto_tbSize" class="form-control ellipsis input-xsmall" data-bind="attr: { title: Size }, validatedField: 'Size', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_tbSize') ? ctrl.getCustomEnable($root, 'TelaProduto_tbSize') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igTextEditor: { maxLength: 5, value: Size, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_tbSize') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbSize') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_tbSize') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbSize') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divStandardCost" class="" >
+                                           <label id="TelaProduto_lblStandardCost" for="TelaProduto_ntxStandardCost" data-bind="css: { 'content-required': $root.TelaProduto().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="StandardCost">StandardCost
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-medium">
+                                                   <div class="input-group box-input-medium">
+                                                       <input id="TelaProduto_ntxStandardCost" class="form-control numericFilterRange input-medium" data-bind="validatedField: 'StandardCost', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_ntxStandardCost') ? ctrl.getCustomEnable($root, 'TelaProduto_ntxStandardCost') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igNumericEditor: { value: StandardCost, minValue: 0, maxValue: 999999999999999.9999,  maxLength: 20,  dataMode: 'number', minDecimals: 4, maxDecimals: 4, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_ntxStandardCost') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxStandardCost') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_ntxStandardCost') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxStandardCost') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaProduto().entitySearchRange.has_ProductViewStandardCost(), 'icon-ok': $root.TelaProduto().entitySearchRange.has_ProductViewStandardCost(), hide: $root.TelaProduto().status() !== 'C' }, popoverWithBind: { template: '#TelaProduto_rgStandardCost', vm: $root.TelaProduto().entitySearchRange, ctrlName: 'TelaProduto_rgcStandardCost', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaProduto_rgStandardCost" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaProduto_ntxbStandardCost" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: ProductViewStandardCost_begin, minValue: 0, maxLength: 15, dataMode: 'number', minDecimals: 4, maxDecimals: 4, valueChanged: function (evt, ui) {$('#TelaProduto_ntxStandardCost').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaProduto_ntxeStandardCost').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaProduto_ntxeStandardCost').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaProduto_ntxeStandardCost" class="IsEditableStyle input-medium" data-bind="igNumericEditor: { value: ProductViewStandardCost_end, minValue: 0, maxLength: 15, dataMode: 'number', minDecimals: 4, maxDecimals: 4, valueChanged: function (evt, ui) {$('#TelaProduto_ntxStandardCost').igNumericEditor('option', 'readOnly', ($('#TelaProduto_ntxbStandardCost').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaProduto_ntxbStandardCost').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divStyle" class="" >
+                                           <label id="TelaProduto_lblStyle" for="TelaProduto_tbStyle" class="control-label ellipsis" title="Style">Style
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-mini">
+                                                   <input id="TelaProduto_tbStyle" class="form-control ellipsis input-mini" data-bind="attr: { title: Style }, validatedField: 'Style', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_tbStyle') ? ctrl.getCustomEnable($root, 'TelaProduto_tbStyle') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igTextEditor: { maxLength: 2, value: Style, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_tbStyle') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbStyle') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_tbStyle') ? !ctrl.getCustomEnable($root, 'TelaProduto_tbStyle') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="TelaProduto_divWeight" class="" >
+                                           <label id="TelaProduto_lblWeight" for="TelaProduto_ntxWeight" class="control-label ellipsis" title="Weight">Weight
+                                           </label>
+                                           <div class="controls">
+                                               <div class="box-input-small">
+                                                   <div class="input-group box-input-small">
+                                                       <input id="TelaProduto_ntxWeight" class="form-control numericFilterRange input-small" data-bind="validatedField: 'Weight', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TelaProduto_ntxWeight') ? ctrl.getCustomEnable($root, 'TelaProduto_ntxWeight') : (!isEmptyEntityFn($data) && $root.TelaProduto().enabledForEditing()) }, igNumericEditor: { value: Weight, minValue: 0, maxValue: 999999.99,  maxLength: 9,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'TelaProduto_ntxWeight') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxWeight') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TelaProduto_ntxWeight') ? !ctrl.getCustomEnable($root, 'TelaProduto_ntxWeight') : (isEmptyEntityFn($data) || !$root.TelaProduto().enabledForEditing()) }" />
+                                                       <span class="input-group-btn" title="Filtro numérico">
+                                                          <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TelaProduto().entitySearchRange.has_ProductViewWeight(), 'icon-ok': $root.TelaProduto().entitySearchRange.has_ProductViewWeight(), hide: $root.TelaProduto().status() !== 'C' }, popoverWithBind: { template: '#TelaProduto_rgWeight', vm: $root.TelaProduto().entitySearchRange, ctrlName: 'TelaProduto_rgcWeight', headerText:'Filtro numérico' }"  /></span>
+                                                       <script id="TelaProduto_rgWeight" type="text/html" tabindex="-1">
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TelaProduto_ntxbWeight" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: ProductViewWeight_begin, minValue: 0, maxLength: 6, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaProduto_ntxWeight').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TelaProduto_ntxeWeight').igNumericEditor('option', 'value') != null ? true : false)); $('#TelaProduto_ntxeWeight').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                           <p></p>
+                                                           <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TelaProduto_ntxeWeight" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: ProductViewWeight_end, minValue: 0, maxLength: 6, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TelaProduto_ntxWeight').igNumericEditor('option', 'readOnly', ($('#TelaProduto_ntxbWeight').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TelaProduto_ntxbWeight').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                       </script>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="TelaProduto_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.TelaProduto().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyTelaProduto_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyTelaProduto_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.TelaProduto().dataToolbar.canExport(), click: function () {$root.TelaProduto().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyTelaProduto_dGrid" data-bind="css: { IsEditableStyle: $root.TelaProduto().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

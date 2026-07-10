@@ -1,0 +1,574 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="PerfilFranquia_formViewer" class="panelTransaition">
+            <figure id="PerfilFranquia_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.PerfilFranquia().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="PerfilFranquia_gbTcsPerfilb162e82f59c5469d81881a40a7b2b9f6" data-bind="css: $root.PerfilFranquia().getLayoutColumnSpan('PerfilFranquia_gbTcsPerfilb162e82f59c5469d81881a40a7b2b9f6'), visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_gbTcsPerfilb162e82f59c5469d81881a40a7b2b9f6')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div id="PerfilFranquia_gbTcsPerfilb162e82f59c5469d81881a40a7b2b9f6_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="PerfilFranquia_gbGroupBox_4fa922da0e014c4082a3acedb7f1640c" data-bind="css: $root.PerfilFranquia().getLayoutColumnSpan('PerfilFranquia_gbGroupBox_4fa922da0e014c4082a3acedb7f1640c'), visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_gbGroupBox_4fa922da0e014c4082a3acedb7f1640c')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_gbGroupBox_4fa922da0e014c4082a3acedb7f1640c')"><i class="icon-reorder"></i></div>
+                       </div>
+                       <div id="PerfilFranquia_gbGroupBox_4fa922da0e014c4082a3acedb7f1640c_body" class="portlet-body" >
+                           <div data-bind="with: $root.PerfilFranquia().getWithBinding(currentDataItem, $root.PerfilFranquia().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.PerfilFranquia().getLayoutColumnSpan('PerfilFranquia_tbIdPerfil'), visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_tbIdPerfil')" class="">
+                                       <div class="form-group">
+                                           <div id="PerfilFranquia_divIdPerfil" class="" >
+                                               <label data-bind="css: { 'content-required': $root.PerfilFranquia().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tbIdPerfil')}, text: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tbIdPerfil')" id="PerfilFranquia_lblIdPerfil" for="PerfilFranquia_tbIdPerfil" class="control-label ellipsis">
+                                               </label>
+                                               <input id="PerfilFranquia_tbIdPerfil" class="form-control ellipsis" data-bind="attr: { title: IdPerfil }, validatedField: 'IdPerfil', css: { IsEditableStyle: ctrl.hasCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_tbIdPerfil') ? ctrl.getCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_tbIdPerfil') : (!isEmptyEntityFn($data) && $root.PerfilFranquia().status() === 'C') }, igTextEditor: { maxLength: 12, value: IdPerfil, readOnly: ctrl.hasCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_tbIdPerfil') ? !ctrl.getCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_tbIdPerfil') : (isEmptyEntityFn($data) || $root.PerfilFranquia().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.PerfilFranquia().getLayoutColumnSpan('PerfilFranquia_tbDescPerfil'), visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_tbDescPerfil')" class="">
+                                       <div class="form-group">
+                                           <div id="PerfilFranquia_divDescPerfil" class="" >
+                                               <label data-bind="css: { 'content-required': $root.PerfilFranquia().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tbDescPerfil')}, text: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tbDescPerfil')" id="PerfilFranquia_lblDescPerfil" for="PerfilFranquia_tbDescPerfil" class="control-label ellipsis">
+                                               </label>
+                                               <input id="PerfilFranquia_tbDescPerfil" class="form-control ellipsis" data-bind="attr: { title: DescPerfil }, validatedField: 'DescPerfil', css: { IsEditableStyle: ctrl.hasCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_tbDescPerfil') ? ctrl.getCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_tbDescPerfil') : (!isEmptyEntityFn($data) && $root.PerfilFranquia().enabledForEditing()) }, igTextEditor: { maxLength: 60, value: DescPerfil, readOnly: ctrl.hasCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_tbDescPerfil') ? !ctrl.getCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_tbDescPerfil') : (isEmptyEntityFn($data) || !$root.PerfilFranquia().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.PerfilFranquia().getLayoutColumnSpan('PerfilFranquia_ckInativo'), visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_ckInativo')" class="">
+                                       <div class="form-group">
+                                           <div id="PerfilFranquia_divInativo" class="" >
+                                               <label class="">
+                                                 <input id="PerfilFranquia_ckInativo" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_ckInativo') ? ctrl.getCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_ckInativo') : (!isEmptyEntityFn($data) && $root.PerfilFranquia().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_ckInativo') ? !ctrl.getCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_ckInativo') : (isEmptyEntityFn($data) || !$root.PerfilFranquia().enabledForEditing()), nullableChecked: Inativo" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lblPerfilFranquia_ckInativo" data-bind="text: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_ckInativo'), attr: {title: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_ckInativo')}, css: { 'content-required-checkbox': $root.PerfilFranquia().status() === 'E'}" class="align-label-checkbox"></span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="PerfilFranquia_gbExpander_4ecf554f5e81411882a771df50c9e16d" data-bind="css: $root.PerfilFranquia().getLayoutColumnSpan('PerfilFranquia_gbExpander_4ecf554f5e81411882a771df50c9e16d'), visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_gbExpander_4ecf554f5e81411882a771df50c9e16d')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_gbExpander_4ecf554f5e81411882a771df50c9e16d')"><i class="icon-reorder"></i></div>
+                       </div>
+                       <div id="PerfilFranquia_gbExpander_4ecf554f5e81411882a771df50c9e16d_body" class="portlet-body" >
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_dGridTcsPerfilBandeiraRede') " >
+                       <div id="PerfilFranquia_dGridTcsPerfilBandeiraRede_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.PerfilFranquia().getWithBinding(currentDataItem, $root.PerfilFranquia().rootDataTypeName)">
+                           <button id="PerfilFranquia_dGridTcsPerfilBandeiraRede_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.PerfilFranquia().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.PerfilFranquia().createAndNotifyTcsPerfilBandeiraRede($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="PerfilFranquia_dGridTcsPerfilBandeiraRede_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.PerfilFranquia().status() === 'E', 
+                           click: function () {
+                              $root.PerfilFranquia().deleteGrid('#PerfilFranquia_dGridTcsPerfilBandeiraRede', 'TcsPerfilBandeiraRede', 'vm.currentDataItem().currentTcsPerfilBandeiraRede;vm.currentDataItem().TcsPerfilBandeiraRedeList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="PerfilFranquia_dGridTcsPerfilBandeiraRede_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#PerfilFranquia_dGridTcsPerfilBandeiraRede_templateLayout', vm: function(){return $root.PerfilFranquia().gridSaveStates['PerfilFranquia_dGridTcsPerfilBandeiraRede'];}, ctrlName: 'PerfilFranquia_dGridTcsPerfilBandeiraRede_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                           <script id="PerfilFranquia_dGridTcsPerfilBandeiraRede_templateLayout" type="text/html" tabindex="-1">
+                               <div id="PerfilFranquia_dGridTcsPerfilBandeiraRede_gb" class="layout-popover">
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                           <div class="col-md-10">
+                                               <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                           </div>
+                                           <div  class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="col-md-10">
+                                               <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                           </div>
+                                           <div class="col-md-2">
+                                               <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </script>
+                           <button id="PerfilFranquia_dGridTcsPerfilBandeiraRede_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.PerfilFranquia().dataToolbar.canGridExport(), click: function () {$root.PerfilFranquia().exportDataDetails($data, 'TcsPerfilBandeiraRede', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="PerfilFranquia_dGridTcsPerfilBandeiraRede" data-bind="css: { IsEditableStyle: $root.PerfilFranquia().enabledForEditing }" />
+                       </div>
+
+                   </div>
+
+
+
+                   <div id="dialogTcsPerfilFilial"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegTcsPerfilFilial" onClick="$(this).backRegTcsPerfilFilial();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberTcsPerfilFilial">0</label><label>/</label><label id="totalNumberTcsPerfilFilial">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegTcsPerfilFilial" onClick="$(this).nextRegTcsPerfilFilial();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegTcsPerfilFilial" onClick="$(this).addRegTcsPerfilFilial();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegTcsPerfilFilial" onClick="$(this).delRegTcsPerfilFilial();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTcsPerfilFilial" onClick="$(this).okRegTcsPerfilFilial();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="PerfilFranquia_templateTcsPerfilFilial" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.PerfilFranquia().getWithBinding(currentDataItem, $root.PerfilFranquia().rootDataTypeName)"><div data-bind="with: $root.PerfilFranquia().getWithBinding(currentTcsPerfilFilial, 'TcsPerfilFilial')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div data-bind="css: $root.PerfilFranquia().getLayoutColumnSpan('PerfilFranquia_lUpTcsPerfilFilial_CodigoFilial'), visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_lUpTcsPerfilFilial_CodigoFilial')" class="">
+                               <div class="form-group">
+                                   <div id="PerfilFranquia_divTcsPerfilFilial_CodigoFilialTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_lUpTcsPerfilFilial_CodigoFilial')}, text: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_lUpTcsPerfilFilial_CodigoFilial')" id="PerfilFranquia_lblTcsPerfilFilial_CodigoFilial" for="PerfilFranquia_lUpTcsPerfilFilial_CodigoFilial" class="control-label ellipsis">
+                                       </label>
+                                       <div id="PerfilFranquia_lUpTcsPerfilFilial_CodigoFilial" class="form-control input-group " data-bind="validatedField: 'CodigoFilial', css: { vmEditing: $root.PerfilFranquia().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_lUpTcsPerfilFilial_CodigoFilial') ? ctrl.getCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_lUpTcsPerfilFilial_CodigoFilial') : (!isEmptyEntityFn($data) && $root.PerfilFranquia().status() === 'C' || ($data.isAdded && $data.isAdded())) }, lookupControl: { vm: $root.PerfilFranquia(), value: CodigoFilial, maxLength: 18,lookupName: 'LookUpTbcFilial', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: true, multiSelectionValue: $root.PerfilFranquia().entitySearchRange.CodigoFilial, fieldName: 'CodigoFilial', disabled:ctrl.hasCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_lUpTcsPerfilFilial_CodigoFilial') ? !ctrl.getCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_lUpTcsPerfilFilial_CodigoFilial') : (isEmptyEntityFn($data) || !($root.PerfilFranquia().status() === 'C' || ($data.isAdded && $data.isAdded()))), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 18, defaultValue: ''}" />
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div data-bind="css: $root.PerfilFranquia().getLayoutColumnSpan('PerfilFranquia_lUpTcsPerfilFilial_NomeFilial'), visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_lUpTcsPerfilFilial_NomeFilial')" class="">
+                               <div class="form-group">
+                                   <div id="PerfilFranquia_divTcsPerfilFilial_NomeFilialTemplate" class="" >
+                                       <label data-bind="attr: { title: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_lUpTcsPerfilFilial_NomeFilial')}, text: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_lUpTcsPerfilFilial_NomeFilial')" id="PerfilFranquia_lblTcsPerfilFilial_NomeFilial" for="PerfilFranquia_lUpTcsPerfilFilial_NomeFilial" class="control-label ellipsis">
+                                       </label>
+                                       <div id="PerfilFranquia_lUpTcsPerfilFilial_NomeFilial" class="form-control input-group " data-bind="validatedField: 'NomeFilial', css: { vmEditing: $root.PerfilFranquia().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_lUpTcsPerfilFilial_NomeFilial') ? ctrl.getCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_lUpTcsPerfilFilial_NomeFilial') : (!isEmptyEntityFn($data) && $root.PerfilFranquia().status() === 'C' || ($data.isAdded && $data.isAdded())) }, lookupControl: { vm: $root.PerfilFranquia(), value: NomeFilial, maxLength: 60,lookupName: 'LookUpTbcFilial', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: true, multiSelectionValue: $root.PerfilFranquia().entitySearchRange.NomeFilial, fieldName: 'NomeFilial', disabled:ctrl.hasCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_lUpTcsPerfilFilial_NomeFilial') ? !ctrl.getCustomEnable($root.PerfilFranquia(), 'PerfilFranquia_lUpTcsPerfilFilial_NomeFilial') : (isEmptyEntityFn($data) || !($root.PerfilFranquia().status() === 'C' || ($data.isAdded && $data.isAdded()))), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 60, defaultValue: ''}" />
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+
+
+
+               <div id="PerfilFranquia_tcTcsPerfilTabControl"  data-bind="css: $root.PerfilFranquia().getLayoutColumnSpan('PerfilFranquia_tcTcsPerfilTabControl'), visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_tcTcsPerfilTabControl')"  class="tabbable tabbable-custom box" style="height: 350px">
+                  <div class="container-tab">
+                     <div id="PerfilFranquia_tcTcsPerfilTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                     <div id="PerfilFranquia_tcTcsPerfilTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                     <div id="PerfilFranquia_tcTcsPerfilTabControl_wrapper" class="wrapper">
+                        <ul id="PerfilFranquia_tcTcsPerfilTabControl_list" class="nav nav-tabs list">
+                           <li id="PerfilFranquia_tiTcsPerfilRegraModuloTabItem" class="active"><a data-bind="text: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tiTcsPerfilRegraModuloTabItem'), attr: {title: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tiTcsPerfilRegraModuloTabItem')}" href="#PerfilFranquia_tabTcsPerfilRegraModuloTabItem" data-toggle="tab"></a></li>
+                           <li id="PerfilFranquia_tiTcsPerfilRegraTransacaoTabItem" class=""><a data-bind="text: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tiTcsPerfilRegraTransacaoTabItem'), attr: {title: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tiTcsPerfilRegraTransacaoTabItem')}" href="#PerfilFranquia_tabTcsPerfilRegraTransacaoTabItem" data-toggle="tab"></a></li>
+                           <li id="PerfilFranquia_tiTcsPerfilFilialTabItem" class="" style="display: none;"><a data-bind="text: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tiTcsPerfilFilialTabItem'), attr: {title: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tiTcsPerfilFilialTabItem')}" href="#PerfilFranquia_tabTcsPerfilFilialTabItem" data-toggle="tab"></a></li>
+                           <li id="PerfilFranquia_tiTcsUsuarioPerfilTabItem" class=""><a data-bind="text: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tiTcsUsuarioPerfilTabItem'), attr: {title: $root.PerfilFranquia().getLayoutDisplayName('PerfilFranquia_tiTcsUsuarioPerfilTabItem')}" href="#PerfilFranquia_tabTcsUsuarioPerfilTabItem" data-toggle="tab"></a></li>
+                        </ul>
+                        </div>
+                     </div>
+                  <div class="tab-content">
+
+
+
+                   <div class="tab-pane fade active in" id="PerfilFranquia_tabTcsPerfilRegraModuloTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_dGridTcsPerfilRegraModulo') " >
+                           <div id="PerfilFranquia_dGridTcsPerfilRegraModulo_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.PerfilFranquia().getWithBinding(currentDataItem, $root.PerfilFranquia().rootDataTypeName)">
+                               <button id="PerfilFranquia_dGridTcsPerfilRegraModulo_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.PerfilFranquia().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.PerfilFranquia().createAndNotifyTcsPerfilRegraModulo($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="PerfilFranquia_dGridTcsPerfilRegraModulo_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.PerfilFranquia().status() === 'E', 
+                               click: function () {
+                                  $root.PerfilFranquia().deleteGrid('#PerfilFranquia_dGridTcsPerfilRegraModulo', 'TcsPerfilRegraModulo', 'vm.currentDataItem().currentTcsPerfilRegraModulo;vm.currentDataItem().TcsPerfilRegraModuloList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="PerfilFranquia_dGridTcsPerfilRegraModulo_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#PerfilFranquia_dGridTcsPerfilRegraModulo_templateLayout', vm: function(){return $root.PerfilFranquia().gridSaveStates['PerfilFranquia_dGridTcsPerfilRegraModulo'];}, ctrlName: 'PerfilFranquia_dGridTcsPerfilRegraModulo_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="PerfilFranquia_dGridTcsPerfilRegraModulo_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="PerfilFranquia_dGridTcsPerfilRegraModulo_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="PerfilFranquia_dGridTcsPerfilRegraModulo_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.PerfilFranquia().dataToolbar.canGridExport(), click: function () {$root.PerfilFranquia().exportDataDetails($data, 'TcsPerfilRegraModulo', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="PerfilFranquia_dGridTcsPerfilRegraModulo" data-bind="css: { IsEditableStyle: $root.PerfilFranquia().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="PerfilFranquia_tabTcsPerfilRegraTransacaoTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_dGridTcsPerfilRegraTransacao') " >
+                           <div id="PerfilFranquia_dGridTcsPerfilRegraTransacao_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.PerfilFranquia().getWithBinding(currentDataItem, $root.PerfilFranquia().rootDataTypeName)">
+                               <button id="PerfilFranquia_dGridTcsPerfilRegraTransacao_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.PerfilFranquia().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.PerfilFranquia().createAndNotifyTcsPerfilRegraTransacao($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="PerfilFranquia_dGridTcsPerfilRegraTransacao_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.PerfilFranquia().status() === 'E', 
+                               click: function () {
+                                  $root.PerfilFranquia().deleteGrid('#PerfilFranquia_dGridTcsPerfilRegraTransacao', 'TcsPerfilRegraTransacao', 'vm.currentDataItem().currentTcsPerfilRegraTransacao;vm.currentDataItem().TcsPerfilRegraTransacaoList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="PerfilFranquia_dGridTcsPerfilRegraTransacao_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#PerfilFranquia_dGridTcsPerfilRegraTransacao_templateLayout', vm: function(){return $root.PerfilFranquia().gridSaveStates['PerfilFranquia_dGridTcsPerfilRegraTransacao'];}, ctrlName: 'PerfilFranquia_dGridTcsPerfilRegraTransacao_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="PerfilFranquia_dGridTcsPerfilRegraTransacao_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="PerfilFranquia_dGridTcsPerfilRegraTransacao_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="PerfilFranquia_dGridTcsPerfilRegraTransacao_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.PerfilFranquia().dataToolbar.canGridExport(), click: function () {$root.PerfilFranquia().exportDataDetails($data, 'TcsPerfilRegraTransacao', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="PerfilFranquia_dGridTcsPerfilRegraTransacao" data-bind="css: { IsEditableStyle: $root.PerfilFranquia().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="PerfilFranquia_tabTcsPerfilFilialTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_dGridTcsPerfilFilial') " >
+                           <div id="PerfilFranquia_dGridTcsPerfilFilial_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.PerfilFranquia().getWithBinding(currentDataItem, $root.PerfilFranquia().rootDataTypeName)">
+                               <button id="PerfilFranquia_dGridTcsPerfilFilial_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.PerfilFranquia().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.PerfilFranquia().createAndNotifyTcsPerfilFilial($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="PerfilFranquia_dGridTcsPerfilFilial_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.PerfilFranquia().status() === 'E', 
+                               click: function () {
+                                  $root.PerfilFranquia().deleteGrid('#PerfilFranquia_dGridTcsPerfilFilial', 'TcsPerfilFilial', 'vm.currentDataItem().currentTcsPerfilFilial;vm.currentDataItem().TcsPerfilFilialList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="PerfilFranquia_dGridTcsPerfilFilial_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                                data-bind="click:function () { 
+                                  $root.PerfilFranquia().openEditor('#PerfilFranquia_dGridTcsPerfilFilial', 'TcsPerfilFilial', 'vm.currentDataItem().currentTcsPerfilFilial;vm.currentDataItem().TcsPerfilFilialList', 'TcsPerfilFilial;vm.currentDataItem()', 'TcsPerfilFilial(vm.currentDataItem())', false)
+                               }"><i class="fa fa-th"></i></button>
+                               <button id="PerfilFranquia_dGridTcsPerfilFilial_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                                data-bind="click:function () { 
+                                  $root.PerfilFranquia().openEditor('#PerfilFranquia_dGridTcsPerfilFilial', 'TcsPerfilFilial', 'vm.currentDataItem().currentTcsPerfilFilial;vm.currentDataItem().TcsPerfilFilialList', 'TcsPerfilFilial;vm.currentDataItem()', 'TcsPerfilFilial(vm.currentDataItem())', true)
+                               }"><i class="fa fa-th-large"></i></button>
+                               <button id="PerfilFranquia_dGridTcsPerfilFilial_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#PerfilFranquia_dGridTcsPerfilFilial_templateLayout', vm: function(){return $root.PerfilFranquia().gridSaveStates['PerfilFranquia_dGridTcsPerfilFilial'];}, ctrlName: 'PerfilFranquia_dGridTcsPerfilFilial_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="PerfilFranquia_dGridTcsPerfilFilial_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="PerfilFranquia_dGridTcsPerfilFilial_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="PerfilFranquia_dGridTcsPerfilFilial_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.PerfilFranquia().dataToolbar.canGridExport(), click: function () {$root.PerfilFranquia().exportDataDetails($data, 'TcsPerfilFilial', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="PerfilFranquia_dGridTcsPerfilFilial" data-bind="css: { IsEditableStyle: $root.PerfilFranquia().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="PerfilFranquia_tabTcsUsuarioPerfilTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.PerfilFranquia().getLayoutVisible('PerfilFranquia_dGridTcsUsuarioPerfil') " >
+                           <div id="PerfilFranquia_dGridTcsUsuarioPerfil_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.PerfilFranquia().getWithBinding(currentDataItem, $root.PerfilFranquia().rootDataTypeName)">
+                               <button id="PerfilFranquia_dGridTcsUsuarioPerfil_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.PerfilFranquia().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.PerfilFranquia().createAndNotifyTcsUsuarioPerfil($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="PerfilFranquia_dGridTcsUsuarioPerfil_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.PerfilFranquia().status() === 'E', 
+                               click: function () {
+                                  $root.PerfilFranquia().deleteGrid('#PerfilFranquia_dGridTcsUsuarioPerfil', 'TcsUsuarioPerfil', 'vm.currentDataItem().currentTcsUsuarioPerfil;vm.currentDataItem().TcsUsuarioPerfilList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="PerfilFranquia_dGridTcsUsuarioPerfil_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#PerfilFranquia_dGridTcsUsuarioPerfil_templateLayout', vm: function(){return $root.PerfilFranquia().gridSaveStates['PerfilFranquia_dGridTcsUsuarioPerfil'];}, ctrlName: 'PerfilFranquia_dGridTcsUsuarioPerfil_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="PerfilFranquia_dGridTcsUsuarioPerfil_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="PerfilFranquia_dGridTcsUsuarioPerfil_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="PerfilFranquia_dGridTcsUsuarioPerfil_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.PerfilFranquia().dataToolbar.canGridExport(), click: function () {$root.PerfilFranquia().exportDataDetails($data, 'TcsUsuarioPerfil', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="PerfilFranquia_dGridTcsUsuarioPerfil" data-bind="css: { IsEditableStyle: $root.PerfilFranquia().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+               </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="PerfilFranquia_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.PerfilFranquia().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyPerfilFranquia_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyPerfilFranquia_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyPerfilFranquia_dGrid_templateLayout', vm: function(){return $root.PerfilFranquia().gridSaveStates['scyPerfilFranquia_dGrid'];}, ctrlName: 'scyPerfilFranquia_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyPerfilFranquia_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyPerfilFranquia_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyPerfilFranquia_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.PerfilFranquia().dataToolbar.canExport(), click: function () {$root.PerfilFranquia().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyPerfilFranquia_dGrid" data-bind="css: { IsEditableStyle: $root.PerfilFranquia().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

@@ -1,0 +1,233 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+        <div class="col-md-12 remove-pl remove-pr">
+            <section>
+                <div class="screen-view">
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="UIEstadoExterna_dGridEstado_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="UIEstadoExterna_dGridEstado_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.UIEstadoExterna().hideToolbar() && $root.UIEstadoExterna().status() === 'E', click: function () { $root.UIEstadoExterna().dataToolbar.addNew(); }"><i class="fa fa-plus"></i></button>
+                   <button id="UIEstadoExterna_dGridEstado_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                   data-bind="visible: $root.UIEstadoExterna().status() === 'E', 
+                   click: function () { 
+                      $root.UIEstadoExterna().deleteGrid('#UIEstadoExterna_dGridEstado', 'Estado', 'vm.currentDataItem;vm.dataView', true);
+                   }"> 
+                   <i class="fa fa-trash-o"></i></button>
+                   <button id="UIEstadoExterna_dGridEstado_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                    data-bind="click:function () { 
+                      $root.UIEstadoExterna().openEditor('#UIEstadoExterna_dGridEstado', 'Estado', 'vm.currentDataItem;vm.dataView', ';vm', 'Estado()', false)
+                   }"><i class="fa fa-th"></i></button>
+                   <button id="UIEstadoExterna_dGridEstado_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                    data-bind="click:function () { 
+                      $root.UIEstadoExterna().openEditor('#UIEstadoExterna_dGridEstado', 'Estado', 'vm.currentDataItem;vm.dataView', ';vm', 'Estado()', true)
+                   }"><i class="fa fa-th-large"></i></button>
+                   <button id="UIEstadoExterna_dGridEstado_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#UIEstadoExterna_dGridEstado_templateLayout', vm: function(){return $root.UIEstadoExterna().gridSaveStates['UIEstadoExterna_dGridEstado'];}, ctrlName: 'UIEstadoExterna_dGridEstado_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="UIEstadoExterna_dGridEstado_templateLayout" type="text/html" tabindex="-1">
+                       <div id="UIEstadoExterna_dGridEstado_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="UIEstadoExterna_dGridEstado_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.UIEstadoExterna().dataToolbar.canExport(), click: function () {$root.UIEstadoExterna().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="UIEstadoExterna_dGridEstado" data-bind="css: { IsEditableStyle: $root.UIEstadoExterna().enabledForEditing }"  />
+               </div>
+
+           </div>
+
+           <div id="dialogEstado"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+              <button class="btn btn-sm btn-default backReg " id="backRegEstado" onClick="$(this).backRegEstado();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+              <span class="caption"><label id="currentNumberEstado">0</label><label>/</label><label id="totalNumberEstado">0</label></span>
+              <button class="btn btn-sm btn-default nextReg " id="nextRegEstado" onClick="$(this).nextRegEstado();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+              <button class="btn btn-sm btn-default addReg " id="addRegEstado" onClick="$(this).addRegEstado();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+              <button class="btn btn-sm btn-default delReg " id="delRegEstado" onClick="$(this).delRegEstado();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+              <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegEstado" onClick="$(this).okRegEstado();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+           <div id="UIEstadoExterna_templateEstado" class="" style="width: 100%; height: 100%;" >
+               <div data-bind="with: $root.UIEstadoExterna().getWithBinding(currentDataItem, $root.UIEstadoExterna().rootDataTypeName)">
+
+               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div data-bind="css: $root.UIEstadoExterna().getLayoutColumnSpan('UIEstadoExterna_cmbComboboxEstado'), visible: $root.UIEstadoExterna().getLayoutVisible('UIEstadoExterna_cmbComboboxEstado')" class="">
+                       <div class="form-group">
+                           <div id="UIEstadoExterna_divComboboxEstadoTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.UIEstadoExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_cmbComboboxEstado')}, text: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_cmbComboboxEstado')" id="UIEstadoExterna_lblComboboxEstado" for="UIEstadoExterna_cmbComboboxEstado" class="control-label ellipsis">
+                               </label>
+                               <span id="UIEstadoExterna_cmbComboboxEstado" class="form-control " data-bind="validatedField: 'ComboboxEstado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_cmbComboboxEstado') ? ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_cmbComboboxEstado') : (!isEmptyEntityFn($data) && $root.UIEstadoExterna().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_cmbComboboxEstado') ? !ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_cmbComboboxEstado') : (isEmptyEntityFn($data) || !$root.UIEstadoExterna().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_cmbComboboxEstado') ? !ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_cmbComboboxEstado') : (isEmptyEntityFn($data) || !$root.UIEstadoExterna().enabledForEditing()), igCombo: {
+                                  selectedItems: ComboboxEstado,
+                                  dataSource:  $root.UIEstadoExterna().dataDomains.getItems('LX_COMBOBOX_ESTADO', ''),
+                                  textKey: 'name',
+                                  valueKey: 'id',
+                                  allowCustomValue : true,
+                                  enableSelectionChangedUpdate: true,
+                                  enableClearButton: false,
+                                  dropDownOnFocus: true,
+                                  disabled: (ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_cmbComboboxEstado') ? !ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_cmbComboboxEstado') : (isEmptyEntityFn($data) || !$root.UIEstadoExterna().enabledForEditing())),
+                                  mode: 'editable',
+                                  width:'100%'
+                               }"></span>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIEstadoExterna().getLayoutColumnSpan('UIEstadoExterna_dtDateTimeEstado'), visible: $root.UIEstadoExterna().getLayoutVisible('UIEstadoExterna_dtDateTimeEstado')" class="">
+                       <div class="form-group">
+                           <div id="UIEstadoExterna_divDateTimeEstadoTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_dtDateTimeEstado')}, text: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_dtDateTimeEstado')" id="UIEstadoExterna_lblDateTimeEstado" for="UIEstadoExterna_dtDateTimeEstado" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group" >
+                                   <span id="UIEstadoExterna_dtDateTimeEstado" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DateTimeEstado', css: { vmEditing: $root.UIEstadoExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_dtDateTimeEstado') ? ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_dtDateTimeEstado') : (!isEmptyEntityFn($data) && $root.UIEstadoExterna().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_dtDateTimeEstado') ? !ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_dtDateTimeEstado') : (isEmptyEntityFn($data) || !$root.UIEstadoExterna().enabledForEditing()) },  igDatePicker: { value: DateTimeEstado, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.UIEstadoExterna().entitySearchRange.has_EstadoDateTimeEstado()?true:ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_dtDateTimeEstado') ? !ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_dtDateTimeEstado') : (isEmptyEntityFn($data) || !$root.UIEstadoExterna().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                   <span class="input-group-btn" title="Filtro de datas">
+                                      <button id="UIEstadoExterna_rgbtnDateTimeEstado"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIEstadoExterna().entitySearchRange.has_EstadoDateTimeEstado(), 'icon-ok': $root.UIEstadoExterna().entitySearchRange.has_EstadoDateTimeEstado(), hide: $root.UIEstadoExterna().status() !== 'C' }, popoverWithBind: { template: '#UIEstadoExterna_rgDateTimeEstado', vm: $root.UIEstadoExterna().entitySearchRange, ctrlName: 'UIEstadoExterna_rgcDateTimeEstado', headerText:'Filtro de datas' }"  /></span>
+                                      <script id="UIEstadoExterna_rgDateTimeEstado" type="text/html" tabindex="-1">
+                                      <div class="range-radio-group">
+                                          <input type="radio" data-bind="enable: !has_EstadoDateTimeEstado(), checked:EstadoDateTimeEstado_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                          <input type="radio" data-bind="enable: !has_EstadoDateTimeEstado(), checked:EstadoDateTimeEstado_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                      </div>
+                                      <div class="range-input-group" id="UIEstadoExterna_divrgDateTimeEstado" >
+                                          <div class="filterByRange" data-bind="visible: EstadoDateTimeEstado_typeRange() == 'R'">
+                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="UIEstadoExterna_dtbDateTimeEstado" class="IsEditableStyle date" data-bind="igDatePicker: { value: EstadoDateTimeEstado_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIEstadoExterna_dtDateTimeEstado').igDatePicker('option', 'readOnly', (ui.value != null || $('#UIEstadoExterna_dteDateTimeEstado').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#UIEstadoExterna_dtbDateTimeEstado').igDatePicker('value'); var valorMax = $('#UIEstadoExterna_dteDateTimeEstado').igDatePicker('value');if (valorMax != null && valorMin > valorMax){EstadoDateTimeEstado_begin(valorMax); $('#UIEstadoExterna_dtbDateTimeEstado').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="UIEstadoExterna_dteDateTimeEstado" class="IsEditableStyle date" data-bind="igDatePicker: { value: EstadoDateTimeEstado_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#UIEstadoExterna_dtDateTimeEstado').igDatePicker('option', 'readOnly', ($('#UIEstadoExterna_dtbDateTimeEstado').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#UIEstadoExterna_dtbDateTimeEstado').igDatePicker('value'); var valorMax = $('#UIEstadoExterna_dteDateTimeEstado').igDatePicker('value');if (valorMin != null && valorMax < valorMin){EstadoDateTimeEstado_end(valorMin); $('#UIEstadoExterna_dteDateTimeEstado').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                          </div>
+                                          <div class="filterByPredefined " data-bind="visible: EstadoDateTimeEstado_typeRange() == 'P'">
+                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: EstadoDateTimeEstado_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                              <div class="row predefValue" data-bind="visible: EstadoDateTimeEstado_predefFilter() != null && EstadoDateTimeEstado_predefFilter()[0] && EstadoDateTimeEstado_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: EstadoDateTimeEstado_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                          </div>
+                                      </div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIEstadoExterna().getLayoutColumnSpan('UIEstadoExterna_ntxDecimalEstado'), visible: $root.UIEstadoExterna().getLayoutVisible('UIEstadoExterna_ntxDecimalEstado')" class="">
+                       <div class="form-group">
+                           <div id="UIEstadoExterna_divDecimalEstadoTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_ntxDecimalEstado')}, text: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_ntxDecimalEstado')" id="UIEstadoExterna_lblDecimalEstado" for="UIEstadoExterna_ntxDecimalEstado" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="UIEstadoExterna_ntxDecimalEstado" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalEstado', css: { vmEditing: $root.UIEstadoExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_ntxDecimalEstado') ? ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_ntxDecimalEstado') : (!isEmptyEntityFn($data) && $root.UIEstadoExterna().enabledForEditing()) }, igNumericEditor: { value: DecimalEstado, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_ntxDecimalEstado') ? !ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_ntxDecimalEstado') : (isEmptyEntityFn($data) || !$root.UIEstadoExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIEstadoExterna().entitySearchRange.has_EstadoDecimalEstado(), 'icon-ok': $root.UIEstadoExterna().entitySearchRange.has_EstadoDecimalEstado(), hide: $root.UIEstadoExterna().status() !== 'C' }, popoverWithBind: { template: '#UIEstadoExterna_rgDecimalEstado', vm: $root.UIEstadoExterna().entitySearchRange, ctrlName: 'UIEstadoExterna_rgcDecimalEstado', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="UIEstadoExterna_rgDecimalEstado" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIEstadoExterna_ntxbDecimalEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoDecimalEstado_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIEstadoExterna_ntxDecimalEstado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIEstadoExterna_ntxeDecimalEstado').igNumericEditor('option', 'value') != null ? true : false)); $('#UIEstadoExterna_ntxeDecimalEstado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIEstadoExterna_ntxeDecimalEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoDecimalEstado_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#UIEstadoExterna_ntxDecimalEstado').igNumericEditor('option', 'readOnly', ($('#UIEstadoExterna_ntxbDecimalEstado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIEstadoExterna_ntxbDecimalEstado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+               </div>
+
+               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div data-bind="css: $root.UIEstadoExterna().getLayoutColumnSpan('UIEstadoExterna_ntxIdEstado'), visible: $root.UIEstadoExterna().getLayoutVisible('UIEstadoExterna_ntxIdEstado')" class="">
+                       <div class="form-group">
+                           <div id="UIEstadoExterna_divIdEstadoTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.UIEstadoExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_ntxIdEstado')}, text: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_ntxIdEstado')" id="UIEstadoExterna_lblIdEstado" for="UIEstadoExterna_ntxIdEstado" class="control-label ellipsis">
+                               </label>
+                               <div class="input-group">
+                                   <input id="UIEstadoExterna_ntxIdEstado" class="form-control numericFilterRange " data-bind="validatedField: 'IdEstado', css: { vmEditing: $root.UIEstadoExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_ntxIdEstado') ? ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_ntxIdEstado') : (!isEmptyEntityFn($data) && $root.UIEstadoExterna().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdEstado, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_ntxIdEstado') ? !ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_ntxIdEstado') : (isEmptyEntityFn($data) || !($root.UIEstadoExterna().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                   <span class="input-group-btn" title="Filtro numérico">
+                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.UIEstadoExterna().entitySearchRange.has_EstadoIdEstado(), 'icon-ok': $root.UIEstadoExterna().entitySearchRange.has_EstadoIdEstado(), hide: $root.UIEstadoExterna().status() !== 'C' }, popoverWithBind: { template: '#UIEstadoExterna_rgIdEstado', vm: $root.UIEstadoExterna().entitySearchRange, ctrlName: 'UIEstadoExterna_rgcIdEstado', headerText:'Filtro numérico' }"  /></span>
+                                   <script id="UIEstadoExterna_rgIdEstado" type="text/html" tabindex="-1">
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="UIEstadoExterna_ntxbIdEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoIdEstado_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIEstadoExterna_ntxIdEstado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#UIEstadoExterna_ntxeIdEstado').igNumericEditor('option', 'value') != null ? true : false)); $('#UIEstadoExterna_ntxeIdEstado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                       <p></p>
+                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="UIEstadoExterna_ntxeIdEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoIdEstado_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#UIEstadoExterna_ntxIdEstado').igNumericEditor('option', 'readOnly', ($('#UIEstadoExterna_ntxbIdEstado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#UIEstadoExterna_ntxbIdEstado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                   </script>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIEstadoExterna().getLayoutColumnSpan('UIEstadoExterna_lUpIdPais'), visible: $root.UIEstadoExterna().getLayoutVisible('UIEstadoExterna_lUpIdPais')" class="">
+                       <div class="form-group">
+                           <div id="UIEstadoExterna_divIdPaisTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_lUpIdPais')}, text: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_lUpIdPais')" id="UIEstadoExterna_lblIdPais" for="UIEstadoExterna_lUpIdPais" class="control-label ellipsis">
+                               </label>
+                               <div id="UIEstadoExterna_lUpIdPais" class="form-control input-group " data-bind="validatedField: 'IdPais', css: { vmEditing: $root.UIEstadoExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_lUpIdPais') ? ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_lUpIdPais') : (!isEmptyEntityFn($data) && $root.UIEstadoExterna().enabledForEditing()) }, lookupControl: { vm: $root.UIEstadoExterna(), value: IdPais, maxLength: 12,lookupName: '', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.UIEstadoExterna().entitySearchRange.IdPais, fieldName: 'IdPais', disabled:ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_lUpIdPais') ? !ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_lUpIdPais') : (isEmptyEntityFn($data) || !$root.UIEstadoExterna().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div data-bind="css: $root.UIEstadoExterna().getLayoutColumnSpan('UIEstadoExterna_tbNomeEstado'), visible: $root.UIEstadoExterna().getLayoutVisible('UIEstadoExterna_tbNomeEstado')" class="">
+                       <div class="form-group">
+                           <div id="UIEstadoExterna_divNomeEstadoTemplate" class="" >
+                               <label data-bind="attr: { title: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_tbNomeEstado')}, text: $root.UIEstadoExterna().getLayoutDisplayName('UIEstadoExterna_tbNomeEstado')" id="UIEstadoExterna_lblNomeEstado" for="UIEstadoExterna_tbNomeEstado" class="control-label ellipsis">
+                               </label>
+                               <input id="UIEstadoExterna_tbNomeEstado" class="form-control ellipsis" data-bind="attr: { title: NomeEstado }, validatedField: 'NomeEstado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_tbNomeEstado') ? ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_tbNomeEstado') : (!isEmptyEntityFn($data) && $root.UIEstadoExterna().enabledForEditing()) }, igTextEditor: { maxLength: 50, value: NomeEstado, readOnly: ctrl.hasCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_tbNomeEstado') ? !ctrl.getCustomEnable($root.UIEstadoExterna(), 'UIEstadoExterna_tbNomeEstado') : (isEmptyEntityFn($data) || !$root.UIEstadoExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                           </div>
+                       </div>
+                   </div>
+
+
+               </div>
+
+           </div>
+           </div>
+       </div>
+
+
+                </div>
+            </section>
+        </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

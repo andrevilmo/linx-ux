@@ -1,0 +1,410 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="TiposCamposUIExterna_formViewer" class="panelTransaition">
+            <figure id="TiposCamposUIExterna_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.TiposCamposUIExterna().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="TiposCamposUIExterna_gbExpander_98221624aedd431aa4b98f5762f07560" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="New Group"><i class="icon-reorder"></i>New Group</div>
+                       <div class="tools">
+                           <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div class="portlet-body" style="display:block ;">
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="TiposCamposUIExterna_gbTiposCamposView" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" title="TiposCamposView"><i class="icon-reorder"></i>TiposCamposView</div>
+                           <div class="tools">
+                               <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                           </div>
+                       </div>
+                       <div class="portlet-body" style="display:block ;">
+                           <div data-bind="with: $root.TiposCamposUIExterna().getWithBinding(currentDataItem, $root.TiposCamposUIExterna().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divBoolean" class="" >
+                                               <div class="controls">
+                                                   <div class="input-small">
+                                                       <label class="input-small">
+                                                         <input id="TiposCamposUIExterna_ckBoolean" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ckBoolean') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ckBoolean') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ckBoolean') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ckBoolean') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing()), nullableChecked: Boolean" title="Clique para marcar/desmarcar"/> 
+                                                         <span id="lblTiposCamposUIExterna_ckBoolean" class="align-label-checkbox">Boolean</span>
+                                                       </label>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divByte" class="" >
+                                               <label id="TiposCamposUIExterna_lblByte" for="TiposCamposUIExterna_ntxByte" class="control-label ellipsis" title="Byte">Byte
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="box-input-mini">
+                                                       <div class="input-group box-input-mini">
+                                                           <input id="TiposCamposUIExterna_ntxByte" class="form-control numericFilterRange input-mini" data-bind="validatedField: 'Byte', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxByte') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxByte') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing()) }, igNumericEditor: { value: Byte, minValue: 0, maxValue: null,  maxLength: 3,  dataMode: 'byte', readOnly: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxByte') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxByte') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxByte') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxByte') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()) }" />
+                                                           <span class="input-group-btn" title="Filtro numérico">
+                                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewByte(), 'icon-ok': $root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewByte(), hide: $root.TiposCamposUIExterna().status() !== 'C' }, popoverWithBind: { template: '#TiposCamposUIExterna_rgByte', vm: $root.TiposCamposUIExterna().entitySearchRange, ctrlName: 'TiposCamposUIExterna_rgcByte', headerText:'Filtro numérico' }"  /></span>
+                                                           <script id="TiposCamposUIExterna_rgByte" type="text/html" tabindex="-1">
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxbByte" class="IsEditableStyle input-mini" data-bind="igNumericEditor: { value: TiposCamposViewByte_begin, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxByte').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TiposCamposUIExterna_ntxeByte').igNumericEditor('option', 'value') != null ? true : false)); $('#TiposCamposUIExterna_ntxeByte').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                               <p></p>
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxeByte" class="IsEditableStyle input-mini" data-bind="igNumericEditor: { value: TiposCamposViewByte_end, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxByte').igNumericEditor('option', 'readOnly', ($('#TiposCamposUIExterna_ntxbByte').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TiposCamposUIExterna_ntxbByte').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                           </script>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divDateTime" class="" >
+                                               <label id="TiposCamposUIExterna_lblDateTime" for="TiposCamposUIExterna_dtDateTime" class="control-label ellipsis" title="DateTime">DateTime
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="box-input-small">
+                                                       <div class="input-group box-input-small" >
+                                                           <span id="TiposCamposUIExterna_dtDateTime" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'DateTime', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_dtDateTime') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_dtDateTime') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing())},  igDatePicker: { value: DateTime, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_dtDateTime') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_dtDateTime') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_dtDateTime') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_dtDateTime') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                           <span class="input-group-btn" title="Filtro de datas">
+                                                              <button id="TiposCamposUIExterna_rgbtnDateTime"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewDateTime(), 'icon-ok': $root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewDateTime(), hide: $root.TiposCamposUIExterna().status() !== 'C' }, popoverWithBind: { template: '#TiposCamposUIExterna_rgDateTime', vm: $root.TiposCamposUIExterna().entitySearchRange, ctrlName: 'TiposCamposUIExterna_rgcDateTime', headerText:'Filtro de datas' }"  /></span>
+                                                           <script id="TiposCamposUIExterna_rgDateTime" type="text/html" tabindex="-1">
+                                                              <input type="radio" data-bind="checked:TiposCamposViewDateTime_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                              <input type="radio" data-bind="checked:TiposCamposViewDateTime_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                              <div id="TiposCamposUIExterna_divrgDateTime" >
+                                                                  <div class="filterByRange" data-bind="visible: TiposCamposViewDateTime_typeRange() == 'R'">
+                                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="TiposCamposUIExterna_dtbDateTime" class="IsEditableStyle" data-bind="igDatePicker: { value: TiposCamposViewDateTime_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_dtDateTime').igDatePicker('option', 'readOnly', (ui.value != null || $('#TiposCamposUIExterna_dteDateTime').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#TiposCamposUIExterna_dtbDateTime').igDatePicker('value'); var valorMax = $('#TiposCamposUIExterna_dteDateTime').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#TiposCamposUIExterna_dtbDateTime').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                                      <p></p>
+                                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="TiposCamposUIExterna_dteDateTime" class="IsEditableStyle" data-bind="igDatePicker: { value: TiposCamposViewDateTime_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_dtDateTime').igDatePicker('option', 'readOnly', ($('#TiposCamposUIExterna_dtbDateTime').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#TiposCamposUIExterna_dtbDateTime').igDatePicker('value'); var valorMax = $('#TiposCamposUIExterna_dteDateTime').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#TiposCamposUIExterna_dteDateTime').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                                  </div>
+                                                                  <div class="filterByPredefined " data-bind="visible: TiposCamposViewDateTime_typeRange() == 'P'">
+                                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TiposCamposViewDateTime_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                                      <p/>
+                                                                      <div class="row predefValue" data-bind="visible: TiposCamposViewDateTime_predefFilter() != null && TiposCamposViewDateTime_predefFilter()[0] && TiposCamposViewDateTime_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TiposCamposViewDateTime_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                                  </div>
+                                                              </div>
+                                                           </script>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divDecimal" class="" >
+                                               <label id="TiposCamposUIExterna_lblDecimal" for="TiposCamposUIExterna_ntxDecimal" class="control-label ellipsis" title="Decimal">Decimal
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="box-input-small">
+                                                       <div class="input-group box-input-small">
+                                                           <input id="TiposCamposUIExterna_ntxDecimal" class="form-control numericFilterRange input-small" data-bind="validatedField: 'Decimal', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxDecimal') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxDecimal') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing()) }, igNumericEditor: { value: Decimal, minValue: 0, maxValue: 99999999.99,  maxLength: 11,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxDecimal') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxDecimal') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxDecimal') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxDecimal') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()) }" />
+                                                           <span class="input-group-btn" title="Filtro numérico">
+                                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewDecimal(), 'icon-ok': $root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewDecimal(), hide: $root.TiposCamposUIExterna().status() !== 'C' }, popoverWithBind: { template: '#TiposCamposUIExterna_rgDecimal', vm: $root.TiposCamposUIExterna().entitySearchRange, ctrlName: 'TiposCamposUIExterna_rgcDecimal', headerText:'Filtro numérico' }"  /></span>
+                                                           <script id="TiposCamposUIExterna_rgDecimal" type="text/html" tabindex="-1">
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxbDecimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: TiposCamposViewDecimal_begin, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxDecimal').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TiposCamposUIExterna_ntxeDecimal').igNumericEditor('option', 'value') != null ? true : false)); $('#TiposCamposUIExterna_ntxeDecimal').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                               <p></p>
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxeDecimal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: TiposCamposViewDecimal_end, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxDecimal').igNumericEditor('option', 'readOnly', ($('#TiposCamposUIExterna_ntxbDecimal').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TiposCamposUIExterna_ntxbDecimal').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                           </script>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divGuid" class="" >
+                                               <label id="TiposCamposUIExterna_lblGuid" for="TiposCamposUIExterna_tbGuid" data-bind="css: { 'content-required': $root.TiposCamposUIExterna().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Guid">Guid
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="input-xmedium">
+                                                       <input id="TiposCamposUIExterna_tbGuid" class="form-control ellipsis input-xmedium" data-bind="attr: { title: Guid }, validatedField: 'Guid', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_tbGuid') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_tbGuid') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing()) }, igTextEditor: { maxLength: 36, value: Guid, readOnly: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_tbGuid') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_tbGuid') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_tbGuid') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_tbGuid') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing())  }"/>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divIDTiposCampos" class="" >
+                                               <label id="TiposCamposUIExterna_lblIDTiposCampos" for="TiposCamposUIExterna_ntxIDTiposCampos" data-bind="css: { 'content-required': $root.TiposCamposUIExterna().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID TiposCampos">ID TiposCampos
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="box-input-min-medium">
+                                                       <div class="input-group box-input-min-medium">
+                                                           <input id="TiposCamposUIExterna_ntxIDTiposCampos" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'IDTiposCampos', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxIDTiposCampos') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxIDTiposCampos') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IDTiposCampos, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxIDTiposCampos') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxIDTiposCampos') : (isEmptyEntityFn($data) || !($root.TiposCamposUIExterna().status() === 'C' || ($data.isAdded && $data.isAdded()))), disabled: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxIDTiposCampos') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxIDTiposCampos') : (isEmptyEntityFn($data) || !($root.TiposCamposUIExterna().status() === 'C' || ($data.isAdded && $data.isAdded()))) }" />
+                                                           <span class="input-group-btn" title="Filtro numérico">
+                                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewIDTiposCampos(), 'icon-ok': $root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewIDTiposCampos(), hide: $root.TiposCamposUIExterna().status() !== 'C' }, popoverWithBind: { template: '#TiposCamposUIExterna_rgIDTiposCampos', vm: $root.TiposCamposUIExterna().entitySearchRange, ctrlName: 'TiposCamposUIExterna_rgcIDTiposCampos', headerText:'Filtro numérico' }"  /></span>
+                                                           <script id="TiposCamposUIExterna_rgIDTiposCampos" type="text/html" tabindex="-1">
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxbIDTiposCampos" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposViewIDTiposCampos_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxIDTiposCampos').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TiposCamposUIExterna_ntxeIDTiposCampos').igNumericEditor('option', 'value') != null ? true : false)); $('#TiposCamposUIExterna_ntxeIDTiposCampos').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                               <p></p>
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxeIDTiposCampos" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposViewIDTiposCampos_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxIDTiposCampos').igNumericEditor('option', 'readOnly', ($('#TiposCamposUIExterna_ntxbIDTiposCampos').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TiposCamposUIExterna_ntxbIDTiposCampos').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                           </script>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divInt" class="" >
+                                               <label id="TiposCamposUIExterna_lblInt" for="TiposCamposUIExterna_ntxInt" class="control-label ellipsis" title="Int">Int
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="box-input-min-medium">
+                                                       <div class="input-group box-input-min-medium">
+                                                           <input id="TiposCamposUIExterna_ntxInt" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'Int', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxInt') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxInt') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing()) }, igNumericEditor: { value: Int, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxInt') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxInt') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxInt') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxInt') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()) }" />
+                                                           <span class="input-group-btn" title="Filtro numérico">
+                                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewInt(), 'icon-ok': $root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewInt(), hide: $root.TiposCamposUIExterna().status() !== 'C' }, popoverWithBind: { template: '#TiposCamposUIExterna_rgInt', vm: $root.TiposCamposUIExterna().entitySearchRange, ctrlName: 'TiposCamposUIExterna_rgcInt', headerText:'Filtro numérico' }"  /></span>
+                                                           <script id="TiposCamposUIExterna_rgInt" type="text/html" tabindex="-1">
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxbInt" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposViewInt_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxInt').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TiposCamposUIExterna_ntxeInt').igNumericEditor('option', 'value') != null ? true : false)); $('#TiposCamposUIExterna_ntxeInt').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                               <p></p>
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxeInt" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: TiposCamposViewInt_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxInt').igNumericEditor('option', 'readOnly', ($('#TiposCamposUIExterna_ntxbInt').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TiposCamposUIExterna_ntxbInt').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                           </script>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divLong" class="" >
+                                               <label id="TiposCamposUIExterna_lblLong" for="TiposCamposUIExterna_ntxLong" class="control-label ellipsis" title="Long">Long
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="box-input-xmedium">
+                                                       <div class="input-group box-input-xmedium">
+                                                           <input id="TiposCamposUIExterna_ntxLong" class="form-control numericFilterRange input-xmedium" data-bind="validatedField: 'Long', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxLong') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxLong') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing()) }, igNumericEditor: { value: Long, minValue: 0, maxValue: null,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxLong') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxLong') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxLong') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxLong') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()) }" />
+                                                           <span class="input-group-btn" title="Filtro numérico">
+                                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewLong(), 'icon-ok': $root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewLong(), hide: $root.TiposCamposUIExterna().status() !== 'C' }, popoverWithBind: { template: '#TiposCamposUIExterna_rgLong', vm: $root.TiposCamposUIExterna().entitySearchRange, ctrlName: 'TiposCamposUIExterna_rgcLong', headerText:'Filtro numérico' }"  /></span>
+                                                           <script id="TiposCamposUIExterna_rgLong" type="text/html" tabindex="-1">
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxbLong" class="IsEditableStyle input-xmedium" data-bind="igNumericEditor: { value: TiposCamposViewLong_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxLong').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TiposCamposUIExterna_ntxeLong').igNumericEditor('option', 'value') != null ? true : false)); $('#TiposCamposUIExterna_ntxeLong').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                               <p></p>
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxeLong" class="IsEditableStyle input-xmedium" data-bind="igNumericEditor: { value: TiposCamposViewLong_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxLong').igNumericEditor('option', 'readOnly', ($('#TiposCamposUIExterna_ntxbLong').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TiposCamposUIExterna_ntxbLong').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                           </script>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divShort" class="" >
+                                               <label id="TiposCamposUIExterna_lblShort" for="TiposCamposUIExterna_ntxShort" class="control-label ellipsis" title="Short">Short
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="box-input-xsmall">
+                                                       <div class="input-group box-input-xsmall">
+                                                           <input id="TiposCamposUIExterna_ntxShort" class="form-control numericFilterRange input-xsmall" data-bind="validatedField: 'Short', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxShort') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxShort') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing()) }, igNumericEditor: { value: Short, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxShort') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxShort') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_ntxShort') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_ntxShort') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()) }" />
+                                                           <span class="input-group-btn" title="Filtro numérico">
+                                                              <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewShort(), 'icon-ok': $root.TiposCamposUIExterna().entitySearchRange.has_TiposCamposViewShort(), hide: $root.TiposCamposUIExterna().status() !== 'C' }, popoverWithBind: { template: '#TiposCamposUIExterna_rgShort', vm: $root.TiposCamposUIExterna().entitySearchRange, ctrlName: 'TiposCamposUIExterna_rgcShort', headerText:'Filtro numérico' }"  /></span>
+                                                           <script id="TiposCamposUIExterna_rgShort" type="text/html" tabindex="-1">
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxbShort" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: TiposCamposViewShort_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxShort').igNumericEditor('option', 'readOnly', (ui.value != null || $('#TiposCamposUIExterna_ntxeShort').igNumericEditor('option', 'value') != null ? true : false)); $('#TiposCamposUIExterna_ntxeShort').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                               <p></p>
+                                                               <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="TiposCamposUIExterna_ntxeShort" class="IsEditableStyle input-xsmall" data-bind="igNumericEditor: { value: TiposCamposViewShort_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#TiposCamposUIExterna_ntxShort').igNumericEditor('option', 'readOnly', ($('#TiposCamposUIExterna_ntxbShort').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#TiposCamposUIExterna_ntxbShort').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                           </script>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divString" class="" >
+                                               <label id="TiposCamposUIExterna_lblString" for="TiposCamposUIExterna_tbString" class="control-label ellipsis" title="String">String
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="input-small">
+                                                       <input id="TiposCamposUIExterna_tbString" class="form-control ellipsis input-small" data-bind="attr: { title: String }, validatedField: 'String', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_tbString') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_tbString') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: String, readOnly: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_tbString') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_tbString') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_tbString') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_tbString') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing())  }"/>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divStringChar" class="" >
+                                               <label id="TiposCamposUIExterna_lblStringChar" for="TiposCamposUIExterna_tbStringChar" class="control-label ellipsis" title="StringChar">StringChar
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="input-small">
+                                                       <input id="TiposCamposUIExterna_tbStringChar" class="form-control ellipsis input-small" data-bind="attr: { title: StringChar }, validatedField: 'StringChar', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_tbStringChar') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_tbStringChar') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: StringChar, readOnly: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_tbStringChar') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_tbStringChar') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_tbStringChar') ? !ctrl.getCustomEnable($root, 'TiposCamposUIExterna_tbStringChar') : (isEmptyEntityFn($data) || !$root.TiposCamposUIExterna().enabledForEditing())  }"/>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="form-group">
+                                           <div id="TiposCamposUIExterna_divStringText" class="" >
+                                               <label id="TiposCamposUIExterna_lblStringText" for="TiposCamposUIExterna_edStringText" class="control-label ellipsis" title="StringText">StringText
+                                               </label>
+                                               <div class="controls">
+                                                   <div class="input-xmedium">
+                                                       <textarea id="TiposCamposUIExterna_edStringText" class="form-control input-xmedium"  data-bind="validatedField: 'StringText', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_edStringText') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_edStringText') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'TiposCamposUIExterna_edStringText') ? ctrl.getCustomEnable($root, 'TiposCamposUIExterna_edStringText') : (!isEmptyEntityFn($data) && $root.TiposCamposUIExterna().enabledForEditing()), value: StringText" rows="2"/>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="TiposCamposUIExterna_gbExpander_ace6945be31f45ad93d3c2e2dc8978f7" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" title="New Group"><i class="icon-reorder"></i>New Group</div>
+                           <div class="tools">
+                               <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                           </div>
+                       </div>
+                       <div class="portlet-body" style="display:block ;">
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div style="height:auto;">
+                       <div id="TiposCamposUIExterna_euiExternalUI_f70ce99028f24989be7e010ee28edd3c" class="extenalUI" 
+                       data-bind="widget: { kind: 'pkg_linxtraining001-bv-spa/viewmodels/TiposCamposFilhaSingleUI', parentVM: $root, uiSettings: { removeDataToolbar: false, shareParentBO: false, useFilterFromParent: true, parentSelectorDataName: 'TiposCamposView', displayName: '', canClear: true, canSearch: true, canExport: true, canAddNew: true, canEdit: true, canDelete: true, canCustomSearch: true, canPrint: true, canLayout: true, canNavigate: true, applyFilterToParent: true, noSearch: false, parentFieldsRelation: ['IDTiposCampos'], detailFieldsRelation: ['IDTiposCampos'] } }" />
+
+                   </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="TiposCamposUIExterna_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.TiposCamposUIExterna().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyTiposCamposUIExterna_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyTiposCamposUIExterna_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.TiposCamposUIExterna().dataToolbar.canExport(), click: function () {$root.TiposCamposUIExterna().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyTiposCamposUIExterna_dGrid" data-bind="css: { IsEditableStyle: $root.TiposCamposUIExterna().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

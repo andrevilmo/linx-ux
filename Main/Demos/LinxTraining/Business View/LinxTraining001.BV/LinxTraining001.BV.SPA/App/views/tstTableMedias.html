@@ -1,0 +1,365 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="tstTableMedias_formViewer" class="panelTransaition">
+            <figure id="tstTableMedias_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.tstTableMedias().viewType() === 'Main' ? '' : 'none' }">
+                                       <div id="tstTableMedias_gbClientesView" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" title="ClientesView"><i class="icon-reorder"></i>ClientesView</div>
+                       <div class="tools">
+                           <a href="javascript:;" class="collapse" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div class="portlet-body" style="display:block ;">
+                       <div data-bind="with: $root.tstTableMedias().getWithBinding(currentDataItem, $root.tstTableMedias().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="tstTableMedias_divNome" class="" >
+                                           <label id="tstTableMedias_lblNome" for="tstTableMedias_tbNome" class="control-label ellipsis" title="Nome">Nome
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-xlarge">
+                                                   <input id="tstTableMedias_tbNome" class="form-control ellipsis input-xlarge" data-bind="attr: { title: Nome }, validatedField: 'Nome', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'tstTableMedias_tbNome') ? ctrl.getCustomEnable($root, 'tstTableMedias_tbNome') : (!isEmptyEntityFn($data) && $root.tstTableMedias().enabledForEditing()) }, igTextEditor: { maxLength: 40, value: Nome, readOnly: ctrl.hasCustomEnable($root, 'tstTableMedias_tbNome') ? !ctrl.getCustomEnable($root, 'tstTableMedias_tbNome') : (isEmptyEntityFn($data) || !$root.tstTableMedias().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'tstTableMedias_tbNome') ? !ctrl.getCustomEnable($root, 'tstTableMedias_tbNome') : (isEmptyEntityFn($data) || !$root.tstTableMedias().enabledForEditing())  }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="tstTableMedias_divTipo" class="" >
+                                           <label id="tstTableMedias_lblTipo" for="tstTableMedias_cmbTipo" class="control-label ellipsis" title="Tipo">Tipo
+                                           </label>
+                                           <div class="controls">
+                                               <div class="input-medium">
+                                                   <span id="tstTableMedias_cmbTipo" class="form-control input-medium" data-bind="validatedField: 'Tipo', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'tstTableMedias_cmbTipo') ? ctrl.getCustomEnable($root, 'tstTableMedias_cmbTipo') : (!isEmptyEntityFn($data) && $root.tstTableMedias().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root, 'tstTableMedias_cmbTipo') ? !ctrl.getCustomEnable($root, 'tstTableMedias_cmbTipo') : (isEmptyEntityFn($data) || !$root.tstTableMedias().enabledForEditing()) }, enable: ctrl.hasCustomEnable($root, 'tstTableMedias_cmbTipo') ? ctrl.getCustomEnable($root, 'tstTableMedias_cmbTipo') : (!isEmptyEntityFn($data) && $root.tstTableMedias().enabledForEditing()), igCombo: {
+                                                      selectedItems: Tipo,
+                                                      dataSource:  $root.tstTableMedias().dataDomains.getItems('LXTipoClientes', ''),
+                                                      textKey: 'name',
+                                                      valueKey: 'id',
+                                                      allowCustomValue : true,
+                                                      enableSelectionChangedUpdate: true,
+                                                      enableClearButton: true,
+                                                      dropDownOnFocus: true,
+                                                      disabled: (ctrl.hasCustomEnable($root, 'tstTableMedias_cmbTipo') ? !ctrl.getCustomEnable($root, 'tstTableMedias_cmbTipo') : (isEmptyEntityFn($data) || !$root.tstTableMedias().enabledForEditing())),
+                                                      mode: 'editable',
+                                                      width:'100%'
+                                                   }"></span>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   <div class="form-group">
+                                       <div id="tstTableMedias_divClientes.IDClientes" class="" >
+                                           <div class="controls">
+                                               <div class="Automatic">
+                                                   <div id="tstTableMedias_Clientes.IDClientes" class="form-control  media-small" data-bind="template: { name: getTemplateImageName($root.tstTableMedias().status(), 'form'), afterRender: function (element, data) { KO_afterRenderImageTemplate(data, element, 'Clientes', getAbsoluteValue(IDClientes), $root.tstTableMedias(), $root) } }" title="Media (Clientes)"></div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+           <div id="tstTableMedias_tcClientesViewTabControl" class="tabbable tabbable-custom box col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+              <div class="container-tab">
+                 <div id="tstTableMedias_tcClientesViewTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                 <div id="tstTableMedias_tcClientesViewTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                 <div id="tstTableMedias_tcClientesViewTabControl_wrapper" class="wrapper">
+                    <ul id="tstTableMedias_tcClientesViewTabControl_list" class="nav nav-tabs list">
+                       <li id="tstTableMedias_tiVendasViewTabItem" class="active"><a href="#tstTableMedias_tabVendasViewTabItem" data-toggle="tab" title="VendasView">VendasView</a></li>
+                    </ul>
+                    </div>
+                 </div>
+              <div class="tab-content">
+
+
+
+               <div class="tab-pane fade active in" id="tstTableMedias_tabVendasViewTabItem">
+                   <div class="ui-helper-clearfix">
+                   <div class="">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+                       <div id="tstTableMedias_dGridVendasView_ContentDLG" style="position:relative;"></div>
+                       <div class="linx-table-button position-icon">
+                           <div class="botoes-tabela">
+                           <div data-bind="with: $root.tstTableMedias().getWithBinding(currentDataItem, $root.tstTableMedias().rootDataTypeName)">
+                           <button id="tstTableMedias_dGridVendasView_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.tstTableMedias().status() === 'E', click: function () { $root.tstTableMedias().createAndNotifyVendasView($data); }"><i class="fa fa-plus"></i></button>
+                           <button id="tstTableMedias_dGridVendasView_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                           data-bind="visible: $root.tstTableMedias().status() === 'E', 
+                           click: function () {
+                              $root.tstTableMedias().deleteGrid('#tstTableMedias_dGridVendasView', 'VendasView', 'vm.currentDataItem().currentVendasView;vm.currentDataItem().VendasViewList', false);
+                           }"> 
+                           <i class="fa fa-trash-o"></i></button>
+                           <button id="tstTableMedias_dGridVendasView_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                            data-bind="click:function () { 
+                              $root.tstTableMedias().openEditor('#tstTableMedias_dGridVendasView', 'VendasView', 'vm.currentDataItem().currentVendasView;vm.currentDataItem().VendasViewList', 'VendasView;vm.currentDataItem()', 'VendasView(vm.currentDataItem())', false)
+                           }"><i class="fa fa-th"></i></button>
+                           <button id="tstTableMedias_dGridVendasView_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                            data-bind="click:function () { 
+                              $root.tstTableMedias().openEditor('#tstTableMedias_dGridVendasView', 'VendasView', 'vm.currentDataItem().currentVendasView;vm.currentDataItem().VendasViewList', 'VendasView;vm.currentDataItem()', 'VendasView(vm.currentDataItem())', true)
+                           }"><i class="fa fa-th-large"></i></button>
+                           <button id="tstTableMedias_dGridVendasView_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.tstTableMedias().dataToolbar.canGridExport(), click: function () {$root.tstTableMedias().exportDataDetails($data, 'VendasView', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                           </div>
+                           </div>
+                       </div>
+                       <div class="linx-table-grid position-table-grid">
+                              <table id="tstTableMedias_dGridVendasView" data-bind="css: { IsEditableStyle: $root.tstTableMedias().enabledForEditing }"  />
+                       </div>
+
+                   </div>
+
+
+
+                   <div id="dialogVendasView"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                      <button class="btn btn-sm btn-default backReg " id="backRegVendasView" onClick="$(this).backRegVendasView();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                      <span class="caption"><label id="currentNumberVendasView">0</label><label>/</label><label id="totalNumberVendasView">0</label></span>
+                      <button class="btn btn-sm btn-default nextReg " id="nextRegVendasView" onClick="$(this).nextRegVendasView();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                      <button class="btn btn-sm btn-default addReg " id="addRegVendasView" onClick="$(this).addRegVendasView();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-sm btn-default delReg " id="delRegVendasView" onClick="$(this).delRegVendasView();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                      <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegVendasView" onClick="$(this).okRegVendasView();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                   <div id="tstTableMedias_templateVendasView" class="" style="width: 100%; height: 100%;" >
+                       <div data-bind="with: $root.tstTableMedias().getWithBinding(currentDataItem, $root.tstTableMedias().rootDataTypeName)"><div data-bind="with: $root.tstTableMedias().getWithBinding(currentVendasView, 'VendasView')">
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="tstTableMedias_divVendasView_DataTemplate" class="" >
+                                       <label id="tstTableMedias_lblVendasView_Data" for="tstTableMedias_dtVendasView_Data" data-bind="css: { 'content-required': $root.tstTableMedias().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="Data">Data
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-small">
+                                               <div class="input-group box-input-small" >
+                                                   <span id="tstTableMedias_dtVendasView_Data" class="date form-control dateFilterRange input-small "  data-bind="validatedField: 'Data', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'tstTableMedias_dtVendasView_Data') ? ctrl.getCustomEnable($root, 'tstTableMedias_dtVendasView_Data') : (!isEmptyEntityFn($data) && $root.tstTableMedias().enabledForEditing())},  igDatePicker: { value: Data, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root, 'tstTableMedias_dtVendasView_Data') ? !ctrl.getCustomEnable($root, 'tstTableMedias_dtVendasView_Data') : (isEmptyEntityFn($data) || !$root.tstTableMedias().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'tstTableMedias_dtVendasView_Data') ? !ctrl.getCustomEnable($root, 'tstTableMedias_dtVendasView_Data') : (isEmptyEntityFn($data) || !$root.tstTableMedias().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="tstTableMedias_rgbtnVendasView_Data"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.tstTableMedias().entitySearchRange.has_VendasViewData(), 'icon-ok': $root.tstTableMedias().entitySearchRange.has_VendasViewData(), hide: $root.tstTableMedias().status() !== 'C' }, popoverWithBind: { template: '#tstTableMedias_rgVendasView_Data', vm: $root.tstTableMedias().entitySearchRange, ctrlName: 'tstTableMedias_rgcVendasView_Data', headerText:'Filtro de datas' }"  /></span>
+                                                   <script id="tstTableMedias_rgVendasView_Data" type="text/html" tabindex="-1">
+                                                      <input type="radio" data-bind="checked:VendasViewData_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:VendasViewData_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      <div id="tstTableMedias_divrgVendasView_Data" >
+                                                          <div class="filterByRange" data-bind="visible: VendasViewData_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="tstTableMedias_dtbVendasView_Data" class="IsEditableStyle" data-bind="igDatePicker: { value: VendasViewData_begin,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#tstTableMedias_dtVendasView_Data').igDatePicker('option', 'readOnly', (ui.value != null || $('#tstTableMedias_dteVendasView_Data').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#tstTableMedias_dtbVendasView_Data').igDatePicker('value'); var valorMax = $('#tstTableMedias_dteVendasView_Data').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#tstTableMedias_dtbVendasView_Data').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                              <p></p>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="tstTableMedias_dteVendasView_Data" class="IsEditableStyle" data-bind="igDatePicker: { value: VendasViewData_end,  dateDisplayFormat: 'date', width: '100px', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#tstTableMedias_dtVendasView_Data').igDatePicker('option', 'readOnly', ($('#tstTableMedias_dtbVendasView_Data').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#tstTableMedias_dtbVendasView_Data').igDatePicker('value'); var valorMax = $('#tstTableMedias_dteVendasView_Data').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#tstTableMedias_dteVendasView_Data').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: VendasViewData_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: VendasViewData_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <p/>
+                                                              <div class="row predefValue" data-bind="visible: VendasViewData_predefFilter() != null && VendasViewData_predefFilter()[0] && VendasViewData_predefFilter()[0][0] == 'X'"><span class="col-md-3 text-right" title="Valor do Parâmetro">Valor:</span><div class="col-md-9"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: VendasViewData_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="tstTableMedias_divVendasView_IDVendasTemplate" class="" >
+                                       <label id="tstTableMedias_lblVendasView_IDVendas" for="tstTableMedias_ntxVendasView_IDVendas" data-bind="css: { 'content-required': $root.tstTableMedias().status() === 'E' && !isEmptyEntityFn($data) }" class="control-label ellipsis" title="ID Vendas">ID Vendas
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-min-medium">
+                                               <div class="input-group box-input-min-medium">
+                                                   <input id="tstTableMedias_ntxVendasView_IDVendas" class="form-control numericFilterRange input-min-medium" data-bind="validatedField: 'IDVendas', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'tstTableMedias_ntxVendasView_IDVendas') ? ctrl.getCustomEnable($root, 'tstTableMedias_ntxVendasView_IDVendas') : (!isEmptyEntityFn($data) && $root.tstTableMedias().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IDVendas, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root, 'tstTableMedias_ntxVendasView_IDVendas') ? !ctrl.getCustomEnable($root, 'tstTableMedias_ntxVendasView_IDVendas') : (isEmptyEntityFn($data) || !($root.tstTableMedias().status() === 'C' || ($data.isAdded && $data.isAdded()))), disabled: ctrl.hasCustomEnable($root, 'tstTableMedias_ntxVendasView_IDVendas') ? !ctrl.getCustomEnable($root, 'tstTableMedias_ntxVendasView_IDVendas') : (isEmptyEntityFn($data) || !($root.tstTableMedias().status() === 'C' || ($data.isAdded && $data.isAdded()))) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.tstTableMedias().entitySearchRange.has_VendasViewIDVendas(), 'icon-ok': $root.tstTableMedias().entitySearchRange.has_VendasViewIDVendas(), hide: $root.tstTableMedias().status() !== 'C' }, popoverWithBind: { template: '#tstTableMedias_rgVendasView_IDVendas', vm: $root.tstTableMedias().entitySearchRange, ctrlName: 'tstTableMedias_rgcVendasView_IDVendas', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="tstTableMedias_rgVendasView_IDVendas" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="tstTableMedias_ntxbVendasView_IDVendas" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: VendasViewIDVendas_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#tstTableMedias_ntxVendasView_IDVendas').igNumericEditor('option', 'readOnly', (ui.value != null || $('#tstTableMedias_ntxeVendasView_IDVendas').igNumericEditor('option', 'value') != null ? true : false)); $('#tstTableMedias_ntxeVendasView_IDVendas').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="tstTableMedias_ntxeVendasView_IDVendas" class="IsEditableStyle input-min-medium" data-bind="igNumericEditor: { value: VendasViewIDVendas_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#tstTableMedias_ntxVendasView_IDVendas').igNumericEditor('option', 'readOnly', ($('#tstTableMedias_ntxbVendasView_IDVendas').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#tstTableMedias_ntxbVendasView_IDVendas').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="tstTableMedias_divVendasView_OrigemTemplate" class="" >
+                                       <label id="tstTableMedias_lblVendasView_Origem" for="tstTableMedias_cmbVendasView_Origem" class="control-label ellipsis" title="Origem">Origem
+                                       </label>
+                                       <div class="controls">
+                                           <div class="input-medium">
+                                               <span id="tstTableMedias_cmbVendasView_Origem" class="form-control input-medium" data-bind="validatedField: 'Origem', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'tstTableMedias_cmbVendasView_Origem') ? ctrl.getCustomEnable($root, 'tstTableMedias_cmbVendasView_Origem') : (!isEmptyEntityFn($data) && $root.tstTableMedias().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root, 'tstTableMedias_cmbVendasView_Origem') ? !ctrl.getCustomEnable($root, 'tstTableMedias_cmbVendasView_Origem') : (isEmptyEntityFn($data) || !$root.tstTableMedias().enabledForEditing()) }, enable: ctrl.hasCustomEnable($root, 'tstTableMedias_cmbVendasView_Origem') ? ctrl.getCustomEnable($root, 'tstTableMedias_cmbVendasView_Origem') : (!isEmptyEntityFn($data) && $root.tstTableMedias().enabledForEditing()), igCombo: {
+                                                  selectedItems: Origem,
+                                                  dataSource:  $root.tstTableMedias().dataDomains.getItems('LXOrigem', ''),
+                                                  textKey: 'name',
+                                                  valueKey: 'id',
+                                                  allowCustomValue : true,
+                                                  enableSelectionChangedUpdate: true,
+                                                  enableClearButton: true,
+                                                  dropDownOnFocus: true,
+                                                  disabled: (ctrl.hasCustomEnable($root, 'tstTableMedias_cmbVendasView_Origem') ? !ctrl.getCustomEnable($root, 'tstTableMedias_cmbVendasView_Origem') : (isEmptyEntityFn($data) || !$root.tstTableMedias().enabledForEditing())),
+                                                  mode: 'editable',
+                                                  width:'100%'
+                                               }"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="tstTableMedias_divVendasView_ValorTotalTemplate" class="" >
+                                       <label id="tstTableMedias_lblVendasView_ValorTotal" for="tstTableMedias_ntxVendasView_ValorTotal" class="control-label ellipsis" title="ValorTotal">ValorTotal
+                                       </label>
+                                       <div class="controls">
+                                           <div class="box-input-small">
+                                               <div class="input-group box-input-small">
+                                                   <input id="tstTableMedias_ntxVendasView_ValorTotal" class="form-control numericFilterRange input-small" data-bind="validatedField: 'ValorTotal', css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'tstTableMedias_ntxVendasView_ValorTotal') ? ctrl.getCustomEnable($root, 'tstTableMedias_ntxVendasView_ValorTotal') : (!isEmptyEntityFn($data) && $root.tstTableMedias().enabledForEditing()) }, igNumericEditor: { value: ValorTotal, minValue: 0, maxValue: 99999999.99,  maxLength: 11,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root, 'tstTableMedias_ntxVendasView_ValorTotal') ? !ctrl.getCustomEnable($root, 'tstTableMedias_ntxVendasView_ValorTotal') : (isEmptyEntityFn($data) || !$root.tstTableMedias().enabledForEditing()), disabled: ctrl.hasCustomEnable($root, 'tstTableMedias_ntxVendasView_ValorTotal') ? !ctrl.getCustomEnable($root, 'tstTableMedias_ntxVendasView_ValorTotal') : (isEmptyEntityFn($data) || !$root.tstTableMedias().enabledForEditing()) }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.tstTableMedias().entitySearchRange.has_VendasViewValorTotal(), 'icon-ok': $root.tstTableMedias().entitySearchRange.has_VendasViewValorTotal(), hide: $root.tstTableMedias().status() !== 'C' }, popoverWithBind: { template: '#tstTableMedias_rgVendasView_ValorTotal', vm: $root.tstTableMedias().entitySearchRange, ctrlName: 'tstTableMedias_rgcVendasView_ValorTotal', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="tstTableMedias_rgVendasView_ValorTotal" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="tstTableMedias_ntxbVendasView_ValorTotal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: VendasViewValorTotal_begin, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#tstTableMedias_ntxVendasView_ValorTotal').igNumericEditor('option', 'readOnly', (ui.value != null || $('#tstTableMedias_ntxeVendasView_ValorTotal').igNumericEditor('option', 'value') != null ? true : false)); $('#tstTableMedias_ntxeVendasView_ValorTotal').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="tstTableMedias_ntxeVendasView_ValorTotal" class="IsEditableStyle input-small" data-bind="igNumericEditor: { value: VendasViewValorTotal_end, minValue: 0, maxLength: 8, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#tstTableMedias_ntxVendasView_ValorTotal').igNumericEditor('option', 'readOnly', ($('#tstTableMedias_ntxbVendasView_ValorTotal').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#tstTableMedias_ntxbVendasView_ValorTotal').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="form-group">
+                                   <div id="tstTableMedias_divVendasView_VendaVipTemplate" class="" >
+                                       <div class="controls">
+                                           <div class="input-small">
+                                               <label class="input-small">
+                                                 <input id="tstTableMedias_ckVendasView_VendaVip" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root, 'tstTableMedias_ckVendasView_VendaVip') ? ctrl.getCustomEnable($root, 'tstTableMedias_ckVendasView_VendaVip') : (!isEmptyEntityFn($data) && $root.tstTableMedias().enabledForEditing())}, enable: ctrl.hasCustomEnable($root, 'tstTableMedias_ckVendasView_VendaVip') ? ctrl.getCustomEnable($root, 'tstTableMedias_ckVendasView_VendaVip') : (!isEmptyEntityFn($data) && $root.tstTableMedias().enabledForEditing()), nullableChecked: VendaVip" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lbltstTableMedias_ckVendasView_VendaVip" class="align-label-checkbox">VendaVip</span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+                   </div>
+
+               </div>
+               </div>
+           </div>
+
+
+
+           </div>
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="tstTableMedias_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.tstTableMedias().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scytstTableMedias_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scytstTableMedias_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.tstTableMedias().dataToolbar.canExport(), click: function () {$root.tstTableMedias().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scytstTableMedias_dGrid" data-bind="css: { IsEditableStyle: $root.tstTableMedias().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

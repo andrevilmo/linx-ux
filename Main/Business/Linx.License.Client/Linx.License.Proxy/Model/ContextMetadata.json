@@ -1,0 +1,351 @@
+﻿	
+
+ 
+{
+  "Name": "LicenseContext",
+  "Namespace": "Linx.License.Client",
+  "ConnectionName": "CnLicense",
+  "AuthorizationEnabled": false,
+  "Entities": [
+	  
+		{
+			"Name": "LicencaRequisicao",
+			"Schema": "",
+			"Table": "",
+			"BaseTypeName": "",
+			"Properties": [
+
+
+						{
+							"Name": "IdLR",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('IdLR', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "IdLicenca",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('IdLicenca', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Id Licença')]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "IdCliente",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('IdCliente', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Id Cliente')]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "Usuario",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('Usuario', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "Chave",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('Chave', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(1000)]"
+
+							]
+						}
+						,{
+							"Name": "Terminal",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('Terminal', Order=5 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "LicencaUso_LISTA",
+							"DataType": "ICollection<LicencaUso>",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": true,
+							"Decorators": [
+								"//Origin Document: LicenseModel.bmd"
+								,"[InverseProperty('LicencaRequisicao')]"
+							]
+						}
+						
+
+		   ]
+		}
+		,{
+			"Name": "LicencaUso",
+			"Schema": "",
+			"Table": "",
+			"BaseTypeName": "",
+			"Properties": [
+
+
+						{
+							"Name": "IdLU",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Key]"
+                   ,"[Column('IdLU', Order=0 )]"
+                   ,"[DatabaseGenerated(DatabaseGeneratedOption.Identity)]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "IdLicencaUso",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('IdLicencaUso', Order=1 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Id da Licença de Uso')]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "LxStatusChave",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('LxStatusChave', Order=2 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Lx Status Chave')]"
+                   ,"[FunctionalPoint('DomainName[STATUS_CHAVE]')]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "Periodicidade",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('Periodicidade', Order=3 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Periodicidade')]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "DiasOffline",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DiasOffline', Order=4 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Dias Offline')]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "Mensagem",
+							"DataType": "string",
+							"IsNullable": true,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('Mensagem', Order=5 )]"
+                   ,"[Display(Name='Mensagem')]"
+                   ,"[MaxLength(2000)]"
+
+							]
+						}
+						,{
+							"Name": "TemporaryIdLicencaUso",
+							"DataType": "string",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('TemporaryIdLicencaUso', Order=6 )]"
+                   ,"[Required(AllowEmptyStrings=true)]"
+                   ,"[Display(Name='Id da Licença de Uso')]"
+                   ,"[MaxLength(250)]"
+
+							]
+						}
+						,{
+							"Name": "Data",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('Data', Order=7 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "IdLR",
+							"DataType": "long",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('IdLR', Order=8 )]"
+                   ,"[Required]"
+                   ,"[ForeignKey('LicencaRequisicao')]"
+
+							]
+						}
+						,{
+							"Name": "DataProcesso",
+							"DataType": "DateTime",
+							"IsNullable": false,
+							"IsNavigation": false,
+							"IsCollection": false,
+							"Decorators": [
+
+
+                   "[Column('DataProcesso', Order=9 )]"
+                   ,"[Required]"
+
+							]
+						}
+						,{
+							"Name": "LicencaRequisicao",
+							"DataType": "LicencaRequisicao",
+							"IsNullable": false,
+							"IsNavigation": true,
+							"IsCollection": false,
+							"Decorators": [
+							]
+						}
+						
+
+		   ]
+		}
+
+
+  ],
+  "Domains": [
+  
+			{
+				"Name": "STATUS_CHAVE",
+				"Values": [
+					{
+						"Name": "ATIVO",
+						"DisplayName": "Licença ativa",
+						"Value": "1"
+					}
+					,{
+						"Name": "PENDENTE",
+						"DisplayName": "Licença pendente",
+						"Value": "2"
+					}
+					,{
+						"Name": "REVOGADO",
+						"DisplayName": "Licença revogada",
+						"Value": "3"
+					}
+				]
+			}
+			,{
+				"Name": "RETORNO_TIPO",
+				"Values": [
+					{
+						"Name": "Ok",
+						"DisplayName": "Ok",
+						"Value": "1"
+					}
+					,{
+						"Name": "Alerta",
+						"DisplayName": "Alerta",
+						"Value": "2"
+					}
+					,{
+						"Name": "Erro",
+						"DisplayName": "Erro",
+						"Value": "3"
+					}
+				]
+			}
+  
+  ]
+		
+}

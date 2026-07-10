@@ -1,0 +1,106 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build (Linx.Framework.BV — host MSBuild + Podman volume + host expose)",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/.vscode/msbuild-build.ps1"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Build Linx.Internet.Application (host MSBuild)",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/../../Application/Linx.Internet.Application/.vscode/msbuild-build.ps1"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Build Linx.Internet.Application (Windows container — Docker Compose)",
+      "type": "shell",
+      "command": "docker compose run --rm build",
+      "options": {
+        "cwd": "${workspaceFolder}/../../Application/Linx.Internet.Application"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Linx.Internet.Application (Windows container — Podman Compose)",
+      "type": "shell",
+      "command": "podman compose run --rm build",
+      "options": {
+        "cwd": "${workspaceFolder}/../../Application/Linx.Internet.Application"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Linx.Internet.Application SDK image (docker build)",
+      "type": "shell",
+      "command": "docker build -f Dockerfile -t linx-internet-application-build:ltsc2022 ..\\..",
+      "options": {
+        "cwd": "${workspaceFolder}/../../Application/Linx.Internet.Application"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy (Linx.Framework.BV — Podman volume + host expose)",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/.vscode/deploy-to-podman-volume.ps1"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Publish (Linx.Framework.BV — Podman volume + host expose)",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/.vscode/deploy-to-podman-volume.ps1"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

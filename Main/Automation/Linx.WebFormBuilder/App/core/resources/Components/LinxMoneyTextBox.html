@@ -1,0 +1,15 @@
+<!--{{#if options.odata}}
+<lx-moneytextbox displayname="'{{options.label}}'" lx-visible="{{options.visible}}" model="vm.currentDataItem().{{options.odata.Name}}" lx-disable=" false" decimal="{{options.decimal}}" lx-classcontainer="{{options.class}}"></lx-moneytextbox>
+{{else}}
+<lx-moneytextbox displayname="'{{options.label}}'" lx-visible="{{options.visible}}" model="vm.currentDataItem().{{options.model}}" lx-disable=" false" decimal="{{options.decimal}}" lx-classcontainer="{{options.class}}"></lx-moneytextbox>
+{{/if}}-->
+
+{{#if options.odata}}
+<label class="{{options.class}}">
+  <input {{#each custom}} {{property}}="{{value}}" {{/each}} type="number" placeholder="{{options.label}}" ng-model="vm.dataBusiness.currentDataItem().{{options.odata.Name}}" ng-show="{{options.visible}}" ng-change="{{options.ngChange}}">
+</label>
+{{else}}
+<label class="{{options.class}}">
+  <input {{#each custom}} {{property}}="{{value}}" {{/each}} type="number" placeholder="{{options.label}}" ng-model="{{options.model}}" ng-show="{{options.visible}}" ng-change="{{options.ngChange}}">
+</label>
+{{/if}}

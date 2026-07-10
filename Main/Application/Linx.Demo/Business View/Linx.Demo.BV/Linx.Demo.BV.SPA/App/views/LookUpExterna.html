@@ -1,0 +1,328 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="LookUpExterna_formViewer" class="panelTransaition">
+            <figure id="LookUpExterna_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.LookUpExterna().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="LookUpExterna_gbEstado" data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_gbEstado'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_gbEstado')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_gbEstado')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="LookUpExterna_gbEstado_anchor" href="#LookUpExterna_gbEstado_body" role="button" data-toggle="collapse" data-parent="#LookUpExterna_gbEstado" aria-controls="#LookUpExterna_gbEstado_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="LookUpExterna_gbEstado_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.LookUpExterna().getWithBinding(currentDataItem, $root.LookUpExterna().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_ntxBigIntEstado'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_ntxBigIntEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="LookUpExterna_divBigIntEstado" class="" >
+                                           <label data-bind="attr: { title: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_ntxBigIntEstado')}, text: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_ntxBigIntEstado')" id="LookUpExterna_lblBigIntEstado" for="LookUpExterna_ntxBigIntEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="LookUpExterna_ntxBigIntEstado" class="form-control numericFilterRange " data-bind="validatedField: 'BigIntEstado', css: { vmEditing: $root.LookUpExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxBigIntEstado') ? ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxBigIntEstado') : (!isEmptyEntityFn($data) && $root.LookUpExterna().enabledForEditing()) }, igNumericEditor: { value: BigIntEstado, minValue: 0, maxValue: 9007199254740992,  maxLength: 24,  dataMode: 'long', readOnly: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxBigIntEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxBigIntEstado') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.LookUpExterna().entitySearchRange.has_EstadoBigIntEstado(), 'icon-ok': $root.LookUpExterna().entitySearchRange.has_EstadoBigIntEstado(), hide: $root.LookUpExterna().status() !== 'C' }, popoverWithBind: { template: '#LookUpExterna_rgBigIntEstado', vm: $root.LookUpExterna().entitySearchRange, ctrlName: 'LookUpExterna_rgcBigIntEstado', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="LookUpExterna_rgBigIntEstado" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="LookUpExterna_ntxbBigIntEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoBigIntEstado_begin, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#LookUpExterna_ntxBigIntEstado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#LookUpExterna_ntxeBigIntEstado').igNumericEditor('option', 'value') != null ? true : false)); $('#LookUpExterna_ntxeBigIntEstado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="LookUpExterna_ntxeBigIntEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoBigIntEstado_end, minValue: 0, maxLength: 24, dataMode: 'long', valueChanged: function (evt, ui) {$('#LookUpExterna_ntxBigIntEstado').igNumericEditor('option', 'readOnly', ($('#LookUpExterna_ntxbBigIntEstado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#LookUpExterna_ntxbBigIntEstado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_ckBitEstado'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_ckBitEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="LookUpExterna_divBitEstado" class="" >
+                                           <label class="">
+                                             <input id="LookUpExterna_ckBitEstado" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ckBitEstado') ? ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ckBitEstado') : (!isEmptyEntityFn($data) && $root.LookUpExterna().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ckBitEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ckBitEstado') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()), nullableChecked: BitEstado" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblLookUpExterna_ckBitEstado" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_cmbComboboxEstado'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_cmbComboboxEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="LookUpExterna_divComboboxEstado" class="" >
+                                           <label data-bind="css: { 'content-required': $root.LookUpExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_cmbComboboxEstado')}, text: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_cmbComboboxEstado')" id="LookUpExterna_lblComboboxEstado" for="LookUpExterna_cmbComboboxEstado" class="control-label ellipsis">
+                                           </label>
+                                           <span id="LookUpExterna_cmbComboboxEstado" class="form-control " data-bind="validatedField: 'ComboboxEstado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_cmbComboboxEstado') ? ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_cmbComboboxEstado') : (!isEmptyEntityFn($data) && $root.LookUpExterna().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_cmbComboboxEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_cmbComboboxEstado') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_cmbComboboxEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_cmbComboboxEstado') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()), igCombo: {
+                                              selectedItems: ComboboxEstado,
+                                              dataSource:  $root.LookUpExterna().dataDomains.getItems('LX_ESTADO', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_cmbComboboxEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_cmbComboboxEstado') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_dtDatetimeEstado'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_dtDatetimeEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="LookUpExterna_divDatetimeEstado" class="" >
+                                           <label data-bind="attr: { title: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_dtDatetimeEstado')}, text: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_dtDatetimeEstado')" id="LookUpExterna_lblDatetimeEstado" for="LookUpExterna_dtDatetimeEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="LookUpExterna_dtDatetimeEstado" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DatetimeEstado', css: { vmEditing: $root.LookUpExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_dtDatetimeEstado') ? ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_dtDatetimeEstado') : (!isEmptyEntityFn($data) && $root.LookUpExterna().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_dtDatetimeEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_dtDatetimeEstado') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()) },  igDatePicker: { value: DatetimeEstado, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_dtDatetimeEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_dtDatetimeEstado') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="LookUpExterna_rgbtnDatetimeEstado"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.LookUpExterna().entitySearchRange.has_EstadoDatetimeEstado(), 'icon-ok': $root.LookUpExterna().entitySearchRange.has_EstadoDatetimeEstado(), hide: $root.LookUpExterna().status() !== 'C' }, popoverWithBind: { template: '#LookUpExterna_rgDatetimeEstado', vm: $root.LookUpExterna().entitySearchRange, ctrlName: 'LookUpExterna_rgcDatetimeEstado', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="LookUpExterna_rgDatetimeEstado" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="checked:EstadoDatetimeEstado_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="checked:EstadoDatetimeEstado_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="LookUpExterna_divrgDatetimeEstado" >
+                                                      <div class="filterByRange" data-bind="visible: EstadoDatetimeEstado_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="LookUpExterna_dtbDatetimeEstado" class="IsEditableStyle date" data-bind="igDatePicker: { value: EstadoDatetimeEstado_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#LookUpExterna_dtDatetimeEstado').igDatePicker('option', 'readOnly', (ui.value != null || $('#LookUpExterna_dteDatetimeEstado').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#LookUpExterna_dtbDatetimeEstado').igDatePicker('value'); var valorMax = $('#LookUpExterna_dteDatetimeEstado').igDatePicker('value');if (valorMax != null && valorMin > valorMax)$('#LookUpExterna_dtbDatetimeEstado').igDatePicker('option', 'value', valorMax);} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="LookUpExterna_dteDatetimeEstado" class="IsEditableStyle date" data-bind="igDatePicker: { value: EstadoDatetimeEstado_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#LookUpExterna_dtDatetimeEstado').igDatePicker('option', 'readOnly', ($('#LookUpExterna_dtbDatetimeEstado').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#LookUpExterna_dtbDatetimeEstado').igDatePicker('value'); var valorMax = $('#LookUpExterna_dteDatetimeEstado').igDatePicker('value');if (valorMin != null && valorMax < valorMin) $('#LookUpExterna_dteDatetimeEstado').igDatePicker('option', 'value', valorMin);} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: EstadoDatetimeEstado_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: EstadoDatetimeEstado_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: EstadoDatetimeEstado_predefFilter() != null && EstadoDatetimeEstado_predefFilter()[0] && EstadoDatetimeEstado_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: EstadoDatetimeEstado_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_ntxDecimalEstado'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_ntxDecimalEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="LookUpExterna_divDecimalEstado" class="" >
+                                           <label data-bind="attr: { title: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_ntxDecimalEstado')}, text: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_ntxDecimalEstado')" id="LookUpExterna_lblDecimalEstado" for="LookUpExterna_ntxDecimalEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="LookUpExterna_ntxDecimalEstado" class="form-control numericFilterRange " data-bind="validatedField: 'DecimalEstado', css: { vmEditing: $root.LookUpExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxDecimalEstado') ? ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxDecimalEstado') : (!isEmptyEntityFn($data) && $root.LookUpExterna().enabledForEditing()) }, igNumericEditor: { value: DecimalEstado, minValue: 0, maxValue: 99999999999.99,  maxLength: 14,  dataMode: 'number', minDecimals: 2, maxDecimals: 2, readOnly: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxDecimalEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxDecimalEstado') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.LookUpExterna().entitySearchRange.has_EstadoDecimalEstado(), 'icon-ok': $root.LookUpExterna().entitySearchRange.has_EstadoDecimalEstado(), hide: $root.LookUpExterna().status() !== 'C' }, popoverWithBind: { template: '#LookUpExterna_rgDecimalEstado', vm: $root.LookUpExterna().entitySearchRange, ctrlName: 'LookUpExterna_rgcDecimalEstado', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="LookUpExterna_rgDecimalEstado" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="LookUpExterna_ntxbDecimalEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoDecimalEstado_begin, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#LookUpExterna_ntxDecimalEstado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#LookUpExterna_ntxeDecimalEstado').igNumericEditor('option', 'value') != null ? true : false)); $('#LookUpExterna_ntxeDecimalEstado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="LookUpExterna_ntxeDecimalEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoDecimalEstado_end, minValue: 0, maxLength: 11, dataMode: 'number', minDecimals: 2, maxDecimals: 2, valueChanged: function (evt, ui) {$('#LookUpExterna_ntxDecimalEstado').igNumericEditor('option', 'readOnly', ($('#LookUpExterna_ntxbDecimalEstado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#LookUpExterna_ntxbDecimalEstado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_ntxIdEstado'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_ntxIdEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="LookUpExterna_divIdEstado" class="" >
+                                           <label data-bind="css: { 'content-required': $root.LookUpExterna().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_ntxIdEstado')}, text: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_ntxIdEstado')" id="LookUpExterna_lblIdEstado" for="LookUpExterna_ntxIdEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="LookUpExterna_ntxIdEstado" class="form-control numericFilterRange " data-bind="validatedField: 'IdEstado', css: { vmEditing: $root.LookUpExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxIdEstado') ? ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxIdEstado') : (!isEmptyEntityFn($data) && $root.LookUpExterna().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igNumericEditor: { value: IdEstado, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxIdEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxIdEstado') : (isEmptyEntityFn($data) || !($root.LookUpExterna().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.LookUpExterna().entitySearchRange.has_EstadoIdEstado(), 'icon-ok': $root.LookUpExterna().entitySearchRange.has_EstadoIdEstado(), hide: $root.LookUpExterna().status() !== 'C' }, popoverWithBind: { template: '#LookUpExterna_rgIdEstado', vm: $root.LookUpExterna().entitySearchRange, ctrlName: 'LookUpExterna_rgcIdEstado', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="LookUpExterna_rgIdEstado" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="LookUpExterna_ntxbIdEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoIdEstado_begin, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#LookUpExterna_ntxIdEstado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#LookUpExterna_ntxeIdEstado').igNumericEditor('option', 'value') != null ? true : false)); $('#LookUpExterna_ntxeIdEstado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="LookUpExterna_ntxeIdEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoIdEstado_end, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#LookUpExterna_ntxIdEstado').igNumericEditor('option', 'readOnly', ($('#LookUpExterna_ntxbIdEstado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#LookUpExterna_ntxbIdEstado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_lUpIdPais'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_lUpIdPais')" class="">
+                                   <div class="form-group">
+                                       <div id="LookUpExterna_divIdPais" class="" >
+                                           <label data-bind="attr: { title: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_lUpIdPais')}, text: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_lUpIdPais')" id="LookUpExterna_lblIdPais" for="LookUpExterna_lUpIdPais" class="control-label ellipsis">
+                                           </label>
+                                           <div id="LookUpExterna_lUpIdPais" class="form-control input-group " data-bind="validatedField: 'IdPais', css: { vmEditing: $root.LookUpExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpIdPais') ? ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpIdPais') : (!isEmptyEntityFn($data) && $root.LookUpExterna().enabledForEditing()) }, lookupControl: { vm: $root.LookUpExterna(), value: IdPais, maxLength: 12,lookupName: 'LookUpPais', isMultiSelection: false, multiSelectionValue: $root.LookUpExterna().entitySearchRange.IdPais, fieldName: 'IdPais', disabled:ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpIdPais') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpIdPais') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_ntxIntEstado'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_ntxIntEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="LookUpExterna_divIntEstado" class="" >
+                                           <label data-bind="attr: { title: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_ntxIntEstado')}, text: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_ntxIntEstado')" id="LookUpExterna_lblIntEstado" for="LookUpExterna_ntxIntEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="LookUpExterna_ntxIntEstado" class="form-control numericFilterRange " data-bind="validatedField: 'IntEstado', css: { vmEditing: $root.LookUpExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxIntEstado') ? ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxIntEstado') : (!isEmptyEntityFn($data) && $root.LookUpExterna().enabledForEditing()) }, igNumericEditor: { value: IntEstado, minValue: 0, maxValue: null,  maxLength: 12,  dataMode: 'int', readOnly: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxIntEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxIntEstado') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.LookUpExterna().entitySearchRange.has_EstadoIntEstado(), 'icon-ok': $root.LookUpExterna().entitySearchRange.has_EstadoIntEstado(), hide: $root.LookUpExterna().status() !== 'C' }, popoverWithBind: { template: '#LookUpExterna_rgIntEstado', vm: $root.LookUpExterna().entitySearchRange, ctrlName: 'LookUpExterna_rgcIntEstado', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="LookUpExterna_rgIntEstado" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="LookUpExterna_ntxbIntEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoIntEstado_begin, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#LookUpExterna_ntxIntEstado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#LookUpExterna_ntxeIntEstado').igNumericEditor('option', 'value') != null ? true : false)); $('#LookUpExterna_ntxeIntEstado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="LookUpExterna_ntxeIntEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoIntEstado_end, minValue: 0, maxLength: 12, dataMode: 'int', valueChanged: function (evt, ui) {$('#LookUpExterna_ntxIntEstado').igNumericEditor('option', 'readOnly', ($('#LookUpExterna_ntxbIntEstado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#LookUpExterna_ntxbIntEstado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_ntxSmallIntEstado'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_ntxSmallIntEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="LookUpExterna_divSmallIntEstado" class="" >
+                                           <label data-bind="attr: { title: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_ntxSmallIntEstado')}, text: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_ntxSmallIntEstado')" id="LookUpExterna_lblSmallIntEstado" for="LookUpExterna_ntxSmallIntEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group">
+                                               <input id="LookUpExterna_ntxSmallIntEstado" class="form-control numericFilterRange " data-bind="validatedField: 'SmallIntEstado', css: { vmEditing: $root.LookUpExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxSmallIntEstado') ? ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxSmallIntEstado') : (!isEmptyEntityFn($data) && $root.LookUpExterna().enabledForEditing()) }, igNumericEditor: { value: SmallIntEstado, minValue: 0, maxValue: null,  maxLength: 6,  dataMode: 'short', readOnly: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxSmallIntEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_ntxSmallIntEstado') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()), selectionOnFocus: 'atEnd' }" />
+                                               <span class="input-group-btn" title="Filtro numérico">
+                                                  <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.LookUpExterna().entitySearchRange.has_EstadoSmallIntEstado(), 'icon-ok': $root.LookUpExterna().entitySearchRange.has_EstadoSmallIntEstado(), hide: $root.LookUpExterna().status() !== 'C' }, popoverWithBind: { template: '#LookUpExterna_rgSmallIntEstado', vm: $root.LookUpExterna().entitySearchRange, ctrlName: 'LookUpExterna_rgcSmallIntEstado', headerText:'Filtro numérico' }"  /></span>
+                                               <script id="LookUpExterna_rgSmallIntEstado" type="text/html" tabindex="-1">
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="LookUpExterna_ntxbSmallIntEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoSmallIntEstado_begin, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#LookUpExterna_ntxSmallIntEstado').igNumericEditor('option', 'readOnly', (ui.value != null || $('#LookUpExterna_ntxeSmallIntEstado').igNumericEditor('option', 'value') != null ? true : false)); $('#LookUpExterna_ntxeSmallIntEstado').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                   <p></p>
+                                                   <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="LookUpExterna_ntxeSmallIntEstado" class="IsEditableStyle" data-bind="igNumericEditor: { value: EstadoSmallIntEstado_end, minValue: 0, maxLength: 6, dataMode: 'short', valueChanged: function (evt, ui) {$('#LookUpExterna_ntxSmallIntEstado').igNumericEditor('option', 'readOnly', ($('#LookUpExterna_ntxbSmallIntEstado').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#LookUpExterna_ntxbSmallIntEstado').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_lUpStringEstado'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_lUpStringEstado')" class="">
+                                   <div class="form-group">
+                                       <div id="LookUpExterna_divStringEstado" class="" >
+                                           <label data-bind="attr: { title: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_lUpStringEstado')}, text: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_lUpStringEstado')" id="LookUpExterna_lblStringEstado" for="LookUpExterna_lUpStringEstado" class="control-label ellipsis">
+                                           </label>
+                                           <div id="LookUpExterna_lUpStringEstado" class="form-control input-group " data-bind="validatedField: 'StringEstado', css: { vmEditing: $root.LookUpExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpStringEstado') ? ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpStringEstado') : (!isEmptyEntityFn($data) && $root.LookUpExterna().enabledForEditing()) }, lookupControl: { vm: $root.LookUpExterna(), value: StringEstado, maxLength: 50,lookupName: '', isMultiSelection: false, multiSelectionValue: $root.LookUpExterna().entitySearchRange.StringEstado, fieldName: 'StringEstado', disabled:ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpStringEstado') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpStringEstado') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 50, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.LookUpExterna().getLayoutColumnSpan('LookUpExterna_lUpStringPais'), visible: $root.LookUpExterna().getLayoutVisible('LookUpExterna_lUpStringPais')" class="">
+                                   <div class="form-group">
+                                       <div id="LookUpExterna_divStringPais" class="" >
+                                           <label data-bind="attr: { title: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_lUpStringPais')}, text: $root.LookUpExterna().getLayoutDisplayName('LookUpExterna_lUpStringPais')" id="LookUpExterna_lblStringPais" for="LookUpExterna_lUpStringPais" class="control-label ellipsis">
+                                           </label>
+                                           <div id="LookUpExterna_lUpStringPais" class="form-control input-group " data-bind="validatedField: 'StringPais', css: { vmEditing: $root.LookUpExterna().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpStringPais') ? ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpStringPais') : (!isEmptyEntityFn($data) && $root.LookUpExterna().enabledForEditing()) }, lookupControl: { vm: $root.LookUpExterna(), value: StringPais, maxLength: 50,lookupName: 'LookUpPais', isMultiSelection: false, multiSelectionValue: $root.LookUpExterna().entitySearchRange.StringPais, fieldName: 'StringPais', disabled:ctrl.hasCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpStringPais') ? !ctrl.getCustomEnable($root.LookUpExterna(), 'LookUpExterna_lUpStringPais') : (isEmptyEntityFn($data) || !$root.LookUpExterna().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 50, defaultValue: null}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="LookUpExterna_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.LookUpExterna().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size" >
+               <div id="scyLookUpExterna_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyLookUpExterna_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyLookUpExterna_dGrid_templateLayout', vm: function(){return $root.LookUpExterna().gridSaveStates['scyLookUpExterna_dGrid'];}, ctrlName: 'scyLookUpExterna_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyLookUpExterna_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyLookUpExterna_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyLookUpExterna_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.LookUpExterna().dataToolbar.canExport(), click: function () {$root.LookUpExterna().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyLookUpExterna_dGrid" data-bind="css: { IsEditableStyle: $root.LookUpExterna().enabledForEditing }"  />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

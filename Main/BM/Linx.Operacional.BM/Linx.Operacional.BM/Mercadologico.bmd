@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<businessModelDesignerRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="f93865fd-9033-43a0-9fa5-bb90dab8928c" name="" documentName="Mercadologico.bmd" targetNamespace="Linx.Operacional.BM" documentPath="C:\Linx Workspace\Linx\Linx UX\Dev\5.X\BM\Linx.Operacional.BM\Linx.Operacional.BM" noCode="false" dataContextName="Mercadologico" removeAutomaticIndexes="false" removeRequiredAttributes="false" setIdLinxWithIdGpecon="false" forceDynamicForeignKeyNames="false" controlIdLinxByApplicative="false" xmlns="http://schemas.microsoft.com/dsltools/BusinessModelDesigner">
+  <comments>
+    <comment Id="5949d19c-1e24-4bd9-b0ac-8939708cd6cd" title="Mercadologico" />
+  </comments>
+  <types>
+    <modelClass Id="eee0fe97-af74-4223-b776-bf2a8fa82120" name="PRD_MERCADOLOGICO_GRUPO" schema="LX_PRD" primaryKeyConstraintName="XPK_PRD_MERCADOLOGICO_GRUPO" notMapped="false" hideAssociations="false" isDimensionFilter="true" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="390a01ed-1526-40f8-993f-601baf8c51ba" name="ID_LINX" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="3db24110-e3af-473c-bde6-dfbe49ed36fb" name="ID_PRD_GRUPO_MERCADOLOGICO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="205a29cd-1ad0-47d2-9927-e20d9af7d0fc" name="DESC_PRD_GRUPO_MERCADOLOGICO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="2e0cbc64-a1d4-4dd7-8c9c-dd6826586224" name="ID_PRD_GRUPO_MERCADOLOGICO_SUPERIOR" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_GRUPO_1.ID_PRD_GRUPO_MERCADOLOGICO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="db14df2f-7d3a-4f3f-b090-5b9bb08724e2" name="INATIVO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="fb74a33f-5b39-4143-8ee9-af32fc1f4ccc">
+          <modelIndex Id="81929b12-47a9-4b75-b1f8-574e865441ff" name="XAK1_PRD_MERCADOLOGICO_SUPERIOR" properties="ID_LINX, DESC_PRD_GRUPO_MERCADOLOGICO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="45e5d489-f843-4e7f-966c-b744ecc0036b" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_11" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="true">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO" />
+        </association>
+        <association Id="b6fe1ad7-9b15-4542-ada2-a7de53c60521" targetMultiplicity="ZeroMany" targetPropertyNameToSource="PRD_GRUPO_MERCADOLOGICO_SUPERIOR" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_GRUPO_1" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO_GRUPO" />
+        </association>
+        <association Id="6fb3adf7-e705-4161-a462-cbfc66c301f9" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_NIVEL_2" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="true">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO_NIVEL" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <modelClass Id="fa4c1fa3-9866-43d2-880d-6874e5f603e6" name="PRD_MERCADOLOGICO_NIVEL" schema="LX_PRD" primaryKeyConstraintName="XPK_PRD_MERCADOLOGICO_NIVEL" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="181e9f9a-b79a-46e0-9bb3-f74359c6299b" name="ID_LINX" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="a227aaea-17c9-409c-9054-1977846f84b2" name="ID_PRD_MERCADOLOGICO_NIVEL" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Prd Mercadologico Nivel" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="8d49db1e-9276-4a2d-b959-dc70f606bacf" name="ID_PRD_GRUPO_MERCADOLOGICO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_NIVEL_2.ID_PRD_GRUPO_MERCADOLOGICO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="8206786d-205d-471b-b0f9-168eae7580d9" name="ID_ATRIBUTO_DEFINICAO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_NIVEL_1.ID_ATRIBUTO_DEFINICAO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="02374ca6-562e-468d-831a-f26cfbf1918c" name="NIVEL_MERCADOLOGICO" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" notMapped="false" isComputed="false" maxLength="3" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="361f6fe6-6bb5-416e-88af-972d94ca1257">
+          <modelIndex Id="767b9697-c6ca-47a5-8e17-0ea6151e496a" name="XAK1_PRD_MERCADOLOGICO_NIVEL" properties="ID_LINX, ID_PRD_GRUPO_MERCADOLOGICO, NIVEL_MERCADOLOGICO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+    </modelClass>
+    <modelClass Id="a115a7e8-7731-4d2d-b07c-56415dec886d" name="PRD_MERCADOLOGICO_BANDEIRA" schema="LX_PRD" primaryKeyConstraintName="XPK_PRD_MERCADOLOGICO_BANDEIRA" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="2fd9e611-8b6e-4017-ac8a-987a1628c3be" name="ID_LINX" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="9aae2a06-09d8-477d-a916-6307fdc12404" name="ID_PRD_MERCADOLOGICO_BANDEIRA" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Prd Mercadologico Bandeira" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="227e55d0-81d9-453c-8bbe-d2f95bdd9cff" name="ID_PRD_MERCADOLOGICO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_BANDEIRA_2.ID_PRD_MERCADOLOGICO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="1e34580c-6537-4f71-ba49-c72a0527215c" name="ID_BANDEIRA_REDE" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_BANDEIRA_1.ID_BANDEIRA_REDE" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+    </modelClass>
+    <modelClass Id="bde810fb-9bb9-48f1-acf2-4e2413ce5d62" name="PRD_MERCADOLOGICO" schema="LX_PRD" primaryKeyConstraintName="XPK_PRD_MERCADOLOGICO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false">
+      <attributes>
+        <modelAttribute Id="d2df0221-8d78-4751-8409-313a3fe1e63e" name="ID_LINX" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="32fb859d-ae67-4e93-bdd7-b1465c1003d1" name="ID_PRD_MERCADOLOGICO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="d219b65e-8e81-4352-b688-559c44f28ecc" name="DESC_PRD_MERCADOLOGICO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="54d55baa-fa50-4fef-8e2f-186219a483ae" name="COD_PRD_MERCADOLOGICO" dataType="StringChar" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="110" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="75cf3a28-f16a-4141-bea1-4f690109db83" name="ID_PRD_GRUPO_MERCADOLOGICO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_11.ID_PRD_GRUPO_MERCADOLOGICO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="5b4a87e7-20d5-4cde-9e1d-b719738443a0" name="ID_ATRIBUTO_01" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_7.ID_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="aa8d37a8-8cdb-4f88-95db-ce9cdfaa51c2" name="ID_ATRIBUTO_02" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_8.ID_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="c752e60a-ddbe-44c6-afe2-63841613f456" name="ID_ATRIBUTO_03" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_2.ID_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="58182ab5-9594-4530-81b6-18b90b245d36" name="ID_ATRIBUTO_04" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_3.ID_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="d392931e-d4a2-4542-ac71-03655698b24d" name="ID_ATRIBUTO_05" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_10.ID_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="02a003f0-53e0-46e7-a372-19549d952610" name="ID_ATRIBUTO_06" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_9.ID_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="d0eacb56-f485-4312-96ea-894b4275d28d" name="ID_ATRIBUTO_07" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_6.ID_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="69561a73-a15f-4557-84fe-3af471cce40d" name="ID_ATRIBUTO_08" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_1.ID_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="a378ea3b-1877-4e77-8ad2-4e5ec464e37f" name="ID_ATRIBUTO_09" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_4.ID_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="61300597-cf7d-4f41-af14-c1c17288f552" name="ID_ATRIBUTO_10" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_PRD_MERCADOLOGICO_5.ID_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="2f162d9f-c32c-4530-adb0-5666bebe97fa" name="INATIVO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="3f38a14a-5d11-41f3-bb6d-600252e2bbf7" name="DATA_ATUALIZACAO" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" sqlDefault="(getdate())" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="11aedbb9-7b42-4c0b-a0a8-5785c5922a4d" name="DATA_CADASTRO" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" sqlDefault="(getdate())" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="ce250474-0bf3-432f-b814-138aa336b78a">
+          <modelIndex Id="7b8cf0d2-6054-4303-814b-dfd37bfcece5" name="XAK1_PRD_MERCADOLOGICO" properties="ID_LINX,COD_PRD_MERCADOLOGICO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="37540abc-0165-41a4-94df-216910b9ffa2" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_BANDEIRA_2" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="true">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO_BANDEIRA" />
+        </association>
+      </targetModelClasses>
+    </modelClass>
+    <referenceModelClass Id="725ed32f-b091-43d5-9a2b-918c46cb8b62" name="TBC_BANDEIRA_REDE" schema="LX_TBC" primaryKeyConstraintName="XPK_TBC_BANDEIRA_REDE" notMapped="false" hideAssociations="false" isDimensionFilter="true" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" modelClassReference="modelbus://Linx.BusinessModelDesigner.BusinessModelDesignerAdapter/BandeiraRede/TBC_BANDEIRA_REDE/.\BandeiraRede.bmd%2f64ec6923-64d3-4186-b574-797cb84a548c" hasReferenceError="false">
+      <attributes>
+        <modelAttribute Id="480777f4-e82f-4dd8-9fdd-325107675866" name="ID_LINX" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="9c8d23f5-86e0-457e-9cfb-19018f45923d" name="ID_BANDEIRA_REDE" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="7ce83045-a4b4-4002-94ad-d66f4930c59c" name="COD_BANDEIRA_REDE" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="25" isDimensionFilterSuggestion="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="0f726877-debb-41ba-8ab4-efad65ecdd19" name="DESC_BANDEIRA_REDE" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="true" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="7e4f9e7a-9733-41b5-a8e4-899877ce0f04" name="DATA_CADASTRO" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="5b021700-2863-48b3-87c3-691cbb8564bc" name="DATA_ATUALIZACAO" dataType="DateTime" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="2e086b96-96d0-4a55-885e-21cf9fcddca3">
+          <modelIndex Id="a3d84626-bccf-45a2-bc3e-81ee6d16844d" name="XAK1_BANDEIRA_REDE" properties="ID_LINX,COD_BANDEIRA_REDE" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="3d69ff66-1b01-4977-a063-5c990cabca90" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_BANDEIRA_1" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="true">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO_BANDEIRA" />
+        </association>
+      </targetModelClasses>
+    </referenceModelClass>
+    <referenceModelClass Id="7e0c8ae7-8362-4c76-9b19-4f8fc37e0565" name="TCS_ATRIBUTO" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_ATRIBUTO" notMapped="false" hideAssociations="false" isClustered="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" modelClassReference="modelbus://Linx.BusinessModelDesigner.BusinessModelDesignerAdapter/Atributo/TCS_ATRIBUTO/.\Atributo.bmd%2f87acf1d0-40e3-4680-8169-1dab847353c2" hasReferenceError="false">
+      <attributes>
+        <modelAttribute Id="de0af21e-805f-4702-a770-0be8d67ee8ea" name="ID_LINX" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="45e5bfd1-f321-4012-88cc-2682bfe365f7" name="ID_ATRIBUTO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="c4a5a4ec-37e1-4748-835e-6c2d447a8468" name="ID_ATRIBUTO_DEFINICAO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="XFK_TCS_ATRIBUTO_1.ID_ATRIBUTO_DEFINICAO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="8222df8f-ae68-4a05-a865-be7b57935c66" name="ID_ATRIBUTO_SUPERIOR" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_TCS_ATRIBUTO_2.ID_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="78f5dbfc-d709-4905-a38e-4b5aa3a40674" name="COD_ATRIBUTO" dataType="StringChar" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="a7e6f057-e034-483f-8549-3723351a7c0b" name="DESC_ATRIBUTO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="03a69384-43b6-449e-bab3-307d7f137594" name="DESC_ATRIBUTO_RESUMIDO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="310a7e25-a0a4-470e-9dc9-e3f19aa8dbee" name="DATA_INICIO" dataType="DateTime" isPrimaryKey="false" isIdentity="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="b0ba9411-6b43-4a31-88c1-b89b28a903c8" name="DATA_FIM" dataType="DateTime" isPrimaryKey="false" isIdentity="false" precision="23" scale="3" notMapped="false" isComputed="false" maxLength="23" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="d1cb1495-f9d3-4f40-bcb6-02d97642916c" name="ORDEM_VISUALIZACAO" dataType="Short" isPrimaryKey="false" isIdentity="false" precision="5" scale="0" notMapped="false" isComputed="false" maxLength="5" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="296714c1-3f61-4bc7-84d2-f520b12f4c6d" name="ID_CHAVE_VALIDA" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="1b695922-f19d-4339-a3a5-b716162aa4d7" name="VALOR_FAIXA_INICIAL" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="70" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="8d393355-853f-4dc0-b4b1-2c482bab0f06" name="VALOR_FAIXA_FINAL" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="70" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="60484d59-08ad-471d-bf09-948ab20ba7dc" name="VALOR_PADRAO" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="70" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="746d720c-a0b7-4522-966d-1a502f2d52d8" name="INATIVO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="7bc6e6f0-9af0-42b2-8a15-b8db7d66fa97">
+          <modelIndex Id="5bd7c70e-7af3-4aac-a795-fb08ffee3590" name="XIE_1_TCS_ATRIBUTO" properties="ID_LINX,ID_ATRIBUTO_DEFINICAO,COD_ATRIBUTO" isUnique="false" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="c2cbdc72-4f91-424f-9b59-6a511564cf3c" targetMultiplicity="ZeroMany" sourcePropertyNameToTarget="ATRIBUTO_08_LISTA" targetPropertyNameToSource="ATRIBUTO_08" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_1" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO" />
+        </association>
+        <association Id="e17a5808-ece6-48bd-bec5-c423c6bd04b2" targetMultiplicity="ZeroMany" sourcePropertyNameToTarget="ATRIBUTO_05_LISTA" targetPropertyNameToSource="ATRIBUTO_05" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_10" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO" />
+        </association>
+        <association Id="321e8eb3-cdaf-42b7-8eef-82c9c0aeea13" targetMultiplicity="ZeroMany" sourcePropertyNameToTarget="ATRIBUTO_03_LISTA" targetPropertyNameToSource="ATRIBUTO_03" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_2" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO" />
+        </association>
+        <association Id="d1630314-08cf-49c4-8c5f-0f42d27a3039" targetMultiplicity="ZeroMany" sourcePropertyNameToTarget="ATRIBUTO_04_LISTA" targetPropertyNameToSource="ATRIBUTO_04" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_3" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO" />
+        </association>
+        <association Id="c5d5133c-b47e-4267-a887-9e90e74921cb" targetMultiplicity="ZeroMany" sourcePropertyNameToTarget="ATRIBUTO_09_LISTA" targetPropertyNameToSource="ATRIBUTO_09" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_4" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO" />
+        </association>
+        <association Id="a7bbf169-b36c-42de-b7a4-d89c476ff637" targetMultiplicity="ZeroMany" sourcePropertyNameToTarget="ATRIBUTO_10_LISTA" targetPropertyNameToSource="ATRIBUTO_10" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_5" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO" />
+        </association>
+        <association Id="186eb8fb-9a08-4f78-b1ba-908e96f8b4ba" targetMultiplicity="ZeroMany" sourcePropertyNameToTarget="ATRIBUTO_07_LISTA" targetPropertyNameToSource="ATRIBUTO_07" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_6" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO" />
+        </association>
+        <association Id="33bb8a1b-edf0-4c98-8948-db7792cc35ba" sourcePropertyNameToTarget="ATRIBUTO_01_LISTA" targetPropertyNameToSource="ATRIBUTO_01" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_7" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO" />
+        </association>
+        <association Id="d3305364-c23d-4612-8e8f-b25cc48742f1" targetMultiplicity="ZeroMany" sourcePropertyNameToTarget="ATRIBUTO_02_LISTA" targetPropertyNameToSource="ATRIBUTO_02" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_8" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO" />
+        </association>
+        <association Id="54f967ca-2767-47d2-a154-ba75ea5fe57e" targetMultiplicity="ZeroMany" sourcePropertyNameToTarget="ATRIBUTO_06_LISTA" targetPropertyNameToSource="ATRIBUTO_06" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_9" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="false">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO" />
+        </association>
+        <association Id="5d8ec37a-c704-4b2e-8e3b-7a2ac5e95be0" targetMultiplicity="ZeroMany" targetPropertyNameToSource="ATRIBUTO_SUPERIOR" foreignKeyConstraintName="XFK_TCS_ATRIBUTO_2" idReference="2b027c50-e0bf-47e4-ac14-c6e520e1093b" willCascadeOnDelete="false">
+          <referenceModelClassMoniker name="//TCS_ATRIBUTO" />
+        </association>
+      </targetModelClasses>
+    </referenceModelClass>
+    <referenceModelClass Id="91dca91e-6f18-41e4-9429-387374fdbd37" name="TCS_ATRIBUTO_DEFINICAO" schema="LX_TCS" primaryKeyConstraintName="XPK_TCS_ATRIBUTO_DEFINICAO" notMapped="false" hideAssociations="false" isClustered="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" modelClassReference="modelbus://Linx.BusinessModelDesigner.BusinessModelDesignerAdapter/Atributo/TCS_ATRIBUTO_DEFINICAO/.\Atributo.bmd%2f363d22ff-51ba-4bc0-8f12-a8e64be7d250" hasReferenceError="false">
+      <attributes>
+        <modelAttribute Id="658c93a9-2a5c-4092-b219-13297aa042f4" name="ID_LINX" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="09a7cf87-c782-4c87-92bd-cdb2e2c4949e" name="ID_ATRIBUTO_DEFINICAO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="10" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="5f559af6-fa86-44ef-b63d-de1750002147" name="ID_ATRIBUTO_DEFINICAO_SUPERIOR" dataType="Int" isPrimaryKey="false" isIdentity="false" precision="10" scale="0" foreignKey="XFK_TCS_ATRIBUTO_DEFINICAO_2.ID_ATRIBUTO_DEFINICAO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="09ba1ca0-9ec1-4471-8629-f50eb7ade014" name="ID_ATRIBUTO_TIPO" dataType="Short" isPrimaryKey="false" isIdentity="false" precision="5" scale="0" foreignKey="XFK_TCS_ATRIBUTO_DEFINICAO_1.ID_ATRIBUTO_TIPO" notMapped="false" isComputed="false" maxLength="5" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="6003b92c-29d6-435c-8d3f-060c3f97bec1" name="DESC_ATRIBUTO_DEFINICAO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="81247082-c5d5-404a-91ef-be69d3593c70" name="DESC_RESUMIDA_ATRIBUTO" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="178bea47-6634-40cc-8fa8-6616f88ac554" name="PERMITE_ALTERAR_DESC_VARIANTE" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="c3a5fee8-fae9-47ce-899d-d5252d25e317" name="INDICA_SOB_MEDIDA" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="4afae918-c2ac-4870-8534-14b85d527028" name="LX_DATATYPE_PROPRIEDADE" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" notMapped="false" isComputed="false" maxLength="3" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="45d50005-7ebf-4c89-9ae4-119d9ca2027c" name="LX_TIPO_VALIDACAO" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" domainName="LX_TIPO_VALIDACAO" notMapped="false" isComputed="false" maxLength="3" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="8e737534-6501-4a84-bdfa-eacba5cad984" name="INDICA_MULTI_VALOR" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="f95a7f16-9030-4fd8-915e-63ed3d8f4fe2" name="LX_ATRIBUTO_ESPECIALISTA" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" notMapped="false" isComputed="false" maxLength="3" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="e7b1c494-274c-44cc-9cfd-4f385650be4f" name="LX_ORDEM_VISUALIZACAO" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" notMapped="false" isComputed="false" maxLength="3" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="d0fd1585-ed4f-4821-8118-24243b676b6f" name="MASCARA_VALOR" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="40" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="0b7070d2-d28d-4c26-b954-22daa551a60f" name="INATIVO" dataType="Boolean" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="1" scale="0" notMapped="false" isComputed="false" maxLength="1" sqlDefault="((0))" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="96d56f99-99e8-4f37-9013-58c6f8748178" name="COLUNA_COD_VALIDA" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="53426fc6-d959-42b1-9a40-21c6106429bc" name="COLUNA_DESC_VALIDA" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="250" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="de9ec027-cd97-4de9-8640-4c1e5cecbaf0" name="OBS_ORIGEM_LINX" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="60" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="c147942e-b6be-471b-91d5-7a4b487d0917" name="LX_ATRIBUTO_SISTEMA" dataType="Byte" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="3" scale="0" notMapped="false" isComputed="false" maxLength="3" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="8417118d-c29b-4cd6-bd04-c6c57920b8c5" name="UID_TABELA_VALIDA" dataType="Guid" isPrimaryKey="false" isIdentity="false" precision="0" scale="0" notMapped="false" isComputed="false" maxLength="0" sqlDefault="(newid())" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="01500161-d82b-4400-9b80-09831f415655" name="LX_TABELA_ATRIBUTO" dataType="Short" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" domainName="LX_TABELA_ATRIBUTO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="99f75d58-69bd-4c3b-9e6f-e12572978b1a">
+          <modelIndex Id="4acaca90-4ea3-42db-adef-8df6a504cbad" name="XAK1_TCS_ATRIBUTO_DEFINICAO" properties="ID_LINX,ID_ATRIBUTO_TIPO, DESC_ATRIBUTO_DEFINICAO" isUnique="true" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+      <targetModelClasses>
+        <association Id="d794c750-d066-44bc-9fbc-d0c3e4fe8e08" foreignKeyConstraintName="XFK_PRD_MERCADOLOGICO_NIVEL_1" idReference="00000000-0000-0000-0000-000000000000" willCascadeOnDelete="true">
+          <modelClassMoniker name="//PRD_MERCADOLOGICO_NIVEL" />
+        </association>
+        <association Id="d190b314-d990-4be7-a79e-73ed3628a232" foreignKeyConstraintName="XFK_TCS_ATRIBUTO_1" idReference="cfd62858-9f4d-44df-acd8-83674e7691ce" willCascadeOnDelete="true">
+          <referenceModelClassMoniker name="//TCS_ATRIBUTO" />
+        </association>
+        <association Id="e60ce281-9a70-4e89-8c9e-326aa1d388d5" targetMultiplicity="ZeroMany" targetPropertyNameToSource="ATRIBUTO_DEFINICAO_SUPERIOR" foreignKeyConstraintName="XFK_TCS_ATRIBUTO_DEFINICAO_2" idReference="96344c59-8a66-4d9f-b0e5-1b2c6c8c79af" willCascadeOnDelete="false">
+          <referenceModelClassMoniker name="//TCS_ATRIBUTO_DEFINICAO" />
+        </association>
+      </targetModelClasses>
+    </referenceModelClass>
+    <referenceModelClass Id="bc40f08c-675f-4dc6-9a3d-a7b0452b7cfd" name="PRD_ARTIGO_MERCADOLOGICO" schema="LX_PRD" primaryKeyConstraintName="XPK_PRD_ARTIGO_MERCADOLOGICO" notMapped="false" hideAssociations="false" isDimensionFilter="false" isReadOnly="false" inStudy="false" isValidatable="false" modelViewAggregation="false" enableCache="false" modelViewDistinct="false" modelViewCustomQueryEnabled="false" modelClassReference="modelbus://Linx.BusinessModelDesigner.BusinessModelDesignerAdapter/Artigo/PRD_ARTIGO_MERCADOLOGICO/.\Artigo.bmd%2fda9f16c8-b0da-4c65-80ff-1d8aec51edc5" hasReferenceError="false">
+      <attributes>
+        <modelAttribute Id="ef2e01b1-0eed-40ad-9272-e3a9a2cb4856" name="ID_LINX" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="0" scale="0" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="f7ea40e8-d0b2-467d-b6ea-598f24c00ceb" name="ID_PRD_ARTIGO_MERCADOLOGICO" dataType="Int" isPrimaryKey="true" isIdentity="true" isNullable="false" precision="0" scale="0" displayName="Id Prd Artigo Mercadologico" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="30abed2e-a1d8-422b-b546-afb2e2e59768" name="ID_PRD_MERCADOLOGICO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="XFK_PRD_ARTIGO_MERCADOLOGICO_1.ID_PRD_MERCADOLOGICO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+        <modelAttribute Id="99a8e81d-0ad3-408a-9a07-53df5389a908" name="ID_ARTIGO" dataType="Int" isPrimaryKey="false" isIdentity="false" isNullable="false" precision="10" scale="0" foreignKey="XFK_PRD_ARTIGO_MERCADOLOGICO_2.ID_ARTIGO" notMapped="false" isComputed="false" isDimensionFilterSuggestion="false" isCustomized="false" filteringDisabled="false" isUniqueValue="false" />
+      </attributes>
+      <modelIndexes>
+        <classHasIndexes Id="ebcd5afd-5cf4-4233-b7dc-a9d7d9bf8907">
+          <modelIndex Id="a4dc4d45-cf67-4a9c-abce-a13e8d5f0e91" name="IX_PRD_ARTIGO_MERCADOLOGICO_MERCADOLOGICO_ARTIGO" properties="ID_PRD_MERCADOLOGICO,ID_ARTIGO" isUnique="false" isClustered="false" />
+        </classHasIndexes>
+      </modelIndexes>
+    </referenceModelClass>
+  </types>
+</businessModelDesignerRoot>
