@@ -18,14 +18,9 @@ html > body {
     margin-bottom: 0px !important;
 }
 
-#main {
-    background-color: #ebebeb !important;
-    height: auto !important;
-    margin-bottom: 0px !important;
-    margin-left: 48px;
-}
-
+/* Stacking: #sideMenu (100) > footer (50) > #main (1) — must hold on resize/zoom */
 #sideMenu {
+    
     z-index: 100;
 }
 
@@ -37,7 +32,17 @@ html > body {
     width: 46px;
     left: 0px;
     content: "";
-    z-index: 0;
+    /* Above footer (50), below nav icons (100) */
+    z-index: 90;
+}
+
+#main {
+    background-color: #ebebeb !important;
+    height: auto !important;
+    margin-bottom: 0px !important;
+    margin-left: 48px;
+    position: relative;
+    z-index: 1;
 }
 
 .float-l {
@@ -261,10 +266,10 @@ nav {
     width: 46px;
     padding-top: 10px;
     position: absolute;
-    z-index: 3;
     background-color: #5b2e90;
     float: left;
     top: 0;
+    /* Above menu strip (::after 90) and footer (50) */
     z-index: 100;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
@@ -814,7 +819,8 @@ div.portlet-body #screen-options-link-wrap a:not([class*="link-index-page"]) {
     top: 51px;
     position: fixed;
     background: #5b2e90;
-    z-index: 2;
+    /* Same layer as nav icons — above strip/footer */
+    z-index: 100;
 }
 
 
