@@ -148,7 +148,7 @@
                     data: {
                         userUid: managerAuth.loginInfo.UidUsuario,
                         oldPassword: oldPassword,
-                        newPassword: newPassword 
+                        newPassword: newPassword
                     },
                     dataType: 'json',
                     async: true,

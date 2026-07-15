@@ -4,7 +4,3 @@ namespace Linx.Framework.BV.SPA
     {
     }
 }
-
-
-
-

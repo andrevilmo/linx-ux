@@ -19,10 +19,7 @@ using System.IO;
 using MessagingToolkit.QRCode.Codec;
 using System.Drawing;
 using System.Net.Http.Headers;
-using System.ServiceModel.DomainServices.Server;
 using Ionic.Zip;
-using Linx.Business.Tools;
-using Linx.Framework.BV;
 
 namespace Linx.Framework.BV.WebAPI.DS.Controllers
 {
@@ -43,7 +40,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             Guid uidUsuario = (from result in dsUsuarioAut.GetTcsUsuarioAutenticacaoNoAssociations().Where(i => i.NomeAutenticacao == userName)
                                select result.UidUsuario).FirstOrDefault();
 
-            //Validate User (Inativo - Vigï¿½ncia)
+            //Validate User (Inativo - Vigência)
             ds.ValidateUserAccess(uidUsuario);
 
             return uidUsuario;
@@ -97,27 +94,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return context.RecoverUserPassword(userName);
         }
 
-        [Route("SendPasswordResetLink"), System.Web.Http.HttpGet()]
-        public bool SendPasswordResetLink(string userName, string callbackUrl)
-        {
-            AutorizacaoDomainService context = new AutorizacaoDomainService();
-            return context.SendPasswordResetLink(userName, callbackUrl);
-        }
-
-        [Route("ValidatePasswordResetToken"), System.Web.Http.HttpGet()]
-        public bool ValidatePasswordResetToken(string token)
-        {
-            AutorizacaoDomainService context = new AutorizacaoDomainService();
-            return context.ValidatePasswordResetToken(token);
-        }
-
-        [Route("ResetPasswordWithToken"), System.Web.Http.HttpGet()]
-        public bool ResetPasswordWithToken(string token, string newPassword)
-        {
-            AutorizacaoDomainService context = new AutorizacaoDomainService();
-            return context.ResetPasswordWithToken(token, newPassword);
-        }
-
         [Route("AuthenticateWindowsApp"), System.Web.Http.HttpGet()]
         public List<UsuarioAcesso> AuthenticateWindowsApp(string userName, string userPassword)
         {
@@ -149,8 +125,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
 
             return acessos;
         }
-        
-        [LinxFrameworkAutorizacaoControllerAuthorize]
+
         [Route("ChangeUserPassword"), System.Web.Http.HttpGet()]
         public bool ChangeUserPassword(Guid userUid, string oldPassword, string newPassword)
         {
@@ -278,71 +253,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             }
 
             return true;
-        }
-    }
-
-    public partial class LinxFrameworkAutorizacaoControllerAuthorizeAttribute
-    {
-        private static Dictionary<string, string> GetAuthorizationHeaders(System.Web.Http.Controllers.HttpActionContext actionContext)
-        {
-            var headers = ServiceHelper.GetHttpHeaders();
-            if (headers == null || headers.Count == 0)
-                headers = actionContext.Request.Headers.ToDictionary();
-            return headers;
-        }
-
-        private static void ValidateAuthorizationHeaders(Dictionary<string, string> headers)
-        {
-            Guid? currentUser = BusinessUserServiceHelper.GetCurrentUserUid(headers);
-            Guid? authorizationToken = BusinessUserServiceHelper.GetAuthorizationToken(headers);
-            Guid? applicationUid = BusinessUserServiceHelper.GetCurrentApplicationId(headers);
-            Guid? companyUid = BusinessUserServiceHelper.GetCurrentCompanyId(headers);
-            int? environmentId = BusinessUserServiceHelper.GetCurrentEnvironmentId(headers);
-
-            if (currentUser.IsNullOrEmpty()
-                || authorizationToken.IsNullOrEmpty()
-                || applicationUid.IsNullOrEmpty()
-                || companyUid.IsNullOrEmpty()
-                || environmentId.IsNullOrEmpty())
-            {
-                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._AuthorizationTokenNotFound.Code, ErrorConstants._AuthorizationTokenNotFound.Message));
-            }
-
-            var authorization = new AutorizacaoDomainService();
-            authorization.ValidateToken(
-                currentUser.Value,
-                authorizationToken.Value,
-                applicationUid.Value,
-                companyUid.Value,
-                BusinessUserServiceHelper.GetCurrentAccessGroupId(headers).GetValueOrDefault(),
-                environmentId.Value);
-        }
-
-        protected override bool IsAuthorized(System.Web.Http.Controllers.HttpActionContext actionContext)
-        {
-            try
-            {
-                ValidateAuthorizationHeaders(GetAuthorizationHeaders(actionContext));
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        protected override void HandleUnauthorizedRequest(System.Web.Http.Controllers.HttpActionContext actionContext)
-        {
-            try
-            {
-                ValidateAuthorizationHeaders(GetAuthorizationHeaders(actionContext));
-            }
-            catch (DomainException ex)
-            {
-                throw ex;
-            }
-
-            throw new DomainException(String.Format("{0} - {1}", ErrorConstants._AuthorizationTokenNotFound.Code, ErrorConstants._AuthorizationTokenNotFound.Message));
         }
     }
 }

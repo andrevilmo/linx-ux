@@ -581,5 +581,14 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
 
             return fullModules;
         }
+
+        /// <summary>
+        /// Highest release version from LX_TCS.TCS_VERSAO.VERSAO (digits and dots only).
+        /// </summary>
+        [Route("GetHighestReleaseVersion"), System.Web.Http.HttpGet()]
+        public string GetHighestReleaseVersion()
+        {
+            return repository.Context.GetHighestReleaseVersion();
+        }
     }
 }

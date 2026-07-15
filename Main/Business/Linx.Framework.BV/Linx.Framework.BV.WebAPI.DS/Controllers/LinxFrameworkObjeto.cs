@@ -50,13 +50,12 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             var uidUsuario = UserServiceHelper.GetCurrentUserUid();
 
             if (uidUsuario.IsNullOrEmpty() || !repository.Context.CanDeleteConfiguracaoExportacao(idConfiguracaoExportacao, uidUsuario.Value))
-                throw new Exception("Exclus√£o n√£o permitida !");
+                throw new Exception("Exclus„o n„o permitida !");
 
             repository.Context.DeleteConfiguracaoExportacao(idConfiguracaoExportacao);
 
         }
 
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetPivotLayouts"), System.Web.Http.HttpGet]
         public IEnumerable<ConfiguracaoExportacao> GetPivotLayouts(string rootNameSpace, string viewName, string pivotName, string pivotDataSource)
         {
@@ -93,7 +92,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             var users = ds.GetTcsUsuario().OrderBy(i => i.NomeUsuario).Select(i => new { i.NomeUsuario, i.IdUsuario, Selected = false, i.IdLinx }).ToList();
             List<long?> usersSelected = repository.Context.GetTcsObjetoPermissao().Where(x => x.IdObjetoConteudo == idObjetoConteudo).Select(i => i.IdUsuario).ToList();
 
-            //se n√£o √© MultiGpecon filtra somente os usu√°rios do Gpecon atual
+            //se n„o È MultiGpecon filtra somente os usu·rios do Gpecon atual
             if (!isMultiGpecon || idLinx != idGpecon) {
                 users = users.Where(i => i.IdLinx == idGpecon).ToList();
             }
@@ -188,7 +187,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         public void DeleteLayoutPivot(long IdLayout, Guid uidUsuario)
         {
             if (uidUsuario.IsNullOrEmpty() || !repository.Context.CanDeleteLayoutPivot(IdLayout, uidUsuario))
-                throw new Exception("Exclus√£o n√£o permitida!");
+                throw new Exception("Exclus„o n„o permitida!");
 
             repository.Context.DeleteLayoutPivot(IdLayout);
         }

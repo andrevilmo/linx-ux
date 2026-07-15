@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Linx.Internet.Application.Common.Filters;
 using System.Web;
 using System.Web.Mvc;
@@ -405,91 +405,6 @@ namespace Linx.Internet.Application.Controllers
         public void UpdateTransactionInfo(string info)
         {
             this.Session["ReauthenticationInfo"] = info;
-        }
-
-        [NoCache]
-        [GET("ForgotPassword")]
-        public ActionResult ForgotPassword()
-        {
-            this.ViewData["_loginUrl"] = (this.Session["loginUrl"] == null ? ConfigurationManager.AppSettings.GetValue<string>("Portal", "http://localhost:8172/") : this.Session["loginUrl"].ToString());
-            return View();
-        }
-
-        [NoCache]
-        [POST("SendPasswordResetLink")]
-        public ActionResult SendPasswordResetLink(string userName)
-        {
-            if (string.IsNullOrEmpty(userName))
-                return Json(new { success = false, message = "Informe o usu�rio." });
-
-            var _serviceBus = ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
-            var client = new RestClient(_serviceBus);
-            var request = new RestRequest("LinxFrameworkAutorizacao/SendPasswordResetLink");
-            request.AddParameter("userName", userName, ParameterType.QueryString);
-
-            // URL base desta aplica��o, usada para montar o link da p�gina de redefini��o no e-mail.
-            var callbackUrl = string.Concat(Request.Url.GetLeftPart(UriPartial.Authority), Url.Content("~/"), "ResetPassword");
-            request.AddParameter("callbackUrl", callbackUrl, ParameterType.QueryString);
-
-            var response = client.ExecuteAsGet(request, "GET");
-
-            if (response.ErrorException != null)
-                return Json(new { success = false, message = response.ErrorException.Message });
-
-            // Mensagem gen�rica para n�o revelar se o usu�rio existe.
-            if (response.StatusCode == HttpStatusCode.OK)
-                return Json(new { success = true, message = "Se o usu�rio estiver cadastrado, voc� receber� um e-mail com o link para redefinir a senha." });
-
-            return Json(new { success = false, message = ExtractError(response.Content) });
-        }
-
-        [NoCache]
-        [GET("ResetPassword")]
-        public ActionResult ResetPassword(string token)
-        {
-            this.ViewData["_loginUrl"] = (this.Session["loginUrl"] == null ? ConfigurationManager.AppSettings.GetValue<string>("Portal", "http://localhost:8172/") : this.Session["loginUrl"].ToString());
-
-            bool valid = false;
-
-            if (!string.IsNullOrEmpty(token))
-            {
-                var _serviceBus = ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
-                var client = new RestClient(_serviceBus);
-                var request = new RestRequest("LinxFrameworkAutorizacao/ValidatePasswordResetToken");
-                request.AddParameter("token", token, ParameterType.QueryString);
-
-                var response = client.ExecuteAsGet(request, "GET");
-                valid = response.StatusCode == HttpStatusCode.OK && response.Content.Trim().Equals("true", StringComparison.OrdinalIgnoreCase);
-            }
-
-            ViewBag.Token = token;
-            ViewBag.TokenValid = valid;
-
-            return View();
-        }
-
-        [NoCache]
-        [POST("ResetPassword")]
-        public ActionResult ResetPasswordSubmit(string token, string newPassword)
-        {
-            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(newPassword))
-                return Json(new { success = false, message = "Dados inv�lidos." });
-
-            var _serviceBus = ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
-            var client = new RestClient(_serviceBus);
-            var request = new RestRequest("LinxFrameworkAutorizacao/ResetPasswordWithToken");
-            request.AddParameter("token", token, ParameterType.QueryString);
-            request.AddParameter("newPassword", newPassword, ParameterType.QueryString);
-
-            var response = client.ExecuteAsGet(request, "GET");
-
-            if (response.ErrorException != null)
-                return Json(new { success = false, message = response.ErrorException.Message });
-
-            if (response.StatusCode == HttpStatusCode.OK)
-                return Json(new { success = true, message = "Senha redefinida com sucesso." });
-
-            return Json(new { success = false, message = ExtractError(response.Content) });
         }
 
         private LoginInfo AuthenticateUser(string uidEmpresa, string uidUsuario, string uidAplicacao, string idAmbiente, string usuarioAutenticacao, out string retorno)

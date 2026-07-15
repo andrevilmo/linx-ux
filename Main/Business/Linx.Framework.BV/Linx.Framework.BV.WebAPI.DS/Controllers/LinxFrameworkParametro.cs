@@ -22,7 +22,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
     ////////////////////////////////////////////////////////////////////////////
     public partial class LinxFrameworkParametroController
     {
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetParameterValue"), System.Web.Http.HttpGet()]
         public string GetParameterValue(string serializedParameterList)
         {
@@ -75,13 +74,13 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                              select new { IdParametro = result.IdParametro }).FirstOrDefault();
 
             if (parametro.IsNull())
-                throw new Exception(String.Format("ParÃ¢metro {0} nÃ£o econtrado !", parametroValorVariacao.TituloParametro));
+                throw new Exception(String.Format("Parâmetro {0} não econtrado !", parametroValorVariacao.TituloParametro));
 
             var tabelaVariacao = (from result in ds.GetTcsParametroTabelaSelecaoAutorizacaoNoAssociations().Where(i => i.IdParametro == parametro.IdParametro && i.NomeTabela == parametroValorVariacao.NomeTabela)
                                                  select new { UidTabela = result.UidTabela }).FirstOrDefault();
 
             if (tabelaVariacao.IsNull())
-                throw new Exception(string.Format("ParÃ¢metro {0} nÃ£o possui a variaÃ§Ã£o informada ! '{1}'",parametroValorVariacao.TituloParametro, parametroValorVariacao.NomeTabela));
+                throw new Exception(string.Format("Parâmetro {0} não possui a variação informada ! '{1}'",parametroValorVariacao.TituloParametro, parametroValorVariacao.NomeTabela));
 
             TcsParametroValorVariacaoP valorVariacao = (from result in context.GetTcsParametroValorVariacaoPNoAssociations().Where(i => i.IdParametro == parametro.IdParametro && i.UidTabela == tabelaVariacao.UidTabela && i.ChaveSelecao == parametroValorVariacao.ChaveVariacao)
                                                         select result).FirstOrDefault();

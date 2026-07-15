@@ -1,0 +1,119 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+        <div class="col-md-12 remove-pl remove-pr">
+            <section>
+                <div class="screen-view">
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroNomeConexao().getLayoutVisible('CadastroNomeConexao_dGridTcsConexaoDb') " >
+               <div id="CadastroNomeConexao_dGridTcsConexaoDb_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="CadastroNomeConexao_dGridTcsConexaoDb_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroNomeConexao().hideToolbar() && $root.CadastroNomeConexao().status() === 'E', click: function () { $root.CadastroNomeConexao().dataToolbar.addNew(); }"><i class="fa fa-plus"></i></button>
+                   <button id="CadastroNomeConexao_dGridTcsConexaoDb_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                   data-bind="visible: $root.CadastroNomeConexao().status() === 'E', 
+                   click: function () { 
+                      $root.CadastroNomeConexao().deleteGrid('#CadastroNomeConexao_dGridTcsConexaoDb', 'TcsConexaoDb', 'vm.currentDataItem;vm.dataView', false);
+                   }"> 
+                   <i class="fa fa-trash-o"></i></button>
+                   <button id="CadastroNomeConexao_dGridTcsConexaoDb_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                    data-bind="click:function () { 
+                      $root.CadastroNomeConexao().openEditor('#CadastroNomeConexao_dGridTcsConexaoDb', 'TcsConexaoDb', 'vm.currentDataItem;vm.dataView', ';vm', 'TcsConexaoDb()', false)
+                   }"><i class="fa fa-th"></i></button>
+                   <button id="CadastroNomeConexao_dGridTcsConexaoDb_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                    data-bind="click:function () { 
+                      $root.CadastroNomeConexao().openEditor('#CadastroNomeConexao_dGridTcsConexaoDb', 'TcsConexaoDb', 'vm.currentDataItem;vm.dataView', ';vm', 'TcsConexaoDb()', true)
+                   }"><i class="fa fa-th-large"></i></button>
+                   <button id="CadastroNomeConexao_dGridTcsConexaoDb_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroNomeConexao_dGridTcsConexaoDb_templateLayout', vm: function(){return $root.CadastroNomeConexao().gridSaveStates['CadastroNomeConexao_dGridTcsConexaoDb'];}, ctrlName: 'CadastroNomeConexao_dGridTcsConexaoDb_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="CadastroNomeConexao_dGridTcsConexaoDb_templateLayout" type="text/html" tabindex="-1">
+                       <div id="CadastroNomeConexao_dGridTcsConexaoDb_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="CadastroNomeConexao_dGridTcsConexaoDb_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroNomeConexao().dataToolbar.canExport(), click: function () {$root.CadastroNomeConexao().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="CadastroNomeConexao_dGridTcsConexaoDb" data-bind="css: { IsEditableStyle: $root.CadastroNomeConexao().enabledForEditing }" />
+               </div>
+
+           </div>
+
+           <div id="dialogTcsConexaoDb"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+              <button class="btn btn-sm btn-default backReg " id="backRegTcsConexaoDb" onClick="$(this).backRegTcsConexaoDb();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+              <span class="caption"><label id="currentNumberTcsConexaoDb">0</label><label>/</label><label id="totalNumberTcsConexaoDb">0</label></span>
+              <button class="btn btn-sm btn-default nextReg " id="nextRegTcsConexaoDb" onClick="$(this).nextRegTcsConexaoDb();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+              <button class="btn btn-sm btn-default addReg " id="addRegTcsConexaoDb" onClick="$(this).addRegTcsConexaoDb();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+              <button class="btn btn-sm btn-default delReg " id="delRegTcsConexaoDb" onClick="$(this).delRegTcsConexaoDb();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+              <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTcsConexaoDb" onClick="$(this).okRegTcsConexaoDb();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+           <div id="CadastroNomeConexao_templateTcsConexaoDb" class="" style="width: 100%; height: 100%;" >
+               <div data-bind="with: $root.CadastroNomeConexao().getWithBinding(currentDataItem, $root.CadastroNomeConexao().rootDataTypeName)">
+
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div data-bind="css: $root.CadastroNomeConexao().getLayoutColumnSpan('CadastroNomeConexao_tbNomeConexao'), visible: $root.CadastroNomeConexao().getLayoutVisible('CadastroNomeConexao_tbNomeConexao')" class="">
+                       <div class="form-group">
+                           <div id="CadastroNomeConexao_divNomeConexaoTemplate" class="" >
+                               <label data-bind="css: { 'content-required': $root.CadastroNomeConexao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroNomeConexao().getLayoutDisplayName('CadastroNomeConexao_tbNomeConexao')}, text: $root.CadastroNomeConexao().getLayoutDisplayName('CadastroNomeConexao_tbNomeConexao')" id="CadastroNomeConexao_lblNomeConexao" for="CadastroNomeConexao_tbNomeConexao" class="control-label ellipsis">
+                               </label>
+                               <input id="CadastroNomeConexao_tbNomeConexao" class="form-control ellipsis" data-bind="attr: { title: NomeConexao }, validatedField: 'NomeConexao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroNomeConexao(), 'CadastroNomeConexao_tbNomeConexao') ? ctrl.getCustomEnable($root.CadastroNomeConexao(), 'CadastroNomeConexao_tbNomeConexao') : (!isEmptyEntityFn($data) && $root.CadastroNomeConexao().enabledForEditing()) }, igTextEditor: { maxLength: 250, value: NomeConexao, readOnly: ctrl.hasCustomEnable($root.CadastroNomeConexao(), 'CadastroNomeConexao_tbNomeConexao') ? !ctrl.getCustomEnable($root.CadastroNomeConexao(), 'CadastroNomeConexao_tbNomeConexao') : (isEmptyEntityFn($data) || !$root.CadastroNomeConexao().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                           </div>
+                       </div>
+                   </div>
+
+
+               </div>
+
+           </div>
+           </div>
+       </div>
+
+
+                </div>
+            </section>
+        </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

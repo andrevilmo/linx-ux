@@ -5,7 +5,6 @@ using System.Text;
 using System.Collections;
 using System.Net.Mail;
 using System.Net;
-using System.Net.Mime;
 using System.ServiceModel.DomainServices.Server;
 
 namespace Linx.Tools
@@ -43,28 +42,11 @@ namespace Linx.Tools
         public static void Send(string sender, string toAddress, string subject, bool isBodyHtml, string body, string smtpServer, int smtpPort, int timeout, string user, string password, bool enableSsl)
         {
             MailMessage newMail = new MailMessage();
-            var utf8 = new UTF8Encoding(false);
-
             newMail.From = new MailAddress(sender);
             newMail.To.Add(toAddress);
             newMail.Subject = subject;
-            newMail.SubjectEncoding = utf8;
-            newMail.HeadersEncoding = utf8;
-
-            if (isBodyHtml)
-            {
-                AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body, utf8, MediaTypeNames.Text.Html);
-                htmlView.ContentType.CharSet = "utf-8";
-                htmlView.TransferEncoding = TransferEncoding.QuotedPrintable;
-                newMail.AlternateViews.Add(htmlView);
-            }
-            else
-            {
-                newMail.Body = body;
-                newMail.IsBodyHtml = false;
-                newMail.BodyEncoding = utf8;
-            }
-
+            newMail.IsBodyHtml = isBodyHtml;
+            newMail.Body = body;
             SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort);
             smtpClient.Timeout = timeout;
             smtpClient.UseDefaultCredentials = false;
