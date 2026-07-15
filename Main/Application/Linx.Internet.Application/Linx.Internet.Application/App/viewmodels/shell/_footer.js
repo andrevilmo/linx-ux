@@ -3,7 +3,7 @@
         var copyrightHtml = ko.observable('');
         var releaseVersion = ko.observable('');
 
-        var FOOTER_STYLE = 'background-color: white;color:#fff;z-index:-1 !important;position:fixed;bottom:0;left:0;right:0;width:100%;text-align:right;min-height:36px;height:36px;padding:8px 20px;margin:0;display:block;visibility:visible;opacity: 0.8;box-sizing:border-box;line-height:20px;font-size:12px;';
+        var FOOTER_STYLE = 'background-color: white;color:#fff;z-index:50 !important;position:fixed;bottom:0;left:0;right:0;width:100%;text-align:right;min-height:36px;height:36px;padding:8px 20px;margin:0;display:block;visibility:visible;opacity: 0.8;box-sizing:border-box;line-height:20px;font-size:12px;';
         var COPYRIGHT_STYLE = 'color: black;font-weight:lighter;display:inline-block;vertical-align:middle;text-align:right;width:100%;';
 
         var vm = {
@@ -128,7 +128,7 @@
                 'style': FOOTER_STYLE
             });
             if ($footer[0] && $footer[0].style && $footer[0].style.setProperty) {
-                $footer[0].style.setProperty('z-index', '-1', 'important');
+                $footer[0].style.setProperty('z-index', '50', 'important');
                 $footer[0].style.setProperty('width', '100%', 'important');
                 $footer[0].style.setProperty('text-align', 'right', 'important');
             }
