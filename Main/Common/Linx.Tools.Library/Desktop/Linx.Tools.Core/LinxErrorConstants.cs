@@ -24,6 +24,7 @@ namespace Linx.Tools
         public static ErrorInfo _UserNotActive = new ErrorInfo() { Code = "ERRAUT006", Message = "Usuário inativo.".Translate() };
         public static ErrorInfo _UserLoginExpired = new ErrorInfo() { Code = "ERRAUT007", Message = "Login do usuário expirado.".Translate() };
         public static ErrorInfo _UserBadNameOrPassword = new ErrorInfo() { Code = "ERRAUT008", Message = "Usuário ou senha incorretos".Translate() };
+        public static ErrorInfo _UserLockedOut = new ErrorInfo() { Code = "ERRAUT020", Message = "Usuário bloqueado por excesso de tentativas inválidas de senha. Solicite o desbloqueio ao administrador.".Translate() };
         public static ErrorInfo _PasswordSameAsCurrent = new ErrorInfo() { Code = "ERRAUT009", Message = "A senha deve ser diferente da atual.".Translate() };
         public static ErrorInfo _ChangePasswordError = new ErrorInfo() { Code = "ERRAUT010", Message = "Erro ao alterar a senha do usuário.".Translate() };
         public static ErrorInfo _LoginInvalidParameters = new ErrorInfo() { Code = "ERRAUT011", Message = "Parâmetros de Login inválidos.".Translate() };

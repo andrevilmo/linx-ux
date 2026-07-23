@@ -4,7 +4,7 @@ How to run: **Command Palette** → `Tasks: Run Task` → pick a label.
 
 Task definitions: [`.vscode/tasks.json`](tasks.json)
 
-Source code lives under `Main\`. The deploy-to-IIS script resolves `Main` automatically. Several older build/publish task paths in `tasks.json` omit the `Main\` prefix — if a task fails with “path not found”, run the matching `.ps1` under `Main\...\.vscode\` or open/fix paths so they point at `Main`.
+Source code lives under `Main\`. Root `tasks.json` paths include the `Main\` prefix. The deploy-to-IIS script also resolves `Main` automatically when run from the repo root.
 
 Default IIS install root:
 

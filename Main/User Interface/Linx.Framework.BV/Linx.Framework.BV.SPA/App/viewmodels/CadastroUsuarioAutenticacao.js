@@ -1870,6 +1870,68 @@ $.ajax({
     var canEdit = ko.computed(function () { return status() === 'Q' && _canEdit && !isChildVM(); });
     var canRefreshCurrentData = ko.computed(function () { return status() === 'Q' && _canSearch && _canRefreshData && !isChildVM(); });
     var canUndo = ko.computed(function () { return status() === 'E' && (_canEdit || _canAddNew) && !isChildVM(); });
+    var canUnlockUser = ko.computed(function () {
+        try {
+            if (status() !== 'Q' && status() !== 'C')
+                return false;
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+                return false;
+            var loginName = getAbsoluteValue(item.NomeAutenticacao);
+            return !isNullOrEmpty(loginName);
+        }
+        catch (e) {
+            return false;
+        }
+    });
+    var unlockUser = function () {
+        try {
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item)) {
+                app.showMessage('Selecione um usuário para desbloquear.', 'Atenção', ['Ok']);
+                return;
+            }
+            var loginName = getAbsoluteValue(item.NomeAutenticacao);
+            if (isNullOrEmpty(loginName)) {
+                app.showMessage('Usuário de autenticação não informado.', 'Atenção', ['Ok']);
+                return;
+            }
+
+            app.showMessage(
+                'Deseja desbloquear o usuário "' + loginName + '"?',
+                'Desbloquear usuário',
+                ['Yes', 'No']
+            ).then(function (answer) {
+                if (answer !== 'Yes')
+                    return;
+
+                dataToolbar.isBusy(true);
+                $.ajax({
+                    type: 'GET',
+                    messageUser: 'Desbloqueio de usuário Membership',
+                    headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                    url: managerAuth.getServiceAddress('LinxFrameworkAutorizacao', 'Linx.Framework.BV') + '/UnlockMembershipUser',
+                    data: { userName: loginName },
+                    dataType: 'json',
+                    async: true,
+                    cache: false,
+                    error: function (jqXHR) {
+                        dataToolbar.isBusy(false);
+                        var errorMessage = (jqXHR.responseJSON && (jqXHR.responseJSON.ExceptionMessage || jqXHR.responseJSON.Message)) || jqXHR.statusText || 'Erro ao desbloquear usuário.';
+                        app.showMessage(errorMessage, 'Atenção', ['Ok']);
+                    },
+                    success: function () {
+                        dataToolbar.isBusy(false);
+                        app.showMessage('Usuário "' + loginName + '" desbloqueado com sucesso.', 'Informação', ['Ok']);
+                    }
+                });
+            });
+        }
+        catch (e) {
+            dataToolbar.isBusy(false);
+            app.showMessage(e.message || e, 'Atenção', ['Ok']);
+        }
+    };
     var canNavigate = ko.computed(function () { return  (!canUndo() && !canQuery() && (dataView().length > 1 || pageCount() > 1) && _canNavigate); });
     var canPrint = ko.computed(function () { return ['C', 'Q'].indexOf(status()) >= 0 && _canPrint && !isChildVM(); });
     var canSave = ko.computed(function () {
@@ -2386,6 +2448,8 @@ $.ajax({
             canSave: canSave,
             canUndo: canUndo,
             canPrint: canPrint,
+            canUnlockUser: canUnlockUser,
+            unlockUser: unlockUser,
             goFirst: goFirst,
             goBack: goBack,
             goForward: goForward,

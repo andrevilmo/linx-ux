@@ -37,9 +37,23 @@ namespace Linx.Framework.BV.Autorizacao
 
         partial void OnCreate()
         {
-            var catalog = AssemblyHelper.LoadUserExtension("Linx.Framework.BV.AuthenticateUserExtension.dll", 0, String.Format(@"{0}bin\Extension\", AppDomain.CurrentDomain.BaseDirectory));
+            // Prefer bin\Extension\, fall back to bin\ (deploy often places the DLL only in bin).
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            string[] extensionPaths = new[]
+            {
+                System.IO.Path.Combine(baseDir, @"bin\Extension\"),
+                System.IO.Path.Combine(baseDir, @"bin\")
+            };
 
-            if (catalog.Count() > 0)
+            System.ComponentModel.Composition.Hosting.AggregateCatalog catalog = null;
+            foreach (string extensionPath in extensionPaths)
+            {
+                catalog = AssemblyHelper.LoadUserExtension("Linx.Framework.BV.AuthenticateUserExtension.dll", 0, extensionPath);
+                if (!catalog.IsNull() && catalog.Count() > 0)
+                    break;
+            }
+
+            if (!catalog.IsNull() && catalog.Count() > 0)
             {
                 try
                 {
@@ -742,10 +756,101 @@ namespace Linx.Framework.BV.Autorizacao
         [Invoke(HasSideEffects = true)]
         public bool ValidateUser(string userName, string userPassword)
         {
+            // Always surface lockout before attempting password (Membership returns false for locked users).
+            this.ThrowIfMembershipUserLockedOut(userName);
+
+            bool authenticated;
             if (!AuthenticateUserExtension.IsNull())
-                return AuthenticateUserExtension.ValidateUserExtension(userName, userPassword);
+                authenticated = AuthenticateUserExtension.ValidateUserExtension(userName, userPassword);
             else
-                return Membership.ValidateUser(userName, userPassword);
+                authenticated = Membership.ValidateUser(userName, userPassword);
+
+            // After a failed attempt, Membership may have just locked the account — inform the user.
+            if (!authenticated)
+                this.ThrowIfMembershipUserLockedOut(userName);
+
+            return authenticated;
+        }
+
+        /// <summary>
+        /// Throws ERRAUT020 when the ASP.NET Membership account is locked out.
+        /// </summary>
+        private void ThrowIfMembershipUserLockedOut(string userName)
+        {
+            if (this.IsMembershipUserLockedOut(userName))
+            {
+                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserLockedOut.Code, ErrorConstants._UserLockedOut.Message));
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the ASP.NET Membership account is locked out after invalid password attempts.
+        /// </summary>
+        [Invoke(HasSideEffects = false)]
+        public bool IsMembershipUserLockedOut(string userName)
+        {
+            if (userName.IsNullOrEmpty())
+                return false;
+
+            try
+            {
+                string membershipUserName = userName;
+
+                // Prefer the canonical auth name from TCS (matches aspnet_Users.UserName).
+                try
+                {
+                    UsuarioAutorizacao.UsuarioAutorizacaoDomainService dsUsuario = new UsuarioAutorizacao.UsuarioAutorizacaoDomainService();
+                    string canonical = (from result in dsUsuario.GetTcsUsuarioAutenticacaoNoAssociations()
+                                        where result.NomeAutenticacao.ToUpper() == userName.ToUpper()
+                                        select result.NomeAutenticacao).FirstOrDefault();
+                    if (!canonical.IsNullOrEmpty())
+                        membershipUserName = canonical;
+                }
+                catch { }
+
+                MembershipUser user = Membership.GetUser(membershipUserName, false);
+                if (user.IsNull() && !Membership.Provider.IsNull())
+                    user = Membership.Provider.GetUser(membershipUserName, false);
+
+                if (user.IsNull() && !Membership.Provider.IsNull())
+                {
+                    int totalRecords;
+                    MembershipUserCollection matches = Membership.Provider.FindUsersByName(membershipUserName, 0, 1, out totalRecords);
+                    if (!matches.IsNull() && matches.Count > 0)
+                        user = matches.Cast<MembershipUser>().FirstOrDefault();
+                }
+
+                return !user.IsNull() && user.IsLockedOut;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Unlocks an ASP.NET Membership account previously locked by invalid password attempts.
+        /// </summary>
+        [Invoke(HasSideEffects = true)]
+        public bool UnlockMembershipUser(string userName)
+        {
+            if (userName.IsNullOrEmpty())
+                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+
+            MembershipUser user = Membership.GetUser(userName, false);
+            if (user.IsNullOrEmpty() && !Membership.Provider.IsNull())
+                user = Membership.Provider.GetUser(userName, false);
+
+            if (user.IsNullOrEmpty())
+                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+
+            if (!user.IsLockedOut)
+                return true;
+
+            if (!user.UnlockUser())
+                throw new DomainException("Não foi possível desbloquear o usuário.".Translate());
+
+            return true;
         }
 
         [Invoke(HasSideEffects = true)]

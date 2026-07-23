@@ -47,14 +47,21 @@ namespace Linx.Framework.Autorizacao.BM
 		{
 			//Do NOT initialize the database, we don't want the overhead of this checking
 			Database.SetInitializer<AutorizacaoContext>(null);
-            if ((ServiceHelper.GetMessageProperty("*DevMode*", new Dictionary<string, string>()) != "true") && System.Configuration.ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"] != null)
+            try
             {
-				using (var context = new AutorizacaoContext("Name=FrameworkAutorizacao"))
-				{
-					//Creating Pregenerated Views
-					InteractiveViewsHelper.SetViewCacheFactory(context, System.Configuration.ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"].ConnectionString);
-				}
-			}
+                if ((ServiceHelper.GetMessageProperty("*DevMode*", new Dictionary<string, string>()) != "true") && System.Configuration.ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"] != null)
+                {
+                    using (var context = new AutorizacaoContext("Name=FrameworkAutorizacao"))
+                    {
+                        //Creating Pregenerated Views
+                        InteractiveViewsHelper.SetViewCacheFactory(context, System.Configuration.ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"].ConnectionString);
+                    }
+                }
+            }
+            catch
+            {
+                // Never fail type initialization — a thrown static ctor poisons AutorizacaoContext for the whole AppDomain.
+            }
 		}
 		#endregion
 

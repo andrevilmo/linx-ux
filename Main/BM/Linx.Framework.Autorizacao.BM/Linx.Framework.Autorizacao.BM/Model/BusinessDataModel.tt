@@ -107,14 +107,21 @@ namespace <#= rootDesigner.TargetNamespace #>
 	  if (defaultProvider == Provider.SQLServer && rootDesigner.EnableViewCacheFactory)
 	  {
 #>
-            if ((ServiceHelper.GetMessageProperty("*DevMode*", new Dictionary<string, string>()) != "true") && System.Configuration.ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"] != null)
+            try
             {
-				using (var context = new <#=rootDesigner.DataContextName#>("Name=FrameworkAutorizacao"))
-				{
-					//Creating Pregenerated Views
-					InteractiveViewsHelper.SetViewCacheFactory(context, System.Configuration.ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"].ConnectionString);
-				}
-			}
+                if ((ServiceHelper.GetMessageProperty("*DevMode*", new Dictionary<string, string>()) != "true") && System.Configuration.ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"] != null)
+                {
+                    using (var context = new <#=rootDesigner.DataContextName#>("Name=FrameworkAutorizacao"))
+                    {
+                        //Creating Pregenerated Views
+                        InteractiveViewsHelper.SetViewCacheFactory(context, System.Configuration.ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"].ConnectionString);
+                    }
+                }
+            }
+            catch
+            {
+                // Never fail type initialization — a thrown static ctor poisons the DbContext for the whole AppDomain.
+            }
 <#
 	 }
 #>

@@ -548,6 +548,23 @@ foreach ($dllName in ($serviceDllSources.Keys | Sort-Object)) {
     Copy-DllWithPdb -Source $source -TargetBin $serviceBin -BinaryBin $binaryServiceBin -Site 'Service' -Force:$Force -SkipBinarySync:$SkipBinarySync | Out-Null
 }
 
+# Service Extension (AuthenticateUserExtension is loaded from bin\Extension\)
+$serviceExtensionBin = Join-Path $serviceBin 'Extension'
+$extensionDllName = 'Linx.Framework.BV.AuthenticateUserExtension.dll'
+$extensionSource = Resolve-NewestSource -Candidates @(
+    (Join-Path $workspace 'Business\Linx.Framework.BV\Linx.Framework.BV.AuthenticateUserExtension\bin\Release\Linx.Framework.BV.AuthenticateUserExtension.dll')
+    (Join-Path $workspace 'Business\Linx.Framework.BV\Linx.Framework.BV.AuthenticateUserExtension\bin\Debug\Linx.Framework.BV.AuthenticateUserExtension.dll')
+    (Join-Path $serviceBin $extensionDllName)
+    (Join-Path $binaryServiceBin $extensionDllName)
+)
+if ($extensionSource) {
+    Write-Host "[Service] Extension -> $serviceExtensionBin"
+    Copy-DllWithPdb -Source $extensionSource -TargetBin $serviceExtensionBin -BinaryBin $null -Site 'Service' -Force:$Force -SkipBinarySync | Out-Null
+}
+else {
+    Write-Warning "[Service] Source not found for $extensionDllName (Extension folder)"
+}
+
 # Application — only Linx*.dll that already exist in the running Application\bin
 $applicationBin = Join-Path $targetApplication 'bin'
 Write-Host "[Application] bin -> $applicationBin"
