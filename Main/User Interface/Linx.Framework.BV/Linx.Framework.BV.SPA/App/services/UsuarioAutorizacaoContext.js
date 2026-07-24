@@ -1207,7 +1207,8 @@ var result = function () {
        ownerReference.namespace = 'Linx.Framework.BV.UsuarioAutorizacao';
        ownerReference.myProperties = [ 'AutenticacaoWindows','Bairro','Cep','CnpjCpf','Complemento','ConfirmacaoUsuario','ConfirmacaoUsuario1','CriaUsuario','DataAlteracao','DataCadastro','DataExpiracaoSenha','Email','FoneCelular','FoneFixo','GeraSenhaUsuario','IdLinx','IdUsuario','Inativo','IndicaAcessoSuporte','InscrEstadualRg','Logradouro','LxPfjFisicaJuridica','LxTipoLogradouro','Municipio','NomeAutenticacao','NomeCurtoUsuario','NomeEmpresa','NomeUsuario','Numero','ObsEndereco','Ramal','Uf','UidEmpresa','UidUsuario','VigenciaFinal','VigenciaInicial' ];
        ownerReference.queryRequiredProperties = {  };
-       ownerReference.excludedFilters = [];
+       // Senha / Confirmação are UI-only unbound fields — never use as QBE / export filters
+       ownerReference.excludedFilters = ['ConfirmacaoUsuario', 'ConfirmacaoUsuario1'];
        ownerReference.getCurrentElements = function() {
            var result = [ ownerReference ];
        if (!isNullOrEmpty(ownerReference.currentTcsUsuarioAcesso())) { result = result.concat(ownerReference.currentTcsUsuarioAcesso().getCurrentElements()); }

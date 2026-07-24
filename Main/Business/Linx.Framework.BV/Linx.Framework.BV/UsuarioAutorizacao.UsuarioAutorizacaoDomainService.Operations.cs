@@ -74,5 +74,55 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
             return loginName;
         }
 
+        /// <summary>
+        /// Scopes export / data-source queries to the logged economic group (EconomicGroup header).
+        /// Used by "Nova Configuração Exportação e Fonte de Dados" (Excel, OData, report, EntitySearch).
+        /// </summary>
+        private void ApplyCurrentGpeconFilter(ref IQueryable<TcsUsuarioAutenticacao> query)
+        {
+            int idGpecon = CurrentIdGpEcon();
+            if (idGpecon <= 0) return;
+
+            var multiGpeconUserIds = this.DbContext.TCS_USUARIO_AUTENTICACAO_GPECON
+                .Where(g => g.TCS_EMPRESA_AUTENTICACAO.ID_LINX == idGpecon)
+                .Select(g => g.TCS_USUARIO_AUTENTICACAO.ID_USUARIO);
+
+            query = query.Where(e => e.IdLinx == idGpecon || multiGpeconUserIds.Contains(e.IdUsuario));
+        }
+
+        private void ApplyCurrentGpeconFilter(ref IQueryable<TcsUsuarioAcessoParentComposition> query)
+        {
+            int idGpecon = CurrentIdGpEcon();
+            if (idGpecon <= 0) return;
+
+            var multiGpeconUserIds = this.DbContext.TCS_USUARIO_AUTENTICACAO_GPECON
+                .Where(g => g.TCS_EMPRESA_AUTENTICACAO.ID_LINX == idGpecon)
+                .Select(g => g.TCS_USUARIO_AUTENTICACAO.ID_USUARIO);
+
+            // Users of the logged economic group (home company or multi-gpecon link)
+            query = query.Where(e => e.IdLinx == idGpecon || multiGpeconUserIds.Contains(e.IdUsuario));
+        }
+
+        private void ApplyCurrentGpeconFilter(ref IQueryable<TcsIdentidadeExternaParentComposition> query)
+        {
+            int idGpecon = CurrentIdGpEcon();
+            if (idGpecon <= 0) return;
+
+            var multiGpeconUserIds = this.DbContext.TCS_USUARIO_AUTENTICACAO_GPECON
+                .Where(g => g.TCS_EMPRESA_AUTENTICACAO.ID_LINX == idGpecon)
+                .Select(g => g.TCS_USUARIO_AUTENTICACAO.ID_USUARIO);
+
+            query = query.Where(e => e.IdLinx == idGpecon || multiGpeconUserIds.Contains(e.IdUsuario));
+        }
+
+        private void ApplyCurrentGpeconFilter(ref IQueryable<TcsUsuarioGpeconParentComposition> query)
+        {
+            int idGpecon = CurrentIdGpEcon();
+            if (idGpecon <= 0) return;
+
+            // IdLinx on this composition is the linked economic group
+            query = query.Where(e => e.IdLinx == idGpecon);
+        }
+
     }
 }

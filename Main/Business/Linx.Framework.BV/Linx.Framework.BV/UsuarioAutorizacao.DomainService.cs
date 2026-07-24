@@ -13326,6 +13326,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 		
 	
 	        	
+            ApplyCurrentGpeconFilter(ref result);
 
 	
 	        return result;
@@ -13656,6 +13657,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 		
 	
 	        	
+            ApplyCurrentGpeconFilter(ref result);
 
 	
 	        return result;
@@ -13753,6 +13755,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 		
 	
 	        	
+            ApplyCurrentGpeconFilter(ref result);
 
 	
 	        return result;
@@ -13850,6 +13853,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 		
 	
 	        	
+            ApplyCurrentGpeconFilter(ref result);
 
 	
 	        return result;
