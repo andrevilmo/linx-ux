@@ -13247,6 +13247,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 
 
 
+            jEntitySearch = StripUiOnlyPasswordFilters(jEntitySearch);
 	
 	        List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
 
@@ -13326,6 +13327,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 		
 	
 	        	
+            ApplyCurrentGpeconFilter(ref result);
 
 	
 	        return result;
@@ -13552,6 +13554,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 
 
 
+            jEntitySearch = StripUiOnlyPasswordFilters(jEntitySearch);
 	
 	        List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
 
@@ -13656,6 +13659,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 		
 	
 	        	
+            ApplyCurrentGpeconFilter(ref result);
 
 	
 	        return result;
@@ -13671,6 +13675,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 
 
 
+            jEntitySearch = StripUiOnlyPasswordFilters(jEntitySearch);
 	
 	        List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
 
@@ -13753,6 +13758,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 		
 	
 	        	
+            ApplyCurrentGpeconFilter(ref result);
 
 	
 	        return result;
@@ -13768,6 +13774,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 
 
 
+            jEntitySearch = StripUiOnlyPasswordFilters(jEntitySearch);
 	
 	        List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
 
@@ -13850,6 +13857,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 		
 	
 	        	
+            ApplyCurrentGpeconFilter(ref result);
 
 	
 	        return result;
