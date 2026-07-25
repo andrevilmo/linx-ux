@@ -36,6 +36,7 @@ namespace Linx.Tools
         public static ErrorInfo _InvalidRelatedEnvironmentInfo = new ErrorInfo() { Code = "ERRAUT018", Message = "Informação de Ambiente Relacionado inválida.".Translate() };
         public static ErrorInfo _InvalidIdAplicativeInfo = new ErrorInfo() { Code = "ERRAUT019", Message = "Informação de Aplicativo inválida.".Translate() };
         public static ErrorInfo _ConnectionStringNotFound = new ErrorInfo() { Code = "ERRAUT020", Message = "String de Conexão não encontrada.".Translate() };
+        public static ErrorInfo _UserLockedOut = new ErrorInfo() { Code = "ERRAUT021", Message = "Usuário bloqueado por excesso de tentativas de login.".Translate() };
     }
 
 

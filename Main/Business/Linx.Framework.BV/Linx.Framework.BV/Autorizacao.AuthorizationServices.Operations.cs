@@ -69,7 +69,7 @@ namespace Linx.Framework.BV.Autorizacao
                     //Cache Id Grupo Economico
                     this.UpdateCompanyInfo(usuarioAcesso.UidGrupoEconomico);
 
-                    //Validate User (Inativo - Vigência)
+                    //Validate User (Inativo - Vigï¿½ncia)
                     this.ValidateUserAccess(usuarioAcesso.UidUsuario);
 
                     loginInfo = new LoginInfo()
@@ -86,7 +86,7 @@ namespace Linx.Framework.BV.Autorizacao
                         IdLinxGrupoEconomico = usuarioAcesso.IdLinxGrupoEconomico
                     };
 
-                    //Lista de Grupos Econômicos
+                    //Lista de Grupos Econï¿½micos
                     int[] gpeconList = BusinessUserServiceHelper.GetCurrentUserGpeconInfo(new Dictionary<string, string> { { "CurrentUser", usuarioAcesso.UidUsuario.ToString() }, { "EconomicGroup", usuarioAcesso.UidGrupoEconomico.ToString() }, { "Environment", environmentId.ToString() }, { "CurrentCompany", companyUid.ToString() } });
                     Empresa.EmpresaDomainService dsEmpresa = new Empresa.EmpresaDomainService();
                     loginInfo.GruposEconomicos = dsEmpresa.GetTcsEmpresaAutenticacaoNoAssociations().Where(i => gpeconList.Contains(i.IdLinx)).Select(i => new GpeconInfo() { IdGpecon = i.IdLinx, Descricao = i.NomeEmpresa }).ToList();
@@ -114,10 +114,14 @@ namespace Linx.Framework.BV.Autorizacao
                     {
                         loginInfo.Ambientes.Add(LogonAmbienteRelacionado(usuarioAcesso.IdUsuario, usuarioAcesso.UidUsuario, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.IdTcsAmbienteRelacionado.Value));
                     }
+                    this.LogAuthAccessSuccess(authenticatedUser, "Application");
                     return loginInfo;
                 }
                 else
+                {
+                    this.LogAuthAccessFailure(authenticatedUser, ErrorConstants._ApplicationAccessDenied);
                     throw new Exception(String.Format("{0} - {1}", ErrorConstants._ApplicationAccessDenied.Code, ErrorConstants._ApplicationAccessDenied.Message));
+                }
             }
             catch (LicenseException licenseError)
             {
@@ -176,7 +180,7 @@ namespace Linx.Framework.BV.Autorizacao
         {
             List<Acesso> TokenList = WebCacheHelper.GetWebCache<List<Acesso>>(userUid.ToString());
 
-            //Se não encontrou informações de Login no Cache
+            //Se nï¿½o encontrou informaï¿½ï¿½es de Login no Cache
             if (TokenList.IsNull())
                 throw new DomainException(String.Format("{0} - {1}", ErrorConstants._CacheInfoNotFound.Code, ErrorConstants._CacheInfoNotFound.Message));
 
@@ -263,11 +267,17 @@ namespace Linx.Framework.BV.Autorizacao
                 if (usuarioAcesso.IsNull())
                 {
                     if (isDefaultAccess)
+                    {
+                        this.LogAuthAccessFailure(userName, ErrorConstants._UserHasNoDefaultAccess);
                         throw new Exception(String.Format("{0} - {1}", ErrorConstants._UserHasNoDefaultAccess.Code, ErrorConstants._UserHasNoDefaultAccess.Message));
+                    }
                     else
+                    {
+                        this.LogAuthAccessFailure(userName, ErrorConstants._ApplicationAccessDenied);
                         throw new Exception(String.Format("{0} - {1}", ErrorConstants._ApplicationAccessDenied.Code, ErrorConstants._ApplicationAccessDenied.Message));
+                    }
                 }
-                //Validate User (Inativo - Vigência)
+                //Validate User (Inativo - Vigï¿½ncia)
                 this.ValidateUserAccess(usuarioAcesso.UidUsuario);
 
                 //Acesso relacionado
@@ -275,7 +285,9 @@ namespace Linx.Framework.BV.Autorizacao
                 {
                     LogonAmbienteRelacionado(usuarioAcesso.IdUsuario, usuarioAcesso.UidUsuario, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.IdTcsAmbienteRelacionado.Value);
                 }
-                return this.AuthenticationInfo(usuarioAcesso.UidEmpresa, usuarioAcesso.UidUsuario, usuarioAcesso.UidGrupoEconomico, usuarioAcesso.UidAplicacao, usuarioAcesso.IdLinxEmpresa, usuarioAcesso.IdLinxGpecon, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.Administrador, usuarioAcesso.MultiGpecon, usuarioAcesso.IdTcsAmbienteRelacionado, usuarioAcesso.IdUsuario);
+                var authInfoPos = this.AuthenticationInfo(usuarioAcesso.UidEmpresa, usuarioAcesso.UidUsuario, usuarioAcesso.UidGrupoEconomico, usuarioAcesso.UidAplicacao, usuarioAcesso.IdLinxEmpresa, usuarioAcesso.IdLinxGpecon, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.Administrador, usuarioAcesso.MultiGpecon, usuarioAcesso.IdTcsAmbienteRelacionado, usuarioAcesso.IdUsuario);
+                this.LogAuthAccessSuccess(userName, "POS");
+                return authInfoPos;
             }
             catch (Exception oException)
             {
@@ -286,7 +298,7 @@ namespace Linx.Framework.BV.Autorizacao
         [Invoke(HasSideEffects = true)]
         private Guid UpdateToken(Guid userUid, Guid applicationUid, Guid companyUid, int environmentId, bool isAdministrator, bool isMultiGpecon, int? idAmbienteRelacionado)
         {
-            //Controle de Licença por Usuário
+            //Controle de Licenï¿½a por Usuï¿½rio
             UserInfo userInfo = ValidateUserAccess(userUid, true);
             int idLinxEnvironment = BusinessUserServiceHelper.GetCurrentIdLinxEnvironment(companyUid).GetValueOrDefault();
 
@@ -296,7 +308,7 @@ namespace Linx.Framework.BV.Autorizacao
             }
             catch (Exception oException)
             {
-                string errorMessage = string.Format("{0} Ambiente : {1} | Id Linx : {2} |  Usuário: {3}.", oException.Message, BusinessUserServiceHelper.GetEnvironmentName(environmentId), idLinxEnvironment, userInfo.NomeAutenticacao);
+                string errorMessage = string.Format("{0} Ambiente : {1} | Id Linx : {2} |  Usuï¿½rio: {3}.", oException.Message, BusinessUserServiceHelper.GetEnvironmentName(environmentId), idLinxEnvironment, userInfo.NomeAutenticacao);
                 throw new Linx.Framework.BV.LicenseException(errorMessage);
             }
 
@@ -347,7 +359,7 @@ namespace Linx.Framework.BV.Autorizacao
                 string file = System.Web.Hosting.HostingEnvironment.MapPath("~/bin/LinxMail/SendPasswordMailBody.html");
 
                 if (!System.IO.File.Exists(file))
-                    throw new Exception("Arquivo 'SendPasswordMailBody.html' não encontrado.");
+                    throw new Exception("Arquivo 'SendPasswordMailBody.html' nï¿½o encontrado.");
 
                 var webClient = new System.Net.WebClient();
                 string successHtml = webClient.DownloadString(file);
@@ -467,7 +479,7 @@ namespace Linx.Framework.BV.Autorizacao
                 ds.AddCustomChanges(usuario, usuarioOld, ChangeOperation.Update);
                 ds.SaveCustomChanges();
 
-                Linx.Tools.LinxMail.Send(usuario.Email, "Recuperação de senha de usuário.".Translate(), true, AutorizacaoDomainService.EmailBody(usuario.NomeUsuario, usuario.NomeAutenticacao, password));
+                Linx.Tools.LinxMail.Send(usuario.Email, "Recuperaï¿½ï¿½o de senha de usuï¿½rio.".Translate(), true, AutorizacaoDomainService.EmailBody(usuario.NomeUsuario, usuario.NomeAutenticacao, password));
 
                 transaction.Complete();
             }
@@ -521,7 +533,7 @@ namespace Linx.Framework.BV.Autorizacao
                 //if (appAccess.IsNull() || !allowedApplications.Contains(appAccess.IdAplicativo))
                 //    throw new Exception(String.Format("{0} - {1}", ErrorConstants._ApplicationAccessDenied.Code, ErrorConstants._ApplicationAccessDenied.Message));
 
-                //Validate User (Inativo - Vigência)
+                //Validate User (Inativo - Vigï¿½ncia)
                 this.ValidateUserAccess(appAccess.UidUsuario);
 
                 var userAccess = (from result in this.DbContext.TCS_USUARIO_ACESSO
@@ -541,12 +553,17 @@ namespace Linx.Framework.BV.Autorizacao
                                   }).FirstOrDefault();
 
                 if (userAccess.IsNull())
+                {
+                    this.LogAuthAccessFailure(userName, ErrorConstants._ApplicationAccessDenied);
                     throw new Exception(String.Format("{0} - {1}", ErrorConstants._ApplicationAccessDenied.Code, ErrorConstants._ApplicationAccessDenied.Message));
+                }
 
-                //Validate User (Inativo - Vigência)
+                //Validate User (Inativo - Vigï¿½ncia)
                 this.ValidateUserAccess(userAccess.UidUsuario);
 
-                return this.AuthenticationInfo(userAccess.Uidempresa, userAccess.UidUsuario, userAccess.UidGrupoEconomico, uidUserApplication, userAccess.IdLinxEmpresa, userAccess.IdLinxGpecon, userAccess.IdTcsAmbiente, userAccess.Administrador, userAccess.MultiGpecon, userAccess.IdAmbienteRelacionado, userAccess.IdUsuario);
+                var authInfoSA = this.AuthenticationInfo(userAccess.Uidempresa, userAccess.UidUsuario, userAccess.UidGrupoEconomico, uidUserApplication, userAccess.IdLinxEmpresa, userAccess.IdLinxGpecon, userAccess.IdTcsAmbiente, userAccess.Administrador, userAccess.MultiGpecon, userAccess.IdAmbienteRelacionado, userAccess.IdUsuario);
+                this.LogAuthAccessSuccess(userName, "StandAlone");
+                return authInfoSA;
             }
             catch (Exception oException)
             {
@@ -563,10 +580,18 @@ namespace Linx.Framework.BV.Autorizacao
         [Invoke(HasSideEffects = true)]
         public bool ValidateUser(string userName, string userPassword)
         {
+            this.EnsureUserNotLocked(userName);
+
+            bool isValid;
             if (!AuthenticateUserExtension.IsNull())
-                return AuthenticateUserExtension.ValidateUserExtension(userName, userPassword);
+                isValid = AuthenticateUserExtension.ValidateUserExtension(userName, userPassword);
             else
-                return Membership.ValidateUser(userName, userPassword);
+                isValid = Membership.ValidateUser(userName, userPassword);
+
+            if (!isValid)
+                this.LogAuthAccessFailure(userName, ErrorConstants._UserBadNameOrPassword);
+
+            return isValid;
         }
 
         [Invoke(HasSideEffects = true)]
@@ -617,7 +642,7 @@ namespace Linx.Framework.BV.Autorizacao
 
         private string GetServiceBusUrl(int idTcsAmbiente)
         {
-            //Url barramento de Serviço
+            //Url barramento de Serviï¿½o
             var serviceUrl = string.Empty;
             Ambiente.AmbienteDomainService ds = new Ambiente.AmbienteDomainService();
             var serviceInfo = ds.GetServicoExcecaoMultiEnvironment(new Ambiente.EnvironmentInfo[] { new Ambiente.EnvironmentInfo() { EnvironmentId = idTcsAmbiente } });
@@ -700,13 +725,22 @@ namespace Linx.Framework.BV.Autorizacao
             {
 
                 if (usuario.IsNullOrEmpty())
+                {
+                    this.LogAuthAccessFailure(string.Empty, ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message, null, false);
                     throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+                }
 
                 if (usuario.Inativo)
+                {
+                    this.LogAuthAccessFailure(usuario.NomeAutenticacao, ErrorConstants._UserNotActive);
                     throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotActive.Code, ErrorConstants._UserNotActive.Message));
+                }
 
                 if (usuario.VigenciaInicial.Date > currentDate || usuario.VigenciaFinal.Date < currentDate)
+                {
+                    this.LogAuthAccessFailure(usuario.NomeAutenticacao, ErrorConstants._UserLoginExpired);
                     throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserLoginExpired.Code, ErrorConstants._UserLoginExpired.Message));
+                }
             }
             return usuario;
         }
@@ -739,12 +773,17 @@ namespace Linx.Framework.BV.Autorizacao
                                      }).FirstOrDefault();
 
                 if (usuarioAcesso.IsNull())
+                {
+                    this.LogAuthAccessFailure(userName, ErrorConstants._ApplicationAccessDenied);
                     throw new Exception(String.Format("{0} - {1}", ErrorConstants._ApplicationAccessDenied.Code, ErrorConstants._ApplicationAccessDenied.Message));
+                }
 
-                //Validate User (Inativo - Vigência)
+                //Validate User (Inativo - Vigï¿½ncia)
                 this.ValidateUserAccess(usuarioAcesso.UidUsuario);
 
-                return this.AuthenticationInfo(usuarioAcesso.UidEmpresa, usuarioAcesso.UidUsuario, usuarioAcesso.UidGrupoEconomico, usuarioAcesso.UidAplicacao, usuarioAcesso.IdLinxEmpresa, usuarioAcesso.IdLinxGpecon, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.Administrador, usuarioAcesso.MultiGpecon, usuarioAcesso.IdAmbienteRelacionado, usuarioAcesso.IdUsuario);
+                var authInfoOData = this.AuthenticationInfo(usuarioAcesso.UidEmpresa, usuarioAcesso.UidUsuario, usuarioAcesso.UidGrupoEconomico, usuarioAcesso.UidAplicacao, usuarioAcesso.IdLinxEmpresa, usuarioAcesso.IdLinxGpecon, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.Administrador, usuarioAcesso.MultiGpecon, usuarioAcesso.IdAmbienteRelacionado, usuarioAcesso.IdUsuario);
+                this.LogAuthAccessSuccess(userName, "OData");
+                return authInfoOData;
             }
             catch (Exception oException)
             {

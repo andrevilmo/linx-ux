@@ -40,7 +40,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             Guid uidUsuario = (from result in dsUsuarioAut.GetTcsUsuarioAutenticacaoNoAssociations().Where(i => i.NomeAutenticacao == userName)
                                select result.UidUsuario).FirstOrDefault();
 
-            //Validate User (Inativo - Vigência)
+            //Validate User (Inativo - Vigncia)
             ds.ValidateUserAccess(uidUsuario);
 
             return uidUsuario;
@@ -50,6 +50,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         public string AuthenticatePortal(string authenticateParameters)
         {
             Linx.Security.Cryptography crypto = new Security.Cryptography();
+            string userNameAttempt = null;
 
             try
             {
@@ -57,16 +58,22 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
 
                 if (decryptedLines.Count() != 2)
                 {
+                    AutorizacaoDomainService dsInvalid = new AutorizacaoDomainService();
+                    dsInvalid.LogAuthAccessFailure(string.Empty, ErrorConstants._LoginInvalidParameters.Code, ErrorConstants._LoginInvalidParameters.Message, "Portal", false);
                     return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"), crypto.Encrypt(String.Format("{0} - {1}", ErrorConstants._LoginInvalidParameters.Code, ErrorConstants._LoginInvalidParameters.Message)))));
                 }
 
-                Guid uidUsuario = this.validateuser(crypto.Decrypt(decryptedLines[0]), crypto.Decrypt(decryptedLines[1]));
+                userNameAttempt = crypto.Decrypt(decryptedLines[0]);
+                Guid uidUsuario = this.validateuser(userNameAttempt, crypto.Decrypt(decryptedLines[1]));
 
                 UsuarioAutorizacao.UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacao.UsuarioAutorizacaoDomainService();
 
                 var usuario = (
                     from result in ds.GetTcsUsuarioAutenticacaoNoAssociations().Where(i => i.UidUsuario == uidUsuario)
-                    select new { Usuario = result.NomeUsuario, NomeCurto = result.NomeCurtoUsuario }).FirstOrDefault();
+                    select new { Usuario = result.NomeUsuario, NomeCurto = result.NomeCurtoUsuario, NomeAutenticacao = result.NomeAutenticacao }).FirstOrDefault();
+
+                AutorizacaoDomainService dsAuth = new AutorizacaoDomainService();
+                dsAuth.LogAuthAccessSuccess(usuario != null ? usuario.NomeAutenticacao : userNameAttempt, "Portal");
 
                 return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}||{2}", crypto.Encrypt("1"), crypto.Encrypt(usuario.Usuario), crypto.Encrypt(usuario.NomeCurto))));
             }
@@ -123,6 +130,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                            IdLinxGpecon = result.IdLinxGpecon
                        }).ToList();
 
+            new AutorizacaoDomainService().LogAuthAccessSuccess(userName, "WindowsApp");
             return acessos;
         }
 

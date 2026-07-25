@@ -72,6 +72,17 @@ namespace Linx.Portal.Controllers
             var client = new RestClient(Utils.GetServiceUrl());
             var request = new RestRequest("LinxFrameworkAutorizacao/AuthenticatePortal");
             request.AddParameter("authenticateParameters", crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt(user.Trim()), crypto.Encrypt(password.Trim()))));
+
+            string clientIp = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrWhiteSpace(clientIp))
+                clientIp = Request.UserHostAddress;
+            else if (clientIp.Contains(","))
+                clientIp = clientIp.Split(',')[0].Trim();
+
+            if (!string.IsNullOrWhiteSpace(clientIp))
+                request.AddHeader("X-Client-IP", clientIp);
+            request.AddHeader("X-Auth-Channel", "Portal");
+
             var result = client.ExecuteAsGet(request, "GET");
 
             if (result.ErrorException != null)
