@@ -13,6 +13,7 @@ using System.Web.Http;
 
 
 using Linx.Framework.BV.Autorizacao;
+using Linx.Data;
 using System.Web;
 using System.Web.Security;
 using System.IO;
@@ -34,13 +35,28 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             AutorizacaoDomainService ds = new AutorizacaoDomainService();
             UsuarioAutorizacao.UsuarioAutorizacaoDomainService dsUsuarioAut = new UsuarioAutorizacao.UsuarioAutorizacaoDomainService();
 
-            if (!ds.ValidateUser(userName, userPassword))
-                throw new Exception(String.Format("{0} - {1}", ErrorConstants._UserBadNameOrPassword.Code, ErrorConstants._UserBadNameOrPassword.Message));
+            try
+            {
+                if (!ds.ValidateUser(userName, userPassword))
+                {
+                    // Membership.ValidateUser returns false for locked accounts ó promote to ERRAUT020.
+                    if (ds.IsMembershipUserLockedOut(userName))
+                        throw new Exception(String.Format("{0} - {1}", ErrorConstants._UserLockedOut.Code, ErrorConstants._UserLockedOut.Message));
+
+                    throw new Exception(String.Format("{0} - {1}", ErrorConstants._UserBadNameOrPassword.Code, ErrorConstants._UserBadNameOrPassword.Message));
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message != null && ex.Message.StartsWith(ErrorConstants._UserLockedOut.Code, StringComparison.OrdinalIgnoreCase))
+                    throw;
+                throw;
+            }
 
             Guid uidUsuario = (from result in dsUsuarioAut.GetTcsUsuarioAutenticacaoNoAssociations().Where(i => i.NomeAutenticacao == userName)
                                select result.UidUsuario).FirstOrDefault();
 
-            //Validate User (Inativo - Vigùncia)
+            //Validate User (Inativo - Vigencia)
             ds.ValidateUserAccess(uidUsuario);
 
             return uidUsuario;
@@ -83,7 +99,22 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             }
             catch (Exception oException)
             {
-                return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"), crypto.Encrypt(oException.Message))));
+                string errorMessage = oException.Message;
+                try
+                {
+                    // If Membership locked the account, always return ERRAUT020 (even when the inner error was bad password).
+                    string[] decryptedLines = crypto.Decrypt(authenticateParameters).Split(new string[] { "||" }, StringSplitOptions.None);
+                    if (decryptedLines.Count() == 2)
+                    {
+                        string userName = crypto.Decrypt(decryptedLines[0]);
+                        AutorizacaoDomainService ds = new AutorizacaoDomainService();
+                        if (ds.IsMembershipUserLockedOut(userName))
+                            errorMessage = String.Format("{0} - {1}", ErrorConstants._UserLockedOut.Code, ErrorConstants._UserLockedOut.Message);
+                    }
+                }
+                catch { }
+
+                return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"), crypto.Encrypt(errorMessage))));
             }
         }
 
@@ -100,6 +131,42 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             AutorizacaoDomainService context = new AutorizacaoDomainService();
             return context.RecoverUserPassword(userName);
         }
+
+        [Route("SendPasswordResetLink"), System.Web.Http.HttpGet()]
+        public bool SendPasswordResetLink(string userName, string callbackUrl)
+        {
+            AutorizacaoDomainService context = new AutorizacaoDomainService();
+            return context.SendPasswordResetLink(userName, callbackUrl);
+        }
+
+        [Route("ValidatePasswordResetToken"), System.Web.Http.HttpGet()]
+        public bool ValidatePasswordResetToken(string token)
+        {
+            AutorizacaoDomainService context = new AutorizacaoDomainService();
+            return context.ValidatePasswordResetToken(token);
+        }
+
+        [Route("ResetPasswordWithToken"), System.Web.Http.HttpGet()]
+        public bool ResetPasswordWithToken(string token, string newPassword)
+        {
+            AutorizacaoDomainService context = new AutorizacaoDomainService();
+            return context.ResetPasswordWithToken(token, newPassword);
+        }
+
+        [Route("IsMembershipUserLockedOut"), System.Web.Http.HttpGet()]
+        public bool IsMembershipUserLockedOut(string userName)
+        {
+            AutorizacaoDomainService context = new AutorizacaoDomainService();
+            return context.IsMembershipUserLockedOut(userName);
+        }
+
+        [Route("UnlockMembershipUser"), System.Web.Http.HttpGet()]
+        public bool UnlockMembershipUser(string userName)
+        {
+            AutorizacaoDomainService context = new AutorizacaoDomainService();
+            return context.UnlockMembershipUser(userName);
+        }
+
 
         [Route("AuthenticateWindowsApp"), System.Web.Http.HttpGet()]
         public List<UsuarioAcesso> AuthenticateWindowsApp(string userName, string userPassword)

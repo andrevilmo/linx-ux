@@ -15,11 +15,11 @@ namespace Linx.Framework.BV.Autorizacao
     ////////////////////////////////////////////////////////////////////////////
     public partial class AutorizacaoDomainService
     {
-        // Local until Linx.Tools.dll (GAC/install) is rebuilt with ErrorConstants._UserLockedOut
+        // Align with ErrorConstants._UserLockedOut (ERRAUT020) from adding-password-flow / Membership lockout.
         private static readonly ErrorInfo UserLockedOut = new ErrorInfo()
         {
-            Code = "ERRAUT021",
-            Message = "Usuario bloqueado por excesso de tentativas de login."
+            Code = "ERRAUT020",
+            Message = "Usuario bloqueado por excesso de tentativas invalidas de senha. Solicite o desbloqueio ao administrador."
         };
 
         private const string AuthAccessSchemaEnsureSql = @"
@@ -123,7 +123,7 @@ END";
             }
             catch (Exception ex)
             {
-                if (ex.Message != null && ex.Message.StartsWith("ERRAUT021", StringComparison.OrdinalIgnoreCase))
+                if (ex.Message != null && ex.Message.StartsWith("ERRAUT020", StringComparison.OrdinalIgnoreCase))
                     throw;
                 // Best-effort: never block auth solely because audit/lock storage failed.
             }
@@ -183,7 +183,7 @@ END";
             }
             catch (Exception ex)
             {
-                if (ex.Message != null && ex.Message.StartsWith("ERRAUT021", StringComparison.OrdinalIgnoreCase))
+                if (ex.Message != null && ex.Message.StartsWith("ERRAUT020", StringComparison.OrdinalIgnoreCase))
                     throw;
                 // Best-effort audit.
             }
