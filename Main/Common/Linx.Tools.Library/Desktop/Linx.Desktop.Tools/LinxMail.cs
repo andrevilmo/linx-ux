@@ -45,8 +45,10 @@ namespace Linx.Tools
             newMail.From = new MailAddress(sender);
             newMail.To.Add(toAddress);
             newMail.Subject = subject;
+            newMail.SubjectEncoding = Encoding.UTF8;
             newMail.IsBodyHtml = isBodyHtml;
             newMail.Body = body;
+            newMail.BodyEncoding = Encoding.UTF8;
             SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort);
             smtpClient.Timeout = timeout;
             smtpClient.UseDefaultCredentials = false;

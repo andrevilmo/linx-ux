@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -508,15 +508,15 @@ namespace Linx.Framework.BV.Autorizacao
         }
 
         /// <summary>
-        /// Tempo de validade (em minutos) do link de redefini∩┐╜∩┐╜o de senha.
+        /// Tempo de validade (em minutos) do link de redefini??????o de senha.
         /// </summary>
         private const int _PasswordResetTokenValidityMinutes = 60;
 
         /// <summary>
-        /// Gera um token de redefini∩┐╜∩┐╜o de senha e envia, por e-mail, um link para o usu∩┐╜rio redefinir a senha.
+        /// Gera um token de redefini??????o de senha e envia, por e-mail, um link para o usu???rio redefinir a senha.
         /// </summary>
-        /// <param name="userName">Nome de autentica∩┐╜∩┐╜o do usu∩┐╜rio.</param>
-        /// <param name="callbackUrl">URL base da aplica∩┐╜∩┐╜o que hospeda a p∩┐╜gina de redefini∩┐╜∩┐╜o de senha.</param>
+        /// <param name="userName">Nome de autentica??????o do usu???rio.</param>
+        /// <param name="callbackUrl">URL base da aplica??????o que hospeda a p???gina de redefini??????o de senha.</param>
         [Invoke(HasSideEffects = true)]
         public bool SendPasswordResetLink(string userName, string callbackUrl)
         {
@@ -542,18 +542,18 @@ namespace Linx.Framework.BV.Autorizacao
 
             string token = GeneratePasswordResetToken(userName, user);
 
-            // O callbackUrl ∩┐╜ a URL completa da p∩┐╜gina que tratar∩┐╜ a redefini∩┐╜∩┐╜o (ex.: p∩┐╜gina de login do Portal
-            // ou a p∩┐╜gina ResetPassword da aplica∩┐╜∩┐╜o). O token ∩┐╜ anexado como par∩┐╜metro de query string.
+            // O callbackUrl ??? a URL completa da p???gina que tratar??? a redefini??????o (ex.: p???gina de login do Portal
+            // ou a p???gina ResetPassword da aplica??????o). O token ??? anexado como par???metro de query string.
             string separator = (!callbackUrl.IsNullOrEmpty() && callbackUrl.IndexOf('?') >= 0) ? "&" : "?";
             string link = string.Format("{0}{1}token={2}", callbackUrl, separator, System.Web.HttpUtility.UrlEncode(token));
 
-            Linx.Tools.LinxMail.Send(usuario.Email, "Redefini├º├úo de senha de usu├írio.".Translate(), true, ResetPasswordEmailBody(usuario.NomeUsuario, link));
+            Linx.Tools.LinxMail.Send(usuario.Email, "Redefinição de senha de usuário.".Translate(), true, ResetPasswordEmailBody(usuario.NomeUsuario, link));
 
             return true;
         }
 
         /// <summary>
-        /// Valida um token de redefini∩┐╜∩┐╜o de senha (sem efetuar a troca).
+        /// Valida um token de redefini??????o de senha (sem efetuar a troca).
         /// </summary>
         [Invoke(HasSideEffects = false)]
         public bool ValidatePasswordResetToken(string token)
@@ -563,7 +563,7 @@ namespace Linx.Framework.BV.Autorizacao
         }
 
         /// <summary>
-        /// Redefine a senha do usu∩┐╜rio a partir de um token v∩┐╜lido recebido por e-mail.
+        /// Redefine a senha do usu???rio a partir de um token v???lido recebido por e-mail.
         /// </summary>
         [Invoke(HasSideEffects = true)]
         public bool ResetPasswordWithToken(string token, string newPassword)
@@ -571,7 +571,7 @@ namespace Linx.Framework.BV.Autorizacao
             string userName;
             if (!TryValidatePasswordResetToken(token, out userName))
             {
-                throw new DomainException("Link de redefini∩┐╜∩┐╜o de senha inv∩┐╜lido ou expirado.".Translate());
+                throw new DomainException("Link de redefini��o de senha inv�lido ou expirado.".Translate());
             }
 
             UsuarioAutorizacao.UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacaoDomainService();
@@ -616,8 +616,8 @@ namespace Linx.Framework.BV.Autorizacao
 
         private static string GeneratePasswordResetToken(string userName, MembershipUser user)
         {
-            // Token autossuficiente (n∩┐╜o exige tabela de tokens): cont∩┐╜m usu∩┐╜rio, validade e a data da
-            // ∩┐╜ltima troca de senha. Como a data muda ap∩┐╜s a redefini∩┐╜∩┐╜o, o token deixa de ser v∩┐╜lido (uso ∩┐╜nico).
+            // Token autossuficiente (n???o exige tabela de tokens): cont???m usu???rio, validade e a data da
+            // ???ltima troca de senha. Como a data muda ap???s a redefini??????o, o token deixa de ser v???lido (uso ???nico).
             long expirationTicks = DateTime.UtcNow.AddMinutes(_PasswordResetTokenValidityMinutes).Ticks;
             long stampTicks = user.LastPasswordChangedDate.Ticks;
             string payload = string.Format("{0}||{1}||{2}", userName, expirationTicks, stampTicks);
@@ -663,25 +663,24 @@ namespace Linx.Framework.BV.Autorizacao
             if (user.IsNullOrEmpty())
                 return false;
 
-            // Uso ∩┐╜nico: o token s∩┐╜ ∩┐╜ v∩┐╜lido enquanto a senha n∩┐╜o tiver sido alterada ap∩┐╜s a sua emiss∩┐╜o.
+            // Uso ???nico: o token s??? ??? v???lido enquanto a senha n???o tiver sido alterada ap???s a sua emiss???o.
             if (user.LastPasswordChangedDate.Ticks != stampTicks)
                 return false;
 
             userName = parts[0];
             return true;
         }
-
         private static string ResetPasswordEmailBody(string userName, string link)
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /></head><body style=\"font-family:'Segoe UI';font-size:12px;color:#333;\">");
-            sb.AppendFormat("<p>Ol├í {0},</p>", System.Web.HttpUtility.HtmlEncode(userName));
-            sb.Append("<p>Recebemos uma solicita├º├úo para redefinir a sua senha de acesso.</p>");
+            sb.AppendFormat("<p>Olá {0},</p>", System.Web.HttpUtility.HtmlEncode(userName));
+            sb.Append("<p>Recebemos uma solicitação para redefinir a sua senha de acesso.</p>");
             sb.AppendFormat("<p><a href=\"{0}\" style=\"color:#0000FF;font-weight:bold;\">Clique aqui para redefinir a sua senha</a>.</p>", link);
-            sb.Append("<p>Se o bot├úo n├úo funcionar, copie e cole o endere├ºo abaixo no seu navegador:</p>");
+            sb.Append("<p>Se o botão não funcionar, copie e cole o endereço abaixo no seu navegador:</p>");
             sb.AppendFormat("<p>{0}</p>", System.Web.HttpUtility.HtmlEncode(link));
             sb.AppendFormat("<p>Este link expira em {0} minutos.</p>", _PasswordResetTokenValidityMinutes);
-            sb.Append("<p>Se voc├¬ n├úo solicitou a redefini├º├úo, ignore este e-mail.</p>");
+            sb.Append("<p>Se você não solicitou a redefinição, ignore este e-mail.</p>");
             sb.Append("</body></html>");
             return sb.ToString();
         }
