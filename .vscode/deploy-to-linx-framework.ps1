@@ -71,6 +71,11 @@ $serviceDllSources = @{
         (Join-Path $apiRoot 'bin\Release\Linx.Framework.BV.WebAPI.DS.dll')
         (Join-Path $binaryServiceBin 'Linx.Framework.BV.WebAPI.DS.dll')
     )
+    'Linx.Framework.Autorizacao.BM.dll' = @(
+        (Join-Path $workspace 'BM\Linx.Framework.Autorizacao.BM\Linx.Framework.Autorizacao.BM\bin\Release\Linx.Framework.Autorizacao.BM.dll')
+        (Join-Path $workspace 'Binary\Library\Business Model\Linx.Framework.Autorizacao.BM.dll')
+        (Join-Path $binaryServiceBin 'Linx.Framework.Autorizacao.BM.dll')
+    )
 }
 
 $script:copiedCount = 0

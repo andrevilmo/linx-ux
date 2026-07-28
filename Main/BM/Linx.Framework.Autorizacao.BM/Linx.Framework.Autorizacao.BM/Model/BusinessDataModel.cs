@@ -1908,6 +1908,10 @@ namespace Linx.Framework.Autorizacao.BM
         [Required]
         public bool INDICA_ACESSO_SUPORTE { get; set; }
 
+        [Column("INDICA_USUARIO_SERVICO",  TypeName = "bit", Order=30 )]
+        [Required]
+        public bool INDICA_USUARIO_SERVICO { get; set; }
+
 		#endregion
 
 		#region Navigation

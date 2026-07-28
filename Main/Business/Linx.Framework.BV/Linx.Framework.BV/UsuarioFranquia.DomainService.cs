@@ -1,4 +1,4 @@
-﻿					
+					
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -729,6 +729,37 @@ namespace Linx.Framework.BV.UsuarioFranquia
 	    	              this._Inativo = value;
 	    	              this.RaiseDataMemberChanged("Inativo");
 	    	              this.OnInativoChanged();
+	    	          }
+	    	    }
+	    }
+	    //Extensibility Partial Method Definitions For IndicaUsuarioServico
+	    partial void OnIndicaUsuarioServicoChanging(Boolean value);
+	    partial void OnIndicaUsuarioServicoChanged();
+
+	    private Boolean _IndicaUsuarioServico;
+
+	    [DataMember(IsRequired = true, Name = "IndicaUsuarioServico", EmitDefaultValue = true)]
+	    [XmlAttribute()]
+	    [Editable(true)]
+	    [Display(Name = "Usuário de serviço", Description="", Order = -1, AutoGenerateField = true, GroupName="", ResourceType= null)]
+	    [FunctionalPoint("Precision[0:0];IsEditable[true];CustomMediaTable[];IsAutomaticSequency[false];IsNull[false];DomainName[];KpiName[];KpiRelatedAttribute[];DefaultValue[];DataFormatString[];OrderByOrientation[Ascending];OrderBySequence[-1];AggregationFunction[None];ObjectClass[CheckBox];ConnectedField[];Mask[];MaskType[];ExcludedAsFilter[false];FilterDataKey[TCS_USUARIO_AUTENTICACAO.INDICA_USUARIO_SERVICO];IsMeasure[false]")]
+	    [LinxPublicationField(IsSuggestion=false, LookUpInfo="", EdmKey="TCS_USUARIO_AUTENTICACAO.INDICA_USUARIO_SERVICO")]
+	    public Boolean IndicaUsuarioServico
+	    {
+	    	    get
+	    	    {
+	    	          return _IndicaUsuarioServico;
+	    	    }
+	    	    set
+	    	    {
+	    	          if (this._IndicaUsuarioServico != value)
+	    	          {
+	    	              this.ValidateProperty("IndicaUsuarioServico", value);
+	    	              this.OnIndicaUsuarioServicoChanging(value);
+	    	              this.RaiseDataMemberChanging("IndicaUsuarioServico");
+	    	              this._IndicaUsuarioServico = value;
+	    	              this.RaiseDataMemberChanged("IndicaUsuarioServico");
+	    	              this.OnIndicaUsuarioServicoChanged();
 	    	          }
 	    	    }
 	    }
@@ -3294,6 +3325,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
  	                  IdLinx = entity.IdLinx,
  	                  IdUsuario = entity.IdUsuario,
  	                  Inativo = entity.Inativo,
+ 	                  IndicaUsuarioServico = entity.IndicaUsuarioServico,
  	                  InscrEstadualRg = entity.InscrEstadualRg,
  	                  Logradouro = entity.Logradouro,
  	                  LxPfjFisicaJuridica = entity.LxPfjFisicaJuridica,
@@ -3333,6 +3365,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
  	                  IdLinx = entity.IdLinx,
  	                  IdUsuario = entity.IdUsuario,
  	                  Inativo = entity.Inativo,
+ 	                  IndicaUsuarioServico = entity.IndicaUsuarioServico,
  	                  InscrEstadualRg = entity.InscrEstadualRg,
  	                  Logradouro = entity.Logradouro,
  	                  LxPfjFisicaJuridica = entity.LxPfjFisicaJuridica,
@@ -3372,6 +3405,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
  	                  IdLinx = entity.IdLinx,
  	                  IdUsuario = entity.IdUsuario,
  	                  Inativo = entity.Inativo,
+ 	                  IndicaUsuarioServico = entity.IndicaUsuarioServico,
  	                  InscrEstadualRg = entity.InscrEstadualRg,
  	                  Logradouro = entity.Logradouro,
  	                  LxPfjFisicaJuridica = entity.LxPfjFisicaJuridica,
@@ -3412,6 +3446,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
  	                  IdLinx = entity.IdLinx,
  	                  IdUsuario = entity.IdUsuario,
  	                  Inativo = entity.Inativo,
+ 	                  IndicaUsuarioServico = entity.IndicaUsuarioServico,
  	                  InscrEstadualRg = entity.InscrEstadualRg,
  	                  Logradouro = entity.Logradouro,
  	                  LxPfjFisicaJuridica = entity.LxPfjFisicaJuridica,
@@ -3448,6 +3483,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
  	                  IdLinx = original.IdLinx,
  	                  IdUsuario = original.IdUsuario,
  	                  Inativo = original.Inativo,
+ 	                  IndicaUsuarioServico = original.IndicaUsuarioServico,
  	                  InscrEstadualRg = original.InscrEstadualRg,
  	                  Logradouro = original.Logradouro,
  	                  LxPfjFisicaJuridica = original.LxPfjFisicaJuridica,
@@ -4083,6 +4119,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
                 , IdLinx = TcsUsuarioAutenticacao_Rep1.IdLinx
                 , IdUsuario = TcsUsuarioAutenticacao_Rep1.IdUsuario
                 , Inativo = TcsUsuarioAutenticacao_Rep1.Inativo
+                , IndicaUsuarioServico = TcsUsuarioAutenticacao_Rep1.IndicaUsuarioServico
                 , InscrEstadualRg = TcsUsuarioAutenticacao_Rep1.InscrEstadualRg
                 , Logradouro = TcsUsuarioAutenticacao_Rep1.Logradouro
                 , LxPfjFisicaJuridica = TcsUsuarioAutenticacao_Rep1.LxPfjFisicaJuridica
@@ -4206,6 +4243,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
                 , IdLinx = TcsUsuarioAutenticacao_Rep1.IdLinx
                 , IdUsuario = TcsUsuarioAutenticacao_Rep1.IdUsuario
                 , Inativo = TcsUsuarioAutenticacao_Rep1.Inativo
+                , IndicaUsuarioServico = TcsUsuarioAutenticacao_Rep1.IndicaUsuarioServico
                 , InscrEstadualRg = TcsUsuarioAutenticacao_Rep1.InscrEstadualRg
                 , Logradouro = TcsUsuarioAutenticacao_Rep1.Logradouro
                 , LxPfjFisicaJuridica = TcsUsuarioAutenticacao_Rep1.LxPfjFisicaJuridica
@@ -4762,7 +4800,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
 	
 	        
              string repSerializedEntitySearch = serializedEntitySearch;
-             repSerializedEntitySearch = EntitySearch.FilterExpressionFields(repSerializedEntitySearch,"TcsUsuarioAutenticacao", "TcsUsuarioAutenticacao", 0, "AutenticacaoWindows#AutenticacaoWindows","Bairro#Bairro","Cep#Cep","CnpjCpf#CnpjCpf","Complemento#Complemento","ConfirmacaoUsuario#ConfirmacaoUsuario","ConfirmacaoUsuario1#ConfirmacaoUsuario1","CriaUsuario#CriaUsuario","DataAlteracao#DataAlteracao","DataCadastro#DataCadastro","DataExpiracaoSenha#DataExpiracaoSenha","Email#Email","FoneCelular#FoneCelular","FoneFixo#FoneFixo","GeraSenhaUsuario#GeraSenhaUsuario","IdLinx#IdLinx","IdUsuario#IdUsuario","Inativo#Inativo","InscrEstadualRg#InscrEstadualRg","Logradouro#Logradouro","LxPfjFisicaJuridica#LxPfjFisicaJuridica","LxTipoLogradouro#LxTipoLogradouro","Municipio#Municipio","NomeAutenticacao#NomeAutenticacao","NomeCurtoUsuario#NomeCurtoUsuario","NomeUsuario#NomeUsuario","Numero#Numero","ObsEndereco#ObsEndereco","Ramal#Ramal","Uf#Uf","UidUsuario#UidUsuario","VigenciaFinal#VigenciaFinal","VigenciaInicial#VigenciaInicial","IndicaAcessoSuporte#IndicaAcessoSuporte","NomeEmpresa#NomeEmpresa","UidEmpresa#UidEmpresa");
+             repSerializedEntitySearch = EntitySearch.FilterExpressionFields(repSerializedEntitySearch,"TcsUsuarioAutenticacao", "TcsUsuarioAutenticacao", 0, "AutenticacaoWindows#AutenticacaoWindows","Bairro#Bairro","Cep#Cep","CnpjCpf#CnpjCpf","Complemento#Complemento","ConfirmacaoUsuario#ConfirmacaoUsuario","ConfirmacaoUsuario1#ConfirmacaoUsuario1","CriaUsuario#CriaUsuario","DataAlteracao#DataAlteracao","DataCadastro#DataCadastro","DataExpiracaoSenha#DataExpiracaoSenha","Email#Email","FoneCelular#FoneCelular","FoneFixo#FoneFixo","GeraSenhaUsuario#GeraSenhaUsuario","IdLinx#IdLinx","IdUsuario#IdUsuario","Inativo#Inativo","IndicaUsuarioServico#IndicaUsuarioServico","InscrEstadualRg#InscrEstadualRg","Logradouro#Logradouro","LxPfjFisicaJuridica#LxPfjFisicaJuridica","LxTipoLogradouro#LxTipoLogradouro","Municipio#Municipio","NomeAutenticacao#NomeAutenticacao","NomeCurtoUsuario#NomeCurtoUsuario","NomeUsuario#NomeUsuario","Numero#Numero","ObsEndereco#ObsEndereco","Ramal#Ramal","Uf#Uf","UidUsuario#UidUsuario","VigenciaFinal#VigenciaFinal","VigenciaInicial#VigenciaInicial","IndicaAcessoSuporte#IndicaAcessoSuporte","NomeEmpresa#NomeEmpresa","UidEmpresa#UidEmpresa");
              repSerializedEntitySearch = EntitySearch.FilterExpressionFields(repSerializedEntitySearch,"TcsUsuarioAutenticacaoAcesso", "TcsUsuarioAutenticacaoAcessoP", 0, "DescricaoAmbiente#DescricaoAmbiente","DescricaoAmbienteRelacionado#DescricaoAmbienteRelacionado","DescricaoAplicacao#DescricaoAplicacao","DescricaoAplicativo#DescricaoAplicativo","IdAplicacao#IdAplicacao","IdLinx#IdLinx","IdTcsAmbiente#IdTcsAmbiente","IdTcsAmbienteRelacionado#IdTcsAmbienteRelacionado","IdTcsAplicativo#IdTcsAplicativo","IdTcsUsuarioAcesso#IdTcsUsuarioAcesso","IdUsuario#IdUsuario","IndicaAcessoPadrao#IndicaAcessoPadrao","NomeAutenticacao#NomeAutenticacao","NomeEmpresa#NomeEmpresa","NomeUsuario#NomeUsuario","Perfil#Perfil");
 		
 	        
@@ -4794,6 +4832,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
                 , IdLinx = TcsUsuarioAutenticacao_Rep1.IdLinx
                 , IdUsuario = TcsUsuarioAutenticacao_Rep1.IdUsuario
                 , Inativo = TcsUsuarioAutenticacao_Rep1.Inativo
+                , IndicaUsuarioServico = TcsUsuarioAutenticacao_Rep1.IndicaUsuarioServico
                 , InscrEstadualRg = TcsUsuarioAutenticacao_Rep1.InscrEstadualRg
                 , Logradouro = TcsUsuarioAutenticacao_Rep1.Logradouro
                 , LxPfjFisicaJuridica = TcsUsuarioAutenticacao_Rep1.LxPfjFisicaJuridica
@@ -4896,7 +4935,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
 	
 	        
              string repSerializedEntitySearch = serializedEntitySearch;
-             repSerializedEntitySearch = EntitySearch.FilterExpressionFields(repSerializedEntitySearch,"TcsUsuarioAutenticacao", "TcsUsuarioAutenticacao", 0, "AutenticacaoWindows#AutenticacaoWindows","Bairro#Bairro","Cep#Cep","CnpjCpf#CnpjCpf","Complemento#Complemento","ConfirmacaoUsuario#ConfirmacaoUsuario","ConfirmacaoUsuario1#ConfirmacaoUsuario1","CriaUsuario#CriaUsuario","DataAlteracao#DataAlteracao","DataCadastro#DataCadastro","DataExpiracaoSenha#DataExpiracaoSenha","Email#Email","FoneCelular#FoneCelular","FoneFixo#FoneFixo","GeraSenhaUsuario#GeraSenhaUsuario","IdLinx#IdLinx","IdUsuario#IdUsuario","Inativo#Inativo","InscrEstadualRg#InscrEstadualRg","Logradouro#Logradouro","LxPfjFisicaJuridica#LxPfjFisicaJuridica","LxTipoLogradouro#LxTipoLogradouro","Municipio#Municipio","NomeAutenticacao#NomeAutenticacao","NomeCurtoUsuario#NomeCurtoUsuario","NomeUsuario#NomeUsuario","Numero#Numero","ObsEndereco#ObsEndereco","Ramal#Ramal","Uf#Uf","UidUsuario#UidUsuario","VigenciaFinal#VigenciaFinal","VigenciaInicial#VigenciaInicial","IndicaAcessoSuporte#IndicaAcessoSuporte","NomeEmpresa#NomeEmpresa","UidEmpresa#UidEmpresa");
+             repSerializedEntitySearch = EntitySearch.FilterExpressionFields(repSerializedEntitySearch,"TcsUsuarioAutenticacao", "TcsUsuarioAutenticacao", 0, "AutenticacaoWindows#AutenticacaoWindows","Bairro#Bairro","Cep#Cep","CnpjCpf#CnpjCpf","Complemento#Complemento","ConfirmacaoUsuario#ConfirmacaoUsuario","ConfirmacaoUsuario1#ConfirmacaoUsuario1","CriaUsuario#CriaUsuario","DataAlteracao#DataAlteracao","DataCadastro#DataCadastro","DataExpiracaoSenha#DataExpiracaoSenha","Email#Email","FoneCelular#FoneCelular","FoneFixo#FoneFixo","GeraSenhaUsuario#GeraSenhaUsuario","IdLinx#IdLinx","IdUsuario#IdUsuario","Inativo#Inativo","IndicaUsuarioServico#IndicaUsuarioServico","InscrEstadualRg#InscrEstadualRg","Logradouro#Logradouro","LxPfjFisicaJuridica#LxPfjFisicaJuridica","LxTipoLogradouro#LxTipoLogradouro","Municipio#Municipio","NomeAutenticacao#NomeAutenticacao","NomeCurtoUsuario#NomeCurtoUsuario","NomeUsuario#NomeUsuario","Numero#Numero","ObsEndereco#ObsEndereco","Ramal#Ramal","Uf#Uf","UidUsuario#UidUsuario","VigenciaFinal#VigenciaFinal","VigenciaInicial#VigenciaInicial","IndicaAcessoSuporte#IndicaAcessoSuporte","NomeEmpresa#NomeEmpresa","UidEmpresa#UidEmpresa");
              repSerializedEntitySearch = EntitySearch.FilterExpressionFields(repSerializedEntitySearch,"TcsUsuarioAutenticacaoAcesso", "TcsUsuarioAutenticacaoAcessoP", 0, "DescricaoAmbiente#DescricaoAmbiente","DescricaoAmbienteRelacionado#DescricaoAmbienteRelacionado","DescricaoAplicacao#DescricaoAplicacao","DescricaoAplicativo#DescricaoAplicativo","IdAplicacao#IdAplicacao","IdLinx#IdLinx","IdTcsAmbiente#IdTcsAmbiente","IdTcsAmbienteRelacionado#IdTcsAmbienteRelacionado","IdTcsAplicativo#IdTcsAplicativo","IdTcsUsuarioAcesso#IdTcsUsuarioAcesso","IdUsuario#IdUsuario","IndicaAcessoPadrao#IndicaAcessoPadrao","NomeAutenticacao#NomeAutenticacao","NomeEmpresa#NomeEmpresa","NomeUsuario#NomeUsuario","Perfil#Perfil");
 		
 	        
@@ -4928,6 +4967,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
                 , IdLinx = TcsUsuarioAutenticacao_Rep1.IdLinx
                 , IdUsuario = TcsUsuarioAutenticacao_Rep1.IdUsuario
                 , Inativo = TcsUsuarioAutenticacao_Rep1.Inativo
+                , IndicaUsuarioServico = TcsUsuarioAutenticacao_Rep1.IndicaUsuarioServico
                 , InscrEstadualRg = TcsUsuarioAutenticacao_Rep1.InscrEstadualRg
                 , Logradouro = TcsUsuarioAutenticacao_Rep1.Logradouro
                 , LxPfjFisicaJuridica = TcsUsuarioAutenticacao_Rep1.LxPfjFisicaJuridica
@@ -5336,7 +5376,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
 	
 	        
              string repSerializedEntitySearch = serializedEntitySearch;
-             repSerializedEntitySearch = EntitySearch.FilterExpressionFields(repSerializedEntitySearch,"TcsUsuarioAutenticacao", "TcsUsuarioAutenticacao", 0, "AutenticacaoWindows#AutenticacaoWindows","Bairro#Bairro","Cep#Cep","CnpjCpf#CnpjCpf","Complemento#Complemento","ConfirmacaoUsuario#ConfirmacaoUsuario","ConfirmacaoUsuario1#ConfirmacaoUsuario1","CriaUsuario#CriaUsuario","DataAlteracao#DataAlteracao","DataCadastro#DataCadastro","DataExpiracaoSenha#DataExpiracaoSenha","Email#Email","FoneCelular#FoneCelular","FoneFixo#FoneFixo","GeraSenhaUsuario#GeraSenhaUsuario","IdLinx#IdLinx","IdUsuario#IdUsuario","Inativo#Inativo","InscrEstadualRg#InscrEstadualRg","Logradouro#Logradouro","LxPfjFisicaJuridica#LxPfjFisicaJuridica","LxTipoLogradouro#LxTipoLogradouro","Municipio#Municipio","NomeAutenticacao#NomeAutenticacao","NomeCurtoUsuario#NomeCurtoUsuario","NomeUsuario#NomeUsuario","Numero#Numero","ObsEndereco#ObsEndereco","Ramal#Ramal","Uf#Uf","UidUsuario#UidUsuario","VigenciaFinal#VigenciaFinal","VigenciaInicial#VigenciaInicial","IndicaAcessoSuporte#IndicaAcessoSuporte","NomeEmpresa#NomeEmpresa","UidEmpresa#UidEmpresa");
+             repSerializedEntitySearch = EntitySearch.FilterExpressionFields(repSerializedEntitySearch,"TcsUsuarioAutenticacao", "TcsUsuarioAutenticacao", 0, "AutenticacaoWindows#AutenticacaoWindows","Bairro#Bairro","Cep#Cep","CnpjCpf#CnpjCpf","Complemento#Complemento","ConfirmacaoUsuario#ConfirmacaoUsuario","ConfirmacaoUsuario1#ConfirmacaoUsuario1","CriaUsuario#CriaUsuario","DataAlteracao#DataAlteracao","DataCadastro#DataCadastro","DataExpiracaoSenha#DataExpiracaoSenha","Email#Email","FoneCelular#FoneCelular","FoneFixo#FoneFixo","GeraSenhaUsuario#GeraSenhaUsuario","IdLinx#IdLinx","IdUsuario#IdUsuario","Inativo#Inativo","IndicaUsuarioServico#IndicaUsuarioServico","InscrEstadualRg#InscrEstadualRg","Logradouro#Logradouro","LxPfjFisicaJuridica#LxPfjFisicaJuridica","LxTipoLogradouro#LxTipoLogradouro","Municipio#Municipio","NomeAutenticacao#NomeAutenticacao","NomeCurtoUsuario#NomeCurtoUsuario","NomeUsuario#NomeUsuario","Numero#Numero","ObsEndereco#ObsEndereco","Ramal#Ramal","Uf#Uf","UidUsuario#UidUsuario","VigenciaFinal#VigenciaFinal","VigenciaInicial#VigenciaInicial","IndicaAcessoSuporte#IndicaAcessoSuporte","NomeEmpresa#NomeEmpresa","UidEmpresa#UidEmpresa");
              repSerializedEntitySearch = EntitySearch.FilterExpressionFields(repSerializedEntitySearch,"TcsUsuarioAutenticacaoAcesso", "TcsUsuarioAutenticacaoAcessoP", 0, "DescricaoAmbiente#DescricaoAmbiente","DescricaoAmbienteRelacionado#DescricaoAmbienteRelacionado","DescricaoAplicacao#DescricaoAplicacao","DescricaoAplicativo#DescricaoAplicativo","IdAplicacao#IdAplicacao","IdLinx#IdLinx","IdTcsAmbiente#IdTcsAmbiente","IdTcsAmbienteRelacionado#IdTcsAmbienteRelacionado","IdTcsAplicativo#IdTcsAplicativo","IdTcsUsuarioAcesso#IdTcsUsuarioAcesso","IdUsuario#IdUsuario","IndicaAcessoPadrao#IndicaAcessoPadrao","NomeAutenticacao#NomeAutenticacao","NomeEmpresa#NomeEmpresa","NomeUsuario#NomeUsuario","Perfil#Perfil");
 		
 	        
@@ -5369,6 +5409,7 @@ namespace Linx.Framework.BV.UsuarioFranquia
                 , IdLinx = TcsUsuarioAutenticacao_Rep1.IdLinx
                 , IdUsuario = TcsUsuarioAutenticacao_Rep1.IdUsuario
                 , Inativo = TcsUsuarioAutenticacao_Rep1.Inativo
+                , IndicaUsuarioServico = TcsUsuarioAutenticacao_Rep1.IndicaUsuarioServico
                 , InscrEstadualRg = TcsUsuarioAutenticacao_Rep1.InscrEstadualRg
                 , Logradouro = TcsUsuarioAutenticacao_Rep1.Logradouro
                 , LxPfjFisicaJuridica = TcsUsuarioAutenticacao_Rep1.LxPfjFisicaJuridica

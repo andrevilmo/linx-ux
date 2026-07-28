@@ -68,7 +68,9 @@ var vmConstructor = function () {
 	 {Name: "CadastroUsuarioLocal_tbNomeAutenticacao", DisplayName: "Usuário Autenticação", ColumnSpan: 12, Visible: true, Key: "NomeAutenticacao"},
 	 {Name: "CadastroUsuarioLocal_tbNomeCurtoUsuario", DisplayName: "Apelido", ColumnSpan: 12, Visible: true, Key: "NomeCurtoUsuario"},
 	 {Name: "CadastroUsuarioLocal_tbEmail", DisplayName: "Email", ColumnSpan: 12, Visible: true, Key: "Email"},
-	 {Name: "CadastroUsuarioLocal_ckInativo", DisplayName: "Inativo", ColumnSpan: 6, Visible: true, Key: "Inativo"},]},
+	 {Name: "CadastroUsuarioLocal_ckInativo", DisplayName: "Inativo", ColumnSpan: 4, Visible: true, Key: "Inativo"},
+	 {Name: "CadastroUsuarioLocal_ckIndicaUsuarioServico", DisplayName: "Usuário de serviço", ColumnSpan: 4, Visible: true, Key: "IndicaUsuarioServico"},
+	 {Name: "CadastroUsuarioLocal_ckBlocked", DisplayName: "Bloqueado", ColumnSpan: 4, Visible: true, Key: "Blocked"},]},
 	 {Name: "CadastroUsuarioLocal_gbGroupBox_294d36395b1f414997b597e9a47dd1b7", DisplayName: "", ColumnSpan: 2, Visible: true, Items: [
 	 {Name: "CadastroUsuarioLocal_dtVigenciaInicial", DisplayName: "Vigência Inicial", ColumnSpan: 12, Visible: true, Key: "VigenciaInicial"},
 	 {Name: "CadastroUsuarioLocal_dtVigenciaFinal", DisplayName: "Vigência Final", ColumnSpan: 12, Visible: true, Key: "VigenciaFinal"},
@@ -454,6 +456,9 @@ var vmConstructor = function () {
         }
         OnLoaded();
         scrollMainTop();
+        currentDataItem.subscribe(function (item) {
+            refreshMembershipBlocked(item);
+        });
         vm.currentBrands.subscribe(function(newValue) {
             newValue = isNull(newValue) ? vm.currentBrands() : newValue;
             var searchedBrands = managerBrand.searchBrandsVM(newValue, managerAuth.getIdTcsAmbiente());
@@ -512,7 +517,7 @@ var vmConstructor = function () {
         return '';
     };
     
-    var visibleColumns = 'NomeUsuario,NomeAutenticacao,NomeCurtoUsuario,Email,Inativo,VigenciaInicial,VigenciaFinal,DataExpiracaoSenha,DataCadastro,DataAlteracao,ConfirmacaoUsuario,ConfirmacaoUsuario1,LxPfjFisicaJuridica,CnpjCpf,InscrEstadualRg,LxTipoLogradouro,Logradouro,Numero,Complemento,Cep,Bairro,Municipio,Uf,ObsEndereco,FoneFixo,Ramal,FoneCelular';
+    var visibleColumns = 'NomeUsuario,NomeAutenticacao,NomeCurtoUsuario,Email,Inativo,IndicaUsuarioServico,VigenciaInicial,VigenciaFinal,DataExpiracaoSenha,DataCadastro,DataAlteracao,ConfirmacaoUsuario,ConfirmacaoUsuario1,LxPfjFisicaJuridica,CnpjCpf,InscrEstadualRg,LxTipoLogradouro,Logradouro,Numero,Complemento,Cep,Bairro,Municipio,Uf,ObsEndereco,FoneFixo,Ramal,FoneCelular';
     
     var getVisiblePropertiesForExcel = function (dataName) {
         if (vm.dataSource.length > 0) {
@@ -1739,6 +1744,60 @@ if (control.length >0 && control[0].childNodes.length == 1){
             return false;
         }
     });
+    var ensureBlockedObservable = function (entity) {
+        if (isNullOrEmpty(entity))
+            return;
+        if (typeof entity.Blocked === 'undefined')
+            entity.Blocked = ko.observable(false);
+        else if (typeof entity.Blocked !== 'function')
+            entity.Blocked = ko.observable(!!entity.Blocked);
+    };
+    var parseMembershipLocked = function (locked) {
+        if (locked === true || locked === 1)
+            return true;
+        if (typeof locked === 'string') {
+            var normalized = locked.replace(/"/g, '').trim().toLowerCase();
+            return normalized === 'true' || normalized === '1';
+        }
+        return false;
+    };
+    var refreshMembershipBlocked = function (item) {
+        try {
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+                return;
+            ensureBlockedObservable(item);
+
+            var loginName = getAbsoluteValue(item.NomeAutenticacao);
+            if (isNullOrEmpty(loginName)) {
+                setAbsoluteValue(item, 'Blocked', false);
+                return;
+            }
+
+            $.ajax({
+                type: 'GET',
+                headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                url: managerAuth.getServiceAddress('LinxFrameworkAutorizacao', 'Linx.Framework.BV') + '/IsMembershipUserLockedOut',
+                data: { userName: loginName },
+                dataType: 'json',
+                async: true,
+                cache: false,
+                error: function () {
+                    // Do not clear a previously known lockout state on transient errors
+                },
+                success: function (locked) {
+                    // Ignore stale responses if user navigated away
+                    var current = currentDataItem();
+                    if (isNullOrEmpty(current) || getAbsoluteValue(current.NomeAutenticacao) !== loginName)
+                        return;
+                    ensureBlockedObservable(current);
+                    setAbsoluteValue(current, 'Blocked', parseMembershipLocked(locked));
+                }
+            });
+        }
+        catch (e) {
+            // keep UI responsive even if Membership probe fails
+        }
+    };
     var unlockUser = function () {
         try {
             var item = currentDataItem();
@@ -1777,6 +1836,7 @@ if (control.length >0 && control[0].childNodes.length == 1){
                     },
                     success: function () {
                         dataToolbar.isBusy(false);
+                        setAbsoluteValue(item, 'Blocked', false);
                         app.showMessage('Usuário "' + loginName + '" desbloqueado com sucesso.', 'Informação', ['Ok']);
                     }
                 });
