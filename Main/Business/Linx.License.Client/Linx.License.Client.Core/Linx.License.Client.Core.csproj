@@ -88,7 +88,7 @@
     </Compile>
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(SkipPostBuild)' != 'true'">
     <Exec Command="cd &quot;$(TargetDir)&quot;&#xD;&#xA;xcopy &quot;..\..\..\appsettings.json&quot; &quot;.&quot; /Y /R&#xD;&#xA;rename &quot;appsettings.json&quot; &quot;Linx.License.Client.Core.dll.json&quot;&#xD;&#xA;xcopy &quot;Linx.License.Client.Core.dll*&quot; &quot;..\..\..\..\..\..\Binary\Library\Common\Linx\Nuget\BM&quot; /Y /R&#xD;&#xA;xcopy &quot;Linx.License.Client.Core.dll&quot; &quot;..\..\..\..\..\..\Binary\CoreServiceBus\BusinessModules\BM\Linx.License.Client.Core\bin&quot; /Y /R&#xD;&#xA;xcopy &quot;DB&quot; &quot;..\..\..\..\..\..\Binary\CoreServiceBus\BusinessModules\BM\Linx.License.Client.Core\bin&quot; /Y /R&#xD;&#xA;" />
   </Target>
   

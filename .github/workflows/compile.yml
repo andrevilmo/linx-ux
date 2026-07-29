@@ -85,7 +85,7 @@ jobs:
           $failed = 0
           foreach ($p in $projects) {
             Write-Host "::group::Build $p"
-            dotnet build $p -c Release /p:PostBuildEvent=
+            dotnet build $p -c Release /p:PostBuildEvent= /p:SkipPostBuild=true
             if ($LASTEXITCODE -ne 0) { $failed = 1 }
             Write-Host "::endgroup::"
           }
