@@ -35,16 +35,29 @@ jobs:
       - name: Setup NuGet
         uses: nuget/setup-nuget@v2
 
+      - name: Install .NET Framework 4.6.1 targeting pack
+        shell: powershell
+        run: |
+          choco install netfx-4.6.1-devpack -y --no-progress
+          if (-not (Test-Path 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1')) {
+            Write-Error '.NET Framework 4.6.1 reference assemblies still missing after install.'
+            exit 1
+          }
+
       - name: NuGet restore
         run: nuget restore "${{ matrix.solution }}" -NonInteractive
         continue-on-error: true
 
       - name: MSBuild ${{ matrix.name }}
-        run: msbuild "${{ matrix.solution }}" /p:Configuration=Release /m /v:minimal /nologo
+        run: >
+          msbuild "${{ matrix.solution }}"
+          /p:Configuration=Release
+          /p:PostBuildEvent=
+          /m /v:minimal /nologo
 
   build-core:
     name: Build .NET Core projects
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,24 +70,23 @@ jobs:
             8.0.x
 
       - name: Build Core libraries
+        shell: pwsh
         run: |
-          set -e
-          projects=(
-            "Main/Data/Linx.Data.Core/Linx.Data.Core.csproj"
-            "Main/Common/Linx.Tools.Library/Desktop/Linx.Tools.Core/Linx.Tools.Core.csproj"
-            "Main/Common/Linx.LinqExtensions.Library/Desktop/Linx.LinqExtensions.Core/Linx.LinqExtensions.Core.csproj"
-            "Main/Common/Linx.Security.Core/Linx.Security.Core.csproj"
-            "Main/Data/Linx.DataService/Linx.DomainService.Core/Linx.DomainService.Core.csproj"
-            "Main/Data/Linx.DataService/Linx.DataService.Core/Linx.DataService.Core.csproj"
-            "Main/Business/Linx.License.Client/Linx.License.Client.Core/Linx.License.Client.Core.csproj"
+          $projects = @(
+            "Main/Data/Linx.Data.Core/Linx.Data.Core.csproj",
+            "Main/Common/Linx.Tools.Library/Desktop/Linx.Tools.Core/Linx.Tools.Core.csproj",
+            "Main/Common/Linx.LinqExtensions.Library/Desktop/Linx.LinqExtensions.Core/Linx.LinqExtensions.Core.csproj",
+            "Main/Common/Linx.Security.Core/Linx.Security.Core.csproj",
+            "Main/Data/Linx.DataService/Linx.DomainService.Core/Linx.DomainService.Core.csproj",
+            "Main/Data/Linx.DataService/Linx.DataService.Core/Linx.DataService.Core.csproj",
+            "Main/Business/Linx.License.Client/Linx.License.Client.Core/Linx.License.Client.Core.csproj",
             "Main/Business/Linx.License.Client/Linx.License.Client.WebAPICore/Linx.License.Client.WebAPICore.csproj"
           )
-          failed=0
-          for p in "${projects[@]}"; do
-            echo "::group::Build $p"
-            if ! dotnet build "$p" -c Release; then
-              failed=1
-            fi
-            echo "::endgroup::"
-          done
+          $failed = 0
+          foreach ($p in $projects) {
+            Write-Host "::group::Build $p"
+            dotnet build $p -c Release /p:PostBuildEvent=
+            if ($LASTEXITCODE -ne 0) { $failed = 1 }
+            Write-Host "::endgroup::"
+          }
           exit $failed
