@@ -1,0 +1,98 @@
+name: Build Artifacts
+
+# Builds the Windows .NET Framework web apps (Application, Portal, Service) and
+# publishes their compiled output as downloadable workflow artifacts.
+#
+# These projects target .NET Framework 4.6.1/4.8 and can only be built with
+# MSBuild on Windows (see Application/Linx.Internet.Application/Dockerfile),
+# so the job runs on the GitHub-hosted `windows-latest` runner.
+#
+# NuGet packages are committed per-solution under `packages/`, and the build
+# mirrors the repo Dockerfile: `nuget restore` followed by
+# `msbuild /p:Configuration=Release`.
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'cursor/**'
+    paths:
+      - 'Main/**'
+      - '.github/workflows/build-artifacts.yml'
+  pull_request:
+    paths:
+      - 'Main/**'
+      - '.github/workflows/build-artifacts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ matrix.name }}
+    runs-on: windows-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Application
+            solution: Main/Application/Linx.Internet.Application/Linx.Internet.Application.sln
+          - name: Portal
+            solution: Main/Application/Linx.Portal/Linx.Portal.sln
+          - name: Service
+            solution: Main/Data/Linx.DataService/Linx.DataService.sln
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: NuGet restore
+        run: nuget restore "${{ matrix.solution }}" -NonInteractive
+
+      - name: Build (Release)
+        run: msbuild "${{ matrix.solution }}" /p:Configuration=Release /m /v:minimal /nologo
+
+      - name: Collect build output
+        if: always()
+        shell: pwsh
+        run: |
+          $solution = "${{ matrix.solution }}"
+          $solutionDir = Split-Path -Parent $solution
+          $stage = Join-Path $env:RUNNER_TEMP "artifact/${{ matrix.name }}"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+
+          # Copy every compiled `bin` directory under the solution folder,
+          # preserving its path relative to the solution directory.
+          $binDirs = Get-ChildItem -Path $solutionDir -Directory -Recurse -Filter 'bin' `
+            | Where-Object { $_.FullName -notmatch '\\(obj|packages)\\' }
+
+          if (-not $binDirs) {
+            Write-Warning "No 'bin' output directories found under $solutionDir."
+          }
+
+          foreach ($bin in $binDirs) {
+            $relative = $bin.FullName.Substring((Resolve-Path $solutionDir).Path.Length).TrimStart('\','/')
+            $dest = Join-Path $stage $relative
+            New-Item -ItemType Directory -Force -Path $dest | Out-Null
+            Copy-Item -Path (Join-Path $bin.FullName '*') -Destination $dest -Recurse -Force
+            Write-Host "Collected $relative"
+          }
+
+          "ARTIFACT_STAGE=$stage" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: ${{ env.ARTIFACT_STAGE }}
+          if-no-files-found: warn
+          retention-days: 14
