@@ -7,6 +7,8 @@ This repo (`linx-ux`, the Linx Framework ERP monorepo) is **overwhelmingly Windo
 
 The **front-end SPA** (`Main/Workarea`, `Main/User Interface`) depends on Linx's **private npm registry** packages `@linx.uxmobile/linx-web-host` and `@linx.uxmobile/linx-bootstrap`. These are **404 on public npm** and there is no `.npmrc` auth configured, so `npm install`/`npm run dev` for the SPA cannot run here without private-registry credentials.
 
+The prebuilt .NET Framework web apps — **Service** (`Main/Binary/Service`, port 1710), **Portal** (`Main/Binary/Portal`, port 8172), and **Application** (`Main/Binary/Application`) — are classic ASP.NET `System.Web` apps launched on Windows via `WebDev.WebServer40.exe` or IIS Express (`WebDevWeb.bat` / `WebIISExpress.bat`). **Do not try to run these on the Linux cloud desktop.** Mono + `xsp4` is NOT a workaround: Ubuntu 24.04's `mono-xsp4` (Mono 6.8) crashes on startup even for an empty site (`TypeLoadException` on `Mono.Security.Protocol.Tls.PrivateKeySelectionCallback`), and even if hosted, the apps depend on **WCF RIA DomainServices** (`System.ServiceModel.DomainServices.*`, unimplemented in Mono), **Telerik Reporting/OpenAccess** (Windows-native), and Integrated-Security SQL. Running Service/Portal/Application requires a **Windows host** (IIS Express) or **Windows containers**. On Linux, the `CoreServiceBus` (below) is the only runnable analog of "Service".
+
 ### What actually runs on Linux: the ServiceBus (`CoreServiceBus`)
 The only cross-platform, runnable component is the **prebuilt .NET Core 2.0 data/domain API host** at `Main/Binary/CoreServiceBus` (`LinxHostCore.dll`). It is already compiled (binaries are committed), so no restore/build is needed.
 
