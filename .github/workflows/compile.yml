@@ -1,0 +1,92 @@
+name: Compile
+
+on:
+  push:
+    branches:
+      - master
+      - cursor/**
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-framework:
+    name: Build .NET Framework solutions
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Linx.Framework.BV
+            solution: Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.sln
+          - name: Linx.Framework.BV.WebAPI.DS
+            solution: Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Linx.Framework.BV.WebAPI.DS.csproj
+          - name: Linx.Internet.Application
+            solution: Main/Application/Linx.Internet.Application/Linx.Internet.Application.sln
+          - name: Linx.Portal
+            solution: Main/Application/Linx.Portal/Linx.Portal.sln
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v2
+
+      - name: Install .NET Framework 4.6.1 targeting pack
+        shell: powershell
+        run: |
+          choco install netfx-4.6.1-devpack -y --no-progress
+          if (-not (Test-Path 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1')) {
+            Write-Error '.NET Framework 4.6.1 reference assemblies still missing after install.'
+            exit 1
+          }
+
+      - name: NuGet restore
+        run: nuget restore "${{ matrix.solution }}" -NonInteractive
+        continue-on-error: true
+
+      - name: MSBuild ${{ matrix.name }}
+        run: >
+          msbuild "${{ matrix.solution }}"
+          /p:Configuration=Release
+          /p:PostBuildEvent=
+          /m /v:minimal /nologo
+
+  build-core:
+    name: Build .NET Core projects
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            2.1.x
+            8.0.x
+
+      - name: Build Core libraries
+        shell: pwsh
+        run: |
+          $projects = @(
+            "Main/Data/Linx.Data.Core/Linx.Data.Core.csproj",
+            "Main/Common/Linx.Tools.Library/Desktop/Linx.Tools.Core/Linx.Tools.Core.csproj",
+            "Main/Common/Linx.LinqExtensions.Library/Desktop/Linx.LinqExtensions.Core/Linx.LinqExtensions.Core.csproj",
+            "Main/Common/Linx.Security.Core/Linx.Security.Core.csproj",
+            "Main/Data/Linx.DataService/Linx.DomainService.Core/Linx.DomainService.Core.csproj",
+            "Main/Data/Linx.DataService/Linx.DataService.Core/Linx.DataService.Core.csproj",
+            "Main/Business/Linx.License.Client/Linx.License.Client.Core/Linx.License.Client.Core.csproj",
+            "Main/Business/Linx.License.Client/Linx.License.Client.WebAPICore/Linx.License.Client.WebAPICore.csproj"
+          )
+          $failed = 0
+          foreach ($p in $projects) {
+            Write-Host "::group::Build $p"
+            dotnet build $p -c Release /p:PostBuildEvent= /p:SkipPostBuild=true
+            if ($LASTEXITCODE -ne 0) { $failed = 1 }
+            Write-Host "::endgroup::"
+          }
+          exit $failed
