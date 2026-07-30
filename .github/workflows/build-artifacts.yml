@@ -3,13 +3,11 @@ name: Build Artifacts
 # Builds the Windows .NET Framework web apps (Application, Portal, Service) and
 # publishes their compiled output as downloadable workflow artifacts.
 #
-# These projects target .NET Framework 4.6.1/4.8 and can only be built with
-# MSBuild on Windows (see Application/Linx.Internet.Application/Dockerfile),
-# so the job runs on the GitHub-hosted `windows-latest` runner.
-#
-# NuGet packages are committed per-solution under `packages/`, and the build
-# mirrors the repo Dockerfile: `nuget restore` followed by
-# `msbuild /p:Configuration=Release`.
+# These projects target .NET Framework 4.6.1 and can only be built with MSBuild
+# on Windows (see Application/Linx.Internet.Application/Dockerfile), so the job
+# runs on the GitHub-hosted `windows-latest` runner. NuGet packages are
+# committed per-solution under `packages/`, and the build mirrors the repo
+# Dockerfile: `nuget restore` followed by `msbuild /p:Configuration=Release`.
 
 on:
   push:
@@ -40,12 +38,27 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # `solution` is restored (so every referenced project's packages are
+          # available); `build` is the MSBuild target that is actually compiled;
+          # `collect_dir` is scanned for `bin` folders to publish as the artifact.
+          #
+          # Application: build the ASP.NET MVC web project directly. The full
+          # .sln also contains the CefSharp WPF desktop shell
+          # (Linx.Internet.Application.WinHost, .NET Framework v4.0) which is not
+          # a web deployable, so we scope the compile to the web app; its `bin`
+          # already contains all copy-local dependencies.
           - name: Application
             solution: Main/Application/Linx.Internet.Application/Linx.Internet.Application.sln
+            build: Main/Application/Linx.Internet.Application/Linx.Internet.Application/Linx.Internet.Application.csproj
+            collect_dir: Main/Application/Linx.Internet.Application/Linx.Internet.Application
           - name: Portal
             solution: Main/Application/Linx.Portal/Linx.Portal.sln
+            build: Main/Application/Linx.Portal/Linx.Portal.sln
+            collect_dir: Main/Application/Linx.Portal
           - name: Service
             solution: Main/Data/Linx.DataService/Linx.DataService.sln
+            build: Main/Data/Linx.DataService/Linx.DataService.sln
+            collect_dir: Main/Data/Linx.DataService
 
     steps:
       - name: Checkout
@@ -63,32 +76,50 @@ jobs:
       - name: Install .NET Framework 4.6.1 targeting pack
         run: choco install netfx-4.6.1-devpack -y --no-progress --limit-output
 
+      # The Service project references the (discontinued) WCF RIA Services SDK
+      # assembly via a HintPath that resolves one directory above the checkout.
+      # That assembly is vendored in the repo under Binary/Service/bin, so stage
+      # it at the expected location instead of installing the old SDK.
+      - name: Stage WCF RIA Services SDK assembly (Service)
+        if: matrix.name == 'Service'
+        shell: pwsh
+        run: |
+          $riaDir = Join-Path (Split-Path $env:GITHUB_WORKSPACE -Parent) 'Program Files (x86)\Microsoft SDKs\RIA Services\v1.0\Libraries\Server'
+          New-Item -ItemType Directory -Force -Path $riaDir | Out-Null
+          Copy-Item -Force `
+            (Join-Path $env:GITHUB_WORKSPACE 'Main\Binary\Service\bin\System.ServiceModel.DomainServices.Server.dll') `
+            $riaDir
+          Write-Host "Staged RIA Services assembly to $riaDir"
+
       - name: NuGet restore
         run: nuget restore "${{ matrix.solution }}" -NonInteractive
 
+      # `/p:PostBuildEvent=` neutralizes per-project post-build `xcopy` steps that
+      # populate the repo's committed `Binary/` folders on a developer machine;
+      # they are irrelevant to CI and fail on the runner.
       - name: Build (Release)
-        run: msbuild "${{ matrix.solution }}" /p:Configuration=Release /m /v:minimal /nologo
+        run: msbuild "${{ matrix.build }}" /p:Configuration=Release /p:PostBuildEvent= /m /v:minimal /nologo
 
       - name: Collect build output
         if: always()
         shell: pwsh
         run: |
-          $solution = "${{ matrix.solution }}"
-          $solutionDir = Split-Path -Parent $solution
+          $collectDir = Join-Path $env:GITHUB_WORKSPACE "${{ matrix.collect_dir }}"
           $stage = Join-Path $env:RUNNER_TEMP "artifact/${{ matrix.name }}"
           New-Item -ItemType Directory -Force -Path $stage | Out-Null
 
-          # Copy every compiled `bin` directory under the solution folder,
-          # preserving its path relative to the solution directory.
-          $binDirs = Get-ChildItem -Path $solutionDir -Directory -Recurse -Filter 'bin' `
+          # Copy every compiled `bin` directory under the collect dir, preserving
+          # its path relative to that directory.
+          $binDirs = Get-ChildItem -Path $collectDir -Directory -Recurse -Filter 'bin' `
             | Where-Object { $_.FullName -notmatch '\\(obj|packages)\\' }
 
           if (-not $binDirs) {
-            Write-Warning "No 'bin' output directories found under $solutionDir."
+            Write-Warning "No 'bin' output directories found under $collectDir."
           }
 
+          $base = (Resolve-Path $collectDir).Path
           foreach ($bin in $binDirs) {
-            $relative = $bin.FullName.Substring((Resolve-Path $solutionDir).Path.Length).TrimStart('\','/')
+            $relative = $bin.FullName.Substring($base.Length).TrimStart('\','/')
             $dest = Join-Path $stage $relative
             New-Item -ItemType Directory -Force -Path $dest | Out-Null
             Copy-Item -Path (Join-Path $bin.FullName '*') -Destination $dest -Recurse -Force
