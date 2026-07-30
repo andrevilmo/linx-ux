@@ -106,18 +106,22 @@ jobs:
       # populate the repo's committed `Binary/` folders on a developer machine;
       # they are irrelevant to CI and fail on the runner.
 
-      # Web apps: publish to a clean folder via the Web Publishing Pipeline.
+      # Web apps: run the Web Publishing Pipeline, which assembles the complete
+      # deployable web app (bin + views + content + web.config, no source) into
+      # the intermediate `obj\Release\Package\PackageTmp` folder. We package that
+      # folder directly.
       - name: Publish web app
         if: matrix.type == 'web'
         shell: pwsh
         run: |
-          $publishDir = Join-Path $env:RUNNER_TEMP "publish\${{ matrix.name }}"
+          $projDir = Split-Path (Join-Path $env:GITHUB_WORKSPACE "${{ matrix.webproj }}") -Parent
+          $publishDir = Join-Path $projDir "obj\Release\Package\PackageTmp"
           msbuild "${{ matrix.webproj }}" `
             /p:Configuration=Release /p:PostBuildEvent= `
-            /p:DeployOnBuild=true /p:WebPublishMethod=FileSystem `
-            /p:PublishProvider=FileSystem /p:DeleteExistingFiles=true `
-            /p:publishUrl="$publishDir" /m /v:minimal /nologo
+            /p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=true `
+            /m /v:minimal /nologo
           if ($LASTEXITCODE -ne 0) { throw "MSBuild publish failed ($LASTEXITCODE)" }
+          if (-not (Test-Path $publishDir)) { throw "Publish output not found at $publishDir" }
           "PACKAGE_CONTENT=$publishDir" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 
       # Service (class library): build, then assemble the deployable web root
