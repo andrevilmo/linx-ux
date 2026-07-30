@@ -32,7 +32,11 @@ Non-obvious gotchas:
 - There is no lockfile-based dependency refresh for this repo; the runnable component ships prebuilt binaries. The update script only ensures the .NET Core runtime + `libssl1.1` are present.
 
 ### CI/CD — building the Windows artifacts
-`.github/workflows/build-artifacts.yml` builds **Application**, **Portal**, and **Service** on the GitHub-hosted `windows-latest` runner (matrix, `fail-fast: false`) and uploads each app's compiled `bin` as a workflow artifact. It runs on push to `master`, on pull requests, and via `workflow_dispatch`. This is the only place these Windows-only apps can be built end-to-end in CI (they cannot build on the Linux cloud VM).
+`.github/workflows/build-artifacts.yml` builds **Application**, **Portal**, and **Service** on the GitHub-hosted `windows-latest` runner (matrix, `fail-fast: false`) and uploads a **deployable `.zip` package per app** (`<App>-<run_number>-<short_sha>.zip`, artifact names `Application-package` / `Portal-package` / `Service-package`). It runs on push to `master`, on pull requests, and via `workflow_dispatch`. This is the only place these Windows-only apps can be built end-to-end in CI (they cannot build on the Linux cloud VM).
+
+Packaging strategy per app:
+- **Application / Portal** (ASP.NET MVC web apps): MSBuild Web Publishing Pipeline (`/p:DeployOnBuild=true`) assembles the deployable web app into `obj\Release\Package\PackageTmp` (bin + Views + Content + Web.config, no source); that folder is zipped. The classic `WebPublishMethod=FileSystem` `publishUrl` copy is unreliable on the runner, so we package `PackageTmp` directly.
+- **Service** (`Linx.DataService`, a class library): the deployable service web root committed at `Binary/Service` is copied and its `bin` is overlaid with the freshly built assemblies, then zipped.
 
 Non-obvious things the workflow has to do (so the build is green on a stock runner):
 - **Install the .NET Framework 4.6.1 targeting pack** (`choco install netfx-4.6.1-devpack`) — not preinstalled, otherwise `MSB3644`.
