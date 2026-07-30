@@ -1,0 +1,177 @@
+name: Build Artifacts
+
+# Builds the Windows .NET Framework apps (Application, Portal, Service) and
+# publishes a deployable package (.zip) per app as a downloadable workflow
+# artifact.
+#
+# These projects target .NET Framework 4.6.1 and can only be built with MSBuild
+# on Windows (see Application/Linx.Internet.Application/Dockerfile), so the job
+# runs on the GitHub-hosted `windows-latest` runner. NuGet packages are
+# committed per-solution under `packages/`, and the build mirrors the repo
+# Dockerfile: `nuget restore` followed by `msbuild /p:Configuration=Release`.
+#
+# Packaging:
+#   * Application / Portal (ASP.NET MVC web apps) -> MSBuild FileSystem web
+#     publish (bin + views + content + config, no source) then zipped.
+#   * Service (Linx.DataService class library) -> the deployable service web
+#     root `Binary/Service` overlaid with the freshly built assemblies, zipped.
+# Each package is named <App>-<run_number>-<short_sha>.zip.
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'Main/**'
+      - '.github/workflows/build-artifacts.yml'
+  pull_request:
+    paths:
+      - 'Main/**'
+      - '.github/workflows/build-artifacts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-artifacts-${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build ${{ matrix.name }}
+    runs-on: windows-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # `solution` is restored so every referenced project's NuGet packages
+          # are available. `type` selects the packaging strategy below.
+          #
+          # Application: publish the ASP.NET MVC web project directly. The full
+          # .sln also contains the CefSharp WPF desktop shell
+          # (Linx.Internet.Application.WinHost, .NET Framework v4.0) which is not
+          # a web deployable, so we scope publishing to the web app.
+          - name: Application
+            type: web
+            solution: Main/Application/Linx.Internet.Application/Linx.Internet.Application.sln
+            webproj: Main/Application/Linx.Internet.Application/Linx.Internet.Application/Linx.Internet.Application.csproj
+          - name: Portal
+            type: web
+            solution: Main/Application/Linx.Portal/Linx.Portal.sln
+            webproj: Main/Application/Linx.Portal/Linx.Portal/Linx.Portal.csproj
+          - name: Service
+            type: service
+            solution: Main/Data/Linx.DataService/Linx.DataService.sln
+            build: Main/Data/Linx.DataService/Linx.DataService.sln
+            service_root: Main/Binary/Service
+            service_built_bin: Main/Data/Linx.DataService/Linx.DataService/bin/Release
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      # Projects target .NET Framework v4.6.1, whose targeting pack is not
+      # preinstalled on windows-latest. Install it so MSBuild can resolve the
+      # reference assemblies (fixes MSB3644).
+      - name: Install .NET Framework 4.6.1 targeting pack
+        run: choco install netfx-4.6.1-devpack -y --no-progress --limit-output
+
+      # The Service project references the (discontinued) WCF RIA Services SDK
+      # assembly via a HintPath that resolves one directory above the checkout.
+      # That assembly is vendored in the repo under Binary/Service/bin, so stage
+      # it at the expected location instead of installing the old SDK.
+      - name: Stage WCF RIA Services SDK assembly (Service)
+        if: matrix.type == 'service'
+        shell: pwsh
+        run: |
+          $riaDir = Join-Path (Split-Path $env:GITHUB_WORKSPACE -Parent) 'Program Files (x86)\Microsoft SDKs\RIA Services\v1.0\Libraries\Server'
+          New-Item -ItemType Directory -Force -Path $riaDir | Out-Null
+          Copy-Item -Force `
+            (Join-Path $env:GITHUB_WORKSPACE 'Main\Binary\Service\bin\System.ServiceModel.DomainServices.Server.dll') `
+            $riaDir
+          Write-Host "Staged RIA Services assembly to $riaDir"
+
+      - name: NuGet restore
+        run: nuget restore "${{ matrix.solution }}" -NonInteractive
+
+      # `/p:PostBuildEvent=` neutralizes per-project post-build `xcopy` steps that
+      # populate the repo's committed `Binary/` folders on a developer machine;
+      # they are irrelevant to CI and fail on the runner.
+
+      # Web apps: run the Web Publishing Pipeline, which assembles the complete
+      # deployable web app (bin + views + content + web.config, no source) into
+      # the intermediate `obj\Release\Package\PackageTmp` folder. We package that
+      # folder directly.
+      - name: Publish web app
+        if: matrix.type == 'web'
+        shell: pwsh
+        run: |
+          $projDir = Split-Path (Join-Path $env:GITHUB_WORKSPACE "${{ matrix.webproj }}") -Parent
+          $publishDir = Join-Path $projDir "obj\Release\Package\PackageTmp"
+          msbuild "${{ matrix.webproj }}" `
+            /p:Configuration=Release /p:PostBuildEvent= `
+            /p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=true `
+            /m /v:minimal /nologo
+          if ($LASTEXITCODE -ne 0) { throw "MSBuild publish failed ($LASTEXITCODE)" }
+          if (-not (Test-Path $publishDir)) { throw "Publish output not found at $publishDir" }
+          "PACKAGE_CONTENT=$publishDir" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      # Service (class library): build, then assemble the deployable web root
+      # (Binary/Service) with the freshly compiled assemblies.
+      - name: Build and assemble service package
+        if: matrix.type == 'service'
+        shell: pwsh
+        run: |
+          msbuild "${{ matrix.build }}" /p:Configuration=Release /p:PostBuildEvent= /m /v:minimal /nologo
+          if ($LASTEXITCODE -ne 0) { throw "MSBuild failed ($LASTEXITCODE)" }
+
+          $publishDir = Join-Path $env:RUNNER_TEMP "publish\${{ matrix.name }}"
+          $root = Join-Path $env:GITHUB_WORKSPACE "${{ matrix.service_root }}"
+          New-Item -ItemType Directory -Force -Path $publishDir | Out-Null
+
+          # Start from the deployable service web root committed in the repo...
+          Copy-Item -Path (Join-Path $root '*') -Destination $publishDir -Recurse -Force
+          # ...then overlay the freshly built assemblies into bin.
+          $builtBin = Join-Path $env:GITHUB_WORKSPACE "${{ matrix.service_built_bin }}"
+          $destBin = Join-Path $publishDir 'bin'
+          New-Item -ItemType Directory -Force -Path $destBin | Out-Null
+          if (Test-Path $builtBin) {
+            Copy-Item -Path (Join-Path $builtBin '*') -Destination $destBin -Recurse -Force
+            Write-Host "Overlaid freshly built assemblies from $builtBin"
+          } else {
+            Write-Warning "Built bin not found at $builtBin"
+          }
+          "PACKAGE_CONTENT=$publishDir" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Create package (.zip)
+        shell: pwsh
+        run: |
+          $shortSha = "${{ github.sha }}".Substring(0,7)
+          $pkgName = "${{ matrix.name }}-${{ github.run_number }}-$shortSha.zip"
+          $stage = Join-Path $env:RUNNER_TEMP "package"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          $zipPath = Join-Path $stage $pkgName
+
+          if (-not (Test-Path $env:PACKAGE_CONTENT)) {
+            throw "Package content directory '$env:PACKAGE_CONTENT' does not exist."
+          }
+          Compress-Archive -Path (Join-Path $env:PACKAGE_CONTENT '*') -DestinationPath $zipPath -Force
+          $size = [math]::Round((Get-Item $zipPath).Length / 1MB, 2)
+          Write-Host "Created package $pkgName ($size MB)"
+          "PACKAGE_PATH=$zipPath" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}-package
+          path: ${{ env.PACKAGE_PATH }}
+          if-no-files-found: error
+          retention-days: 14
