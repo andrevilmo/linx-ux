@@ -31,5 +31,16 @@ Non-obvious gotchas:
 - `.NET Core runtime 2.1.30` is installed at `/usr/share/dotnet` (symlinked to `/usr/local/bin/dotnet`). The app targets `netcoreapp2.0` and rolls forward to 2.1.x.
 - There is no lockfile-based dependency refresh for this repo; the runnable component ships prebuilt binaries. The update script only ensures the .NET Core runtime + `libssl1.1` are present.
 
+### CI/CD — building the Windows artifacts
+`.github/workflows/build-artifacts.yml` builds **Application**, **Portal**, and **Service** on the GitHub-hosted `windows-latest` runner (matrix, `fail-fast: false`) and uploads each app's compiled `bin` as a workflow artifact. It runs on push to `master`, on pull requests, and via `workflow_dispatch`. This is the only place these Windows-only apps can be built end-to-end in CI (they cannot build on the Linux cloud VM).
+
+Non-obvious things the workflow has to do (so the build is green on a stock runner):
+- **Install the .NET Framework 4.6.1 targeting pack** (`choco install netfx-4.6.1-devpack`) — not preinstalled, otherwise `MSB3644`.
+- **`msbuild ... /p:PostBuildEvent=`** — neutralizes per-project post-build `xcopy` steps (e.g. in `Linx.Framework.BV.csproj`) that copy DLLs into the committed `Binary/` folders on a dev machine; they fail on CI and are irrelevant to artifact generation.
+- **Restore the full `.sln`, but compile a scoped target.** For **Application** it builds the web project `Linx.Internet.Application.csproj` (not the full `.sln`) to skip the CefSharp WPF desktop shell `Linx.Internet.Application.WinHost` (targets .NET Framework v4.0, whose pack isn't on the runner, and pulls heavy native CefSharp bits). The web project's `bin` already contains all copy-local dependencies.
+- **Stage the WCF RIA Services SDK assembly for Service.** `Data/Linx.DataService/Linx.DataService.csproj` references `System.ServiceModel.DomainServices.Server.dll` via a relative HintPath that resolves to one directory *above* the checkout (`<workspace>\..\Program Files (x86)\Microsoft SDKs\RIA Services\v1.0\Libraries\Server\`). The DLL is vendored at `Main/Binary/Service/bin`, so the workflow copies it there rather than installing the discontinued RIA Services SDK.
+
+If you change target frameworks, project layout (checkout depth changes the RIA HintPath resolution), or add projects with new proprietary references (Telerik, RIA), expect to adjust these steps.
+
 ### Git note
 `/workspace/.git` is a gitlink file; the git toplevel is `/workspace` and the source tree lives under `/workspace/Main`.
