@@ -15,7 +15,6 @@ on:
   push:
     branches:
       - 'master'
-      - 'cursor/**'
     paths:
       - 'Main/**'
       - '.github/workflows/build-artifacts.yml'
@@ -27,6 +26,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: build-artifacts-${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -53,6 +56,12 @@ jobs:
 
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2
+
+      # Projects target .NET Framework v4.6.1, whose targeting pack is not
+      # preinstalled on windows-latest. Install it so MSBuild can resolve the
+      # reference assemblies (fixes MSB3644).
+      - name: Install .NET Framework 4.6.1 targeting pack
+        run: choco install netfx-4.6.1-devpack -y --no-progress --limit-output
 
       - name: NuGet restore
         run: nuget restore "${{ matrix.solution }}" -NonInteractive
