@@ -111,7 +111,7 @@ jobs:
           # Copy every compiled `bin` directory under the collect dir, preserving
           # its path relative to that directory.
           $binDirs = Get-ChildItem -Path $collectDir -Directory -Recurse -Filter 'bin' `
-            | Where-Object { $_.FullName -notmatch '\\(obj|packages)\\' }
+            | Where-Object { $_.FullName -notmatch '\\(obj|packages|podman-volume-output|build-output)\\' }
 
           if (-not $binDirs) {
             Write-Warning "No 'bin' output directories found under $collectDir."
