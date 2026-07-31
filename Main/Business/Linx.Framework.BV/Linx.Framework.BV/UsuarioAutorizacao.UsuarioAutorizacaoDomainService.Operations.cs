@@ -126,8 +126,8 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
         }
 
         /// <summary>
-        /// AcessoP projects IdLinx from the ambiente empresa (not the user's home company).
-        /// Scope by user membership in the logged economic group so ambiente IdLinx can still vary.
+        /// AcessoP IdLinx comes from the ambiente empresa.
+        /// Keep only rows for the logged economic group (EconomicGroup header / CurrentIdGpEcon).
         /// Used by UsuarioFranquia GetTcsUsuarioAutenticacaoAcessoToExcel and Autorizacao AcessoP queries.
         /// </summary>
         private void ApplyCurrentGpeconFilter(ref IQueryable<TcsUsuarioAutenticacaoAcessoP> query)
@@ -135,15 +135,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
             int idGpecon = CurrentIdGpEcon();
             if (idGpecon <= 0) return;
 
-            var homeCompanyUserIds = this.DbContext.TCS_USUARIO_AUTENTICACAO
-                .Where(u => u.TCS_EMPRESA_AUTENTICACAO.ID_LINX == idGpecon)
-                .Select(u => u.ID_USUARIO);
-
-            var multiGpeconUserIds = this.DbContext.TCS_USUARIO_AUTENTICACAO_GPECON
-                .Where(g => g.TCS_EMPRESA_AUTENTICACAO.ID_LINX == idGpecon)
-                .Select(g => g.TCS_USUARIO_AUTENTICACAO.ID_USUARIO);
-
-            query = query.Where(e => homeCompanyUserIds.Contains(e.IdUsuario) || multiGpeconUserIds.Contains(e.IdUsuario));
+            query = query.Where(e => e.IdLinx == idGpecon);
         }
 
         // Senha/Confirmação are UI-only; clients may still send them in jEntitySearch.

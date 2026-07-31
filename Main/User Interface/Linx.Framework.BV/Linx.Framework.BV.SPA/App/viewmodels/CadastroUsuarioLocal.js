@@ -1811,6 +1811,12 @@ if (control.length >0 && control[0].childNodes.length == 1){
                 return;
             }
 
+            ensureBlockedObservable(item);
+            if (!getAbsoluteValue(item.Blocked)) {
+                app.showMessage('Usuário já desbloqueado.', 'Atenção', ['Ok']);
+                return;
+            }
+
             app.showMessage(
                 'Deseja desbloquear o usuário "' + loginName + '"?',
                 'Desbloquear usuário',

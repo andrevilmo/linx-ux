@@ -15,11 +15,11 @@ namespace Linx.Framework.BV.Autorizacao
     ////////////////////////////////////////////////////////////////////////////
     public partial class AutorizacaoDomainService
     {
-        // Align with ErrorConstants._UserLockedOut (ERRAUT020) from adding-password-flow / Membership lockout.
+        // Align with ErrorConstants._UserLockedOut (ERRAUT020); keep Portuguese (no Translate).
         private static readonly ErrorInfo UserLockedOut = new ErrorInfo()
         {
             Code = "ERRAUT020",
-            Message = "Usuario bloqueado por excesso de tentativas invalidas de senha. Solicite o desbloqueio ao administrador."
+            Message = "Usuário bloqueado por excesso de tentativas inválidas de senha. Solicite o desbloqueio ao administrador."
         };
 
         private const string AuthAccessSchemaEnsureSql = @"
@@ -47,6 +47,7 @@ BEGIN
         [CANAL] NVARCHAR(50) NULL,
         [INDICA_CONTA_TENTATIVA] BIT NOT NULL CONSTRAINT [DF_TCS_LOG_ACESSO_AUTH_CONTA] DEFAULT ((0)),
         [INDICA_BLOQUEIO] BIT NOT NULL CONSTRAINT [DF_TCS_LOG_ACESSO_AUTH_BLOQ] DEFAULT ((0)),
+        [INDICA_USUARIO_SERVICO] BIT NOT NULL CONSTRAINT [DF_TCS_LOG_ACESSO_AUTH_INDICA_USUARIO_SERVICO] DEFAULT ((0)),
         CONSTRAINT [XPK_TCS_LOG_ACESSO_AUTH] PRIMARY KEY CLUSTERED ([ID_TCS_LOG_ACESSO_AUTH] ASC)
     );
 END
@@ -57,6 +58,14 @@ IF NOT EXISTS (
 BEGIN
     CREATE NONCLUSTERED INDEX [IX_TCS_LOG_ACESSO_AUTH_USUARIO_DATA]
         ON [LX_TCS].[TCS_LOG_ACESSO_AUTH] ([NOME_USUARIO], [DATA_HORA] DESC);
+END";
+
+        private const string AuthAccessColumnEnsureSql = @"
+IF COL_LENGTH(N'LX_TCS.TCS_LOG_ACESSO_AUTH', N'INDICA_USUARIO_SERVICO') IS NULL
+BEGIN
+    ALTER TABLE [LX_TCS].[TCS_LOG_ACESSO_AUTH]
+        ADD [INDICA_USUARIO_SERVICO] BIT NOT NULL
+            CONSTRAINT [DF_TCS_LOG_ACESSO_AUTH_INDICA_USUARIO_SERVICO] DEFAULT ((0));
 END";
 
         private static bool _authAccessTableEnsured;
@@ -90,6 +99,50 @@ END";
         }
 
         /// <summary>
+        /// Returns how many invalid login attempts remain before lockout (0 = at or over the limit).
+        /// </summary>
+        public int GetRemainingAuthAttempts(string userName)
+        {
+            try
+            {
+                EnsureAuthAccessTable();
+                string normalized = NormalizeUserName(userName);
+                if (string.IsNullOrEmpty(normalized))
+                    return AuthMaxInvalidAttempts;
+
+                int current = GetCurrentAttemptCount(normalized);
+                int remaining = AuthMaxInvalidAttempts - current;
+                return remaining < 0 ? 0 : remaining;
+            }
+            catch
+            {
+                return AuthMaxInvalidAttempts;
+            }
+        }
+
+        /// <summary>
+        /// Builds the login failure message, appending remaining attempts for countable failures.
+        /// </summary>
+        public string FormatCountableAuthFailureMessage(string userName, string errorCode, string errorMessage)
+        {
+            string baseMessage = string.IsNullOrEmpty(errorCode)
+                ? (errorMessage ?? string.Empty)
+                : string.Format("{0} - {1}", errorCode, errorMessage);
+
+            if (!IsCountableAuthFailure(errorCode))
+                return baseMessage;
+
+            int remaining = GetRemainingAuthAttempts(userName);
+            if (remaining <= 0)
+                return ErrorConstants.FormatUserLockedOutMessage();
+
+            if (remaining == 1)
+                return string.Format("{0}. Ainda falta 1 tentativa.", baseMessage);
+
+            return string.Format("{0}. Ainda faltam {1} tentativas.", baseMessage, remaining);
+        }
+
+        /// <summary>
         /// Throws ERRAUT021 when the user is inside an active lockout window.
         /// </summary>
         public void EnsureUserNotLocked(string userName)
@@ -107,7 +160,7 @@ END";
 
                 if (DateTime.Now < lockTime.Value.AddMinutes(AuthAttemptWindowMinutes))
                 {
-                    string description = string.Format("{0} - {1}", UserLockedOut.Code, UserLockedOut.Message);
+                    string description = ErrorConstants.FormatUserLockedOutMessage();
                     InsertAuthAccessEvent(
                         tipoEvento: 'F',
                         userName: normalized,
@@ -123,7 +176,7 @@ END";
             }
             catch (Exception ex)
             {
-                if (ex.Message != null && ex.Message.StartsWith("ERRAUT020", StringComparison.OrdinalIgnoreCase))
+                if (ErrorConstants.IsMembershipLockoutMessage(ex.Message))
                     throw;
                 // Best-effort: never block auth solely because audit/lock storage failed.
             }
@@ -165,7 +218,7 @@ END";
                     : string.Format("{0} - {1}", errorCode, errorMessage);
 
                 if (locked)
-                    description = string.Format("{0} | {1} - {2}", description, UserLockedOut.Code, UserLockedOut.Message);
+                    description = string.Format("{0} | {1}", description, ErrorConstants.FormatUserLockedOutMessage());
 
                 InsertAuthAccessEvent(
                     tipoEvento: 'F',
@@ -179,12 +232,12 @@ END";
                     canal: canal);
 
                 if (locked)
-                    throw new Exception(string.Format("{0} - {1}", UserLockedOut.Code, UserLockedOut.Message));
+                    throw new Exception(ErrorConstants.FormatUserLockedOutMessage());
             }
             catch (Exception ex)
             {
-                if (ex.Message != null && ex.Message.StartsWith("ERRAUT020", StringComparison.OrdinalIgnoreCase))
-                    throw;
+                if (ErrorConstants.IsMembershipLockoutMessage(ex.Message))
+                    throw new Exception(ErrorConstants.FormatUserLockedOutMessage());
                 // Best-effort audit.
             }
         }
@@ -222,6 +275,7 @@ END";
 
             this.DbContext.Database.ExecuteSqlCommand(AuthAccessSchemaEnsureSql);
             this.DbContext.Database.ExecuteSqlCommand(AuthAccessTableEnsureSql);
+            this.DbContext.Database.ExecuteSqlCommand(AuthAccessColumnEnsureSql);
             _authAccessTableEnsured = true;
         }
 
@@ -242,6 +296,21 @@ END";
             catch
             {
                 return null;
+            }
+        }
+
+        private bool ResolveIndicaUsuarioServico(string normalizedUserName)
+        {
+            try
+            {
+                return this.DbContext.TCS_USUARIO_AUTENTICACAO
+                    .Where(u => u.NOME_AUTENTICACAO.ToUpper() == normalizedUserName)
+                    .Select(u => (bool?)u.INDICA_USUARIO_SERVICO)
+                    .FirstOrDefault() ?? false;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -306,16 +375,20 @@ WHERE F.NOME_USUARIO = @user
             if (!string.IsNullOrEmpty(canal))
                 resolvedCanal = canal;
 
+            bool indicaUsuarioServico = ResolveIndicaUsuarioServico(userName);
+
             const string sql = @"
 INSERT INTO [LX_TCS].[TCS_LOG_ACESSO_AUTH]
 (
     [DATA_HORA], [TIPO_EVENTO], [NOME_USUARIO], [ID_USUARIO], [CODIGO_ERRO], [DESCRICAO],
-    [QTD_TENTATIVAS], [ENDERECO_IP], [NOME_MAQUINA], [CANAL], [INDICA_CONTA_TENTATIVA], [INDICA_BLOQUEIO]
+    [QTD_TENTATIVAS], [ENDERECO_IP], [NOME_MAQUINA], [CANAL], [INDICA_CONTA_TENTATIVA], [INDICA_BLOQUEIO],
+    [INDICA_USUARIO_SERVICO]
 )
 VALUES
 (
     @dataHora, @tipo, @user, @idUsuario, @codigo, @descricao,
-    @qtd, @ip, @machine, @canal, @conta, @bloqueio
+    @qtd, @ip, @machine, @canal, @conta, @bloqueio,
+    @indicaUsuarioServico
 )";
 
             this.DbContext.Database.ExecuteSqlCommand(sql,
@@ -330,7 +403,8 @@ VALUES
                 new SqlParameter("@machine", (object)machine ?? DBNull.Value),
                 new SqlParameter("@canal", (object)resolvedCanal ?? DBNull.Value),
                 new SqlParameter("@conta", contaTentativa),
-                new SqlParameter("@bloqueio", indicaBloqueio));
+                new SqlParameter("@bloqueio", indicaBloqueio),
+                new SqlParameter("@indicaUsuarioServico", indicaUsuarioServico));
         }
 
         private static void ResolveRequestContext(out string ip, out string machine, out string canal)

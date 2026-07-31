@@ -74,7 +74,7 @@ namespace Linx.Framework.BV.AuthenticateUserExtension
                 // (ValidateUser alone only returns false).
                 MembershipUser membershipUser = Membership.GetUser(membershipUserName, false);
                 if (membershipUser != null && membershipUser.IsLockedOut)
-                    throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserLockedOut.Code, ErrorConstants._UserLockedOut.Message));
+                    throw new DomainException(ErrorConstants.FormatUserLockedOutMessage());
 
                 // SqlMembershipProvider increments FailedPasswordAttemptCount / sets IsLockedOut here.
                 authenticated = Membership.ValidateUser(membershipUserName, userPassword);
@@ -83,7 +83,7 @@ namespace Linx.Framework.BV.AuthenticateUserExtension
                 {
                     membershipUser = Membership.GetUser(membershipUserName, false);
                     if (membershipUser != null && membershipUser.IsLockedOut)
-                        throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserLockedOut.Code, ErrorConstants._UserLockedOut.Message));
+                        throw new DomainException(ErrorConstants.FormatUserLockedOutMessage());
                 }
             }
 

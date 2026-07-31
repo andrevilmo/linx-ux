@@ -162,8 +162,8 @@ namespace Linx.Portal.Controllers
                 string errorMessage = resultLines.Length > 1 ? crypto.Decrypt(resultLines[1]) : ErrorConstants._UserBadNameOrPassword.Message;
 
                 // Guarantee lockout message on the login screen when Membership IsLockedOut = true.
-                if (IsMembershipUserLockedOut(user))
-                    errorMessage = String.Format("{0} - {1}", ErrorConstants._UserLockedOut.Code, ErrorConstants._UserLockedOut.Message);
+                if (IsMembershipUserLockedOut(user) || ErrorConstants.IsMembershipLockoutMessage(errorMessage))
+                    errorMessage = ErrorConstants.FormatUserLockedOutMessage();
 
                 throw new Exception(errorMessage);
             }

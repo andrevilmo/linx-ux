@@ -1955,6 +1955,12 @@ $.ajax({
                 return;
             }
 
+            ensureBlockedObservable(item);
+            if (!getAbsoluteValue(item.Blocked)) {
+                app.showMessage('Usuário já desbloqueado.', 'Atenção', ['Ok']);
+                return;
+            }
+
             app.showMessage(
                 'Deseja desbloquear o usuário "' + loginName + '"?',
                 'Desbloquear usuário',

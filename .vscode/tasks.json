@@ -2,6 +2,23 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Build Linx.Tools",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/Main/Common/Linx.Tools.Library/Desktop/Linx.Desktop.Tools/.vscode/msbuild-build.ps1"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/Main/Common/Linx.Tools.Library/Desktop/Linx.Desktop.Tools"
+      },
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "Build Linx.Framework.BV",
       "type": "shell",
       "command": "powershell.exe",
@@ -102,6 +119,7 @@
       "label": "Build All",
       "dependsOrder": "sequence",
       "dependsOn": [
+        "Build Linx.Tools",
         "Build Linx.Framework.BV",
         "Build Linx.Framework.BV.WebAPI.DS",
         "Build Linx.Internet.Application",

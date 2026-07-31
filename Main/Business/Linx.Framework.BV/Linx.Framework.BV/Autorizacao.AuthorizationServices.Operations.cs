@@ -433,10 +433,7 @@ namespace Linx.Framework.BV.Autorizacao
                         throw new Exception(String.Format("{0} - {1}", ErrorConstants._ChangePasswordError.Code, ErrorConstants._ChangePasswordError.Message));
                     }
 
-                    int expirationDays = 90;
-                    var parameterValue = LinxBusinessParameters.GetParameter<string>("DIAS_EXPIRACAO_SENHA_USUARIO", null);
-                    if (!parameterValue.IsNullOrEmpty())
-                        expirationDays = Int32.Parse(parameterValue);
+                    int expirationDays = ResolvePasswordExpirationDays();
 
                     TcsUsuarioAutenticacao usuarioOld = new TcsUsuarioAutenticacao();
                     usuarioOld.CopyInstanceFrom(usuario);
@@ -568,50 +565,84 @@ namespace Linx.Framework.BV.Autorizacao
         [Invoke(HasSideEffects = true)]
         public bool ResetPasswordWithToken(string token, string newPassword)
         {
-            string userName;
-            if (!TryValidatePasswordResetToken(token, out userName))
+            try
             {
-                throw new DomainException("Link de redefini��o de senha inv�lido ou expirado.".Translate());
-            }
+                string userName;
+                if (!TryValidatePasswordResetToken(token, out userName))
+                {
+                    throw new DomainException("Link de redefinição de senha inválido ou expirado.".Translate());
+                }
 
-            UsuarioAutorizacao.UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacaoDomainService();
-            TcsUsuarioAutenticacao usuario = ds.GetTcsUsuarioAutenticacaoNoAssociations().Where(i => i.NomeAutenticacao == userName).FirstOrDefault();
+                UsuarioAutorizacao.UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacaoDomainService();
+                TcsUsuarioAutenticacao usuario = ds.GetTcsUsuarioAutenticacaoNoAssociations().Where(i => i.NomeAutenticacao == userName).FirstOrDefault();
 
-            if (usuario.IsNullOrEmpty())
-            {
-                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
-            }
+                if (usuario.IsNullOrEmpty())
+                {
+                    throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+                }
 
-            MembershipUser user = Membership.GetUser(userName);
+                MembershipUser user = Membership.GetUser(userName);
 
-            if (user.IsNullOrEmpty())
-            {
-                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
-            }
+                if (user.IsNullOrEmpty())
+                {
+                    throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+                }
 
-            using (TransactionScope transaction = new TransactionScope())
-            {
+                // Keep Membership outside TransactionScope: pairing it with EF often promotes to MSDTC
+                // and fails on QA with "An error occurred while executing the command definition."
+                if (user.IsLockedOut && !user.UnlockUser())
+                    throw new DomainException(ErrorConstants.FormatUserLockedOutMessage());
+
+                user = Membership.GetUser(userName);
                 bool passwordChanged = user.ChangePassword(user.ResetPassword("Dog"), newPassword);
                 if (!passwordChanged)
                 {
                     throw new DomainException(String.Format("{0} - {1}", ErrorConstants._ChangePasswordError.Code, ErrorConstants._ChangePasswordError.Message));
                 }
 
-                int expirationDays = 90;
-                var parameterValue = LinxBusinessParameters.GetParameter<string>("DIAS_EXPIRACAO_SENHA_USUARIO", null);
-                if (!parameterValue.IsNullOrEmpty())
-                    expirationDays = Int32.Parse(parameterValue);
-
+                int expirationDays = ResolvePasswordExpirationDays();
                 TcsUsuarioAutenticacao usuarioOld = new TcsUsuarioAutenticacao();
                 usuarioOld.CopyInstanceFrom(usuario);
                 usuario.DataExpiracaoSenha = DateTime.Now.Date.AddDays(expirationDays);
                 ds.AddCustomChanges(usuario, usuarioOld, ChangeOperation.Update);
                 ds.SaveCustomChanges();
 
-                transaction.Complete();
+                return true;
             }
+            catch (DomainException)
+            {
+                throw;
+            }
+            catch (Exception oException)
+            {
+                string detail = oException.Message;
+                if (oException.InnerException != null && !oException.InnerException.Message.IsNullOrEmpty())
+                    detail = detail + "\n" + oException.InnerException.Message;
+                if (oException.InnerException != null && oException.InnerException.InnerException != null
+                    && !oException.InnerException.InnerException.Message.IsNullOrEmpty())
+                    detail = detail + "\n" + oException.InnerException.InnerException.Message;
+                throw new DomainException(ErrorConstants.EnsureUserLockedOutMessage(detail));
+            }
+        }
 
-            return true;
+        /// <summary>
+        /// Reads DIAS_EXPIRACAO_SENHA_USUARIO when ControleSistema context is available;
+        /// falls back to 90 days for anonymous flows (e.g. email password-reset link).
+        /// </summary>
+        private static int ResolvePasswordExpirationDays()
+        {
+            const int defaultExpirationDays = 90;
+            try
+            {
+                var parameterValue = LinxBusinessParameters.GetParameter<string>("DIAS_EXPIRACAO_SENHA_USUARIO", null);
+                if (!parameterValue.IsNullOrEmpty())
+                    return Int32.Parse(parameterValue);
+            }
+            catch
+            {
+                // Portal reset has no authenticated EconomicGroup/ControleSistema connection.
+            }
+            return defaultExpirationDays;
         }
 
         private static string GeneratePasswordResetToken(string userName, MembershipUser user)
@@ -799,7 +830,7 @@ namespace Linx.Framework.BV.Autorizacao
             if (this.IsMembershipUserLockedOut(userName))
             {
                 try { this.LogAuthAccessFailure(userName, ErrorConstants._UserLockedOut.Code, ErrorConstants._UserLockedOut.Message, null, false); } catch { }
-                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserLockedOut.Code, ErrorConstants._UserLockedOut.Message));
+                throw new DomainException(ErrorConstants.FormatUserLockedOutMessage());
             }
         }
 

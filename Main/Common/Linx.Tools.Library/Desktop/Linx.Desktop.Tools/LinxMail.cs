@@ -35,7 +35,10 @@ namespace Linx.Tools
             }
             catch (Exception oException)
             {
-                throw new DomainException("Erro no envio automático de email.\n\n" + oException.Message);
+                string detail = oException.Message;
+                if (oException.InnerException != null && !oException.InnerException.Message.IsNullOrEmpty())
+                    detail = detail + "\n" + oException.InnerException.Message;
+                throw new DomainException("Erro no envio automático de email.\n\n" + detail);
             }
         }
 
@@ -54,7 +57,22 @@ namespace Linx.Tools
             smtpClient.UseDefaultCredentials = false;
             smtpClient.Credentials = new NetworkCredential(user, password);
             smtpClient.EnableSsl = enableSsl;
-            smtpClient.Send(newMail);
+
+            // Office365/Gmail require TLS 1.2; older defaults can yield
+            // "The client and server cannot communicate, because they do not possess a common algorithm".
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+
+            // SmtpClient has no UseDefaultWebProxy; skip corporate HTTP defaultProxy for SMTP.
+            IWebProxy previousProxy = WebRequest.DefaultWebProxy;
+            try
+            {
+                WebRequest.DefaultWebProxy = null;
+                smtpClient.Send(newMail);
+            }
+            finally
+            {
+                WebRequest.DefaultWebProxy = previousProxy;
+            }
         }
     }
 }

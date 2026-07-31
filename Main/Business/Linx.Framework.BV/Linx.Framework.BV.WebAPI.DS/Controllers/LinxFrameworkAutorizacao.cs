@@ -39,17 +39,20 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             {
                 if (!ds.ValidateUser(userName, userPassword))
                 {
-                    // Membership.ValidateUser returns false for locked accounts ó promote to ERRAUT020.
+                    // Membership.ValidateUser returns false for locked accounts ù promote to ERRAUT020.
                     if (ds.IsMembershipUserLockedOut(userName))
-                        throw new Exception(String.Format("{0} - {1}", ErrorConstants._UserLockedOut.Code, ErrorConstants._UserLockedOut.Message));
+                        throw new Exception(ErrorConstants.FormatUserLockedOutMessage());
 
-                    throw new Exception(String.Format("{0} - {1}", ErrorConstants._UserBadNameOrPassword.Code, ErrorConstants._UserBadNameOrPassword.Message));
+                    throw new Exception(ds.FormatCountableAuthFailureMessage(
+                        userName,
+                        ErrorConstants._UserBadNameOrPassword.Code,
+                        ErrorConstants._UserBadNameOrPassword.Message));
                 }
             }
             catch (Exception ex)
             {
-                if (ex.Message != null && ex.Message.StartsWith(ErrorConstants._UserLockedOut.Code, StringComparison.OrdinalIgnoreCase))
-                    throw;
+                if (ErrorConstants.IsMembershipLockoutMessage(ex.Message) || ds.IsMembershipUserLockedOut(userName))
+                    throw new Exception(ErrorConstants.FormatUserLockedOutMessage());
                 throw;
             }
 
@@ -99,17 +102,17 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             }
             catch (Exception oException)
             {
-                string errorMessage = oException.Message;
+                string errorMessage = ErrorConstants.EnsureUserLockedOutMessage(oException.Message);
                 try
                 {
-                    // If Membership locked the account, always return ERRAUT020 (even when the inner error was bad password).
+                    // If Membership locked the account, always return ERRAUT020 (Portuguese).
                     string[] decryptedLines = crypto.Decrypt(authenticateParameters).Split(new string[] { "||" }, StringSplitOptions.None);
                     if (decryptedLines.Count() == 2)
                     {
                         string userName = crypto.Decrypt(decryptedLines[0]);
                         AutorizacaoDomainService ds = new AutorizacaoDomainService();
                         if (ds.IsMembershipUserLockedOut(userName))
-                            errorMessage = String.Format("{0} - {1}", ErrorConstants._UserLockedOut.Code, ErrorConstants._UserLockedOut.Message);
+                            errorMessage = ErrorConstants.FormatUserLockedOutMessage();
                     }
                 }
                 catch { }
