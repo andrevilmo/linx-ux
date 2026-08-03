@@ -590,7 +590,12 @@ namespace Linx.Framework.BV.Autorizacao
 
                 // Keep Membership outside TransactionScope: pairing it with EF often promotes to MSDTC
                 // and fails on QA with "An error occurred while executing the command definition."
-                if (user.IsLockedOut && !user.UnlockUser())
+                // Lock can be Membership and/or TCS_LOG_ACESSO_AUTH sliding window (often only the latter on QA).
+                bool wasMembershipLocked = user.IsLockedOut;
+                bool wasAuthAccessLocked = false;
+                try { wasAuthAccessLocked = this.IsAuthAccessLocked(userName); } catch { }
+
+                if (wasMembershipLocked && !user.UnlockUser())
                     throw new DomainException(ErrorConstants.FormatUserLockedOutMessage());
 
                 user = Membership.GetUser(userName);
@@ -606,6 +611,13 @@ namespace Linx.Framework.BV.Autorizacao
                 usuario.DataExpiracaoSenha = DateTime.Now.Date.AddDays(expirationDays);
                 ds.AddCustomChanges(usuario, usuarioOld, ChangeOperation.Update);
                 ds.SaveCustomChanges();
+
+                // Self-unblock via password reset — always clear audit lockout window when either lock was active.
+                if (wasMembershipLocked || wasAuthAccessLocked)
+                {
+                    try { this.LogAuthAccessUnlock(userName, userName, canal: "PasswordReset", reason: "redefinição de senha"); }
+                    catch { }
+                }
 
                 return true;
             }
@@ -895,11 +907,30 @@ namespace Linx.Framework.BV.Autorizacao
             if (user.IsNullOrEmpty())
                 throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
 
-            if (!user.IsLockedOut)
+            bool wasMembershipLocked = user.IsLockedOut;
+            bool wasAuthAccessLocked = false;
+            try { wasAuthAccessLocked = this.IsAuthAccessLocked(userName); } catch { }
+
+            if (!wasMembershipLocked && !wasAuthAccessLocked)
                 return true;
 
-            if (!user.UnlockUser())
+            if (wasMembershipLocked && !user.UnlockUser())
                 throw new DomainException("Nao foi possivel desbloquear o usuario.".Translate());
+
+            string unlockedBy = null;
+            try
+            {
+                unlockedBy = BusinessUserServiceHelper.GetCurrentUserAuthenticationName(this.Headers);
+            }
+            catch
+            {
+            }
+
+            if (unlockedBy.IsNullOrEmpty())
+                unlockedBy = userName;
+
+            try { this.LogAuthAccessUnlock(userName, unlockedBy, canal: "Unlock"); }
+            catch { }
 
             return true;
         }

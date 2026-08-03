@@ -36,7 +36,7 @@ BEGIN
     (
         [ID_TCS_LOG_ACESSO_AUTH] INT IDENTITY(1,1) NOT NULL,
         [DATA_HORA] DATETIME NOT NULL,
-        [TIPO_EVENTO] CHAR(1) NOT NULL,
+        [TIPO_EVENTO] CHAR(1) NOT NULL, -- S = success, F = failure, U = unlock
         [NOME_USUARIO] NVARCHAR(256) NOT NULL,
         [ID_USUARIO] BIGINT NULL,
         [CODIGO_ERRO] NVARCHAR(20) NULL,
@@ -140,6 +140,31 @@ END";
                 return string.Format("{0}. Ainda falta 1 tentativa.", baseMessage);
 
             return string.Format("{0}. Ainda faltam {1} tentativas.", baseMessage, remaining);
+        }
+
+        /// <summary>
+        /// True when TCS_LOG_ACESSO_AUTH has an active sliding-window lockout for the user
+        /// (independent of ASP.NET Membership IsLockedOut).
+        /// </summary>
+        public bool IsAuthAccessLocked(string userName)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(userName))
+                    return false;
+
+                EnsureAuthAccessTable();
+                string normalized = NormalizeUserName(userName);
+                DateTime? lockTime = GetLastLockTimeAfterSuccess(normalized);
+                if (!lockTime.HasValue)
+                    return false;
+
+                return DateTime.Now < lockTime.Value.AddMinutes(AuthAttemptWindowMinutes);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -268,6 +293,52 @@ END";
             }
         }
 
+        /// <summary>
+        /// Logs Membership unlock to TCS_LOG_ACESSO_AUTH (TIPO_EVENTO = U).
+        /// NOME_USUARIO is the unlocked account; DESCRICAO records who performed the unlock.
+        /// Treats unlock like success for sliding-window lockout reset.
+        /// </summary>
+        /// <param name="userName">Authentication name of the unlocked user.</param>
+        /// <param name="unlockedByUserName">Who performed the unlock (admin or the user themselves).</param>
+        /// <param name="canal">Optional channel override.</param>
+        /// <param name="reason">Optional reason suffix, e.g. "redefinição de senha".</param>
+        public void LogAuthAccessUnlock(string userName, string unlockedByUserName, string canal = null, string reason = null)
+        {
+            try
+            {
+                EnsureAuthAccessTable();
+                string normalized = NormalizeUserName(userName);
+                if (string.IsNullOrEmpty(normalized))
+                    return;
+
+                string by = NormalizeUserName(unlockedByUserName);
+                if (string.IsNullOrEmpty(by))
+                    by = normalized;
+
+                string descricao = string.Format("Usuário desbloqueado por {0}", by);
+                if (!string.IsNullOrWhiteSpace(reason))
+                    descricao = string.Format("{0} ({1})", descricao, reason.Trim());
+
+                if (descricao.Length > 500)
+                    descricao = descricao.Substring(0, 500);
+
+                InsertAuthAccessEvent(
+                    tipoEvento: 'U',
+                    userName: normalized,
+                    idUsuario: ResolveUserId(normalized),
+                    codigoErro: null,
+                    descricao: descricao,
+                    qtdTentativas: 0,
+                    contaTentativa: false,
+                    indicaBloqueio: false,
+                    canal: canal);
+            }
+            catch
+            {
+                // Best-effort audit.
+            }
+        }
+
         private void EnsureAuthAccessTable()
         {
             if (_authAccessTableEnsured)
@@ -316,6 +387,7 @@ END";
 
         private DateTime? GetLastLockTimeAfterSuccess(string normalizedUserName)
         {
+            // 'S' = login success, 'U' = unlock — both clear the active lockout window.
             const string sql = @"
 SELECT TOP 1 L.DATA_HORA
 FROM [LX_TCS].[TCS_LOG_ACESSO_AUTH] L
@@ -324,7 +396,7 @@ WHERE L.NOME_USUARIO = @user
   AND L.DATA_HORA > ISNULL((
         SELECT MAX(S.DATA_HORA)
         FROM [LX_TCS].[TCS_LOG_ACESSO_AUTH] S
-        WHERE S.NOME_USUARIO = @user AND S.TIPO_EVENTO = 'S'
+        WHERE S.NOME_USUARIO = @user AND S.TIPO_EVENTO IN ('S', 'U')
       ), '19000101')
 ORDER BY L.DATA_HORA DESC";
 
@@ -349,7 +421,7 @@ WHERE F.NOME_USUARIO = @user
   AND F.DATA_HORA > ISNULL((
         SELECT MAX(S.DATA_HORA)
         FROM [LX_TCS].[TCS_LOG_ACESSO_AUTH] S
-        WHERE S.NOME_USUARIO = @user AND S.TIPO_EVENTO = 'S'
+        WHERE S.NOME_USUARIO = @user AND S.TIPO_EVENTO IN ('S', 'U')
       ), '19000101')";
 
             return this.DbContext.Database.SqlQuery<int>(sql,
