@@ -442,6 +442,13 @@ namespace Linx.Framework.BV.Autorizacao
                     dsUsuarioAut.SaveCustomChanges();
                     transaction.Complete();
                 }
+
+                // Self-service "Alteração de senha" — audit trail (best-effort, outside TransactionScope).
+                if (passwordChanged)
+                {
+                    try { this.LogAuthAccessPasswordChange(usuario.NomeAutenticacao, canal: "AlteracaoSenha"); }
+                    catch { }
+                }
             }
             catch (Exception oException)
             {

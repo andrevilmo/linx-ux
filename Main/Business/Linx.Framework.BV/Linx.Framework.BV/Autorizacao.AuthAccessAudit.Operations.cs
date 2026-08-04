@@ -36,7 +36,7 @@ BEGIN
     (
         [ID_TCS_LOG_ACESSO_AUTH] INT IDENTITY(1,1) NOT NULL,
         [DATA_HORA] DATETIME NOT NULL,
-        [TIPO_EVENTO] CHAR(1) NOT NULL, -- S = success, F = failure, U = unlock
+        [TIPO_EVENTO] CHAR(1) NOT NULL, -- S = success, F = failure, U = unlock, P = password change
         [NOME_USUARIO] NVARCHAR(256) NOT NULL,
         [ID_USUARIO] BIGINT NULL,
         [CODIGO_ERRO] NVARCHAR(20) NULL,
@@ -282,6 +282,38 @@ END";
                     idUsuario: ResolveUserId(normalized),
                     codigoErro: null,
                     descricao: "Login efetuado",
+                    qtdTentativas: 0,
+                    contaTentativa: false,
+                    indicaBloqueio: false,
+                    canal: canal);
+            }
+            catch
+            {
+                // Best-effort audit.
+            }
+        }
+
+        /// <summary>
+        /// Logs self-service password change (tela Alteração de senha) to TCS_LOG_ACESSO_AUTH (TIPO_EVENTO = P).
+        /// Does not reset the sliding-window lockout (only S/U do).
+        /// </summary>
+        /// <param name="userName">Authentication name of the user who changed their password.</param>
+        /// <param name="canal">Optional channel override (default resolved from request; prefer "AlteracaoSenha").</param>
+        public void LogAuthAccessPasswordChange(string userName, string canal = null)
+        {
+            try
+            {
+                EnsureAuthAccessTable();
+                string normalized = NormalizeUserName(userName);
+                if (string.IsNullOrEmpty(normalized))
+                    return;
+
+                InsertAuthAccessEvent(
+                    tipoEvento: 'P',
+                    userName: normalized,
+                    idUsuario: ResolveUserId(normalized),
+                    codigoErro: null,
+                    descricao: "Alteração de senha pelo próprio usuário",
                     qtdTentativas: 0,
                     contaTentativa: false,
                     indicaBloqueio: false,

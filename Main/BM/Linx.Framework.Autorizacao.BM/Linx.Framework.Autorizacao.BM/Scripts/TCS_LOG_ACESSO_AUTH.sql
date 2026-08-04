@@ -16,7 +16,7 @@ BEGIN
     (
         [ID_TCS_LOG_ACESSO_AUTH] INT IDENTITY(1,1) NOT NULL,
         [DATA_HORA] DATETIME NOT NULL,
-        [TIPO_EVENTO] CHAR(1) NOT NULL, -- S = success, F = failure, U = unlock
+        [TIPO_EVENTO] CHAR(1) NOT NULL, -- S = success, F = failure, U = unlock, P = password change (self-service)
         [NOME_USUARIO] NVARCHAR(256) NOT NULL,
         [ID_USUARIO] BIGINT NULL,
         [CODIGO_ERRO] NVARCHAR(20) NULL,
