@@ -32,6 +32,24 @@ $binaryRoot = Join-Path $RepoRoot 'Main\Binary'
 Write-Host '===== Ensure IIS sites (Application:8080 Portal:8081 Service:8082) ====='
 & $ensureIis -FrameworkRoot $FrameworkRoot -SeedFromBinary $binaryRoot
 
+# PostBuildEvent xcopy targets under Main\Binary (Service\Help, Library\Business View, ...)
+$binaryRoot = Join-Path $RepoRoot 'Main\Binary'
+@(
+    (Join-Path $binaryRoot 'Service\bin'),
+    (Join-Path $binaryRoot 'Service\Help'),
+    (Join-Path $binaryRoot 'Library\Business View'),
+    (Join-Path $RepoRoot 'Main\Business\Linx.Framework.BV\Linx.Framework.BV\Help For Accessing')
+) | ForEach-Object {
+    if (-not (Test-Path -LiteralPath $_)) {
+        New-Item -ItemType Directory -Force -Path $_ | Out-Null
+        Write-Host "Created $_"
+    }
+}
+$helpPlaceholder = Join-Path $RepoRoot 'Main\Business\Linx.Framework.BV\Linx.Framework.BV\Help For Accessing\README.txt'
+if (-not (Test-Path -LiteralPath $helpPlaceholder)) {
+    Set-Content -LiteralPath $helpPlaceholder -Value 'CI placeholder for PostBuildEvent xcopy.' -Encoding ASCII
+}
+
 Write-Host '===== Publish package (stack-to-publish.ps1) ====='
 $publishArgs = @{
     OutRoot = $OutRoot
