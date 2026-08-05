@@ -95,11 +95,12 @@ jobs:
             --exclude 'Main/Common/Mobile/' \
             --exclude '**/*.nupkg' \
             "./" "$STAGE/repo/"
-          KEY="linx-ux/runs/${GITHUB_RUN_ID}-${GITHUB_SHA}/source.zip"
+          # tar.gz + Windows tar.exe extract is much faster than zip/Expand-Archive on t3.small
+          KEY="linx-ux/runs/${GITHUB_RUN_ID}-${GITHUB_SHA}/source.tar.gz"
           echo "SOURCE_KEY=$KEY" >> "$GITHUB_ENV"
-          (cd "$STAGE/repo" && zip -rq "$STAGE/source.zip" .)
-          ls -lh "$STAGE/source.zip"
-          aws s3 cp "$STAGE/source.zip" "s3://${SOURCE_BUCKET}/${KEY}" --region "$AWS_REGION"
+          (cd "$STAGE/repo" && tar -czf "$STAGE/source.tar.gz" .)
+          ls -lh "$STAGE/source.tar.gz"
+          aws s3 cp "$STAGE/source.tar.gz" "s3://${SOURCE_BUCKET}/${KEY}" --region "$AWS_REGION"
           URL=$(aws s3 presign "s3://${SOURCE_BUCKET}/${KEY}" --expires-in 7200 --region "$AWS_REGION")
           {
             echo "SOURCE_URL<<EOF"
@@ -138,7 +139,7 @@ jobs:
           $ErrorActionPreference = 'Stop'
           $root = 'C:\\lx\\{run_id}'
           $work = $root
-          $zip = 'C:\\lx\\{run_id}.zip'
+          $archive = 'C:\\lx\\{run_id}.tar.gz'
           $log = 'C:\\lx\\{run_id}.log'
           $lock = 'C:\\lx\\.ci-lock'
           function Write-CiLog([string]$Message) {{
@@ -165,21 +166,21 @@ jobs:
 
             Write-CiLog '===== Pre-build cleanup ====='
             Get-ChildItem 'C:\\lx' -Force -ErrorAction SilentlyContinue | Where-Object {{
-              $_.Name -ne '{run_id}' -and $_.Name -ne '{run_id}.log' -and $_.Name -ne '{run_id}.zip' -and $_.Name -ne '.ci-lock'
+              $_.Name -ne '{run_id}' -and $_.Name -ne '{run_id}.log' -and $_.Name -ne '{run_id}.tar.gz' -and $_.Name -ne '.ci-lock'
             }} | ForEach-Object {{
               Remove-Item -LiteralPath $_.FullName -Recurse -Force -ErrorAction SilentlyContinue
               Write-CiLog ("Removed {{0}}" -f $_.FullName)
             }}
 
-            if (Test-Path $zip) {{ Remove-Item -LiteralPath $zip -Force -ErrorAction SilentlyContinue }}
+            if (Test-Path $archive) {{ Remove-Item -LiteralPath $archive -Force -ErrorAction SilentlyContinue }}
             # Download: aws s3 cp (if instance role works) → curl.exe (streams) → Invoke-WebRequest
             $sourceUrl = {json.dumps(os.environ.get("SOURCE_URL", ""))}
             $downloaded = $false
             Write-CiLog ("Downloading s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey)
             if (Get-Command aws -ErrorAction SilentlyContinue) {{
               Write-CiLog 'Trying aws s3 cp...'
-              aws s3 cp ("s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey) $zip --region sa-east-1 | Out-Host
-              if ($LASTEXITCODE -eq 0 -and (Test-Path $zip) -and (Get-Item $zip).Length -gt 0) {{ $downloaded = $true }}
+              aws s3 cp ("s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey) $archive --region sa-east-1 | Out-Host
+              if ($LASTEXITCODE -eq 0 -and (Test-Path $archive) -and (Get-Item $archive).Length -gt 0) {{ $downloaded = $true }}
               else {{ Write-CiLog 'aws s3 cp failed or empty; will try curl/IWR' }}
             }}
             if (-not $downloaded) {{
@@ -188,24 +189,28 @@ jobs:
               $curl = Join-Path $env:SystemRoot 'System32\\curl.exe'
               if (Test-Path $curl) {{
                 Write-CiLog 'Downloading via curl.exe (presigned URL)...'
-                & $curl -L --fail --retry 3 --retry-delay 5 -o $zip $sourceUrl
+                & $curl -L --fail --retry 3 --retry-delay 5 -o $archive $sourceUrl
                 if ($LASTEXITCODE -ne 0) {{ throw "curl download failed: $LASTEXITCODE" }}
                 $downloaded = $true
               }} else {{
                 Write-CiLog 'Downloading via Invoke-WebRequest (presigned URL)...'
-                Invoke-WebRequest -Uri $sourceUrl -OutFile $zip -UseBasicParsing
+                Invoke-WebRequest -Uri $sourceUrl -OutFile $archive -UseBasicParsing
                 $downloaded = $true
               }}
             }}
-            if (-not (Test-Path $zip) -or (Get-Item $zip).Length -le 0) {{ throw 'Download produced empty zip' }}
-            Write-CiLog ("Download complete size={{0}}" -f (Get-Item $zip).Length)
+            if (-not (Test-Path $archive) -or (Get-Item $archive).Length -le 0) {{ throw 'Download produced empty archive' }}
+            Write-CiLog ("Download complete size={{0}}" -f (Get-Item $archive).Length)
 
             if (Test-Path $work) {{ Remove-Item -LiteralPath $work -Recurse -Force }}
             New-Item -ItemType Directory -Force -Path $work | Out-Null
-            Write-CiLog 'Expanding archive...'
-            Expand-Archive -LiteralPath $zip -DestinationPath $work -Force
-            Remove-Item -LiteralPath $zip -Force -ErrorAction SilentlyContinue
-            Write-CiLog 'Expand complete'
+            # tar.exe (bsdtar) is far faster/lighter than Expand-Archive on this host
+            $tar = Join-Path $env:SystemRoot 'System32\\tar.exe'
+            if (-not (Test-Path $tar)) {{ throw 'tar.exe missing on host' }}
+            Write-CiLog 'Extracting with tar.exe...'
+            & $tar -xzf $archive -C $work
+            if ($LASTEXITCODE -ne 0) {{ throw "tar extract failed: $LASTEXITCODE" }}
+            Remove-Item -LiteralPath $archive -Force -ErrorAction SilentlyContinue
+            Write-CiLog 'Extract complete'
 
             $pipeline = Get-ChildItem -Path $work -Recurse -Filter 'Invoke-SiPdrAwsPipeline.ps1' | Select-Object -First 1
             if (-not $pipeline) {{ throw 'Invoke-SiPdrAwsPipeline.ps1 missing' }}
