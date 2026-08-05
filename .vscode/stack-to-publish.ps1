@@ -6,7 +6,14 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$workspace = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+# Source tree lives under Main\ (same resolution as deploy-to-linx-framework.ps1)
+$workspace = if (Test-Path (Join-Path $repoRoot 'Main\Application')) {
+    Join-Path $repoRoot 'Main'
+}
+else {
+    $repoRoot
+}
 
 if (-not $BaselineRoot) {
     $BaselineRoot = 'C:\Linx Program Files\Linx Framework 6.0.0'
@@ -171,7 +178,9 @@ function Get-ApplicationDllSources {
 }
 
 function Invoke-WorkspaceBuild {
+    # Match "Build All" task order (Tools first)
     $buildScripts = @(
+        (Join-Path $workspace 'Common\Linx.Tools.Library\Desktop\Linx.Desktop.Tools\.vscode\msbuild-build.ps1')
         (Join-Path $workspace 'User Interface\Linx.Framework.BV\.vscode\msbuild-build.ps1')
         (Join-Path $workspace 'Business\Linx.Framework.BV\Linx.Framework.BV.WebAPI.DS\.vscode\msbuild-build.ps1')
         (Join-Path $workspace 'Application\Linx.Internet.Application\.vscode\msbuild-build.ps1')

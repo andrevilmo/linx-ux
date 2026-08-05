@@ -8,7 +8,13 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$workspace = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$workspace = if (Test-Path (Join-Path $repoRoot 'Main\Application')) {
+    Join-Path $repoRoot 'Main'
+}
+else {
+    $repoRoot
+}
 $stackStateRoot = Join-Path (Split-Path $OutRoot -Parent) '.stack-state'
 $stackBaselinePath = Join-Path $stackStateRoot 'baseline.json'
 

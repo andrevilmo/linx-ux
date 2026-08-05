@@ -1,0 +1,248 @@
+name: SI-PDR AWS IIS (Application / Service / Portal)
+
+on:
+  push:
+    branches: [SI-PDR-CICD-AWS, footer-presente-colocando-filtro-codigo-gpecon-na-exportacao, main]
+    paths:
+      - 'Main/**'
+      - '.vscode/stack-to-publish.ps1'
+      - '.vscode/stack-to-deploy.ps1'
+      - '.vscode/deploy-to-linx-framework.ps1'
+      - 'infra/si-pdr-cicd/**'
+      - '.github/workflows/si-pdr-aws-iis.yml'
+  pull_request:
+    branches: [SI-PDR-CICD-AWS, footer-presente-colocando-filtro-codigo-gpecon-na-exportacao, main]
+    paths:
+      - 'Main/**'
+      - 'infra/si-pdr-cicd/**'
+      - '.github/workflows/si-pdr-aws-iis.yml'
+  workflow_dispatch:
+    inputs:
+      skip_build:
+        description: Skip MSBuild and publish from existing Binary outputs
+        type: boolean
+        default: false
+
+permissions:
+  id-token: write
+  contents: read
+
+# Serialize on the shared Windows EC2 host (also used by OmniPOS CI in another repo)
+concurrency:
+  group: aws-windows-ec2-si-pdr
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: sa-east-1
+  SOURCE_BUCKET: omnipos-cicd-253957900820-sa-east-1
+  BUILD_INSTANCE_ID: i-0a266494b999c1b81
+  AWS_ROLE_ARN: arn:aws:iam::253957900820:role/github-actions-omnipos-build
+
+jobs:
+  build-deploy-iis:
+    name: Build + deploy IIS sites on EC2
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      HAS_AWS_KEYS: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (access keys)
+        if: env.HAS_AWS_KEYS == 'true'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Configure AWS credentials (OIDC fallback)
+        if: env.HAS_AWS_KEYS != 'true'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+          role-session-name: github-linx-ux-si-pdr
+
+      - name: Verify build host is SSM Online
+        run: |
+          set -euo pipefail
+          PING=$(aws ssm describe-instance-information \
+            --region "$AWS_REGION" \
+            --filters "Key=InstanceIds,Values=${BUILD_INSTANCE_ID}" \
+            --query 'InstanceInformationList[0].PingStatus' --output text)
+          echo "SSM PingStatus=$PING"
+          if [ "$PING" != "Online" ]; then
+            echo "::error::Build host ${BUILD_INSTANCE_ID} is not SSM Online (state=$PING). Start the EC2 instance."
+            exit 1
+          fi
+
+      - name: Package sources
+        run: |
+          set -euo pipefail
+          STAGE=$(mktemp -d)
+          rsync -a \
+            --exclude '.git/' \
+            --exclude '**/obj/' \
+            --exclude '**/packages/cef.redist.*/' \
+            --exclude '**/Linx.Internet.Application.WinHost/bin/' \
+            --exclude 'Main/Demos/' \
+            --exclude 'Main/Automation/' \
+            --exclude 'Main/Deploy/' \
+            --exclude 'Main/Binary/WebFormBuilder/' \
+            "./" "$STAGE/repo/"
+          KEY="linx-ux/runs/${GITHUB_RUN_ID}-${GITHUB_SHA}/source.zip"
+          echo "SOURCE_KEY=$KEY" >> "$GITHUB_ENV"
+          (cd "$STAGE/repo" && zip -rq "$STAGE/source.zip" .)
+          ls -lh "$STAGE/source.zip"
+          aws s3 cp "$STAGE/source.zip" "s3://${SOURCE_BUCKET}/${KEY}" --region "$AWS_REGION"
+          URL=$(aws s3 presign "s3://${SOURCE_BUCKET}/${KEY}" --expires-in 7200 --region "$AWS_REGION")
+          {
+            echo "SOURCE_URL<<EOF"
+            echo "$URL"
+            echo "EOF"
+          } >> "$GITHUB_ENV"
+
+          KEEP_PREFIX="linx-ux/runs/${GITHUB_RUN_ID}-${GITHUB_SHA}/"
+          aws s3api list-objects-v2 \
+            --bucket "$SOURCE_BUCKET" \
+            --prefix linx-ux/runs/ \
+            --delimiter '/' \
+            --region "$AWS_REGION" \
+            --query 'CommonPrefixes[].Prefix' \
+            --output text | tr '\t' '\n' | while read -r prefix; do
+              [ -z "$prefix" ] && continue
+              [ "$prefix" = "$KEEP_PREFIX" ] && continue
+              echo "Removing s3://${SOURCE_BUCKET}/${prefix}"
+              aws s3 rm "s3://${SOURCE_BUCKET}/${prefix}" --recursive --region "$AWS_REGION" || true
+            done
+
+      - name: Run remote SI-PDR pipeline via SSM
+        id: remote_build
+        env:
+          SKIP_BUILD: ${{ github.event.inputs.skip_build || 'false' }}
+        run: |
+          set -euo pipefail
+          python3 <<'PY' > /tmp/ssm-params.json
+          import json, os, textwrap
+          source_url = os.environ["SOURCE_URL"]
+          run_id = os.environ["GITHUB_RUN_ID"]
+          skip_build = os.environ.get("SKIP_BUILD", "false").lower() in ("1", "true", "yes")
+          skip_ps = "$true" if skip_build else "$false"
+          script = textwrap.dedent(f"""
+          $ErrorActionPreference = 'Stop'
+          $root = 'C:\\lx\\{run_id}'
+          $work = $root
+          $zip = 'C:\\lx\\{run_id}.zip'
+          $log = 'C:\\lx\\{run_id}.log'
+          $lock = 'C:\\lx\\.ci-lock'
+          New-Item -ItemType Directory -Force -Path 'C:\\lx' | Out-Null
+          "Build start $(Get-Date -Format o)" | Out-File $log -Encoding utf8
+
+          # Host lock so OmniPOS CI and SI-PDR CI do not overlap on the same machine
+          $deadline = (Get-Date).AddMinutes(90)
+          while (Test-Path $lock) {{
+            if ((Get-Date) -gt $deadline) {{ throw "Timed out waiting for CI lock $lock" }}
+            Write-Output "Waiting for CI lock..."
+            Start-Sleep -Seconds 30
+          }}
+          Set-Content -Path $lock -Value "linx-ux {run_id}" -Encoding ascii
+
+          try {{
+            $env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path','User')
+            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+            $sourceUrl = {json.dumps(source_url)}
+            $skipBuild = {skip_ps}
+
+            Write-Output '===== Pre-build cleanup ====='
+            Get-ChildItem 'C:\\lx' -Force -ErrorAction SilentlyContinue | Where-Object {{
+              $_.Name -ne '{run_id}' -and $_.Name -ne '{run_id}.log' -and $_.Name -ne '{run_id}.zip' -and $_.Name -ne '.ci-lock'
+            }} | ForEach-Object {{
+              Remove-Item -LiteralPath $_.FullName -Recurse -Force -ErrorAction SilentlyContinue
+              Write-Output ("Removed {{0}}" -f $_.FullName)
+            }}
+
+            if (Test-Path $zip) {{ Remove-Item -LiteralPath $zip -Force -ErrorAction SilentlyContinue }}
+            Invoke-WebRequest -Uri $sourceUrl -OutFile $zip -UseBasicParsing
+            if (Test-Path $work) {{ Remove-Item -LiteralPath $work -Recurse -Force }}
+            New-Item -ItemType Directory -Force -Path $work | Out-Null
+            Expand-Archive -LiteralPath $zip -DestinationPath $work -Force
+            Remove-Item -LiteralPath $zip -Force -ErrorAction SilentlyContinue
+
+            $pipeline = Get-ChildItem -Path $work -Recurse -Filter 'Invoke-SiPdrAwsPipeline.ps1' | Select-Object -First 1
+            if (-not $pipeline) {{ throw 'Invoke-SiPdrAwsPipeline.ps1 missing' }}
+            $repoRoot = $work
+            Set-Location $repoRoot
+            if ($skipBuild) {{
+              & $pipeline.FullName -RepoRoot $repoRoot -SkipBuild *>> $log
+            }} else {{
+              & $pipeline.FullName -RepoRoot $repoRoot *>> $log
+            }}
+            $buildExit = $LASTEXITCODE
+            $cleaner = Get-ChildItem -Path $work -Recurse -Filter 'Clear-BuildWorkspace.ps1' | Select-Object -First 1
+            if ($buildExit -ne 0) {{
+              Write-Output '===== pipeline failed; log tail ====='
+              Get-Content $log -Tail 120
+              if ($cleaner) {{ & $cleaner.FullName -KeepRunId '{run_id}' -KeepCount 0 }}
+              throw "SI-PDR pipeline failed: $buildExit"
+            }}
+            'PIPELINE_SUCCEEDED' | Tee-Object -FilePath $log -Append
+            if ($cleaner) {{
+              Write-Output '===== Post-build cleanup ====='
+              & $cleaner.FullName -KeepRunId '{run_id}' -KeepCount 0
+            }}
+            Get-Content $log -Tail 80
+          }}
+          finally {{
+            Remove-Item -LiteralPath $lock -Force -ErrorAction SilentlyContinue
+          }}
+          """).strip()
+          print(json.dumps({"commands": [script]}))
+          PY
+
+          CMD_ID=$(aws ssm send-command \
+            --region "$AWS_REGION" \
+            --instance-ids "$BUILD_INSTANCE_ID" \
+            --document-name AWS-RunPowerShellScript \
+            --timeout-seconds 10800 \
+            --comment "linx-ux SI-PDR CI ${GITHUB_RUN_ID} ${GITHUB_SHA}" \
+            --parameters file:///tmp/ssm-params.json \
+            --query 'Command.CommandId' --output text)
+          echo "SSM CommandId=$CMD_ID"
+
+          for i in $(seq 1 360); do
+            STATUS=$(aws ssm get-command-invocation \
+              --region "$AWS_REGION" \
+              --command-id "$CMD_ID" \
+              --instance-id "$BUILD_INSTANCE_ID" \
+              --query 'Status' --output text 2>/dev/null || echo Pending)
+            echo "$(date -u +%H:%M:%S) status=$STATUS"
+            case "$STATUS" in
+              Success|Failed|Cancelled|TimedOut) break ;;
+            esac
+            sleep 15
+          done
+
+          aws ssm get-command-invocation \
+            --region "$AWS_REGION" \
+            --command-id "$CMD_ID" \
+            --instance-id "$BUILD_INSTANCE_ID" \
+            --query '{Status:Status,Out:StandardOutputContent,Err:StandardErrorContent}' \
+            --output json | tee ssm-result.json | python3 -c '
+          import json,sys
+          d=json.load(sys.stdin)
+          print(d.get("Out") or "")
+          err=d.get("Err") or ""
+          if err:
+              print(err, file=sys.stderr)
+          raise SystemExit(0 if d.get("Status")=="Success" else 1)
+          '
+
+      - name: Upload SSM result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: si-pdr-ssm-${{ github.run_id }}
+          path: ssm-result.json
+          if-no-files-found: ignore
