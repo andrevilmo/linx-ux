@@ -39,6 +39,13 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
     choco install -y git --no-progress
 }
 
+if (-not (Get-Command aws -ErrorAction SilentlyContinue)) {
+    Write-Log 'Installing AWS CLI v2'
+    choco install -y awscli --no-progress
+    $env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' +
+                [System.Environment]::GetEnvironmentVariable('Path', 'User')
+}
+
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 $msbuild = $null
 if (Test-Path -LiteralPath $vswhere) {
