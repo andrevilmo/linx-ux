@@ -172,18 +172,32 @@ jobs:
             }}
 
             if (Test-Path $zip) {{ Remove-Item -LiteralPath $zip -Force -ErrorAction SilentlyContinue }}
-            # Prefer aws s3 cp (instance role) over Invoke-WebRequest for ~1GB packages on t3.small
+            # Download: aws s3 cp (if instance role works) → curl.exe (streams) → Invoke-WebRequest
+            $sourceUrl = {json.dumps(os.environ.get("SOURCE_URL", ""))}
+            $downloaded = $false
             Write-CiLog ("Downloading s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey)
             if (Get-Command aws -ErrorAction SilentlyContinue) {{
+              Write-CiLog 'Trying aws s3 cp...'
               aws s3 cp ("s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey) $zip --region sa-east-1 | Out-Host
-              if ($LASTEXITCODE -ne 0) {{ throw "aws s3 cp failed: $LASTEXITCODE" }}
-            }} else {{
-              Write-CiLog 'aws CLI missing; falling back to presigned Invoke-WebRequest'
-              [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-              $sourceUrl = {json.dumps(os.environ.get("SOURCE_URL", ""))}
-              if (-not $sourceUrl) {{ throw 'No aws CLI and SOURCE_URL empty' }}
-              Invoke-WebRequest -Uri $sourceUrl -OutFile $zip -UseBasicParsing
+              if ($LASTEXITCODE -eq 0 -and (Test-Path $zip) -and (Get-Item $zip).Length -gt 0) {{ $downloaded = $true }}
+              else {{ Write-CiLog 'aws s3 cp failed or empty; will try curl/IWR' }}
             }}
+            if (-not $downloaded) {{
+              if (-not $sourceUrl) {{ throw 'SOURCE_URL empty and aws s3 cp unavailable' }}
+              [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+              $curl = Join-Path $env:SystemRoot 'System32\\curl.exe'
+              if (Test-Path $curl) {{
+                Write-CiLog 'Downloading via curl.exe (presigned URL)...'
+                & $curl -L --fail --retry 3 --retry-delay 5 -o $zip $sourceUrl
+                if ($LASTEXITCODE -ne 0) {{ throw "curl download failed: $LASTEXITCODE" }}
+                $downloaded = $true
+              }} else {{
+                Write-CiLog 'Downloading via Invoke-WebRequest (presigned URL)...'
+                Invoke-WebRequest -Uri $sourceUrl -OutFile $zip -UseBasicParsing
+                $downloaded = $true
+              }}
+            }}
+            if (-not (Test-Path $zip) -or (Get-Item $zip).Length -le 0) {{ throw 'Download produced empty zip' }}
             Write-CiLog ("Download complete size={{0}}" -f (Get-Item $zip).Length)
 
             if (Test-Path $work) {{ Remove-Item -LiteralPath $work -Recurse -Force }}
