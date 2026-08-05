@@ -60,10 +60,25 @@ foreach ($f in $features) {
 
 Import-Module WebAdministration -ErrorAction Stop
 
-# Several .csproj files compile AssemblyInfoShared.cs from
-# C:\Linx Program Files\Linx Framework 6.0.0\information\ (absolute via deep relative paths).
-# Seed it from Main\Binary when missing so CI builds work on a fresh host.
+# Framework projects resolve many HintPaths under
+# C:\Linx Program Files\Linx Framework 6.0.0\{Library,information}\...
+# Seed those trees from Main\Binary so CI can build without a full installer.
 if ($SeedFromBinary) {
+    $seedLibrary = Join-Path $SeedFromBinary 'Library'
+    $frameworkLibrary = Join-Path $FrameworkRoot 'Library'
+    if (Test-Path -LiteralPath $seedLibrary) {
+        Write-Log "Seeding Framework Library from $seedLibrary"
+        New-Item -ItemType Directory -Force -Path $frameworkLibrary | Out-Null
+        # /E copy subdirs including empty; /XO skip older; /NFL /NDL quieter logs
+        & robocopy $seedLibrary $frameworkLibrary /E /XO /R:1 /W:1 /NFL /NDL /NJH /NJS | Out-Null
+        $rc = $LASTEXITCODE
+        # robocopy 0-7 = success / partial success
+        if ($rc -ge 8) { throw "robocopy Library failed with exit $rc" }
+        Write-Log "Library seed robocopy exit=$rc"
+    } else {
+        Write-Log "WARNING: Binary Library not found at $seedLibrary"
+    }
+
     $infoDir = Join-Path $FrameworkRoot 'information'
     $infoTarget = Join-Path $infoDir 'AssemblyInfoShared.cs'
     $infoSources = @(
