@@ -78,6 +78,27 @@ if (-not (Test-Path -LiteralPath $ref461Dll)) {
     Write-Log 'Installed .NET Framework 4.6.1 developer / targeting pack'
 }
 
+# ASP.NET / SPA csproj imports Microsoft.WebApplication.targets (Web Build Tools).
+$webTargets = 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets'
+if (-not (Test-Path -LiteralPath $webTargets)) {
+    Write-Log 'Microsoft.WebApplication.targets missing; modifying Build Tools with WebBuildTools'
+    $setup = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\setup.exe'
+    $btPath = 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools'
+    if ((Test-Path -LiteralPath $setup) -and (Test-Path -LiteralPath $btPath)) {
+        $p = Start-Process -FilePath $setup -ArgumentList @(
+            'modify',
+            '--installPath', $btPath,
+            '--add', 'Microsoft.VisualStudio.Workload.WebBuildTools',
+            '--add', 'Microsoft.VisualStudio.Component.WebDeploy',
+            '--quiet', '--norestart', '--wait'
+        ) -Wait -PassThru
+        Write-Log "VS WebBuildTools modify exit=$($p.ExitCode)"
+    }
+    if (-not (Test-Path -LiteralPath $webTargets)) {
+        throw "Still missing WebApplication.targets at $webTargets"
+    }
+}
+
 if (-not $msbuild) {
     throw 'MSBuild not found after Build Tools install. Check C:\Linx-Build\ensure-tools.log'
 }
