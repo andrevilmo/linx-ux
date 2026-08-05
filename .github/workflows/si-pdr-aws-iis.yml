@@ -85,12 +85,15 @@ jobs:
           rsync -a \
             --exclude '.git/' \
             --exclude '**/obj/' \
+            --exclude '**/node_modules/' \
             --exclude '**/packages/cef.redist.*/' \
             --exclude '**/Linx.Internet.Application.WinHost/bin/' \
             --exclude 'Main/Demos/' \
             --exclude 'Main/Automation/' \
             --exclude 'Main/Deploy/' \
             --exclude 'Main/Binary/WebFormBuilder/' \
+            --exclude 'Main/Common/Mobile/' \
+            --exclude '**/*.nupkg' \
             "./" "$STAGE/repo/"
           KEY="linx-ux/runs/${GITHUB_RUN_ID}-${GITHUB_SHA}/source.zip"
           echo "SOURCE_KEY=$KEY" >> "$GITHUB_ENV"
