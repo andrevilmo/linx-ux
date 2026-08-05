@@ -63,5 +63,17 @@ if (-not $msbuild) {
     throw 'MSBuild not found after Build Tools install. Check C:\Linx-Build\ensure-tools.log'
 }
 
+# Build Tools are not on PATH by default; msbuild-build.ps1 scripts also need
+# vswhere -products * (Build Tools are excluded from the default product filter).
+$msbuildDir = Split-Path -Parent $msbuild
+if ($env:Path -notlike "*$msbuildDir*") {
+    $env:Path = "$msbuildDir;$env:Path"
+}
+$machinePath = [System.Environment]::GetEnvironmentVariable('Path', 'Machine')
+if ($machinePath -notlike "*$msbuildDir*") {
+    [System.Environment]::SetEnvironmentVariable('Path', "$msbuildDir;$machinePath", 'Machine')
+    Write-Log "Prepended MSBuild dir to Machine PATH: $msbuildDir"
+}
+
 Write-Log "MSBuild ready: $msbuild"
 Write-Output $msbuild
