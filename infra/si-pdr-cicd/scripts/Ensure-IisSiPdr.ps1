@@ -60,6 +60,31 @@ foreach ($f in $features) {
 
 Import-Module WebAdministration -ErrorAction Stop
 
+# Several .csproj files compile AssemblyInfoShared.cs from
+# C:\Linx Program Files\Linx Framework 6.0.0\information\ (absolute via deep relative paths).
+# Seed it from Main\Binary when missing so CI builds work on a fresh host.
+if ($SeedFromBinary) {
+    $infoDir = Join-Path $FrameworkRoot 'information'
+    $infoTarget = Join-Path $infoDir 'AssemblyInfoShared.cs'
+    $infoSources = @(
+        (Join-Path $SeedFromBinary 'Library\Common\Linx\AssemblyInfoShared\AssemblyInfoShared.cs'),
+        (Join-Path $SeedFromBinary 'Library\Common\Linx\Information\AssemblyInfoShared.cs')
+    )
+    if (-not (Test-Path -LiteralPath $infoTarget)) {
+        foreach ($src in $infoSources) {
+            if (Test-Path -LiteralPath $src) {
+                New-Item -ItemType Directory -Force -Path $infoDir | Out-Null
+                Copy-Item -LiteralPath $src -Destination $infoTarget -Force
+                Write-Log "Seeded $infoTarget from $src"
+                break
+            }
+        }
+    }
+    if (-not (Test-Path -LiteralPath $infoTarget)) {
+        Write-Log 'WARNING: AssemblyInfoShared.cs not found under Binary; BV builds may fail'
+    }
+}
+
 foreach ($port in 8080, 8081, 8082) {
     $rule = "SI-PDR-IIS-$port"
     if (-not (Get-NetFirewallRule -DisplayName $rule -ErrorAction SilentlyContinue)) {
