@@ -59,32 +59,16 @@ if (-not $msbuild) {
     }
 }
 
-# Chocolatey package-parameters for targeting packs are not always applied on
-# an already-installed Build Tools instance — modify in place when missing.
-$ref461 = 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1'
-if (-not (Test-Path -LiteralPath $ref461)) {
-    Write-Log '.NET Framework 4.6.1 reference assemblies missing; modifying Build Tools'
-    $setup = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\setup.exe'
-    $btPath = 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools'
-    if ((Test-Path -LiteralPath $setup) -and (Test-Path -LiteralPath $btPath)) {
-        $p = Start-Process -FilePath $setup -ArgumentList @(
-            'modify',
-            '--installPath', $btPath,
-            '--add', 'Microsoft.Net.Component.4.6.1.TargetingPack',
-            '--add', 'Microsoft.Net.Component.4.6.1.SDK',
-            '--add', 'Microsoft.Net.Component.4.8.TargetingPack',
-            '--add', 'Microsoft.Net.Component.4.8.SDK',
-            '--quiet', '--norestart', '--wait'
-        ) -Wait -PassThru
-        Write-Log "VS setup modify exit=$($p.ExitCode)"
+# A partial v4.6.1 folder (XML docs only, no mscorlib.dll) still fails MSBuild.
+# Prefer the standalone Developer Pack; VS component adds alone are unreliable here.
+$ref461Dll = 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\mscorlib.dll'
+if (-not (Test-Path -LiteralPath $ref461Dll)) {
+    Write-Log '.NET Framework 4.6.1 reference assemblies incomplete; installing netfx-4.6.1-devpack'
+    choco install -y netfx-4.6.1-devpack --no-progress
+    if (-not (Test-Path -LiteralPath $ref461Dll)) {
+        throw 'Missing .NET Framework 4.6.1 mscorlib.dll after netfx-4.6.1-devpack install'
     }
-    if (-not (Test-Path -LiteralPath $ref461)) {
-        Write-Log 'Falling back to choco netfx-4.6.1-devpack'
-        choco install -y netfx-4.6.1-devpack --no-progress
-    }
-    if (-not (Test-Path -LiteralPath $ref461)) {
-        throw 'Missing .NET Framework 4.6.1 reference assemblies after install attempts'
-    }
+    Write-Log 'Installed .NET Framework 4.6.1 developer / targeting pack'
 }
 
 if (-not $msbuild) {
