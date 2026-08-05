@@ -33,7 +33,6 @@ Write-Host '===== Ensure IIS sites (Application:8080 Portal:8081 Service:8082) =
 & $ensureIis -FrameworkRoot $FrameworkRoot -SeedFromBinary $binaryRoot
 
 # PostBuildEvent xcopy targets under Main\Binary (Service\Help, Library\Business View, ...)
-$binaryRoot = Join-Path $RepoRoot 'Main\Binary'
 @(
     (Join-Path $binaryRoot 'Service\bin'),
     (Join-Path $binaryRoot 'Service\Help'),
