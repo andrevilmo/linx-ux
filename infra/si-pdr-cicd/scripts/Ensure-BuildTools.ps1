@@ -81,22 +81,38 @@ if (-not (Test-Path -LiteralPath $ref461Dll)) {
 # ASP.NET / SPA csproj imports Microsoft.WebApplication.targets (Web Build Tools).
 $webTargets = 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets'
 if (-not (Test-Path -LiteralPath $webTargets)) {
-    Write-Log 'Microsoft.WebApplication.targets missing; modifying Build Tools with WebBuildTools'
-    $setup = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\setup.exe'
-    $btPath = 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools'
-    if ((Test-Path -LiteralPath $setup) -and (Test-Path -LiteralPath $btPath)) {
-        $p = Start-Process -FilePath $setup -ArgumentList @(
-            'modify',
-            '--installPath', $btPath,
-            '--add', 'Microsoft.VisualStudio.Workload.WebBuildTools',
-            '--add', 'Microsoft.VisualStudio.Component.WebDeploy',
-            '--quiet', '--norestart', '--wait'
-        ) -Wait -PassThru
-        Write-Log "VS WebBuildTools modify exit=$($p.ExitCode)"
+    Write-Log 'Microsoft.WebApplication.targets missing; installing WebBuildTools workload'
+    # Chocolatey workload package is more reliable than setup.exe modify arg parsing here.
+    choco install -y visualstudio2022-workload-webbuildtools --package-parameters '--includeRecommended --quiet --norestart' --no-progress
+    $env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' +
+                [System.Environment]::GetEnvironmentVariable('Path', 'User')
+    if (-not (Test-Path -LiteralPath $webTargets)) {
+        $setup = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\setup.exe'
+        $btPath = 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools'
+        if ((Test-Path -LiteralPath $setup) -and (Test-Path -LiteralPath $btPath)) {
+            Write-Log 'Chocolatey workload missing targets; retrying via vs_installer config'
+            $config = 'C:\Linx-Build\webbuildtools.vsconfig'
+            @'
+{
+  "version": "1.0",
+  "components": [
+    "Microsoft.VisualStudio.Workload.WebBuildTools"
+  ]
+}
+'@ | Set-Content -Path $config -Encoding UTF8
+            $p = Start-Process -FilePath $setup -ArgumentList @(
+                'modify',
+                '--installPath', $btPath,
+                '--config', $config,
+                '--quiet', '--wait'
+            ) -Wait -PassThru
+            Write-Log "VS config modify exit=$($p.ExitCode)"
+        }
     }
     if (-not (Test-Path -LiteralPath $webTargets)) {
         throw "Still missing WebApplication.targets at $webTargets"
     }
+    Write-Log 'WebBuildTools / WebApplication.targets ready'
 }
 
 if (-not $msbuild) {
