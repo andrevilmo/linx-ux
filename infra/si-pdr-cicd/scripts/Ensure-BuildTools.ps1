@@ -49,13 +49,41 @@ if (Test-Path -LiteralPath $vswhere) {
 if (-not $msbuild) {
     Write-Log 'Installing Visual Studio 2022 Build Tools (Managed Desktop + Web + MSBuild)'
     choco install -y visualstudio2022buildtools `
-      --package-parameters "--add Microsoft.VisualStudio.Workload.MSBuildTools --add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools --add Microsoft.VisualStudio.Workload.WebBuildTools --add Microsoft.Net.Component.4.8.SDK --add Microsoft.Net.Component.4.8.TargetingPack --add Microsoft.Net.Component.4.6.1.TargetingPack --quiet --norestart --wait" `
+      --package-parameters "--add Microsoft.VisualStudio.Workload.MSBuildTools --add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools --add Microsoft.VisualStudio.Workload.WebBuildTools --add Microsoft.Net.Component.4.8.SDK --add Microsoft.Net.Component.4.8.TargetingPack --add Microsoft.Net.Component.4.6.1.SDK --add Microsoft.Net.Component.4.6.1.TargetingPack --quiet --norestart --wait" `
       --no-progress
     $env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' +
                 [System.Environment]::GetEnvironmentVariable('Path', 'User')
     if (Test-Path -LiteralPath $vswhere) {
         $msbuild = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild -find 'MSBuild/**/Bin/MSBuild.exe' |
             Select-Object -First 1
+    }
+}
+
+# Chocolatey package-parameters for targeting packs are not always applied on
+# an already-installed Build Tools instance — modify in place when missing.
+$ref461 = 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1'
+if (-not (Test-Path -LiteralPath $ref461)) {
+    Write-Log '.NET Framework 4.6.1 reference assemblies missing; modifying Build Tools'
+    $setup = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\setup.exe'
+    $btPath = 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools'
+    if ((Test-Path -LiteralPath $setup) -and (Test-Path -LiteralPath $btPath)) {
+        $p = Start-Process -FilePath $setup -ArgumentList @(
+            'modify',
+            '--installPath', $btPath,
+            '--add', 'Microsoft.Net.Component.4.6.1.TargetingPack',
+            '--add', 'Microsoft.Net.Component.4.6.1.SDK',
+            '--add', 'Microsoft.Net.Component.4.8.TargetingPack',
+            '--add', 'Microsoft.Net.Component.4.8.SDK',
+            '--quiet', '--norestart', '--wait'
+        ) -Wait -PassThru
+        Write-Log "VS setup modify exit=$($p.ExitCode)"
+    }
+    if (-not (Test-Path -LiteralPath $ref461)) {
+        Write-Log 'Falling back to choco netfx-4.6.1-devpack'
+        choco install -y netfx-4.6.1-devpack --no-progress
+    }
+    if (-not (Test-Path -LiteralPath $ref461)) {
+        throw 'Missing .NET Framework 4.6.1 reference assemblies after install attempts'
     }
 }
 
