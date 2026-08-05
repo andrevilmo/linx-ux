@@ -126,7 +126,8 @@ jobs:
           set -euo pipefail
           python3 <<'PY' > /tmp/ssm-params.json
           import json, os, textwrap
-          source_url = os.environ["SOURCE_URL"]
+          source_key = os.environ["SOURCE_KEY"]
+          source_bucket = os.environ["SOURCE_BUCKET"]
           run_id = os.environ["GITHUB_RUN_ID"]
           skip_build = os.environ.get("SKIP_BUILD", "false").lower() in ("1", "true", "yes")
           skip_ps = "$true" if skip_build else "$false"
@@ -137,43 +138,63 @@ jobs:
           $zip = 'C:\\lx\\{run_id}.zip'
           $log = 'C:\\lx\\{run_id}.log'
           $lock = 'C:\\lx\\.ci-lock'
+          function Write-CiLog([string]$Message) {{
+            $line = "{{0}} {{1}}" -f (Get-Date -Format o), $Message
+            $line | Tee-Object -FilePath $log -Append
+          }}
           New-Item -ItemType Directory -Force -Path 'C:\\lx' | Out-Null
-          "Build start $(Get-Date -Format o)" | Out-File $log -Encoding utf8
+          Write-CiLog 'Build start'
 
           # Host lock so OmniPOS CI and SI-PDR CI do not overlap on the same machine
           $deadline = (Get-Date).AddMinutes(90)
           while (Test-Path $lock) {{
             if ((Get-Date) -gt $deadline) {{ throw "Timed out waiting for CI lock $lock" }}
-            Write-Output "Waiting for CI lock..."
+            Write-CiLog 'Waiting for CI lock...'
             Start-Sleep -Seconds 30
           }}
           Set-Content -Path $lock -Value "linx-ux {run_id}" -Encoding ascii
 
           try {{
             $env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path','User')
-            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-            $sourceUrl = {json.dumps(source_url)}
             $skipBuild = {skip_ps}
+            $sourceBucket = {json.dumps(source_bucket)}
+            $sourceKey = {json.dumps(source_key)}
 
-            Write-Output '===== Pre-build cleanup ====='
+            Write-CiLog '===== Pre-build cleanup ====='
             Get-ChildItem 'C:\\lx' -Force -ErrorAction SilentlyContinue | Where-Object {{
               $_.Name -ne '{run_id}' -and $_.Name -ne '{run_id}.log' -and $_.Name -ne '{run_id}.zip' -and $_.Name -ne '.ci-lock'
             }} | ForEach-Object {{
               Remove-Item -LiteralPath $_.FullName -Recurse -Force -ErrorAction SilentlyContinue
-              Write-Output ("Removed {{0}}" -f $_.FullName)
+              Write-CiLog ("Removed {{0}}" -f $_.FullName)
             }}
 
             if (Test-Path $zip) {{ Remove-Item -LiteralPath $zip -Force -ErrorAction SilentlyContinue }}
-            Invoke-WebRequest -Uri $sourceUrl -OutFile $zip -UseBasicParsing
+            # Prefer aws s3 cp (instance role) over Invoke-WebRequest for ~1GB packages on t3.small
+            Write-CiLog ("Downloading s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey)
+            if (Get-Command aws -ErrorAction SilentlyContinue) {{
+              aws s3 cp ("s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey) $zip --region sa-east-1 | Out-Host
+              if ($LASTEXITCODE -ne 0) {{ throw "aws s3 cp failed: $LASTEXITCODE" }}
+            }} else {{
+              Write-CiLog 'aws CLI missing; falling back to presigned Invoke-WebRequest'
+              [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+              $sourceUrl = {json.dumps(os.environ.get("SOURCE_URL", ""))}
+              if (-not $sourceUrl) {{ throw 'No aws CLI and SOURCE_URL empty' }}
+              Invoke-WebRequest -Uri $sourceUrl -OutFile $zip -UseBasicParsing
+            }}
+            Write-CiLog ("Download complete size={{0}}" -f (Get-Item $zip).Length)
+
             if (Test-Path $work) {{ Remove-Item -LiteralPath $work -Recurse -Force }}
             New-Item -ItemType Directory -Force -Path $work | Out-Null
+            Write-CiLog 'Expanding archive...'
             Expand-Archive -LiteralPath $zip -DestinationPath $work -Force
             Remove-Item -LiteralPath $zip -Force -ErrorAction SilentlyContinue
+            Write-CiLog 'Expand complete'
 
             $pipeline = Get-ChildItem -Path $work -Recurse -Filter 'Invoke-SiPdrAwsPipeline.ps1' | Select-Object -First 1
             if (-not $pipeline) {{ throw 'Invoke-SiPdrAwsPipeline.ps1 missing' }}
             $repoRoot = $work
             Set-Location $repoRoot
+            Write-CiLog 'Running Invoke-SiPdrAwsPipeline.ps1'
             if ($skipBuild) {{
               & $pipeline.FullName -RepoRoot $repoRoot -SkipBuild *>> $log
             }} else {{
