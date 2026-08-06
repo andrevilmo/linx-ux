@@ -29,7 +29,7 @@ Write-Host '===== Ensure build tools ====='
 & $ensureTools
 
 $binaryRoot = Join-Path $RepoRoot 'Main\Binary'
-Write-Host '===== Ensure IIS sites (Application:8080 Portal:8081 Service:8082) ====='
+Write-Host '===== Ensure IIS sites (Application:8080 Portal:8081 Service:1710+8082) ====='
 & $ensureIis -FrameworkRoot $FrameworkRoot -SeedFromBinary $binaryRoot
 
 # PostBuildEvent xcopy targets under Main\Binary (Service\Help, Library\Business View, ...)
@@ -66,6 +66,7 @@ Write-Host '===== Smoke HTTP ====='
 $urls = @(
     'http://127.0.0.1:8080/',
     'http://127.0.0.1:8081/',
+    'http://127.0.0.1:1710/',
     'http://127.0.0.1:8082/'
 )
 foreach ($url in $urls) {
@@ -79,5 +80,5 @@ foreach ($url in $urls) {
 
 Write-Host 'SI-PDR AWS pipeline succeeded.'
 Write-Host "IIS root: $FrameworkRoot"
-Write-Host 'Sites: Application http://<host>:8080  Portal http://<host>:8081  Service http://<host>:8082'
+Write-Host 'Sites: Application http://<host>:8080  Portal http://<host>:8081  Service http://<host>:1710 (also :8082)'
 exit 0

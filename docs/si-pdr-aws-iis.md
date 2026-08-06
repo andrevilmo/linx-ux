@@ -8,7 +8,7 @@ Same pattern as OmniPOS AWS CI: GitHub Actions packages sources → S3 → SSM o
 |----------|------|----------------|
 | **Application** | `8080` | `C:\Linx Program Files\Linx Framework 6.0.0\Application` |
 | **Portal** | `8081` | `...\Portal` |
-| **Service** | `8082` | `...\Service` |
+| **Service** (ServiceBus) | `1710` (also `8082`) | `...\Service` |
 
 Publish/deploy logic matches [`.vscode/stack-to-publish.ps1`](../.vscode/stack-to-publish.ps1) and [`.vscode/deploy-to-linx-framework.ps1`](../.vscode/deploy-to-linx-framework.ps1).
 
@@ -62,7 +62,8 @@ Manual dispatch supports `skip_build=true` to publish/deploy from Binary outputs
 ```text
 http://localhost:8080/   # Application
 http://localhost:8081/   # Portal
-http://localhost:8082/   # Service
+http://localhost:1710/   # Service (ServiceBus; also :8082)
+http://localhost:8082/   # Service alias
 ```
 
 From your laptop (after opening SG inbound 8080–8082 to your `/32`):

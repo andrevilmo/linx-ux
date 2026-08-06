@@ -100,7 +100,7 @@ if ($SeedFromBinary) {
     }
 }
 
-foreach ($port in 8080, 8081, 8082) {
+foreach ($port in 8080, 8081, 8082, 1710) {
     $rule = "SI-PDR-IIS-$port"
     if (-not (Get-NetFirewallRule -DisplayName $rule -ErrorAction SilentlyContinue)) {
         New-NetFirewallRule -DisplayName $rule -Direction Inbound -Protocol TCP -LocalPort $port -Action Allow | Out-Null
@@ -109,9 +109,10 @@ foreach ($port in 8080, 8081, 8082) {
 }
 
 $sites = @(
-    @{ Name = 'Application'; Port = 8080; Relative = 'Application' }
-    @{ Name = 'Service'; Port = 8082; Relative = 'Service' }
-    @{ Name = 'Portal'; Port = 8081; Relative = 'Portal' }
+    # Application ServiceBus appSetting defaults to http://localhost:1710/
+    @{ Name = 'Application'; Port = 8080; Relative = 'Application'; ExtraPorts = @() }
+    @{ Name = 'Service'; Port = 1710; Relative = 'Service'; ExtraPorts = @(8082) }
+    @{ Name = 'Portal'; Port = 8081; Relative = 'Portal'; ExtraPorts = @() }
 )
 
 foreach ($site in $sites) {
@@ -133,6 +134,16 @@ foreach ($site in $sites) {
             Write-Log "Seeding $($site.Name) Views from $seedViews"
             Copy-Item -Path (Join-Path $seedViews '*') -Destination (Join-Path $phys 'Views') -Recurse -Force -ErrorAction SilentlyContinue
         }
+        # Seed site shell files (Global.asax, areas, scripts, ...) — not only bin/
+        $seedSite = Join-Path $SeedFromBinary $site.Relative
+        if (Test-Path -LiteralPath $seedSite) {
+            Write-Log "Seeding $($site.Name) site files from $seedSite"
+            & robocopy $seedSite $phys /E /XO /R:1 /W:1 /NFL /NDL /NJH /NJS /XF web.config | Out-Null
+            $rc = $LASTEXITCODE
+            if ($rc -ge 8) { Write-Log "WARNING: robocopy $($site.Name) site files exit=$rc" }
+            else { Write-Log "Site files seed robocopy exit=$rc" }
+        }
+
     }
 
     # Prefer Binary web.config (includes System.Web.Mvc binding redirects). A stub
@@ -183,6 +194,35 @@ foreach ($site in $sites) {
     } else {
         Write-Log "IIS site $($site.Name) already exists"
         Set-ItemProperty "IIS:\Sites\$($site.Name)" -Name physicalPath -Value $phys
+    }
+
+
+    foreach ($extraPort in @($site.ExtraPorts)) {
+        $bindInfo = "*:${extraPort}:"
+        $has = $false
+        $siteObj = Get-Website -Name $site.Name -ErrorAction SilentlyContinue
+        if ($siteObj) {
+            foreach ($b in $siteObj.bindings.Collection) {
+                if ($b.bindingInformation -eq $bindInfo -or $b.bindingInformation -like "*:${extraPort}:") { $has = $true }
+            }
+        }
+        if (-not $has) {
+            Write-Log "Adding extra binding $($site.Name) port $extraPort"
+            New-WebBinding -Name $site.Name -Protocol http -Port $extraPort -IPAddress '*' | Out-Null
+        }
+    }
+    # Ensure primary port binding exists (site may have been created earlier on a different port)
+    $primaryBind = "*:$($site.Port):"
+    $siteObj = Get-Website -Name $site.Name -ErrorAction SilentlyContinue
+    $hasPrimary = $false
+    if ($siteObj) {
+        foreach ($b in $siteObj.bindings.Collection) {
+            if ($b.bindingInformation -eq $primaryBind -or $b.bindingInformation -like "*:$($site.Port):") { $hasPrimary = $true }
+        }
+    }
+    if ($siteObj -and -not $hasPrimary) {
+        Write-Log "Adding primary binding $($site.Name) port $($site.Port)"
+        New-WebBinding -Name $site.Name -Protocol http -Port $site.Port -IPAddress '*' | Out-Null
     }
 
     Start-Website -Name $site.Name -ErrorAction SilentlyContinue
