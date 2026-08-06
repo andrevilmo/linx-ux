@@ -677,6 +677,27 @@ else {
 }
 
 # ---------------------------------------------------------------------------
+# Sync runtime web.config (assemblyBinding redirects, e.g. System.Web.Mvc)
+# ---------------------------------------------------------------------------
+
+Write-Step 'Sync site web.config from Binary'
+
+foreach ($pair in @(
+        @{ Site = 'Application'; Src = (Join-Path $workspace 'Binary\Application\web.config'); Dst = (Join-Path $targetApplication 'web.config') }
+        @{ Site = 'Portal'; Src = (Join-Path $workspace 'Binary\Portal\web.config'); Dst = (Join-Path $targetPortal 'web.config') }
+        @{ Site = 'Service'; Src = (Join-Path $workspace 'Binary\Service\web.config'); Dst = (Join-Path $targetService 'web.config') }
+    )) {
+    if (Test-Path -LiteralPath $pair.Src) {
+        Copy-Item -LiteralPath $pair.Src -Destination $pair.Dst -Force
+        Write-Host "[$($pair.Site)] Updated web.config from Binary"
+        $script:sitesChanged[$pair.Site] = $true
+    }
+    else {
+        Write-Host "[$($pair.Site)] Binary web.config not found; left existing IIS config"
+    }
+}
+
+# ---------------------------------------------------------------------------
 # Recycle changed sites
 # ---------------------------------------------------------------------------
 
