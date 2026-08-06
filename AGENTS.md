@@ -7,8 +7,8 @@ This repository’s runtime stack is three IIS applications under Linx Framework
 | Site | Port (AWS CI) |
 |------|----------------|
 | Application | 8080 |
-| Portal | 8081 |
-| Service | 8082 |
+| Portal | 8081 (also **8172** — Binary `PortalUrl` / IIS Express port) |
+| Service | 1710 (also 8082) |
 
 Source lives under `Main\`. Publish/deploy scripts are in `.vscode/` (`stack-to-publish.ps1`, `deploy-to-linx-framework.ps1`).
 

@@ -9,7 +9,7 @@ Deploys **Application**, **Service**, and **Portal** to IIS on the shared Window
 | Script | Role |
 |--------|------|
 | `scripts/Ensure-BuildTools.ps1` | VS 2022 Build Tools + targeting packs |
-| `scripts/Ensure-IisSiPdr.ps1` | IIS/ASP.NET + sites on ports 8080/8081/8082 |
+| `scripts/Ensure-IisSiPdr.ps1` | IIS/ASP.NET + sites on ports 8080/8081/8172/1710/8082 |
 | `scripts/Invoke-SiPdrAwsPipeline.ps1` | End-to-end publish + deploy + smoke |
 | `scripts/Clear-BuildWorkspace.ps1` | Prune old `C:\lx\*` CI trees |
 

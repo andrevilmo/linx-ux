@@ -102,7 +102,9 @@ if ($SeedFromBinary) {
     }
 }
 
-foreach ($port in 8080, 8081, 8082, 1710) {
+# 8172 = Binary PortalUrl / WebIISExpress.bat local-dev port; bind on AWS so
+# Application loginUrl=http://localhost:8172/ and Portal PortalUrl keep working.
+foreach ($port in 8080, 8081, 8082, 1710, 8172) {
     $rule = "SI-PDR-IIS-$port"
     if (-not (Get-NetFirewallRule -DisplayName $rule -ErrorAction SilentlyContinue)) {
         New-NetFirewallRule -DisplayName $rule -Direction Inbound -Protocol TCP -LocalPort $port -Action Allow | Out-Null
@@ -114,7 +116,8 @@ $sites = @(
     # Application ServiceBus appSetting defaults to http://localhost:1710/
     @{ Name = 'Application'; Port = 8080; Relative = 'Application'; ExtraPorts = @() }
     @{ Name = 'Service'; Port = 1710; Relative = 'Service'; ExtraPorts = @(8082) }
-    @{ Name = 'Portal'; Port = 8081; Relative = 'Portal'; ExtraPorts = @() }
+    # Portal primary 8081; also 8172 for Binary web.config PortalUrl / loginUrl
+    @{ Name = 'Portal'; Port = 8081; Relative = 'Portal'; ExtraPorts = @(8172) }
 )
 
 foreach ($site in $sites) {

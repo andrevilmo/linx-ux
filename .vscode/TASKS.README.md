@@ -14,7 +14,7 @@ Override with env var `LINX_IIS_ROOT` (or script parameters where listed).
 
 ### AWS CI/CD (IIS on shared Windows EC2)
 
-Branch **`SI-PDR-CICD-AWS`** automates Build Publish Package + deploy to IIS sites **Application (8080)**, **Portal (8081)**, **Service (8082)**.
+Branch **`SI-PDR-CICD-AWS`** automates Build Publish Package + deploy to IIS sites **Application (8080)**, **Portal (8081 + 8172)**, **Service (1710 + 8082)**.
 
 See [docs/si-pdr-aws-iis.md](../docs/si-pdr-aws-iis.md) and workflow `.github/workflows/si-pdr-aws-iis.yml`.
 

@@ -7,8 +7,10 @@ Same pattern as OmniPOS AWS CI: GitHub Actions packages sources → S3 → SSM o
 | IIS site | Port | Content root |
 |----------|------|----------------|
 | **Application** | `8080` | `C:\Linx Program Files\Linx Framework 6.0.0\Application` |
-| **Portal** | `8081` | `...\Portal` |
+| **Portal** | `8081` (also `8172`) | `...\Portal` |
 | **Service** (ServiceBus) | `1710` (also `8082`) | `...\Service` |
+
+Port **8172** is the Binary / IIS Express Portal URL (`Main/Binary/Portal/WebIISExpress.bat`, `PortalUrl` / Application `loginUrl`). On AWS it is an extra IIS binding on the Portal site so `http://localhost:8172/` responds without starting IIS Express.
 
 Publish/deploy logic matches [`.vscode/stack-to-publish.ps1`](../.vscode/stack-to-publish.ps1) and [`.vscode/deploy-to-linx-framework.ps1`](../.vscode/deploy-to-linx-framework.ps1).
 
@@ -48,7 +50,7 @@ Without these, the workflow cannot talk to S3/SSM.
    - `Ensure-IisSiPdr.ps1` — IIS + ASP.NET, create 3 sites, seed from `Main\Binary`
    - `stack-to-publish.ps1` — build Tools → BV → WebAPI → Application → Portal, stage package
    - `deploy-to-linx-framework.ps1 -SkipBackup -Force`
-   - Smoke GET `http://127.0.0.1:8080|8081|8082/`
+   - Smoke GET `http://127.0.0.1:8080|8081|8172|1710|8082/`
 4. Cleanup old `C:\lx\*` workdirs
 
 Manual dispatch supports `skip_build=true` to publish/deploy from Binary outputs only.
@@ -62,15 +64,31 @@ Manual dispatch supports `skip_build=true` to publish/deploy from Binary outputs
 ```text
 http://localhost:8080/   # Application
 http://localhost:8081/   # Portal
+http://localhost:8172/   # Portal (Binary PortalUrl / loginUrl alias)
 http://localhost:1710/   # Service (ServiceBus; also :8082)
 http://localhost:8082/   # Service alias
 ```
 
-From your laptop (after opening SG inbound 8080–8082 to your `/32`):
+If Portal on `:8172` does not respond but `:8081` does, re-run `Ensure-IisSiPdr.ps1` (or the one-shot below) so the extra binding exists.
+
+### One-shot: bind Portal on 8172 (RDP / SSM)
+
+```powershell
+Import-Module WebAdministration
+New-WebBinding -Name 'Portal' -Protocol http -Port 8172 -IPAddress '*' -ErrorAction SilentlyContinue
+if (-not (Get-NetFirewallRule -DisplayName 'SI-PDR-IIS-8172' -ErrorAction SilentlyContinue)) {
+  New-NetFirewallRule -DisplayName 'SI-PDR-IIS-8172' -Direction Inbound -Protocol TCP -LocalPort 8172 -Action Allow
+}
+Start-Website -Name 'Portal' -ErrorAction SilentlyContinue
+Invoke-WebRequest http://127.0.0.1:8172/ -UseBasicParsing -TimeoutSec 15
+```
+
+From your laptop (after opening SG inbound 8080–8082 and optionally 8172 to your `/32`):
 
 ```text
 http://<public-ip>:8080/
 http://<public-ip>:8081/
+http://<public-ip>:8172/
 http://<public-ip>:8082/
 ```
 
