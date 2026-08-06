@@ -31,15 +31,33 @@ function Reset-LastExitCode {
     $global:LASTEXITCODE = 0
 }
 
+function ConvertTo-ProcessArgument {
+    param([Parameter(Mandatory = $true)][string] $Value)
+    # Start-Process splits on spaces unless the token is quoted.
+    if ($Value -match '[\s"]') {
+        return '"' + ($Value.Replace('"', '\"')) + '"'
+    }
+    return $Value
+}
+
 function Invoke-Ps1File {
     param(
         [Parameter(Mandatory = $true)][string] $FilePath,
         [string[]] $ArgumentList = @()
     )
     if (-not (Test-Path -LiteralPath $FilePath)) { throw "Missing $FilePath" }
-    $args = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $FilePath) + $ArgumentList
-    Write-Host (">> powershell.exe {0}" -f ($args -join ' '))
-    $p = Start-Process -FilePath 'powershell.exe' -ArgumentList $args -Wait -PassThru -NoNewWindow
+    $tokens = @(
+        '-NoProfile',
+        '-ExecutionPolicy', 'Bypass',
+        '-File', (ConvertTo-ProcessArgument $FilePath)
+    )
+    foreach ($a in $ArgumentList) {
+        $tokens += ,(ConvertTo-ProcessArgument $a)
+    }
+    $argLine = ($tokens -join ' ')
+    Write-Host (">> powershell.exe {0}" -f $argLine)
+    # Single ArgumentList string preserves quoted paths with spaces.
+    $p = Start-Process -FilePath 'powershell.exe' -ArgumentList $argLine -Wait -PassThru -NoNewWindow
     if ($null -eq $p.ExitCode) { throw "Process produced no exit code for $FilePath" }
     if ($p.ExitCode -ne 0) {
         throw ("Script failed exit={0}: {1}" -f $p.ExitCode, $FilePath)

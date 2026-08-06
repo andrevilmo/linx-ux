@@ -236,12 +236,7 @@ jobs:
               # Stderr has a separate 24KB SSM cap — put the failure evidence there.
               [Console]::Error.WriteLine('===== pipeline failed; log tail =====')
               $tail | ForEach-Object {{ [Console]::Error.WriteLine($_) }}
-              # Persist log to S3 for the Actions job to fetch (SSM stdout is capped).
-              $logKey = "linx-ux/runs/{run_id}/pipeline.log"
-              if (Get-Command aws -ErrorAction SilentlyContinue) {{
-                aws s3 cp $log ("s3://{{0}}/{{1}}" -f $sourceBucket, $logKey) --region sa-east-1 --no-progress *>> $log
-                Write-CiLog ("Uploaded failure log s3://{{0}}/{{1}}" -f $sourceBucket, $logKey)
-              }}
+              # Host instance role may not allow s3:PutObject; stderr log tail is the primary signal.
               if ($cleaner) {{ & $cleaner.FullName -KeepRunId '{run_id}' -KeepCount 0 }}
               throw "SI-PDR pipeline failed: $buildExit"
             }}
@@ -295,23 +290,12 @@ jobs:
           if err:
               print(err, file=sys.stderr)
           raise SystemExit(0 if d.get("Status")=="Success" else 1)
-          ' || {
-            echo "===== Fetching host pipeline.log from S3 (if present) ====="
-            aws s3 cp "s3://${SOURCE_BUCKET}/linx-ux/runs/${GITHUB_RUN_ID}/pipeline.log" ./pipeline.log \
-              --region "$AWS_REGION" || true
-            if [ -f ./pipeline.log ]; then
-              echo "===== pipeline.log tail ====="
-              tail -n 200 ./pipeline.log
-            fi
-            exit 1
-          }
+          '
 
       - name: Upload SSM result
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: si-pdr-ssm-${{ github.run_id }}
-          path: |
-            ssm-result.json
-            pipeline.log
+          path: ssm-result.json
           if-no-files-found: ignore
