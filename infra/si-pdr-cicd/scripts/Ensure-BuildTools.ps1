@@ -78,6 +78,29 @@ if (-not (Test-Path -LiteralPath $ref461Dll)) {
     Write-Log 'Installed .NET Framework 4.6.1 developer / targeting pack'
 }
 
+# Optional net40 pack (WinHost). Application CI builds Release|Any CPU which skips
+# WinHost, but keep the pack available if a full/local sln build needs it.
+$ref40Dll = 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\mscorlib.dll'
+if (-not (Test-Path -LiteralPath $ref40Dll)) {
+    Write-Log '.NET Framework 4.0 reference assemblies missing; adding VS TargetingPack component'
+    $setup = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\setup.exe'
+    $btPath = 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools'
+    if ((Test-Path -LiteralPath $setup) -and (Test-Path -LiteralPath $btPath)) {
+        $p = Start-Process -FilePath $setup -ArgumentList @(
+            'modify',
+            '--installPath', $btPath,
+            '--add', 'Microsoft.Net.Component.4.TargetingPack',
+            '--quiet', '--wait', '--norestart'
+        ) -Wait -PassThru
+        Write-Log "VS net40 TargetingPack modify exit=$($p.ExitCode)"
+    }
+    if (-not (Test-Path -LiteralPath $ref40Dll)) {
+        Write-Log 'WARNING: .NET 4.0 targeting pack still missing (WinHost builds will fail)'
+    } else {
+        Write-Log 'Installed .NET Framework 4.0 targeting pack'
+    }
+}
+
 # ASP.NET / SPA csproj imports Microsoft.WebApplication.targets (Web Build Tools).
 $webTargets = 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets'
 if (-not (Test-Path -LiteralPath $webTargets)) {

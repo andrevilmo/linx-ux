@@ -229,14 +229,19 @@ jobs:
             Write-CiLog ("Pipeline process exit=$buildExit")
             $cleaner = Get-ChildItem -Path $work -Recurse -Filter 'Clear-BuildWorkspace.ps1' | Select-Object -First 1
             if ($buildExit -ne 0) {{
-              $tail = @()
-              if (Test-Path $log) {{ $tail = Get-Content $log -Tail 160 }}
-              Write-Output '===== pipeline failed; log tail (also on stderr) ====='
-              $tail | ForEach-Object {{ Write-Output $_ }}
-              # Stderr has a separate 24KB SSM cap — put the failure evidence there.
-              [Console]::Error.WriteLine('===== pipeline failed; log tail =====')
-              $tail | ForEach-Object {{ [Console]::Error.WriteLine($_) }}
-              # Host instance role may not allow s3:PutObject; stderr log tail is the primary signal.
+              $all = @()
+              if (Test-Path $log) {{ $all = Get-Content $log }}
+              # Prefer error/signal lines so MSB* noise does not fill the 24KB SSM caps.
+              $signal = @(
+                $all | Where-Object {{
+                  $_ -match '(?i)(error |error:|exception|script failed|building via|===== |pipeline process|MSB\d+: error|failed exit)'
+                }} | Select-Object -Last 80
+              )
+              if (-not $signal -or $signal.Count -eq 0) {{ $signal = $all | Select-Object -Last 120 }}
+              Write-Output '===== pipeline failed; signal lines (also on stderr) ====='
+              $signal | ForEach-Object {{ Write-Output $_ }}
+              [Console]::Error.WriteLine('===== pipeline failed; signal lines =====')
+              $signal | ForEach-Object {{ [Console]::Error.WriteLine($_) }}
               if ($cleaner) {{ & $cleaner.FullName -KeepRunId '{run_id}' -KeepCount 0 }}
               throw "SI-PDR pipeline failed: $buildExit"
             }}
