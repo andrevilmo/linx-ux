@@ -135,9 +135,23 @@ foreach ($site in $sites) {
         }
     }
 
-    # Minimal web.config so the site can start even before full deploy
+    # Prefer Binary web.config (includes System.Web.Mvc binding redirects). A stub
+    # without redirects causes FileLoadException for MVC 3.0 vs 4.0 in bin.
     $webConfig = Join-Path $phys 'web.config'
-    if (-not (Test-Path -LiteralPath $webConfig)) {
+    $seedWebConfig = if ($SeedFromBinary) { Join-Path $SeedFromBinary ($site.Relative + '\web.config') } else { '' }
+    $needsWebConfig = -not (Test-Path -LiteralPath $webConfig)
+    $isStub = $false
+    if (-not $needsWebConfig) {
+        $existing = Get-Content -LiteralPath $webConfig -Raw -ErrorAction SilentlyContinue
+        if ($existing -and ($existing -notmatch 'assemblyBinding' -or $existing.Length -lt 1024)) {
+            $isStub = $true
+        }
+    }
+    if (($needsWebConfig -or $isStub) -and $seedWebConfig -and (Test-Path -LiteralPath $seedWebConfig)) {
+        Copy-Item -LiteralPath $seedWebConfig -Destination $webConfig -Force
+        Write-Log "Seeded $($site.Name) web.config from $seedWebConfig"
+    }
+    elseif (-not (Test-Path -LiteralPath $webConfig)) {
         @"
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
@@ -146,11 +160,20 @@ foreach ($site in $sites) {
     <httpRuntime targetFramework="4.6.1" />
     <customErrors mode="Off" />
   </system.web>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Mvc" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="0.0.0.0-4.0.0.0" newVersion="4.0.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
   <system.webServer>
     <directoryBrowse enabled="false" />
   </system.webServer>
 </configuration>
 "@ | Set-Content -Path $webConfig -Encoding UTF8
+        Write-Log "Wrote fallback web.config with MVC binding redirect for $($site.Name)"
     }
 
     $existing = Get-Website -Name $site.Name -ErrorAction SilentlyContinue
