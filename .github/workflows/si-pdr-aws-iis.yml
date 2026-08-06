@@ -174,12 +174,13 @@ jobs:
 
             if (Test-Path $archive) {{ Remove-Item -LiteralPath $archive -Force -ErrorAction SilentlyContinue }}
             # Download: aws s3 cp (if instance role works) → curl.exe (streams) → Invoke-WebRequest
+            # IMPORTANT: never stream aws progress to SSM stdout (24KB cap).
             $sourceUrl = {json.dumps(os.environ.get("SOURCE_URL", ""))}
             $downloaded = $false
             Write-CiLog ("Downloading s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey)
             if (Get-Command aws -ErrorAction SilentlyContinue) {{
-              Write-CiLog 'Trying aws s3 cp...'
-              aws s3 cp ("s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey) $archive --region sa-east-1 | Out-Host
+              Write-CiLog 'Trying aws s3 cp --no-progress...'
+              aws s3 cp ("s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey) $archive --region sa-east-1 --no-progress *>> $log
               if ($LASTEXITCODE -eq 0 -and (Test-Path $archive) -and (Get-Item $archive).Length -gt 0) {{ $downloaded = $true }}
               else {{ Write-CiLog 'aws s3 cp failed or empty; will try curl/IWR' }}
             }}
@@ -189,7 +190,7 @@ jobs:
               $curl = Join-Path $env:SystemRoot 'System32\\curl.exe'
               if (Test-Path $curl) {{
                 Write-CiLog 'Downloading via curl.exe (presigned URL)...'
-                & $curl -L --fail --retry 3 --retry-delay 5 -o $archive $sourceUrl
+                & $curl -L --fail --retry 3 --retry-delay 5 -o $archive $sourceUrl *>> $log
                 if ($LASTEXITCODE -ne 0) {{ throw "curl download failed: $LASTEXITCODE" }}
                 $downloaded = $true
               }} else {{
@@ -216,17 +217,31 @@ jobs:
             if (-not $pipeline) {{ throw 'Invoke-SiPdrAwsPipeline.ps1 missing' }}
             $repoRoot = $work
             Set-Location $repoRoot
-            Write-CiLog 'Running Invoke-SiPdrAwsPipeline.ps1'
-            if ($skipBuild) {{
-              & $pipeline.FullName -RepoRoot $repoRoot -SkipBuild *>> $log
-            }} else {{
-              & $pipeline.FullName -RepoRoot $repoRoot *>> $log
-            }}
-            $buildExit = $LASTEXITCODE
+            Write-CiLog 'Running Invoke-SiPdrAwsPipeline.ps1 (subprocess)'
+            # Subprocess so nested "exit N" / robocopy LASTEXITCODE cannot poison the wrapper.
+            $argList = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $pipeline.FullName, '-RepoRoot', $repoRoot)
+            if ($skipBuild) {{ $argList += '-SkipBuild' }}
+            $p = Start-Process -FilePath 'powershell.exe' -ArgumentList $argList -Wait -PassThru -NoNewWindow `
+              -RedirectStandardOutput "$log.stdout" -RedirectStandardError "$log.stderr"
+            if (Test-Path "$log.stdout") {{ Get-Content "$log.stdout" | Add-Content -Path $log }}
+            if (Test-Path "$log.stderr") {{ Get-Content "$log.stderr" | Add-Content -Path $log }}
+            $buildExit = $p.ExitCode
+            Write-CiLog ("Pipeline process exit=$buildExit")
             $cleaner = Get-ChildItem -Path $work -Recurse -Filter 'Clear-BuildWorkspace.ps1' | Select-Object -First 1
             if ($buildExit -ne 0) {{
-              Write-Output '===== pipeline failed; log tail ====='
-              Get-Content $log -Tail 120
+              $tail = @()
+              if (Test-Path $log) {{ $tail = Get-Content $log -Tail 160 }}
+              Write-Output '===== pipeline failed; log tail (also on stderr) ====='
+              $tail | ForEach-Object {{ Write-Output $_ }}
+              # Stderr has a separate 24KB SSM cap — put the failure evidence there.
+              [Console]::Error.WriteLine('===== pipeline failed; log tail =====')
+              $tail | ForEach-Object {{ [Console]::Error.WriteLine($_) }}
+              # Persist log to S3 for the Actions job to fetch (SSM stdout is capped).
+              $logKey = "linx-ux/runs/{run_id}/pipeline.log"
+              if (Get-Command aws -ErrorAction SilentlyContinue) {{
+                aws s3 cp $log ("s3://{{0}}/{{1}}" -f $sourceBucket, $logKey) --region sa-east-1 --no-progress *>> $log
+                Write-CiLog ("Uploaded failure log s3://{{0}}/{{1}}" -f $sourceBucket, $logKey)
+              }}
               if ($cleaner) {{ & $cleaner.FullName -KeepRunId '{run_id}' -KeepCount 0 }}
               throw "SI-PDR pipeline failed: $buildExit"
             }}
@@ -280,12 +295,23 @@ jobs:
           if err:
               print(err, file=sys.stderr)
           raise SystemExit(0 if d.get("Status")=="Success" else 1)
-          '
+          ' || {
+            echo "===== Fetching host pipeline.log from S3 (if present) ====="
+            aws s3 cp "s3://${SOURCE_BUCKET}/linx-ux/runs/${GITHUB_RUN_ID}/pipeline.log" ./pipeline.log \
+              --region "$AWS_REGION" || true
+            if [ -f ./pipeline.log ]; then
+              echo "===== pipeline.log tail ====="
+              tail -n 200 ./pipeline.log
+            fi
+            exit 1
+          }
 
       - name: Upload SSM result
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: si-pdr-ssm-${{ github.run_id }}
-          path: ssm-result.json
+          path: |
+            ssm-result.json
+            pipeline.log
           if-no-files-found: ignore

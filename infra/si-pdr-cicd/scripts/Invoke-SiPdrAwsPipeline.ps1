@@ -25,12 +25,37 @@ $deploy = Join-Path $RepoRoot '.vscode\deploy-to-linx-framework.ps1'
 if (-not (Test-Path -LiteralPath $publish)) { throw "Missing $publish" }
 if (-not (Test-Path -LiteralPath $deploy)) { throw "Missing $deploy" }
 
+function Reset-LastExitCode {
+    # robocopy / native tools leave non-zero success codes that poison later checks
+    cmd.exe /c "exit /b 0" | Out-Null
+    $global:LASTEXITCODE = 0
+}
+
+function Invoke-Ps1File {
+    param(
+        [Parameter(Mandatory = $true)][string] $FilePath,
+        [string[]] $ArgumentList = @()
+    )
+    if (-not (Test-Path -LiteralPath $FilePath)) { throw "Missing $FilePath" }
+    $args = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $FilePath) + $ArgumentList
+    Write-Host (">> powershell.exe {0}" -f ($args -join ' '))
+    $p = Start-Process -FilePath 'powershell.exe' -ArgumentList $args -Wait -PassThru -NoNewWindow
+    if ($null -eq $p.ExitCode) { throw "Process produced no exit code for $FilePath" }
+    if ($p.ExitCode -ne 0) {
+        throw ("Script failed exit={0}: {1}" -f $p.ExitCode, $FilePath)
+    }
+    Reset-LastExitCode
+}
+
 Write-Host '===== Ensure build tools ====='
-& $ensureTools
+Invoke-Ps1File -FilePath $ensureTools
 
 $binaryRoot = Join-Path $RepoRoot 'Main\Binary'
 Write-Host '===== Ensure IIS sites (Application:8080 Portal:8081 Service:1710+8082) ====='
-& $ensureIis -FrameworkRoot $FrameworkRoot -SeedFromBinary $binaryRoot
+Invoke-Ps1File -FilePath $ensureIis -ArgumentList @(
+    '-FrameworkRoot', $FrameworkRoot,
+    '-SeedFromBinary', $binaryRoot
+)
 
 # PostBuildEvent xcopy targets under Main\Binary (Service\Help, Library\Business View, ...)
 @(
@@ -50,17 +75,17 @@ if (-not (Test-Path -LiteralPath $helpPlaceholder)) {
 }
 
 Write-Host '===== Publish package (stack-to-publish.ps1) ====='
-$publishArgs = @{
-    OutRoot = $OutRoot
-    BaselineRoot = $FrameworkRoot
-}
-if ($SkipBuild) { $publishArgs.SkipBuild = $true }
-& $publish @publishArgs
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+$publishArgs = @('-OutRoot', $OutRoot, '-BaselineRoot', $FrameworkRoot)
+if ($SkipBuild) { $publishArgs += '-SkipBuild' }
+Invoke-Ps1File -FilePath $publish -ArgumentList $publishArgs
 
 Write-Host '===== Deploy to IIS (deploy-to-linx-framework.ps1) ====='
-& $deploy -TargetRoot $FrameworkRoot -SkipBackup -Force -SkipBinarySync
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+Invoke-Ps1File -FilePath $deploy -ArgumentList @(
+    '-TargetRoot', $FrameworkRoot,
+    '-SkipBackup',
+    '-Force',
+    '-SkipBinarySync'
+)
 
 Write-Host '===== Smoke HTTP ====='
 $urls = @(

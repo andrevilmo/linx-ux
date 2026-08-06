@@ -75,6 +75,8 @@ if ($SeedFromBinary) {
         # robocopy 0-7 = success / partial success
         if ($rc -ge 8) { throw "robocopy Library failed with exit $rc" }
         Write-Log "Library seed robocopy exit=$rc"
+        cmd.exe /c "exit /b 0" | Out-Null
+        $global:LASTEXITCODE = 0
     } else {
         Write-Log "WARNING: Binary Library not found at $seedLibrary"
     }
@@ -142,6 +144,8 @@ foreach ($site in $sites) {
             $rc = $LASTEXITCODE
             if ($rc -ge 8) { Write-Log "WARNING: robocopy $($site.Name) site files exit=$rc" }
             else { Write-Log "Site files seed robocopy exit=$rc" }
+            cmd.exe /c "exit /b 0" | Out-Null
+            $global:LASTEXITCODE = 0
         }
 
     }
@@ -233,3 +237,4 @@ $env:LINX_IIS_ROOT = $FrameworkRoot
 Write-Log "LINX_IIS_ROOT=$FrameworkRoot"
 Write-Log 'Ensure-IisSiPdr done'
 Write-Output $FrameworkRoot
+exit 0

@@ -133,3 +133,4 @@ if ($machinePath -notlike "*$msbuildDir*") {
 
 Write-Log "MSBuild ready: $msbuild"
 Write-Output $msbuild
+exit 0
