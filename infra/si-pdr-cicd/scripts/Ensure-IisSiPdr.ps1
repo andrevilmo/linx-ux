@@ -114,12 +114,11 @@ foreach ($port in 8080, 8081, 8082, 1710, 8172, 8174) {
 }
 
 $sites = @(
-    # Application ServiceBus appSetting defaults to http://localhost:1710/
-    # Extra 8174: UrlAplicacao from PortalUserAccess / SQL (IIS Express)
-    @{ Name = 'Application'; Port = 8080; Relative = 'Application'; ExtraPorts = @(8174) }
+    # Primary ports match Binary web.config / VS IIS Express usage.
+    # Extra 8080/8081/8082 kept as CI aliases.
+    @{ Name = 'Application'; Port = 8174; Relative = 'Application'; ExtraPorts = @(8080) }
     @{ Name = 'Service'; Port = 1710; Relative = 'Service'; ExtraPorts = @(8082) }
-    # Extra 8172: PortalSettings PortalUrl + Application appSetting "Portal"
-    @{ Name = 'Portal'; Port = 8081; Relative = 'Portal'; ExtraPorts = @(8172) }
+    @{ Name = 'Portal'; Port = 8172; Relative = 'Portal'; ExtraPorts = @(8081) }
 )
 
 foreach ($site in $sites) {

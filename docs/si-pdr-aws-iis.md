@@ -6,11 +6,11 @@ Same pattern as OmniPOS AWS CI: GitHub Actions packages sources → S3 → SSM o
 
 | IIS site | Port | Content root |
 |----------|------|----------------|
-| **Application** | `8080` (also `8174`) | `C:\Linx Program Files\Linx Framework 6.0.0\Application` |
-| **Portal** | `8081` (also `8172`) | `...\Portal` |
+| **Application** | `8174` (also `8080`) | `C:\Linx Program Files\Linx Framework 6.0.0\Application` |
+| **Portal** | `8172` (also `8081`) | `...\Portal` |
 | **Service** (ServiceBus) | `1710` (also `8082`) | `...\Service` |
 
-`8172` / `8174` are IIS Express aliases: Portal `PortalUrl` and SQL `UrlAplicacao` still point at those ports, so Portal login redirects keep working without changing the shared database.
+Primary ports match Binary `web.config` (`PortalUrl`, `ServiceBus`, `authorizationServiceAddress`). `8080` / `8081` / `8082` remain optional CI aliases.
 
 Publish/deploy logic matches [`.vscode/stack-to-publish.ps1`](../.vscode/stack-to-publish.ps1) and [`.vscode/deploy-to-linx-framework.ps1`](../.vscode/deploy-to-linx-framework.ps1).
 
@@ -39,27 +39,16 @@ Add repository secrets (same IAM user as OmniPOS CI works):
 
 Without these, the workflow cannot talk to S3/SSM.
 
-### Optional: Portal login SQL (fixes “The underlying provider failed on Open”)
+### Binary web.config (authoritative)
 
-Portal login calls Service (`AuthenticatePortal`), which opens EF against `FrameworkAutorizacao`. Binary defaults use **Integrated Security=SSPI** to `a-srv111.linx-inves.com.br\sql2017` — that fails on the AWS EC2 AppPool (no domain / often no network path).
+Deploy syncs `Main/Binary/{Service,Application,Portal}/Web.config` into the IIS Framework root. Current Binary configs target **QA 3-12** (`tcp:10.16.0.4` / `qa-ux-portal-3-12` / `qa-ux-app-3-12`), with:
 
-After deploy, CI runs `Set-SiPdrSqlConnectionStrings.ps1`. Set either full connection strings or parts:
+- Application / Service `ShellMode=PROD`
+- Service `LocalServiceBusSettings/mode=PROD` (so Portal `CurrentUser` headers are honored)
+- Portal `authorizationServiceAddress` + Application `ServiceBus` → `http://localhost:1710/`
+- Portal `PortalUrl` → `http://localhost:8172/`
 
-| Secret | Purpose |
-|--------|---------|
-| `SI_PDR_SQL_DATA_SOURCE` | e.g. `a-srv111.linx-inves.com.br\sql2017` (must be reachable from the EC2) |
-| `SI_PDR_SQL_USER` / `SI_PDR_SQL_PASSWORD` | SQL authentication (not Windows/SSPI) |
-| `SI_PDR_SQL_PORTAL_CATALOG` | default `DEV-UX-Portal-Main` |
-| `SI_PDR_SQL_APP_CATALOG` | default `DEV-UX-App-Main` |
-| `SI_PDR_SQL_PORTAL_CONNECTION` | optional full string (overrides parts) |
-| `SI_PDR_SQL_APP_CONNECTION` | optional full string for app DB |
-| `SI_PDR_SERVICE_URL` | optional; default `http://localhost:8082/` |
-
-Portal `authorizationServiceAddress` and Application `ServiceBus` are pointed at **`:8082`** (Service alias). Use `:1710` only if that binding is healthy on the host.
-
-Application `ShellMode` is **`PROD`** on the AWS host (Binary + post-deploy override). `DEV` shows a developer module grid whose card labels are .NET assembly names (e.g. `Linx.Framework.BV.SPA`) and routes like `#linx-framework-bv-spa`. `PROD` loads configured modules from SQL (`DescModulo` / `NomeCurto`). Override with secret/env `SI_PDR_SHELL_MODE` if needed. Quick check without redeploy: append `&appmode=prod` to the Application URL.
-
-Service `LocalServiceBusSettings/mode` is **`PROD`** (not `dev`). With `mode=dev`, Service ignores Portal request headers (`CurrentUser`, etc.) and uses hardcoded `appSettings/UserUid`, which causes `fullmodulesMultiEnvironment` to throw **ERRAUT005 - Usuário não encontrado** for real Portal users. Override with `SI_PDR_LOCAL_SERVICEBUS_MODE` if needed.
+`Set-SiPdrSqlConnectionStrings.ps1` only rewrites SQL / Service URL / ShellMode when the matching `SI_PDR_*` env/secret is set; otherwise Binary configs are left as-is.
 
 ## Workflow
 
@@ -73,7 +62,7 @@ Service `LocalServiceBusSettings/mode` is **`PROD`** (not `dev`). With `mode=dev
    - `stack-to-publish.ps1` — build Tools → BV → WebAPI → Application → Portal, stage package
    - `deploy-to-linx-framework.ps1 -SkipBackup -Force`
    - `Set-SiPdrSqlConnectionStrings.ps1` — optional SQL auth + Service URL overrides
-   - Smoke GET `http://127.0.0.1:8080|8081|8082|8172|8174/` (and `:1710`)
+   - Smoke GET `http://127.0.0.1:8174|8172|1710/` (and aliases `:8080|:8081|:8082`)
 4. Cleanup old `C:\lx\*` workdirs
 
 Manual dispatch supports `skip_build=true` to publish/deploy from Binary outputs only.
@@ -85,20 +74,20 @@ Manual dispatch supports `skip_build=true` to publish/deploy from Binary outputs
 3. Open:
 
 ```text
-http://localhost:8080/   # Application
-http://localhost:8174/   # Application (IIS Express / SQL UrlAplicacao alias)
-http://localhost:8081/   # Portal
-http://localhost:8172/   # Portal (IIS Express / PortalUrl alias)
-http://localhost:1710/   # Service (ServiceBus; also :8082)
+http://localhost:8174/   # Application (primary)
+http://localhost:8172/   # Portal (primary)
+http://localhost:1710/   # Service (primary)
+http://localhost:8080/   # Application alias
+http://localhost:8081/   # Portal alias
 http://localhost:8082/   # Service alias
 ```
 
-From your laptop (after opening SG inbound 8080–8082 to your `/32`):
+From your laptop (after opening SG inbound for those ports to your `/32`):
 
 ```text
-http://<public-ip>:8080/
-http://<public-ip>:8081/
-http://<public-ip>:8082/
+http://<public-ip>:8174/
+http://<public-ip>:8172/
+http://<public-ip>:1710/
 ```
 
 ## Manual pipeline on the host

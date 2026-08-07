@@ -27,11 +27,10 @@ param(
     [string] $SqlPassword = $env:SI_PDR_SQL_PASSWORD,
     [string] $PortalCatalog = $(if ($env:SI_PDR_SQL_PORTAL_CATALOG) { $env:SI_PDR_SQL_PORTAL_CATALOG } else { 'DEV-UX-Portal-Main' }),
     [string] $AppCatalog = $(if ($env:SI_PDR_SQL_APP_CATALOG) { $env:SI_PDR_SQL_APP_CATALOG } else { 'DEV-UX-App-Main' }),
-    [string] $ServiceUrl = $(if ($env:SI_PDR_SERVICE_URL) { $env:SI_PDR_SERVICE_URL } else { 'http://localhost:8082/' }),
-    # AWS/CI should run the configured module catalog, not the assembly-name DEV home.
-    [string] $ShellMode = $(if ($env:SI_PDR_SHELL_MODE) { $env:SI_PDR_SHELL_MODE } else { 'PROD' }),
-    # Service LocalServiceBusSettings mode=dev ignores Portal CurrentUser headers.
-    [string] $LocalServiceBusMode = $(if ($env:SI_PDR_LOCAL_SERVICEBUS_MODE) { $env:SI_PDR_LOCAL_SERVICEBUS_MODE } else { 'PROD' })
+    [string] $ServiceUrl = $env:SI_PDR_SERVICE_URL,
+    # Only override when SI_PDR_* env is set — Binary web.configs are authoritative.
+    [string] $ShellMode = $env:SI_PDR_SHELL_MODE,
+    [string] $LocalServiceBusMode = $env:SI_PDR_LOCAL_SERVICEBUS_MODE
 )
 
 $ErrorActionPreference = 'Stop'
@@ -138,7 +137,7 @@ if ($LocalServiceBusMode) {
 
 if (-not $PortalConnection -and -not $AppConnection) {
     Write-Log 'No SI_PDR_SQL_* overrides provided; leaving Binary SQL connection strings unchanged.'
-    Write-Log 'Portal login will keep failing on AWS until SQL is reachable with a usable auth mode (SQL auth recommended).'
+    Write-Log 'Leaving Binary Service/Application/Portal web.configs unchanged (no SI_PDR_SQL_* / URL overrides).'
     Write-Output 'SQL_OVERRIDES_SKIPPED'
     # Still recycle so authorizationServiceAddress / ServiceBus changes take effect
 } else {

@@ -69,7 +69,7 @@ Write-Host '===== Ensure build tools ====='
 Invoke-Ps1File -FilePath $ensureTools
 
 $binaryRoot = Join-Path $RepoRoot 'Main\Binary'
-Write-Host '===== Ensure IIS sites (Application:8080 Portal:8081 Service:1710+8082) ====='
+Write-Host '===== Ensure IIS sites (Application:8174 Portal:8172 Service:1710) ====='
 Invoke-Ps1File -FilePath $ensureIis -ArgumentList @(
     '-FrameworkRoot', $FrameworkRoot,
     '-SeedFromBinary', $binaryRoot
@@ -109,19 +109,27 @@ Invoke-Ps1File -FilePath $deploy -ArgumentList @(
 # corporate SQL; AWS EC2 needs SI_PDR_SQL_* env (or sql-overrides.psd1) with SQL auth.
 $sqlOverride = Join-Path $scriptsRoot 'Set-SiPdrSqlConnectionStrings.ps1'
 if (Test-Path -LiteralPath $sqlOverride) {
-    Write-Host '===== Apply SQL / auth Service URL overrides ====='
+    Write-Host '===== Sync Business Model dll.config from Binary ====='
+$bmSrc = Join-Path $RepoRoot 'Main\Binary\Library\Business Model'
+$bmDst = Join-Path $FrameworkRoot 'Library\Business Model'
+if ((Test-Path -LiteralPath $bmSrc) -and (Test-Path -LiteralPath $bmDst)) {
+    Copy-Item -Path (Join-Path $bmSrc '*.dll.config') -Destination $bmDst -Force -ErrorAction SilentlyContinue
+    Write-Host "Synced BM dll.config -> $bmDst"
+}
+
+Write-Host '===== Apply SQL / auth Service URL overrides ====='
     Invoke-Ps1File -FilePath $sqlOverride -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
 }
 
 Write-Host '===== Smoke HTTP ====='
 $urls = @(
+    'http://127.0.0.1:8174/',
+    'http://127.0.0.1:8172/',
+    'http://127.0.0.1:1710/',
+    # CI aliases
     'http://127.0.0.1:8080/',
     'http://127.0.0.1:8081/',
-    'http://127.0.0.1:1710/',
-    'http://127.0.0.1:8082/',
-    # IIS Express aliases used by Portal redirects / PortalUrl in Binary config
-    'http://127.0.0.1:8174/',
-    'http://127.0.0.1:8172/'
+    'http://127.0.0.1:8082/'
 )
 foreach ($url in $urls) {
     try {
@@ -134,5 +142,5 @@ foreach ($url in $urls) {
 
 Write-Host 'SI-PDR AWS pipeline succeeded.'
 Write-Host "IIS root: $FrameworkRoot"
-Write-Host 'Sites: Application http://<host>:8080 (also :8174)  Portal http://<host>:8081 (also :8172)  Service http://<host>:1710 (also :8082)'
+Write-Host 'Sites: Application http://<host>:8174 (also :8080)  Portal http://<host>:8172 (also :8081)  Service http://<host>:1710 (also :8082)'
 exit 0
