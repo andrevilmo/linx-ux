@@ -11,7 +11,9 @@
 [CmdletBinding()]
 param(
     [string] $FrameworkRoot = $(if ($env:LINX_IIS_ROOT) { $env:LINX_IIS_ROOT } else { 'C:\Linx Program Files\Linx Framework 6.0.0' }),
-    [string] $SeedFromBinary = ''
+    [string] $SeedFromBinary = '',
+    # When Framework Library already exists, skip the heavy Library/site robocopy seed.
+    [switch] $SkipHeavySeed
 )
 
 $ErrorActionPreference = 'Stop'
@@ -63,9 +65,16 @@ Import-Module WebAdministration -ErrorAction Stop
 # Framework projects resolve many HintPaths under
 # C:\Linx Program Files\Linx Framework 6.0.0\{Library,information}\...
 # Seed those trees from Main\Binary so CI can build without a full installer.
+$frameworkLibrary = Join-Path $FrameworkRoot 'Library'
+$libraryMarker = Join-Path $frameworkLibrary 'Business Model\Linx.Framework.Autorizacao.BM.dll'
+$libraryAlreadySeeded = (Test-Path -LiteralPath $libraryMarker)
+if ($SkipHeavySeed -and $libraryAlreadySeeded) {
+    Write-Log "SkipHeavySeed: Framework Library already present at $libraryMarker — skipping Library/site seed robocopy"
+    $SeedFromBinary = ''
+}
+
 if ($SeedFromBinary) {
     $seedLibrary = Join-Path $SeedFromBinary 'Library'
-    $frameworkLibrary = Join-Path $FrameworkRoot 'Library'
     if (Test-Path -LiteralPath $seedLibrary) {
         Write-Log "Seeding Framework Library from $seedLibrary"
         New-Item -ItemType Directory -Force -Path $frameworkLibrary | Out-Null

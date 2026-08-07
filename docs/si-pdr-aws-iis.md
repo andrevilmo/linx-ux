@@ -54,18 +54,20 @@ Deploy syncs `Main/Binary/{Service,Application,Portal}/Web.config` into the IIS 
 
 `.github/workflows/si-pdr-aws-iis.yml`
 
-1. Zip repo (excludes heavy Demos/Automation/CEF)
-2. Upload to S3
-3. SSM runs `Invoke-SiPdrAwsPipeline.ps1`:
+1. Detect `skip_build` when the diff vs previous commit has no compilable `Main/` source (only `Main/Binary`, configs, `infra/`, `.vscode/`, docs) — or force via `workflow_dispatch`
+2. Package sources (extra excludes: CoreServiceBus/ImageService/SelfHost/WinHost/publish-output; lighter package when `skip_build`)
+3. Upload to S3
+4. SSM merges into **persistent workspace** `C:\lx\si-pdr` (preserves `**/obj` for incremental MSBuild)
+5. `Invoke-SiPdrAwsPipeline.ps1`:
    - `Ensure-BuildTools.ps1` — VS 2022 Build Tools (+ web)
-   - `Ensure-IisSiPdr.ps1` — IIS + ASP.NET, create 3 sites, seed from `Main\Binary`
-   - `stack-to-publish.ps1` — build Tools → BV → WebAPI → Application → Portal, stage package
+   - `Ensure-IisSiPdr.ps1` — IIS sites; `-SkipHeavySeed` skips Library robocopy when already present
+   - `stack-to-publish.ps1` — MSBuild Tools → BV → WebAPI → Application → Portal (skipped when `skip_build`)
    - `deploy-to-linx-framework.ps1 -SkipBackup -Force`
-   - `Set-SiPdrSqlConnectionStrings.ps1` — optional SQL auth + Service URL overrides
-   - Smoke GET `http://127.0.0.1:8174|8172|1710/` (and aliases `:8080|:8081|:8082`)
-4. Cleanup old `C:\lx\*` workdirs
+   - `Set-SiPdrSqlConnectionStrings.ps1` — optional overrides only when `SI_PDR_*` set
+   - Short smoke on `:8080|:8081|:8082` then `:8174|:8172|:1710`
+6. Cleanup old per-run dirs; **keep** `C:\lx\si-pdr` obj caches
 
-Manual dispatch supports `skip_build=true` to publish/deploy from Binary outputs only.
+Manual dispatch: `skip_build=true` (Binary-only), `force_full_seed=true` (re-robocopy Library).
 
 ## Local / RDP runbook
 

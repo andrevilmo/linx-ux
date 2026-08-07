@@ -24,7 +24,8 @@ if (Test-Path $bvProj) {
     }
 }
 
-& $msbuild $sln /p:Configuration=Release /m:1 /v:minimal /nologo
+# /m enables parallel project build (was /m:1 — serialized on the small CI host).
+& $msbuild $sln /p:Configuration=Release /m /v:minimal /nologo
 if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }

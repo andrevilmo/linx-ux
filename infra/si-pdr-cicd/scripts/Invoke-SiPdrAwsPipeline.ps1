@@ -7,7 +7,8 @@ param(
     [string] $RepoRoot = (Get-Location).Path,
     [string] $FrameworkRoot = $(if ($env:LINX_IIS_ROOT) { $env:LINX_IIS_ROOT } else { 'C:\Linx Program Files\Linx Framework 6.0.0' }),
     [string] $OutRoot = 'C:\Linx Workspace\out\toPublish',
-    [switch] $SkipBuild
+    [switch] $SkipBuild,
+    [switch] $SkipHeavySeed
 )
 
 $ErrorActionPreference = 'Stop'
@@ -24,6 +25,10 @@ $deploy = Join-Path $RepoRoot '.vscode\deploy-to-linx-framework.ps1'
 
 if (-not (Test-Path -LiteralPath $publish)) { throw "Missing $publish" }
 if (-not (Test-Path -LiteralPath $deploy)) { throw "Missing $deploy" }
+
+function Write-Phase([string] $Name) {
+    Write-Host ("===== {0} @ {1} =====" -f $Name, (Get-Date -Format o))
+}
 
 function Reset-LastExitCode {
     # robocopy / native tools leave non-zero success codes that poison later checks
@@ -65,15 +70,23 @@ function Invoke-Ps1File {
     Reset-LastExitCode
 }
 
-Write-Host '===== Ensure build tools ====='
+$swTotal = [System.Diagnostics.Stopwatch]::StartNew()
+
+Write-Phase 'Ensure build tools'
+$sw = [System.Diagnostics.Stopwatch]::StartNew()
 Invoke-Ps1File -FilePath $ensureTools
+Write-Host ("Ensure build tools done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
 
 $binaryRoot = Join-Path $RepoRoot 'Main\Binary'
-Write-Host '===== Ensure IIS sites (Application:8174 Portal:8172 Service:1710) ====='
-Invoke-Ps1File -FilePath $ensureIis -ArgumentList @(
+Write-Phase 'Ensure IIS sites (Application:8174 Portal:8172 Service:1710)'
+$sw.Restart()
+$ensureArgs = @(
     '-FrameworkRoot', $FrameworkRoot,
     '-SeedFromBinary', $binaryRoot
 )
+if ($SkipHeavySeed) { $ensureArgs += '-SkipHeavySeed' }
+Invoke-Ps1File -FilePath $ensureIis -ArgumentList $ensureArgs
+Write-Host ("Ensure IIS done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
 
 # PostBuildEvent xcopy targets under Main\Binary (Service\Help, Library\Business View, ...)
 @(
@@ -92,57 +105,60 @@ if (-not (Test-Path -LiteralPath $helpPlaceholder)) {
     Set-Content -LiteralPath $helpPlaceholder -Value 'CI placeholder for PostBuildEvent xcopy.' -Encoding ASCII
 }
 
-Write-Host '===== Publish package (stack-to-publish.ps1) ====='
+Write-Phase ("Publish package (stack-to-publish.ps1) SkipBuild={0}" -f [bool]$SkipBuild)
+$sw.Restart()
 $publishArgs = @('-OutRoot', $OutRoot, '-BaselineRoot', $FrameworkRoot)
 if ($SkipBuild) { $publishArgs += '-SkipBuild' }
 Invoke-Ps1File -FilePath $publish -ArgumentList $publishArgs
+Write-Host ("Publish done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
 
-Write-Host '===== Deploy to IIS (deploy-to-linx-framework.ps1) ====='
+Write-Phase 'Deploy to IIS (deploy-to-linx-framework.ps1)'
+$sw.Restart()
 Invoke-Ps1File -FilePath $deploy -ArgumentList @(
     '-TargetRoot', $FrameworkRoot,
     '-SkipBackup',
     '-Force',
     '-SkipBinarySync'
 )
+Write-Host ("Deploy done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
 
 # Portal login → Service AuthenticatePortal → EF SQL. Binary defaults use SSPI to
 # corporate SQL; AWS EC2 needs SI_PDR_SQL_* env (or sql-overrides.psd1) with SQL auth.
 $sqlOverride = Join-Path $scriptsRoot 'Set-SiPdrSqlConnectionStrings.ps1'
 if (Test-Path -LiteralPath $sqlOverride) {
-    Write-Host '===== Sync Business Model dll.config from Binary ====='
-$bmSrc = Join-Path $RepoRoot 'Main\Binary\Library\Business Model'
-$bmDst = Join-Path $FrameworkRoot 'Library\Business Model'
-if ((Test-Path -LiteralPath $bmSrc) -and (Test-Path -LiteralPath $bmDst)) {
-    Copy-Item -Path (Join-Path $bmSrc '*.dll.config') -Destination $bmDst -Force -ErrorAction SilentlyContinue
-    Write-Host "Synced BM dll.config -> $bmDst"
-}
+    Write-Phase 'Sync Business Model dll.config from Binary'
+    $bmSrc = Join-Path $RepoRoot 'Main\Binary\Library\Business Model'
+    $bmDst = Join-Path $FrameworkRoot 'Library\Business Model'
+    if ((Test-Path -LiteralPath $bmSrc) -and (Test-Path -LiteralPath $bmDst)) {
+        Copy-Item -Path (Join-Path $bmSrc '*.dll.config') -Destination $bmDst -Force -ErrorAction SilentlyContinue
+        Write-Host "Synced BM dll.config -> $bmDst"
+    }
 
-Write-Host '===== Apply SQL / auth Service URL overrides ====='
+    Write-Phase 'Apply SQL / auth Service URL overrides'
     Invoke-Ps1File -FilePath $sqlOverride -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
 }
 
-Write-Host '===== Smoke HTTP ====='
+Write-Phase 'Smoke HTTP'
+# Prefer working aliases first (short timeout). Primary ports that often hang are last.
 $urls = @(
-    'http://127.0.0.1:8174/',
-    'http://127.0.0.1:8172/',
-    'http://127.0.0.1:1710/',
-    # CI aliases
-    'http://127.0.0.1:8080/',
-    'http://127.0.0.1:8081/',
-    'http://127.0.0.1:8082/'
+    @{ Url = 'http://127.0.0.1:8080/'; TimeoutSec = 15 },
+    @{ Url = 'http://127.0.0.1:8081/'; TimeoutSec = 15 },
+    @{ Url = 'http://127.0.0.1:8082/'; TimeoutSec = 15 },
+    @{ Url = 'http://127.0.0.1:8174/'; TimeoutSec = 8 },
+    @{ Url = 'http://127.0.0.1:8172/'; TimeoutSec = 8 },
+    @{ Url = 'http://127.0.0.1:1710/'; TimeoutSec = 8 }
 )
-foreach ($url in $urls) {
+foreach ($item in $urls) {
+    $url = $item.Url
     try {
-        $resp = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 30
+        $resp = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec $item.TimeoutSec
         Write-Host ("OK {0} status={1} len={2}" -f $url, [int]$resp.StatusCode, ($resp.RawContentLength))
     } catch {
         Write-Warning ("Smoke failed for {0}: {1}" -f $url, $_.Exception.Message)
     }
 }
 
-Write-Host 'SI-PDR AWS pipeline succeeded.'
+Write-Host ("SI-PDR AWS pipeline succeeded in {0:n1}s total." -f $swTotal.Elapsed.TotalSeconds)
 Write-Host "IIS root: $FrameworkRoot"
 Write-Host 'Sites: Application http://<host>:8174 (also :8080)  Portal http://<host>:8172 (also :8081)  Service http://<host>:1710 (also :8082)'
 exit 0
-
-# redeploy 2026-08-07T20:00:19Z
