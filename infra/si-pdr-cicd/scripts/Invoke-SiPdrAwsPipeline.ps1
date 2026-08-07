@@ -126,5 +126,5 @@ foreach ($url in $urls) {
 
 Write-Host 'SI-PDR AWS pipeline succeeded.'
 Write-Host "IIS root: $FrameworkRoot"
-Write-Host 'Sites: Application http://<host>:8080  Portal http://<host>:8081  Service http://<host>:1710 (also :8082)'
+Write-Host 'Sites: Application http://<host>:8080 (also :8174)  Portal http://<host>:8081 (also :8172)  Service http://<host>:1710 (also :8082)'
 exit 0
