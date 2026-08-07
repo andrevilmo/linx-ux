@@ -152,7 +152,18 @@ namespace Linx.Portal.Controllers
             if (result.ErrorException != null)
                 throw new Exception(result.ErrorException.Message);
             else if (result.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                // Prefer Service JSON/HTML body so Portal login shows the real EF/SQL error, not only "Internal Server Error".
+                string detail = result.Content;
+                if (!string.IsNullOrWhiteSpace(detail))
+                {
+                    detail = System.Text.RegularExpressions.Regex.Replace(detail, @"\s+", " ").Trim();
+                    if (detail.Length > 800)
+                        detail = detail.Substring(0, 800) + "...";
+                    throw new Exception(string.Format("{0}: {1}", result.StatusDescription, detail));
+                }
                 throw new Exception(result.StatusDescription);
+            }
 
             string content = result.Content != null ? result.Content.Replace("\"", string.Empty) : string.Empty;
             string[] resultLines = crypto.Decrypt(HttpUtility.UrlDecode(content)).Split(new string[] { "||" }, StringSplitOptions.None);

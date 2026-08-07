@@ -152,7 +152,23 @@ foreach ($item in $urls) {
         $resp = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec $item.TimeoutSec
         Write-Host ("OK {0} status={1} len={2}" -f $url, [int]$resp.StatusCode, ($resp.RawContentLength))
     } catch {
-        Write-Warning ("Smoke failed for {0}: {1}" -f $url, $_.Exception.Message)
+        $msg = $_.Exception.Message
+        # Surface ASP.NET yellow-screen / JSON body for Service 500s (login AuthenticatePortal).
+        try {
+            if ($_.Exception.Response) {
+                $stream = $_.Exception.Response.GetResponseStream()
+                if ($stream) {
+                    $reader = New-Object System.IO.StreamReader($stream)
+                    $body = $reader.ReadToEnd()
+                    if ($body) {
+                        $body = ($body -replace '\s+', ' ').Trim()
+                        if ($body.Length -gt 400) { $body = $body.Substring(0, 400) + '...' }
+                        $msg = "$msg | body=$body"
+                    }
+                }
+            }
+        } catch { }
+        Write-Warning ("Smoke failed for {0}: {1}" -f $url, $msg)
     }
 }
 
