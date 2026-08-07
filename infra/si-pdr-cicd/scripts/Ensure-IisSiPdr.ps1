@@ -102,7 +102,10 @@ if ($SeedFromBinary) {
     }
 }
 
-foreach ($port in 8080, 8081, 8082, 1710) {
+# 8172/8174 are IIS Express / Visual Studio ports baked into Binary web.config
+# (PortalUrl) and SQL UrlAplicacao. Bind them as aliases so Portal→Application
+# redirects work without rewriting shared DB rows.
+foreach ($port in 8080, 8081, 8082, 1710, 8172, 8174) {
     $rule = "SI-PDR-IIS-$port"
     if (-not (Get-NetFirewallRule -DisplayName $rule -ErrorAction SilentlyContinue)) {
         New-NetFirewallRule -DisplayName $rule -Direction Inbound -Protocol TCP -LocalPort $port -Action Allow | Out-Null
@@ -112,9 +115,11 @@ foreach ($port in 8080, 8081, 8082, 1710) {
 
 $sites = @(
     # Application ServiceBus appSetting defaults to http://localhost:1710/
-    @{ Name = 'Application'; Port = 8080; Relative = 'Application'; ExtraPorts = @() }
+    # Extra 8174: UrlAplicacao from PortalUserAccess / SQL (IIS Express)
+    @{ Name = 'Application'; Port = 8080; Relative = 'Application'; ExtraPorts = @(8174) }
     @{ Name = 'Service'; Port = 1710; Relative = 'Service'; ExtraPorts = @(8082) }
-    @{ Name = 'Portal'; Port = 8081; Relative = 'Portal'; ExtraPorts = @() }
+    # Extra 8172: PortalSettings PortalUrl + Application appSetting "Portal"
+    @{ Name = 'Portal'; Port = 8081; Relative = 'Portal'; ExtraPorts = @(8172) }
 )
 
 foreach ($site in $sites) {

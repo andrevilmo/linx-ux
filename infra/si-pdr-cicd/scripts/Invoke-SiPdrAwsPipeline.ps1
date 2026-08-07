@@ -110,7 +110,10 @@ $urls = @(
     'http://127.0.0.1:8080/',
     'http://127.0.0.1:8081/',
     'http://127.0.0.1:1710/',
-    'http://127.0.0.1:8082/'
+    'http://127.0.0.1:8082/',
+    # IIS Express aliases used by Portal redirects / PortalUrl in Binary config
+    'http://127.0.0.1:8174/',
+    'http://127.0.0.1:8172/'
 )
 foreach ($url in $urls) {
     try {

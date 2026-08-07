@@ -6,9 +6,11 @@ Same pattern as OmniPOS AWS CI: GitHub Actions packages sources → S3 → SSM o
 
 | IIS site | Port | Content root |
 |----------|------|----------------|
-| **Application** | `8080` | `C:\Linx Program Files\Linx Framework 6.0.0\Application` |
-| **Portal** | `8081` | `...\Portal` |
+| **Application** | `8080` (also `8174`) | `C:\Linx Program Files\Linx Framework 6.0.0\Application` |
+| **Portal** | `8081` (also `8172`) | `...\Portal` |
 | **Service** (ServiceBus) | `1710` (also `8082`) | `...\Service` |
+
+`8172` / `8174` are IIS Express aliases: Portal `PortalUrl` and SQL `UrlAplicacao` still point at those ports, so Portal login redirects keep working without changing the shared database.
 
 Publish/deploy logic matches [`.vscode/stack-to-publish.ps1`](../.vscode/stack-to-publish.ps1) and [`.vscode/deploy-to-linx-framework.ps1`](../.vscode/deploy-to-linx-framework.ps1).
 
@@ -61,7 +63,9 @@ Manual dispatch supports `skip_build=true` to publish/deploy from Binary outputs
 
 ```text
 http://localhost:8080/   # Application
+http://localhost:8174/   # Application (IIS Express / SQL UrlAplicacao alias)
 http://localhost:8081/   # Portal
+http://localhost:8172/   # Portal (IIS Express / PortalUrl alias)
 http://localhost:1710/   # Service (ServiceBus; also :8082)
 http://localhost:8082/   # Service alias
 ```
