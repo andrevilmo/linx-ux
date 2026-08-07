@@ -172,6 +172,7 @@ jobs:
           $env:SI_PDR_SQL_APP_CONNECTION = {env_ps("SI_PDR_SQL_APP_CONNECTION")}
           if ({env_ps("SI_PDR_SERVICE_URL")}) {{ $env:SI_PDR_SERVICE_URL = {env_ps("SI_PDR_SERVICE_URL")} }}
           if ({env_ps("SI_PDR_SHELL_MODE")}) {{ $env:SI_PDR_SHELL_MODE = {env_ps("SI_PDR_SHELL_MODE")} }}
+          if ({env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")}) {{ $env:SI_PDR_LOCAL_SERVICEBUS_MODE = {env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")} }}
           $hasSql = [bool]($env:SI_PDR_SQL_PORTAL_CONNECTION -or ($env:SI_PDR_SQL_DATA_SOURCE -and $env:SI_PDR_SQL_USER -and $env:SI_PDR_SQL_PASSWORD))
           Write-CiLog ("SQL overrides present={{0}}" -f $hasSql)
 
