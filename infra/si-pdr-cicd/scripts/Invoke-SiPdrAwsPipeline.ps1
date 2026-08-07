@@ -145,3 +145,4 @@ Write-Host "IIS root: $FrameworkRoot"
 Write-Host 'Sites: Application http://<host>:8174 (also :8080)  Portal http://<host>:8172 (also :8081)  Service http://<host>:1710 (also :8082)'
 exit 0
 
+# redeploy 2026-08-07T20:00:19Z
