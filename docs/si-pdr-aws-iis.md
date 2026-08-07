@@ -59,6 +59,8 @@ Portal `authorizationServiceAddress` and Application `ServiceBus` are pointed at
 
 Application `ShellMode` is **`PROD`** on the AWS host (Binary + post-deploy override). `DEV` shows a developer module grid whose card labels are .NET assembly names (e.g. `Linx.Framework.BV.SPA`) and routes like `#linx-framework-bv-spa`. `PROD` loads configured modules from SQL (`DescModulo` / `NomeCurto`). Override with secret/env `SI_PDR_SHELL_MODE` if needed. Quick check without redeploy: append `&appmode=prod` to the Application URL.
 
+Service `LocalServiceBusSettings/mode` is **`PROD`** (not `dev`). With `mode=dev`, Service ignores Portal request headers (`CurrentUser`, etc.) and uses hardcoded `appSettings/UserUid`, which causes `fullmodulesMultiEnvironment` to throw **ERRAUT005 - Usuário não encontrado** for real Portal users. Override with `SI_PDR_LOCAL_SERVICEBUS_MODE` if needed.
+
 ## Workflow
 
 `.github/workflows/si-pdr-aws-iis.yml`

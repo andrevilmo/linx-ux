@@ -29,7 +29,9 @@ param(
     [string] $AppCatalog = $(if ($env:SI_PDR_SQL_APP_CATALOG) { $env:SI_PDR_SQL_APP_CATALOG } else { 'DEV-UX-App-Main' }),
     [string] $ServiceUrl = $(if ($env:SI_PDR_SERVICE_URL) { $env:SI_PDR_SERVICE_URL } else { 'http://localhost:8082/' }),
     # AWS/CI should run the configured module catalog, not the assembly-name DEV home.
-    [string] $ShellMode = $(if ($env:SI_PDR_SHELL_MODE) { $env:SI_PDR_SHELL_MODE } else { 'PROD' })
+    [string] $ShellMode = $(if ($env:SI_PDR_SHELL_MODE) { $env:SI_PDR_SHELL_MODE } else { 'PROD' }),
+    # Service LocalServiceBusSettings mode=dev ignores Portal CurrentUser headers.
+    [string] $LocalServiceBusMode = $(if ($env:SI_PDR_LOCAL_SERVICEBUS_MODE) { $env:SI_PDR_LOCAL_SERVICEBUS_MODE } else { 'PROD' })
 )
 
 $ErrorActionPreference = 'Stop'
@@ -122,12 +124,16 @@ if (-not $AppConnection -and $DataSource -and $SqlUser -and $SqlPassword) {
 
 $portalPath = Join-Path $FrameworkRoot 'Portal\web.config'
 $appPath = Join-Path $FrameworkRoot 'Application\web.config'
+$servicePath = Join-Path $FrameworkRoot 'Service\web.config'
 if ($ServiceUrl) {
     Set-AppSetting -Path $portalPath -SectionXPath '/configuration/PortalSettings' -Key 'authorizationServiceAddress' -Value $ServiceUrl
     Set-AppSetting -Path $appPath -SectionXPath '/configuration/appSettings' -Key 'ServiceBus' -Value $ServiceUrl
 }
 if ($ShellMode) {
     Set-AppSetting -Path $appPath -SectionXPath '/configuration/appSettings' -Key 'ShellMode' -Value $ShellMode
+}
+if ($LocalServiceBusMode) {
+    Set-AppSetting -Path $servicePath -SectionXPath '/configuration/LocalServiceBusSettings' -Key 'mode' -Value $LocalServiceBusMode
 }
 
 if (-not $PortalConnection -and -not $AppConnection) {
