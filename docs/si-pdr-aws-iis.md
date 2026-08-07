@@ -27,7 +27,7 @@ Reuses the OmniPOS Windows build machine:
 |----------|--------|
 | Instance | `i-0a266494b999c1b81` (`t3.small`, 100 GiB, `sa-east-1`) |
 | S3 bucket | `omnipos-cicd-253957900820-sa-east-1` (prefix `linx-ux/runs/`) |
-| Remote extract | `C:\lx\<GITHUB_RUN_ID>\` |
+| Persistent workspace | `C:\lx\si-pdr` (robocopy merge; preserves `**/obj`) |
 | Host lock file | `C:\lx\.ci-lock` (avoids overlapping OmniPOS CI) |
 
 ## GitHub secrets (required on **linx-ux**)
