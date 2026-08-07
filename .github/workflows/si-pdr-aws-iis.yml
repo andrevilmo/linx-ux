@@ -126,6 +126,15 @@ jobs:
         id: remote_build
         env:
           SKIP_BUILD: ${{ github.event.inputs.skip_build || 'false' }}
+          # Optional SQL auth overrides for Portal login on EC2 (SSPI to corporate SQL fails).
+          SI_PDR_SQL_DATA_SOURCE: ${{ secrets.SI_PDR_SQL_DATA_SOURCE }}
+          SI_PDR_SQL_USER: ${{ secrets.SI_PDR_SQL_USER }}
+          SI_PDR_SQL_PASSWORD: ${{ secrets.SI_PDR_SQL_PASSWORD }}
+          SI_PDR_SQL_PORTAL_CATALOG: ${{ secrets.SI_PDR_SQL_PORTAL_CATALOG }}
+          SI_PDR_SQL_APP_CATALOG: ${{ secrets.SI_PDR_SQL_APP_CATALOG }}
+          SI_PDR_SQL_PORTAL_CONNECTION: ${{ secrets.SI_PDR_SQL_PORTAL_CONNECTION }}
+          SI_PDR_SQL_APP_CONNECTION: ${{ secrets.SI_PDR_SQL_APP_CONNECTION }}
+          SI_PDR_SERVICE_URL: ${{ secrets.SI_PDR_SERVICE_URL }}
         run: |
           set -euo pipefail
           python3 <<'PY' > /tmp/ssm-params.json
@@ -135,6 +144,8 @@ jobs:
           run_id = os.environ["GITHUB_RUN_ID"]
           skip_build = os.environ.get("SKIP_BUILD", "false").lower() in ("1", "true", "yes")
           skip_ps = "$true" if skip_build else "$false"
+          def env_ps(name):
+              return json.dumps(os.environ.get(name) or "")
           script = textwrap.dedent(f"""
           $ErrorActionPreference = 'Stop'
           $root = 'C:\\lx\\{run_id}'
@@ -148,6 +159,18 @@ jobs:
           }}
           New-Item -ItemType Directory -Force -Path 'C:\\lx' | Out-Null
           Write-CiLog 'Build start'
+
+          # Optional SQL overrides (from GitHub secrets) — do not log secret values
+          $env:SI_PDR_SQL_DATA_SOURCE = {env_ps("SI_PDR_SQL_DATA_SOURCE")}
+          $env:SI_PDR_SQL_USER = {env_ps("SI_PDR_SQL_USER")}
+          $env:SI_PDR_SQL_PASSWORD = {env_ps("SI_PDR_SQL_PASSWORD")}
+          $env:SI_PDR_SQL_PORTAL_CATALOG = {env_ps("SI_PDR_SQL_PORTAL_CATALOG")}
+          $env:SI_PDR_SQL_APP_CATALOG = {env_ps("SI_PDR_SQL_APP_CATALOG")}
+          $env:SI_PDR_SQL_PORTAL_CONNECTION = {env_ps("SI_PDR_SQL_PORTAL_CONNECTION")}
+          $env:SI_PDR_SQL_APP_CONNECTION = {env_ps("SI_PDR_SQL_APP_CONNECTION")}
+          if ({env_ps("SI_PDR_SERVICE_URL")}) {{ $env:SI_PDR_SERVICE_URL = {env_ps("SI_PDR_SERVICE_URL")} }}
+          $hasSql = [bool]($env:SI_PDR_SQL_PORTAL_CONNECTION -or ($env:SI_PDR_SQL_DATA_SOURCE -and $env:SI_PDR_SQL_USER -and $env:SI_PDR_SQL_PASSWORD))
+          Write-CiLog ("SQL overrides present={{0}}" -f $hasSql)
 
           # Host lock so OmniPOS CI and SI-PDR CI do not overlap on the same machine
           $deadline = (Get-Date).AddMinutes(90)

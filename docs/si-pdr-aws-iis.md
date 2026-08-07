@@ -39,6 +39,24 @@ Add repository secrets (same IAM user as OmniPOS CI works):
 
 Without these, the workflow cannot talk to S3/SSM.
 
+### Optional: Portal login SQL (fixes “The underlying provider failed on Open”)
+
+Portal login calls Service (`AuthenticatePortal`), which opens EF against `FrameworkAutorizacao`. Binary defaults use **Integrated Security=SSPI** to `a-srv111.linx-inves.com.br\sql2017` — that fails on the AWS EC2 AppPool (no domain / often no network path).
+
+After deploy, CI runs `Set-SiPdrSqlConnectionStrings.ps1`. Set either full connection strings or parts:
+
+| Secret | Purpose |
+|--------|---------|
+| `SI_PDR_SQL_DATA_SOURCE` | e.g. `a-srv111.linx-inves.com.br\sql2017` (must be reachable from the EC2) |
+| `SI_PDR_SQL_USER` / `SI_PDR_SQL_PASSWORD` | SQL authentication (not Windows/SSPI) |
+| `SI_PDR_SQL_PORTAL_CATALOG` | default `DEV-UX-Portal-Main` |
+| `SI_PDR_SQL_APP_CATALOG` | default `DEV-UX-App-Main` |
+| `SI_PDR_SQL_PORTAL_CONNECTION` | optional full string (overrides parts) |
+| `SI_PDR_SQL_APP_CONNECTION` | optional full string for app DB |
+| `SI_PDR_SERVICE_URL` | optional; default `http://localhost:8082/` |
+
+Portal `authorizationServiceAddress` and Application `ServiceBus` are pointed at **`:8082`** (Service alias). Use `:1710` only if that binding is healthy on the host.
+
 ## Workflow
 
 `.github/workflows/si-pdr-aws-iis.yml`
@@ -50,7 +68,8 @@ Without these, the workflow cannot talk to S3/SSM.
    - `Ensure-IisSiPdr.ps1` — IIS + ASP.NET, create 3 sites, seed from `Main\Binary`
    - `stack-to-publish.ps1` — build Tools → BV → WebAPI → Application → Portal, stage package
    - `deploy-to-linx-framework.ps1 -SkipBackup -Force`
-   - Smoke GET `http://127.0.0.1:8080|8081|8082/`
+   - `Set-SiPdrSqlConnectionStrings.ps1` — optional SQL auth + Service URL overrides
+   - Smoke GET `http://127.0.0.1:8080|8081|8082|8172|8174/` (and `:1710`)
 4. Cleanup old `C:\lx\*` workdirs
 
 Manual dispatch supports `skip_build=true` to publish/deploy from Binary outputs only.

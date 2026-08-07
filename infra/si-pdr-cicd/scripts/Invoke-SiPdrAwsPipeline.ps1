@@ -105,6 +105,14 @@ Invoke-Ps1File -FilePath $deploy -ArgumentList @(
     '-SkipBinarySync'
 )
 
+# Portal login → Service AuthenticatePortal → EF SQL. Binary defaults use SSPI to
+# corporate SQL; AWS EC2 needs SI_PDR_SQL_* env (or sql-overrides.psd1) with SQL auth.
+$sqlOverride = Join-Path $scriptsRoot 'Set-SiPdrSqlConnectionStrings.ps1'
+if (Test-Path -LiteralPath $sqlOverride) {
+    Write-Host '===== Apply SQL / auth Service URL overrides ====='
+    Invoke-Ps1File -FilePath $sqlOverride -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
+}
+
 Write-Host '===== Smoke HTTP ====='
 $urls = @(
     'http://127.0.0.1:8080/',
