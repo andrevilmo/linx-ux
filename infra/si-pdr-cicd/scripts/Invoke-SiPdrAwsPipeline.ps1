@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Build, publish, and deploy SI-PDR (Application / Service / Portal) on the AWS Windows host.
 #>
@@ -80,11 +80,9 @@ Write-Host ("Ensure build tools done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
 $binaryRoot = Join-Path $RepoRoot 'Main\Binary'
 Write-Phase 'Ensure IIS sites (Application:8174 Portal:8172 Service:1710)'
 $sw.Restart()
-$ensureArgs = @(
-    '-FrameworkRoot', $FrameworkRoot,
-    '-SeedFromBinary', $binaryRoot
-)
+$ensureArgs = @()
 if ($SkipHeavySeed) { $ensureArgs += '-SkipHeavySeed' }
+$ensureArgs += @('-FrameworkRoot', $FrameworkRoot, '-SeedFromBinary', $binaryRoot)
 Invoke-Ps1File -FilePath $ensureIis -ArgumentList $ensureArgs
 Write-Host ("Ensure IIS done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
 
@@ -122,7 +120,7 @@ Invoke-Ps1File -FilePath $deploy -ArgumentList @(
 )
 Write-Host ("Deploy done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
 
-# Portal login → Service AuthenticatePortal → EF SQL. Binary defaults use SSPI to
+# Portal login -> Service AuthenticatePortal -> EF SQL. Binary defaults use SSPI to
 # corporate SQL; AWS EC2 needs SI_PDR_SQL_* env (or sql-overrides.psd1) with SQL auth.
 $sqlOverride = Join-Path $scriptsRoot 'Set-SiPdrSqlConnectionStrings.ps1'
 if (Test-Path -LiteralPath $sqlOverride) {

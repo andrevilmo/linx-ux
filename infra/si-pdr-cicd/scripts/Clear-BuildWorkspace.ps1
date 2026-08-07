@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Frees disk by removing old SI-PDR CI workdirs under C:\lx\
 

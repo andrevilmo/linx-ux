@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Installs IIS + ASP.NET and creates Application / Service / Portal sites for SI-PDR.
 
@@ -69,7 +69,7 @@ $frameworkLibrary = Join-Path $FrameworkRoot 'Library'
 $libraryMarker = Join-Path $frameworkLibrary 'Business Model\Linx.Framework.Autorizacao.BM.dll'
 $libraryAlreadySeeded = (Test-Path -LiteralPath $libraryMarker)
 if ($SkipHeavySeed -and $libraryAlreadySeeded) {
-    Write-Log "SkipHeavySeed: Framework Library already present at $libraryMarker — skipping Library/site seed robocopy"
+    Write-Log "SkipHeavySeed: Framework Library already present at $libraryMarker - skipping Library/site seed robocopy"
     $SeedFromBinary = ''
 }
 
@@ -112,7 +112,7 @@ if ($SeedFromBinary) {
 }
 
 # 8172/8174 are IIS Express / Visual Studio ports baked into Binary web.config
-# (PortalUrl) and SQL UrlAplicacao. Bind them as aliases so Portal→Application
+# (PortalUrl) and SQL UrlAplicacao. Bind them as aliases so Portal->Application
 # redirects work without rewriting shared DB rows.
 foreach ($port in 8080, 8081, 8082, 1710, 8172, 8174) {
     $rule = "SI-PDR-IIS-$port"
@@ -149,7 +149,7 @@ foreach ($site in $sites) {
             Write-Log "Seeding $($site.Name) Views from $seedViews"
             Copy-Item -Path (Join-Path $seedViews '*') -Destination (Join-Path $phys 'Views') -Recurse -Force -ErrorAction SilentlyContinue
         }
-        # Seed site shell files (Global.asax, areas, scripts, ...) — not only bin/
+        # Seed site shell files (Global.asax, areas, scripts, ...) - not only bin/
         $seedSite = Join-Path $SeedFromBinary $site.Relative
         if (Test-Path -LiteralPath $seedSite) {
             Write-Log "Seeding $($site.Name) site files from $seedSite"

@@ -1,11 +1,11 @@
-<#
+﻿<#
 .SYNOPSIS
   Rewrite SI-PDR SQL connection strings on the IIS Framework root for AWS/CI hosts.
 
 .DESCRIPTION
   Portal login calls Service (AuthenticatePortal), which opens EF against
   FrameworkAutorizacao. Binary defaults use Integrated Security=SSPI to
-  a-srv111.linx-inves.com.br — that fails on the AWS EC2 host (no domain /
+  a-srv111.linx-inves.com.br - that fails on the AWS EC2 host (no domain /
   often no network path). Supply SQL auth via parameters or environment.
 
   Env / parameters:
@@ -28,7 +28,7 @@ param(
     [string] $PortalCatalog = $(if ($env:SI_PDR_SQL_PORTAL_CATALOG) { $env:SI_PDR_SQL_PORTAL_CATALOG } else { 'DEV-UX-Portal-Main' }),
     [string] $AppCatalog = $(if ($env:SI_PDR_SQL_APP_CATALOG) { $env:SI_PDR_SQL_APP_CATALOG } else { 'DEV-UX-App-Main' }),
     [string] $ServiceUrl = $env:SI_PDR_SERVICE_URL,
-    # Only override when SI_PDR_* env is set — Binary web.configs are authoritative.
+    # Only override when SI_PDR_* env is set - Binary web.configs are authoritative.
     [string] $ShellMode = $env:SI_PDR_SHELL_MODE,
     [string] $LocalServiceBusMode = $env:SI_PDR_LOCAL_SERVICEBUS_MODE
 )
