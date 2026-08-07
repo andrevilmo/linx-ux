@@ -27,7 +27,9 @@ param(
     [string] $SqlPassword = $env:SI_PDR_SQL_PASSWORD,
     [string] $PortalCatalog = $(if ($env:SI_PDR_SQL_PORTAL_CATALOG) { $env:SI_PDR_SQL_PORTAL_CATALOG } else { 'DEV-UX-Portal-Main' }),
     [string] $AppCatalog = $(if ($env:SI_PDR_SQL_APP_CATALOG) { $env:SI_PDR_SQL_APP_CATALOG } else { 'DEV-UX-App-Main' }),
-    [string] $ServiceUrl = $(if ($env:SI_PDR_SERVICE_URL) { $env:SI_PDR_SERVICE_URL } else { 'http://localhost:8082/' })
+    [string] $ServiceUrl = $(if ($env:SI_PDR_SERVICE_URL) { $env:SI_PDR_SERVICE_URL } else { 'http://localhost:8082/' }),
+    # AWS/CI should run the configured module catalog, not the assembly-name DEV home.
+    [string] $ShellMode = $(if ($env:SI_PDR_SHELL_MODE) { $env:SI_PDR_SHELL_MODE } else { 'PROD' })
 )
 
 $ErrorActionPreference = 'Stop'
@@ -123,6 +125,9 @@ $appPath = Join-Path $FrameworkRoot 'Application\web.config'
 if ($ServiceUrl) {
     Set-AppSetting -Path $portalPath -SectionXPath '/configuration/PortalSettings' -Key 'authorizationServiceAddress' -Value $ServiceUrl
     Set-AppSetting -Path $appPath -SectionXPath '/configuration/appSettings' -Key 'ServiceBus' -Value $ServiceUrl
+}
+if ($ShellMode) {
+    Set-AppSetting -Path $appPath -SectionXPath '/configuration/appSettings' -Key 'ShellMode' -Value $ShellMode
 }
 
 if (-not $PortalConnection -and -not $AppConnection) {
