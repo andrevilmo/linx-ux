@@ -710,16 +710,63 @@ var vmConstructor = function () {
     var getTranslatedFilter = function () {
         return translatedJEntitySearch + (isNullOrEmpty(translatedJEntitySearch) || isNullOrEmpty(customSearchResult.translatedSearch) ? '' : ' e ') + customSearchResult.translatedSearch;
     }
+    // Membership "Bloqueado" is unbound — capture filter in search (C) and apply after OData returns (not in edit E).
+    var pendingBlockedFilter = null;
     var getQueryFilter = function (currentDI) {
         if (typeof currentDI === 'undefined') currentDI = currentDataItem();
         dataBind('', true);
         currentDI.setBandeiraRede(getBandeiraRede());
+        pendingBlockedFilter = null;
+        try {
+            // Only filter when Bloqueado is checked (true). Unchecked/false means "no Membership filter".
+            if (!isNullOrEmpty(currentDI) && typeof currentDI.Blocked !== 'undefined' && status() !== 'E') {
+                if (getAbsoluteValue(currentDI.Blocked) === true)
+                    pendingBlockedFilter = true;
+            }
+        } catch (eBlocked) { pendingBlockedFilter = null; }
         eSearch = getJExpression(currentDI);
         if (eSearch === 'Error')
            return 'Error';
        translatedJEntitySearch = common.translateSearch(dataContext, eSearch);
         if (!isNullOrEmpty(customSearchResult.searchDefinition)) eSearch += customSearchResult.searchDefinition;
         return eSearch;
+    }
+    var applyPendingBlockedFilter = function (results, done) {
+        if (pendingBlockedFilter === null || !(results instanceof Array) || results.length === 0) {
+            if (typeof done === 'function') done(results || []);
+            return;
+        }
+        var wantBlocked = pendingBlockedFilter;
+        pendingBlockedFilter = null;
+        var remaining = results.length;
+        var kept = [];
+        var finishOne = function () {
+            remaining--;
+            if (remaining <= 0 && typeof done === 'function') done(kept);
+        };
+        for (var i = 0; i < results.length; i++) {
+            (function (item) {
+                ensureBlockedObservable(item);
+                var loginName = getAbsoluteValue(item.NomeAutenticacao);
+                if (isNullOrEmpty(loginName)) {
+                    if (wantBlocked === false) kept.push(item);
+                    finishOne();
+                    return;
+                }
+                $.ajax({
+                    url: managerAuth.getServiceAddress('LinxFrameworkAutorizacao', 'Linx.Framework.BV') + '/IsMembershipUserLockedOut',
+                    data: { userName: loginName },
+                    type: 'GET',
+                    dataType: 'json'
+                }).done(function (locked) {
+                    var isLocked = parseMembershipLocked(locked);
+                    setAbsoluteValue(item, 'Blocked', isLocked);
+                    if (isLocked === wantBlocked) kept.push(item);
+                }).fail(function () {
+                    if (wantBlocked === false) kept.push(item);
+                }).always(finishOne);
+            })(results[i]);
+        }
     }
     var queryInnerUIs = function (parentEntity, parentTypeName) {
        if (status() === 'C') return;
@@ -884,7 +931,9 @@ var vmConstructor = function () {
         function querySucceeded(data) {
             if (vm.status() !== 'E') { for (var idx = 0; idx < data.results.length; idx++) { dataContext.initializePOCO(data.results[idx], 'TcsUsuarioAutenticacao'); } }
             hasError = false;
-            dataView(data.results);
+            var usedBlockedFilter = (pendingBlockedFilter !== null);
+            var finishWithResults = function (results) {
+            dataView(results);
             if (dataView().length === 0 && (parentVM == null || (parentVM != null && uiSettings != null && isNullOrEmpty(uiSettings.parentSelectorDataName)) || isLookup())) {
                 if (isLookup() && (parentVM != null) && lookupInitializing === true) {
                    uiSettings.ownerReference.clearLookUp(uiSettings.lookupName);
@@ -910,8 +959,8 @@ var vmConstructor = function () {
                 }
                 return true;
             }
-            pageCount( (pageSize() > 0 ? Math.ceil((data.inlineCount ? data.inlineCount : dataView().length) / pageSize()) : 1) );
-            totalItemCount((data.inlineCount ? data.inlineCount : dataView().length));
+            pageCount( (pageSize() > 0 ? Math.ceil(((!usedBlockedFilter && data.inlineCount) ? data.inlineCount : dataView().length) / pageSize()) : 1) );
+            totalItemCount((!usedBlockedFilter && data.inlineCount) ? data.inlineCount : dataView().length);
             currentPage(0);
             if (!(isChildVM() && (uiSettings.canAddNew || uiSettings.canEdit || uiSettings.canDelete)))
                status('Q');
@@ -927,6 +976,8 @@ var vmConstructor = function () {
             if (common.getGridMode() == 'G' && !vm.navigationByPage() && (viewType() === 'Main') && !isChildVM() && dataView().length > 1 && (parentVM == null))
                 dataToolbar.viewInfo();
             if (typeof externalQueryCallBack === 'function') externalQueryCallBack();
+            };
+            applyPendingBlockedFilter(data.results, finishWithResults);
         }
     };
     function goToIndex(index, noDetails) {

@@ -146,10 +146,26 @@ form .button-row button:last-child{
   width: 40%;
 }
 
-#login .forget-password {
-  padding-top: 20px;
+/* Pin "Esqueci minha senha" to the bottom of the authentication panel */
+#login #authentication {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+/* Only the login-panel link (direct child of #authentication) pins to the bottom */
+#login #authentication > .forget-password {
+  margin-top: auto;
+  padding-top: 24px;
+  padding-bottom: 8px;
   display: block;
   clear: both;
+  width: 100%;
+  text-align: left;
 }
 
 #login .forget-password  a{
