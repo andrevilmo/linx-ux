@@ -125,12 +125,24 @@ foreach ($port in 8080, 8081, 8082, 1710, 8172, 8174) {
 $sites = @(
     # Primary ports match Binary web.config / VS IIS Express usage.
     # Extra 8080/8081/8082 kept as CI aliases.
-    @{ Name = 'Application'; Port = 8174; Relative = 'Application'; ExtraPorts = @(8080) }
-    @{ Name = 'Service'; Port = 1710; Relative = 'Service'; ExtraPorts = @(8082) }
-    @{ Name = 'Portal'; Port = 8172; Relative = 'Portal'; ExtraPorts = @(8081) }
+    @{ Name = 'Application'; Port = 8174; Relative = 'Application'; ExtraPorts = @(8080); Pool = 'SI-PDR-Application' }
+    @{ Name = 'Service'; Port = 1710; Relative = 'Service'; ExtraPorts = @(8082); Pool = 'SI-PDR-Service' }
+    @{ Name = 'Portal'; Port = 8172; Relative = 'Portal'; ExtraPorts = @(8081); Pool = 'SI-PDR-Portal' }
 )
 
 foreach ($site in $sites) {
+    $poolName = $site.Pool
+    $pool = Get-Item "IIS:\AppPools\$poolName" -ErrorAction SilentlyContinue
+    if (-not $pool) {
+        Write-Log "Creating app pool $poolName"
+        New-WebAppPool -Name $poolName | Out-Null
+    }
+    Set-ItemProperty "IIS:\AppPools\$poolName" -Name managedRuntimeVersion -Value 'v4.0'
+    Set-ItemProperty "IIS:\AppPools\$poolName" -Name managedPipelineMode -Value 'Integrated'
+    Set-ItemProperty "IIS:\AppPools\$poolName" -Name startMode -Value 'AlwaysRunning' -ErrorAction SilentlyContinue
+    Set-ItemProperty "IIS:\AppPools\$poolName" -Name processModel.idleTimeout -Value ([TimeSpan]::FromMinutes(0)) -ErrorAction SilentlyContinue
+    Start-WebAppPool -Name $poolName -ErrorAction SilentlyContinue
+
     $phys = Join-Path $FrameworkRoot $site.Relative
     $bin = Join-Path $phys 'bin'
     New-Item -ItemType Directory -Force -Path $bin | Out-Null
@@ -206,11 +218,12 @@ foreach ($site in $sites) {
 
     $existing = Get-Website -Name $site.Name -ErrorAction SilentlyContinue
     if (-not $existing) {
-        Write-Log "Creating IIS site $($site.Name) on port $($site.Port) -> $phys"
-        New-Website -Name $site.Name -Port $site.Port -PhysicalPath $phys -ApplicationPool 'DefaultAppPool' | Out-Null
+        Write-Log "Creating IIS site $($site.Name) on port $($site.Port) -> $phys (pool=$poolName)"
+        New-Website -Name $site.Name -Port $site.Port -PhysicalPath $phys -ApplicationPool $poolName | Out-Null
     } else {
-        Write-Log "IIS site $($site.Name) already exists"
+        Write-Log "IIS site $($site.Name) already exists; pool=$poolName"
         Set-ItemProperty "IIS:\Sites\$($site.Name)" -Name physicalPath -Value $phys
+        Set-ItemProperty "IIS:\Sites\$($site.Name)" -Name applicationPool -Value $poolName
     }
 
 

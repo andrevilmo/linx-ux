@@ -181,8 +181,12 @@ if (-not $PortalConnection -and -not $AppConnection) {
 # Recycle so new connection strings / Service URLs are picked up
 try {
     Import-Module WebAdministration -ErrorAction Stop
-    Restart-WebAppPool -Name 'DefaultAppPool' -ErrorAction SilentlyContinue
-    Write-Log 'Recycled DefaultAppPool'
+    foreach ($poolName in @('SI-PDR-Service', 'SI-PDR-Portal', 'SI-PDR-Application', 'DefaultAppPool')) {
+        if (Get-Item "IIS:\AppPools\$poolName" -ErrorAction SilentlyContinue) {
+            Restart-WebAppPool -Name $poolName -ErrorAction SilentlyContinue
+            Write-Log "Recycled $poolName"
+        }
+    }
 } catch {
     Write-Log ("App pool recycle warning: {0}" -f $_.Exception.Message)
 }

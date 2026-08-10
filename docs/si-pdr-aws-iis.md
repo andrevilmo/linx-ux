@@ -106,9 +106,10 @@ pwsh -File infra\si-pdr-cicd\scripts\Invoke-SiPdrAwsPipeline.ps1 -RepoRoot (Get-
 
 ## Security / networking
 
-- Windows firewall rules for 8080–8082 are created by `Ensure-IisSiPdr.ps1`
-- AWS security group still needs inbound TCP 8080–8082 from your IP (RDP SG is separate)
-- App may need SQL/config under the Framework root for full functionality; CI validates IIS sites respond
+- Windows firewall rules for 8080–8082 / 1710 / 8172 / 8174 are created by `Ensure-IisSiPdr.ps1`
+- AWS security group still needs inbound TCP for those ports from your IP (RDP SG is separate)
+- Portal login requires the EC2 host to open **real** SQL to `tcp:10.16.0.4,1433` (QA). A TCP SYN that never completes TDS still makes Service hang until `Connect Timeout` (kept at 8s in Binary). If the host cannot reach QA SQL, set `SI_PDR_SQL_*` secrets to a reachable SQL auth endpoint, or peer/VPN the instance into the QA network.
+- Post-deploy `Diagnose-SiPdrRuntime.ps1` logs IIS bindings/pools, TCP+`SqlConnection` to FrameworkAutorizacao, and recent Application Event Log errors.
 
 ## Related
 

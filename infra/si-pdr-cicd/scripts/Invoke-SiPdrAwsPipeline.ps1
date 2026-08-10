@@ -136,21 +136,29 @@ if (Test-Path -LiteralPath $sqlOverride) {
     Invoke-Ps1File -FilePath $sqlOverride -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
 }
 
+$diagnose = Join-Path $scriptsRoot 'Diagnose-SiPdrRuntime.ps1'
+if (Test-Path -LiteralPath $diagnose) {
+    Write-Phase 'Diagnose IIS / SQL reachability'
+    Invoke-Ps1File -FilePath $diagnose -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
+}
+
 Write-Phase 'Smoke HTTP'
-# Prefer working aliases first (short timeout). Primary ports that often hang are last.
+# Warm Portal/App first (fast). Service cold-start on t3.small can exceed 15s;
+# allow up to 60s so SQL Connect Timeout / app-start errors surface as HTTP bodies.
 $urls = @(
-    @{ Url = 'http://127.0.0.1:8080/'; TimeoutSec = 15 },
+    @{ Url = 'http://127.0.0.1:8172/'; TimeoutSec = 20 },
+    @{ Url = 'http://127.0.0.1:8174/'; TimeoutSec = 30 },
     @{ Url = 'http://127.0.0.1:8081/'; TimeoutSec = 15 },
-    @{ Url = 'http://127.0.0.1:8082/'; TimeoutSec = 15 },
-    @{ Url = 'http://127.0.0.1:8174/'; TimeoutSec = 8 },
-    @{ Url = 'http://127.0.0.1:8172/'; TimeoutSec = 8 },
-    @{ Url = 'http://127.0.0.1:1710/'; TimeoutSec = 8 }
+    @{ Url = 'http://127.0.0.1:8080/'; TimeoutSec = 15 },
+    @{ Url = 'http://127.0.0.1:1710/'; TimeoutSec = 60 },
+    @{ Url = 'http://127.0.0.1:8082/'; TimeoutSec = 30 }
 )
 foreach ($item in $urls) {
     $url = $item.Url
+    $swSmoke = [System.Diagnostics.Stopwatch]::StartNew()
     try {
         $resp = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec $item.TimeoutSec
-        Write-Host ("OK {0} status={1} len={2}" -f $url, [int]$resp.StatusCode, ($resp.RawContentLength))
+        Write-Host ("OK {0} status={1} len={2} in {3:n1}s" -f $url, [int]$resp.StatusCode, ($resp.RawContentLength), $swSmoke.Elapsed.TotalSeconds)
     } catch {
         $msg = $_.Exception.Message
         # Surface ASP.NET yellow-screen / JSON body for Service 500s (login AuthenticatePortal).
@@ -168,8 +176,14 @@ foreach ($item in $urls) {
                 }
             }
         } catch { }
-        Write-Warning ("Smoke failed for {0}: {1}" -f $url, $msg)
+        Write-Warning ("Smoke failed for {0} after {1:n1}s: {2}" -f $url, $swSmoke.Elapsed.TotalSeconds, $msg)
     }
+}
+
+# Re-run diagnostics after smoke so Event Log captures Service start failures.
+if (Test-Path -LiteralPath $diagnose) {
+    Write-Phase 'Diagnose after smoke'
+    Invoke-Ps1File -FilePath $diagnose -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
 }
 
 Write-Host ("SI-PDR AWS pipeline succeeded in {0:n1}s total." -f $swTotal.Elapsed.TotalSeconds)
