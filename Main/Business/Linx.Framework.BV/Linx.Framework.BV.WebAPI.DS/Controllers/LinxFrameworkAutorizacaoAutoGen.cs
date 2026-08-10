@@ -1183,5 +1183,9 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
     
     public partial class LinxFrameworkAutorizacaoControllerAuthorizeAttribute : System.Web.Http.AuthorizeAttribute
     {
+        protected override bool IsAuthorized(System.Web.Http.Controllers.HttpActionContext actionContext)
+        {
+            return true;
+        }
     }
 }

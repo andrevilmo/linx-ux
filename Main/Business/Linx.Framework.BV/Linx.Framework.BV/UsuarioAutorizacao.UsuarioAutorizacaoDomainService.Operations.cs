@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Linx.Data;
 using Linx.Tools;
 using System.Data.Entity.Core.Objects;
@@ -122,6 +123,36 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 
             // IdLinx on this composition is the linked economic group
             query = query.Where(e => e.IdLinx == idGpecon);
+        }
+
+        /// <summary>
+        /// AcessoP IdLinx comes from the ambiente empresa.
+        /// Keep only rows for the logged economic group (EconomicGroup header / CurrentIdGpEcon).
+        /// Used by UsuarioFranquia GetTcsUsuarioAutenticacaoAcessoToExcel and Autorizacao AcessoP queries.
+        /// </summary>
+        private void ApplyCurrentGpeconFilter(ref IQueryable<TcsUsuarioAutenticacaoAcessoP> query)
+        {
+            int idGpecon = CurrentIdGpEcon();
+            if (idGpecon <= 0) return;
+
+            query = query.Where(e => e.IdLinx == idGpecon);
+        }
+
+        // Senha/Confirmação are UI-only; clients may still send them in jEntitySearch.
+        // EntitySearch.AdjustExcludedFilters alone is not enough because Get* also applies raw jEntitySearch via JExpressionToEntitySql.
+        private static readonly Regex UiOnlyPasswordFilterRegex = new Regex(
+            @"(^|;)ConfirmacaoUsuario1?#[^;}]*",
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private string StripUiOnlyPasswordFilters(string jEntitySearch)
+        {
+            if (jEntitySearch.IsNullOrEmpty()) return jEntitySearch;
+
+            var cleaned = UiOnlyPasswordFilterRegex.Replace(jEntitySearch, string.Empty);
+            cleaned = cleaned.Replace("{;", "{").Replace(";;", ";");
+            while (cleaned.Contains(";}"))
+                cleaned = cleaned.Replace(";}", "}");
+            return cleaned;
         }
 
     }

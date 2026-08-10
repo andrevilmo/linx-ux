@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Linx.Internet.Application.Common.Filters;
 using System.Web;
 using System.Web.Mvc;
@@ -420,14 +420,13 @@ namespace Linx.Internet.Application.Controllers
         public ActionResult SendPasswordResetLink(string userName)
         {
             if (string.IsNullOrEmpty(userName))
-                return Json(new { success = false, message = "Informe o usu�rio." });
+                return Json(new { success = false, message = "Informe o usuário." });
 
             var _serviceBus = ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
             var client = new RestClient(_serviceBus);
             var request = new RestRequest("LinxFrameworkAutorizacao/SendPasswordResetLink");
             request.AddParameter("userName", userName, ParameterType.QueryString);
 
-            // URL base desta aplica��o, usada para montar o link da p�gina de redefini��o no e-mail.
             var callbackUrl = string.Concat(Request.Url.GetLeftPart(UriPartial.Authority), Url.Content("~/"), "ResetPassword");
             request.AddParameter("callbackUrl", callbackUrl, ParameterType.QueryString);
 
@@ -436,9 +435,8 @@ namespace Linx.Internet.Application.Controllers
             if (response.ErrorException != null)
                 return Json(new { success = false, message = response.ErrorException.Message });
 
-            // Mensagem gen�rica para n�o revelar se o usu�rio existe.
             if (response.StatusCode == HttpStatusCode.OK)
-                return Json(new { success = true, message = "Se o usu�rio estiver cadastrado, voc� receber� um e-mail com o link para redefinir a senha." });
+                return Json(new { success = true, message = "Se o usuário estiver cadastrado, você receberá um e-mail com o link para redefinir a senha." });
 
             return Json(new { success = false, message = ExtractError(response.Content) });
         }
@@ -473,7 +471,7 @@ namespace Linx.Internet.Application.Controllers
         public ActionResult ResetPasswordSubmit(string token, string newPassword)
         {
             if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(newPassword))
-                return Json(new { success = false, message = "Dados inv�lidos." });
+                return Json(new { success = false, message = "Dados inválidos." });
 
             var _serviceBus = ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
             var client = new RestClient(_serviceBus);

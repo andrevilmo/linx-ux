@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -24,6 +24,32 @@ namespace Linx.Tools
         public static ErrorInfo _UserNotActive = new ErrorInfo() { Code = "ERRAUT006", Message = "Usuário inativo.".Translate() };
         public static ErrorInfo _UserLoginExpired = new ErrorInfo() { Code = "ERRAUT007", Message = "Login do usuário expirado.".Translate() };
         public static ErrorInfo _UserBadNameOrPassword = new ErrorInfo() { Code = "ERRAUT008", Message = "Usuário ou senha incorretos".Translate() };
+        // Lockout message must stay Portuguese regardless of UI culture (do not Translate).
+        public static ErrorInfo _UserLockedOut = new ErrorInfo() { Code = "ERRAUT020", Message = "Usuário bloqueado por excesso de tentativas inválidas de senha. Solicite o desbloqueio ao administrador." };
+
+        /// <summary>Canonical lockout display: "ERRAUT020 - &lt;Portuguese message&gt;".</summary>
+        public static string FormatUserLockedOutMessage()
+        {
+            return string.Format("{0} - {1}", _UserLockedOut.Code, _UserLockedOut.Message);
+        }
+
+        /// <summary>True when message is ERRAUT020 or ASP.NET Membership English lockout text.</summary>
+        public static bool IsMembershipLockoutMessage(string message)
+        {
+            if (string.IsNullOrEmpty(message))
+                return false;
+            if (message.StartsWith(_UserLockedOut.Code, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return message.IndexOf("locked out", StringComparison.OrdinalIgnoreCase) >= 0
+                || message.IndexOf("account has been locked", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        /// <summary>Replaces Membership English lockout text with ERRAUT020 Portuguese message.</summary>
+        public static string EnsureUserLockedOutMessage(string message)
+        {
+            return IsMembershipLockoutMessage(message) ? FormatUserLockedOutMessage() : message;
+        }
+
         public static ErrorInfo _PasswordSameAsCurrent = new ErrorInfo() { Code = "ERRAUT009", Message = "A senha deve ser diferente da atual.".Translate() };
         public static ErrorInfo _ChangePasswordError = new ErrorInfo() { Code = "ERRAUT010", Message = "Erro ao alterar a senha do usuário.".Translate() };
         public static ErrorInfo _LoginInvalidParameters = new ErrorInfo() { Code = "ERRAUT011", Message = "Parâmetros de Login inválidos.".Translate() };
@@ -35,6 +61,7 @@ namespace Linx.Tools
         public static ErrorInfo _UserHasNoDefaultAccess = new ErrorInfo() { Code = "ERRAUT017", Message = "Usuário não possui acesso padrão informado.".Translate() };
         public static ErrorInfo _InvalidRelatedEnvironmentInfo = new ErrorInfo() { Code = "ERRAUT018", Message = "Informação de Ambiente Relacionado inválida.".Translate() };
         public static ErrorInfo _InvalidIdAplicativeInfo = new ErrorInfo() { Code = "ERRAUT019", Message = "Informação de Aplicativo inválida.".Translate() };
+        public static ErrorInfo _ConnectionStringNotFound = new ErrorInfo() { Code = "ERRAUT021", Message = "String de Conexão não encontrada.".Translate() };
     }
 
 

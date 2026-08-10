@@ -68,7 +68,9 @@ var vmConstructor = function () {
 	 {Name: "CadastroUsuarioLocal_tbNomeAutenticacao", DisplayName: "Usuário Autenticação", ColumnSpan: 12, Visible: true, Key: "NomeAutenticacao"},
 	 {Name: "CadastroUsuarioLocal_tbNomeCurtoUsuario", DisplayName: "Apelido", ColumnSpan: 12, Visible: true, Key: "NomeCurtoUsuario"},
 	 {Name: "CadastroUsuarioLocal_tbEmail", DisplayName: "Email", ColumnSpan: 12, Visible: true, Key: "Email"},
-	 {Name: "CadastroUsuarioLocal_ckInativo", DisplayName: "Inativo", ColumnSpan: 6, Visible: true, Key: "Inativo"},]},
+	 {Name: "CadastroUsuarioLocal_ckInativo", DisplayName: "Inativo", ColumnSpan: 4, Visible: true, Key: "Inativo"},
+	 {Name: "CadastroUsuarioLocal_ckIndicaUsuarioServico", DisplayName: "Usuário de serviço", ColumnSpan: 4, Visible: true, Key: "IndicaUsuarioServico"},
+	 {Name: "CadastroUsuarioLocal_ckBlocked", DisplayName: "Bloqueado", ColumnSpan: 4, Visible: true, Key: "Blocked"},]},
 	 {Name: "CadastroUsuarioLocal_gbGroupBox_294d36395b1f414997b597e9a47dd1b7", DisplayName: "", ColumnSpan: 2, Visible: true, Items: [
 	 {Name: "CadastroUsuarioLocal_dtVigenciaInicial", DisplayName: "Vigência Inicial", ColumnSpan: 12, Visible: true, Key: "VigenciaInicial"},
 	 {Name: "CadastroUsuarioLocal_dtVigenciaFinal", DisplayName: "Vigência Final", ColumnSpan: 12, Visible: true, Key: "VigenciaFinal"},
@@ -454,6 +456,9 @@ var vmConstructor = function () {
         }
         OnLoaded();
         scrollMainTop();
+        currentDataItem.subscribe(function (item) {
+            refreshMembershipBlocked(item);
+        });
         vm.currentBrands.subscribe(function(newValue) {
             newValue = isNull(newValue) ? vm.currentBrands() : newValue;
             var searchedBrands = managerBrand.searchBrandsVM(newValue, managerAuth.getIdTcsAmbiente());
@@ -512,7 +517,7 @@ var vmConstructor = function () {
         return '';
     };
     
-    var visibleColumns = 'NomeUsuario,NomeAutenticacao,NomeCurtoUsuario,Email,Inativo,VigenciaInicial,VigenciaFinal,DataExpiracaoSenha,DataCadastro,DataAlteracao,ConfirmacaoUsuario,ConfirmacaoUsuario1,LxPfjFisicaJuridica,CnpjCpf,InscrEstadualRg,LxTipoLogradouro,Logradouro,Numero,Complemento,Cep,Bairro,Municipio,Uf,ObsEndereco,FoneFixo,Ramal,FoneCelular';
+    var visibleColumns = 'NomeUsuario,NomeAutenticacao,NomeCurtoUsuario,Email,Inativo,IndicaUsuarioServico,VigenciaInicial,VigenciaFinal,DataExpiracaoSenha,DataCadastro,DataAlteracao,ConfirmacaoUsuario,ConfirmacaoUsuario1,LxPfjFisicaJuridica,CnpjCpf,InscrEstadualRg,LxTipoLogradouro,Logradouro,Numero,Complemento,Cep,Bairro,Municipio,Uf,ObsEndereco,FoneFixo,Ramal,FoneCelular';
     
     var getVisiblePropertiesForExcel = function (dataName) {
         if (vm.dataSource.length > 0) {
@@ -1725,6 +1730,129 @@ if (control.length >0 && control[0].childNodes.length == 1){
     var canEdit = ko.computed(function () { return status() === 'Q' && _canEdit && !isChildVM(); });
     var canRefreshCurrentData = ko.computed(function () { return status() === 'Q' && _canSearch && _canRefreshData && !isChildVM(); });
     var canUndo = ko.computed(function () { return status() === 'E' && (_canEdit || _canAddNew) && !isChildVM(); });
+    var canUnlockUser = ko.computed(function () {
+        try {
+            if (status() !== 'Q' && status() !== 'C')
+                return false;
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+                return false;
+            var loginName = getAbsoluteValue(item.NomeAutenticacao);
+            return !isNullOrEmpty(loginName);
+        }
+        catch (e) {
+            return false;
+        }
+    });
+    var ensureBlockedObservable = function (entity) {
+        if (isNullOrEmpty(entity))
+            return;
+        if (typeof entity.Blocked === 'undefined')
+            entity.Blocked = ko.observable(false);
+        else if (typeof entity.Blocked !== 'function')
+            entity.Blocked = ko.observable(!!entity.Blocked);
+    };
+    var parseMembershipLocked = function (locked) {
+        if (locked === true || locked === 1)
+            return true;
+        if (typeof locked === 'string') {
+            var normalized = locked.replace(/"/g, '').trim().toLowerCase();
+            return normalized === 'true' || normalized === '1';
+        }
+        return false;
+    };
+    var refreshMembershipBlocked = function (item) {
+        try {
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+                return;
+            ensureBlockedObservable(item);
+
+            var loginName = getAbsoluteValue(item.NomeAutenticacao);
+            if (isNullOrEmpty(loginName)) {
+                setAbsoluteValue(item, 'Blocked', false);
+                return;
+            }
+
+            $.ajax({
+                type: 'GET',
+                headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                url: managerAuth.getServiceAddress('LinxFrameworkAutorizacao', 'Linx.Framework.BV') + '/IsMembershipUserLockedOut',
+                data: { userName: loginName },
+                dataType: 'json',
+                async: true,
+                cache: false,
+                error: function () {
+                    // Do not clear a previously known lockout state on transient errors
+                },
+                success: function (locked) {
+                    // Ignore stale responses if user navigated away
+                    var current = currentDataItem();
+                    if (isNullOrEmpty(current) || getAbsoluteValue(current.NomeAutenticacao) !== loginName)
+                        return;
+                    ensureBlockedObservable(current);
+                    setAbsoluteValue(current, 'Blocked', parseMembershipLocked(locked));
+                }
+            });
+        }
+        catch (e) {
+            // keep UI responsive even if Membership probe fails
+        }
+    };
+    var unlockUser = function () {
+        try {
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item)) {
+                app.showMessage('Selecione um usuário para desbloquear.', 'Atenção', ['Ok']);
+                return;
+            }
+            var loginName = getAbsoluteValue(item.NomeAutenticacao);
+            if (isNullOrEmpty(loginName)) {
+                app.showMessage('Usuário de autenticação não informado.', 'Atenção', ['Ok']);
+                return;
+            }
+
+            ensureBlockedObservable(item);
+            if (!getAbsoluteValue(item.Blocked)) {
+                app.showMessage('Usuário já desbloqueado.', 'Atenção', ['Ok']);
+                return;
+            }
+
+            app.showMessage(
+                'Deseja desbloquear o usuário "' + loginName + '"?',
+                'Desbloquear usuário',
+                ['Yes', 'No']
+            ).then(function (answer) {
+                if (answer !== 'Yes')
+                    return;
+
+                dataToolbar.isBusy(true);
+                $.ajax({
+                    type: 'GET',
+                    messageUser: 'Desbloqueio de usuário Membership',
+                    headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                    url: managerAuth.getServiceAddress('LinxFrameworkAutorizacao', 'Linx.Framework.BV') + '/UnlockMembershipUser',
+                    data: { userName: loginName },
+                    dataType: 'json',
+                    async: true,
+                    cache: false,
+                    error: function (jqXHR) {
+                        dataToolbar.isBusy(false);
+                        var errorMessage = (jqXHR.responseJSON && (jqXHR.responseJSON.ExceptionMessage || jqXHR.responseJSON.Message)) || jqXHR.statusText || 'Erro ao desbloquear usuário.';
+                        app.showMessage(errorMessage, 'Atenção', ['Ok']);
+                    },
+                    success: function () {
+                        dataToolbar.isBusy(false);
+                        setAbsoluteValue(item, 'Blocked', false);
+                        app.showMessage('Usuário "' + loginName + '" desbloqueado com sucesso.', 'Informação', ['Ok']);
+                    }
+                });
+            });
+        }
+        catch (e) {
+            dataToolbar.isBusy(false);
+            app.showMessage(e.message || e, 'Atenção', ['Ok']);
+        }
+    };
     var canNavigate = ko.computed(function () { return  (!canUndo() && !canQuery() && (dataView().length > 1 || pageCount() > 1) && _canNavigate); });
     var canPrint = ko.computed(function () { return ['C', 'Q'].indexOf(status()) >= 0 && _canPrint && !isChildVM(); });
     var canSave = ko.computed(function () {
@@ -2231,6 +2359,8 @@ if (control.length >0 && control[0].childNodes.length == 1){
             canSave: canSave,
             canUndo: canUndo,
             canPrint: canPrint,
+            canUnlockUser: canUnlockUser,
+            unlockUser: unlockUser,
             goFirst: goFirst,
             goBack: goBack,
             goForward: goForward,

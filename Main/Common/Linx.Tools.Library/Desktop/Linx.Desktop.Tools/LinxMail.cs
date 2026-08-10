@@ -5,7 +5,6 @@ using System.Text;
 using System.Collections;
 using System.Net.Mail;
 using System.Net;
-using System.Net.Mime;
 using System.ServiceModel.DomainServices.Server;
 
 namespace Linx.Tools
@@ -36,41 +35,44 @@ namespace Linx.Tools
             }
             catch (Exception oException)
             {
-                throw new DomainException("Erro no envio automático de email.\n\n" + oException.Message);
+                string detail = oException.Message;
+                if (oException.InnerException != null && !oException.InnerException.Message.IsNullOrEmpty())
+                    detail = detail + "\n" + oException.InnerException.Message;
+                throw new DomainException("Erro no envio automático de email.\n\n" + detail);
             }
         }
 
         public static void Send(string sender, string toAddress, string subject, bool isBodyHtml, string body, string smtpServer, int smtpPort, int timeout, string user, string password, bool enableSsl)
         {
             MailMessage newMail = new MailMessage();
-            var utf8 = new UTF8Encoding(false);
-
             newMail.From = new MailAddress(sender);
             newMail.To.Add(toAddress);
             newMail.Subject = subject;
-            newMail.SubjectEncoding = utf8;
-            newMail.HeadersEncoding = utf8;
-
-            if (isBodyHtml)
-            {
-                AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body, utf8, MediaTypeNames.Text.Html);
-                htmlView.ContentType.CharSet = "utf-8";
-                htmlView.TransferEncoding = TransferEncoding.QuotedPrintable;
-                newMail.AlternateViews.Add(htmlView);
-            }
-            else
-            {
-                newMail.Body = body;
-                newMail.IsBodyHtml = false;
-                newMail.BodyEncoding = utf8;
-            }
-
+            newMail.SubjectEncoding = Encoding.UTF8;
+            newMail.IsBodyHtml = isBodyHtml;
+            newMail.Body = body;
+            newMail.BodyEncoding = Encoding.UTF8;
             SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort);
             smtpClient.Timeout = timeout;
             smtpClient.UseDefaultCredentials = false;
             smtpClient.Credentials = new NetworkCredential(user, password);
             smtpClient.EnableSsl = enableSsl;
-            smtpClient.Send(newMail);
+
+            // Office365/Gmail require TLS 1.2; older defaults can yield
+            // "The client and server cannot communicate, because they do not possess a common algorithm".
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+
+            // SmtpClient has no UseDefaultWebProxy; skip corporate HTTP defaultProxy for SMTP.
+            IWebProxy previousProxy = WebRequest.DefaultWebProxy;
+            try
+            {
+                WebRequest.DefaultWebProxy = null;
+                smtpClient.Send(newMail);
+            }
+            finally
+            {
+                WebRequest.DefaultWebProxy = previousProxy;
+            }
         }
     }
 }

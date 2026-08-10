@@ -57,7 +57,7 @@ namespace Linx.Internet.Application.Controllers
                 sb.AppendLine(BaseHelpers.BuildUrl("/AppLogin/managers/__route.js"));
             }
 
-            sb.AppendLine("");            
+            sb.AppendLine("");
             sb.AppendLine("NETWORK:");
             sb.AppendLine("*");
             sb.AppendLine("/*.axd");
@@ -69,13 +69,13 @@ namespace Linx.Internet.Application.Controllers
             sb.AppendLine("/logoffforpasswordchange");
             sb.AppendLine(BaseHelpers.BuildUrl("/App/managers/__auth.js"));
             sb.AppendLine(BaseHelpers.BuildUrl("/AppLogin/managers/__auth.js"));
-            
-            sb.AppendLine("");            
+
+            sb.AppendLine("");
             sb.AppendLine("FALLBACK:");
 
             return Content(sb.ToString(), "text/cache-manifest", UTF8Encoding.UTF8);
             //return Content(sb.ToString(), "application/x-ms-manifest", UTF8Encoding.UTF8);
-            
+
         }
 
     }

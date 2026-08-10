@@ -1,0 +1,942 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="CadastroParametro_formViewer" class="panelTransaition">
+            <figure id="CadastroParametro_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.CadastroParametro().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="CadastroParametro_gbTcsParametro05149c7cde9245c69b9e2745678608cb" data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_gbTcsParametro05149c7cde9245c69b9e2745678608cb'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_gbTcsParametro05149c7cde9245c69b9e2745678608cb')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div id="CadastroParametro_gbTcsParametro05149c7cde9245c69b9e2745678608cb_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="CadastroParametro_gbGroupBox_cc1d81f02c754f13b35e1beac7752c33" data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_gbGroupBox_cc1d81f02c754f13b35e1beac7752c33'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_gbGroupBox_cc1d81f02c754f13b35e1beac7752c33')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_gbGroupBox_cc1d81f02c754f13b35e1beac7752c33')"><i class="icon-reorder"></i></div>
+                       </div>
+                       <div id="CadastroParametro_gbGroupBox_cc1d81f02c754f13b35e1beac7752c33_body" class="portlet-body" >
+                           <div data-bind="with: $root.CadastroParametro().getWithBinding(currentDataItem, $root.CadastroParametro().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_tbTituloParametro'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_tbTituloParametro')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divTituloParametro" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tbTituloParametro')}, text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tbTituloParametro')" id="CadastroParametro_lblTituloParametro" for="CadastroParametro_tbTituloParametro" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroParametro_tbTituloParametro" class="form-control ellipsis" data-bind="attr: { title: TituloParametro }, validatedField: 'TituloParametro', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbTituloParametro') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbTituloParametro') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C') }, igTextEditor: { maxLength: 60, value: TituloParametro, readOnly: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbTituloParametro') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbTituloParametro') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_tbDescParametro'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_tbDescParametro')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divDescParametro" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tbDescParametro')}, text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tbDescParametro')" id="CadastroParametro_lblDescParametro" for="CadastroParametro_tbDescParametro" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroParametro_tbDescParametro" class="form-control ellipsis" data-bind="attr: { title: DescParametro }, validatedField: 'DescParametro', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbDescParametro') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbDescParametro') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C') }, igTextEditor: { maxLength: 60, value: DescParametro, readOnly: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbDescParametro') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbDescParametro') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_lUpDescGrupoParametro'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_lUpDescGrupoParametro')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divDescGrupoParametro" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_lUpDescGrupoParametro')}, text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_lUpDescGrupoParametro')" id="CadastroParametro_lblDescGrupoParametro" for="CadastroParametro_lUpDescGrupoParametro" class="control-label ellipsis">
+                                               </label>
+                                               <div id="CadastroParametro_lUpDescGrupoParametro" class="form-control input-group " data-bind="validatedField: 'DescGrupoParametro', css: { vmEditing: $root.CadastroParametro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpDescGrupoParametro') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpDescGrupoParametro') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C') }, lookupControl: { vm: $root.CadastroParametro(), value: DescGrupoParametro, maxLength: 60,lookupName: 'LookUpTcsParametroGrupoAutorizacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroParametro().entitySearchRange.DescGrupoParametro, fieldName: 'DescGrupoParametro', disabled:ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpDescGrupoParametro') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpDescGrupoParametro') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 60, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_lUpIdTcsAplicativo'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_lUpIdTcsAplicativo')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divIdTcsAplicativo" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_lUpIdTcsAplicativo')}, text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_lUpIdTcsAplicativo')" id="CadastroParametro_lblIdTcsAplicativo" for="CadastroParametro_lUpIdTcsAplicativo" class="control-label ellipsis">
+                                               </label>
+                                               <div id="CadastroParametro_lUpIdTcsAplicativo" class="form-control input-group " data-bind="validatedField: 'IdTcsAplicativo', css: { vmEditing: $root.CadastroParametro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpIdTcsAplicativo') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpIdTcsAplicativo') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C') }, lookupControl: { vm: $root.CadastroParametro(), value: IdTcsAplicativo, maxLength: 12,lookupName: 'LookUpTcsAplicativo', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroParametro().entitySearchRange.IdTcsAplicativo, fieldName: 'IdTcsAplicativo', disabled:ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpIdTcsAplicativo') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpIdTcsAplicativo') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 12, defaultValue: 0}" />
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_lUpDescricaoAplicativo'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_lUpDescricaoAplicativo')" class="connected-field">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divDescricaoAplicativo" class="" >
+                                               <label  id="CadastroParametro_lblDescricaoAplicativo" for="CadastroParametro_lUpDescricaoAplicativo" class="control-label ellipsis">
+                                               &nbsp;
+                                               </label>
+                                               <div id="CadastroParametro_lUpDescricaoAplicativo" class="form-control input-group " data-bind="validatedField: 'DescricaoAplicativo', css: { vmEditing: $root.CadastroParametro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpDescricaoAplicativo') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpDescricaoAplicativo') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C') }, lookupControl: { vm: $root.CadastroParametro(), value: DescricaoAplicativo, maxLength: 250,lookupName: 'LookUpTcsAplicativo', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroParametro().entitySearchRange.DescricaoAplicativo, fieldName: 'DescricaoAplicativo', disabled:ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpDescricaoAplicativo') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_lUpDescricaoAplicativo') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_cmbLxDatatypeParametro'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_cmbLxDatatypeParametro')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divLxDatatypeParametro" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_cmbLxDatatypeParametro')}, text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_cmbLxDatatypeParametro')" id="CadastroParametro_lblLxDatatypeParametro" for="CadastroParametro_cmbLxDatatypeParametro" class="control-label ellipsis">
+                                               </label>
+                                               <span id="CadastroParametro_cmbLxDatatypeParametro" class="form-control " data-bind="validatedField: 'LxDatatypeParametro', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxDatatypeParametro') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxDatatypeParametro') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C'), activeReadonly: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxDatatypeParametro') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxDatatypeParametro') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C') }, readOnly: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxDatatypeParametro') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxDatatypeParametro') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C'), igCombo: {
+                                                  selectedItems: LxDatatypeParametro,
+                                                  dataSource:  $root.CadastroParametro().dataDomains.getItems('TipoValorParametro', ''),
+                                                  textKey: 'name',
+                                                  valueKey: 'id',
+                                                  allowCustomValue : true,
+                                                  enableSelectionChangedUpdate: true,
+                                                  enableClearButton: false,
+                                                  dropDownOnFocus: true,
+                                                  disabled: (ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxDatatypeParametro') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxDatatypeParametro') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C')),
+                                                  mode: 'editable',
+                                                  width:'100%'
+                                               }"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_cmbLxTipoValidacaoParametro'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_cmbLxTipoValidacaoParametro')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divLxTipoValidacaoParametro" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_cmbLxTipoValidacaoParametro')}, text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_cmbLxTipoValidacaoParametro')" id="CadastroParametro_lblLxTipoValidacaoParametro" for="CadastroParametro_cmbLxTipoValidacaoParametro" class="control-label ellipsis">
+                                               </label>
+                                               <span id="CadastroParametro_cmbLxTipoValidacaoParametro" class="form-control " data-bind="validatedField: 'LxTipoValidacaoParametro', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxTipoValidacaoParametro') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxTipoValidacaoParametro') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C'), activeReadonly: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxTipoValidacaoParametro') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxTipoValidacaoParametro') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C') }, readOnly: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxTipoValidacaoParametro') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxTipoValidacaoParametro') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C'), igCombo: {
+                                                  selectedItems: LxTipoValidacaoParametro,
+                                                  dataSource:  $root.CadastroParametro().dataDomains.getItems('TipoValidacaoParametro', ''),
+                                                  textKey: 'name',
+                                                  valueKey: 'id',
+                                                  allowCustomValue : true,
+                                                  enableSelectionChangedUpdate: true,
+                                                  enableClearButton: false,
+                                                  dropDownOnFocus: true,
+                                                  disabled: (ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxTipoValidacaoParametro') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_cmbLxTipoValidacaoParametro') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C')),
+                                                  mode: 'editable',
+                                                  width:'100%'
+                                               }"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_ntxNivelAcesso'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_ntxNivelAcesso')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divNivelAcesso" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_ntxNivelAcesso')}, text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_ntxNivelAcesso')" id="CadastroParametro_lblNivelAcesso" for="CadastroParametro_ntxNivelAcesso" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group">
+                                                   <input id="CadastroParametro_ntxNivelAcesso" class="form-control numericFilterRange " data-bind="validatedField: 'NivelAcesso', css: { vmEditing: $root.CadastroParametro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_ntxNivelAcesso') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_ntxNivelAcesso') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C') }, igNumericEditor: { value: NivelAcesso, minValue: 0, maxValue: null,  maxLength: 3,  dataMode: 'byte', readOnly: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_ntxNivelAcesso') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_ntxNivelAcesso') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C'), selectionOnFocus: 'atEnd' }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroParametro().entitySearchRange.has_TcsParametroNivelAcesso(), 'icon-ok': $root.CadastroParametro().entitySearchRange.has_TcsParametroNivelAcesso(), hide: $root.CadastroParametro().status() !== 'C' }, popoverWithBind: { template: '#CadastroParametro_rgNivelAcesso', vm: $root.CadastroParametro().entitySearchRange, ctrlName: 'CadastroParametro_rgcNivelAcesso', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="CadastroParametro_rgNivelAcesso" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroParametro_ntxbNivelAcesso" class="IsEditableStyle" data-bind="igNumericEditor: { value: TcsParametroNivelAcesso_begin, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#CadastroParametro_ntxNivelAcesso').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroParametro_ntxeNivelAcesso').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroParametro_ntxeNivelAcesso').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroParametro_ntxeNivelAcesso" class="IsEditableStyle" data-bind="igNumericEditor: { value: TcsParametroNivelAcesso_end, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#CadastroParametro_ntxNivelAcesso').igNumericEditor('option', 'readOnly', ($('#CadastroParametro_ntxbNivelAcesso').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroParametro_ntxbNivelAcesso').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_ntxNivelAcessoEdicao'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_ntxNivelAcessoEdicao')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divNivelAcessoEdicao" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_ntxNivelAcessoEdicao')}, text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_ntxNivelAcessoEdicao')" id="CadastroParametro_lblNivelAcessoEdicao" for="CadastroParametro_ntxNivelAcessoEdicao" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group">
+                                                   <input id="CadastroParametro_ntxNivelAcessoEdicao" class="form-control numericFilterRange " data-bind="validatedField: 'NivelAcessoEdicao', css: { vmEditing: $root.CadastroParametro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_ntxNivelAcessoEdicao') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_ntxNivelAcessoEdicao') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C') }, igNumericEditor: { value: NivelAcessoEdicao, minValue: 0, maxValue: null,  maxLength: 3,  dataMode: 'byte', readOnly: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_ntxNivelAcessoEdicao') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_ntxNivelAcessoEdicao') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C'), selectionOnFocus: 'atEnd' }" />
+                                                   <span class="input-group-btn" title="Filtro numérico">
+                                                      <button type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroParametro().entitySearchRange.has_TcsParametroNivelAcessoEdicao(), 'icon-ok': $root.CadastroParametro().entitySearchRange.has_TcsParametroNivelAcessoEdicao(), hide: $root.CadastroParametro().status() !== 'C' }, popoverWithBind: { template: '#CadastroParametro_rgNivelAcessoEdicao', vm: $root.CadastroParametro().entitySearchRange, ctrlName: 'CadastroParametro_rgcNivelAcessoEdicao', headerText:'Filtro numérico' }"  /></span>
+                                                   <script id="CadastroParametro_rgNivelAcessoEdicao" type="text/html" tabindex="-1">
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor inicial">De:</span><div class="col-md-9"><input id="CadastroParametro_ntxbNivelAcessoEdicao" class="IsEditableStyle" data-bind="igNumericEditor: { value: TcsParametroNivelAcessoEdicao_begin, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#CadastroParametro_ntxNivelAcessoEdicao').igNumericEditor('option', 'readOnly', (ui.value != null || $('#CadastroParametro_ntxeNivelAcessoEdicao').igNumericEditor('option', 'value') != null ? true : false)); $('#CadastroParametro_ntxeNivelAcessoEdicao').igNumericEditor('option', 'minValue', ui.value); } }" /></div></div>
+                                                       <p></p>
+                                                       <div class="row"><span class="col-md-3 text-right" title="Valor final">Até:</span><div class="col-md-9"><input id="CadastroParametro_ntxeNivelAcessoEdicao" class="IsEditableStyle" data-bind="igNumericEditor: { value: TcsParametroNivelAcessoEdicao_end, minValue: 0, maxLength: 3, dataMode: 'byte', valueChanged: function (evt, ui) {$('#CadastroParametro_ntxNivelAcessoEdicao').igNumericEditor('option', 'readOnly', ($('#CadastroParametro_ntxbNivelAcessoEdicao').igNumericEditor('option', 'value') != null || ui.value != null? true : false)); $('#CadastroParametro_ntxbNivelAcessoEdicao').igNumericEditor('option', 'maxValue', ui.value); } }" /></div></div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_ckPermiteVariacaoPorEntidade'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_ckPermiteVariacaoPorEntidade')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divPermiteVariacaoPorEntidade" class="" >
+                                               <label class="">
+                                                 <input id="CadastroParametro_ckPermiteVariacaoPorEntidade" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckPermiteVariacaoPorEntidade') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckPermiteVariacaoPorEntidade') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C')}, disable: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckPermiteVariacaoPorEntidade') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckPermiteVariacaoPorEntidade') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C'), nullableChecked: PermiteVariacaoPorEntidade" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lblCadastroParametro_ckPermiteVariacaoPorEntidade" data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_ckPermiteVariacaoPorEntidade'), attr: {title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_ckPermiteVariacaoPorEntidade')}, css: { 'content-required-checkbox': $root.CadastroParametro().status() === 'E'}" class="align-label-checkbox"></span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_ckIndicaEnviaPdv'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_ckIndicaEnviaPdv')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divIndicaEnviaPdv" class="" >
+                                               <label class="">
+                                                 <input id="CadastroParametro_ckIndicaEnviaPdv" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckIndicaEnviaPdv') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckIndicaEnviaPdv') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C')}, disable: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckIndicaEnviaPdv') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckIndicaEnviaPdv') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C'), nullableChecked: IndicaEnviaPdv" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lblCadastroParametro_ckIndicaEnviaPdv" data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_ckIndicaEnviaPdv'), attr: {title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_ckIndicaEnviaPdv')}, css: { 'content-required-checkbox': $root.CadastroParametro().status() === 'E'}" class="align-label-checkbox"></span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_edObsParametro'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_edObsParametro')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroParametro_divObsParametro" class="" >
+                                               <label data-bind="attr: { title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_edObsParametro')}, text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_edObsParametro')" id="CadastroParametro_lblObsParametro" for="CadastroParametro_edObsParametro" class="control-label ellipsis">
+                                               </label>
+                                               <textarea id="CadastroParametro_edObsParametro" class="form-control "  maxLength="250" data-bind="validatedField: 'ObsParametro', attr:{ readOnly: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_edObsParametro') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_edObsParametro') : (isEmptyEntityFn($data) || $root.CadastroParametro().status() !== 'C')}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_edObsParametro') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_edObsParametro') : (!isEmptyEntityFn($data) && $root.CadastroParametro().status() === 'C')},  value: ObsParametro" rows="5"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="CadastroParametro_gbvalorPadrao" data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_gbvalorPadrao'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_gbvalorPadrao')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_gbvalorPadrao')"><i class="icon-reorder"></i></div>
+                       </div>
+                       <div id="CadastroParametro_gbvalorPadrao_body" class="portlet-body" >
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div id="CadastroParametro_cntValorParametro" data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_cntValorParametro'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_cntValorParametro')" class="cnt  remove-pl remove-pr" >
+                   <div>
+                       <div data-bind="with: $root.CadastroParametro().getWithBinding(currentDataItem, $root.CadastroParametro().rootDataTypeName)"><div data-bind="with: $root.CadastroParametro().getWithBinding(currentTcsParametroValor, 'TcsParametroValor')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_tbValorParametro'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_tbValorParametro')" class="">
+                               <div class="form-group">
+                                   <div id="CadastroParametro_divValorParametro" class="" >
+                                       <label  id="CadastroParametro_lblValorParametro" for="CadastroParametro_tbValorParametro" class="control-label ellipsis">
+                                       &nbsp;
+                                       </label>
+                                       <input id="CadastroParametro_tbValorParametro" class="form-control ellipsis" data-bind="attr: { title: ValorParametro }, validatedField: 'ValorParametro', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbValorParametro') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbValorParametro') : (!isEmptyEntityFn($data) && $root.CadastroParametro().enabledForEditing()) }, igTextEditor: { maxLength: 250, value: ValorParametro, readOnly: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbValorParametro') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbValorParametro') : (isEmptyEntityFn($data) || !$root.CadastroParametro().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+
+                   <div id="CadastroParametro_cntValorParametroData" data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_cntValorParametroData'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_cntValorParametroData')" class="cnt  remove-pl remove-pr" >
+                   <div>
+                       <div data-bind="with: $root.CadastroParametro().getWithBinding(currentDataItem, $root.CadastroParametro().rootDataTypeName)"><div data-bind="with: $root.CadastroParametro().getWithBinding(currentTcsParametroValor, 'TcsParametroValor')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_dtValorParametroData'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_dtValorParametroData')" class="">
+                               <div class="form-group">
+                                   <div id="CadastroParametro_divValorParametroData" class="" >
+                                       <label data-bind="css: { 'content-required': $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data) }" id="CadastroParametro_lblValorParametroData" for="CadastroParametro_dtValorParametroData" class="control-label ellipsis">
+                                       &nbsp;
+                                       </label>
+                                       <div class="input-group" >
+                                           <span id="CadastroParametro_dtValorParametroData" class="date form-control dateFilterRange  "  data-bind="validatedField: 'ValorParametroData', css: { vmEditing: $root.CadastroParametro().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_dtValorParametroData') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_dtValorParametroData') : (!isEmptyEntityFn($data) && $root.CadastroParametro().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_dtValorParametroData') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_dtValorParametroData') : (isEmptyEntityFn($data) || !$root.CadastroParametro().enabledForEditing()) },  igDatePicker: { value: ValorParametroData, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.CadastroParametro().entitySearchRange.has_TcsParametroValorValorParametroData()?true:ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_dtValorParametroData') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_dtValorParametroData') : (isEmptyEntityFn($data) || !$root.CadastroParametro().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                           <span class="input-group-btn" title="Filtro de datas">
+                                              <button id="CadastroParametro_rgbtnValorParametroData"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroParametro().entitySearchRange.has_TcsParametroValorValorParametroData(), 'icon-ok': $root.CadastroParametro().entitySearchRange.has_TcsParametroValorValorParametroData(), hide: $root.CadastroParametro().status() !== 'C' }, popoverWithBind: { template: '#CadastroParametro_rgValorParametroData', vm: $root.CadastroParametro().entitySearchRange, ctrlName: 'CadastroParametro_rgcValorParametroData', headerText:'Filtro de datas' }"  /></span>
+                                              <script id="CadastroParametro_rgValorParametroData" type="text/html" tabindex="-1">
+                                              <div class="range-radio-group">
+                                                  <input type="radio" data-bind="enable: !has_TcsParametroValorValorParametroData(), checked:TcsParametroValorValorParametroData_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                  <input type="radio" data-bind="enable: !has_TcsParametroValorValorParametroData(), checked:TcsParametroValorValorParametroData_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                              </div>
+                                              <div class="range-input-group" id="CadastroParametro_divrgValorParametroData" >
+                                                  <div class="filterByRange" data-bind="visible: TcsParametroValorValorParametroData_typeRange() == 'R'">
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="CadastroParametro_dtbValorParametroData" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsParametroValorValorParametroData_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#CadastroParametro_dtValorParametroData').igDatePicker('option', 'readOnly', (ui.value != null || $('#CadastroParametro_dteValorParametroData').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#CadastroParametro_dtbValorParametroData').igDatePicker('value'); var valorMax = $('#CadastroParametro_dteValorParametroData').igDatePicker('value');if (valorMax != null && valorMin > valorMax){TcsParametroValorValorParametroData_begin(valorMax); $('#CadastroParametro_dtbValorParametroData').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                      <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="CadastroParametro_dteValorParametroData" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsParametroValorValorParametroData_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#CadastroParametro_dtValorParametroData').igDatePicker('option', 'readOnly', ($('#CadastroParametro_dtbValorParametroData').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#CadastroParametro_dtbValorParametroData').igDatePicker('value'); var valorMax = $('#CadastroParametro_dteValorParametroData').igDatePicker('value');if (valorMin != null && valorMax < valorMin){TcsParametroValorValorParametroData_end(valorMin); $('#CadastroParametro_dteValorParametroData').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                  </div>
+                                                  <div class="filterByPredefined " data-bind="visible: TcsParametroValorValorParametroData_typeRange() == 'P'">
+                                                      <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TcsParametroValorValorParametroData_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                      <div class="row predefValue" data-bind="visible: TcsParametroValorValorParametroData_predefFilter() != null && TcsParametroValorValorParametroData_predefFilter()[0] && TcsParametroValorValorParametroData_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TcsParametroValorValorParametroData_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                  </div>
+                                              </div>
+                                           </script>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+
+                   <div id="CadastroParametro_cntValorParametroBool" data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_cntValorParametroBool'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_cntValorParametroBool')" class="cnt  remove-pl remove-pr" >
+                   <div>
+                       <div data-bind="with: $root.CadastroParametro().getWithBinding(currentDataItem, $root.CadastroParametro().rootDataTypeName)"><div data-bind="with: $root.CadastroParametro().getWithBinding(currentTcsParametroValor, 'TcsParametroValor')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_ckValorParametroBool'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_ckValorParametroBool')" class="">
+                               <div class="form-group">
+                                   <div id="CadastroParametro_divValorParametroBool" class="" >
+                                       <label class="">
+                                         <input id="CadastroParametro_ckValorParametroBool" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckValorParametroBool') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckValorParametroBool') : (!isEmptyEntityFn($data) && $root.CadastroParametro().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckValorParametroBool') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_ckValorParametroBool') : (isEmptyEntityFn($data) || !$root.CadastroParametro().enabledForEditing()), nullableChecked: ValorParametroBool" title="Clique para marcar/desmarcar"/> 
+                                         <span id="lblCadastroParametro_ckValorParametroBool" data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_ckValorParametroBool'), attr: {title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_ckValorParametroBool')}, css: { 'content-required-checkbox': $root.CadastroParametro().status() === 'E'}" class="align-label-checkbox"></span>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+
+                   <div id="CadastroParametro_cntValorParametroMascara" data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_cntValorParametroMascara'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_cntValorParametroMascara')" class="cnt  remove-pl remove-pr" >
+                   <div>
+                       <div data-bind="with: $root.CadastroParametro().getWithBinding(currentDataItem, $root.CadastroParametro().rootDataTypeName)"><div data-bind="with: $root.CadastroParametro().getWithBinding(currentTcsParametroValor, 'TcsParametroValor')">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_tbValorParametroMascara'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_tbValorParametroMascara')" class="">
+                               <div class="form-group">
+                                   <div id="CadastroParametro_divValorParametroMascara" class="" >
+                                       <label  id="CadastroParametro_lblValorParametroMascara" for="CadastroParametro_tbValorParametroMascara" class="control-label ellipsis">
+                                       &nbsp;
+                                       </label>
+                                       <input id="CadastroParametro_tbValorParametroMascara" type="password" maxLength="250" class="form-control " data-bind="validatedField: 'ValorParametro', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbValorParametroMascara') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbValorParametroMascara') : (!isEmptyEntityFn($data) && $root.CadastroParametro().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbValorParametroMascara') ? !ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbValorParametroMascara') : (isEmptyEntityFn($data) || !$root.CadastroParametro().enabledForEditing()), disabled: ctrl.hasCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbValorParametroMascara') ? ctrl.getCustomEnable($root.CadastroParametro(), 'CadastroParametro_tbValorParametroMascara') : (!isEmptyEntityFn($data) && $root.CadastroParametro().enabledForEditing()), value: ValorParametro"/>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div></div>
+               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+
+
+
+               <div id="CadastroParametro_gbvariacaoParametro" data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_gbvariacaoParametro'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_gbvariacaoParametro')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div id="CadastroParametro_gbvariacaoParametro_body" class="portlet-body" >
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div id="CadastroParametro_tcTcsParametroTabControl"  data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_tcTcsParametroTabControl'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_tcTcsParametroTabControl')"  class="tabbable tabbable-custom box" >
+                      <div class="container-tab">
+                         <div id="CadastroParametro_tcTcsParametroTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                         <div id="CadastroParametro_tcTcsParametroTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                         <div id="CadastroParametro_tcTcsParametroTabControl_wrapper" class="wrapper">
+                            <ul id="CadastroParametro_tcTcsParametroTabControl_list" class="nav nav-tabs list">
+                               <li id="CadastroParametro_tiTcsParametroTabelaSelecaoTabItem" class="active"><a data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroTabelaSelecaoTabItem'), attr: {title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroTabelaSelecaoTabItem')}" href="#CadastroParametro_tabTcsParametroTabelaSelecaoTabItem" data-toggle="tab"></a></li>
+                               <li id="CadastroParametro_tiTcsParametroValorUsuarioTabItem" class=""><a data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorUsuarioTabItem'), attr: {title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorUsuarioTabItem')}" href="#CadastroParametro_tabTcsParametroValorUsuarioTabItem" data-toggle="tab"></a></li>
+                               <li id="CadastroParametro_tiTcsParametroValorRedeTabItem" class=""><a data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorRedeTabItem'), attr: {title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorRedeTabItem')}" href="#CadastroParametro_tabTcsParametroValorRedeTabItem" data-toggle="tab"></a></li>
+                               <li id="CadastroParametro_tiTcsParametroValorGpeconTabItem" class=""><a data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorGpeconTabItem'), attr: {title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorGpeconTabItem')}" href="#CadastroParametro_tabTcsParametroValorGpeconTabItem" data-toggle="tab"></a></li>
+                               <li id="CadastroParametro_tiTcsParametroValorFilialTabItem" class=""><a data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorFilialTabItem'), attr: {title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorFilialTabItem')}" href="#CadastroParametro_tabTcsParametroValorFilialTabItem" data-toggle="tab"></a></li>
+                               <li id="CadastroParametro_tiTcsParametroValorLjvLojaTabItem" class=""><a data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorLjvLojaTabItem'), attr: {title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorLjvLojaTabItem')}" href="#CadastroParametro_tabTcsParametroValorLjvLojaTabItem" data-toggle="tab"></a></li>
+                               <li id="CadastroParametro_tiTcsParametroValorVariacaoGenericaTabItem" class=""><a data-bind="text: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorVariacaoGenericaTabItem'), attr: {title: $root.CadastroParametro().getLayoutDisplayName('CadastroParametro_tiTcsParametroValorVariacaoGenericaTabItem')}" href="#CadastroParametro_tabTcsParametroValorVariacaoGenericaTabItem" data-toggle="tab"></a></li>
+                            </ul>
+                            </div>
+                         </div>
+                      <div class="tab-content">
+
+
+
+                       <div class="tab-pane fade active in" id="CadastroParametro_tabTcsParametroTabelaSelecaoTabItem">
+                           <div class="ui-helper-clearfix">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div id="CadastroParametro_cntCustomContainer_137d41fb66424aaeb2135bed5bda1264" data-bind="css: $root.CadastroParametro().getLayoutColumnSpan('CadastroParametro_cntCustomContainer_137d41fb66424aaeb2135bed5bda1264'), visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_cntCustomContainer_137d41fb66424aaeb2135bed5bda1264')" class="cnt  remove-pl remove-pr" >
+                           <div>
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_dGridTcsParametroTabelaSelecao') " >
+                                   <div class="linx-table-grid position-table-grid">
+                                          <table id="CadastroParametro_dGridTcsParametroTabelaSelecao" data-bind="css: { IsEditableStyle: $root.CadastroParametro().enabledForEditing }" />
+                                   </div>
+
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+
+
+                       <div class="tab-pane fade" id="CadastroParametro_tabTcsParametroValorUsuarioTabItem">
+                           <div class="ui-helper-clearfix">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_dGridValorUsuario') " >
+                               <div id="CadastroParametro_dGridValorUsuario_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.CadastroParametro().getWithBinding(currentDataItem, $root.CadastroParametro().rootDataTypeName)">
+                                   <button id="CadastroParametro_dGridValorUsuario_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroParametro().createAndNotifyTcsParametroValorUsuario($data); }"><i class="fa fa-plus"></i></button>
+                                   <button id="CadastroParametro_dGridValorUsuario_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                   data-bind="visible: $root.CadastroParametro().status() === 'E', 
+                                   click: function () {
+                                      $root.CadastroParametro().deleteGrid('#CadastroParametro_dGridValorUsuario', 'TcsParametroValorUsuario', 'vm.currentDataItem().currentTcsParametroValorUsuario;vm.currentDataItem().TcsParametroValorUsuarioList', false);
+                                   }"> 
+                                   <i class="fa fa-trash-o"></i></button>
+                                   <button id="CadastroParametro_dGridValorUsuario_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroParametro_dGridValorUsuario_templateLayout', vm: function(){return $root.CadastroParametro().gridSaveStates['CadastroParametro_dGridValorUsuario'];}, ctrlName: 'CadastroParametro_dGridValorUsuario_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="CadastroParametro_dGridValorUsuario_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="CadastroParametro_dGridValorUsuario_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="CadastroParametro_dGridValorUsuario_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroParametro().dataToolbar.canGridExport(), click: function () {$root.CadastroParametro().exportDataDetails($data, 'TcsParametroValorUsuario', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="CadastroParametro_dGridValorUsuario" data-bind="css: { IsEditableStyle: $root.CadastroParametro().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+
+
+                       <div class="tab-pane fade" id="CadastroParametro_tabTcsParametroValorRedeTabItem">
+                           <div class="ui-helper-clearfix">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_dGridTcsParametroValorRede') " >
+                               <div id="CadastroParametro_dGridTcsParametroValorRede_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.CadastroParametro().getWithBinding(currentDataItem, $root.CadastroParametro().rootDataTypeName)">
+                                   <button id="CadastroParametro_dGridTcsParametroValorRede_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroParametro().createAndNotifyTcsParametroValorRede($data); }"><i class="fa fa-plus"></i></button>
+                                   <button id="CadastroParametro_dGridTcsParametroValorRede_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                   data-bind="visible: $root.CadastroParametro().status() === 'E', 
+                                   click: function () {
+                                      $root.CadastroParametro().deleteGrid('#CadastroParametro_dGridTcsParametroValorRede', 'TcsParametroValorRede', 'vm.currentDataItem().currentTcsParametroValorRede;vm.currentDataItem().TcsParametroValorRedeList', false);
+                                   }"> 
+                                   <i class="fa fa-trash-o"></i></button>
+                                   <button id="CadastroParametro_dGridTcsParametroValorRede_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroParametro_dGridTcsParametroValorRede_templateLayout', vm: function(){return $root.CadastroParametro().gridSaveStates['CadastroParametro_dGridTcsParametroValorRede'];}, ctrlName: 'CadastroParametro_dGridTcsParametroValorRede_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="CadastroParametro_dGridTcsParametroValorRede_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="CadastroParametro_dGridTcsParametroValorRede_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="CadastroParametro_dGridTcsParametroValorRede_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroParametro().dataToolbar.canGridExport(), click: function () {$root.CadastroParametro().exportDataDetails($data, 'TcsParametroValorRede', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="CadastroParametro_dGridTcsParametroValorRede" data-bind="css: { IsEditableStyle: $root.CadastroParametro().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+
+
+                       <div class="tab-pane fade" id="CadastroParametro_tabTcsParametroValorGpeconTabItem">
+                           <div class="ui-helper-clearfix">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_dGridTcsParametroValorGpecon') " >
+                               <div id="CadastroParametro_dGridTcsParametroValorGpecon_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.CadastroParametro().getWithBinding(currentDataItem, $root.CadastroParametro().rootDataTypeName)">
+                                   <button id="CadastroParametro_dGridTcsParametroValorGpecon_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroParametro().createAndNotifyTcsParametroValorGpecon($data); }"><i class="fa fa-plus"></i></button>
+                                   <button id="CadastroParametro_dGridTcsParametroValorGpecon_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                   data-bind="visible: $root.CadastroParametro().status() === 'E', 
+                                   click: function () {
+                                      $root.CadastroParametro().deleteGrid('#CadastroParametro_dGridTcsParametroValorGpecon', 'TcsParametroValorGpecon', 'vm.currentDataItem().currentTcsParametroValorGpecon;vm.currentDataItem().TcsParametroValorGpeconList', false);
+                                   }"> 
+                                   <i class="fa fa-trash-o"></i></button>
+                                   <button id="CadastroParametro_dGridTcsParametroValorGpecon_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroParametro_dGridTcsParametroValorGpecon_templateLayout', vm: function(){return $root.CadastroParametro().gridSaveStates['CadastroParametro_dGridTcsParametroValorGpecon'];}, ctrlName: 'CadastroParametro_dGridTcsParametroValorGpecon_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="CadastroParametro_dGridTcsParametroValorGpecon_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="CadastroParametro_dGridTcsParametroValorGpecon_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="CadastroParametro_dGridTcsParametroValorGpecon_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroParametro().dataToolbar.canGridExport(), click: function () {$root.CadastroParametro().exportDataDetails($data, 'TcsParametroValorGpecon', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="CadastroParametro_dGridTcsParametroValorGpecon" data-bind="css: { IsEditableStyle: $root.CadastroParametro().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+
+
+                       <div class="tab-pane fade" id="CadastroParametro_tabTcsParametroValorFilialTabItem">
+                           <div class="ui-helper-clearfix">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_dGridTcsParametroValorFilial') " >
+                               <div id="CadastroParametro_dGridTcsParametroValorFilial_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.CadastroParametro().getWithBinding(currentDataItem, $root.CadastroParametro().rootDataTypeName)">
+                                   <button id="CadastroParametro_dGridTcsParametroValorFilial_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroParametro().createAndNotifyTcsParametroValorFilial($data); }"><i class="fa fa-plus"></i></button>
+                                   <button id="CadastroParametro_dGridTcsParametroValorFilial_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                   data-bind="visible: $root.CadastroParametro().status() === 'E', 
+                                   click: function () {
+                                      $root.CadastroParametro().deleteGrid('#CadastroParametro_dGridTcsParametroValorFilial', 'TcsParametroValorFilial', 'vm.currentDataItem().currentTcsParametroValorFilial;vm.currentDataItem().TcsParametroValorFilialList', false);
+                                   }"> 
+                                   <i class="fa fa-trash-o"></i></button>
+                                   <button id="CadastroParametro_dGridTcsParametroValorFilial_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroParametro_dGridTcsParametroValorFilial_templateLayout', vm: function(){return $root.CadastroParametro().gridSaveStates['CadastroParametro_dGridTcsParametroValorFilial'];}, ctrlName: 'CadastroParametro_dGridTcsParametroValorFilial_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="CadastroParametro_dGridTcsParametroValorFilial_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="CadastroParametro_dGridTcsParametroValorFilial_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="CadastroParametro_dGridTcsParametroValorFilial_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroParametro().dataToolbar.canGridExport(), click: function () {$root.CadastroParametro().exportDataDetails($data, 'TcsParametroValorFilial', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="CadastroParametro_dGridTcsParametroValorFilial" data-bind="css: { IsEditableStyle: $root.CadastroParametro().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+
+
+                       <div class="tab-pane fade" id="CadastroParametro_tabTcsParametroValorLjvLojaTabItem">
+                           <div class="ui-helper-clearfix">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_dGridTcsParametroValorLjvLoja') " >
+                               <div id="CadastroParametro_dGridTcsParametroValorLjvLoja_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.CadastroParametro().getWithBinding(currentDataItem, $root.CadastroParametro().rootDataTypeName)">
+                                   <button id="CadastroParametro_dGridTcsParametroValorLjvLoja_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroParametro().createAndNotifyTcsParametroValorLjvLoja($data); }"><i class="fa fa-plus"></i></button>
+                                   <button id="CadastroParametro_dGridTcsParametroValorLjvLoja_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                   data-bind="visible: $root.CadastroParametro().status() === 'E', 
+                                   click: function () {
+                                      $root.CadastroParametro().deleteGrid('#CadastroParametro_dGridTcsParametroValorLjvLoja', 'TcsParametroValorLjvLoja', 'vm.currentDataItem().currentTcsParametroValorLjvLoja;vm.currentDataItem().TcsParametroValorLjvLojaList', false);
+                                   }"> 
+                                   <i class="fa fa-trash-o"></i></button>
+                                   <button id="CadastroParametro_dGridTcsParametroValorLjvLoja_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroParametro_dGridTcsParametroValorLjvLoja_templateLayout', vm: function(){return $root.CadastroParametro().gridSaveStates['CadastroParametro_dGridTcsParametroValorLjvLoja'];}, ctrlName: 'CadastroParametro_dGridTcsParametroValorLjvLoja_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="CadastroParametro_dGridTcsParametroValorLjvLoja_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="CadastroParametro_dGridTcsParametroValorLjvLoja_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="CadastroParametro_dGridTcsParametroValorLjvLoja_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroParametro().dataToolbar.canGridExport(), click: function () {$root.CadastroParametro().exportDataDetails($data, 'TcsParametroValorLjvLoja', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="CadastroParametro_dGridTcsParametroValorLjvLoja" data-bind="css: { IsEditableStyle: $root.CadastroParametro().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+
+
+                       <div class="tab-pane fade" id="CadastroParametro_tabTcsParametroValorVariacaoGenericaTabItem">
+                           <div class="ui-helper-clearfix">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroParametro().getLayoutVisible('CadastroParametro_dGridTcsParametroValorVariacaoGenerica') " >
+                               <div id="CadastroParametro_dGridTcsParametroValorVariacaoGenerica_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.CadastroParametro().getWithBinding(currentDataItem, $root.CadastroParametro().rootDataTypeName)">
+                                   <button id="CadastroParametro_dGridTcsParametroValorVariacaoGenerica_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroParametro().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroParametro().createAndNotifyTcsParametroValorVariacaoGenerica($data); }"><i class="fa fa-plus"></i></button>
+                                   <button id="CadastroParametro_dGridTcsParametroValorVariacaoGenerica_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                   data-bind="visible: $root.CadastroParametro().status() === 'E', 
+                                   click: function () {
+                                      $root.CadastroParametro().deleteGrid('#CadastroParametro_dGridTcsParametroValorVariacaoGenerica', 'TcsParametroValorVariacaoGenerica', 'vm.currentDataItem().currentTcsParametroValorVariacaoGenerica;vm.currentDataItem().TcsParametroValorVariacaoGenericaList', false);
+                                   }"> 
+                                   <i class="fa fa-trash-o"></i></button>
+                                   <button id="CadastroParametro_dGridTcsParametroValorVariacaoGenerica_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroParametro_dGridTcsParametroValorVariacaoGenerica_templateLayout', vm: function(){return $root.CadastroParametro().gridSaveStates['CadastroParametro_dGridTcsParametroValorVariacaoGenerica'];}, ctrlName: 'CadastroParametro_dGridTcsParametroValorVariacaoGenerica_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="CadastroParametro_dGridTcsParametroValorVariacaoGenerica_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="CadastroParametro_dGridTcsParametroValorVariacaoGenerica_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="CadastroParametro_dGridTcsParametroValorVariacaoGenerica_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroParametro().dataToolbar.canGridExport(), click: function () {$root.CadastroParametro().exportDataDetails($data, 'TcsParametroValorVariacaoGenerica', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="CadastroParametro_dGridTcsParametroValorVariacaoGenerica" data-bind="css: { IsEditableStyle: $root.CadastroParametro().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+                   </div>
+                   </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="CadastroParametro_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.CadastroParametro().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyCadastroParametro_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyCadastroParametro_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyCadastroParametro_dGrid_templateLayout', vm: function(){return $root.CadastroParametro().gridSaveStates['scyCadastroParametro_dGrid'];}, ctrlName: 'scyCadastroParametro_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyCadastroParametro_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyCadastroParametro_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyCadastroParametro_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroParametro().dataToolbar.canExport(), click: function () {$root.CadastroParametro().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyCadastroParametro_dGrid" data-bind="css: { IsEditableStyle: $root.CadastroParametro().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

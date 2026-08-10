@@ -190,6 +190,7 @@ namespace Linx.Framework.Autorizacao.BM.Migrations
             _tableMigrator.PrimaryKeys["LX_TCS.TCS_AMBIENTE_SERVICO_EXCECAO"] = "XPK_TCS_AMBIENTE_SERVICO_EX";
             _tableMigrator.PrimaryKeys["LX_TCS.TCS_APLICATIVO"] = "XPK_TCS_APLICATIVO";
             _tableMigrator.PrimaryKeys["LX_TCS.TCS_SUPORTE_ACESSO_LOG"] = "XPK_TCS_SUPORTE_ACESSO_LOG";
+            _tableMigrator.PrimaryKeys["LX_TCS.TCS_LOG_ACESSO_AUTH"] = "XPK_TCS_LOG_ACESSO_AUTH";
             _tableMigrator.PrimaryKeys["LX_DOC.DOC_MULTIMIDIA_TABELA_AUT"] = "XPK_DOC_MULTIMIDIA_TABELA_A";
             _tableMigrator.PrimaryKeys["LX_DOC.DOC_MULTIMIDIA_AUTORIZACAO"] = "XPK_DOC_MULTIMIDIA_AUT";
             _tableMigrator.PrimaryKeys["LX_TCS.TCS_CARGA_ORIGEM"] = "XPK_TCS_CARGA_ORIGEM";

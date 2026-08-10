@@ -43,7 +43,7 @@ namespace Linx.Internet.Application
                 //.Include(HtmlHelper.UrlWithModuleIdMin("/lib/metronic/plugins/jquery-1-10-2{0}.js", "-min"))
                 .Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/jquery-1-10-2-min.js"))
                 .Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/jquery-migrate-1-2-1-min.js"))
-                //alteraï¿½ï¿½o devido a erro que ocorre no DatePicker com IE
+                //alteração devido a erro que ocorre no DatePicker com IE
                 //.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/jquery_ui/jquery-ui-1-10-3-custom-min.js"))
                 .Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/jquery_ui/jquery-ui-1-10-3-custom.js"))
 
@@ -193,81 +193,71 @@ namespace Linx.Internet.Application
             #endregion
 
             #region core.css
-            try
-            {
-                var coreCss = new CustomStyleBundle(HtmlHelper.UrlWithModuleId("/lib/core.css"));
-                coreCss.Orderer = new AsIsBundleOrderer();
-                //coreCss.Transforms.Clear();
+            var coreCss = new CustomStyleBundle(HtmlHelper.UrlWithModuleId("/lib/core.css"));
+            coreCss.Orderer = new AsIsBundleOrderer();
+            //coreCss.Transforms.Clear();
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/font_awesome/font-awesome.less"));
-                //coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/font_awesome/css/font-awesome.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/font_awesome/font-awesome.less"));
+            //coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/font_awesome/css/font-awesome.less"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap/css/bootstrap.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/uniform/css/uniform-default.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/select2/select2_metro.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_wysihtml5/bootstrap-wysihtml5.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_editable/css/bootstrap-editable.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_switch/css/bootstrap-switch-min.css"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/css/components.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/fonts/font.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/css/style.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/css/style-responsive.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/css/plugins.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/css/custom.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap/css/bootstrap.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/uniform/css/uniform-default.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/select2/select2_metro.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_wysihtml5/bootstrap-wysihtml5.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_editable/css/bootstrap-editable.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_switch/css/bootstrap-switch-min.css"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/css/components.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/fonts/font.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/css/style.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/css/style-responsive.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/css/plugins.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/css/custom.less"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_toastr/toastr.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_tagsinput/bootstrap-tagsinput.css"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_toastr/toastr.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_tagsinput/bootstrap-tagsinput.css"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/jquery/plugins/jreject/css/jquery-reject.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/jquery/plugins/jtree/themes/default/style.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/jquery/plugins/jreject/css/jquery-reject.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/jquery/plugins/jtree/themes/default/style.less"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/jquery_file_upload/css/jquery-fileupload-ui.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/jquery_file_upload/css/jquery-fileupload-ui.less"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/fancybox/source/jquery-fancybox.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/fancybox/source/jquery-fancybox.less"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/swiper/css/swiper.min.css"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/swiper/css/swiper.min.css"));
 
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/gridster/jquery.gridster.min.css"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/gridster/jquery.gridster.min.css"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/jspanel/jquery.jspanel.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/jstree/themes/default/style.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/jspanel/jquery.jspanel.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/jstree/themes/default/style.less"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/linx/css/linx-common.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/linx/css/linx-common-responsive.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/linx/css/linx-common.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/linx/css/linx-common-responsive.less"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/simple_line_icons/simple-line-icons.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/simple_line_icons/simple-line-icons.less"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/telerik_kendoui/styles/kendo-blueopal-min.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/telerik_kendoui/styles/kendo-common-min.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/telerik_kendoui/styles/telerikReportViewer-9-0-15-422.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/ion_rangeslider/css/ion-rangeSlider-Metronic.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_touchspin/css/jquery-bootstrap-touchspin.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/telerik_kendoui/styles/kendo-blueopal-min.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/telerik_kendoui/styles/kendo-common-min.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/telerik_kendoui/styles/telerikReportViewer-9-0-15-422.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/ion_rangeslider/css/ion-rangeSlider-Metronic.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/bootstrap_touchspin/css/jquery-bootstrap-touchspin.less"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/fullcalendar/fullcalendar.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/fullcalendar/fullcalendar-print.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/fullcalendar/fullcalendar.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/metronic/plugins/fullcalendar/fullcalendar-print.less"));
 
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/jquery/plugins/jstree/themes/default/style.less"));
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/flexmonster/flexmonster.min.css"));
-                //coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/flexmonster/theme/flexmonster-base.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/jquery/plugins/jstree/themes/default/style.less"));
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/flexmonster/flexmonster.min.css"));
+            //coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/flexmonster/theme/flexmonster-base.less"));
 
-                //Mantenha nessa ordem
-                coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/linx/css/linx-theme-default.less"));
+            //Mantenha nessa ordem
+            coreCss.Include(HtmlHelper.UrlWithModuleId("/lib/linx/css/linx-theme-default.less"));
 
-                bundles.Add(coreCss);
+            bundles.Add(coreCss);
+            #endregion   
 
-                bundles.Add(BuildThemeBundle("default"));
-                //bundles.Add(BuildThemeBundle("orange"));
-                //bundles.Add(BuildThemeBundle("black"));
-            }
-            catch
-            {
-                // Allows startup to continue when BundleTransformer is misconfigured
-                // in the host Web.config (common in external IIS-hosted Portal builds).
-                bundles.Add(new StyleBundle(HtmlHelper.UrlWithModuleId("/lib/core.css")));
-                bundles.Add(new StyleBundle(HtmlHelper.UrlWithModuleId("/lib/theme-css-default.css")));
-            }
-            #endregion
+            bundles.Add(BuildThemeBundle("default"));
+            //bundles.Add(BuildThemeBundle("orange"));
+            //bundles.Add(BuildThemeBundle("black"));
         }
 
         public static CustomStyleBundle BuildThemeBundle(string themeName)

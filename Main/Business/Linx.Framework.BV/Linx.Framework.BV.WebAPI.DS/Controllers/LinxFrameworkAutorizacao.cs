@@ -13,16 +13,14 @@ using System.Web.Http;
 
 
 using Linx.Framework.BV.Autorizacao;
+using Linx.Data;
 using System.Web;
 using System.Web.Security;
 using System.IO;
 using MessagingToolkit.QRCode.Codec;
 using System.Drawing;
 using System.Net.Http.Headers;
-using System.ServiceModel.DomainServices.Server;
 using Ionic.Zip;
-using Linx.Business.Tools;
-using Linx.Framework.BV;
 
 namespace Linx.Framework.BV.WebAPI.DS.Controllers
 {
@@ -37,13 +35,31 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             AutorizacaoDomainService ds = new AutorizacaoDomainService();
             UsuarioAutorizacao.UsuarioAutorizacaoDomainService dsUsuarioAut = new UsuarioAutorizacao.UsuarioAutorizacaoDomainService();
 
-            if (!ds.ValidateUser(userName, userPassword))
-                throw new Exception(String.Format("{0} - {1}", ErrorConstants._UserBadNameOrPassword.Code, ErrorConstants._UserBadNameOrPassword.Message));
+            try
+            {
+                if (!ds.ValidateUser(userName, userPassword))
+                {
+                    // Membership.ValidateUser returns false for locked accounts  promote to ERRAUT020.
+                    if (ds.IsMembershipUserLockedOut(userName))
+                        throw new Exception(ErrorConstants.FormatUserLockedOutMessage());
+
+                    throw new Exception(ds.FormatCountableAuthFailureMessage(
+                        userName,
+                        ErrorConstants._UserBadNameOrPassword.Code,
+                        ErrorConstants._UserBadNameOrPassword.Message));
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ErrorConstants.IsMembershipLockoutMessage(ex.Message) || ds.IsMembershipUserLockedOut(userName))
+                    throw new Exception(ErrorConstants.FormatUserLockedOutMessage());
+                throw;
+            }
 
             Guid uidUsuario = (from result in dsUsuarioAut.GetTcsUsuarioAutenticacaoNoAssociations().Where(i => i.NomeAutenticacao == userName)
                                select result.UidUsuario).FirstOrDefault();
 
-            //Validate User (Inativo - Vigï¿½ncia)
+            //Validate User (Inativo - Vigencia)
             ds.ValidateUserAccess(uidUsuario);
 
             return uidUsuario;
@@ -53,6 +69,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         public string AuthenticatePortal(string authenticateParameters)
         {
             Linx.Security.Cryptography crypto = new Security.Cryptography();
+            string userNameAttempt = null;
 
             try
             {
@@ -60,16 +77,22 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
 
                 if (decryptedLines.Count() != 2)
                 {
+                    AutorizacaoDomainService dsInvalid = new AutorizacaoDomainService();
+                    dsInvalid.LogAuthAccessFailure(string.Empty, ErrorConstants._LoginInvalidParameters.Code, ErrorConstants._LoginInvalidParameters.Message, "Portal", false);
                     return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"), crypto.Encrypt(String.Format("{0} - {1}", ErrorConstants._LoginInvalidParameters.Code, ErrorConstants._LoginInvalidParameters.Message)))));
                 }
 
-                Guid uidUsuario = this.validateuser(crypto.Decrypt(decryptedLines[0]), crypto.Decrypt(decryptedLines[1]));
+                userNameAttempt = crypto.Decrypt(decryptedLines[0]);
+                Guid uidUsuario = this.validateuser(userNameAttempt, crypto.Decrypt(decryptedLines[1]));
 
                 UsuarioAutorizacao.UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacao.UsuarioAutorizacaoDomainService();
 
                 var usuario = (
                     from result in ds.GetTcsUsuarioAutenticacaoNoAssociations().Where(i => i.UidUsuario == uidUsuario)
-                    select new { Usuario = result.NomeUsuario, NomeCurto = result.NomeCurtoUsuario }).FirstOrDefault();
+                    select new { Usuario = result.NomeUsuario, NomeCurto = result.NomeCurtoUsuario, NomeAutenticacao = result.NomeAutenticacao }).FirstOrDefault();
+
+                AutorizacaoDomainService dsAuth = new AutorizacaoDomainService();
+                dsAuth.LogAuthAccessSuccess(usuario != null ? usuario.NomeAutenticacao : userNameAttempt, "Portal");
 
                 return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}||{2}", crypto.Encrypt("1"), crypto.Encrypt(usuario.Usuario), crypto.Encrypt(usuario.NomeCurto))));
             }
@@ -79,7 +102,22 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             }
             catch (Exception oException)
             {
-                return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"), crypto.Encrypt(oException.Message))));
+                string errorMessage = ErrorConstants.EnsureUserLockedOutMessage(oException.Message);
+                try
+                {
+                    // If Membership locked the account, always return ERRAUT020 (Portuguese).
+                    string[] decryptedLines = crypto.Decrypt(authenticateParameters).Split(new string[] { "||" }, StringSplitOptions.None);
+                    if (decryptedLines.Count() == 2)
+                    {
+                        string userName = crypto.Decrypt(decryptedLines[0]);
+                        AutorizacaoDomainService ds = new AutorizacaoDomainService();
+                        if (ds.IsMembershipUserLockedOut(userName))
+                            errorMessage = ErrorConstants.FormatUserLockedOutMessage();
+                    }
+                }
+                catch { }
+
+                return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"), crypto.Encrypt(errorMessage))));
             }
         }
 
@@ -118,6 +156,21 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return context.ResetPasswordWithToken(token, newPassword);
         }
 
+        [Route("IsMembershipUserLockedOut"), System.Web.Http.HttpGet()]
+        public bool IsMembershipUserLockedOut(string userName)
+        {
+            AutorizacaoDomainService context = new AutorizacaoDomainService();
+            return context.IsMembershipUserLockedOut(userName);
+        }
+
+        [Route("UnlockMembershipUser"), System.Web.Http.HttpGet()]
+        public bool UnlockMembershipUser(string userName)
+        {
+            AutorizacaoDomainService context = new AutorizacaoDomainService();
+            return context.UnlockMembershipUser(userName);
+        }
+
+
         [Route("AuthenticateWindowsApp"), System.Web.Http.HttpGet()]
         public List<UsuarioAcesso> AuthenticateWindowsApp(string userName, string userPassword)
         {
@@ -147,10 +200,10 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                            IdLinxGpecon = result.IdLinxGpecon
                        }).ToList();
 
+            new AutorizacaoDomainService().LogAuthAccessSuccess(userName, "WindowsApp");
             return acessos;
         }
-        
-        [LinxFrameworkAutorizacaoControllerAuthorize]
+
         [Route("ChangeUserPassword"), System.Web.Http.HttpGet()]
         public bool ChangeUserPassword(Guid userUid, string oldPassword, string newPassword)
         {
@@ -278,71 +331,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             }
 
             return true;
-        }
-    }
-
-    public partial class LinxFrameworkAutorizacaoControllerAuthorizeAttribute
-    {
-        private static Dictionary<string, string> GetAuthorizationHeaders(System.Web.Http.Controllers.HttpActionContext actionContext)
-        {
-            var headers = ServiceHelper.GetHttpHeaders();
-            if (headers == null || headers.Count == 0)
-                headers = actionContext.Request.Headers.ToDictionary();
-            return headers;
-        }
-
-        private static void ValidateAuthorizationHeaders(Dictionary<string, string> headers)
-        {
-            Guid? currentUser = BusinessUserServiceHelper.GetCurrentUserUid(headers);
-            Guid? authorizationToken = BusinessUserServiceHelper.GetAuthorizationToken(headers);
-            Guid? applicationUid = BusinessUserServiceHelper.GetCurrentApplicationId(headers);
-            Guid? companyUid = BusinessUserServiceHelper.GetCurrentCompanyId(headers);
-            int? environmentId = BusinessUserServiceHelper.GetCurrentEnvironmentId(headers);
-
-            if (currentUser.IsNullOrEmpty()
-                || authorizationToken.IsNullOrEmpty()
-                || applicationUid.IsNullOrEmpty()
-                || companyUid.IsNullOrEmpty()
-                || environmentId.IsNullOrEmpty())
-            {
-                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._AuthorizationTokenNotFound.Code, ErrorConstants._AuthorizationTokenNotFound.Message));
-            }
-
-            var authorization = new AutorizacaoDomainService();
-            authorization.ValidateToken(
-                currentUser.Value,
-                authorizationToken.Value,
-                applicationUid.Value,
-                companyUid.Value,
-                BusinessUserServiceHelper.GetCurrentAccessGroupId(headers).GetValueOrDefault(),
-                environmentId.Value);
-        }
-
-        protected override bool IsAuthorized(System.Web.Http.Controllers.HttpActionContext actionContext)
-        {
-            try
-            {
-                ValidateAuthorizationHeaders(GetAuthorizationHeaders(actionContext));
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        protected override void HandleUnauthorizedRequest(System.Web.Http.Controllers.HttpActionContext actionContext)
-        {
-            try
-            {
-                ValidateAuthorizationHeaders(GetAuthorizationHeaders(actionContext));
-            }
-            catch (DomainException ex)
-            {
-                throw ex;
-            }
-
-            throw new DomainException(String.Format("{0} - {1}", ErrorConstants._AuthorizationTokenNotFound.Code, ErrorConstants._AuthorizationTokenNotFound.Message));
         }
     }
 }

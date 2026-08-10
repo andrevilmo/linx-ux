@@ -136,6 +136,17 @@ namespace Linx.Portal.Controllers
             var client = new RestClient(Utils.GetServiceUrl());
             var request = new RestRequest("LinxFrameworkAutorizacao/AuthenticatePortal");
             request.AddParameter("authenticateParameters", crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt(user.Trim()), crypto.Encrypt(password.Trim()))));
+
+            string clientIp = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrWhiteSpace(clientIp))
+                clientIp = Request.UserHostAddress;
+            else if (clientIp.Contains(","))
+                clientIp = clientIp.Split(',')[0].Trim();
+
+            if (!string.IsNullOrWhiteSpace(clientIp))
+                request.AddHeader("X-Client-IP", clientIp);
+            request.AddHeader("X-Auth-Channel", "Portal");
+
             var result = client.ExecuteAsGet(request, "GET");
 
             if (result.ErrorException != null)
@@ -143,11 +154,18 @@ namespace Linx.Portal.Controllers
             else if (result.StatusCode != System.Net.HttpStatusCode.OK)
                 throw new Exception(result.StatusDescription);
 
-            string[] resultLines = crypto.Decrypt(HttpUtility.UrlDecode(result.Content.Replace("\"", string.Empty))).Split(new string[] { "||" }, StringSplitOptions.None);
+            string content = result.Content != null ? result.Content.Replace("\"", string.Empty) : string.Empty;
+            string[] resultLines = crypto.Decrypt(HttpUtility.UrlDecode(content)).Split(new string[] { "||" }, StringSplitOptions.None);
 
             if (crypto.Decrypt(resultLines[0]) == "0")
             {
-                ModelState.AddModelError("", crypto.Decrypt(resultLines[1]));
+                string errorMessage = resultLines.Length > 1 ? crypto.Decrypt(resultLines[1]) : ErrorConstants._UserBadNameOrPassword.Message;
+
+                // Guarantee lockout message on the login screen when Membership IsLockedOut = true.
+                if (IsMembershipUserLockedOut(user) || ErrorConstants.IsMembershipLockoutMessage(errorMessage))
+                    errorMessage = ErrorConstants.FormatUserLockedOutMessage();
+
+                throw new Exception(errorMessage);
             }
             else if (crypto.Decrypt(resultLines[0]) == "1")
             {
@@ -156,6 +174,27 @@ namespace Linx.Portal.Controllers
             }
 
             return logged;
+        }
+
+        private bool IsMembershipUserLockedOut(string userName)
+        {
+            try
+            {
+                var client = new RestClient(Utils.GetServiceUrl());
+                var request = new RestRequest("LinxFrameworkAutorizacao/IsMembershipUserLockedOut");
+                request.AddParameter("userName", userName);
+                var result = client.ExecuteAsGet(request, "GET");
+                if (result.ErrorException != null || result.StatusCode != System.Net.HttpStatusCode.OK || result.Content.IsNullOrEmpty())
+                    return false;
+
+                string content = result.Content.Replace("\"", string.Empty).Trim();
+                bool locked;
+                return bool.TryParse(content, out locked) && locked;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 

@@ -27,6 +27,7 @@ Override with env var `LINX_IIS_ROOT` (or script parameters where listed).
 | Deploy Portal to running IIS Portal | **Deploy Portal \*** |
 | Deploy Service DLLs to running IIS Service | **Deploy Service \*** / **Deploy Linx.\*.dll** |
 | Full update of running Application + Portal + Service | **Deploy to Linx Framework 6.0.0 (backup + bin + Views + AppLogin)** |
+| Rebuild Desktop SI-PDR package + inventory docs | **Update SI-PDR package (inventory + LEIA-ME + package)** |
 
 ---
 
@@ -266,6 +267,31 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\.vscode\deploy-to-linx
 
 ---
 
+## SI-PDR security package (Desktop)
+
+### Update SI-PDR package (inventory + LEIA-ME + package)
+- **Objective:** Rebuild the Desktop deploy package for security/password-flow updates (Application + Service + Portal + DB), and regenerate:
+  - `Desktop\SI-PDR\` (files to copy to any environment)
+  - `Desktop\SI-PDR\LEIA-ME.md`
+  - `Desktop\DEPLOY_ITEMS_SEGURANCA.MD`
+- **Script:** `.vscode/pack-si-pdr.ps1`
+- Picks the **newest** candidate for each artifact from Binary / project `bin` / Release builds.
+- Does **not** build projects — run **Build All** (or the relevant builds) first if binaries are stale.
+
+| Parameter | Default | Meaning |
+|-----------|---------|---------|
+| `-OutputRoot` | Desktop | Where `SI-PDR` and inventory are written |
+| `-BaseBranch` | `original` | Branch name shown in docs as comparison base |
+| `-PackageName` | `SI-PDR` | Package folder name under OutputRoot |
+
+**Manual example:**
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\.vscode\pack-si-pdr.ps1
+```
+
+---
+
 ## Suggested workflows
 
 1. **Daily UI/API fix on running machine**  
@@ -278,5 +304,8 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\.vscode\deploy-to-linx
 3. **Package for another environment (no live IIS write)**  
    **Stack Changed to Deploy** or **Build Publish Package**, then copy `C:\Linx Workspace\out\toDeploy` / `toPublish` manually.
 
-4. **Container / Podman pipeline**  
+4. **Security / password-flow package for any environment**  
+   Build relevant projects → **Update SI-PDR package (inventory + LEIA-ME + package)** → copy `Desktop\SI-PDR` (+ run `DB` scripts).
+
+5. **Container / Podman pipeline**  
    **Publish All** → optional **Copy All to Out**

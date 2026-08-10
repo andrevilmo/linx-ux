@@ -148,7 +148,7 @@
                     data: {
                         userUid: managerAuth.loginInfo.UidUsuario,
                         oldPassword: oldPassword,
-                        newPassword: newPassword 
+                        newPassword: newPassword
                     },
                     dataType: 'json',
                     async: true,
@@ -164,27 +164,16 @@
 
                         managerAuth.expiracao = false;
                         managerAuth.passwordChangeOnlyMode = false;
+                        common.closeProcess('.modal-body');
 
-                        $.ajax({
-                            type: 'POST',
-                            messageUser: "Alteração de senha de usuário",
-                            url: managerAuth.buildRoot('UpdateExpiration'),
-                            dataType: 'json',
-                            async: true,
-                            cache: false,
-
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                common.closeProcess('.modal-body');
-                                _this.cancel();
-                            },
-
-                            success: function (data) {
-                                common.closeProcess('.modal-body');
-                                app.showMessage("Senha alterada com sucesso.", 'Atenção', ['Ok']);
-                                _this.cancel();
-                            }
+                        app.showMessage(
+                            'Senha alterada com sucesso. Faça login com a nova senha.',
+                            'Atenção',
+                            ['Ok']
+                        ).then(function () {
+                            _this.cancel();
+                            redirectToLoginAfterPasswordChange();
                         });
-
                     }
                 });
             };
@@ -193,6 +182,17 @@
                 dialog.close(this);
             }
         };
+
+        function redirectToLoginAfterPasswordChange() {
+            if (managerAuth.isLoginPOSUXMode) {
+                $.ezstorage.remove('Hash_Login');
+                window.location.href = window.location.origin + window.location.pathname;
+                return;
+            }
+
+            $.sessionStorage.removeAll();
+            window.location.href = managerAuth.buildRoot('logoff');
+        }
 
         function requiresLogoffBeforePasswordChange(canClose) {
             return canClose === false || managerAuth.expiracao === true;

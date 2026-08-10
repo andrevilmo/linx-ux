@@ -71,6 +71,11 @@ $serviceDllSources = @{
         (Join-Path $apiRoot 'bin\Release\Linx.Framework.BV.WebAPI.DS.dll')
         (Join-Path $binaryServiceBin 'Linx.Framework.BV.WebAPI.DS.dll')
     )
+    'Linx.Framework.Autorizacao.BM.dll' = @(
+        (Join-Path $workspace 'BM\Linx.Framework.Autorizacao.BM\Linx.Framework.Autorizacao.BM\bin\Release\Linx.Framework.Autorizacao.BM.dll')
+        (Join-Path $workspace 'Binary\Library\Business Model\Linx.Framework.Autorizacao.BM.dll')
+        (Join-Path $binaryServiceBin 'Linx.Framework.Autorizacao.BM.dll')
+    )
 }
 
 $script:copiedCount = 0
@@ -214,6 +219,36 @@ function Test-NeedsCopy {
     return $srcHash -ne $dstHash
 }
 
+function Copy-ItemWithRetry {
+    param(
+        [string]$LiteralPath,
+        [string]$Destination,
+        [int]$Retries = 5,
+        [int]$DelayMs = 1000,
+        [switch]$AllowSkipOnLock
+    )
+
+    $attempt = 0
+    while ($true) {
+        $attempt++
+        try {
+            Copy-Item -LiteralPath $LiteralPath -Destination $Destination -Force -ErrorAction Stop
+            return $true
+        }
+        catch [System.IO.IOException] {
+            $locked = $_.Exception.Message -match 'user-mapped section|being used by another process|cannot access the file'
+            if (-not $locked -or $attempt -ge $Retries) {
+                if ($AllowSkipOnLock -and $locked) {
+                    Write-Warning ("Skipped locked file after {0} attempts: {1} -> {2} ({3})" -f $attempt, $LiteralPath, $Destination, $_.Exception.Message)
+                    return $false
+                }
+                throw
+            }
+            Start-Sleep -Milliseconds $DelayMs
+        }
+    }
+}
+
 function Copy-FileIfNeeded {
     param(
         [System.IO.FileInfo]$Source,
@@ -232,7 +267,7 @@ function Copy-FileIfNeeded {
         return $false
     }
 
-    Copy-Item -LiteralPath $Source.FullName -Destination $Destination -Force
+    Copy-ItemWithRetry -LiteralPath $Source.FullName -Destination $Destination | Out-Null
     Write-Host "[$Site] $Destination"
     $script:copiedCount++
     $script:sitesChanged[$Site] = $true
@@ -364,9 +399,10 @@ function Copy-DllWithPdb {
         }
 
         if (-not $sameBinary) {
-            Copy-Item -LiteralPath $Source.FullName -Destination $binaryDest -Force
+            # Binary mirror is secondary to IIS deploy; skip if VS/IIS has the file locked.
+            Copy-ItemWithRetry -LiteralPath $Source.FullName -Destination $binaryDest -AllowSkipOnLock | Out-Null
             if (Test-Path -LiteralPath $pdbSourcePath) {
-                Copy-Item -LiteralPath $pdbSourcePath -Destination (Join-Path $BinaryBin ([IO.Path]::GetFileName($pdbSourcePath))) -Force
+                Copy-ItemWithRetry -LiteralPath $pdbSourcePath -Destination (Join-Path $BinaryBin ([IO.Path]::GetFileName($pdbSourcePath))) -AllowSkipOnLock | Out-Null
             }
         }
     }

@@ -1,4 +1,4 @@
-using Linx.Data;
+﻿using Linx.Data;
 using Linx.LinqExtensions.Dynamic;
 using Linx.Tools;
 using Newtonsoft.Json.Linq;
@@ -103,7 +103,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             throw new Exception("Não há 'LocalServices' para este serviço.");
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTemplateReport"), System.Web.Http.HttpGet()]
         public string GetTemplateReport(string reportPath)
         {
@@ -114,7 +113,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return Convert.ToBase64String(zip.GetZipBytes());
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetReportDataSource"), System.Web.Http.HttpGet()]
         public string GetReportDataSource()
         {
@@ -144,7 +142,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return repository.Context.GetAllLookUpTcsPerfil();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetLookUpTcsPerfilByEntitySearch"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.LookUpTcsPerfil> GetLookUpTcsPerfilByEntitySearch(string propertyName, string jEntitySearch)
         {
@@ -156,14 +153,12 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         
         #region Get Business Entities
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetBmEntityProperties"), System.Web.Http.HttpGet()]
         public List<BmMetaDataProperty> GetBmEntityProperties(string entityName, string parentDataPath)
         {
             return repository.Context.GetBmEntityProperties(entityName, parentDataPath);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacao"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacao> GetTcsUsuarioAutenticacao()
         {
@@ -182,13 +177,11 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return repository.Context.GetTcsUsuarioAutenticacaoByEntitySearch(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioAutenticacao), jEntitySearch, false, false, false), jEntitySearch);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoByEntitySearchNoAssociations"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacao> GetTcsUsuarioAutenticacaoByEntitySearchNoAssociations(string jEntitySearch)
         {
             return repository.Context.GetTcsUsuarioAutenticacaoByEntitySearchNoAssociations(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioAutenticacao), jEntitySearch, false, false, false), jEntitySearch);
         }
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoToExcel"), System.Web.Http.HttpPost()]
         public string GetTcsUsuarioAutenticacaoToExcel(string[] parameters)
         {
@@ -215,7 +208,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return ExcelExportPagination<BusinessNS.TcsUsuarioAutenticacao>.CreateExcelDocumentFileMapPath("TcsUsuarioAutenticacao",new ExcelExportPagination<BusinessNS.TcsUsuarioAutenticacao>.EntitiesToExport { Entities = entities, Metadata = metadata.First(), JExpressionTranslated = translatedJEntitySearch });
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoToReportXml"), System.Web.Http.HttpPost()]
         public string GetTcsUsuarioAutenticacaoToReportXml(string[] parameters)
         {
@@ -260,21 +252,18 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return result.AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("AddTcsUsuarioAutenticacaoEntitySearchId"), System.Web.Http.HttpPost()]
         public Guid AddTcsUsuarioAutenticacaoEntitySearchId(string[] jEntitySearch)
         {
             return UserServiceHelper.AddEntySearchToCache(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioAutenticacao), jEntitySearch[0], false, false, false), jEntitySearch[0]);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoByEntitySearchIdNoAssociations"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacao> GetTcsUsuarioAutenticacaoByEntitySearchIdNoAssociations(Guid entitySearchId)
         {
             return repository.Context.GetTcsUsuarioAutenticacaoByEntitySearchIdNoAssociations(entitySearchId).AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoAcesso"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoAcesso> GetTcsUsuarioAutenticacaoAcesso()
         {
@@ -293,13 +282,11 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return repository.Context.GetTcsUsuarioAutenticacaoAcessoByEntitySearch(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioAutenticacaoAcesso), jEntitySearch, false, false, false), jEntitySearch);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoAcessoByEntitySearchNoAssociations"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoAcesso> GetTcsUsuarioAutenticacaoAcessoByEntitySearchNoAssociations(string jEntitySearch)
         {
             return repository.Context.GetTcsUsuarioAutenticacaoAcessoByEntitySearchNoAssociations(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioAutenticacaoAcesso), jEntitySearch, false, false, false), jEntitySearch);
         }
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoAcessoToExcel"), System.Web.Http.HttpPost()]
         public string GetTcsUsuarioAutenticacaoAcessoToExcel(string[] parameters)
         {
@@ -326,7 +313,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return ExcelExportPagination<BusinessNS.TcsUsuarioAutenticacaoAcesso>.CreateExcelDocumentFileMapPath("TcsUsuarioAutenticacaoAcesso",new ExcelExportPagination<BusinessNS.TcsUsuarioAutenticacaoAcesso>.EntitiesToExport { Entities = entities, Metadata = metadata.First(), JExpressionTranslated = translatedJEntitySearch });
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoAcessoToReportXml"), System.Web.Http.HttpPost()]
         public string GetTcsUsuarioAutenticacaoAcessoToReportXml(string[] parameters)
         {
@@ -364,21 +350,18 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return result.AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("AddTcsUsuarioAutenticacaoAcessoEntitySearchId"), System.Web.Http.HttpPost()]
         public Guid AddTcsUsuarioAutenticacaoAcessoEntitySearchId(string[] jEntitySearch)
         {
             return UserServiceHelper.AddEntySearchToCache(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioAutenticacaoAcesso), jEntitySearch[0], false, false, false), jEntitySearch[0]);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoAcessoByEntitySearchIdNoAssociations"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoAcesso> GetTcsUsuarioAutenticacaoAcessoByEntitySearchIdNoAssociations(Guid entitySearchId)
         {
             return repository.Context.GetTcsUsuarioAutenticacaoAcessoByEntitySearchIdNoAssociations(entitySearchId).AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoPerfil"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoPerfil> GetTcsUsuarioAutenticacaoPerfil()
         {
@@ -397,13 +380,11 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return repository.Context.GetTcsUsuarioAutenticacaoPerfilByEntitySearch(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioAutenticacaoPerfil), jEntitySearch, false, false, false), jEntitySearch).AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoPerfilByEntitySearchNoAssociations"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoPerfil> GetTcsUsuarioAutenticacaoPerfilByEntitySearchNoAssociations(string jEntitySearch)
         {
             return repository.Context.GetTcsUsuarioAutenticacaoPerfilByEntitySearchNoAssociations(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioAutenticacaoPerfil), jEntitySearch, false, false, false), jEntitySearch).AsQueryable();
         }
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoPerfilToExcel"), System.Web.Http.HttpPost()]
         public string GetTcsUsuarioAutenticacaoPerfilToExcel(string[] parameters)
         {
@@ -430,7 +411,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return ExcelExportPagination<BusinessNS.TcsUsuarioAutenticacaoPerfil>.CreateExcelDocumentFileMapPath("TcsUsuarioAutenticacaoPerfil",new ExcelExportPagination<BusinessNS.TcsUsuarioAutenticacaoPerfil>.EntitiesToExport { Entities = entities, Metadata = metadata.First(), JExpressionTranslated = translatedJEntitySearch });
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoPerfilToReportXml"), System.Web.Http.HttpPost()]
         public string GetTcsUsuarioAutenticacaoPerfilToReportXml(string[] parameters)
         {
@@ -468,21 +448,18 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return result.AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("AddTcsUsuarioAutenticacaoPerfilEntitySearchId"), System.Web.Http.HttpPost()]
         public Guid AddTcsUsuarioAutenticacaoPerfilEntitySearchId(string[] jEntitySearch)
         {
             return UserServiceHelper.AddEntySearchToCache(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioAutenticacaoPerfil), jEntitySearch[0], false, false, false), jEntitySearch[0]);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioAutenticacaoPerfilByEntitySearchIdNoAssociations"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoPerfil> GetTcsUsuarioAutenticacaoPerfilByEntitySearchIdNoAssociations(Guid entitySearchId)
         {
             return repository.Context.GetTcsUsuarioAutenticacaoPerfilByEntitySearchIdNoAssociations(entitySearchId).AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioPerfil"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioPerfil> GetTcsUsuarioPerfil()
         {
@@ -501,13 +478,11 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return repository.Context.GetTcsUsuarioPerfilByEntitySearch(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioPerfil), jEntitySearch, false, false, false), jEntitySearch);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioPerfilByEntitySearchNoAssociations"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioPerfil> GetTcsUsuarioPerfilByEntitySearchNoAssociations(string jEntitySearch)
         {
             return repository.Context.GetTcsUsuarioPerfilByEntitySearchNoAssociations(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioPerfil), jEntitySearch, false, false, false), jEntitySearch);
         }
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioPerfilToExcel"), System.Web.Http.HttpPost()]
         public string GetTcsUsuarioPerfilToExcel(string[] parameters)
         {
@@ -534,7 +509,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return ExcelExportPagination<BusinessNS.TcsUsuarioPerfil>.CreateExcelDocumentFileMapPath("TcsUsuarioPerfil",new ExcelExportPagination<BusinessNS.TcsUsuarioPerfil>.EntitiesToExport { Entities = entities, Metadata = metadata.First(), JExpressionTranslated = translatedJEntitySearch });
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioPerfilToReportXml"), System.Web.Http.HttpPost()]
         public string GetTcsUsuarioPerfilToReportXml(string[] parameters)
         {
@@ -572,21 +546,18 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return result.AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("AddTcsUsuarioPerfilEntitySearchId"), System.Web.Http.HttpPost()]
         public Guid AddTcsUsuarioPerfilEntitySearchId(string[] jEntitySearch)
         {
             return UserServiceHelper.AddEntySearchToCache(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.TcsUsuarioPerfil), jEntitySearch[0], false, false, false), jEntitySearch[0]);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetTcsUsuarioPerfilByEntitySearchIdNoAssociations"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.TcsUsuarioPerfil> GetTcsUsuarioPerfilByEntitySearchIdNoAssociations(Guid entitySearchId)
         {
             return repository.Context.GetTcsUsuarioPerfilByEntitySearchIdNoAssociations(entitySearchId).AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetUsuarioPerfilInfo"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.UsuarioPerfilInfo> GetUsuarioPerfilInfo()
         {
@@ -605,13 +576,11 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return repository.Context.GetUsuarioPerfilInfoByEntitySearch(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.UsuarioPerfilInfo), jEntitySearch, false, false, false), jEntitySearch).AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetUsuarioPerfilInfoByEntitySearchNoAssociations"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.UsuarioPerfilInfo> GetUsuarioPerfilInfoByEntitySearchNoAssociations(string jEntitySearch)
         {
             return repository.Context.GetUsuarioPerfilInfoByEntitySearchNoAssociations(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.UsuarioPerfilInfo), jEntitySearch, false, false, false), jEntitySearch).AsQueryable();
         }
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetUsuarioPerfilInfoToExcel"), System.Web.Http.HttpPost()]
         public string GetUsuarioPerfilInfoToExcel(string[] parameters)
         {
@@ -638,7 +607,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return ExcelExportPagination<BusinessNS.UsuarioPerfilInfo>.CreateExcelDocumentFileMapPath("UsuarioPerfilInfo",new ExcelExportPagination<BusinessNS.UsuarioPerfilInfo>.EntitiesToExport { Entities = entities, Metadata = metadata.First(), JExpressionTranslated = translatedJEntitySearch });
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetUsuarioPerfilInfoToReportXml"), System.Web.Http.HttpPost()]
         public string GetUsuarioPerfilInfoToReportXml(string[] parameters)
         {
@@ -676,14 +644,12 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return result.AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("AddUsuarioPerfilInfoEntitySearchId"), System.Web.Http.HttpPost()]
         public Guid AddUsuarioPerfilInfoEntitySearchId(string[] jEntitySearch)
         {
             return UserServiceHelper.AddEntySearchToCache(Linx.Tools.EntitySearch.ParseFromJEntitySearch(typeof(BusinessNS.UsuarioPerfilInfo), jEntitySearch[0], false, false, false), jEntitySearch[0]);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetUsuarioPerfilInfoByEntitySearchIdNoAssociations"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.UsuarioPerfilInfo> GetUsuarioPerfilInfoByEntitySearchIdNoAssociations(Guid entitySearchId)
         {
@@ -695,7 +661,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         #endregion
         
         #region Save Changes
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("SaveChanges"), System.Web.Http.HttpPost()]
         public SaveResult SaveChanges(JObject saveBundle)
         {
@@ -714,7 +679,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         #region Get Action to Business Entities
         
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacao> GetTcsUsuarioAutenticacaoById([FromODataUri]Int64 key0)
         {
@@ -725,7 +689,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return default(IQueryable<BusinessNS.TcsUsuarioAutenticacao>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacao> GetTcsUsuarioAutenticacaoByEntitySearch([FromODataUri]String jEntitySearch)
         {
@@ -738,14 +701,12 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return default(IQueryable<BusinessNS.TcsUsuarioAutenticacao>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacao> GetTcsUsuarioAutenticacao()
         {
             return this.Context.GetTcsUsuarioAutenticacaoByEntitySearchNoAssociations(null).AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoAcesso> GetTcsUsuarioAutenticacao__TcsUsuarioAutenticacaoAcesso(Int64 key0, string navigation)
         {
@@ -759,7 +720,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return default(IQueryable<BusinessNS.TcsUsuarioAutenticacaoAcesso>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoAcesso> GetTcsUsuarioAutenticacaoAcessoById([FromODataUri]Int32 key0)
         {
@@ -770,7 +730,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return default(IQueryable<BusinessNS.TcsUsuarioAutenticacaoAcesso>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoAcesso> GetTcsUsuarioAutenticacaoAcessoByEntitySearch([FromODataUri]String jEntitySearch)
         {
@@ -783,14 +742,12 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return default(IQueryable<BusinessNS.TcsUsuarioAutenticacaoAcesso>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoAcesso> GetTcsUsuarioAutenticacaoAcesso()
         {
             return this.Context.GetTcsUsuarioAutenticacaoAcessoByEntitySearchNoAssociations(null).AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacao> GetTcsUsuarioAutenticacaoAcesso__TcsUsuarioAutenticacao(Int32 key0, string navigation)
         {
@@ -804,7 +761,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return default(IQueryable<BusinessNS.TcsUsuarioAutenticacao>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoPerfil> GetTcsUsuarioAutenticacaoPerfilById([FromODataUri]Int32 key0, [FromODataUri]Int64 key1)
         {
@@ -815,7 +771,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return default(IQueryable<BusinessNS.TcsUsuarioAutenticacaoPerfil>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoPerfil> GetTcsUsuarioAutenticacaoPerfilByEntitySearch([FromODataUri]String jEntitySearch)
         {
@@ -828,14 +783,12 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return default(IQueryable<BusinessNS.TcsUsuarioAutenticacaoPerfil>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioAutenticacaoPerfil> GetTcsUsuarioAutenticacaoPerfil()
         {
             return this.Context.GetTcsUsuarioAutenticacaoPerfilByEntitySearchNoAssociations(null).AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioPerfil> GetTcsUsuarioPerfilById([FromODataUri]Int64 key0)
         {
@@ -846,7 +799,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return default(IQueryable<BusinessNS.TcsUsuarioPerfil>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioPerfil> GetTcsUsuarioPerfilByEntitySearch([FromODataUri]String jEntitySearch)
         {
@@ -859,14 +811,12 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return default(IQueryable<BusinessNS.TcsUsuarioPerfil>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.TcsUsuarioPerfil> GetTcsUsuarioPerfil()
         {
             return this.Context.GetTcsUsuarioPerfilByEntitySearchNoAssociations(null).AsQueryable();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.UsuarioPerfilInfo> GetUsuarioPerfilInfoById([FromODataUri]Int64 key0)
         {
@@ -877,7 +827,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                return default(IQueryable<BusinessNS.UsuarioPerfilInfo>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.UsuarioPerfilInfo> GetUsuarioPerfilInfoByEntitySearch([FromODataUri]String jEntitySearch)
         {
@@ -890,7 +839,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return default(IQueryable<BusinessNS.UsuarioPerfilInfo>);
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [EnableQuery(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.All, AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.All, AllowedFunctions = System.Web.Http.OData.Query.AllowedFunctions.AllFunctions, AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.All)]
         public IQueryable<BusinessNS.UsuarioPerfilInfo> GetUsuarioPerfilInfo()
         {

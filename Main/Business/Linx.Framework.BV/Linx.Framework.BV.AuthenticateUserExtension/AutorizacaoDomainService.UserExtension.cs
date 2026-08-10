@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Linx.Tools;
 using System.Web.Security;
+using System.ServiceModel.DomainServices.Server;
 
 namespace Linx.Framework.BV.AuthenticateUserExtension
 {
@@ -21,8 +22,14 @@ namespace Linx.Framework.BV.AuthenticateUserExtension
             bool authenticated = false;
 
             UsuarioAutorizacao.UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacao.UsuarioAutorizacaoDomainService();
-            var usuario = (from result in ds.GetTcsUsuarioAutenticacaoNoAssociations().Where(i => i.NomeAutenticacao == userName)
-                           select new { UidUsuario = result.UidUsuario, AutenticacaoWindows = result.AutenticacaoWindows }
+            var usuario = (from result in ds.GetTcsUsuarioAutenticacaoNoAssociations()
+                           .Where(i => i.NomeAutenticacao.ToUpper() == userName.ToUpper())
+                           select new
+                           {
+                               UidUsuario = result.UidUsuario,
+                               NomeAutenticacao = result.NomeAutenticacao,
+                               AutenticacaoWindows = result.AutenticacaoWindows
+                           }
                            ).FirstOrDefault();
 
             if (usuario.IsNullOrEmpty())
@@ -60,7 +67,24 @@ namespace Linx.Framework.BV.AuthenticateUserExtension
 
             else
             {
-                authenticated = Membership.ValidateUser(userName, userPassword);
+                // Use the canonical Membership user name so failed attempts update IsLockedOut.
+                string membershipUserName = usuario.NomeAutenticacao;
+
+                // Check lockout before ValidateUser so locked users get a clear message
+                // (ValidateUser alone only returns false).
+                MembershipUser membershipUser = Membership.GetUser(membershipUserName, false);
+                if (membershipUser != null && membershipUser.IsLockedOut)
+                    throw new DomainException(ErrorConstants.FormatUserLockedOutMessage());
+
+                // SqlMembershipProvider increments FailedPasswordAttemptCount / sets IsLockedOut here.
+                authenticated = Membership.ValidateUser(membershipUserName, userPassword);
+
+                if (!authenticated)
+                {
+                    membershipUser = Membership.GetUser(membershipUserName, false);
+                    if (membershipUser != null && membershipUser.IsLockedOut)
+                        throw new DomainException(ErrorConstants.FormatUserLockedOutMessage());
+                }
             }
 
             return authenticated;

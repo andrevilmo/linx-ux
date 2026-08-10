@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,9 +37,23 @@ namespace Linx.Framework.BV.Autorizacao
 
         partial void OnCreate()
         {
-            var catalog = AssemblyHelper.LoadUserExtension("Linx.Framework.BV.AuthenticateUserExtension.dll", 0, String.Format(@"{0}bin\Extension\", AppDomain.CurrentDomain.BaseDirectory));
+            // Prefer bin\Extension\, fall back to bin\ (deploy often places the DLL only in bin).
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            string[] extensionPaths = new[]
+            {
+                System.IO.Path.Combine(baseDir, @"bin\Extension\"),
+                System.IO.Path.Combine(baseDir, @"bin\")
+            };
 
-            if (catalog.Count() > 0)
+            System.ComponentModel.Composition.Hosting.AggregateCatalog catalog = null;
+            foreach (string extensionPath in extensionPaths)
+            {
+                catalog = AssemblyHelper.LoadUserExtension("Linx.Framework.BV.AuthenticateUserExtension.dll", 0, extensionPath);
+                if (!catalog.IsNull() && catalog.Count() > 0)
+                    break;
+            }
+
+            if (!catalog.IsNull() && catalog.Count() > 0)
             {
                 try
                 {
@@ -114,10 +128,14 @@ namespace Linx.Framework.BV.Autorizacao
                     {
                         loginInfo.Ambientes.Add(LogonAmbienteRelacionado(usuarioAcesso.IdUsuario, usuarioAcesso.UidUsuario, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.IdTcsAmbienteRelacionado.Value));
                     }
+                    this.LogAuthAccessSuccess(authenticatedUser, "Application");
                     return loginInfo;
                 }
                 else
+                {
+                    this.LogAuthAccessFailure(authenticatedUser, ErrorConstants._ApplicationAccessDenied);
                     throw new Exception(String.Format("{0} - {1}", ErrorConstants._ApplicationAccessDenied.Code, ErrorConstants._ApplicationAccessDenied.Message));
+                }
             }
             catch (LicenseException licenseError)
             {
@@ -263,9 +281,15 @@ namespace Linx.Framework.BV.Autorizacao
                 if (usuarioAcesso.IsNull())
                 {
                     if (isDefaultAccess)
+                    {
+                        this.LogAuthAccessFailure(userName, ErrorConstants._UserHasNoDefaultAccess);
                         throw new Exception(String.Format("{0} - {1}", ErrorConstants._UserHasNoDefaultAccess.Code, ErrorConstants._UserHasNoDefaultAccess.Message));
+                    }
                     else
+                    {
+                        this.LogAuthAccessFailure(userName, ErrorConstants._ApplicationAccessDenied);
                         throw new Exception(String.Format("{0} - {1}", ErrorConstants._ApplicationAccessDenied.Code, ErrorConstants._ApplicationAccessDenied.Message));
+                    }
                 }
                 //Validate User (Inativo - Vig�ncia)
                 this.ValidateUserAccess(usuarioAcesso.UidUsuario);
@@ -275,7 +299,9 @@ namespace Linx.Framework.BV.Autorizacao
                 {
                     LogonAmbienteRelacionado(usuarioAcesso.IdUsuario, usuarioAcesso.UidUsuario, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.IdTcsAmbienteRelacionado.Value);
                 }
-                return this.AuthenticationInfo(usuarioAcesso.UidEmpresa, usuarioAcesso.UidUsuario, usuarioAcesso.UidGrupoEconomico, usuarioAcesso.UidAplicacao, usuarioAcesso.IdLinxEmpresa, usuarioAcesso.IdLinxGpecon, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.Administrador, usuarioAcesso.MultiGpecon, usuarioAcesso.IdTcsAmbienteRelacionado, usuarioAcesso.IdUsuario);
+                var authInfoPos = this.AuthenticationInfo(usuarioAcesso.UidEmpresa, usuarioAcesso.UidUsuario, usuarioAcesso.UidGrupoEconomico, usuarioAcesso.UidAplicacao, usuarioAcesso.IdLinxEmpresa, usuarioAcesso.IdLinxGpecon, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.Administrador, usuarioAcesso.MultiGpecon, usuarioAcesso.IdTcsAmbienteRelacionado, usuarioAcesso.IdUsuario);
+                this.LogAuthAccessSuccess(userName, "POS");
+                return authInfoPos;
             }
             catch (Exception oException)
             {
@@ -407,10 +433,7 @@ namespace Linx.Framework.BV.Autorizacao
                         throw new Exception(String.Format("{0} - {1}", ErrorConstants._ChangePasswordError.Code, ErrorConstants._ChangePasswordError.Message));
                     }
 
-                    int expirationDays = 90;
-                    var parameterValue = LinxBusinessParameters.GetParameter<string>("DIAS_EXPIRACAO_SENHA_USUARIO", null);
-                    if (!parameterValue.IsNullOrEmpty())
-                        expirationDays = Int32.Parse(parameterValue);
+                    int expirationDays = ResolvePasswordExpirationDays();
 
                     TcsUsuarioAutenticacao usuarioOld = new TcsUsuarioAutenticacao();
                     usuarioOld.CopyInstanceFrom(usuario);
@@ -418,6 +441,13 @@ namespace Linx.Framework.BV.Autorizacao
                     dsUsuarioAut.AddCustomChanges(usuario, usuarioOld, ChangeOperation.Update);
                     dsUsuarioAut.SaveCustomChanges();
                     transaction.Complete();
+                }
+
+                // Self-service "Alteração de senha" — audit trail (best-effort, outside TransactionScope).
+                if (passwordChanged)
+                {
+                    try { this.LogAuthAccessPasswordChange(usuario.NomeAutenticacao, canal: "AlteracaoSenha"); }
+                    catch { }
                 }
             }
             catch (Exception oException)
@@ -467,7 +497,7 @@ namespace Linx.Framework.BV.Autorizacao
                 ds.AddCustomChanges(usuario, usuarioOld, ChangeOperation.Update);
                 ds.SaveCustomChanges();
 
-                Linx.Tools.LinxMail.Send(usuario.Email, "Recuperação de senha de usuário.".Translate(), true, AutorizacaoDomainService.EmailBody(usuario.NomeUsuario, usuario.NomeAutenticacao, password));
+                Linx.Tools.LinxMail.Send(usuario.Email, "Recupera��o de senha de usu�rio.".Translate(), true, AutorizacaoDomainService.EmailBody(usuario.NomeUsuario, usuario.NomeAutenticacao, password));
 
                 transaction.Complete();
             }
@@ -482,15 +512,15 @@ namespace Linx.Framework.BV.Autorizacao
         }
 
         /// <summary>
-        /// Tempo de validade (em minutos) do link de redefini��o de senha.
+        /// Tempo de validade (em minutos) do link de redefini??????o de senha.
         /// </summary>
         private const int _PasswordResetTokenValidityMinutes = 60;
 
         /// <summary>
-        /// Gera um token de redefini��o de senha e envia, por e-mail, um link para o usu�rio redefinir a senha.
+        /// Gera um token de redefini??????o de senha e envia, por e-mail, um link para o usu???rio redefinir a senha.
         /// </summary>
-        /// <param name="userName">Nome de autentica��o do usu�rio.</param>
-        /// <param name="callbackUrl">URL base da aplica��o que hospeda a p�gina de redefini��o de senha.</param>
+        /// <param name="userName">Nome de autentica??????o do usu???rio.</param>
+        /// <param name="callbackUrl">URL base da aplica??????o que hospeda a p???gina de redefini??????o de senha.</param>
         [Invoke(HasSideEffects = true)]
         public bool SendPasswordResetLink(string userName, string callbackUrl)
         {
@@ -516,8 +546,8 @@ namespace Linx.Framework.BV.Autorizacao
 
             string token = GeneratePasswordResetToken(userName, user);
 
-            // O callbackUrl � a URL completa da p�gina que tratar� a redefini��o (ex.: p�gina de login do Portal
-            // ou a p�gina ResetPassword da aplica��o). O token � anexado como par�metro de query string.
+            // O callbackUrl ??? a URL completa da p???gina que tratar??? a redefini??????o (ex.: p???gina de login do Portal
+            // ou a p???gina ResetPassword da aplica??????o). O token ??? anexado como par???metro de query string.
             string separator = (!callbackUrl.IsNullOrEmpty() && callbackUrl.IndexOf('?') >= 0) ? "&" : "?";
             string link = string.Format("{0}{1}token={2}", callbackUrl, separator, System.Web.HttpUtility.UrlEncode(token));
 
@@ -527,7 +557,7 @@ namespace Linx.Framework.BV.Autorizacao
         }
 
         /// <summary>
-        /// Valida um token de redefini��o de senha (sem efetuar a troca).
+        /// Valida um token de redefini??????o de senha (sem efetuar a troca).
         /// </summary>
         [Invoke(HasSideEffects = false)]
         public bool ValidatePasswordResetToken(string token)
@@ -537,61 +567,107 @@ namespace Linx.Framework.BV.Autorizacao
         }
 
         /// <summary>
-        /// Redefine a senha do usu�rio a partir de um token v�lido recebido por e-mail.
+        /// Redefine a senha do usu???rio a partir de um token v???lido recebido por e-mail.
         /// </summary>
         [Invoke(HasSideEffects = true)]
         public bool ResetPasswordWithToken(string token, string newPassword)
         {
-            string userName;
-            if (!TryValidatePasswordResetToken(token, out userName))
+            try
             {
-                throw new DomainException("Link de redefini��o de senha inv�lido ou expirado.".Translate());
-            }
+                string userName;
+                if (!TryValidatePasswordResetToken(token, out userName))
+                {
+                    throw new DomainException("Link de redefinição de senha inválido ou expirado.".Translate());
+                }
 
-            UsuarioAutorizacao.UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacaoDomainService();
-            TcsUsuarioAutenticacao usuario = ds.GetTcsUsuarioAutenticacaoNoAssociations().Where(i => i.NomeAutenticacao == userName).FirstOrDefault();
+                UsuarioAutorizacao.UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacaoDomainService();
+                TcsUsuarioAutenticacao usuario = ds.GetTcsUsuarioAutenticacaoNoAssociations().Where(i => i.NomeAutenticacao == userName).FirstOrDefault();
 
-            if (usuario.IsNullOrEmpty())
-            {
-                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
-            }
+                if (usuario.IsNullOrEmpty())
+                {
+                    throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+                }
 
-            MembershipUser user = Membership.GetUser(userName);
+                MembershipUser user = Membership.GetUser(userName);
 
-            if (user.IsNullOrEmpty())
-            {
-                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
-            }
+                if (user.IsNullOrEmpty())
+                {
+                    throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+                }
 
-            using (TransactionScope transaction = new TransactionScope())
-            {
+                // Keep Membership outside TransactionScope: pairing it with EF often promotes to MSDTC
+                // and fails on QA with "An error occurred while executing the command definition."
+                // Lock can be Membership and/or TCS_LOG_ACESSO_AUTH sliding window (often only the latter on QA).
+                bool wasMembershipLocked = user.IsLockedOut;
+                bool wasAuthAccessLocked = false;
+                try { wasAuthAccessLocked = this.IsAuthAccessLocked(userName); } catch { }
+
+                if (wasMembershipLocked && !user.UnlockUser())
+                    throw new DomainException(ErrorConstants.FormatUserLockedOutMessage());
+
+                user = Membership.GetUser(userName);
                 bool passwordChanged = user.ChangePassword(user.ResetPassword("Dog"), newPassword);
                 if (!passwordChanged)
                 {
                     throw new DomainException(String.Format("{0} - {1}", ErrorConstants._ChangePasswordError.Code, ErrorConstants._ChangePasswordError.Message));
                 }
 
-                int expirationDays = 90;
-                var parameterValue = LinxBusinessParameters.GetParameter<string>("DIAS_EXPIRACAO_SENHA_USUARIO", null);
-                if (!parameterValue.IsNullOrEmpty())
-                    expirationDays = Int32.Parse(parameterValue);
-
+                int expirationDays = ResolvePasswordExpirationDays();
                 TcsUsuarioAutenticacao usuarioOld = new TcsUsuarioAutenticacao();
                 usuarioOld.CopyInstanceFrom(usuario);
                 usuario.DataExpiracaoSenha = DateTime.Now.Date.AddDays(expirationDays);
                 ds.AddCustomChanges(usuario, usuarioOld, ChangeOperation.Update);
                 ds.SaveCustomChanges();
 
-                transaction.Complete();
-            }
+                // Self-unblock via password reset — always clear audit lockout window when either lock was active.
+                if (wasMembershipLocked || wasAuthAccessLocked)
+                {
+                    try { this.LogAuthAccessUnlock(userName, userName, canal: "PasswordReset", reason: "redefinição de senha"); }
+                    catch { }
+                }
 
-            return true;
+                return true;
+            }
+            catch (DomainException)
+            {
+                throw;
+            }
+            catch (Exception oException)
+            {
+                string detail = oException.Message;
+                if (oException.InnerException != null && !oException.InnerException.Message.IsNullOrEmpty())
+                    detail = detail + "\n" + oException.InnerException.Message;
+                if (oException.InnerException != null && oException.InnerException.InnerException != null
+                    && !oException.InnerException.InnerException.Message.IsNullOrEmpty())
+                    detail = detail + "\n" + oException.InnerException.InnerException.Message;
+                throw new DomainException(ErrorConstants.EnsureUserLockedOutMessage(detail));
+            }
+        }
+
+        /// <summary>
+        /// Reads DIAS_EXPIRACAO_SENHA_USUARIO when ControleSistema context is available;
+        /// falls back to 90 days for anonymous flows (e.g. email password-reset link).
+        /// </summary>
+        private static int ResolvePasswordExpirationDays()
+        {
+            const int defaultExpirationDays = 90;
+            try
+            {
+                var parameterValue = LinxBusinessParameters.GetParameter<string>("DIAS_EXPIRACAO_SENHA_USUARIO", null);
+                if (!parameterValue.IsNullOrEmpty())
+                    return Int32.Parse(parameterValue);
+            }
+            catch
+            {
+                // Portal reset has no authenticated EconomicGroup/ControleSistema connection.
+            }
+            return defaultExpirationDays;
         }
 
         private static string GeneratePasswordResetToken(string userName, MembershipUser user)
         {
-            // Token autossuficiente (n�o exige tabela de tokens): cont�m usu�rio, validade e a data da
-            // �ltima troca de senha. Como a data muda ap�s a redefini��o, o token deixa de ser v�lido (uso �nico).
+            // Token autossuficiente (n???o exige tabela de tokens): cont???m usu???rio, validade e a data da
+            // ???ltima troca de senha. Como a data muda ap???s a redefini??????o, o token deixa de ser v???lido (uso ???nico).
             long expirationTicks = DateTime.UtcNow.AddMinutes(_PasswordResetTokenValidityMinutes).Ticks;
             long stampTicks = user.LastPasswordChangedDate.Ticks;
             string payload = string.Format("{0}||{1}||{2}", userName, expirationTicks, stampTicks);
@@ -637,14 +713,13 @@ namespace Linx.Framework.BV.Autorizacao
             if (user.IsNullOrEmpty())
                 return false;
 
-            // Uso �nico: o token s� � v�lido enquanto a senha n�o tiver sido alterada ap�s a sua emiss�o.
+            // Uso ???nico: o token s??? ??? v???lido enquanto a senha n???o tiver sido alterada ap???s a sua emiss???o.
             if (user.LastPasswordChangedDate.Ticks != stampTicks)
                 return false;
 
             userName = parts[0];
             return true;
         }
-
         private static string ResetPasswordEmailBody(string userName, string link)
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -720,12 +795,17 @@ namespace Linx.Framework.BV.Autorizacao
                                   }).FirstOrDefault();
 
                 if (userAccess.IsNull())
+                {
+                    this.LogAuthAccessFailure(userName, ErrorConstants._ApplicationAccessDenied);
                     throw new Exception(String.Format("{0} - {1}", ErrorConstants._ApplicationAccessDenied.Code, ErrorConstants._ApplicationAccessDenied.Message));
+                }
 
                 //Validate User (Inativo - Vig�ncia)
                 this.ValidateUserAccess(userAccess.UidUsuario);
 
-                return this.AuthenticationInfo(userAccess.Uidempresa, userAccess.UidUsuario, userAccess.UidGrupoEconomico, uidUserApplication, userAccess.IdLinxEmpresa, userAccess.IdLinxGpecon, userAccess.IdTcsAmbiente, userAccess.Administrador, userAccess.MultiGpecon, userAccess.IdAmbienteRelacionado, userAccess.IdUsuario);
+                var authInfoSA = this.AuthenticationInfo(userAccess.Uidempresa, userAccess.UidUsuario, userAccess.UidGrupoEconomico, uidUserApplication, userAccess.IdLinxEmpresa, userAccess.IdLinxGpecon, userAccess.IdTcsAmbiente, userAccess.Administrador, userAccess.MultiGpecon, userAccess.IdAmbienteRelacionado, userAccess.IdUsuario);
+                this.LogAuthAccessSuccess(userName, "StandAlone");
+                return authInfoSA;
             }
             catch (Exception oException)
             {
@@ -742,10 +822,124 @@ namespace Linx.Framework.BV.Autorizacao
         [Invoke(HasSideEffects = true)]
         public bool ValidateUser(string userName, string userPassword)
         {
+            // Always surface lockout before attempting password (Membership returns false for locked users).
+            this.ThrowIfMembershipUserLockedOut(userName);
+
+            bool authenticated;
             if (!AuthenticateUserExtension.IsNull())
-                return AuthenticateUserExtension.ValidateUserExtension(userName, userPassword);
+                authenticated = AuthenticateUserExtension.ValidateUserExtension(userName, userPassword);
             else
-                return Membership.ValidateUser(userName, userPassword);
+                authenticated = Membership.ValidateUser(userName, userPassword);
+
+            if (!authenticated)
+            {
+                // Audit failed attempt (Membership may have just locked the account).
+                try { this.LogAuthAccessFailure(userName, ErrorConstants._UserBadNameOrPassword); } catch { }
+                this.ThrowIfMembershipUserLockedOut(userName);
+            }
+
+            return authenticated;
+        }
+
+        /// <summary>
+        /// Throws ERRAUT020 when the ASP.NET Membership account is locked out.
+        /// </summary>
+        private void ThrowIfMembershipUserLockedOut(string userName)
+        {
+            if (this.IsMembershipUserLockedOut(userName))
+            {
+                try { this.LogAuthAccessFailure(userName, ErrorConstants._UserLockedOut.Code, ErrorConstants._UserLockedOut.Message, null, false); } catch { }
+                throw new DomainException(ErrorConstants.FormatUserLockedOutMessage());
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the ASP.NET Membership account is locked out after invalid password attempts.
+        /// </summary>
+        [Invoke(HasSideEffects = false)]
+        public bool IsMembershipUserLockedOut(string userName)
+        {
+            if (userName.IsNullOrEmpty())
+                return false;
+
+            try
+            {
+                string membershipUserName = userName;
+
+                // Prefer the canonical auth name from TCS (matches aspnet_Users.UserName).
+                try
+                {
+                    UsuarioAutorizacao.UsuarioAutorizacaoDomainService dsUsuario = new UsuarioAutorizacao.UsuarioAutorizacaoDomainService();
+                    string canonical = (from result in dsUsuario.GetTcsUsuarioAutenticacaoNoAssociations()
+                                        where result.NomeAutenticacao.ToUpper() == userName.ToUpper()
+                                        select result.NomeAutenticacao).FirstOrDefault();
+                    if (!canonical.IsNullOrEmpty())
+                        membershipUserName = canonical;
+                }
+                catch { }
+
+                MembershipUser user = Membership.GetUser(membershipUserName, false);
+                if (user.IsNull() && !Membership.Provider.IsNull())
+                    user = Membership.Provider.GetUser(membershipUserName, false);
+
+                if (user.IsNull() && !Membership.Provider.IsNull())
+                {
+                    int totalRecords;
+                    MembershipUserCollection matches = Membership.Provider.FindUsersByName(membershipUserName, 0, 1, out totalRecords);
+                    if (!matches.IsNull() && matches.Count > 0)
+                        user = matches.Cast<MembershipUser>().FirstOrDefault();
+                }
+
+                return !user.IsNull() && user.IsLockedOut;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Unlocks an ASP.NET Membership account previously locked by invalid password attempts.
+        /// </summary>
+        [Invoke(HasSideEffects = true)]
+        public bool UnlockMembershipUser(string userName)
+        {
+            if (userName.IsNullOrEmpty())
+                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+
+            MembershipUser user = Membership.GetUser(userName, false);
+            if (user.IsNullOrEmpty() && !Membership.Provider.IsNull())
+                user = Membership.Provider.GetUser(userName, false);
+
+            if (user.IsNullOrEmpty())
+                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+
+            bool wasMembershipLocked = user.IsLockedOut;
+            bool wasAuthAccessLocked = false;
+            try { wasAuthAccessLocked = this.IsAuthAccessLocked(userName); } catch { }
+
+            if (!wasMembershipLocked && !wasAuthAccessLocked)
+                return true;
+
+            if (wasMembershipLocked && !user.UnlockUser())
+                throw new DomainException("Nao foi possivel desbloquear o usuario.".Translate());
+
+            string unlockedBy = null;
+            try
+            {
+                unlockedBy = BusinessUserServiceHelper.GetCurrentUserAuthenticationName(this.Headers);
+            }
+            catch
+            {
+            }
+
+            if (unlockedBy.IsNullOrEmpty())
+                unlockedBy = userName;
+
+            try { this.LogAuthAccessUnlock(userName, unlockedBy, canal: "Unlock"); }
+            catch { }
+
+            return true;
         }
 
         [Invoke(HasSideEffects = true)]
@@ -879,13 +1073,22 @@ namespace Linx.Framework.BV.Autorizacao
             {
 
                 if (usuario.IsNullOrEmpty())
+                {
+                    this.LogAuthAccessFailure(string.Empty, ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message, null, false);
                     throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+                }
 
                 if (usuario.Inativo)
+                {
+                    this.LogAuthAccessFailure(usuario.NomeAutenticacao, ErrorConstants._UserNotActive);
                     throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotActive.Code, ErrorConstants._UserNotActive.Message));
+                }
 
                 if (usuario.VigenciaInicial.Date > currentDate || usuario.VigenciaFinal.Date < currentDate)
+                {
+                    this.LogAuthAccessFailure(usuario.NomeAutenticacao, ErrorConstants._UserLoginExpired);
                     throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserLoginExpired.Code, ErrorConstants._UserLoginExpired.Message));
+                }
             }
             return usuario;
         }
@@ -918,12 +1121,17 @@ namespace Linx.Framework.BV.Autorizacao
                                      }).FirstOrDefault();
 
                 if (usuarioAcesso.IsNull())
+                {
+                    this.LogAuthAccessFailure(userName, ErrorConstants._ApplicationAccessDenied);
                     throw new Exception(String.Format("{0} - {1}", ErrorConstants._ApplicationAccessDenied.Code, ErrorConstants._ApplicationAccessDenied.Message));
+                }
 
                 //Validate User (Inativo - Vig�ncia)
                 this.ValidateUserAccess(usuarioAcesso.UidUsuario);
 
-                return this.AuthenticationInfo(usuarioAcesso.UidEmpresa, usuarioAcesso.UidUsuario, usuarioAcesso.UidGrupoEconomico, usuarioAcesso.UidAplicacao, usuarioAcesso.IdLinxEmpresa, usuarioAcesso.IdLinxGpecon, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.Administrador, usuarioAcesso.MultiGpecon, usuarioAcesso.IdAmbienteRelacionado, usuarioAcesso.IdUsuario);
+                var authInfoOData = this.AuthenticationInfo(usuarioAcesso.UidEmpresa, usuarioAcesso.UidUsuario, usuarioAcesso.UidGrupoEconomico, usuarioAcesso.UidAplicacao, usuarioAcesso.IdLinxEmpresa, usuarioAcesso.IdLinxGpecon, usuarioAcesso.IdTcsAmbiente, usuarioAcesso.Administrador, usuarioAcesso.MultiGpecon, usuarioAcesso.IdAmbienteRelacionado, usuarioAcesso.IdUsuario);
+                this.LogAuthAccessSuccess(userName, "OData");
+                return authInfoOData;
             }
             catch (Exception oException)
             {

@@ -1,4 +1,4 @@
-using Linx.Data;
+﻿using Linx.Data;
 using Linx.LinqExtensions.Dynamic;
 using Linx.Tools;
 using Newtonsoft.Json.Linq;
@@ -142,7 +142,6 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return repository.Context.GetAllLookUpTcsUsuarioAutenticacao();
         }
         
-        [LinxFrameworkAutorizacaoControllerAuthorize]
         [Route("GetLookUpTcsUsuarioAutenticacaoByEntitySearch"), System.Web.Http.HttpGet()]
         public IQueryable<BusinessNS.LookUpTcsUsuarioAutenticacao> GetLookUpTcsUsuarioAutenticacaoByEntitySearch(string propertyName, string jEntitySearch)
         {

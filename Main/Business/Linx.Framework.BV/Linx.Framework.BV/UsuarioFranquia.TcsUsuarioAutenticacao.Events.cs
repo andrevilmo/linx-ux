@@ -32,10 +32,15 @@ namespace Linx.Framework.BV.UsuarioFranquia
     public partial class TcsUsuarioAutenticacao
     {
         /// Execute before search data.
+        /// Execute before search data.
         public static void OnSearching(ref IQueryable<TcsUsuarioAutenticacao> searchDefinition, bool noAssociations, List<EntitySearch> searchList)
         {
-            int idLinx = BusinessUserServiceHelper.GetCurrentIdLinxEnvironment().GetValueOrDefault();
-            searchDefinition = searchDefinition.Where(i => i.IdLinx == idLinx);
+            // Align with UsuarioAutorizacao export gpecon scope (EconomicGroup header).
+            // Note: EntitySearch paths also apply ApplyCurrentGpeconFilter in Autorizacao (includes multi-gpecon);
+            // this keeps GetTcsUsuarioAutenticacao / NoAssociations scoped when Autorizacao has not filtered yet.
+            int idGpecon = BusinessUserServiceHelper.GetCurrentIdGpecon().GetValueOrDefault();
+            if (idGpecon > 0)
+                searchDefinition = searchDefinition.Where(i => i.IdLinx == idGpecon);
         }
 
         /// Execute before save changes.

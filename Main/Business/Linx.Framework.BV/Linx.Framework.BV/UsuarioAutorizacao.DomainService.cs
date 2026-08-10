@@ -865,6 +865,37 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 	    	          }
 	    	    }
 	    }
+	    //Extensibility Partial Method Definitions For IndicaUsuarioServico
+	    partial void OnIndicaUsuarioServicoChanging(Boolean value);
+	    partial void OnIndicaUsuarioServicoChanged();
+
+	    private Boolean _IndicaUsuarioServico;
+
+	    [DataMember(IsRequired = true, Name = "IndicaUsuarioServico", EmitDefaultValue = true)]
+	    [XmlAttribute()]
+	    [Editable(true)]
+	    [Display(Name = "Usuário de serviço", Description="", Order = 15, AutoGenerateField = true, GroupName="", ResourceType= null)]
+	    [FunctionalPoint("Precision[0:0];IsEditable[true];CustomMediaTable[];IsAutomaticSequency[false];IsNull[false];DomainName[];KpiName[];KpiRelatedAttribute[];DefaultValue[];DataFormatString[];OrderByOrientation[Ascending];OrderBySequence[-1];AggregationFunction[None];ObjectClass[CheckBox];ConnectedField[];Mask[];MaskType[];ExcludedAsFilter[false];FilterDataKey[TCS_USUARIO_AUTENTICACAO.INDICA_USUARIO_SERVICO];IsMeasure[false]")]
+	    [LinxPublicationField(IsSuggestion=false, LookUpInfo="", EdmKey="TCS_USUARIO_AUTENTICACAO.INDICA_USUARIO_SERVICO")]
+	    public Boolean IndicaUsuarioServico
+	    {
+	    	    get
+	    	    {
+	    	          return _IndicaUsuarioServico;
+	    	    }
+	    	    set
+	    	    {
+	    	          if (this._IndicaUsuarioServico != value)
+	    	          {
+	    	              this.ValidateProperty("IndicaUsuarioServico", value);
+	    	              this.OnIndicaUsuarioServicoChanging(value);
+	    	              this.RaiseDataMemberChanging("IndicaUsuarioServico");
+	    	              this._IndicaUsuarioServico = value;
+	    	              this.RaiseDataMemberChanged("IndicaUsuarioServico");
+	    	              this.OnIndicaUsuarioServicoChanged();
+	    	          }
+	    	    }
+	    }
 	    //Extensibility Partial Method Definitions For InscrEstadualRg
 	    partial void OnInscrEstadualRgChanging(System.String value);
 	    partial void OnInscrEstadualRgChanged();
@@ -1561,6 +1592,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 	        metaData.PropertiesMap.Add(new EdmEntityPropertydMap() { EdmKey ="TCS_USUARIO_AUTENTICACAO.AUTENTICACAO_WINDOWS", Source = "AutenticacaoWindows", Target = "AUTENTICACAO_WINDOWS", NoUpdatable = false, IsKey = false, IsFK = false, QualifiedEntitySetName = "AutorizacaoContext.TCS_USUARIO_AUTENTICACAO", RelationPropertyName = "TCS_USUARIO_AUTENTICACAO" });
 	        metaData.PropertiesMap.Add(new EdmEntityPropertydMap() { EdmKey ="TCS_USUARIO_AUTENTICACAO.DATA_EXPIRACAO_SENHA", Source = "DataExpiracaoSenha", Target = "DATA_EXPIRACAO_SENHA", NoUpdatable = false, IsKey = false, IsFK = false, QualifiedEntitySetName = "AutorizacaoContext.TCS_USUARIO_AUTENTICACAO", RelationPropertyName = "TCS_USUARIO_AUTENTICACAO" });
 	        metaData.PropertiesMap.Add(new EdmEntityPropertydMap() { EdmKey ="TCS_USUARIO_AUTENTICACAO.INDICA_ACESSO_SUPORTE", Source = "IndicaAcessoSuporte", Target = "INDICA_ACESSO_SUPORTE", NoUpdatable = false, IsKey = false, IsFK = false, QualifiedEntitySetName = "AutorizacaoContext.TCS_USUARIO_AUTENTICACAO", RelationPropertyName = "TCS_USUARIO_AUTENTICACAO" });
+	        metaData.PropertiesMap.Add(new EdmEntityPropertydMap() { EdmKey ="TCS_USUARIO_AUTENTICACAO.INDICA_USUARIO_SERVICO", Source = "IndicaUsuarioServico", Target = "INDICA_USUARIO_SERVICO", NoUpdatable = false, IsKey = false, IsFK = false, QualifiedEntitySetName = "AutorizacaoContext.TCS_USUARIO_AUTENTICACAO", RelationPropertyName = "TCS_USUARIO_AUTENTICACAO" });
 	        metaData.PropertiesMap.Add(new EdmEntityPropertydMap() { EdmKey ="TCS_USUARIO_AUTENTICACAO.LX_PFJ_FISICA_JURIDICA", Source = "LxPfjFisicaJuridica", Target = "LX_PFJ_FISICA_JURIDICA", NoUpdatable = false, IsKey = false, IsFK = false, QualifiedEntitySetName = "AutorizacaoContext.TCS_USUARIO_AUTENTICACAO", RelationPropertyName = "TCS_USUARIO_AUTENTICACAO" });
 	        metaData.PropertiesMap.Add(new EdmEntityPropertydMap() { EdmKey ="TCS_USUARIO_AUTENTICACAO.TCS_EMPRESA_AUTENTICACAO.ID_LINX", Source = "IdLinx", Target = "ID_LINX", TargetKeyName = "", NoUpdatable = false, IsKey = false, IsFK = true, QualifiedEntitySetName = "AutorizacaoContext.TCS_EMPRESA_AUTENTICACAO", RelationPropertyName = "TCS_EMPRESA_AUTENTICACAO" });
 
@@ -11158,6 +11190,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
                 , IdUsuario = entity0.ID_USUARIO
                 , Inativo = entity0.INATIVO
                 , IndicaAcessoSuporte = entity0.INDICA_ACESSO_SUPORTE
+                , IndicaUsuarioServico = entity0.INDICA_USUARIO_SERVICO
                 , InscrEstadualRg = entity0.INSCR_ESTADUAL_RG
                 , Logradouro = entity0.LOGRADOURO
                 , LxPfjFisicaJuridica = entity0.LX_PFJ_FISICA_JURIDICA
@@ -11427,6 +11460,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
                 , IdUsuario = entity0.ID_USUARIO
                 , Inativo = entity0.INATIVO
                 , IndicaAcessoSuporte = entity0.INDICA_ACESSO_SUPORTE
+                , IndicaUsuarioServico = entity0.INDICA_USUARIO_SERVICO
                 , InscrEstadualRg = entity0.INSCR_ESTADUAL_RG
                 , Logradouro = entity0.LOGRADOURO
                 , LxPfjFisicaJuridica = entity0.LX_PFJ_FISICA_JURIDICA
@@ -12149,6 +12183,12 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 	    		{
 	    			result.Add("TcsUsuarioAutenticacao|IndicaAcessoSuporte");
 	    			result.Add("TcsUsuarioAutenticacao|TCS_USUARIO_AUTENTICACAO.INDICA_ACESSO_SUPORTE");
+	    		}
+
+	    		if (bmDisabledTcsUsuarioAutenticacaoList.Contains("TCS_USUARIO_AUTENTICACAO.INDICA_USUARIO_SERVICO"))
+	    		{
+	    			result.Add("TcsUsuarioAutenticacao|IndicaUsuarioServico");
+	    			result.Add("TcsUsuarioAutenticacao|TCS_USUARIO_AUTENTICACAO.INDICA_USUARIO_SERVICO");
 	    		}
 	
 	    		if (bmDisabledTcsUsuarioAutenticacaoList.Contains("TCS_USUARIO_AUTENTICACAO.INSCR_ESTADUAL_RG"))
@@ -12942,6 +12982,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
                 , IdUsuario = entity0.ID_USUARIO
                 , Inativo = entity0.INATIVO
                 , IndicaAcessoSuporte = entity0.INDICA_ACESSO_SUPORTE
+                , IndicaUsuarioServico = entity0.INDICA_USUARIO_SERVICO
                 , InscrEstadualRg = entity0.INSCR_ESTADUAL_RG
                 , Logradouro = entity0.LOGRADOURO
                 , LxPfjFisicaJuridica = entity0.LX_PFJ_FISICA_JURIDICA
@@ -13247,6 +13288,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 
 
 
+            jEntitySearch = StripUiOnlyPasswordFilters(jEntitySearch);
 	
 	        List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
 
@@ -13301,6 +13343,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
                 , IdUsuario = entity0.ID_USUARIO
                 , Inativo = entity0.INATIVO
                 , IndicaAcessoSuporte = entity0.INDICA_ACESSO_SUPORTE
+                , IndicaUsuarioServico = entity0.INDICA_USUARIO_SERVICO
                 , InscrEstadualRg = entity0.INSCR_ESTADUAL_RG
                 , Logradouro = entity0.LOGRADOURO
                 , LxPfjFisicaJuridica = entity0.LX_PFJ_FISICA_JURIDICA
@@ -13553,6 +13596,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 
 
 
+            jEntitySearch = StripUiOnlyPasswordFilters(jEntitySearch);
 	
 	        List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
 
@@ -13673,6 +13717,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 
 
 
+            jEntitySearch = StripUiOnlyPasswordFilters(jEntitySearch);
 	
 	        List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
 
@@ -13771,6 +13816,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 
 
 
+            jEntitySearch = StripUiOnlyPasswordFilters(jEntitySearch);
 	
 	        List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
 
@@ -14555,6 +14601,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 
 
 
+            jEntitySearch = StripUiOnlyPasswordFilters(jEntitySearch);
 	
 	        List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
 
@@ -14620,6 +14667,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 			
 	
 	        	
+            ApplyCurrentGpeconFilter(ref result);
 
 	
 	        return result;
@@ -14635,6 +14683,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 
 
 
+            jEntitySearch = StripUiOnlyPasswordFilters(jEntitySearch);
 	
 	        List<EntitySearch> entitySearchList = (serializedEntitySearch.IsNullOrEmpty() ? new List<EntitySearch>() : SerializationManager<List<EntitySearch>>.StringToObject(serializedEntitySearch));
 
@@ -14700,6 +14749,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
 			
 	
 	        	
+            ApplyCurrentGpeconFilter(ref result);
 
 	
 	        return result;
@@ -14865,6 +14915,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
                 , IdUsuario = entity0.ID_USUARIO
                 , Inativo = entity0.INATIVO
                 , IndicaAcessoSuporte = entity0.INDICA_ACESSO_SUPORTE
+                , IndicaUsuarioServico = entity0.INDICA_USUARIO_SERVICO
                 , InscrEstadualRg = entity0.INSCR_ESTADUAL_RG
                 , Logradouro = entity0.LOGRADOURO
                 , LxPfjFisicaJuridica = entity0.LX_PFJ_FISICA_JURIDICA
