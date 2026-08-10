@@ -1214,7 +1214,8 @@ var result = function () {
        ownerReference.namespace = 'Linx.Framework.BV.UsuarioAutorizacao';
        ownerReference.myProperties = [ 'AutenticacaoWindows','Bairro','Cep','CnpjCpf','Complemento','ConfirmacaoUsuario','ConfirmacaoUsuario1','CriaUsuario','DataAlteracao','DataCadastro','DataExpiracaoSenha','Email','FoneCelular','FoneFixo','GeraSenhaUsuario','IdLinx','IdUsuario','Inativo','IndicaAcessoSuporte','IndicaUsuarioServico','InscrEstadualRg','Logradouro','LxPfjFisicaJuridica','LxTipoLogradouro','Municipio','NomeAutenticacao','NomeCurtoUsuario','NomeEmpresa','NomeUsuario','Numero','ObsEndereco','Ramal','Uf','UidEmpresa','UidUsuario','VigenciaFinal','VigenciaInicial' ];
        ownerReference.queryRequiredProperties = {  };
-       // Senha / Confirmacao / Blocked are UI-only unbound fields - never use as QBE / export filters
+       // Senha / Confirmacao are UI-only - never send as OData QBE.
+       // Blocked stays excluded from OData (unbound Membership flag); CadastroUsuario* applies it client-side after search when status is C/Q.
        ownerReference.excludedFilters = ['ConfirmacaoUsuario', 'ConfirmacaoUsuario1', 'Blocked'];
        ownerReference.getCurrentElements = function() {
            var result = [ ownerReference ];

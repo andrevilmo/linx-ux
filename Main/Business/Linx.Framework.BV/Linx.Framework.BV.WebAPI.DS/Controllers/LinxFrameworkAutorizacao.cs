@@ -65,6 +65,82 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return uidUsuario;
         }
 
+        /// <summary>
+        /// Portal SSO (Azure AD / MSAL): passwordless login after IdP proof.
+        /// Maps UPN-prefix login (case-insensitive) to NomeAutenticacao, validates access, audits as PortalSSO.
+        /// Does not accept or forward the Azure access token — identity was already proven by the Portal.
+        /// </summary>
+        [Route("AuthenticatePortalSso"), System.Web.Http.HttpGet()]
+        public string AuthenticatePortalSso(string userName)
+        {
+            Linx.Security.Cryptography crypto = new Security.Cryptography();
+            string userNameAttempt = userName;
+
+            try
+            {
+                if (userName.IsNullOrEmpty())
+                {
+                    AutorizacaoDomainService dsInvalid = new AutorizacaoDomainService();
+                    dsInvalid.LogAuthAccessFailure(string.Empty, ErrorConstants._LoginInvalidParameters.Code, ErrorConstants._LoginInvalidParameters.Message, "PortalSSO", false);
+                    return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"), crypto.Encrypt(String.Format("{0} - {1}", ErrorConstants._LoginInvalidParameters.Code, ErrorConstants._LoginInvalidParameters.Message)))));
+                }
+
+                AutorizacaoDomainService dsAuth = new AutorizacaoDomainService();
+                if (dsAuth.IsMembershipUserLockedOut(userName))
+                    throw new Exception(ErrorConstants.FormatUserLockedOutMessage());
+
+                UsuarioAutorizacao.UsuarioAutorizacaoDomainService dsUsuarioAut = new UsuarioAutorizacao.UsuarioAutorizacaoDomainService();
+                var usuario = (
+                    from result in dsUsuarioAut.GetTcsUsuarioAutenticacaoNoAssociations()
+                    where result.NomeAutenticacao.ToUpper() == userName.ToUpper()
+                    select new
+                    {
+                        UidUsuario = result.UidUsuario,
+                        Usuario = result.NomeUsuario,
+                        NomeCurto = result.NomeCurtoUsuario,
+                        NomeAutenticacao = result.NomeAutenticacao
+                    }).FirstOrDefault();
+
+                if (usuario.IsNull())
+                {
+                    dsAuth.LogAuthAccessFailure(userName, ErrorConstants._UserBadNameOrPassword.Code,
+                        "Usuário autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda.", "PortalSSO", false);
+                    return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"),
+                        crypto.Encrypt("Usuário autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda."))));
+                }
+
+                // Validate User (Inativo - Vigencia) — same gates as password login, without Membership password.
+                dsAuth.ValidateUserAccess(usuario.UidUsuario);
+
+                dsAuth.LogAuthAccessSuccess(usuario.NomeAutenticacao, "PortalSSO");
+
+                return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}||{2}||{3}",
+                    crypto.Encrypt("1"),
+                    crypto.Encrypt(usuario.Usuario),
+                    crypto.Encrypt(usuario.NomeCurto),
+                    crypto.Encrypt(usuario.NomeAutenticacao))));
+            }
+            catch (System.Data.SqlClient.SqlException sqlEx)
+            {
+                throw sqlEx;
+            }
+            catch (Exception oException)
+            {
+                string errorMessage = ErrorConstants.EnsureUserLockedOutMessage(oException.Message);
+                try
+                {
+                    AutorizacaoDomainService ds = new AutorizacaoDomainService();
+                    if (!userNameAttempt.IsNullOrEmpty() && ds.IsMembershipUserLockedOut(userNameAttempt))
+                        errorMessage = ErrorConstants.FormatUserLockedOutMessage();
+                    else
+                        ds.LogAuthAccessFailure(userNameAttempt ?? string.Empty, null, errorMessage, "PortalSSO", false);
+                }
+                catch { }
+
+                return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"), crypto.Encrypt(errorMessage))));
+            }
+        }
+
         [Route("AuthenticatePortal"), System.Web.Http.HttpGet()]
         public string AuthenticatePortal(string authenticateParameters)
         {

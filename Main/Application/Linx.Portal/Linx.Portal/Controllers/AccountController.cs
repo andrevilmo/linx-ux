@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using Linx.Portal.Authentication;
 using Linx.Portal.Models;
 using Linx.Tools;
 using RestSharp;
@@ -26,6 +28,16 @@ namespace Linx.Portal.Controllers
         {
             try
             {
+                // When SSO is on and not in contingency, reject classic login unless offline fallback is allowed.
+                if (Utils.IsSsoEnabled()
+                    && !SsoLoginHelper.IsContingencyEnabled(Session)
+                    && !Utils.IsSsoOfflineFallbackAllowed()
+                    && !model.RecoverPassword)
+                {
+                    ModelState.AddModelError("", "Use o login com Microsoft (SSO).".Translate());
+                    return View();
+                }
+
                 if (ModelState.IsValid)
                 {
                     if (model.RecoverPassword)
@@ -46,6 +58,120 @@ namespace Linx.Portal.Controllers
                 ModelState.AddModelError("", oException.Message);
             }
             return View();
+        }
+
+        /// <summary>
+        /// OmniPOS-equivalent LoginForceAsync entry: redirect browser to Azure AD authorize (prompt=login).
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult> SsoLogin()
+        {
+            if (!Utils.IsSsoEnabled())
+            {
+                ModelState.AddModelError("", "SSO não está habilitado.".Translate());
+                return View("Login");
+            }
+
+            if (SsoLoginHelper.IsContingencyEnabled(Session) && Utils.IsSsoOfflineFallbackAllowed())
+            {
+                ModelState.AddModelError("", "SSO em modo contingência. Use usuário e senha local.".Translate());
+                return View("Login");
+            }
+
+            try
+            {
+                Uri authorizeUrl = await SsoLoginHelper.BeginForceLoginAsync(Session);
+                return Redirect(authorizeUrl.ToString());
+            }
+            catch (Exception ex)
+            {
+                bool suggestContingency;
+                string message = SsoLoginHelper.MapMsalException(ex, out suggestContingency);
+                if (suggestContingency && Utils.IsSsoOfflineFallbackAllowed())
+                    SsoLoginHelper.EnableContingency(Session);
+                ModelState.AddModelError("", message.Translate());
+                return View("Login");
+            }
+        }
+
+        /// <summary>
+        /// Azure AD redirect URI callback: exchange code → UPN → local NomeAutenticacao → Forms cookie.
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult> SsoCallback(string code, string state, string error, string error_description)
+        {
+            if (!Utils.IsSsoEnabled())
+            {
+                ModelState.AddModelError("", "SSO não está habilitado.".Translate());
+                return View("Login");
+            }
+
+            if (!error.IsNullOrEmpty())
+            {
+                bool contingency = string.Equals(error, "temporarily_unavailable", StringComparison.OrdinalIgnoreCase);
+                if (contingency && Utils.IsSsoOfflineFallbackAllowed())
+                    SsoLoginHelper.EnableContingency(Session);
+
+                string msg = !error_description.IsNullOrEmpty()
+                    ? error_description
+                    : (string.Equals(error, "access_denied", StringComparison.OrdinalIgnoreCase)
+                        ? "O usuário abortou o processo de autenticação."
+                        : "Não foi possível realizar autenticação.");
+                ModelState.AddModelError("", msg.Translate());
+                return View("Login");
+            }
+
+            if (code.IsNullOrEmpty())
+            {
+                ModelState.AddModelError("", "Não foi possível realizar autenticação.".Translate());
+                return View("Login");
+            }
+
+            try
+            {
+                AuthenticationResultModel auth = await SsoLoginHelper.CompleteForceLoginAsync(code, state, Session);
+                if (auth == null || !auth.IsAuthenticated || auth.User == null || auth.User.Username.IsNullOrEmpty())
+                {
+                    ModelState.AddModelError("", (auth != null && !auth.Message.IsNullOrEmpty() ? auth.Message : "Usuário não autenticado.").Translate());
+                    return View("Login");
+                }
+
+                string localLogin = SsoLoginHelper.ExtractLocalLogin(auth.User.Username);
+                if (localLogin.IsNullOrEmpty())
+                {
+                    ModelState.AddModelError("", "Usuário não autenticado.".Translate());
+                    return View("Login");
+                }
+
+                // Azure token is not forwarded — only local session after Service validates cadastro.
+                string canonicalUser;
+                if (!AuthenticateUserSso(localLogin, rememberMe: true, out canonicalUser))
+                {
+                    ModelState.AddModelError("", "Usuário autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda.".Translate());
+                    return View("Login");
+                }
+
+                SsoLoginHelper.ClearContingency(Session);
+
+                string formulario = Request["formulario"] ?? (Request.UrlReferrer != null ? HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["formulario"] : null);
+                string supportMode = Request["supportMode"] ?? (Request.UrlReferrer != null ? HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["supportMode"] : null);
+
+                return RedirectToAction("Index", "Home", new RouteValueDictionary
+                {
+                    { "formulario", formulario },
+                    { "supportMode", supportMode },
+                    { "showEnvironments", false }
+                });
+            }
+            catch (Exception ex)
+            {
+                bool suggestContingency;
+                string message = SsoLoginHelper.MapMsalException(ex, out suggestContingency);
+                if (suggestContingency && Utils.IsSsoOfflineFallbackAllowed())
+                    SsoLoginHelper.EnableContingency(Session);
+                ModelState.AddModelError("", message.Translate());
+                return View("Login");
+            }
         }
 
         [HttpPost]
@@ -185,6 +311,57 @@ namespace Linx.Portal.Controllers
             }
 
             return logged;
+        }
+
+        /// <summary>
+        /// Passwordless Portal login after Azure AD proof. Cookie uses canonical NomeAutenticacao from Service.
+        /// </summary>
+        private bool AuthenticateUserSso(string localLogin, bool rememberMe, out string canonicalUser)
+        {
+            canonicalUser = null;
+            Linx.Security.Cryptography crypto = new Linx.Security.Cryptography();
+            var client = new RestClient(Utils.GetServiceUrl());
+            var request = new RestRequest("LinxFrameworkAutorizacao/AuthenticatePortalSso");
+            request.AddParameter("userName", localLogin);
+
+            string clientIp = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrWhiteSpace(clientIp))
+                clientIp = Request.UserHostAddress;
+            else if (clientIp.Contains(","))
+                clientIp = clientIp.Split(',')[0].Trim();
+
+            if (!string.IsNullOrWhiteSpace(clientIp))
+                request.AddHeader("X-Client-IP", clientIp);
+            request.AddHeader("X-Auth-Channel", "PortalSSO");
+
+            var result = client.ExecuteAsGet(request, "GET");
+
+            if (result.ErrorException != null)
+                throw new Exception(result.ErrorException.Message);
+            if (result.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception(result.StatusDescription);
+
+            string content = result.Content != null ? result.Content.Replace("\"", string.Empty) : string.Empty;
+            string[] resultLines = crypto.Decrypt(HttpUtility.UrlDecode(content)).Split(new string[] { "||" }, StringSplitOptions.None);
+
+            if (crypto.Decrypt(resultLines[0]) == "0")
+            {
+                string errorMessage = resultLines.Length > 1 ? crypto.Decrypt(resultLines[1]) : "Usuário autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda.";
+                if (IsMembershipUserLockedOut(localLogin) || ErrorConstants.IsMembershipLockoutMessage(errorMessage))
+                    errorMessage = ErrorConstants.FormatUserLockedOutMessage();
+                throw new Exception(errorMessage);
+            }
+
+            if (crypto.Decrypt(resultLines[0]) == "1")
+            {
+                canonicalUser = resultLines.Length > 3 ? crypto.Decrypt(resultLines[3]) : localLogin;
+                if (canonicalUser.IsNullOrEmpty())
+                    canonicalUser = localLogin;
+                FormsAuthentication.SetAuthCookie(canonicalUser, rememberMe);
+                return true;
+            }
+
+            return false;
         }
 
         private bool IsMembershipUserLockedOut(string userName)
