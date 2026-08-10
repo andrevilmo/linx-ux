@@ -120,33 +120,26 @@ namespace Linx.Portal.Authentication
 
         public async Task<Uri> GetAuthorizationUrlAsync(string state, bool forceLogin = true)
         {
-            if (_useConfidential)
+            // Portal IIS uses confidential client only. IPublicClientApplication in MSAL 4.54
+            // does not expose GetAuthorizationRequestUrl (desktop interactive APIs do).
+            if (!_useConfidential || _confidentialApp == null)
             {
-                var builder = _confidentialApp
-                    .GetAuthorizationRequestUrl(_options.Scopes)
-                    .WithRedirectUri(_options.RedirectUri);
-
-                if (!string.IsNullOrEmpty(state))
-                    builder = builder.WithExtraQueryParameters("state=" + Uri.EscapeDataString(state));
-
-                if (forceLogin)
-                    builder = builder.WithPrompt(Prompt.ForceLogin);
-
-                return await builder.ExecuteAsync().ConfigureAwait(false);
+                throw new InvalidOperationException(
+                    "SSO_CLIENT_SECRET is required for Portal web SSO (authorization-code + ForceLogin). " +
+                    "Register the Portal as a Web app in Azure AD and set the client secret.");
             }
 
-            // Public client: still produce an authorize URL for browser redirect (web without secret).
-            var pubBuilder = _publicApp
+            var builder = _confidentialApp
                 .GetAuthorizationRequestUrl(_options.Scopes)
                 .WithRedirectUri(_options.RedirectUri);
 
             if (!string.IsNullOrEmpty(state))
-                pubBuilder = pubBuilder.WithExtraQueryParameters("state=" + Uri.EscapeDataString(state));
+                builder = builder.WithExtraQueryParameters("state=" + Uri.EscapeDataString(state));
 
             if (forceLogin)
-                pubBuilder = pubBuilder.WithPrompt(Prompt.ForceLogin);
+                builder = builder.WithPrompt(Prompt.ForceLogin);
 
-            return await pubBuilder.ExecuteAsync().ConfigureAwait(false);
+            return await builder.ExecuteAsync().ConfigureAwait(false);
         }
 
         public async Task<AuthenticationResultModel> CompleteAuthorizationCodeAsync(string code)
