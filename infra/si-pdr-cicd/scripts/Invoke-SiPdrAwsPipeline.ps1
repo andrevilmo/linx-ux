@@ -180,6 +180,50 @@ foreach ($item in $urls) {
     }
 }
 
+# Portal login E2E: form POST -> Account/Login -> Service AuthenticatePortal.
+# Optional env SI_PDR_SMOKE_USER / SI_PDR_SMOKE_PASSWORD (defaults match QA test user).
+$smokeUser = if ($env:SI_PDR_SMOKE_USER) { $env:SI_PDR_SMOKE_USER } else { 'desenv.franqueado' }
+$smokePass = if ($env:SI_PDR_SMOKE_PASSWORD) { $env:SI_PDR_SMOKE_PASSWORD } else { '@!2026Linx!@' }
+if ($smokeUser -and $smokePass) {
+    Write-Phase 'Smoke Portal login'
+    $loginUrl = 'http://127.0.0.1:8172/Account/Login'
+    $swLogin = [System.Diagnostics.Stopwatch]::StartNew()
+    try {
+        $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+        $form = @{
+            UserName        = $smokeUser
+            Password        = $smokePass
+            RememberMe      = 'false'
+            RecoverPassword = 'false'
+            ShowEnvironments = 'false'
+        }
+        $resp = Invoke-WebRequest -Uri $loginUrl -Method POST -Body $form -WebSession $session `
+            -UseBasicParsing -TimeoutSec 90 -MaximumRedirection 5
+        $elapsed = $swLogin.Elapsed.TotalSeconds
+        $body = if ($resp.Content) { ($resp.Content -replace '\s+', ' ').Trim() } else { '' }
+        $hasAuthCookie = $false
+        if ($session.Cookies) {
+            foreach ($c in $session.Cookies.GetCookies([Uri]'http://127.0.0.1:8172/')) {
+                if ($c.Name -like '*.ASPXAUTH*' -or $c.Name -like '*ASPXAUTH*') { $hasAuthCookie = $true }
+            }
+        }
+        $looksLikeLoginError = ($body -match '(?i)validation-summary-errors|field-validation-error') -and ($resp.BaseResponse.ResponseUri.AbsolutePath -match '(?i)/Account/Login')
+        if ([int]$resp.StatusCode -ge 200 -and [int]$resp.StatusCode -lt 400 -and -not $looksLikeLoginError) {
+            Write-Host ("OK Portal login user={0} status={1} authCookie={2} in {3:n1}s uri={4}" -f `
+                $smokeUser, [int]$resp.StatusCode, $hasAuthCookie, $elapsed, $resp.BaseResponse.ResponseUri.AbsoluteUri)
+        } else {
+            $snippet = $body
+            if ($snippet.Length -gt 500) { $snippet = $snippet.Substring(0, 500) + '...' }
+            Write-Warning ("Portal login failed user={0} status={1} authCookie={2} in {3:n1}s uri={4} body={5}" -f `
+                $smokeUser, [int]$resp.StatusCode, $hasAuthCookie, $elapsed, $resp.BaseResponse.ResponseUri.AbsoluteUri, $snippet)
+        }
+    } catch {
+        Write-Warning ("Portal login exception user={0} after {1:n1}s: {2}" -f $smokeUser, $swLogin.Elapsed.TotalSeconds, $_.Exception.Message)
+    }
+} else {
+    Write-Host 'Smoke Portal login skipped (set SI_PDR_SMOKE_USER / SI_PDR_SMOKE_PASSWORD to enable).'
+}
+
 # Re-run diagnostics after smoke so Event Log captures Service start failures.
 if (Test-Path -LiteralPath $diagnose) {
     Write-Phase 'Diagnose after smoke'

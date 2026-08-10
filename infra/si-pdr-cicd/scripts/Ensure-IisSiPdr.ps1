@@ -139,8 +139,8 @@ foreach ($site in $sites) {
     }
     Set-ItemProperty "IIS:\AppPools\$poolName" -Name managedRuntimeVersion -Value 'v4.0'
     Set-ItemProperty "IIS:\AppPools\$poolName" -Name managedPipelineMode -Value 'Integrated'
-    Set-ItemProperty "IIS:\AppPools\$poolName" -Name startMode -Value 'AlwaysRunning' -ErrorAction SilentlyContinue
-    Set-ItemProperty "IIS:\AppPools\$poolName" -Name processModel.idleTimeout -Value ([TimeSpan]::FromMinutes(0)) -ErrorAction SilentlyContinue
+    # OnDemand: t3.small (~2GB) cannot keep 3 AlwaysRunning w3wp processes warm.
+    Set-ItemProperty "IIS:\AppPools\$poolName" -Name startMode -Value 'OnDemand' -ErrorAction SilentlyContinue
     Start-WebAppPool -Name $poolName -ErrorAction SilentlyContinue
 
     $phys = Join-Path $FrameworkRoot $site.Relative
