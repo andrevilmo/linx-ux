@@ -27,7 +27,7 @@ Reuses the OmniPOS Windows build machine:
 |----------|--------|
 | Instance | `i-0a266494b999c1b81` (`t3.small`, 100 GiB, `sa-east-1`) |
 | S3 bucket | `omnipos-cicd-253957900820-sa-east-1` (prefix `linx-ux/runs/`) |
-| Persistent workspace | `C:\lx\si-pdr` (robocopy merge; preserves `**/obj`) |
+| Persistent workspace | `C:\lx\si-pdr` (robocopy merge; preserves `**/obj`, `**/bin`, `Main\Binary\Library`) |
 | Host lock file | `C:\lx\.ci-lock` (avoids overlapping OmniPOS CI) |
 
 ## GitHub secrets (required on **linx-ux**)
@@ -55,19 +55,21 @@ Deploy syncs `Main/Binary/{Service,Application,Portal}/Web.config` into the IIS 
 `.github/workflows/si-pdr-aws-iis.yml`
 
 1. Detect `skip_build` when the diff vs previous commit has no compilable `Main/` source (only `Main/Binary`, configs, `infra/`, `.vscode/`, docs) — or force via `workflow_dispatch`
-2. Package sources (extra excludes: CoreServiceBus/ImageService/SelfHost/WinHost/publish-output; lighter package when `skip_build`)
-3. Upload to S3
-4. SSM merges into **persistent workspace** `C:\lx\si-pdr` (preserves `**/obj` for incremental MSBuild)
-5. `Invoke-SiPdrAwsPipeline.ps1`:
+2. Detect **selective `build_targets`** from the diff (`Portal`, `Application`, `Bv`, `Tools`, or `All`) so unchanged solutions are not rebuilt
+3. Package sources (extra excludes: CoreServiceBus/ImageService/SelfHost/WinHost/publish-output/**Binary/Library**/project `bin`; lighter package when `skip_build` or Portal-only; gzip level 1)
+4. Upload to S3
+5. SSM merges into **persistent workspace** `C:\lx\si-pdr` (preserves `**/obj`, `**/bin`, and `Main\Binary\Library` for incremental MSBuild)
+6. `Invoke-SiPdrAwsPipeline.ps1`:
    - `Ensure-BuildTools.ps1` — VS 2022 Build Tools (+ web)
    - `Ensure-IisSiPdr.ps1` — IIS sites; `-SkipHeavySeed` skips Library robocopy when already present
-   - `stack-to-publish.ps1` — MSBuild Tools → BV → WebAPI → Application → Portal (skipped when `skip_build`)
+   - `Ensure-BinaryLibrary.ps1` — junction/seed `Main\Binary\Library` from Framework (package no longer ships ~400MB Library every run)
+   - `stack-to-publish.ps1` — selective MSBuild (Tools → BV → Application → Portal); skips redundant standalone WebAPI.DS; skipped entirely when `skip_build`
    - `deploy-to-linx-framework.ps1 -SkipBackup -Force`
    - `Set-SiPdrSqlConnectionStrings.ps1` — optional overrides only when `SI_PDR_*` set
-   - Short smoke on `:8080|:8081|:8082` then `:8174|:8172|:1710`
-6. Cleanup old per-run dirs; **keep** `C:\lx\si-pdr` obj caches
+   - Smoke on primary ports `:8174|:8172|:1710` (+ Portal login); re-diagnose only on smoke failure
+7. Cleanup old per-run dirs; **keep** `C:\lx\si-pdr` obj/bin caches
 
-Manual dispatch: `skip_build=true` (Binary-only), `force_full_seed=true` (re-robocopy Library).
+Manual dispatch: `skip_build=true` (Binary-only), `force_full_seed=true` (re-robocopy Library + include Library in package).
 
 ## Local / RDP runbook
 
@@ -111,6 +113,7 @@ pwsh -File infra\si-pdr-cicd\scripts\Invoke-SiPdrAwsPipeline.ps1 -RepoRoot (Get-
 - Portal login requires the EC2 host to open **real** SQL to `tcp:10.16.0.4,1433` (QA). A TCP SYN that never completes TDS still makes Service hang until `Connect Timeout` (kept at 8s in Binary). If the host cannot reach QA SQL, set `SI_PDR_SQL_*` secrets to a reachable SQL auth endpoint, or peer/VPN the instance into the QA network.
 - Post-deploy `Diagnose-SiPdrRuntime.ps1` logs IIS bindings/pools, TCP+`SqlConnection` to FrameworkAutorizacao, and recent Application Event Log errors.
 - Service cold-start on `t3.small` (~2 GiB) often takes **30–40s**; smoke waits up to 60s on `:1710`. Host RAM can drop below 100 MiB free after all three sites warm — consider a larger instance if login/Service flakiness returns.
+- CI smoke hits primary ports only (`8172` / `8174` / `1710`); aliases `8080–8082` are still created by `Ensure-IisSiPdr.ps1`.
 - Optional Portal login smoke uses `SI_PDR_SMOKE_USER` / `SI_PDR_SMOKE_PASSWORD` (defaults to the QA `desenv.franqueado` test user when unset).
 
 ## Related

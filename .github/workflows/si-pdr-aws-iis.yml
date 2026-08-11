@@ -63,8 +63,14 @@ jobs:
         run: |
           set -euo pipefail
           SKIP=false
+          BUILD_TARGETS=All
+          INCLUDE_BINARY_LIBRARY=false
+          if [ "$FORCE_FULL_SEED" = "true" ]; then
+            INCLUDE_BINARY_LIBRARY=true
+          fi
           if [ "$INPUT_SKIP" = "true" ]; then
             SKIP=true
+            BUILD_TARGETS=None
             echo "skip_build forced by workflow_dispatch"
           else
             BEFORE=""
@@ -77,6 +83,10 @@ jobs:
               mapfile -t CHANGED < <(git diff --name-only "$BEFORE" "${{ github.sha }}" || true)
               echo "Changed files vs $BEFORE: ${#CHANGED[@]}"
               NEED_BUILD=false
+              NEED_TOOLS=false
+              NEED_BV=false
+              NEED_APP=false
+              NEED_PORTAL=false
               for f in "${CHANGED[@]}"; do
                 [ -z "$f" ] && continue
                 # Non-Main / Binary / infra / docs / vscode / workflow → never force MSBuild
@@ -88,22 +98,51 @@ jobs:
                 if [[ "$base" == Web.config || "$base" == web.config || "$base" == *.dll.config ]]; then
                   continue
                 fi
-                # Any other Main/ path is treated as needing a build
-                if [[ "$f" == Main/* ]]; then
-                  echo "Build required by: $f"
-                  NEED_BUILD=true
-                  break
+                if [[ "$f" != Main/* ]]; then
+                  continue
+                fi
+                echo "Build required by: $f"
+                NEED_BUILD=true
+                if [[ "$f" == Main/Common/Linx.Tools.Library/* ]]; then
+                  NEED_TOOLS=true; NEED_BV=true; NEED_APP=true; NEED_PORTAL=true
+                elif [[ "$f" == "Main/User Interface/"* || "$f" == Main/Business/Linx.Framework.BV/* || "$f" == Main/BM/* ]]; then
+                  NEED_BV=true; NEED_APP=true
+                elif [[ "$f" == Main/Application/Linx.Portal/* ]]; then
+                  NEED_PORTAL=true
+                elif [[ "$f" == Main/Application/Linx.Internet.Application/* ]]; then
+                  NEED_APP=true
+                else
+                  # Unknown Main path — full build
+                  NEED_TOOLS=true; NEED_BV=true; NEED_APP=true; NEED_PORTAL=true
                 fi
               done
               if [ "$NEED_BUILD" = false ] && [ "${#CHANGED[@]}" -gt 0 ]; then
                 SKIP=true
+                BUILD_TARGETS=None
                 echo "No compilable source changes — skip_build=true"
+              elif [ "$NEED_BUILD" = true ]; then
+                TARGETS=()
+                # Application.sln already compiles BV/WebAPI — skip separate BV when only App changed.
+                if [ "$NEED_TOOLS" = true ]; then TARGETS+=(Tools); fi
+                if [ "$NEED_BV" = true ]; then TARGETS+=(Bv); fi
+                if [ "$NEED_APP" = true ]; then TARGETS+=(Application); fi
+                if [ "$NEED_PORTAL" = true ]; then TARGETS+=(Portal); fi
+                if [ ${#TARGETS[@]} -eq 0 ]; then
+                  BUILD_TARGETS=All
+                elif [ "$NEED_TOOLS" = true ] && [ "$NEED_BV" = true ] && [ "$NEED_APP" = true ] && [ "$NEED_PORTAL" = true ]; then
+                  BUILD_TARGETS=All
+                else
+                  IFS=,; BUILD_TARGETS="${TARGETS[*]}"; unset IFS
+                fi
+                echo "Selective build targets: $BUILD_TARGETS"
               fi
             else
               echo "No usable before-SHA; full build"
             fi
           fi
           echo "skip_build=$SKIP" >> "$GITHUB_OUTPUT"
+          echo "build_targets=$BUILD_TARGETS" >> "$GITHUB_OUTPUT"
+          echo "include_binary_library=$INCLUDE_BINARY_LIBRARY" >> "$GITHUB_OUTPUT"
           if [ "$FORCE_FULL_SEED" = "true" ]; then
             echo "skip_heavy_seed=false" >> "$GITHUB_OUTPUT"
           else
@@ -142,10 +181,12 @@ jobs:
       - name: Package sources
         env:
           SKIP_BUILD: ${{ steps.detect.outputs.skip_build }}
+          INCLUDE_BINARY_LIBRARY: ${{ steps.detect.outputs.include_binary_library }}
+          BUILD_TARGETS: ${{ steps.detect.outputs.build_targets }}
         run: |
           set -euo pipefail
           STAGE=$(mktemp -d)
-          # Shared excludes (keep package lean; obj is preserved on the Windows host workspace).
+          # Shared excludes (keep package lean; obj/bin preserved on the Windows host workspace).
           RSYNC_EXCLUDES=(
             --exclude '.git/'
             --exclude '**/obj/'
@@ -160,11 +201,26 @@ jobs:
             --exclude 'Main/Binary/ImageService/'
             --exclude 'Main/Binary/SelfHost/'
             --exclude 'Main/Common/Mobile/'
+            --exclude 'Main/Common/Linx.TelerikReportDesigner/'
             --exclude 'Main/Application/Linx.Demo/'
             --exclude '**/publish-output/'
             --exclude '**/podman-volume-output/'
+            --exclude '**/_bundler/'
             --exclude '**/*.nupkg'
+            # Project build outputs stay on the host (Sync preserves **/bin); keep Binary site bins.
+            --exclude 'Main/Application/**/bin/'
+            --exclude 'Main/Business/**/bin/'
+            --exclude 'Main/User Interface/**/bin/'
+            --exclude 'Main/Common/**/bin/'
+            --exclude 'Main/BM/**/bin/'
           )
+          # Binary/Library (~400MB) is junctioned/seeded from Framework on the host unless force_full_seed.
+          if [ "$INCLUDE_BINARY_LIBRARY" != "true" ]; then
+            RSYNC_EXCLUDES+=(--exclude 'Main/Binary/Library/')
+            echo "Excluding Main/Binary/Library from package (host Framework Library)"
+          else
+            echo "Including Main/Binary/Library (force_full_seed)"
+          fi
           if [ "$SKIP_BUILD" = "true" ]; then
             echo "Lightweight package (skip_build): Binary + Portal/App sources + scripts"
             mkdir -p "$STAGE/repo/Main/Application" "$STAGE/repo/.vscode" "$STAGE/repo/infra"
@@ -175,12 +231,23 @@ jobs:
             rsync -a infra/ "$STAGE/repo/infra/"
             if [ -d docs ]; then rsync -a docs/ "$STAGE/repo/docs/"; fi
           else
+            # Further trim when selective Portal-only: skip heavy Business/UI/BM/Common trees.
+            if [ "$BUILD_TARGETS" = "Portal" ]; then
+              echo "Portal-only package: skip Business / User Interface / BM / most Common"
+              RSYNC_EXCLUDES+=(
+                --exclude 'Main/Business/'
+                --exclude 'Main/User Interface/'
+                --exclude 'Main/BM/'
+                --exclude 'Main/Common/Linx.Tools.Library/Mobile/'
+                --exclude 'Main/Common/Linx.Tools.Library/Web/'
+              )
+            fi
             rsync -a "${RSYNC_EXCLUDES[@]}" "./" "$STAGE/repo/"
           fi
-          # tar.gz + Windows tar.exe extract is much faster than zip/Expand-Archive on t3.small
+          # Fast gzip (level 1): CPU bound on the runner; level 9 wasted ~30–60s for little size win.
           KEY="linx-ux/runs/${GITHUB_RUN_ID}-${GITHUB_SHA}/source.tar.gz"
           echo "SOURCE_KEY=$KEY" >> "$GITHUB_ENV"
-          (cd "$STAGE/repo" && tar -czf "$STAGE/source.tar.gz" .)
+          (cd "$STAGE/repo" && tar -cf - . | gzip -1 > "$STAGE/source.tar.gz")
           ls -lh "$STAGE/source.tar.gz"
           aws s3 cp "$STAGE/source.tar.gz" "s3://${SOURCE_BUCKET}/${KEY}" --region "$AWS_REGION"
           URL=$(aws s3 presign "s3://${SOURCE_BUCKET}/${KEY}" --expires-in 7200 --region "$AWS_REGION")
@@ -197,6 +264,7 @@ jobs:
         env:
           SKIP_BUILD: ${{ steps.detect.outputs.skip_build }}
           SKIP_HEAVY_SEED: ${{ steps.detect.outputs.skip_heavy_seed }}
+          BUILD_TARGETS: ${{ steps.detect.outputs.build_targets }}
           # Optional SQL auth overrides for Portal login on EC2 (SSPI to corporate SQL fails).
           SI_PDR_SQL_DATA_SOURCE: ${{ secrets.SI_PDR_SQL_DATA_SOURCE }}
           SI_PDR_SQL_USER: ${{ secrets.SI_PDR_SQL_USER }}
@@ -217,6 +285,9 @@ jobs:
           run_id = os.environ["GITHUB_RUN_ID"]
           skip_build = os.environ.get("SKIP_BUILD", "false").lower() in ("1", "true", "yes")
           skip_heavy_seed = os.environ.get("SKIP_HEAVY_SEED", "true").lower() in ("1", "true", "yes")
+          build_targets = os.environ.get("BUILD_TARGETS") or "All"
+          if build_targets in ("None", "none", ""):
+              build_targets = "All"
           skip_ps = "$true" if skip_build else "$false"
           seed_ps = "$true" if skip_heavy_seed else "$false"
           def env_ps(name):
@@ -247,7 +318,8 @@ jobs:
           if ({env_ps("SI_PDR_SHELL_MODE")}) {{ $env:SI_PDR_SHELL_MODE = {env_ps("SI_PDR_SHELL_MODE")} }}
           if ({env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")}) {{ $env:SI_PDR_LOCAL_SERVICEBUS_MODE = {env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")} }}
           $hasSql = [bool]($env:SI_PDR_SQL_PORTAL_CONNECTION -or ($env:SI_PDR_SQL_DATA_SOURCE -and $env:SI_PDR_SQL_USER -and $env:SI_PDR_SQL_PASSWORD))
-          Write-CiLog ("SQL overrides present={{0}} skipBuild={skip_ps} skipHeavySeed={seed_ps}" -f $hasSql)
+          $buildTargets = {json.dumps(build_targets)}
+          Write-CiLog ("SQL overrides present={{0}} skipBuild={skip_ps} skipHeavySeed={seed_ps} buildTargets={{1}}" -f $hasSql, $buildTargets)
 
           # Host lock so OmniPOS CI and SI-PDR CI do not overlap on the same machine
           $deadline = (Get-Date).AddMinutes(90)
@@ -314,16 +386,16 @@ jobs:
             Remove-Item -LiteralPath $archive -Force -ErrorAction SilentlyContinue
             Write-CiLog 'Extract complete'
 
-            # Merge staging into persistent workspace, preserving **/obj for incremental MSBuild
+            # Merge staging into persistent workspace, preserving **/obj **/bin and Binary/Library
             New-Item -ItemType Directory -Force -Path $work | Out-Null
             $syncScript = Get-ChildItem -Path $staging -Recurse -Filter 'Sync-SiPdrWorkspace.ps1' | Select-Object -First 1
             if ($syncScript) {{
-              Write-CiLog 'Running Sync-SiPdrWorkspace.ps1 (preserve obj)'
+              Write-CiLog 'Running Sync-SiPdrWorkspace.ps1 (preserve obj/bin/Library)'
               & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $syncScript.FullName -StagingRoot $staging -WorkspaceRoot $work
               if ($LASTEXITCODE -ne 0) {{ throw "Workspace sync failed: $LASTEXITCODE" }}
             }} else {{
-              Write-CiLog 'Sync script missing; robocopy /MIR /XD obj'
-              & robocopy $staging $work /MIR /XD obj /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null
+              Write-CiLog 'Sync script missing; robocopy /MIR /XD obj bin Library'
+              & robocopy $staging $work /MIR /XD obj bin Library /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null
               if ($LASTEXITCODE -ge 8) {{ throw "robocopy workspace sync failed: $LASTEXITCODE" }}
               cmd.exe /c "exit /b 0" | Out-Null
             }}
@@ -334,8 +406,9 @@ jobs:
             if (-not $pipeline) {{ throw 'Invoke-SiPdrAwsPipeline.ps1 missing' }}
             $repoRoot = $work
             Set-Location $repoRoot
-            Write-CiLog 'Running Invoke-SiPdrAwsPipeline.ps1 (subprocess)'
-            $argList = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $pipeline.FullName, '-RepoRoot', $repoRoot)
+            Write-CiLog ("Running Invoke-SiPdrAwsPipeline.ps1 buildTargets={{0}}" -f $buildTargets)
+            $env:SI_PDR_BUILD_TARGETS = $buildTargets
+            $argList = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $pipeline.FullName, '-RepoRoot', $repoRoot, '-BuildTargets', $buildTargets)
             if ($skipBuild) {{ $argList += '-SkipBuild' }}
             if ($skipHeavySeed) {{ $argList += '-SkipHeavySeed' }}
             $p = Start-Process -FilePath 'powershell.exe' -ArgumentList $argList -Wait -PassThru -NoNewWindow `
@@ -385,7 +458,8 @@ jobs:
             --query 'Command.CommandId' --output text)
           echo "SSM CommandId=$CMD_ID"
 
-          for i in $(seq 1 360); do
+          # Poll every 10s (was 15s) — finishes sooner after host completes.
+          for i in $(seq 1 540); do
             STATUS=$(aws ssm get-command-invocation \
               --region "$AWS_REGION" \
               --command-id "$CMD_ID" \
@@ -395,7 +469,7 @@ jobs:
             case "$STATUS" in
               Success|Failed|Cancelled|TimedOut) break ;;
             esac
-            sleep 15
+            sleep 10
           done
 
           aws ssm get-command-invocation \

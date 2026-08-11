@@ -10,6 +10,8 @@ Deploys **Application**, **Service**, and **Portal** to IIS on the shared Window
 |--------|------|
 | `scripts/Ensure-BuildTools.ps1` | VS 2022 Build Tools + targeting packs |
 | `scripts/Ensure-IisSiPdr.ps1` | IIS/ASP.NET + sites on ports 8080/8081/8082 |
+| `scripts/Ensure-BinaryLibrary.ps1` | Junction/seed `Main\Binary\Library` from Framework |
+| `scripts/Sync-SiPdrWorkspace.ps1` | Merge package into `C:\lx\si-pdr` (keep obj/bin/Library) |
 | `scripts/Invoke-SiPdrAwsPipeline.ps1` | End-to-end publish + deploy + smoke |
 | `scripts/Clear-BuildWorkspace.ps1` | Prune old `C:\lx\*` CI trees |
 

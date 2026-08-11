@@ -16,16 +16,20 @@ if (-not $msbuild) {
     exit 1
 }
 $bvProj = Join-Path (Get-Location) '..\..\Business\Linx.Framework.BV\Linx.Framework.BV\Linx.Framework.BV.csproj'
-if (Test-Path $bvProj) {
+# The sln already builds Linx.Framework.BV; the pre-build only helps cold Binary
+# consumers. CI sets SI_PDR_SKIP_BV_PREBUILD=1 to avoid a full duplicate compile.
+if ((Test-Path $bvProj) -and ($env:SI_PDR_SKIP_BV_PREBUILD -ne '1')) {
     Write-Host 'Building Linx.Framework.BV first (Binary dependency for WebAPI.DS)...'
-    & $msbuild $bvProj /p:Configuration=Release /v:minimal /nologo
+    & $msbuild $bvProj /p:Configuration=Release /m /v:minimal /nologo
     if ($LASTEXITCODE -ne 0) {
         exit $LASTEXITCODE
     }
+} else {
+    Write-Host 'Skipping BV.csproj pre-build (SI_PDR_SKIP_BV_PREBUILD=1 or project missing)'
 }
 
 # /m enables parallel project build (was /m:1 — serialized on the small CI host).
-& $msbuild $sln /p:Configuration=Release /m /v:minimal /nologo
+& $msbuild $sln /p:Configuration=Release /m /v:minimal /nologo /nr:true
 if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }

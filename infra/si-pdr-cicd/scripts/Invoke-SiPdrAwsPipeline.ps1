@@ -8,7 +8,9 @@ param(
     [string] $FrameworkRoot = $(if ($env:LINX_IIS_ROOT) { $env:LINX_IIS_ROOT } else { 'C:\Linx Program Files\Linx Framework 6.0.0' }),
     [string] $OutRoot = 'C:\Linx Workspace\out\toPublish',
     [switch] $SkipBuild,
-    [switch] $SkipHeavySeed
+    [switch] $SkipHeavySeed,
+    # Comma-separated: All | Tools | Bv | Application | Portal
+    [string] $BuildTargets = 'All'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -20,11 +22,14 @@ $env:LINX_IIS_ROOT = $FrameworkRoot
 $scriptsRoot = $PSScriptRoot
 $ensureTools = Join-Path $scriptsRoot 'Ensure-BuildTools.ps1'
 $ensureIis = Join-Path $scriptsRoot 'Ensure-IisSiPdr.ps1'
+$ensureBinaryLib = Join-Path $scriptsRoot 'Ensure-BinaryLibrary.ps1'
 $publish = Join-Path $RepoRoot '.vscode\stack-to-publish.ps1'
 $deploy = Join-Path $RepoRoot '.vscode\deploy-to-linx-framework.ps1'
 
 if (-not (Test-Path -LiteralPath $publish)) { throw "Missing $publish" }
 if (-not (Test-Path -LiteralPath $deploy)) { throw "Missing $deploy" }
+if (-not $BuildTargets) { $BuildTargets = 'All' }
+if ($env:SI_PDR_BUILD_TARGETS) { $BuildTargets = $env:SI_PDR_BUILD_TARGETS }
 
 function Write-Phase([string] $Name) {
     Write-Host ("===== {0} @ {1} =====" -f $Name, (Get-Date -Format o))
@@ -39,7 +44,8 @@ function Reset-LastExitCode {
 function ConvertTo-ProcessArgument {
     param([Parameter(Mandatory = $true)][string] $Value)
     # Start-Process splits on spaces unless the token is quoted.
-    if ($Value -match '[\s"]') {
+    # Also quote commas so powershell.exe does not treat Tools,Portal as an array.
+    if ($Value -match '[\s,"]') {
         return '"' + ($Value.Replace('"', '\"')) + '"'
     }
     return $Value
@@ -86,6 +92,15 @@ $ensureArgs += @('-FrameworkRoot', $FrameworkRoot, '-SeedFromBinary', $binaryRoo
 Invoke-Ps1File -FilePath $ensureIis -ArgumentList $ensureArgs
 Write-Host ("Ensure IIS done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
 
+Write-Phase 'Ensure Binary Library (junction/seed for HintPaths)'
+$sw.Restart()
+if (Test-Path -LiteralPath $ensureBinaryLib) {
+    Invoke-Ps1File -FilePath $ensureBinaryLib -ArgumentList @('-RepoRoot', $RepoRoot, '-FrameworkRoot', $FrameworkRoot)
+} else {
+    Write-Warning "Ensure-BinaryLibrary.ps1 missing — continuing"
+}
+Write-Host ("Ensure Binary Library done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
+
 # PostBuildEvent xcopy targets under Main\Binary (Service\Help, Library\Business View, ...)
 @(
     (Join-Path $binaryRoot 'Service\bin'),
@@ -103,9 +118,9 @@ if (-not (Test-Path -LiteralPath $helpPlaceholder)) {
     Set-Content -LiteralPath $helpPlaceholder -Value 'CI placeholder for PostBuildEvent xcopy.' -Encoding ASCII
 }
 
-Write-Phase ("Publish package (stack-to-publish.ps1) SkipBuild={0}" -f [bool]$SkipBuild)
+Write-Phase ("Publish package (stack-to-publish.ps1) SkipBuild={0} BuildTargets={1}" -f [bool]$SkipBuild, $BuildTargets)
 $sw.Restart()
-$publishArgs = @('-OutRoot', $OutRoot, '-BaselineRoot', $FrameworkRoot)
+$publishArgs = @('-OutRoot', $OutRoot, '-BaselineRoot', $FrameworkRoot, '-BuildTargets', $BuildTargets)
 if ($SkipBuild) { $publishArgs += '-SkipBuild' }
 Invoke-Ps1File -FilePath $publish -ArgumentList $publishArgs
 Write-Host ("Publish done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
@@ -137,21 +152,19 @@ if (Test-Path -LiteralPath $sqlOverride) {
 }
 
 $diagnose = Join-Path $scriptsRoot 'Diagnose-SiPdrRuntime.ps1'
+$smokeFailed = $false
 if (Test-Path -LiteralPath $diagnose) {
     Write-Phase 'Diagnose IIS / SQL reachability'
     Invoke-Ps1File -FilePath $diagnose -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
 }
 
 Write-Phase 'Smoke HTTP'
-# Warm Portal/App first (fast). Service cold-start on t3.small can exceed 15s;
-# allow up to 60s so SQL Connect Timeout / app-start errors surface as HTTP bodies.
+# Primary bindings only (8080/8081/8082 are aliases — skip after primary warm-up).
+# Service cold-start on t3.small can exceed 15s; allow up to 60s.
 $urls = @(
     @{ Url = 'http://127.0.0.1:8172/'; TimeoutSec = 20 },
     @{ Url = 'http://127.0.0.1:8174/'; TimeoutSec = 30 },
-    @{ Url = 'http://127.0.0.1:8081/'; TimeoutSec = 15 },
-    @{ Url = 'http://127.0.0.1:8080/'; TimeoutSec = 15 },
-    @{ Url = 'http://127.0.0.1:1710/'; TimeoutSec = 60 },
-    @{ Url = 'http://127.0.0.1:8082/'; TimeoutSec = 30 }
+    @{ Url = 'http://127.0.0.1:1710/'; TimeoutSec = 60 }
 )
 foreach ($item in $urls) {
     $url = $item.Url
@@ -160,6 +173,7 @@ foreach ($item in $urls) {
         $resp = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec $item.TimeoutSec
         Write-Host ("OK {0} status={1} len={2} in {3:n1}s" -f $url, [int]$resp.StatusCode, ($resp.RawContentLength), $swSmoke.Elapsed.TotalSeconds)
     } catch {
+        $smokeFailed = $true
         $msg = $_.Exception.Message
         # Surface ASP.NET yellow-screen / JSON body for Service 500s (login AuthenticatePortal).
         try {
@@ -212,21 +226,23 @@ if ($smokeUser -and $smokePass) {
             Write-Host ("OK Portal login user={0} status={1} authCookie={2} in {3:n1}s uri={4}" -f `
                 $smokeUser, [int]$resp.StatusCode, $hasAuthCookie, $elapsed, $resp.BaseResponse.ResponseUri.AbsoluteUri)
         } else {
+            $smokeFailed = $true
             $snippet = $body
             if ($snippet.Length -gt 500) { $snippet = $snippet.Substring(0, 500) + '...' }
             Write-Warning ("Portal login failed user={0} status={1} authCookie={2} in {3:n1}s uri={4} body={5}" -f `
                 $smokeUser, [int]$resp.StatusCode, $hasAuthCookie, $elapsed, $resp.BaseResponse.ResponseUri.AbsoluteUri, $snippet)
         }
     } catch {
+        $smokeFailed = $true
         Write-Warning ("Portal login exception user={0} after {1:n1}s: {2}" -f $smokeUser, $swLogin.Elapsed.TotalSeconds, $_.Exception.Message)
     }
 } else {
     Write-Host 'Smoke Portal login skipped (set SI_PDR_SMOKE_USER / SI_PDR_SMOKE_PASSWORD to enable).'
 }
 
-# Re-run diagnostics after smoke so Event Log captures Service start failures.
-if (Test-Path -LiteralPath $diagnose) {
-    Write-Phase 'Diagnose after smoke'
+# Only re-diagnose when smoke failed (Event Log for Service start); saves ~5s on green runs.
+if ($smokeFailed -and (Test-Path -LiteralPath $diagnose)) {
+    Write-Phase 'Diagnose after smoke failure'
     Invoke-Ps1File -FilePath $diagnose -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
 }
 

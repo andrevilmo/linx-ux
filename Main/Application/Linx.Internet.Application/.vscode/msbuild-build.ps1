@@ -25,7 +25,8 @@ $msbuildArgs = @(
     '/p:Platform=Any CPU',
     '/m',
     '/v:minimal',
-    '/nologo'
+    '/nologo',
+    '/nr:true'
 )
 if ($env:SKIP_PODMAN_SYNC -eq '1') {
     Write-Host 'CI: building Application solution for Release|Any CPU (WinHost excluded by sln config)'

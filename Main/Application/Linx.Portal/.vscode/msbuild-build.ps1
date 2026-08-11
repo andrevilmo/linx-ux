@@ -15,7 +15,7 @@ if (-not $msbuild) {
     Write-Error 'MSBuild not found. Install the MSBuild workload (e.g. .NET desktop build tools).'
     exit 1
 }
-& $msbuild $sln /p:Configuration=Release /m /v:minimal /nologo
+& $msbuild $sln /p:Configuration=Release /m /v:minimal /nologo /nr:true
 if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }

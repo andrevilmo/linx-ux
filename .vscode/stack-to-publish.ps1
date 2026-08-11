@@ -1,7 +1,10 @@
 param(
     [switch]$SkipBuild,
     [string]$OutRoot = 'C:\Linx Workspace\out\toPublish',
-    [string]$BaselineRoot = $env:LINX_IIS_ROOT
+    [string]$BaselineRoot = $env:LINX_IIS_ROOT,
+    # Comma-separated or array: All | Tools | Bv | Application | Portal
+    # Example CI: -BuildTargets Portal   or -BuildTargets Tools,Application,Portal
+    [string[]]$BuildTargets = @('All')
 )
 
 $ErrorActionPreference = 'Stop'
@@ -17,6 +20,21 @@ else {
 
 if (-not $BaselineRoot) {
     $BaselineRoot = 'C:\Linx Program Files\Linx Framework 6.0.0'
+}
+
+# Normalize BuildTargets (allow a single comma-separated string from SSM/env).
+$rawTargets = @()
+foreach ($t in $BuildTargets) {
+    if ([string]::IsNullOrWhiteSpace($t)) { continue }
+    $rawTargets += @($t.Split(',') | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+}
+if ($rawTargets.Count -eq 0) { $rawTargets = @('All') }
+$targetSet = New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
+foreach ($t in $rawTargets) { [void]$targetSet.Add($t) }
+$buildAll = $targetSet.Contains('All')
+function Test-ShouldBuild([string]$Name) {
+    if ($buildAll) { return $true }
+    return $targetSet.Contains($Name)
 }
 
 $portalProject = Join-Path $workspace 'Application\Linx.Portal\Linx.Portal'
@@ -162,46 +180,81 @@ function Get-ApplicationDllSources {
         }
     }
 
-    $uiRoot = Join-Path $workspace 'User Interface'
-    if (Test-Path $uiRoot) {
-        Get-ChildItem -Path $uiRoot -Recurse -Filter 'Linx*.dll' -File -ErrorAction SilentlyContinue |
-            Where-Object { $_.FullName -match '\\bin\\(Release|Debug)\\' } |
-            ForEach-Object {
-                $name = $_.Name
-                if (-not $byName.ContainsKey($name) -or $_.LastWriteTime -gt $byName[$name].LastWriteTime) {
-                    $byName[$name] = $_
-                }
+    # Prefer known UI bin roots over a full recursive walk of User Interface (slow on t3.small).
+    $uiBinRoots = @(
+        (Join-Path $workspace 'User Interface\Linx.Framework.BV\Linx.Framework.BV.SPA\bin')
+        (Join-Path $workspace 'User Interface\Linx.Framework.BV\Linx.Framework.BV.SPA\bin\Release')
+        (Join-Path $workspace 'Binary\Library\User Interface')
+    )
+    foreach ($uiRoot in $uiBinRoots) {
+        if (-not (Test-Path $uiRoot)) { continue }
+        Get-ChildItem -Path $uiRoot -Filter 'Linx*.dll' -File -ErrorAction SilentlyContinue | ForEach-Object {
+            $name = $_.Name
+            if (-not $byName.ContainsKey($name) -or $_.LastWriteTime -gt $byName[$name].LastWriteTime) {
+                $byName[$name] = $_
             }
+        }
     }
 
     return $byName
 }
 
+function Invoke-BuildScript {
+    param([Parameter(Mandatory = $true)][string]$ScriptPath, [string]$Label)
+    if (-not (Test-Path $ScriptPath)) {
+        Write-Error "Build script not found: $ScriptPath"
+        exit 1
+    }
+    Write-Host ("Building {0} via {1}" -f $Label, $ScriptPath)
+    $sw = [System.Diagnostics.Stopwatch]::StartNew()
+    & $ScriptPath
+    if ($LASTEXITCODE -ne 0) {
+        exit $LASTEXITCODE
+    }
+    Write-Host ("{0} build done in {1:n1}s" -f $Label, $sw.Elapsed.TotalSeconds)
+}
+
 function Invoke-WorkspaceBuild {
-    # Match "Build All" task order (Tools first)
-    $buildScripts = @(
-        (Join-Path $workspace 'Common\Linx.Tools.Library\Desktop\Linx.Desktop.Tools\.vscode\msbuild-build.ps1')
-        (Join-Path $workspace 'User Interface\Linx.Framework.BV\.vscode\msbuild-build.ps1')
-        (Join-Path $workspace 'Business\Linx.Framework.BV\Linx.Framework.BV.WebAPI.DS\.vscode\msbuild-build.ps1')
-        (Join-Path $workspace 'Application\Linx.Internet.Application\.vscode\msbuild-build.ps1')
-        (Join-Path $workspace 'Application\Linx.Portal\.vscode\msbuild-build.ps1')
-    )
+    # CI-optimized order:
+    #   Tools → BV (UI sln, includes WebAPI.DS) → Application || Portal
+    # Skip the standalone WebAPI.DS script — it is already built by the BV sln
+    # and again by Application.sln (was a full duplicate MSBuild on t3.small).
+    $toolsScript = Join-Path $workspace 'Common\Linx.Tools.Library\Desktop\Linx.Desktop.Tools\.vscode\msbuild-build.ps1'
+    $bvScript = Join-Path $workspace 'User Interface\Linx.Framework.BV\.vscode\msbuild-build.ps1'
+    $appScript = Join-Path $workspace 'Application\Linx.Internet.Application\.vscode\msbuild-build.ps1'
+    $portalScript = Join-Path $workspace 'Application\Linx.Portal\.vscode\msbuild-build.ps1'
+
+    $doTools = Test-ShouldBuild 'Tools'
+    $doBv = Test-ShouldBuild 'Bv'
+    $doApp = Test-ShouldBuild 'Application'
+    $doPortal = Test-ShouldBuild 'Portal'
+
+    # Portal-only / Application-only still need Tools if those outputs are missing.
+    if ($doPortal -and -not $doTools -and -not $buildAll) {
+        $toolsDll = Join-Path $workspace 'Common\Linx.Tools.Library\Desktop\Linx.Desktop.Tools\bin\Release\Linx.Tools.dll'
+        $binaryTools = Join-Path $workspace 'Binary\Portal\bin\Linx.Tools.dll'
+        if (-not (Test-Path $toolsDll) -and -not (Test-Path $binaryTools)) {
+            Write-Host 'Linx.Tools.dll missing — adding Tools to build targets'
+            $doTools = $true
+        }
+    }
+
+    Write-Host ("Build targets: Tools={0} Bv={1} Application={2} Portal={3} (All={4})" -f `
+        $doTools, $doBv, $doApp, $doPortal, $buildAll)
 
     $previousSkip = $env:SKIP_PODMAN_SYNC
     $env:SKIP_PODMAN_SYNC = '1'
+    # Skip the extra BV.csproj pre-build inside the UI script (sln already builds it).
+    $previousSkipBvPre = $env:SI_PDR_SKIP_BV_PREBUILD
+    $env:SI_PDR_SKIP_BV_PREBUILD = '1'
 
     try {
-        foreach ($script in $buildScripts) {
-            if (-not (Test-Path $script)) {
-                Write-Error "Build script not found: $script"
-            }
+        if ($doTools) { Invoke-BuildScript -ScriptPath $toolsScript -Label 'Tools' }
+        if ($doBv) { Invoke-BuildScript -ScriptPath $bvScript -Label 'BV' }
 
-            Write-Host "Building via $script"
-            & $script
-            if ($LASTEXITCODE -ne 0) {
-                exit $LASTEXITCODE
-            }
-        }
+        # Sequential on purpose: t3.small (~2 GiB) OOMs/thrashs when two /m MSBuild trees run together.
+        if ($doApp) { Invoke-BuildScript -ScriptPath $appScript -Label 'Application' }
+        if ($doPortal) { Invoke-BuildScript -ScriptPath $portalScript -Label 'Portal' }
     }
     finally {
         if ($null -eq $previousSkip) {
@@ -209,6 +262,12 @@ function Invoke-WorkspaceBuild {
         }
         else {
             $env:SKIP_PODMAN_SYNC = $previousSkip
+        }
+        if ($null -eq $previousSkipBvPre) {
+            Remove-Item Env:SI_PDR_SKIP_BV_PREBUILD -ErrorAction SilentlyContinue
+        }
+        else {
+            $env:SI_PDR_SKIP_BV_PREBUILD = $previousSkipBvPre
         }
     }
 }
