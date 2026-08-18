@@ -12,3 +12,6 @@ Generated from `origin/original` (`c5023c7c`) vs `origin/footer-presente-colocan
 git fetch origin original footer-presente-colocando-filtro-codigo-gpecon-na-exportacao
 git diff --name-only origin/original origin/footer-presente-colocando-filtro-codigo-gpecon-na-exportacao
 ```
+
+The ~84 MB full zip cannot be served as one file in Cursor Files (404). See `HOW_TO_DOWNLOAD.md`.
+Small zips that GitHub can serve are in `packages/`.
