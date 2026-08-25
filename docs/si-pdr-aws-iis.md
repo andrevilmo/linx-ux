@@ -108,7 +108,7 @@ pwsh -File infra\si-pdr-cicd\scripts\Invoke-SiPdrAwsPipeline.ps1 -RepoRoot (Get-
 
 - Windows firewall rules for 8080–8082 / 1710 / 8172 / 8174 are created by `Ensure-IisSiPdr.ps1`
 - AWS security group still needs inbound TCP for those ports from your IP (RDP SG is separate)
-- Portal login requires the EC2 host to open **real** SQL to `tcp:10.16.0.4,1433` (QA). A TCP SYN that never completes TDS still makes Service hang until `Connect Timeout` (kept at 8s in Binary). If the host cannot reach QA SQL, set `SI_PDR_SQL_*` secrets to a reachable SQL auth endpoint, or peer/VPN the instance into the QA network.
+- Portal login requires the EC2 host to open **real** SQL to `tcp:10.16.0.4,1433` (QA). A TCP SYN that never completes TDS still makes Service hang until the connection string `Connect Timeout` / `connect timeout`. If the host cannot reach QA SQL, set `SI_PDR_SQL_*` secrets to a reachable SQL auth endpoint, or peer/VPN the instance into the QA network.
 - Post-deploy `Diagnose-SiPdrRuntime.ps1` logs IIS bindings/pools, TCP+`SqlConnection` to FrameworkAutorizacao, and recent Application Event Log errors.
 - Service cold-start on `t3.small` (~2 GiB) often takes **30–40s**; smoke waits up to 60s on `:1710`. Host RAM can drop below 100 MiB free after all three sites warm — consider a larger instance if login/Service flakiness returns.
 - Optional Portal login smoke uses `SI_PDR_SMOKE_USER` / `SI_PDR_SMOKE_PASSWORD` (defaults to the QA `desenv.franqueado` test user when unset).
