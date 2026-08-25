@@ -1,0 +1,104 @@
+@{
+    ViewBag.Title = "Verificação MFA - Linx Portal";
+    var enrolled = ViewBag.Enrolled as bool? ?? false;
+    var locked = ViewBag.Locked as bool? ?? false;
+    var qr = ViewBag.QrCodePngBase64 as string;
+    var label = ViewBag.AccountLabel as string;
+}
+<style type="text/css">
+    body:before {
+        background-image: url('@Url.Content("~/assets/img/bg-interna-segmentos-moda2.jpg")')
+    }
+    #authentication {
+        min-height: 100vh;
+    }
+    .mfa-qr {
+        display: block;
+        margin: 12px auto 16px auto;
+        width: 180px;
+        height: 180px;
+        background: #fff;
+        padding: 8px;
+    }
+    .mfa-hint {
+        margin: 8px 0 16px 0;
+        opacity: 0.85;
+        line-height: 1.4;
+    }
+    .mfa-code input {
+        letter-spacing: 6px;
+        font-size: 22px;
+        text-align: center;
+    }
+</style>
+<article id="login">
+    <section id="info-product">
+        <div class="page-brand-info">
+            <div class="brand">
+                <img class="brand-img" src="~/assets/img/prh-logo-linx-h.png" alt="...">
+            </div>
+            <p class="font-size-20">
+                SOFTWARE QUE MOVE O VAREJO
+            </p>
+        </div>
+        <footer>
+            <p> &copy; Linx - Todos os direitos reservados. </p>
+        </footer>
+    </section>
+
+    <section id="authentication">
+        <div class="page-brand-info">
+            <div class="brand">
+                <img class="brand-img" src="~/assets/img/linxPreto.png" alt="...">
+            </div>
+            <p class="font-size-20">Verificação em duas etapas</p>
+        </div>
+        <div class="ux-logo">
+            <img class="linx-img" src="~/assets/img/linxX.png" />
+        </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="form-validation-response">
+                <label class="error-message">@ViewBag.Error</label>
+            </div>
+        }
+
+        @if (!locked)
+        {
+            if (!enrolled)
+            {
+                <p class="mfa-hint">Escaneie o QR Code no Google Authenticator ou Microsoft Authenticator e informe o código de 6 dígitos.</p>
+                if (!string.IsNullOrWhiteSpace(label))
+                {
+                    <p class="mfa-hint">@label</p>
+                }
+                if (!string.IsNullOrWhiteSpace(qr))
+                {
+                    <img class="mfa-qr" alt="QR Code MFA" src="data:image/png;base64,@qr" />
+                }
+            }
+            else
+            {
+                <p class="mfa-hint">Informe o código de 6 dígitos do autenticador.</p>
+                if (!string.IsNullOrWhiteSpace(label))
+                {
+                    <p class="mfa-hint">@label</p>
+                }
+            }
+
+            <form method="post" action="@Url.Action("Verify", "Mfa")" class="mfa-code">
+                <label>código
+                    <input type="text" name="code" id="code" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code" autofocus="autofocus" required="required" />
+                </label>
+                <div class="button-row">
+                    <button type="submit" id="btnMfaSubmit">continuar</button>
+                </div>
+            </form>
+        }
+
+        <p class="mfa-hint">
+            @Html.ActionLink("voltar aos ambientes", "Index", "Home", new { showEnvironments = true }, null)
+        </p>
+    </section>
+</article>

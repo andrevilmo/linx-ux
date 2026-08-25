@@ -28,7 +28,7 @@ namespace Linx.Internet.Application.Controllers
 
         [NoCache]
         [GET("Authentication")]
-        public ActionResult Authentication(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode, string urlWorkArea)
+        public ActionResult Authentication(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode, string urlWorkArea, string mfaTicket)
         {
             LoginInfo loginInfo = new LoginInfo();
 
@@ -63,6 +63,13 @@ namespace Linx.Internet.Application.Controllers
                 if (string.IsNullOrEmpty(_uidEmpresa) || string.IsNullOrEmpty(_uidUsuario) || string.IsNullOrEmpty(_uidAplicacao) || string.IsNullOrEmpty(_idAmbiente) || string.IsNullOrEmpty(_uidGrupoEconomico) || string.IsNullOrEmpty(_nomeEmpresa) || string.IsNullOrEmpty(_grupoEconomico) || string.IsNullOrEmpty(_idGpecon))
                 {
                     ViewBag.Mensagem = "Parametros inv�lidos!";
+                    return View();
+                }
+
+                string mfaError;
+                if (!this.EnsureMfaTicket(_uidUsuario, _idGpecon, mfaTicket, out mfaError))
+                {
+                    ViewBag.Mensagem = mfaError;
                     return View();
                 }
 
@@ -536,6 +543,73 @@ namespace Linx.Internet.Application.Controllers
                     retorno = string.Concat("Retorno inv�lido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
             }
             return loginInfo;
+        }
+
+        private bool EnsureMfaTicket(string uidUsuario, string idGpecon, string mfaTicket, out string error)
+        {
+            error = string.Empty;
+            string key = string.Format("{0}|{1}", uidUsuario, idGpecon);
+            if (this.Session["MfaTicketOk"] as string == key)
+                return true;
+
+            if (string.IsNullOrWhiteSpace(mfaTicket))
+                mfaTicket = this.Request["mfaTicket"] ?? this.Request.Headers["MfaTicket"];
+
+            var _serviceBus = System.Configuration.ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
+            var client = new RestClient(_serviceBus);
+
+            if (!string.IsNullOrWhiteSpace(mfaTicket))
+            {
+                var ticketRequest = new RestRequest("LinxFrameworkAutorizacao/ValidateMfaTicket");
+                ticketRequest.AddParameter("ticket", mfaTicket, ParameterType.QueryString);
+                var ticketResponse = client.ExecuteAsGet(ticketRequest, "GET");
+                if (ticketResponse.ErrorException == null && ticketResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    var parsed = JsonConvert.DeserializeObject<MfaTicketCheck>(ticketResponse.Content);
+                    if (parsed != null && parsed.Success)
+                    {
+                        this.Session["MfaTicketOk"] = key;
+                        return true;
+                    }
+                    error = parsed != null && !string.IsNullOrEmpty(parsed.Message) ? parsed.Message : "Ticket MFA inv�lido.";
+                    return false;
+                }
+                error = ticketResponse.ErrorException != null ? ticketResponse.ErrorException.Message : "Falha ao validar ticket MFA.";
+                return false;
+            }
+
+            Guid uid;
+            int gpecon;
+            if (!Guid.TryParse(uidUsuario, out uid) || !int.TryParse(idGpecon, out gpecon))
+            {
+                error = "Valida��o MFA obrigat�ria. Acesse pelo Portal.";
+                return false;
+            }
+
+            var statusRequest = new RestRequest("LinxFrameworkAutorizacao/GetMfaStatus");
+            statusRequest.AddParameter("tableOrigin", "UX", ParameterType.QueryString);
+            statusRequest.AddParameter("idGpecon", gpecon, ParameterType.QueryString);
+            statusRequest.AddParameter("uidUsuario", uid, ParameterType.QueryString);
+            var statusResponse = client.ExecuteAsGet(statusRequest, "GET");
+            if (statusResponse.ErrorException == null && statusResponse.StatusCode == HttpStatusCode.OK)
+            {
+                var status = JsonConvert.DeserializeObject<MfaTicketCheck>(statusResponse.Content);
+                if (status != null && !status.RequiresMfa)
+                {
+                    this.Session["MfaTicketOk"] = key;
+                    return true;
+                }
+            }
+
+            error = "Valida��o MFA obrigat�ria. Acesse pelo Portal.";
+            return false;
+        }
+
+        private class MfaTicketCheck
+        {
+            public bool Success { get; set; }
+            public string Message { get; set; }
+            public bool RequiresMfa { get; set; }
         }
 
         private string ExtractError(string content)
