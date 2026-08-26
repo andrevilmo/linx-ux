@@ -211,6 +211,16 @@ if ($smokeUser -and $smokePass) {
         if ([int]$resp.StatusCode -ge 200 -and [int]$resp.StatusCode -lt 400 -and -not $looksLikeLoginError) {
             Write-Host ("OK Portal login user={0} status={1} authCookie={2} in {3:n1}s uri={4}" -f `
                 $smokeUser, [int]$resp.StatusCode, $hasAuthCookie, $elapsed, $resp.BaseResponse.ResponseUri.AbsoluteUri)
+            if ($hasAuthCookie) {
+                $homeResp = Invoke-WebRequest -Uri 'http://127.0.0.1:8172/Home/Index' -WebSession $session `
+                    -UseBasicParsing -TimeoutSec 90 -MaximumRedirection 5
+                $homeUri = $homeResp.BaseResponse.ResponseUri.AbsoluteUri
+                $homeBody = if ($homeResp.Content) { ($homeResp.Content -replace '\s+', ' ').Trim() } else { '' }
+                $mfaHint = if ($homeUri -match '(?i)/Mfa/' -or $homeBody -match '(?i)duas etapas|QR Code MFA|c[oó]digo') { ' mfa=yes' } else { ' mfa=no' }
+                Write-Host ("OK Portal home-after-login status={0} uri={1}{2}" -f [int]$homeResp.StatusCode, $homeUri, $mfaHint)
+            } else {
+                Write-Warning 'Portal login returned 200 without ASPXAUTH — SQL/VPN may still be unreachable.'
+            }
         } else {
             $snippet = $body
             if ($snippet.Length -gt 500) { $snippet = $snippet.Substring(0, 500) + '...' }
