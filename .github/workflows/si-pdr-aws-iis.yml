@@ -319,11 +319,14 @@ jobs:
             $syncScript = Get-ChildItem -Path $staging -Recurse -Filter 'Sync-SiPdrWorkspace.ps1' | Select-Object -First 1
             if ($syncScript) {{
               Write-CiLog 'Running Sync-SiPdrWorkspace.ps1 (preserve obj)'
-              & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $syncScript.FullName -StagingRoot $staging -WorkspaceRoot $work
+              $syncArgs = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $syncScript.FullName, '-StagingRoot', $staging, '-WorkspaceRoot', $work)
+              if ($skipBuild) {{ $syncArgs += '-NoMirror' }}
+              & powershell.exe @syncArgs
               if ($LASTEXITCODE -ne 0) {{ throw "Workspace sync failed: $LASTEXITCODE" }}
             }} else {{
-              Write-CiLog 'Sync script missing; robocopy /MIR /XD obj'
-              & robocopy $staging $work /MIR /XD obj /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null
+              $copyMode = if ($skipBuild) {{ '/E' }} else {{ '/MIR' }}
+              Write-CiLog ("Sync script missing; robocopy {0} /XD obj" -f $copyMode)
+              & robocopy $staging $work $copyMode /XD obj /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null
               if ($LASTEXITCODE -ge 8) {{ throw "robocopy workspace sync failed: $LASTEXITCODE" }}
               cmd.exe /c "exit /b 0" | Out-Null
             }}

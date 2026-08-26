@@ -57,14 +57,15 @@ Deploy syncs `Main/Binary/{Service,Application,Portal}/Web.config` into the IIS 
 1. Detect `skip_build` when the diff vs previous commit has no compilable `Main/` source (only `Main/Binary`, configs, `infra/`, `.vscode/`, docs) — or force via `workflow_dispatch`
 2. Package sources (extra excludes: CoreServiceBus/ImageService/SelfHost/WinHost/publish-output; lighter package when `skip_build`)
 3. Upload to S3
-4. SSM merges into **persistent workspace** `C:\lx\si-pdr` (preserves `**/obj` for incremental MSBuild)
+4. SSM merges into **persistent workspace** `C:\lx\si-pdr` (preserves `**/obj` for incremental MSBuild). `skip_build` uses robocopy `/E` (no `/MIR`) so previously compiled `bin` folders are not deleted.
 5. `Invoke-SiPdrAwsPipeline.ps1`:
    - `Ensure-BuildTools.ps1` — VS 2022 Build Tools (+ web)
    - `Ensure-IisSiPdr.ps1` — IIS sites; `-SkipHeavySeed` skips Library robocopy when already present
-   - `stack-to-publish.ps1` — MSBuild Tools → BV → WebAPI → Application → Portal (skipped when `skip_build`)
-   - `deploy-to-linx-framework.ps1 -SkipBackup -Force`
+   - Backup `Main/Binary/{Service,Portal,Application}/Web.config`, then `stack-to-publish.ps1` — MSBuild Tools → BV → WebAPI → Application → Portal (skipped when `skip_build`)
+   - `deploy-to-linx-framework.ps1 -SkipBackup -Force` (`-KeepExistingIisDlls` when `skip_build`, so git Binary DLLs cannot replace the last MSBuild Portal.dll)
+   - Restore the backed-up Binary web.configs onto IIS (BM `XmlConfigMergeConsole` post-build otherwise overwrites QA `tcp:10.16.0.4` with DEV SSPI)
    - `Set-SiPdrSqlConnectionStrings.ps1` — optional overrides only when `SI_PDR_*` set
-   - Short smoke on `:8080|:8081|:8082` then `:8174|:8172|:1710`
+   - Smoke on `:8172|:8174|:1710` and aliases; Portal HTTP 5xx fails the job
 6. Cleanup old per-run dirs; **keep** `C:\lx\si-pdr` obj caches
 
 Manual dispatch: `skip_build=true` (Binary-only), `force_full_seed=true` (re-robocopy Library).

@@ -3,7 +3,10 @@ param(
     [switch]$SkipBackup,
     [switch]$Force,
     [switch]$SkipBinarySync,
-    [switch]$SkipAppLogin
+    [switch]$SkipAppLogin,
+    # skip_build: keep IIS DLLs from the last MSBuild. Git Binary DLLs often have
+    # extract timestamps newer than the built Portal.dll and would replace MFA bits.
+    [switch]$KeepExistingIisDlls
 )
 
 $ErrorActionPreference = 'Stop'
@@ -372,10 +375,17 @@ function Copy-DllWithPdb {
         [string]$BinaryBin,
         [string]$Site,
         [switch]$Force,
-        [switch]$SkipBinarySync
+        [switch]$SkipBinarySync,
+        [switch]$KeepExistingIisDlls
     )
 
     $dest = Join-Path $TargetBin $Source.Name
+    if ($KeepExistingIisDlls -and (Test-Path -LiteralPath $dest)) {
+        Write-Host "[$Site] KeepExistingIisDlls: $dest"
+        $script:skippedCount++
+        return $false
+    }
+
     $copied = Copy-FileIfNeeded -Source $Source -Destination $dest -Site $Site -Force:$Force
 
     $pdbSourcePath = [System.IO.Path]::ChangeExtension($Source.FullName, '.pdb')
@@ -569,7 +579,7 @@ foreach ($dllName in ($portalDllSources.Keys | Sort-Object)) {
         Write-Warning "[Portal] Source not found for $dllName"
         continue
     }
-    Copy-DllWithPdb -Source $source -TargetBin $portalBin -BinaryBin $binaryPortalBin -Site 'Portal' -Force:$Force -SkipBinarySync:$SkipBinarySync | Out-Null
+    Copy-DllWithPdb -Source $source -TargetBin $portalBin -BinaryBin $binaryPortalBin -Site 'Portal' -Force:$Force -SkipBinarySync:$SkipBinarySync -KeepExistingIisDlls:$KeepExistingIisDlls | Out-Null
 }
 
 # Service
@@ -581,7 +591,7 @@ foreach ($dllName in ($serviceDllSources.Keys | Sort-Object)) {
         Write-Warning "[Service] Source not found for $dllName"
         continue
     }
-    Copy-DllWithPdb -Source $source -TargetBin $serviceBin -BinaryBin $binaryServiceBin -Site 'Service' -Force:$Force -SkipBinarySync:$SkipBinarySync | Out-Null
+    Copy-DllWithPdb -Source $source -TargetBin $serviceBin -BinaryBin $binaryServiceBin -Site 'Service' -Force:$Force -SkipBinarySync:$SkipBinarySync -KeepExistingIisDlls:$KeepExistingIisDlls | Out-Null
 }
 
 # Service Extension (AuthenticateUserExtension is loaded from bin\Extension\)
@@ -595,7 +605,7 @@ $extensionSource = Resolve-NewestSource -Candidates @(
 )
 if ($extensionSource) {
     Write-Host "[Service] Extension -> $serviceExtensionBin"
-    Copy-DllWithPdb -Source $extensionSource -TargetBin $serviceExtensionBin -BinaryBin $null -Site 'Service' -Force:$Force -SkipBinarySync | Out-Null
+    Copy-DllWithPdb -Source $extensionSource -TargetBin $serviceExtensionBin -BinaryBin $null -Site 'Service' -Force:$Force -SkipBinarySync -KeepExistingIisDlls:$KeepExistingIisDlls | Out-Null
 }
 else {
     Write-Warning "[Service] Source not found for $extensionDllName (Extension folder)"
@@ -622,7 +632,8 @@ foreach ($dllName in ($targetDllNames | Sort-Object)) {
         -BinaryBin $binaryApplicationBin `
         -Site 'Application' `
         -Force:$Force `
-        -SkipBinarySync:$SkipBinarySync | Out-Null
+        -SkipBinarySync:$SkipBinarySync `
+        -KeepExistingIisDlls:$KeepExistingIisDlls | Out-Null
 }
 
 # ---------------------------------------------------------------------------

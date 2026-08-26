@@ -71,6 +71,27 @@ function Invoke-Ps1File {
 }
 
 $swTotal = [System.Diagnostics.Stopwatch]::StartNew()
+$script:smokeFailed = $false
+
+# Capture git Binary web.configs before MSBuild. Autorizacao.BM PostBuildEvent runs
+# XmlConfigMergeConsole into Main\Binary\Service\Web.config and replaces QA
+# tcp:10.16.0.4 with DEV SSPI a-srv111.
+$binaryConfigBackup = Join-Path $env:TEMP ('si-pdr-webconfig-' + [guid]::NewGuid().ToString('n'))
+New-Item -ItemType Directory -Force -Path $binaryConfigBackup | Out-Null
+$binaryWebConfigSpecs = @(
+    @{ Rel = 'Main\Binary\Service\Web.config'; Name = 'Service.Web.config' },
+    @{ Rel = 'Main\Binary\Portal\Web.config'; Name = 'Portal.Web.config' },
+    @{ Rel = 'Main\Binary\Application\Web.config'; Name = 'Application.Web.config' }
+)
+foreach ($cfg in $binaryWebConfigSpecs) {
+    $src = Join-Path $RepoRoot $cfg.Rel
+    if (Test-Path -LiteralPath $src) {
+        Copy-Item -LiteralPath $src -Destination (Join-Path $binaryConfigBackup $cfg.Name) -Force
+        Write-Host ("Backed up {0}" -f $cfg.Rel)
+    } else {
+        Write-Warning ("Binary web.config missing at start: {0}" -f $src)
+    }
+}
 
 Write-Phase 'Ensure build tools'
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
@@ -112,13 +133,61 @@ Write-Host ("Publish done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
 
 Write-Phase 'Deploy to IIS (deploy-to-linx-framework.ps1)'
 $sw.Restart()
-Invoke-Ps1File -FilePath $deploy -ArgumentList @(
+$deployArgs = @(
     '-TargetRoot', $FrameworkRoot,
     '-SkipBackup',
     '-Force',
     '-SkipBinarySync'
 )
+if ($SkipBuild) { $deployArgs += '-KeepExistingIisDlls' }
+Invoke-Ps1File -FilePath $deploy -ArgumentList $deployArgs
 Write-Host ("Deploy done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
+
+Write-Phase 'Restore Binary web.config onto IIS (QA SQL)'
+$iisWebConfigMap = @{
+    'Service.Web.config'     = @(
+        (Join-Path $RepoRoot 'Main\Binary\Service\Web.config'),
+        (Join-Path $FrameworkRoot 'Service\Web.config')
+    )
+    'Portal.Web.config'      = @(
+        (Join-Path $RepoRoot 'Main\Binary\Portal\Web.config'),
+        (Join-Path $FrameworkRoot 'Portal\Web.config')
+    )
+    'Application.Web.config' = @(
+        (Join-Path $RepoRoot 'Main\Binary\Application\Web.config'),
+        (Join-Path $FrameworkRoot 'Application\Web.config')
+    )
+}
+foreach ($name in $iisWebConfigMap.Keys) {
+    $backup = Join-Path $binaryConfigBackup $name
+    if (-not (Test-Path -LiteralPath $backup)) {
+        Write-Warning "No backup for $name; left current web.config"
+        continue
+    }
+    foreach ($dst in $iisWebConfigMap[$name]) {
+        $dstDir = Split-Path -Parent $dst
+        if (-not (Test-Path -LiteralPath $dstDir)) {
+            New-Item -ItemType Directory -Force -Path $dstDir | Out-Null
+        }
+        Copy-Item -LiteralPath $backup -Destination $dst -Force
+        Write-Host ("Restored {0} -> {1}" -f $name, $dst)
+    }
+}
+
+# Reload app domains so Service picks up QA SQL before diagnose/smoke.
+try {
+    Import-Module WebAdministration -ErrorAction Stop
+    foreach ($poolName in @('SI-PDR-Service', 'SI-PDR-Portal', 'SI-PDR-Application')) {
+        try {
+            Restart-WebAppPool -Name $poolName -ErrorAction SilentlyContinue
+            Write-Host "Restarted app pool $poolName"
+        } catch {
+            Write-Warning ("Could not restart {0}: {1}" -f $poolName, $_.Exception.Message)
+        }
+    }
+} catch {
+    Write-Warning ("WebAdministration not available for pool recycle: {0}" -f $_.Exception.Message)
+}
 
 # Portal login -> Service AuthenticatePortal -> EF SQL. Binary defaults use SSPI to
 # corporate SQL; AWS EC2 needs SI_PDR_SQL_* env (or sql-overrides.psd1) with SQL auth.
@@ -170,13 +239,16 @@ foreach ($item in $urls) {
                     $body = $reader.ReadToEnd()
                     if ($body) {
                         $body = ($body -replace '\s+', ' ').Trim()
-                        if ($body.Length -gt 400) { $body = $body.Substring(0, 400) + '...' }
+                        if ($body.Length -gt 800) { $body = $body.Substring(0, 800) + '...' }
                         $msg = "$msg | body=$body"
                     }
                 }
             }
         } catch { }
         Write-Warning ("Smoke failed for {0} after {1:n1}s: {2}" -f $url, $swSmoke.Elapsed.TotalSeconds, $msg)
+        if ($url -match ':8172/|:8081/') {
+            $script:smokeFailed = $true
+        }
     }
 }
 
@@ -228,7 +300,25 @@ if ($smokeUser -and $smokePass) {
                 $smokeUser, [int]$resp.StatusCode, $hasAuthCookie, $elapsed, $resp.BaseResponse.ResponseUri.AbsoluteUri, $snippet)
         }
     } catch {
-        Write-Warning ("Portal login exception user={0} after {1:n1}s: {2}" -f $smokeUser, $swLogin.Elapsed.TotalSeconds, $_.Exception.Message)
+        $msg = $_.Exception.Message
+        try {
+            if ($_.Exception.Response) {
+                $stream = $_.Exception.Response.GetResponseStream()
+                if ($stream) {
+                    $reader = New-Object System.IO.StreamReader($stream)
+                    $bodyEx = $reader.ReadToEnd()
+                    if ($bodyEx) {
+                        $bodyEx = ($bodyEx -replace '\s+', ' ').Trim()
+                        if ($bodyEx.Length -gt 800) { $bodyEx = $bodyEx.Substring(0, 800) + '...' }
+                        $msg = "$msg | body=$bodyEx"
+                    }
+                }
+            }
+        } catch { }
+        Write-Warning ("Portal login exception user={0} after {1:n1}s: {2}" -f $smokeUser, $swLogin.Elapsed.TotalSeconds, $msg)
+        if ($_.Exception.Response) {
+            $script:smokeFailed = $true
+        }
     }
 } else {
     Write-Host 'Smoke Portal login skipped (set SI_PDR_SMOKE_USER / SI_PDR_SMOKE_PASSWORD to enable).'
@@ -238,6 +328,11 @@ if ($smokeUser -and $smokePass) {
 if (Test-Path -LiteralPath $diagnose) {
     Write-Phase 'Diagnose after smoke'
     Invoke-Ps1File -FilePath $diagnose -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
+}
+
+if ($script:smokeFailed) {
+    Write-Host ("SI-PDR AWS pipeline finished with Portal smoke failures in {0:n1}s. IIS root: {1}" -f $swTotal.Elapsed.TotalSeconds, $FrameworkRoot)
+    exit 1
 }
 
 Write-Host ("SI-PDR AWS pipeline succeeded in {0:n1}s total." -f $swTotal.Elapsed.TotalSeconds)
