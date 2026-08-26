@@ -629,7 +629,7 @@ namespace Linx.Internet.Application.Controllers
                         this.Session["MfaTicketOk"] = key;
                         return true;
                     }
-                    error = parsed != null && !string.IsNullOrEmpty(parsed.Message) ? parsed.Message : "Ticket MFA inv�lido.";
+                    error = parsed != null && !string.IsNullOrEmpty(parsed.Message) ? parsed.Message : "Ticket MFA inválido.";
                     return false;
                 }
                 error = ticketResponse.ErrorException != null ? ticketResponse.ErrorException.Message : "Falha ao validar ticket MFA.";
@@ -640,7 +640,7 @@ namespace Linx.Internet.Application.Controllers
             int gpecon;
             if (!Guid.TryParse(uidUsuario, out uid) || !int.TryParse(idGpecon, out gpecon))
             {
-                error = "Valida��o MFA obrigat�ria. Acesse pelo Portal.";
+                error = "Validação MFA obrigatória. Acesse pelo Portal.";
                 return false;
             }
 
@@ -659,7 +659,7 @@ namespace Linx.Internet.Application.Controllers
                 }
             }
 
-            error = "Valida��o MFA obrigat�ria. Acesse pelo Portal.";
+            error = "Validação MFA obrigatória. Acesse pelo Portal.";
             return false;
         }
 
