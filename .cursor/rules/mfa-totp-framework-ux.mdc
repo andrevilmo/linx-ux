@@ -151,6 +151,16 @@ Event kinds stay off the password lockout window (`M` / `E` / `R` plus `INDICA_C
 
 ---
 
+## Encoding (IIS / Windows csc)
+
+Save new MFA `.cs` / `.cshtml` as **UTF-8 with BOM**. On AWS IIS, `csc` and Razor default to Windows-1252: UTF-8 without BOM turns `código` into `cÃ³digo`.
+
+If a file is already Windows-1252, convert to UTF-8 first, then add BOM. Do not prepend a UTF-8 BOM onto 1252 bytes.
+
+Portal and Application `Web.config` use `<globalization fileEncoding="utf-8" ... />`. Do **not** set `fileEncoding` on Service `Web.config` (legacy 1252 sources).
+
+---
+
 ## Out of scope (this delivery)
 
 - POS / `AppLogin/loginPOS` / wiring `PDV` in the Portal/Application UI

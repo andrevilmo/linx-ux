@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -39,7 +39,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             {
                 if (!ds.ValidateUser(userName, userPassword))
                 {
-                    // Membership.ValidateUser returns false for locked accounts ù promote to ERRAUT020.
+                    // Membership.ValidateUser returns false for locked accounts; promote to ERRAUT020.
                     if (ds.IsMembershipUserLockedOut(userName))
                         throw new Exception(ErrorConstants.FormatUserLockedOutMessage());
 
@@ -68,7 +68,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         /// <summary>
         /// Portal SSO (Azure AD / MSAL): passwordless login after IdP proof.
         /// Maps UPN-prefix login (case-insensitive) to NomeAutenticacao, validates access, audits as PortalSSO.
-        /// Does not accept or forward the Azure access token ó identity was already proven by the Portal.
+        /// Does not accept or forward the Azure access token ‚Äî identity was already proven by the Portal.
         /// </summary>
         [Route("AuthenticatePortalSso"), System.Web.Http.HttpGet()]
         public string AuthenticatePortalSso(string userName)
@@ -104,12 +104,12 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                 if (usuario.IsNull())
                 {
                     dsAuth.LogAuthAccessFailure(userName, ErrorConstants._UserBadNameOrPassword.Code,
-                        "Usu·rio autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda.", "PortalSSO", false);
+                        "Usu√°rio autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda.", "PortalSSO", false);
                     return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"),
-                        crypto.Encrypt("Usu·rio autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda."))));
+                        crypto.Encrypt("Usu√°rio autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda."))));
                 }
 
-                // Validate User (Inativo - Vigencia) ó same gates as password login, without Membership password.
+                // Validate User (Inativo - Vigencia) ‚Äî same gates as password login, without Membership password.
                 dsAuth.ValidateUserAccess(usuario.UidUsuario);
 
                 dsAuth.LogAuthAccessSuccess(usuario.NomeAutenticacao, "PortalSSO");

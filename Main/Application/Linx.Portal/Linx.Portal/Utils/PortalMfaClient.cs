@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Web;
 using Linx.Portal.Models;
 using Newtonsoft.Json;

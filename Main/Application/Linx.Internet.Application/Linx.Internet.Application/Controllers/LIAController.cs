@@ -62,7 +62,7 @@ namespace Linx.Internet.Application.Controllers
                 // consiste os parametros
                 if (string.IsNullOrEmpty(_uidEmpresa) || string.IsNullOrEmpty(_uidUsuario) || string.IsNullOrEmpty(_uidAplicacao) || string.IsNullOrEmpty(_idAmbiente) || string.IsNullOrEmpty(_uidGrupoEconomico) || string.IsNullOrEmpty(_nomeEmpresa) || string.IsNullOrEmpty(_grupoEconomico) || string.IsNullOrEmpty(_idGpecon))
                 {
-                    ViewBag.Mensagem = "Parametros inv�lidos!";
+                    ViewBag.Mensagem = "Parametros inválidos!";
                     return View();
                 }
 
@@ -161,7 +161,7 @@ namespace Linx.Internet.Application.Controllers
                     LoggedUser[] users = JsonConvert.DeserializeObject<LoggedUser[]>(response.Content);
 
                     if (users == null || users.Count() == 0)
-                        retorno = "Usu�rio n�o possui acesso padr�o !";
+                        retorno = "Usuário não possui acesso padrão !";
                     else
                     {
                         return RedirectToAction("Authentication", "LIA",
@@ -186,7 +186,7 @@ namespace Linx.Internet.Application.Controllers
                 }
                 else
                 {
-                    retorno = string.Concat("Retorno inv�lido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
+                    retorno = string.Concat("Retorno inválido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
                 }
 
                 if (retorno.Length > 0)
@@ -534,7 +534,7 @@ namespace Linx.Internet.Application.Controllers
                 loginInfo = JsonConvert.DeserializeObject<LoginInfo>(response.Content);
 
                 if (loginInfo == null)
-                    retorno = "Mensagem inv�lida!";
+                    retorno = "Mensagem inválida!";
                 else
                 {
                     this.Session["Expiracao"] = (!loginInfo.AutenticacaoWindows && DateTime.Now >= loginInfo.DataExpiracaoSenha);
@@ -546,10 +546,10 @@ namespace Linx.Internet.Application.Controllers
             {
                 if (response.Content.Contains("Linx.Framework.BV.LicenseException"))
                 {
-                    retorno = string.Concat("<b>Falha na Valida��o do Controle de Licen�as.<BR><BR>", ExtractError(response.Content), "</b>");
+                    retorno = string.Concat("<b>Falha na Validação do Controle de Licenças.<BR><BR>", ExtractError(response.Content), "</b>");
                 }
                 else
-                    retorno = string.Concat("Retorno inv�lido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
+                    retorno = string.Concat("Retorno inválido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
             }
             return loginInfo;
         }
