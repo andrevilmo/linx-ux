@@ -66,6 +66,53 @@ function Stop-SiPdrAppPools {
     }
 }
 
+function Start-SiPdrAppPools {
+    Write-Host 'Starting IIS app pools after publish (Restart-WebAppPool does not start a Stopped pool)'
+    try {
+        Import-Module WebAdministration -ErrorAction Stop
+    } catch {
+        Write-Warning ("WebAdministration not available to start pools: {0}" -f $_.Exception.Message)
+        return
+    }
+    foreach ($siteName in @('Service', 'Portal', 'Application')) {
+        try {
+            $siteState = (Get-WebsiteState -Name $siteName -ErrorAction SilentlyContinue).Value
+            if ($siteState -eq 'Stopped') {
+                Start-Website -Name $siteName
+                Write-Host ("Started website {0}" -f $siteName)
+            }
+        } catch {
+            Write-Warning ("Could not start website {0}: {1}" -f $siteName, $_.Exception.Message)
+        }
+    }
+    foreach ($poolName in @('SI-PDR-Service', 'SI-PDR-Portal', 'SI-PDR-Application')) {
+        try {
+            $state = $null
+            try { $state = (Get-WebAppPoolState -Name $poolName -ErrorAction Stop).Value } catch { $state = $null }
+            if ($state -eq 'Stopped' -or [string]::IsNullOrWhiteSpace($state)) {
+                Start-WebAppPool -Name $poolName
+            } elseif ($state -ne 'Started') {
+                Start-WebAppPool -Name $poolName -ErrorAction SilentlyContinue
+            }
+        } catch {
+            Write-Warning ("Could not start {0}: {1}" -f $poolName, $_.Exception.Message)
+        }
+    }
+    $deadline = (Get-Date).AddSeconds(60)
+    foreach ($poolName in @('SI-PDR-Service', 'SI-PDR-Portal', 'SI-PDR-Application')) {
+        $state = $null
+        do {
+            try { $state = (Get-WebAppPoolState -Name $poolName -ErrorAction SilentlyContinue).Value } catch { $state = $null }
+            if ($state -eq 'Started' -or (Get-Date) -gt $deadline) { break }
+            Start-Sleep -Seconds 2
+        } while ($true)
+        Write-Host ("App pool {0} state={1}" -f $poolName, $state)
+        if ($state -ne 'Started') {
+            Write-Warning ("App pool {0} did not reach Started (state={1})" -f $poolName, $state)
+        }
+    }
+}
+
 function ConvertTo-ProcessArgument {
     param([Parameter(Mandatory = $true)][string] $Value)
     # Start-Process splits on spaces unless the token is quoted.
@@ -206,21 +253,6 @@ foreach ($name in $iisWebConfigMap.Keys) {
     }
 }
 
-# Reload app domains so Service picks up QA SQL before diagnose/smoke.
-try {
-    Import-Module WebAdministration -ErrorAction Stop
-    foreach ($poolName in @('SI-PDR-Service', 'SI-PDR-Portal', 'SI-PDR-Application')) {
-        try {
-            Restart-WebAppPool -Name $poolName -ErrorAction SilentlyContinue
-            Write-Host "Restarted app pool $poolName"
-        } catch {
-            Write-Warning ("Could not restart {0}: {1}" -f $poolName, $_.Exception.Message)
-        }
-    }
-} catch {
-    Write-Warning ("WebAdministration not available for pool recycle: {0}" -f $_.Exception.Message)
-}
-
 # Portal login -> Service AuthenticatePortal -> EF SQL. Binary defaults use SSPI to
 # corporate SQL; AWS EC2 needs SI_PDR_SQL_* env (or sql-overrides.psd1) with SQL auth.
 $sqlOverride = Join-Path $scriptsRoot 'Set-SiPdrSqlConnectionStrings.ps1'
@@ -236,6 +268,10 @@ if (Test-Path -LiteralPath $sqlOverride) {
     Write-Phase 'Apply SQL / auth Service URL overrides'
     Invoke-Ps1File -FilePath $sqlOverride -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
 }
+
+# Start after web.config restore + SQL override so the first w3wp loads the final config.
+# Restart-WebAppPool on a Stopped pool is a no-op and left every site returning HTTP 503.
+Start-SiPdrAppPools
 
 $diagnose = Join-Path $scriptsRoot 'Diagnose-SiPdrRuntime.ps1'
 if (Test-Path -LiteralPath $diagnose) {
