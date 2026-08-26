@@ -246,6 +246,96 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return context.UnlockMembershipUser(userName);
         }
 
+        [Route("GetMfaStatus"), System.Web.Http.HttpGet()]
+        public MfaStatusResult GetMfaStatus(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null)
+        {
+            return new AutorizacaoDomainService().GetMfaStatus(tableOrigin, idGpecon, idUserMfa, uidUsuario);
+        }
+
+        [Route("BeginMfaEnrollment"), System.Web.Http.HttpGet()]
+        public object BeginMfaEnrollment(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null)
+        {
+            MfaEnrollResult enroll = new AutorizacaoDomainService().BeginMfaEnrollment(tableOrigin, idGpecon, idUserMfa, uidUsuario);
+            string qr = null;
+            if (enroll.Success && !string.IsNullOrEmpty(enroll.OtpauthUri))
+            {
+                using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
+                using (Bitmap bitmap = GetQrCode(enroll.OtpauthUri))
+                {
+                    bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    qr = Convert.ToBase64String(stream.ToArray());
+                }
+            }
+            return new
+            {
+                enroll.Success,
+                enroll.Message,
+                enroll.OtpauthUri,
+                enroll.AccountLabel,
+                QrCodePngBase64 = qr
+            };
+        }
+
+        [Route("ConfirmMfaEnrollment"), System.Web.Http.HttpGet()]
+        public MfaValidateResult ConfirmMfaEnrollment(string tableOrigin, int idGpecon, string code, long idUserMfa = 0, Guid? uidUsuario = null)
+        {
+            return new AutorizacaoDomainService().ConfirmMfaEnrollment(tableOrigin, idGpecon, idUserMfa, uidUsuario, code);
+        }
+
+        [Route("ValidateMfaCode"), System.Web.Http.HttpGet()]
+        public MfaValidateResult ValidateMfaCode(string tableOrigin, int idGpecon, string code, long idUserMfa = 0, Guid? uidUsuario = null, string canal = null)
+        {
+            return new AutorizacaoDomainService().ValidateMfaCode(tableOrigin, idGpecon, idUserMfa, uidUsuario, code, canal);
+        }
+
+        [Route("RevokeMfaSecret"), System.Web.Http.HttpGet()]
+        public MfaValidateResult RevokeMfaSecret(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null)
+        {
+            return new AutorizacaoDomainService().RevokeMfaSecret(tableOrigin, idGpecon, idUserMfa, uidUsuario);
+        }
+
+        [Route("GetMfaCompanyPolicy"), System.Web.Http.HttpGet()]
+        public MfaCompanyPolicy GetMfaCompanyPolicy(int idGpecon)
+        {
+            return new AutorizacaoDomainService().GetMfaCompanyPolicy(idGpecon);
+        }
+
+        [Route("SetMfaCompanyPolicy"), System.Web.Http.HttpGet()]
+        public MfaCompanyPolicy SetMfaCompanyPolicy(int idGpecon, bool indicaMfaHabilitado, bool indicaDispositivoConfiavel = false, int qtdDiasConfianca = 0)
+        {
+            return new AutorizacaoDomainService().SetMfaCompanyPolicy(idGpecon, indicaMfaHabilitado, indicaDispositivoConfiavel, qtdDiasConfianca);
+        }
+
+        [Route("SetUserMfaFlags"), System.Web.Http.HttpGet()]
+        public MfaStatusResult SetUserMfaFlags(Guid uidUsuario, bool? utilizaSso = null, bool? utilizaMfa = null)
+        {
+            return new AutorizacaoDomainService().SetUserMfaFlags(uidUsuario, utilizaSso, utilizaMfa);
+        }
+
+        [Route("LinkMfaDevice"), System.Web.Http.HttpGet()]
+        public MfaDeviceResult LinkMfaDevice(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null, string userAgent = null)
+        {
+            return new AutorizacaoDomainService().LinkMfaDevice(tableOrigin, idGpecon, idUserMfa, uidUsuario, userAgent);
+        }
+
+        [Route("CheckMfaDevice"), System.Web.Http.HttpGet()]
+        public bool CheckMfaDevice(string tableOrigin, int idGpecon, string deviceToken, long idUserMfa = 0, Guid? uidUsuario = null)
+        {
+            return new AutorizacaoDomainService().CheckMfaDevice(tableOrigin, idGpecon, idUserMfa, uidUsuario, deviceToken);
+        }
+
+        [Route("ValidateMfaTicket"), System.Web.Http.HttpGet()]
+        public MfaValidateResult ValidateMfaTicket(string ticket)
+        {
+            return new AutorizacaoDomainService().ValidateMfaTicket(ticket);
+        }
+
+        [Route("IssueMfaSkipTicket"), System.Web.Http.HttpGet()]
+        public MfaValidateResult IssueMfaSkipTicket(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null, string reason = null)
+        {
+            return new AutorizacaoDomainService().IssueMfaSkipTicket(tableOrigin, idGpecon, idUserMfa, uidUsuario, reason);
+        }
+
 
         [Route("AuthenticateWindowsApp"), System.Web.Http.HttpGet()]
         public List<UsuarioAcesso> AuthenticateWindowsApp(string userName, string userPassword)

@@ -21,6 +21,12 @@ namespace Linx.Portal.Controllers
                 return RedirectToAction("Login", "Account", new RouteValueDictionary { { "formulario", Request["formulario"] }, { "supportMode", Request["supportMode"] } });
             }
 
+            if (TempData["MfaError"] != null)
+            {
+                ViewBag.Error = TempData["MfaError"];
+                ViewBag.ErrorTitle = "Não foi possível continuar o acesso (MFA).";
+            }
+
             try
             {
                 Linx.Security.Cryptography crypto = new Linx.Security.Cryptography();
@@ -87,7 +93,7 @@ namespace Linx.Portal.Controllers
 
                 if ((!showEnvironments || users.Length == 1) && !isSupportMode)
                 {
-                    this.Redirect(usr.Url, usr.UidEmpresa, usr.UidGrupoEconomico, usr.UidUsuario, usr.UidAplicacao, usr.IdTcsAmbiente, formulario, usr.NomeEmpresa, usr.GrupoEconomico, usr.IdLinxGpecon, User.Identity.Name, isSupportMode, usr.UrlWorkArea);
+                    return this.Redirect(usr.Url, usr.UidEmpresa, usr.UidGrupoEconomico, usr.UidUsuario, usr.UidAplicacao, usr.IdTcsAmbiente, formulario, usr.NomeEmpresa, usr.GrupoEconomico, usr.IdLinxGpecon, User.Identity.Name, isSupportMode, usr.UrlWorkArea);
                 }
                 else
                     ViewData.Add("users", users);
@@ -103,14 +109,94 @@ namespace Linx.Portal.Controllers
         public ActionResult LogOut(string formulario)
         {
             FormsAuthentication.SignOut();
+            Session.Remove(PortalMfaClient.SessionPending);
+            Session.Remove(PortalMfaClient.SessionTicket);
+            Session.Remove(PortalMfaClient.SessionVerified);
             return RedirectToAction("Login", "Account", new RouteValueDictionary { { "formulario", formulario.IsNull() ? "" : formulario } });
         }
 
-        public void Redirect(string url, Guid uidEmpresa, Guid uidGrupoEconomico, Guid uidUsuario, Guid uidAplicacao, int idAmbiente, string formulario, string nomeEmpresa, string grupoEconomico, int idLinxGpecon, string usuarioAutenticacao, bool supportMode, string urlWorkArea)
+        public ActionResult Redirect(string url, Guid uidEmpresa, Guid uidGrupoEconomico, Guid uidUsuario, Guid uidAplicacao, int idAmbiente, string formulario, string nomeEmpresa, string grupoEconomico, int idLinxGpecon, string usuarioAutenticacao, bool supportMode, string urlWorkArea, bool forceMfa = false)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            MfaPendingRedirect pending = new MfaPendingRedirect
+            {
+                Url = url,
+                UidEmpresa = uidEmpresa,
+                UidGrupoEconomico = uidGrupoEconomico,
+                UidUsuario = uidUsuario,
+                UidAplicacao = uidAplicacao,
+                IdAmbiente = idAmbiente,
+                Formulario = formulario.IsNull() ? "" : formulario,
+                NomeEmpresa = nomeEmpresa,
+                GrupoEconomico = grupoEconomico,
+                IdLinxGpecon = idLinxGpecon,
+                UsuarioAutenticacao = usuarioAutenticacao,
+                SupportMode = supportMode,
+                UrlWorkArea = urlWorkArea
+            };
+
+            string verifiedKey = PortalMfaClient.VerifiedKey(uidUsuario, idLinxGpecon);
+            if (!forceMfa)
+            {
+                string existingTicket = Session[PortalMfaClient.SessionTicket] as string;
+                if (Session[PortalMfaClient.SessionVerified] as string == verifiedKey && !string.IsNullOrWhiteSpace(existingTicket))
+                {
+                    try
+                    {
+                        PortalMfaValidate check = PortalMfaClient.ValidateTicket(existingTicket);
+                        if (check != null && check.Success)
+                        {
+                            pending.Ticket = existingTicket;
+                            return RedirectToApplication(pending);
+                        }
+                    }
+                    catch
+                    {
+                    }
+                    Session.Remove(PortalMfaClient.SessionTicket);
+                    Session.Remove(PortalMfaClient.SessionVerified);
+                }
+            }
+            else
+            {
+                Session.Remove(PortalMfaClient.SessionTicket);
+                Session.Remove(PortalMfaClient.SessionVerified);
+                TempData["MfaRetry"] = "O ticket MFA expirou. Informe o código de 6 dígitos do autenticador novamente.";
+            }
+
+            try
+            {
+                PortalMfaStatus status = PortalMfaClient.GetStatus(uidUsuario, idLinxGpecon);
+                if (status == null)
+                    throw new Exception("Não foi possível consultar o status MFA.");
+
+                if (!status.RequiresMfa)
+                {
+                    PortalMfaValidate skip = PortalMfaClient.IssueSkipTicket(uidUsuario, idLinxGpecon, status.SkipReason);
+                    if (skip == null || !skip.Success)
+                        throw new Exception(skip != null ? skip.Message : "Não foi possível emitir o ticket MFA.");
+                    pending.Ticket = skip.Ticket;
+                    Session[PortalMfaClient.SessionTicket] = skip.Ticket;
+                    Session[PortalMfaClient.SessionVerified] = verifiedKey;
+                    return RedirectToApplication(pending);
+                }
+
+                Session[PortalMfaClient.SessionPending] = pending;
+                return RedirectToAction("Challenge", "Mfa");
+            }
+            catch (Exception ex)
+            {
+                TempData["MfaError"] = ex.Message;
+                return RedirectToAction("Index", "Home", new { showEnvironments = true });
+            }
+        }
+
+        private ActionResult RedirectToApplication(MfaPendingRedirect pending)
         {
             string loginUrl = Utils.GetPortalUrl();
-            url = string.Format("{0}?uidEmpresa={1}&uidUsuario={2}&uidAplicacao={3}&loginUrl={4}&formulario={5}&idAmbiente={6}&uidGrupoEconomico={7}&nomeEmpresa={8}&grupoEconomico={9}&idGpecon={10}&usuarioAutenticacao={11}&supportMode={12}&urlWorkArea={13}", url, uidEmpresa, uidUsuario, uidAplicacao, loginUrl, formulario.IsNull() ? "" : formulario, idAmbiente, uidGrupoEconomico, HttpUtility.UrlEncode(nomeEmpresa), HttpUtility.UrlEncode(grupoEconomico), idLinxGpecon, usuarioAutenticacao, supportMode, urlWorkArea);
-            Response.Redirect(url);
+            return Redirect(PortalMfaClient.BuildApplicationUrl(pending, loginUrl));
         }
 
         private string ErrorMessage(string content, string statusDescription)

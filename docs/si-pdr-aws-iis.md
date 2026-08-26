@@ -57,14 +57,15 @@ Deploy syncs `Main/Binary/{Service,Application,Portal}/Web.config` into the IIS 
 1. Detect `skip_build` when the diff vs previous commit has no compilable `Main/` source (only `Main/Binary`, configs, `infra/`, `.vscode/`, docs) — or force via `workflow_dispatch`
 2. Package sources (extra excludes: CoreServiceBus/ImageService/SelfHost/WinHost/publish-output; lighter package when `skip_build`)
 3. Upload to S3
-4. SSM merges into **persistent workspace** `C:\lx\si-pdr` (preserves `**/obj` for incremental MSBuild)
+4. SSM merges into **persistent workspace** `C:\lx\si-pdr` (preserves `**/obj` for incremental MSBuild). `skip_build` uses robocopy `/E` (no `/MIR`) so previously compiled `bin` folders are not deleted.
 5. `Invoke-SiPdrAwsPipeline.ps1`:
    - `Ensure-BuildTools.ps1` — VS 2022 Build Tools (+ web)
    - `Ensure-IisSiPdr.ps1` — IIS sites; `-SkipHeavySeed` skips Library robocopy when already present
-   - `stack-to-publish.ps1` — MSBuild Tools → BV → WebAPI → Application → Portal (skipped when `skip_build`)
-   - `deploy-to-linx-framework.ps1 -SkipBackup -Force`
+   - Backup `Main/Binary/{Service,Portal,Application}/Web.config`, then `stack-to-publish.ps1` — MSBuild Tools → BV → WebAPI → Application → Portal (skipped when `skip_build`)
+   - `deploy-to-linx-framework.ps1 -SkipBackup -Force` (`-KeepExistingIisDlls` when `skip_build`, so git Binary DLLs cannot replace the last MSBuild Portal.dll)
+   - Restore the backed-up Binary web.configs onto IIS (BM `XmlConfigMergeConsole` post-build otherwise overwrites QA `tcp:10.16.0.4` with DEV SSPI)
    - `Set-SiPdrSqlConnectionStrings.ps1` — optional overrides only when `SI_PDR_*` set
-   - Short smoke on `:8080|:8081|:8082` then `:8174|:8172|:1710`
+   - Smoke on `:8172|:8174|:1710` and aliases; Portal HTTP 5xx fails the job
 6. Cleanup old per-run dirs; **keep** `C:\lx\si-pdr` obj caches
 
 Manual dispatch: `skip_build=true` (Binary-only), `force_full_seed=true` (re-robocopy Library).
@@ -108,7 +109,7 @@ pwsh -File infra\si-pdr-cicd\scripts\Invoke-SiPdrAwsPipeline.ps1 -RepoRoot (Get-
 
 - Windows firewall rules for 8080–8082 / 1710 / 8172 / 8174 are created by `Ensure-IisSiPdr.ps1`
 - AWS security group still needs inbound TCP for those ports from your IP (RDP SG is separate)
-- Portal login requires the EC2 host to open **real** SQL to `tcp:10.16.0.4,1433` (QA). A TCP SYN that never completes TDS still makes Service hang until `Connect Timeout` (kept at 8s in Binary). If the host cannot reach QA SQL, set `SI_PDR_SQL_*` secrets to a reachable SQL auth endpoint, or peer/VPN the instance into the QA network.
+- Portal login requires the EC2 host to open **real** SQL to `tcp:10.16.0.4,1433` (QA). A TCP SYN that never completes TDS still makes Service hang until the connection string `Connect Timeout` / `connect timeout`. If the host cannot reach QA SQL, set `SI_PDR_SQL_*` secrets to a reachable SQL auth endpoint, or peer/VPN the instance into the QA network.
 - Post-deploy `Diagnose-SiPdrRuntime.ps1` logs IIS bindings/pools, TCP+`SqlConnection` to FrameworkAutorizacao, and recent Application Event Log errors.
 - Service cold-start on `t3.small` (~2 GiB) often takes **30–40s**; smoke waits up to 60s on `:1710`. Host RAM can drop below 100 MiB free after all three sites warm — consider a larger instance if login/Service flakiness returns.
 - Optional Portal login smoke uses `SI_PDR_SMOKE_USER` / `SI_PDR_SMOKE_PASSWORD` (defaults to the QA `desenv.franqueado` test user when unset).

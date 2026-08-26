@@ -89,8 +89,9 @@ if (Test-Path -LiteralPath $serviceCfg) {
             if ($cs -match '(?i)(?:user id|uid)\s*=\s*([^;]+)') { $sqlUser = $Matches[1].Trim() }
             if ($cs -match '(?i)(?:password|pwd)\s*=\s*([^;]+)') { $sqlPassword = $Matches[1].Trim() }
             $hasTimeout = $cs -match '(?i)connect\s*timeout\s*='
-            Write-Log ("Service FrameworkAutorizacao host={0} port={1} catalog={2} user={3} connectTimeoutSet={4}" -f `
-                $sqlHost, $sqlPort, $sqlCatalog, $sqlUser, $hasTimeout)
+            $authMode = if ($cs -match '(?i)integrated\s+security\s*=\s*(sspi|true)') { 'SSPI' } else { 'SQL' }
+            Write-Log ("Service FrameworkAutorizacao host={0} port={1} catalog={2} user={3} auth={4} connectTimeoutSet={5}" -f `
+                $sqlHost, $sqlPort, $sqlCatalog, $sqlUser, $authMode, $hasTimeout)
         } else {
             Write-Log 'Service FrameworkAutorizacao connection string not found'
         }
@@ -149,8 +150,10 @@ if ($sqlHost) {
 }
 
 try {
-    $events = Get-EventLog -LogName Application -Newest 40 -ErrorAction SilentlyContinue |
+    $since = (Get-Date).AddMinutes(-90)
+    $events = Get-EventLog -LogName Application -Newest 80 -ErrorAction SilentlyContinue |
         Where-Object {
+            $_.TimeGenerated -ge $since -and
             $_.EntryType -in @('Error', 'Warning') -and (
                 $_.Source -match 'ASP\.NET|IIS|MSExchange|MSSQL|Windows Error|\.NET Runtime|Application Error' -or
                 $_.Message -match '(?i)Service|Linx|SqlException|Timeout|w3wp|FrameworkAutorizacao'
@@ -160,7 +163,11 @@ try {
     if ($events) {
         foreach ($ev in $events) {
             $msg = (($ev.Message -replace '\s+', ' ').Trim())
-            if ($msg.Length -gt 240) { $msg = $msg.Substring(0, 240) + '...' }
+            $limit = 400
+            if ($ev.Source -match 'ASP\.NET' -or $msg -match '(?i)compilation|CS\d{4}|yellow') {
+                $limit = 2000
+            }
+            if ($msg.Length -gt $limit) { $msg = $msg.Substring(0, $limit) + '...' }
             Write-Log ("EventLog {0} {1}: {2}" -f $ev.TimeGenerated.ToString('o'), $ev.Source, $msg)
         }
     } else {
