@@ -458,7 +458,7 @@ WHERE TABLE_ORIGIN = @o AND ID_GPCON = @g AND ID_USER_MFA = @u AND TOKEN_HASH = 
                 long expUnix;
                 if (!TryReadTicketExpiryUnix(parts[4], out expUnix))
                     return new MfaValidateResult { Success = false, Message = "Ticket MFA inválido." };
-                if (UnixTimeSeconds() > expUnix)
+                if (MfaTotp.UnixTimeSeconds() > expUnix)
                     return new MfaValidateResult { Success = false, Message = "Ticket MFA expirado." };
 
                 DateTime expUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(expUnix);
@@ -553,7 +553,7 @@ WHERE TABLE_ORIGIN = @o AND ID_GPCON = @g AND ID_USER_MFA = @u",
         private MfaValidateResult IssueTicket(MfaStatusResult status, string reason)
         {
             // Unix seconds: DateTime Kind comparison treated just-issued UTC tickets as expired on UTC-3 IIS.
-            long expUnix = UnixTimeSeconds() + (MfaTicketMinutes * 60);
+            long expUnix = MfaTotp.UnixTimeSeconds() + (MfaTicketMinutes * 60);
             string payload = string.Format(CultureInfo.InvariantCulture,
                 "MFA||{0}||{1}||{2}||{3}||{4}",
                 status.TableOrigin, status.IdGpecon, status.IdUserMfa, expUnix, reason ?? "");
@@ -784,7 +784,7 @@ ELSE
             }
         }
 
-        private static long UnixTimeSeconds()
+        internal static long UnixTimeSeconds()
         {
             return (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
         }
