@@ -552,7 +552,6 @@ WHERE TABLE_ORIGIN = @o AND ID_GPCON = @g AND ID_USER_MFA = @u",
 
         private MfaValidateResult IssueTicket(MfaStatusResult status, string reason)
         {
-            // Unix seconds: DateTime Kind comparison treated just-issued UTC tickets as expired on UTC-3 IIS.
             long expUnix = MfaTotp.UnixTimeSeconds() + (MfaTicketMinutes * 60);
             string payload = string.Format(CultureInfo.InvariantCulture,
                 "MFA||{0}||{1}||{2}||{3}||{4}",

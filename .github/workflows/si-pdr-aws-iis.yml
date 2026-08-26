@@ -10,12 +10,8 @@ on:
       - '.vscode/deploy-to-linx-framework.ps1'
       - 'infra/si-pdr-cicd/**'
       - '.github/workflows/si-pdr-aws-iis.yml'
-  pull_request:
-    branches: [SI-PDR-CICD-AWS, footer-presente-colocando-filtro-codigo-gpecon-na-exportacao, main]
-    paths:
-      - 'Main/**'
-      - 'infra/si-pdr-cicd/**'
-      - '.github/workflows/si-pdr-aws-iis.yml'
+  # Push only. pull_request on PR #3 (SI-PDR-CICD-AWS → footer-presente) cancelled the
+  # pending push job (concurrency pending-cancel) and deployed a merge commit instead.
   workflow_dispatch:
     inputs:
       skip_build:
@@ -31,9 +27,12 @@ permissions:
   id-token: write
   contents: read
 
-# Serialize on the shared Windows EC2 host (also used by OmniPOS CI in another repo)
+# Serialize on the shared Windows EC2 host (also used by OmniPOS CI in another repo).
+# Group includes event_name so a pull_request run cannot cancel a pending push
+# (GitHub cancels previously pending jobs in the same group even when
+# cancel-in-progress is false). Host file C:\lx\.ci-lock still serializes SSM.
 concurrency:
-  group: aws-windows-ec2-si-pdr
+  group: aws-windows-ec2-si-pdr-${{ github.event_name }}
   cancel-in-progress: false
 
 env:
