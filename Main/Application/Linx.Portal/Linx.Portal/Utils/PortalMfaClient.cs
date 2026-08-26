@@ -88,6 +88,13 @@ namespace Linx.Portal
             return Execute<PortalMfaValidate>(request);
         }
 
+        public static PortalMfaValidate ValidateTicket(string ticket)
+        {
+            var request = NewRequest("ValidateMfaTicket");
+            request.AddParameter("ticket", ticket ?? "");
+            return Execute<PortalMfaValidate>(request);
+        }
+
         private static RestRequest NewRequest(string action)
         {
             return new RestRequest("LinxFrameworkAutorizacao/" + action);

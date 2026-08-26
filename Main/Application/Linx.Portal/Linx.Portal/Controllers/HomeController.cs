@@ -115,7 +115,7 @@ namespace Linx.Portal.Controllers
             return RedirectToAction("Login", "Account", new RouteValueDictionary { { "formulario", formulario.IsNull() ? "" : formulario } });
         }
 
-        public ActionResult Redirect(string url, Guid uidEmpresa, Guid uidGrupoEconomico, Guid uidUsuario, Guid uidAplicacao, int idAmbiente, string formulario, string nomeEmpresa, string grupoEconomico, int idLinxGpecon, string usuarioAutenticacao, bool supportMode, string urlWorkArea)
+        public ActionResult Redirect(string url, Guid uidEmpresa, Guid uidGrupoEconomico, Guid uidUsuario, Guid uidAplicacao, int idAmbiente, string formulario, string nomeEmpresa, string grupoEconomico, int idLinxGpecon, string usuarioAutenticacao, bool supportMode, string urlWorkArea, bool forceMfa = false)
         {
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login", "Account");
@@ -138,11 +138,32 @@ namespace Linx.Portal.Controllers
             };
 
             string verifiedKey = PortalMfaClient.VerifiedKey(uidUsuario, idLinxGpecon);
-            string existingTicket = Session[PortalMfaClient.SessionTicket] as string;
-            if (Session[PortalMfaClient.SessionVerified] as string == verifiedKey && !string.IsNullOrWhiteSpace(existingTicket))
+            if (!forceMfa)
             {
-                pending.Ticket = existingTicket;
-                return RedirectToApplication(pending);
+                string existingTicket = Session[PortalMfaClient.SessionTicket] as string;
+                if (Session[PortalMfaClient.SessionVerified] as string == verifiedKey && !string.IsNullOrWhiteSpace(existingTicket))
+                {
+                    try
+                    {
+                        PortalMfaValidate check = PortalMfaClient.ValidateTicket(existingTicket);
+                        if (check != null && check.Success)
+                        {
+                            pending.Ticket = existingTicket;
+                            return RedirectToApplication(pending);
+                        }
+                    }
+                    catch
+                    {
+                    }
+                    Session.Remove(PortalMfaClient.SessionTicket);
+                    Session.Remove(PortalMfaClient.SessionVerified);
+                }
+            }
+            else
+            {
+                Session.Remove(PortalMfaClient.SessionTicket);
+                Session.Remove(PortalMfaClient.SessionVerified);
+                TempData["MfaRetry"] = "O ticket MFA expirou. Informe o código de 6 dígitos do autenticador novamente.";
             }
 
             try

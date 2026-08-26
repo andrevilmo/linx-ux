@@ -16,6 +16,9 @@ namespace Linx.Portal.Controllers
             if (pending == null)
                 return RedirectToAction("Index", "Home");
 
+            if (TempData["MfaRetry"] != null)
+                ViewBag.RetryHint = TempData["MfaRetry"];
+
             try
             {
                 PortalMfaStatus status = PortalMfaClient.GetStatus(pending.UidUsuario, pending.IdLinxGpecon);

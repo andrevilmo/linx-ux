@@ -75,7 +75,7 @@ namespace Linx.Framework.BV.Autorizacao
 
         private const int MfaTotpMaxAttempts = 5;
         private const int MfaLockMinutes = 15;
-        private const int MfaTicketMinutes = 5;
+        private const int MfaTicketMinutes = 10;
         private static bool _mfaTablesEnsured;
         private static bool _mfaTablesEnsureAttempted;
 
@@ -154,7 +154,7 @@ END";
             }
             catch
             {
-                // francisco.solano (QA) may lack ALTER. SELECT paths still run;
+                // SQL login may lack ALTER. SELECT paths still run;
                 // missing objects surface as a visible Portal error instead of a silent loop.
             }
         }
@@ -454,9 +454,14 @@ WHERE TABLE_ORIGIN = @o AND ID_GPCON = @g AND ID_USER_MFA = @u AND TOKEN_HASH = 
                 string[] parts = plain.Split(new[] { "||" }, StringSplitOptions.None);
                 if (parts.Length < 5 || parts[0] != "MFA")
                     return new MfaValidateResult { Success = false, Message = "Ticket MFA inválido." };
-                DateTime expUtc = DateTime.Parse(parts[4], CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
-                if (DateTime.UtcNow > expUtc)
+
+                long expUnix;
+                if (!TryReadTicketExpiryUnix(parts[4], out expUnix))
+                    return new MfaValidateResult { Success = false, Message = "Ticket MFA inválido." };
+                if (UnixTimeSeconds() > expUnix)
                     return new MfaValidateResult { Success = false, Message = "Ticket MFA expirado." };
+
+                DateTime expUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(expUnix);
                 return new MfaValidateResult { Success = true, Ticket = ticket, TicketExpiresUtc = expUtc };
             }
             catch
@@ -547,14 +552,33 @@ WHERE TABLE_ORIGIN = @o AND ID_GPCON = @g AND ID_USER_MFA = @u",
 
         private MfaValidateResult IssueTicket(MfaStatusResult status, string reason)
         {
-            DateTime exp = DateTime.UtcNow.AddMinutes(MfaTicketMinutes);
+            long expUnix = UnixTimeSeconds() + (MfaTicketMinutes * 60);
             string payload = string.Format(CultureInfo.InvariantCulture,
-                "MFA||{0}||{1}||{2}||{3:o}||{4}",
-                status.TableOrigin, status.IdGpecon, status.IdUserMfa, exp, reason ?? "");
+                "MFA||{0}||{1}||{2}||{3}||{4}",
+                status.TableOrigin, status.IdGpecon, status.IdUserMfa, expUnix, reason ?? "");
             Cryptography crypto = new Cryptography();
             crypto.UseSeed = false;
             string ticket = crypto.Encrypt(payload);
-            return new MfaValidateResult { Success = true, Ticket = ticket, TicketExpiresUtc = exp, Message = reason };
+            DateTime expUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(expUnix);
+            return new MfaValidateResult { Success = true, Ticket = ticket, TicketExpiresUtc = expUtc, Message = reason };
+        }
+
+        private static bool TryReadTicketExpiryUnix(string raw, out long expUnix)
+        {
+            expUnix = 0;
+            if (string.IsNullOrWhiteSpace(raw))
+                return false;
+            if (long.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out expUnix) && expUnix > 100000)
+                return true;
+            DateTime parsed;
+            if (!DateTime.TryParse(raw, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out parsed))
+                return false;
+            if (parsed.Kind == DateTimeKind.Local)
+                parsed = parsed.ToUniversalTime();
+            else if (parsed.Kind == DateTimeKind.Unspecified)
+                parsed = DateTime.SpecifyKind(parsed, DateTimeKind.Utc);
+            expUnix = (long)(parsed - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+            return true;
         }
 
         private void LoadUxUser(string origin, Guid? uidUsuario, MfaStatusResult result)

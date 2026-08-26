@@ -69,6 +69,15 @@ namespace Linx.Internet.Application.Controllers
                 string mfaError;
                 if (!this.EnsureMfaTicket(_uidUsuario, _idGpecon, mfaTicket, out mfaError))
                 {
+                    string retryUrl = this.BuildPortalMfaRetryUrl(
+                        _loginUrl, uidEmpresa, uidUsuario, uidAplicacao, loginUrl, formulario,
+                        idAmbiente, uidGrupoEconomico, nomeEmpresa, grupoEconomico, idGpecon,
+                        usuarioAutenticacao, supportMode, urlWorkArea);
+                    if (!string.IsNullOrEmpty(retryUrl))
+                    {
+                        this.Session.Remove("MfaTicketOk");
+                        return Redirect(retryUrl);
+                    }
                     ViewBag.Mensagem = mfaError;
                     return View();
                 }
@@ -543,6 +552,55 @@ namespace Linx.Internet.Application.Controllers
                     retorno = string.Concat("Retorno inv�lido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
             }
             return loginInfo;
+        }
+
+        private string BuildPortalMfaRetryUrl(
+            string portalLoginUrl,
+            string uidEmpresa,
+            string uidUsuario,
+            string uidAplicacao,
+            string loginUrl,
+            string formulario,
+            string idAmbiente,
+            string uidGrupoEconomico,
+            string nomeEmpresa,
+            string grupoEconomico,
+            string idGpecon,
+            string usuarioAutenticacao,
+            string supportMode,
+            string urlWorkArea)
+        {
+            string portal = portalLoginUrl;
+            if (string.IsNullOrEmpty(portal))
+                portal = loginUrl;
+            if (string.IsNullOrEmpty(portal))
+                portal = ConfigurationManager.AppSettings.GetValue("Portal", "http://localhost:8172/");
+            if (string.IsNullOrEmpty(portal))
+                return null;
+            if (!portal.EndsWith("/"))
+                portal = portal + "/";
+
+            string appUrl = null;
+            if (this.Request != null && this.Request.Url != null)
+                appUrl = this.Request.Url.GetLeftPart(UriPartial.Path);
+            if (string.IsNullOrEmpty(appUrl))
+                appUrl = ConfigurationManager.AppSettings.GetValue("Application", "http://localhost:8174/");
+
+            return portal + "Home/Redirect?" +
+                "url=" + HttpUtility.UrlEncode(appUrl) +
+                "&uidEmpresa=" + HttpUtility.UrlEncode(uidEmpresa ?? "") +
+                "&uidUsuario=" + HttpUtility.UrlEncode(uidUsuario ?? "") +
+                "&uidAplicacao=" + HttpUtility.UrlEncode(uidAplicacao ?? "") +
+                "&formulario=" + HttpUtility.UrlEncode(formulario ?? "") +
+                "&idAmbiente=" + HttpUtility.UrlEncode(idAmbiente ?? "") +
+                "&uidGrupoEconomico=" + HttpUtility.UrlEncode(uidGrupoEconomico ?? "") +
+                "&nomeEmpresa=" + HttpUtility.UrlEncode(nomeEmpresa ?? "") +
+                "&grupoEconomico=" + HttpUtility.UrlEncode(grupoEconomico ?? "") +
+                "&idLinxGpecon=" + HttpUtility.UrlEncode(idGpecon ?? "") +
+                "&usuarioAutenticacao=" + HttpUtility.UrlEncode(usuarioAutenticacao ?? "") +
+                "&supportMode=" + HttpUtility.UrlEncode(string.IsNullOrEmpty(supportMode) ? "False" : supportMode) +
+                "&urlWorkArea=" + HttpUtility.UrlEncode(urlWorkArea ?? "") +
+                "&forceMfa=true";
         }
 
         private bool EnsureMfaTicket(string uidUsuario, string idGpecon, string mfaTicket, out string error)
