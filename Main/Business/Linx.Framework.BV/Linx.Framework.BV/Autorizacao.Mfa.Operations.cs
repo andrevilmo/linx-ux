@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Security.Cryptography;
@@ -76,6 +77,7 @@ namespace Linx.Framework.BV.Autorizacao
         private const int MfaLockMinutes = 15;
         private const int MfaTicketMinutes = 5;
         private static bool _mfaTablesEnsured;
+        private static bool _mfaTablesEnsureAttempted;
 
         private const string MfaEnsureSql = @"
 IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = N'LX_TCS')
@@ -142,10 +144,19 @@ END";
 
         private void EnsureMfaTables()
         {
-            if (_mfaTablesEnsured)
+            if (_mfaTablesEnsured || _mfaTablesEnsureAttempted)
                 return;
-            this.DbContext.Database.ExecuteSqlCommand(MfaEnsureSql);
-            _mfaTablesEnsured = true;
+            _mfaTablesEnsureAttempted = true;
+            try
+            {
+                this.DbContext.Database.ExecuteSqlCommand(MfaEnsureSql);
+                _mfaTablesEnsured = true;
+            }
+            catch
+            {
+                // francisco.solano (QA) may lack ALTER. SELECT paths still run;
+                // missing objects surface as a visible Portal error instead of a silent loop.
+            }
         }
 
         public MfaStatusResult GetMfaStatus(string tableOrigin, int idGpecon, long idUserMfa, Guid? uidUsuario)
@@ -639,7 +650,16 @@ ELSE
 
         private SqlConnection CreateMfaConnection()
         {
-            SqlConnection conn = new SqlConnection(this.DbContext.Database.Connection.ConnectionString);
+            // Do not use Database.Connection.ConnectionString after EF has opened it:
+            // Persist Security Info=false strips Password, so a new SqlConnection fails
+            // while EF queries on the same DbContext still work (login + environment list).
+            string cs = null;
+            ConnectionStringSettings named = ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"];
+            if (named != null && !string.IsNullOrWhiteSpace(named.ConnectionString))
+                cs = named.ConnectionString;
+            if (string.IsNullOrWhiteSpace(cs))
+                cs = this.DbContext.Database.Connection.ConnectionString;
+            SqlConnection conn = new SqlConnection(cs);
             conn.Open();
             return conn;
         }

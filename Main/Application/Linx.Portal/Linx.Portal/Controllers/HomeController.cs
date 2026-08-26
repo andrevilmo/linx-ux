@@ -21,6 +21,12 @@ namespace Linx.Portal.Controllers
                 return RedirectToAction("Login", "Account", new RouteValueDictionary { { "formulario", Request["formulario"] }, { "supportMode", Request["supportMode"] } });
             }
 
+            if (TempData["MfaError"] != null)
+            {
+                ViewBag.Error = TempData["MfaError"];
+                ViewBag.ErrorTitle = "Não foi possível continuar o acesso (MFA).";
+            }
+
             try
             {
                 Linx.Security.Cryptography crypto = new Linx.Security.Cryptography();
@@ -161,7 +167,7 @@ namespace Linx.Portal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
+                TempData["MfaError"] = ex.Message;
                 return RedirectToAction("Index", "Home", new { showEnvironments = true });
             }
         }
