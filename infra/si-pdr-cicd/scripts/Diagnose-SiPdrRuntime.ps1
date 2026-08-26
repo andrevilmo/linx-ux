@@ -150,8 +150,10 @@ if ($sqlHost) {
 }
 
 try {
-    $events = Get-EventLog -LogName Application -Newest 40 -ErrorAction SilentlyContinue |
+    $since = (Get-Date).AddMinutes(-90)
+    $events = Get-EventLog -LogName Application -Newest 80 -ErrorAction SilentlyContinue |
         Where-Object {
+            $_.TimeGenerated -ge $since -and
             $_.EntryType -in @('Error', 'Warning') -and (
                 $_.Source -match 'ASP\.NET|IIS|MSExchange|MSSQL|Windows Error|\.NET Runtime|Application Error' -or
                 $_.Message -match '(?i)Service|Linx|SqlException|Timeout|w3wp|FrameworkAutorizacao'

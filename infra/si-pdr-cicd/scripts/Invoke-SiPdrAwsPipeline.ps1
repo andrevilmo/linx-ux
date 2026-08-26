@@ -36,6 +36,36 @@ function Reset-LastExitCode {
     $global:LASTEXITCODE = 0
 }
 
+function Stop-SiPdrAppPools {
+    Write-Host 'Stopping IIS app pools so MSBuild/deploy can overwrite Framework DLLs'
+    try {
+        Import-Module WebAdministration -ErrorAction Stop
+    } catch {
+        Write-Warning ("WebAdministration not available to stop pools: {0}" -f $_.Exception.Message)
+        return
+    }
+    foreach ($poolName in @('SI-PDR-Service', 'SI-PDR-Portal', 'SI-PDR-Application')) {
+        try {
+            $state = (Get-WebAppPoolState -Name $poolName -ErrorAction Stop).Value
+            if ($state -ne 'Stopped') {
+                Stop-WebAppPool -Name $poolName
+            }
+        } catch {
+            Write-Warning ("Could not stop {0}: {1}" -f $poolName, $_.Exception.Message)
+        }
+    }
+    $deadline = (Get-Date).AddSeconds(45)
+    foreach ($poolName in @('SI-PDR-Service', 'SI-PDR-Portal', 'SI-PDR-Application')) {
+        $state = $null
+        do {
+            try { $state = (Get-WebAppPoolState -Name $poolName -ErrorAction SilentlyContinue).Value } catch { $state = $null }
+            if ($state -eq 'Stopped' -or (Get-Date) -gt $deadline) { break }
+            Start-Sleep -Seconds 2
+        } while ($true)
+        Write-Host ("App pool {0} state={1}" -f $poolName, $state)
+    }
+}
+
 function ConvertTo-ProcessArgument {
     param([Parameter(Mandatory = $true)][string] $Value)
     # Start-Process splits on spaces unless the token is quoted.
@@ -123,6 +153,8 @@ $helpPlaceholder = Join-Path $RepoRoot 'Main\Business\Linx.Framework.BV\Linx.Fra
 if (-not (Test-Path -LiteralPath $helpPlaceholder)) {
     Set-Content -LiteralPath $helpPlaceholder -Value 'CI placeholder for PostBuildEvent xcopy.' -Encoding ASCII
 }
+
+Stop-SiPdrAppPools
 
 Write-Phase ("Publish package (stack-to-publish.ps1) SkipBuild={0}" -f [bool]$SkipBuild)
 $sw.Restart()
