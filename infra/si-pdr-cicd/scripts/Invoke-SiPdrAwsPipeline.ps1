@@ -324,6 +324,51 @@ foreach ($item in $urls) {
     }
 }
 
+Write-Phase 'Smoke Portal SSO authorize redirect'
+try {
+    $ssoUrl = 'http://127.0.0.1:8172/Account/SsoLogin'
+    $req = [System.Net.HttpWebRequest]::Create($ssoUrl)
+    $req.AllowAutoRedirect = $false
+    $req.Timeout = 45000
+    $req.Method = 'GET'
+    $ssoStatus = 0
+    $ssoLocation = ''
+    $ssoBody = ''
+    try {
+        $ssoResp = [System.Net.HttpWebResponse]$req.GetResponse()
+        $ssoStatus = [int]$ssoResp.StatusCode
+        $ssoLocation = $ssoResp.Headers['Location']
+        $ssoResp.Close()
+    } catch [System.Net.WebException] {
+        $hr = $_.Exception.Response
+        if ($hr) {
+            $ssoStatus = [int]$hr.StatusCode
+            $ssoLocation = $hr.Headers['Location']
+            try {
+                $reader = New-Object System.IO.StreamReader($hr.GetResponseStream())
+                $ssoBody = $reader.ReadToEnd()
+            } catch { }
+        } else {
+            throw
+        }
+    }
+    $locHost = ''
+    if ($ssoLocation) {
+        try { $locHost = ([Uri]$ssoLocation).Host } catch { $locHost = '(unparsed)' }
+    }
+    if ($ssoStatus -ge 300 -and $ssoStatus -lt 400 -and $ssoLocation -match 'login\.microsoftonline\.com') {
+        Write-Host ("OK SsoLogin redirect status={0} host={1}" -f $ssoStatus, $locHost)
+    } else {
+        $snippet = if ($ssoBody) { (($ssoBody -replace '\s+', ' ').Trim()) } else { '' }
+        if ($snippet.Length -gt 400) { $snippet = $snippet.Substring(0, 400) + '...' }
+        Write-Warning ("SsoLogin did not redirect to Azure status={0} locationHost={1} body={2}" -f $ssoStatus, $locHost, $snippet)
+        $script:smokeFailed = $true
+    }
+} catch {
+    Write-Warning ("SsoLogin smoke exception: {0}" -f $_.Exception.Message)
+    $script:smokeFailed = $true
+}
+
 # Portal login E2E: form POST -> Account/Login -> Service AuthenticatePortal.
 # Optional env SI_PDR_SMOKE_USER / SI_PDR_SMOKE_PASSWORD (defaults match QA test user).
 $smokeUser = if ($env:SI_PDR_SMOKE_USER) { $env:SI_PDR_SMOKE_USER } else { 'desenv.franqueado' }

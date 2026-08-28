@@ -84,11 +84,23 @@ function Set-XmlConnectionString {
 }
 
 function Set-AppSetting {
-    param([string]$Path, [string]$SectionXPath, [string]$Key, [string]$Value)
-    if (-not (Test-Path -LiteralPath $Path)) { return }
+    param(
+        [string]$Path,
+        [string]$SectionXPath,
+        [string]$Key,
+        [string]$Value,
+        [switch]$Required
+    )
+    if (-not (Test-Path -LiteralPath $Path)) {
+        if ($Required) { throw "Missing config file $Path" }
+        return
+    }
     [xml]$xml = Get-Content -LiteralPath $Path -Raw
     $section = $xml.SelectSingleNode($SectionXPath)
-    if (-not $section) { return }
+    if (-not $section) {
+        if ($Required) { throw "Missing section $SectionXPath in $Path" }
+        return
+    }
     $node = $section.SelectSingleNode("add[@key='$Key']")
     if (-not $node) {
         $node = $xml.CreateElement('add')
@@ -183,8 +195,28 @@ function Resolve-SsoClientSecret {
 
 $resolvedSso = Resolve-SsoClientSecret -FromEnv $SsoClientSecret
 if ($resolvedSso) {
-    Set-AppSetting -Path $portalPath -SectionXPath '/configuration/PortalSettings' -Key 'SSO_CLIENT_SECRET' -Value $resolvedSso.Value
-    Write-Log ("SSO_CLIENT_SECRET applied from {0} (len={1})" -f $resolvedSso.Source, $resolvedSso.Value.Length)
+    $portalConfigs = @($portalPath)
+    try {
+        Import-Module WebAdministration -ErrorAction Stop
+        $portalSite = Get-Website -Name 'Portal' -ErrorAction Stop
+        if ($portalSite -and $portalSite.physicalPath) {
+            $iisPortalCfg = Join-Path $portalSite.physicalPath 'web.config'
+            if ($portalConfigs -notcontains $iisPortalCfg) {
+                $portalConfigs += $iisPortalCfg
+            }
+        }
+    } catch {
+        Write-Log ("IIS Portal path lookup skipped: {0}" -f $_.Exception.Message)
+    }
+    foreach ($cfg in $portalConfigs) {
+        Set-AppSetting -Path $cfg -SectionXPath '/configuration/PortalSettings' -Key 'SSO_CLIENT_SECRET' -Value $resolvedSso.Value -Required
+        [xml]$check = Get-Content -LiteralPath $cfg -Raw
+        $node = $check.SelectSingleNode("/configuration/PortalSettings/add[@key='SSO_CLIENT_SECRET']")
+        $len = 0
+        if ($node -and $node.GetAttribute('value')) { $len = $node.GetAttribute('value').Length }
+        if ($len -le 0) { throw "SSO_CLIENT_SECRET empty after inject in $cfg" }
+        Write-Log ("Verified {0} SSO_CLIENT_SECRET len={1} source={2}" -f $cfg, $len, $resolvedSso.Source)
+    }
     Write-Output 'SSO_CLIENT_SECRET_APPLIED'
 }
 else {

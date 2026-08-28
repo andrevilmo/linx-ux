@@ -102,6 +102,21 @@ if (Test-Path -LiteralPath $serviceCfg) {
     Write-Log "Missing $serviceCfg"
 }
 
+try {
+    $portalCfg = Join-Path $FrameworkRoot 'Portal\web.config'
+    if (Test-Path -LiteralPath $portalCfg) {
+        [xml]$portalXml = Get-Content -LiteralPath $portalCfg -Raw
+        $ssoNode = $portalXml.SelectSingleNode("/configuration/PortalSettings/add[@key='SSO_CLIENT_SECRET']")
+        $ssoLen = 0
+        if ($ssoNode -and $ssoNode.GetAttribute('value')) { $ssoLen = $ssoNode.GetAttribute('value').Length }
+        Write-Log ("PortalSettings SSO_CLIENT_SECRET present={0} len={1}" -f ($ssoLen -gt 0), $ssoLen)
+    } else {
+        Write-Log "Missing $portalCfg"
+    }
+} catch {
+    Write-Log ("Parse Portal SSO_CLIENT_SECRET failed: {0}" -f $_.Exception.Message)
+}
+
 if ($sqlHost) {
     $tcpOk = $false
     $sw = [System.Diagnostics.Stopwatch]::StartNew()

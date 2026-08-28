@@ -119,14 +119,14 @@ namespace Linx.Portal.Controllers
                     ? error_description
                     : (string.Equals(error, "access_denied", StringComparison.OrdinalIgnoreCase)
                         ? "O usuário abortou o processo de autenticação."
-                        : "Não foi possível realizar autenticação.");
+                        : ("Azure SSO error: " + error));
                 ModelState.AddModelError("", msg.Translate());
                 return View("Login");
             }
 
             if (code.IsNullOrEmpty())
             {
-                ModelState.AddModelError("", "Não foi possível realizar autenticação.".Translate());
+                ModelState.AddModelError("", "Azure não devolveu o código de autorização (callback sem code). Use o navegador em /Account/SsoLogin.".Translate());
                 return View("Login");
             }
 
