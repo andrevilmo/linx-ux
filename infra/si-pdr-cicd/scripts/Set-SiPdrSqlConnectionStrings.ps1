@@ -142,9 +142,49 @@ if ($LocalServiceBusMode) {
 }
 
 # Azure AD confidential-client secret is not stored in git (GitHub push protection).
-# Inject onto IIS PortalSettings from SI_PDR_SSO_CLIENT_SECRET after Binary web.config restore.
-if (-not [string]::IsNullOrWhiteSpace($SsoClientSecret)) {
-    Set-AppSetting -Path $portalPath -SectionXPath '/configuration/PortalSettings' -Key 'SSO_CLIENT_SECRET' -Value $SsoClientSecret
+# Resolve from (1) env SI_PDR_SSO_CLIENT_SECRET, (2) sidecar next to this script,
+# (3) S3 object used by SI-PDR CI. Never log the value.
+function Resolve-SsoClientSecret {
+    param([string] $FromEnv)
+    if (-not [string]::IsNullOrWhiteSpace($FromEnv)) {
+        return @{ Value = $FromEnv.Trim(); Source = 'env' }
+    }
+    $sidecar = Join-Path $PSScriptRoot '.sso-client-secret'
+    if (Test-Path -LiteralPath $sidecar) {
+        $raw = (Get-Content -LiteralPath $sidecar -Raw -ErrorAction SilentlyContinue)
+        if (-not [string]::IsNullOrWhiteSpace($raw)) {
+            return @{ Value = $raw.Trim(); Source = 'sidecar' }
+        }
+    }
+    $s3Uri = if ($env:SI_PDR_SSO_CLIENT_SECRET_S3) {
+        $env:SI_PDR_SSO_CLIENT_SECRET_S3
+    } else {
+        's3://omnipos-cicd-253957900820-sa-east-1/linx-ux/secrets/SSO_CLIENT_SECRET'
+    }
+    try {
+        $tmp = Join-Path $env:TEMP ('si-pdr-sso-' + [guid]::NewGuid().ToString('n') + '.txt')
+        $aws = Get-Command aws -ErrorAction SilentlyContinue
+        if ($aws) {
+            & aws s3 cp $s3Uri $tmp --region sa-east-1 --no-progress 2>$null | Out-Null
+            if ($LASTEXITCODE -eq 0 -and (Test-Path -LiteralPath $tmp)) {
+                $raw = (Get-Content -LiteralPath $tmp -Raw -ErrorAction SilentlyContinue)
+                Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+                if (-not [string]::IsNullOrWhiteSpace($raw)) {
+                    return @{ Value = $raw.Trim(); Source = 's3' }
+                }
+            }
+            Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+        }
+    } catch {
+        Write-Log 'SSO client secret S3 fallback failed (non-fatal)'
+    }
+    return $null
+}
+
+$resolvedSso = Resolve-SsoClientSecret -FromEnv $SsoClientSecret
+if ($resolvedSso) {
+    Set-AppSetting -Path $portalPath -SectionXPath '/configuration/PortalSettings' -Key 'SSO_CLIENT_SECRET' -Value $resolvedSso.Value
+    Write-Log ("SSO_CLIENT_SECRET applied from {0} (len={1})" -f $resolvedSso.Source, $resolvedSso.Value.Length)
     Write-Output 'SSO_CLIENT_SECRET_APPLIED'
 }
 else {

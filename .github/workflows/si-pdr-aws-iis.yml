@@ -138,6 +138,36 @@ jobs:
             exit 1
           fi
 
+      # GitHub push protection blocks SSO_CLIENT_SECRET in git. Repo Actions secret
+      # SI_PDR_SSO_CLIENT_SECRET is preferred; otherwise load from the CI S3 bucket
+      # (same IAM as this workflow). Value is packed as a sidecar, not put in SSM params.
+      - name: Load Portal SSO client secret
+        env:
+          GITHUB_SSO_SECRET: ${{ secrets.SI_PDR_SSO_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          SECRET="${GITHUB_SSO_SECRET:-}"
+          SOURCE="github"
+          if [ -z "$SECRET" ]; then
+            SOURCE="s3"
+            SECRET=$(aws s3 cp "s3://${SOURCE_BUCKET}/linx-ux/secrets/SSO_CLIENT_SECRET" - --region "$AWS_REGION" 2>/dev/null || true)
+            SECRET="${SECRET%$'\r'}"
+            SECRET="${SECRET%$'\n'}"
+          fi
+          if [ -n "$SECRET" ]; then
+            echo "::add-mask::$SECRET"
+            {
+              echo "SI_PDR_SSO_CLIENT_SECRET<<EOF"
+              echo "$SECRET"
+              echo "EOF"
+            } >> "$GITHUB_ENV"
+            echo "SI_PDR_SSO_SECRET_SOURCE=$SOURCE" >> "$GITHUB_ENV"
+            echo "SSO client secret loaded from $SOURCE (len=${#SECRET})"
+          else
+            echo "SI_PDR_SSO_SECRET_SOURCE=missing" >> "$GITHUB_ENV"
+            echo "SSO client secret not in GitHub Actions secret or S3; IIS inject will skip unless the Windows host can read S3"
+          fi
+
       - name: Package sources
         env:
           SKIP_BUILD: ${{ steps.detect.outputs.skip_build }}
@@ -176,6 +206,12 @@ jobs:
           else
             rsync -a "${RSYNC_EXCLUDES[@]}" "./" "$STAGE/repo/"
           fi
+          if [ -n "${SI_PDR_SSO_CLIENT_SECRET:-}" ]; then
+            mkdir -p "$STAGE/repo/infra/si-pdr-cicd/scripts"
+            umask 077
+            printf '%s' "$SI_PDR_SSO_CLIENT_SECRET" > "$STAGE/repo/infra/si-pdr-cicd/scripts/.sso-client-secret"
+            echo "Packed SSO client secret sidecar (len=${#SI_PDR_SSO_CLIENT_SECRET} source=${SI_PDR_SSO_SECRET_SOURCE:-unknown})"
+          fi
           # tar.gz + Windows tar.exe extract is much faster than zip/Expand-Archive on t3.small
           KEY="linx-ux/runs/${GITHUB_RUN_ID}-${GITHUB_SHA}/source.tar.gz"
           echo "SOURCE_KEY=$KEY" >> "$GITHUB_ENV"
@@ -207,7 +243,8 @@ jobs:
           SI_PDR_SERVICE_URL: ${{ secrets.SI_PDR_SERVICE_URL }}
           SI_PDR_SHELL_MODE: ${{ secrets.SI_PDR_SHELL_MODE }}
           SI_PDR_LOCAL_SERVICEBUS_MODE: ${{ secrets.SI_PDR_LOCAL_SERVICEBUS_MODE }}
-          SI_PDR_SSO_CLIENT_SECRET: ${{ secrets.SI_PDR_SSO_CLIENT_SECRET }}
+          # Do not forward the secret into SSM command parameters; it is packed as a sidecar.
+          SI_PDR_SSO_CLIENT_SECRET: ''
         run: |
           set -euo pipefail
           python3 <<'PY' > /tmp/ssm-params.json
@@ -252,10 +289,10 @@ jobs:
           if ({env_ps("SI_PDR_SERVICE_URL")}) {{ $env:SI_PDR_SERVICE_URL = {env_ps("SI_PDR_SERVICE_URL")} }}
           if ({env_ps("SI_PDR_SHELL_MODE")}) {{ $env:SI_PDR_SHELL_MODE = {env_ps("SI_PDR_SHELL_MODE")} }}
           if ({env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")}) {{ $env:SI_PDR_LOCAL_SERVICEBUS_MODE = {env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")} }}
-          if ({env_ps("SI_PDR_SSO_CLIENT_SECRET")}) {{ $env:SI_PDR_SSO_CLIENT_SECRET = {env_ps("SI_PDR_SSO_CLIENT_SECRET")} }}
+          $env:SI_PDR_SSO_CLIENT_SECRET_S3 = {json.dumps("s3://" + os.environ.get("SOURCE_BUCKET", "omnipos-cicd-253957900820-sa-east-1") + "/linx-ux/secrets/SSO_CLIENT_SECRET")}
           $hasSql = [bool]($env:SI_PDR_SQL_PORTAL_CONNECTION -or ($env:SI_PDR_SQL_DATA_SOURCE -and $env:SI_PDR_SQL_USER -and $env:SI_PDR_SQL_PASSWORD))
-          $hasSsoSecret = [bool]$env:SI_PDR_SSO_CLIENT_SECRET
-          Write-CiLog ("SQL overrides present={{0}} SSO secret present={{1}} skipBuild={skip_ps} skipHeavySeed={seed_ps}" -f $hasSql, $hasSsoSecret)
+          $ssoSource = {json.dumps(os.environ.get("SI_PDR_SSO_SECRET_SOURCE") or "missing")}
+          Write-CiLog ("SQL overrides present={{0}} SSO secret source={{1}} skipBuild={skip_ps} skipHeavySeed={seed_ps}" -f $hasSql, $ssoSource)
 
           # Host lock so OmniPOS CI and SI-PDR CI do not overlap on the same machine
           $deadline = (Get-Date).AddMinutes(90)
