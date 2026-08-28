@@ -59,6 +59,18 @@ $portalDllSources = @{
         (Join-Path $binaryServiceBin 'Linx.Resources.Localization.dll')
         (Join-Path $binaryPortalBin 'Linx.Resources.Localization.dll')
     )
+    'Microsoft.Identity.Client.dll' = @(
+        (Join-Path $portalProject 'bin\Microsoft.Identity.Client.dll')
+        (Join-Path $workspace 'Application\Linx.Portal\packages\Microsoft.Identity.Client.4.54.1\lib\net461\Microsoft.Identity.Client.dll')
+        (Join-Path $binaryPortalBin 'Microsoft.Identity.Client.dll')
+        (Join-Path $workspace 'Binary\Library\Common\Microsoft\Identity\Microsoft.Identity.Client.dll')
+    )
+    'Microsoft.IdentityModel.Abstractions.dll' = @(
+        (Join-Path $portalProject 'bin\Microsoft.IdentityModel.Abstractions.dll')
+        (Join-Path $workspace 'Application\Linx.Portal\packages\Microsoft.IdentityModel.Abstractions.6.22.0\lib\net461\Microsoft.IdentityModel.Abstractions.dll')
+        (Join-Path $binaryPortalBin 'Microsoft.IdentityModel.Abstractions.dll')
+        (Join-Path $workspace 'Binary\Library\Common\Microsoft\Identity\Microsoft.IdentityModel.Abstractions.dll')
+    )
 }
 
 $serviceDllSources = @{
@@ -580,6 +592,14 @@ foreach ($dllName in ($portalDllSources.Keys | Sort-Object)) {
         continue
     }
     Copy-DllWithPdb -Source $source -TargetBin $portalBin -BinaryBin $binaryPortalBin -Site 'Portal' -Force:$Force -SkipBinarySync:$SkipBinarySync -KeepExistingIisDlls:$KeepExistingIisDlls | Out-Null
+}
+
+foreach ($required in @('Microsoft.Identity.Client.dll', 'Microsoft.IdentityModel.Abstractions.dll')) {
+    $requiredPath = Join-Path $portalBin $required
+    if (-not (Test-Path -LiteralPath $requiredPath)) {
+        throw "[Portal] Missing $required in $portalBin (Account/SsoLogin FileNotFound)"
+    }
+    Write-Host "[Portal] SSO assembly present: $required"
 }
 
 # Service
