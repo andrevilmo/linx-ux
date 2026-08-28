@@ -154,7 +154,6 @@ else {
 
 if (-not $PortalConnection -and -not $AppConnection) {
     Write-Log 'No SI_PDR_SQL_* overrides provided; leaving Binary SQL connection strings unchanged.'
-    Write-Log 'Leaving Binary Service/Application/Portal web.configs unchanged (no SI_PDR_SQL_* / URL overrides).'
     Write-Output 'SQL_OVERRIDES_SKIPPED'
     # Still recycle so authorizationServiceAddress / ServiceBus changes take effect
 } else {
