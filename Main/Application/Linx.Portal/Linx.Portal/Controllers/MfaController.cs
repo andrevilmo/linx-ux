@@ -38,30 +38,12 @@ namespace Linx.Portal.Controllers
                 {
                     ViewBag.Locked = true;
                     ViewBag.Error = "MFA bloqueado por excesso de tentativas. Tente novamente em alguns minutos.";
-                    ViewBag.AccountLabel = status.NomeEmpresa + " + " + status.NomeAutenticacao;
+                    BindAccountLabel(status, pending);
                     ViewBag.Enrolled = status.Enrolled;
                     return View();
                 }
 
-                ViewBag.Enrolled = status.Enrolled;
-                ViewBag.AccountLabel = string.IsNullOrWhiteSpace(status.NomeEmpresa)
-                    ? status.NomeAutenticacao
-                    : status.NomeEmpresa + " + " + status.NomeAutenticacao;
-                ViewBag.NomeEmpresa = status.NomeEmpresa ?? pending.NomeEmpresa;
-
-                if (!status.Enrolled)
-                {
-                    PortalMfaEnroll enroll = PortalMfaClient.BeginEnroll(pending.UidUsuario, pending.IdLinxGpecon);
-                    if (enroll == null || !enroll.Success)
-                    {
-                        ViewBag.Error = enroll != null ? enroll.Message : "Não foi possível iniciar o cadastro MFA.";
-                        return View();
-                    }
-                    ViewBag.QrCodePngBase64 = enroll.QrCodePngBase64;
-                    if (!string.IsNullOrWhiteSpace(enroll.AccountLabel))
-                        ViewBag.AccountLabel = enroll.AccountLabel;
-                }
-
+                BindChallenge(pending, status);
                 return View();
             }
             catch (Exception ex)
@@ -90,30 +72,31 @@ namespace Linx.Portal.Controllers
                     return View("Challenge");
                 }
 
+                if (!status.RequiresMfa)
+                {
+                    PortalMfaValidate skip = PortalMfaClient.IssueSkipTicket(pending.UidUsuario, pending.IdLinxGpecon, status.SkipReason);
+                    return FinishAndRedirect(pending, skip);
+                }
+
+                string digits = (code ?? string.Empty).Trim();
+                if (digits.Length != 6)
+                {
+                    ViewBag.Error = "Informe o código de 6 dígitos do autenticador.";
+                    BindChallenge(pending, status);
+                    return View("Challenge");
+                }
+
                 PortalMfaValidate result;
                 if (status.Enrolled)
-                    result = PortalMfaClient.ValidateCode(pending.UidUsuario, pending.IdLinxGpecon, code);
+                    result = PortalMfaClient.ValidateCode(pending.UidUsuario, pending.IdLinxGpecon, digits);
                 else
-                    result = PortalMfaClient.ConfirmEnroll(pending.UidUsuario, pending.IdLinxGpecon, code);
+                    result = PortalMfaClient.ConfirmEnroll(pending.UidUsuario, pending.IdLinxGpecon, digits);
 
                 if (result == null || !result.Success)
                 {
                     ViewBag.Error = result != null ? result.Message : "Código MFA inválido.";
                     ViewBag.Locked = result != null && result.MfaLocked;
-                    ViewBag.Enrolled = status.Enrolled;
-                    ViewBag.AccountLabel = ViewBag.AccountLabel ?? (status.NomeEmpresa + " + " + status.NomeAutenticacao);
-                    if (!status.Enrolled && ViewBag.QrCodePngBase64 == null)
-                    {
-                        try
-                        {
-                            PortalMfaEnroll enroll = PortalMfaClient.BeginEnroll(pending.UidUsuario, pending.IdLinxGpecon);
-                            if (enroll != null && enroll.Success)
-                                ViewBag.QrCodePngBase64 = enroll.QrCodePngBase64;
-                        }
-                        catch
-                        {
-                        }
-                    }
+                    BindChallenge(pending, status);
                     return View("Challenge");
                 }
 
@@ -124,6 +107,34 @@ namespace Linx.Portal.Controllers
                 ViewBag.Error = ex.Message;
                 return View("Challenge");
             }
+        }
+
+        private void BindChallenge(MfaPendingRedirect pending, PortalMfaStatus status)
+        {
+            ViewBag.Enrolled = status.Enrolled;
+            ViewBag.Locked = status.MfaLocked;
+            BindAccountLabel(status, pending);
+            if (status.MfaLocked || status.Enrolled)
+                return;
+
+            PortalMfaEnroll enroll = PortalMfaClient.BeginEnroll(pending.UidUsuario, pending.IdLinxGpecon);
+            if (enroll == null || !enroll.Success)
+            {
+                if (ViewBag.Error == null)
+                    ViewBag.Error = enroll != null ? enroll.Message : "Não foi possível iniciar o cadastro MFA.";
+                return;
+            }
+            ViewBag.QrCodePngBase64 = enroll.QrCodePngBase64;
+            if (!string.IsNullOrWhiteSpace(enroll.AccountLabel))
+                ViewBag.AccountLabel = enroll.AccountLabel;
+        }
+
+        private void BindAccountLabel(PortalMfaStatus status, MfaPendingRedirect pending)
+        {
+            ViewBag.AccountLabel = string.IsNullOrWhiteSpace(status.NomeEmpresa)
+                ? status.NomeAutenticacao
+                : status.NomeEmpresa + " + " + status.NomeAutenticacao;
+            ViewBag.NomeEmpresa = status.NomeEmpresa ?? pending.NomeEmpresa;
         }
 
         private ActionResult FinishAndRedirect(MfaPendingRedirect pending, PortalMfaValidate result)

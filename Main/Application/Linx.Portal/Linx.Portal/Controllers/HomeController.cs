@@ -109,9 +109,7 @@ namespace Linx.Portal.Controllers
         public ActionResult LogOut(string formulario)
         {
             FormsAuthentication.SignOut();
-            Session.Remove(PortalMfaClient.SessionPending);
-            Session.Remove(PortalMfaClient.SessionTicket);
-            Session.Remove(PortalMfaClient.SessionVerified);
+            PortalMfaClient.ClearSession(Session);
             return RedirectToAction("Login", "Account", new RouteValueDictionary { { "formulario", formulario.IsNull() ? "" : formulario } });
         }
 
@@ -138,33 +136,10 @@ namespace Linx.Portal.Controllers
             };
 
             string verifiedKey = PortalMfaClient.VerifiedKey(uidUsuario, idLinxGpecon);
-            if (!forceMfa)
-            {
-                string existingTicket = Session[PortalMfaClient.SessionTicket] as string;
-                if (Session[PortalMfaClient.SessionVerified] as string == verifiedKey && !string.IsNullOrWhiteSpace(existingTicket))
-                {
-                    try
-                    {
-                        PortalMfaValidate check = PortalMfaClient.ValidateTicket(existingTicket);
-                        if (check != null && check.Success)
-                        {
-                            pending.Ticket = existingTicket;
-                            return RedirectToApplication(pending);
-                        }
-                    }
-                    catch
-                    {
-                    }
-                    Session.Remove(PortalMfaClient.SessionTicket);
-                    Session.Remove(PortalMfaClient.SessionVerified);
-                }
-            }
-            else
-            {
-                Session.Remove(PortalMfaClient.SessionTicket);
-                Session.Remove(PortalMfaClient.SessionVerified);
+            Session.Remove(PortalMfaClient.SessionTicket);
+            Session.Remove(PortalMfaClient.SessionVerified);
+            if (forceMfa)
                 TempData["MfaRetry"] = "O ticket MFA expirou. Informe o código de 6 dígitos do autenticador novamente.";
-            }
 
             try
             {

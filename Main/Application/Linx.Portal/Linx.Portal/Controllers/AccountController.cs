@@ -49,7 +49,10 @@ namespace Linx.Portal.Controllers
                     else if (!model.UserName.IsNullOrEmpty() && !model.Password.IsNullOrEmpty())
                     {
                         if (AuthenticateUser(model.UserName, model.Password, model.RememberMe))
+                        {
+                            PortalMfaClient.ClearSession(Session);
                             return RedirectToAction("Index", "Home", new RouteValueDictionary { { "formulario", HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["formulario"] }, { "supportMode", HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["supportMode"] }, { "showEnvironments", model.ShowEnvironments } });
+                        }
                     }
                 }
             }
@@ -152,6 +155,7 @@ namespace Linx.Portal.Controllers
                 }
 
                 SsoLoginHelper.ClearContingency(Session);
+                PortalMfaClient.ClearSession(Session);
 
                 string formulario = Request["formulario"] ?? (Request.UrlReferrer != null ? HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["formulario"] : null);
                 string supportMode = Request["supportMode"] ?? (Request.UrlReferrer != null ? HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["supportMode"] : null);

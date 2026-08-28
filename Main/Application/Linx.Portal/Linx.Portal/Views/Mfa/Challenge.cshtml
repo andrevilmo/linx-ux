@@ -11,24 +11,44 @@
     }
     #authentication {
         min-height: 100vh;
+        padding: 36px 60px 80px !important;
+        overflow-y: auto;
+    }
+    #authentication .ux-logo {
+        margin-bottom: 12px !important;
     }
     .mfa-qr {
         display: block;
-        margin: 12px auto 16px auto;
-        width: 180px;
-        height: 180px;
+        margin: 8px 0 16px 0;
+        width: 148px;
+        height: 148px;
         background: #fff;
-        padding: 8px;
+        padding: 6px;
+        border: 1px solid #ddd;
     }
     .mfa-hint {
-        margin: 8px 0 16px 0;
+        margin: 6px 0 10px 0;
         opacity: 0.85;
         line-height: 1.4;
+        text-transform: none;
+    }
+    .mfa-code {
+        margin-top: 8px !important;
+    }
+    .mfa-code label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        text-transform: none;
     }
     .mfa-code input {
-        letter-spacing: 6px;
-        font-size: 22px;
+        letter-spacing: 8px;
+        font-size: 24px;
         text-align: center;
+        height: 44px;
+        border: 1px solid #5B2E90 !important;
+        border-bottom: 2px solid #5B2E90 !important;
+        background: #faf8ff;
     }
     #authentication footer.mfa-back {
         position: fixed;
@@ -69,6 +89,7 @@
         <div class="ux-logo">
             <img class="linx-img" src="~/assets/img/linxX.png" />
         </div>
+        <p class="font-size-20" style="margin: 0 0 12px 0;">Verificação em duas etapas</p>
 
         @if (ViewBag.RetryHint != null)
         {
@@ -86,7 +107,7 @@
         {
             if (!enrolled)
             {
-                <p class="mfa-hint">Escaneie o QR Code no Google Authenticator ou Microsoft Authenticator e informe o código de 6 dígitos.</p>
+                <p class="mfa-hint">Escaneie o QR Code no Google Authenticator ou Microsoft Authenticator e, em seguida, digite o código de 6 dígitos para confirmar o cadastro.</p>
                 if (!string.IsNullOrWhiteSpace(label))
                 {
                     <p class="mfa-hint">@label</p>
@@ -98,17 +119,16 @@
             }
             else
             {
-                <p class="mfa-hint">Informe o código de 6 dígitos do autenticador.</p>
+                <p class="mfa-hint">Digite o código de 6 dígitos do autenticador para continuar.</p>
                 if (!string.IsNullOrWhiteSpace(label))
                 {
                     <p class="mfa-hint">@label</p>
                 }
             }
 
-            <form method="post" action="@Url.Action("Verify", "Mfa")" class="mfa-code">
-                <label>código
-                    <input type="text" name="code" id="code" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code" autofocus="autofocus" required="required" />
-                </label>
+            <form method="post" action="@Url.Action("Verify", "Mfa")" class="mfa-code" autocomplete="off">
+                <label for="code">código de 6 dígitos</label>
+                <input type="text" name="code" id="code" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code" autofocus="autofocus" required="required" placeholder="000000" />
                 <div class="button-row">
                     <button type="submit" id="btnMfaSubmit">continuar</button>
                 </div>

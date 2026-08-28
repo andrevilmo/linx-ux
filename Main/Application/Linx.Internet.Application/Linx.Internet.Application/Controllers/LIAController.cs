@@ -202,7 +202,7 @@ namespace Linx.Internet.Application.Controllers
         [NoCache]
         [PreserveQueryString]
         [GET("/")]
-        public ActionResult Loading(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode)
+        public ActionResult Loading(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode, string mfaTicket)
         {
             using (profiler.Step("Loading"))
             {
@@ -258,7 +258,8 @@ namespace Linx.Internet.Application.Controllers
                                 grupoEconomico = grupoEconomico,
                                 idGpecon = idGpecon,
                                 usuarioAutenticacao = usuarioAutenticacao,
-                                supportMode = supportMode
+                                supportMode = supportMode,
+                                mfaTicket = mfaTicket
                             }
                         );
                     }

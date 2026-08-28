@@ -480,7 +480,11 @@ WHERE TABLE_ORIGIN = @o AND ID_GPCON = @g AND ID_USER_MFA = @u AND TOKEN_HASH = 
         {
             MfaStatusResult status = GetMfaStatus(tableOrigin, idGpecon, idUserMfa, uidUsuario);
             if (!status.RequiresMfa)
+            {
+                if (enrollConfirm)
+                    return new MfaValidateResult { Success = false, Message = "MFA não é exigido." };
                 return IssueTicket(status, status.SkipReason);
+            }
             if (status.MfaLocked)
                 return new MfaValidateResult { Success = false, MfaLocked = true, Message = "MFA bloqueado por excesso de tentativas." };
 

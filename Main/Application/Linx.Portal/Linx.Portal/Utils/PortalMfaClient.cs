@@ -18,6 +18,15 @@ namespace Linx.Portal
             return string.Format("{0}|{1}", uidUsuario, idGpecon);
         }
 
+        public static void ClearSession(HttpSessionStateBase session)
+        {
+            if (session == null)
+                return;
+            session.Remove(SessionPending);
+            session.Remove(SessionTicket);
+            session.Remove(SessionVerified);
+        }
+
         public static string BuildApplicationUrl(MfaPendingRedirect pending, string loginUrl)
         {
             return string.Format(
