@@ -207,6 +207,7 @@ jobs:
           SI_PDR_SERVICE_URL: ${{ secrets.SI_PDR_SERVICE_URL }}
           SI_PDR_SHELL_MODE: ${{ secrets.SI_PDR_SHELL_MODE }}
           SI_PDR_LOCAL_SERVICEBUS_MODE: ${{ secrets.SI_PDR_LOCAL_SERVICEBUS_MODE }}
+          SI_PDR_SSO_CLIENT_SECRET: ${{ secrets.SI_PDR_SSO_CLIENT_SECRET }}
         run: |
           set -euo pipefail
           python3 <<'PY' > /tmp/ssm-params.json
@@ -251,8 +252,10 @@ jobs:
           if ({env_ps("SI_PDR_SERVICE_URL")}) {{ $env:SI_PDR_SERVICE_URL = {env_ps("SI_PDR_SERVICE_URL")} }}
           if ({env_ps("SI_PDR_SHELL_MODE")}) {{ $env:SI_PDR_SHELL_MODE = {env_ps("SI_PDR_SHELL_MODE")} }}
           if ({env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")}) {{ $env:SI_PDR_LOCAL_SERVICEBUS_MODE = {env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")} }}
+          if ({env_ps("SI_PDR_SSO_CLIENT_SECRET")}) {{ $env:SI_PDR_SSO_CLIENT_SECRET = {env_ps("SI_PDR_SSO_CLIENT_SECRET")} }}
           $hasSql = [bool]($env:SI_PDR_SQL_PORTAL_CONNECTION -or ($env:SI_PDR_SQL_DATA_SOURCE -and $env:SI_PDR_SQL_USER -and $env:SI_PDR_SQL_PASSWORD))
-          Write-CiLog ("SQL overrides present={{0}} skipBuild={skip_ps} skipHeavySeed={seed_ps}" -f $hasSql)
+          $hasSsoSecret = [bool]$env:SI_PDR_SSO_CLIENT_SECRET
+          Write-CiLog ("SQL overrides present={{0}} SSO secret present={{1}} skipBuild={skip_ps} skipHeavySeed={seed_ps}" -f $hasSql, $hasSsoSecret)
 
           # Host lock so OmniPOS CI and SI-PDR CI do not overlap on the same machine
           $deadline = (Get-Date).AddMinutes(90)

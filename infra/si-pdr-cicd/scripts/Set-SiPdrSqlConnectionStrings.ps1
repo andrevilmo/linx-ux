@@ -30,7 +30,8 @@ param(
     [string] $ServiceUrl = $env:SI_PDR_SERVICE_URL,
     # Only override when SI_PDR_* env is set - Binary web.configs are authoritative.
     [string] $ShellMode = $env:SI_PDR_SHELL_MODE,
-    [string] $LocalServiceBusMode = $env:SI_PDR_LOCAL_SERVICEBUS_MODE
+    [string] $LocalServiceBusMode = $env:SI_PDR_LOCAL_SERVICEBUS_MODE,
+    [string] $SsoClientSecret = $env:SI_PDR_SSO_CLIENT_SECRET
 )
 
 $ErrorActionPreference = 'Stop'
@@ -96,7 +97,12 @@ function Set-AppSetting {
     }
     $node.SetAttribute('value', $Value)
     $xml.Save($Path)
-    Write-Log ("{0} {1} => {2}" -f $Path, $Key, $Value)
+    if ($Key -match '(?i)PASSWORD|SECRET') {
+        Write-Log ("{0} {1} => (set, len={2})" -f $Path, $Key, $Value.Length)
+    }
+    else {
+        Write-Log ("{0} {1} => {2}" -f $Path, $Key, $Value)
+    }
 }
 
 # Load optional overrides file dropped into the CI package by GitHub Actions
@@ -133,6 +139,17 @@ if ($ShellMode) {
 }
 if ($LocalServiceBusMode) {
     Set-AppSetting -Path $servicePath -SectionXPath '/configuration/LocalServiceBusSettings' -Key 'mode' -Value $LocalServiceBusMode
+}
+
+# Azure AD confidential-client secret is not stored in git (GitHub push protection).
+# Inject onto IIS PortalSettings from SI_PDR_SSO_CLIENT_SECRET after Binary web.config restore.
+if (-not [string]::IsNullOrWhiteSpace($SsoClientSecret)) {
+    Set-AppSetting -Path $portalPath -SectionXPath '/configuration/PortalSettings' -Key 'SSO_CLIENT_SECRET' -Value $SsoClientSecret
+    Write-Output 'SSO_CLIENT_SECRET_APPLIED'
+}
+else {
+    Write-Log 'SI_PDR_SSO_CLIENT_SECRET not set; Portal SSO_CLIENT_SECRET left as in Binary web.config.'
+    Write-Output 'SSO_CLIENT_SECRET_SKIPPED'
 }
 
 if (-not $PortalConnection -and -not $AppConnection) {
