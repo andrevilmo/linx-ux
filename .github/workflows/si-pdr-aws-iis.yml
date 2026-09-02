@@ -87,6 +87,10 @@ jobs:
                 if [[ "$base" == Web.config || "$base" == web.config || "$base" == *.dll.config ]]; then
                   continue
                 fi
+                # Razor views are copied onto IIS without MSBuild
+                if [[ "$f" == *.cshtml ]]; then
+                  continue
+                fi
                 # Any other Main/ path is treated as needing a build
                 if [[ "$f" == Main/* ]]; then
                   echo "Build required by: $f"
