@@ -107,7 +107,7 @@
         {
             if (!enrolled)
             {
-                <p class="mfa-hint">Escaneie o QR Code no Google Authenticator ou Microsoft Authenticator e, em seguida, digite o código de 6 dígitos para confirmar o cadastro.</p>
+                <p class="mfa-hint">Escaneie o QR Code no aplicativo de autenticação.</p>
                 if (!string.IsNullOrWhiteSpace(label))
                 {
                     <p class="mfa-hint">@label</p>
@@ -117,14 +117,12 @@
                     <img class="mfa-qr" alt="QR Code MFA" src="data:image/png;base64,@qr" />
                 }
             }
-            else
+            else if (!string.IsNullOrWhiteSpace(label))
             {
-                <p class="mfa-hint">Digite o código de 6 dígitos do autenticador para continuar.</p>
-                if (!string.IsNullOrWhiteSpace(label))
-                {
-                    <p class="mfa-hint">@label</p>
-                }
+                <p class="mfa-hint">@label</p>
             }
+
+            <p class="mfa-hint">Para continuar é necessário inserir o código gerado pelo aplicativo de autenticação</p>
 
             <form method="post" action="@Url.Action("Verify", "Mfa")" class="mfa-code" autocomplete="off">
                 <label for="code">código de 6 dígitos</label>
