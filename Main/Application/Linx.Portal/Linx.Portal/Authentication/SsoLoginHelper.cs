@@ -1,4 +1,6 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Identity.Client;
@@ -67,32 +69,90 @@ namespace Linx.Portal.Authentication
         public static string MapMsalException(Exception ex, out bool suggestContingency)
         {
             suggestContingency = false;
-            var msal = ex as MsalClientException;
-            if (msal == null)
-                msal = ex.InnerException as MsalClientException;
+            if (ex == null)
+                return "Não foi possível realizar autenticação.";
 
-            if (msal != null)
+            for (Exception walk = ex; walk != null; walk = walk.InnerException)
             {
-                if (string.Equals(msal.ErrorCode, "authentication_canceled", StringComparison.OrdinalIgnoreCase))
+                var canceled = walk as MsalClientException;
+                if (canceled != null &&
+                    string.Equals(canceled.ErrorCode, "authentication_canceled", StringComparison.OrdinalIgnoreCase))
                     return "O usuário abortou o processo de autenticação.";
 
-                if (string.Equals(msal.ErrorCode, "authentication_ui_failed", StringComparison.OrdinalIgnoreCase))
-                {
+                var uiFailed = walk as MsalClientException;
+                if (uiFailed != null &&
+                    string.Equals(uiFailed.ErrorCode, "authentication_ui_failed", StringComparison.OrdinalIgnoreCase))
                     suggestContingency = true;
-                    return "Não foi possível estabelecer conexão com o servidor.";
-                }
+
+                if (walk is MsalServiceException)
+                    suggestContingency = true;
             }
 
-            var msalSvc = ex as MsalServiceException;
-            if (msalSvc == null)
-                msalSvc = ex.InnerException as MsalServiceException;
-            if (msalSvc != null)
+            string detail = FormatExceptionChain(ex);
+            string hint = DescribeSsoConfig();
+            if (!string.IsNullOrEmpty(hint))
+                return hint + " | " + detail;
+            return detail;
+        }
+
+        public static string DescribeSsoConfig()
+        {
+            try
             {
-                suggestContingency = true;
-                return "Não foi possível estabelecer conexão com o servidor.";
+                AzureAdOptions options = Utils.GetAzureAdOptions();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SSO_CLIENT_ID=").Append(string.IsNullOrWhiteSpace(options.ClientId) ? "vazio" : "ok");
+                sb.Append(" SSO_TENANT_ID=").Append(string.IsNullOrWhiteSpace(options.TenantId) ? "vazio" : "ok");
+                sb.Append(" SSO_REDIRECT_URI=").Append(string.IsNullOrWhiteSpace(options.RedirectUri) ? "vazio" : options.RedirectUri);
+                if (string.IsNullOrWhiteSpace(options.ClientSecret))
+                    sb.Append(" SSO_CLIENT_SECRET=vazio no PortalSettings");
+                else
+                    sb.Append(" SSO_CLIENT_SECRET=ok(len=").Append(options.ClientSecret.Length).Append(")");
+                return sb.ToString();
             }
+            catch (Exception cfgEx)
+            {
+                return "PortalSettings: " + cfgEx.Message;
+            }
+        }
 
-            return "Não foi possível realizar autenticação.";
+        private static string FormatExceptionChain(Exception ex)
+        {
+            var parts = new List<string>();
+            for (Exception e = ex; e != null && parts.Count < 4; e = e.InnerException)
+            {
+                var svc = e as MsalServiceException;
+                var cli = e as MsalClientException;
+                string piece;
+                if (svc != null)
+                    piece = string.IsNullOrEmpty(svc.ErrorCode) ? svc.Message : (svc.ErrorCode + ": " + svc.Message);
+                else if (cli != null)
+                    piece = string.IsNullOrEmpty(cli.ErrorCode) ? cli.Message : (cli.ErrorCode + ": " + cli.Message);
+                else
+                    piece = e.GetType().Name + ": " + e.Message;
+                piece = RedactSecrets(piece);
+                if (!string.IsNullOrWhiteSpace(piece) && !parts.Contains(piece))
+                    parts.Add(piece);
+            }
+            if (parts.Count == 0)
+                return "Não foi possível realizar autenticação.";
+            return string.Join(" | ", parts.ToArray());
+        }
+
+        private static string RedactSecrets(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+            try
+            {
+                AzureAdOptions options = Utils.GetAzureAdOptions();
+                if (!string.IsNullOrWhiteSpace(options.ClientSecret) && text.IndexOf(options.ClientSecret, StringComparison.Ordinal) >= 0)
+                    text = text.Replace(options.ClientSecret, "***");
+            }
+            catch
+            {
+            }
+            return text;
         }
 
         public static bool IsContingencyEnabled(HttpSessionStateBase session)

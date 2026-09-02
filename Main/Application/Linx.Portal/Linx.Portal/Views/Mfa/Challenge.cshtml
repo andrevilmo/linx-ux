@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Verificação MFA - Linx Portal";
+    var enrolled = ViewBag.Enrolled as bool? ?? false;
+    var locked = ViewBag.Locked as bool? ?? false;
+    var qr = ViewBag.QrCodePngBase64 as string;
+    var label = ViewBag.AccountLabel as string;
+}
+<style type="text/css">
+    body:before {
+        background-image: url('@Url.Content("~/assets/img/bg-interna-segmentos-moda2.jpg")')
+    }
+    #authentication {
+        min-height: 100vh;
+        padding: 36px 60px 80px !important;
+        overflow-y: auto;
+    }
+    #authentication .ux-logo {
+        margin-bottom: 12px !important;
+    }
+    .mfa-qr {
+        display: block;
+        margin: 8px 0 16px 0;
+        width: 148px;
+        height: 148px;
+        background: #fff;
+        padding: 6px;
+        border: 1px solid #ddd;
+    }
+    .mfa-hint {
+        margin: 6px 0 10px 0;
+        opacity: 0.85;
+        line-height: 1.4;
+        text-transform: none;
+    }
+    .mfa-code {
+        margin-top: 8px !important;
+    }
+    .mfa-code label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        text-transform: none;
+    }
+    .mfa-code input {
+        letter-spacing: 8px;
+        font-size: 24px;
+        text-align: center;
+        height: 44px;
+        border: 1px solid #5B2E90 !important;
+        border-bottom: 2px solid #5B2E90 !important;
+        background: #faf8ff;
+    }
+    #authentication footer.mfa-back {
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        left: auto;
+        z-index: 2;
+        margin: 0;
+        text-align: right;
+    }
+    #authentication footer.mfa-back a {
+        color: inherit;
+        text-decoration: none;
+    }
+</style>
+<article id="login">
+    <section id="info-product">
+        <div class="page-brand-info">
+            <div class="brand">
+                <img class="brand-img" src="~/assets/img/prh-logo-linx-h.png" alt="...">
+            </div>
+            <p class="font-size-20">
+                SOFTWARE QUE MOVE O VAREJO
+            </p>
+        </div>
+        <footer>
+            <p> &copy; Linx - Todos os direitos reservados. </p>
+        </footer>
+    </section>
+
+    <section id="authentication">
+        <div class="page-brand-info">
+            <div class="brand">
+                <img class="brand-img" src="~/assets/img/linxPreto.png" alt="...">
+            </div>
+            <p class="font-size-20">Verificação em duas etapas</p>
+        </div>
+        <div class="ux-logo">
+            <img class="linx-img" src="~/assets/img/linxX.png" />
+        </div>
+        <p class="font-size-20" style="margin: 0 0 12px 0;">Verificação em duas etapas</p>
+
+        @if (ViewBag.RetryHint != null)
+        {
+            <p class="mfa-hint">@ViewBag.RetryHint</p>
+        }
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="form-validation-response">
+                <label class="error-message">@ViewBag.Error</label>
+            </div>
+        }
+
+        @if (!locked)
+        {
+            if (!enrolled)
+            {
+                <p class="mfa-hint">Escaneie o QR Code no aplicativo de autenticação.</p>
+                if (!string.IsNullOrWhiteSpace(label))
+                {
+                    <p class="mfa-hint">@label</p>
+                }
+                if (!string.IsNullOrWhiteSpace(qr))
+                {
+                    <img class="mfa-qr" alt="QR Code MFA" src="data:image/png;base64,@qr" />
+                }
+            }
+            else if (!string.IsNullOrWhiteSpace(label))
+            {
+                <p class="mfa-hint">@label</p>
+            }
+
+            <p class="mfa-hint">Para continuar é necessário inserir o código gerado pelo aplicativo de autenticação</p>
+
+            <form method="post" action="@Url.Action("Verify", "Mfa")" class="mfa-code" autocomplete="off">
+                <label for="code">código de 6 dígitos</label>
+                <input type="text" name="code" id="code" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code" autofocus="autofocus" required="required" placeholder="000000" />
+                <div class="button-row">
+                    <button type="submit" id="btnMfaSubmit">continuar</button>
+                </div>
+            </form>
+        }
+
+        <footer class="mfa-back">
+            @Html.ActionLink("voltar aos ambientes", "Index", "Home", new { showEnvironments = true }, null)
+        </footer>
+    </section>
+</article>
