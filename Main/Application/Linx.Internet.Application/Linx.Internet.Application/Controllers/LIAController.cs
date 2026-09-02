@@ -28,7 +28,7 @@ namespace Linx.Internet.Application.Controllers
 
         [NoCache]
         [GET("Authentication")]
-        public ActionResult Authentication(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode, string urlWorkArea)
+        public ActionResult Authentication(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode, string urlWorkArea, string mfaTicket)
         {
             LoginInfo loginInfo = new LoginInfo();
 
@@ -62,7 +62,23 @@ namespace Linx.Internet.Application.Controllers
                 // consiste os parametros
                 if (string.IsNullOrEmpty(_uidEmpresa) || string.IsNullOrEmpty(_uidUsuario) || string.IsNullOrEmpty(_uidAplicacao) || string.IsNullOrEmpty(_idAmbiente) || string.IsNullOrEmpty(_uidGrupoEconomico) || string.IsNullOrEmpty(_nomeEmpresa) || string.IsNullOrEmpty(_grupoEconomico) || string.IsNullOrEmpty(_idGpecon))
                 {
-                    ViewBag.Mensagem = "Parametros inv�lidos!";
+                    ViewBag.Mensagem = "Parametros inválidos!";
+                    return View();
+                }
+
+                string mfaError;
+                if (!this.EnsureMfaTicket(_uidUsuario, _idGpecon, mfaTicket, out mfaError))
+                {
+                    string retryUrl = this.BuildPortalMfaRetryUrl(
+                        _loginUrl, uidEmpresa, uidUsuario, uidAplicacao, loginUrl, formulario,
+                        idAmbiente, uidGrupoEconomico, nomeEmpresa, grupoEconomico, idGpecon,
+                        usuarioAutenticacao, supportMode, urlWorkArea);
+                    if (!string.IsNullOrEmpty(retryUrl))
+                    {
+                        this.Session.Remove("MfaTicketOk");
+                        return Redirect(retryUrl);
+                    }
+                    ViewBag.Mensagem = mfaError;
                     return View();
                 }
 
@@ -145,7 +161,7 @@ namespace Linx.Internet.Application.Controllers
                     LoggedUser[] users = JsonConvert.DeserializeObject<LoggedUser[]>(response.Content);
 
                     if (users == null || users.Count() == 0)
-                        retorno = "Usu�rio n�o possui acesso padr�o !";
+                        retorno = "Usuário não possui acesso padrão !";
                     else
                     {
                         return RedirectToAction("Authentication", "LIA",
@@ -170,7 +186,7 @@ namespace Linx.Internet.Application.Controllers
                 }
                 else
                 {
-                    retorno = string.Concat("Retorno inv�lido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
+                    retorno = string.Concat("Retorno inválido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
                 }
 
                 if (retorno.Length > 0)
@@ -186,7 +202,7 @@ namespace Linx.Internet.Application.Controllers
         [NoCache]
         [PreserveQueryString]
         [GET("/")]
-        public ActionResult Loading(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode)
+        public ActionResult Loading(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode, string mfaTicket)
         {
             using (profiler.Step("Loading"))
             {
@@ -242,7 +258,8 @@ namespace Linx.Internet.Application.Controllers
                                 grupoEconomico = grupoEconomico,
                                 idGpecon = idGpecon,
                                 usuarioAutenticacao = usuarioAutenticacao,
-                                supportMode = supportMode
+                                supportMode = supportMode,
+                                mfaTicket = mfaTicket
                             }
                         );
                     }
@@ -518,7 +535,7 @@ namespace Linx.Internet.Application.Controllers
                 loginInfo = JsonConvert.DeserializeObject<LoginInfo>(response.Content);
 
                 if (loginInfo == null)
-                    retorno = "Mensagem inv�lida!";
+                    retorno = "Mensagem inválida!";
                 else
                 {
                     this.Session["Expiracao"] = (!loginInfo.AutenticacaoWindows && DateTime.Now >= loginInfo.DataExpiracaoSenha);
@@ -530,12 +547,128 @@ namespace Linx.Internet.Application.Controllers
             {
                 if (response.Content.Contains("Linx.Framework.BV.LicenseException"))
                 {
-                    retorno = string.Concat("<b>Falha na Valida��o do Controle de Licen�as.<BR><BR>", ExtractError(response.Content), "</b>");
+                    retorno = string.Concat("<b>Falha na Validação do Controle de Licenças.<BR><BR>", ExtractError(response.Content), "</b>");
                 }
                 else
-                    retorno = string.Concat("Retorno inv�lido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
+                    retorno = string.Concat("Retorno inválido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
             }
             return loginInfo;
+        }
+
+        private string BuildPortalMfaRetryUrl(
+            string portalLoginUrl,
+            string uidEmpresa,
+            string uidUsuario,
+            string uidAplicacao,
+            string loginUrl,
+            string formulario,
+            string idAmbiente,
+            string uidGrupoEconomico,
+            string nomeEmpresa,
+            string grupoEconomico,
+            string idGpecon,
+            string usuarioAutenticacao,
+            string supportMode,
+            string urlWorkArea)
+        {
+            string portal = portalLoginUrl;
+            if (string.IsNullOrEmpty(portal))
+                portal = loginUrl;
+            if (string.IsNullOrEmpty(portal))
+                portal = ConfigurationManager.AppSettings.GetValue("Portal", "http://localhost:8172/");
+            if (string.IsNullOrEmpty(portal))
+                return null;
+            if (!portal.EndsWith("/"))
+                portal = portal + "/";
+
+            string appUrl = null;
+            if (this.Request != null && this.Request.Url != null)
+                appUrl = this.Request.Url.GetLeftPart(UriPartial.Path);
+            if (string.IsNullOrEmpty(appUrl))
+                appUrl = ConfigurationManager.AppSettings.GetValue("Application", "http://localhost:8174/");
+
+            return portal + "Home/Redirect?" +
+                "url=" + HttpUtility.UrlEncode(appUrl) +
+                "&uidEmpresa=" + HttpUtility.UrlEncode(uidEmpresa ?? "") +
+                "&uidUsuario=" + HttpUtility.UrlEncode(uidUsuario ?? "") +
+                "&uidAplicacao=" + HttpUtility.UrlEncode(uidAplicacao ?? "") +
+                "&formulario=" + HttpUtility.UrlEncode(formulario ?? "") +
+                "&idAmbiente=" + HttpUtility.UrlEncode(idAmbiente ?? "") +
+                "&uidGrupoEconomico=" + HttpUtility.UrlEncode(uidGrupoEconomico ?? "") +
+                "&nomeEmpresa=" + HttpUtility.UrlEncode(nomeEmpresa ?? "") +
+                "&grupoEconomico=" + HttpUtility.UrlEncode(grupoEconomico ?? "") +
+                "&idLinxGpecon=" + HttpUtility.UrlEncode(idGpecon ?? "") +
+                "&usuarioAutenticacao=" + HttpUtility.UrlEncode(usuarioAutenticacao ?? "") +
+                "&supportMode=" + HttpUtility.UrlEncode(string.IsNullOrEmpty(supportMode) ? "False" : supportMode) +
+                "&urlWorkArea=" + HttpUtility.UrlEncode(urlWorkArea ?? "") +
+                "&forceMfa=true";
+        }
+
+        private bool EnsureMfaTicket(string uidUsuario, string idGpecon, string mfaTicket, out string error)
+        {
+            error = string.Empty;
+            string key = string.Format("{0}|{1}", uidUsuario, idGpecon);
+            if (this.Session["MfaTicketOk"] as string == key)
+                return true;
+
+            if (string.IsNullOrWhiteSpace(mfaTicket))
+                mfaTicket = this.Request["mfaTicket"] ?? this.Request.Headers["MfaTicket"];
+
+            var _serviceBus = System.Configuration.ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
+            var client = new RestClient(_serviceBus);
+
+            if (!string.IsNullOrWhiteSpace(mfaTicket))
+            {
+                var ticketRequest = new RestRequest("LinxFrameworkAutorizacao/ValidateMfaTicket");
+                ticketRequest.AddParameter("ticket", mfaTicket, ParameterType.QueryString);
+                var ticketResponse = client.ExecuteAsGet(ticketRequest, "GET");
+                if (ticketResponse.ErrorException == null && ticketResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    var parsed = JsonConvert.DeserializeObject<MfaTicketCheck>(ticketResponse.Content);
+                    if (parsed != null && parsed.Success)
+                    {
+                        this.Session["MfaTicketOk"] = key;
+                        return true;
+                    }
+                    error = parsed != null && !string.IsNullOrEmpty(parsed.Message) ? parsed.Message : "Ticket MFA inválido.";
+                    return false;
+                }
+                error = ticketResponse.ErrorException != null ? ticketResponse.ErrorException.Message : "Falha ao validar ticket MFA.";
+                return false;
+            }
+
+            Guid uid;
+            int gpecon;
+            if (!Guid.TryParse(uidUsuario, out uid) || !int.TryParse(idGpecon, out gpecon))
+            {
+                error = "Validação MFA obrigatória. Acesse pelo Portal.";
+                return false;
+            }
+
+            var statusRequest = new RestRequest("LinxFrameworkAutorizacao/GetMfaStatus");
+            statusRequest.AddParameter("tableOrigin", "UX", ParameterType.QueryString);
+            statusRequest.AddParameter("idGpecon", gpecon, ParameterType.QueryString);
+            statusRequest.AddParameter("uidUsuario", uid, ParameterType.QueryString);
+            var statusResponse = client.ExecuteAsGet(statusRequest, "GET");
+            if (statusResponse.ErrorException == null && statusResponse.StatusCode == HttpStatusCode.OK)
+            {
+                var status = JsonConvert.DeserializeObject<MfaTicketCheck>(statusResponse.Content);
+                if (status != null && !status.RequiresMfa)
+                {
+                    this.Session["MfaTicketOk"] = key;
+                    return true;
+                }
+            }
+
+            error = "Validação MFA obrigatória. Acesse pelo Portal.";
+            return false;
+        }
+
+        private class MfaTicketCheck
+        {
+            public bool Success { get; set; }
+            public string Message { get; set; }
+            public bool RequiresMfa { get; set; }
         }
 
         private string ExtractError(string content)

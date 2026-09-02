@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -39,7 +39,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             {
                 if (!ds.ValidateUser(userName, userPassword))
                 {
-                    // Membership.ValidateUser returns false for locked accounts � promote to ERRAUT020.
+                    // Membership.ValidateUser returns false for locked accounts; promote to ERRAUT020.
                     if (ds.IsMembershipUserLockedOut(userName))
                         throw new Exception(ErrorConstants.FormatUserLockedOutMessage());
 
@@ -63,6 +63,82 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             ds.ValidateUserAccess(uidUsuario);
 
             return uidUsuario;
+        }
+
+        /// <summary>
+        /// Portal SSO (Azure AD / MSAL): passwordless login after IdP proof.
+        /// Maps UPN-prefix login (case-insensitive) to NomeAutenticacao, validates access, audits as PortalSSO.
+        /// Does not accept or forward the Azure access token — identity was already proven by the Portal.
+        /// </summary>
+        [Route("AuthenticatePortalSso"), System.Web.Http.HttpGet()]
+        public string AuthenticatePortalSso(string userName)
+        {
+            Linx.Security.Cryptography crypto = new Security.Cryptography();
+            string userNameAttempt = userName;
+
+            try
+            {
+                if (userName.IsNullOrEmpty())
+                {
+                    AutorizacaoDomainService dsInvalid = new AutorizacaoDomainService();
+                    dsInvalid.LogAuthAccessFailure(string.Empty, ErrorConstants._LoginInvalidParameters.Code, ErrorConstants._LoginInvalidParameters.Message, "PortalSSO", false);
+                    return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"), crypto.Encrypt(String.Format("{0} - {1}", ErrorConstants._LoginInvalidParameters.Code, ErrorConstants._LoginInvalidParameters.Message)))));
+                }
+
+                AutorizacaoDomainService dsAuth = new AutorizacaoDomainService();
+                if (dsAuth.IsMembershipUserLockedOut(userName))
+                    throw new Exception(ErrorConstants.FormatUserLockedOutMessage());
+
+                UsuarioAutorizacao.UsuarioAutorizacaoDomainService dsUsuarioAut = new UsuarioAutorizacao.UsuarioAutorizacaoDomainService();
+                var usuario = (
+                    from result in dsUsuarioAut.GetTcsUsuarioAutenticacaoNoAssociations()
+                    where result.NomeAutenticacao.ToUpper() == userName.ToUpper()
+                    select new
+                    {
+                        UidUsuario = result.UidUsuario,
+                        Usuario = result.NomeUsuario,
+                        NomeCurto = result.NomeCurtoUsuario,
+                        NomeAutenticacao = result.NomeAutenticacao
+                    }).FirstOrDefault();
+
+                if (usuario.IsNull())
+                {
+                    dsAuth.LogAuthAccessFailure(userName, ErrorConstants._UserBadNameOrPassword.Code,
+                        "Usuário autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda.", "PortalSSO", false);
+                    return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"),
+                        crypto.Encrypt("Usuário autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda."))));
+                }
+
+                // Validate User (Inativo - Vigencia) — same gates as password login, without Membership password.
+                dsAuth.ValidateUserAccess(usuario.UidUsuario);
+
+                dsAuth.LogAuthAccessSuccess(usuario.NomeAutenticacao, "PortalSSO");
+
+                return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}||{2}||{3}",
+                    crypto.Encrypt("1"),
+                    crypto.Encrypt(usuario.Usuario),
+                    crypto.Encrypt(usuario.NomeCurto),
+                    crypto.Encrypt(usuario.NomeAutenticacao))));
+            }
+            catch (System.Data.SqlClient.SqlException sqlEx)
+            {
+                throw sqlEx;
+            }
+            catch (Exception oException)
+            {
+                string errorMessage = ErrorConstants.EnsureUserLockedOutMessage(oException.Message);
+                try
+                {
+                    AutorizacaoDomainService ds = new AutorizacaoDomainService();
+                    if (!userNameAttempt.IsNullOrEmpty() && ds.IsMembershipUserLockedOut(userNameAttempt))
+                        errorMessage = ErrorConstants.FormatUserLockedOutMessage();
+                    else
+                        ds.LogAuthAccessFailure(userNameAttempt ?? string.Empty, null, errorMessage, "PortalSSO", false);
+                }
+                catch { }
+
+                return HttpUtility.UrlEncode(crypto.Encrypt(String.Format("{0}||{1}", crypto.Encrypt("0"), crypto.Encrypt(errorMessage))));
+            }
         }
 
         [Route("AuthenticatePortal"), System.Web.Http.HttpGet()]
@@ -168,6 +244,96 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         {
             AutorizacaoDomainService context = new AutorizacaoDomainService();
             return context.UnlockMembershipUser(userName);
+        }
+
+        [Route("GetMfaStatus"), System.Web.Http.HttpGet()]
+        public MfaStatusResult GetMfaStatus(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null)
+        {
+            return new AutorizacaoDomainService().GetMfaStatus(tableOrigin, idGpecon, idUserMfa, uidUsuario);
+        }
+
+        [Route("BeginMfaEnrollment"), System.Web.Http.HttpGet()]
+        public object BeginMfaEnrollment(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null)
+        {
+            MfaEnrollResult enroll = new AutorizacaoDomainService().BeginMfaEnrollment(tableOrigin, idGpecon, idUserMfa, uidUsuario);
+            string qr = null;
+            if (enroll.Success && !string.IsNullOrEmpty(enroll.OtpauthUri))
+            {
+                using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
+                using (Bitmap bitmap = GetQrCode(enroll.OtpauthUri))
+                {
+                    bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    qr = Convert.ToBase64String(stream.ToArray());
+                }
+            }
+            return new
+            {
+                enroll.Success,
+                enroll.Message,
+                enroll.OtpauthUri,
+                enroll.AccountLabel,
+                QrCodePngBase64 = qr
+            };
+        }
+
+        [Route("ConfirmMfaEnrollment"), System.Web.Http.HttpGet()]
+        public MfaValidateResult ConfirmMfaEnrollment(string tableOrigin, int idGpecon, string code, long idUserMfa = 0, Guid? uidUsuario = null)
+        {
+            return new AutorizacaoDomainService().ConfirmMfaEnrollment(tableOrigin, idGpecon, idUserMfa, uidUsuario, code);
+        }
+
+        [Route("ValidateMfaCode"), System.Web.Http.HttpGet()]
+        public MfaValidateResult ValidateMfaCode(string tableOrigin, int idGpecon, string code, long idUserMfa = 0, Guid? uidUsuario = null, string canal = null)
+        {
+            return new AutorizacaoDomainService().ValidateMfaCode(tableOrigin, idGpecon, idUserMfa, uidUsuario, code, canal);
+        }
+
+        [Route("RevokeMfaSecret"), System.Web.Http.HttpGet()]
+        public MfaValidateResult RevokeMfaSecret(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null)
+        {
+            return new AutorizacaoDomainService().RevokeMfaSecret(tableOrigin, idGpecon, idUserMfa, uidUsuario);
+        }
+
+        [Route("GetMfaCompanyPolicy"), System.Web.Http.HttpGet()]
+        public MfaCompanyPolicy GetMfaCompanyPolicy(int idGpecon)
+        {
+            return new AutorizacaoDomainService().GetMfaCompanyPolicy(idGpecon);
+        }
+
+        [Route("SetMfaCompanyPolicy"), System.Web.Http.HttpGet()]
+        public MfaCompanyPolicy SetMfaCompanyPolicy(int idGpecon, bool indicaMfaHabilitado, bool indicaDispositivoConfiavel = false, int qtdDiasConfianca = 0)
+        {
+            return new AutorizacaoDomainService().SetMfaCompanyPolicy(idGpecon, indicaMfaHabilitado, indicaDispositivoConfiavel, qtdDiasConfianca);
+        }
+
+        [Route("SetUserMfaFlags"), System.Web.Http.HttpGet()]
+        public MfaStatusResult SetUserMfaFlags(Guid uidUsuario, bool? utilizaSso = null, bool? utilizaMfa = null)
+        {
+            return new AutorizacaoDomainService().SetUserMfaFlags(uidUsuario, utilizaSso, utilizaMfa);
+        }
+
+        [Route("LinkMfaDevice"), System.Web.Http.HttpGet()]
+        public MfaDeviceResult LinkMfaDevice(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null, string userAgent = null)
+        {
+            return new AutorizacaoDomainService().LinkMfaDevice(tableOrigin, idGpecon, idUserMfa, uidUsuario, userAgent);
+        }
+
+        [Route("CheckMfaDevice"), System.Web.Http.HttpGet()]
+        public bool CheckMfaDevice(string tableOrigin, int idGpecon, string deviceToken, long idUserMfa = 0, Guid? uidUsuario = null)
+        {
+            return new AutorizacaoDomainService().CheckMfaDevice(tableOrigin, idGpecon, idUserMfa, uidUsuario, deviceToken);
+        }
+
+        [Route("ValidateMfaTicket"), System.Web.Http.HttpGet()]
+        public MfaValidateResult ValidateMfaTicket(string ticket)
+        {
+            return new AutorizacaoDomainService().ValidateMfaTicket(ticket);
+        }
+
+        [Route("IssueMfaSkipTicket"), System.Web.Http.HttpGet()]
+        public MfaValidateResult IssueMfaSkipTicket(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null, string reason = null)
+        {
+            return new AutorizacaoDomainService().IssueMfaSkipTicket(tableOrigin, idGpecon, idUserMfa, uidUsuario, reason);
         }
 
 

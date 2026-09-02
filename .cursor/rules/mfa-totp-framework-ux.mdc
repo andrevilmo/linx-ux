@@ -1,0 +1,169 @@
+---
+description: TOTP MFA (Google/Microsoft Authenticator) for Framework UX — Portal, Service, Application. Follow when implementing or changing MFA, TCS_USUARIO_MFA, TCS_GPECON_MFA, login after company selection, or auth audit.
+globs: "**/{AccountController,HomeController,LIAController,LinxFrameworkAutorizacao,AuthAccessAudit,MfaController,CadastroUsuarioLocal,CadastroUsuarioAutenticacao}*","**/*Mfa*","**/*MFA*"
+alwaysApply: false
+---
+
+# MFA TOTP — Framework UX (Portal, Service, Application)
+
+Agreed product/engineering plan. Do not invent a different MFA design without updating this rule.
+
+SSO (Azure AD) is the **first factor only**. If the selected GPECON has MFA enabled, **Linx TOTP still runs**. Azure MFA does not replace it.
+
+First delivery: **Portal + Application**. POS / `loginPOS` / `LJV_VENDEDOR` is schema/API-ready; do not wire it yet.
+
+Tables are **manual SQL** (same pattern as `TCS_LOG_ACESSO_AUTH`), not BMD/Cadastro generation.
+
+Encrypt secrets with **`Linx.Security.Cryptography`** (`UseSeed = false`). Never log raw `ACCESS_SECRET`.
+
+Authenticator apps: Google Authenticator / Microsoft Authenticator (scan QR). We do not ship an authenticator app.
+
+---
+
+## API origin (`tableOrigin`)
+
+Every MFA and trusted-device API takes `tableOrigin`. Store the API code in `TABLE_ORIGIN` (do not expose physical table names to callers).
+
+| API `tableOrigin` | Meaning | `idUserMfa` |
+|-------------------|---------|-------------|
+| `UX` | Portal / Application | `TCS_USUARIO_AUTENTICACAO.ID_USUARIO` |
+| `PDV` | PDV vendedor | `LJV_VENDEDOR.ID_VENDEDOR` |
+| `CLIENTE_CONNECT` | Cliente Connect | caller-supplied user id |
+
+Legacy aliases accepted in code only: `TCS_USUARIO_AUTENTICACAO` → `UX`, `LJV_VENDEDOR` → `PDV`.
+
+---
+
+## Data model
+
+### `LX_TCS.TCS_GPECON_MFA` — company policy
+
+No row for a GPECON = MFA **enabled** (opt-out). Row with `INDICA_MFA_HABILITADO = 0` = off for the company **and** its users (company off wins over user **Utiliza MFA**).
+
+Company policy is set via **API** (`GetMfaCompanyPolicy` / `SetMfaCompanyPolicy`). No dedicated company admin screen.
+
+| Column | Meaning |
+|--------|---------|
+| `ID_GPCON` (PK) | Same as Portal `IdLinxGpecon` / `TCS_EMPRESA_AUTENTICACAO.ID_LINX` |
+| `INDICA_MFA_HABILITADO` | Company MFA on/off |
+| `INDICA_DISPOSITIVO_CONFIAVEL` | Remember-device (keep in DB; **UI hidden** this delivery) |
+| `QTD_DIAS_CONFIANCA` | N days; default **0** (always ask) |
+
+Admin toggle is **per GPECON**, not per `TCS_AMBIENTE`. Two ambientes of the same GPECON share one MFA policy and one TOTP secret per user+origin.
+
+### `LX_TCS.TCS_USUARIO_MFA` — enrollment
+
+Composite PK: `(TABLE_ORIGIN, ID_GPCON, ID_USER_MFA)`
+
+| Column | Meaning |
+|--------|---------|
+| `TABLE_ORIGIN` | `UX` / `PDV` / `CLIENTE_CONNECT` |
+| `ID_GPCON` | Company |
+| `ID_USER_MFA` | User id for that origin (never mix origins) |
+| `ATIVO` | Enrolled and QR confirmed with first 6-digit code |
+| `ACCESS_SECRET` | TOTP shared secret, encrypted |
+| `QTD_TENTATIVAS_TOTP` / `DATA_BLOQUEIO_ATE` | TOTP lockout (5 fails → 15 min) |
+
+**Per user + per GPECON + per origin:** one authenticator entry. Multi-GPECON users enroll separately per company.
+
+Revoke clears `ACCESS_SECRET` and sets `ATIVO = 0` → next access enrolls again. Revoke is not “disable MFA while company stays on”.
+
+### User flags on `TCS_USUARIO_AUTENTICACAO`
+
+| Column | Default | Meaning |
+|--------|---------|---------|
+| `INDICA_UTILIZA_SSO` | `0` | Utiliza SSO |
+| `INDICA_UTILIZA_MFA` | `NULL` = **ON** | Utiliza MFA |
+
+### `LX_TCS.TCS_USUARIO_MFA_DISPOSITIVO`
+
+Keep APIs `LinkMfaDevice` / `CheckMfaDevice`. UI for remember-device is **hidden**; defaults off / 0 days.
+
+All new tables have `CREATED_AT` / `UPDATED_AT`.
+
+---
+
+## Skip MFA when (`UX`)
+
+- `INDICA_USUARIO_SERVICO` = true
+- `AUTENTICACAO_WINDOWS` = true
+- Company row exists with `INDICA_MFA_HABILITADO = 0`
+- User **Utiliza MFA** = false (NULL/empty = ON)
+
+Do **not** skip because of Azure MFA / SSO. After company selection, run TOTP if company MFA is on.
+
+**Support / impersonation:** challenge the **impersonated** user’s MFA for the selected GPECON.
+
+---
+
+## Login sequence (required order)
+
+MFA is **not** on the password/SSO screen. It runs **after** Portal environment/company selection, when `ID_GPCON` is known.
+
+`idGpecon` = selected environment’s `IdLinxGpecon` (from `TCS_USUARIO_AUTENTICACAO.ID_LINX_GPECON` / `TCS_EMPRESA_AUTENTICACAO.ID_LINX`).
+
+1. Portal login (password or Microsoft SSO) succeeds. Forms cookie is allowed so the user can pick a company. This cookie is **not** enough to open Application.
+2. `HomeController` / `PortalUserAccess` lists environments. One default company still auto-selects, but **must not** redirect to Application until MFA is done or skipped by rule.
+3. Resolve skip rules for the selected GPECON + user.
+4. **Enroll** if no active secret: insert/update `TCS_USUARIO_MFA`, show QR (`otpauth://totp/` issuer = **company name + `NOME_AUTENTICACAO`**), user confirms first 6 digits, then set `ATIVO = 1`.
+5. **Challenge** if enrolled: 6 digits, TOTP RFC 6238, 30s step, ±1 window.
+6. Service returns a short-lived **MFA ticket** for that user+GPECON+origin.
+7. Portal appends `mfaTicket` to the Application URL. `LIAController.Authentication` **must** require the ticket (or a documented skip: DEV/SETUP shell, or skip-rule ticket). Querystring without a valid ticket is rejected unless skip rules apply.
+
+TOTP lockout is **separate** from the password sliding window. Still **insert** MFA events into `TCS_LOG_ACESSO_AUTH` with `INDICA_CONTA_TENTATIVA = 0`.
+
+---
+
+## Service / Portal / Application
+
+**Service (`LinxFrameworkAutorizacao`)** — source of truth:
+
+- `GetMfaStatus`, `BeginMfaEnrollment`, `ConfirmMfaEnrollment`, `ValidateMfaCode`, `RevokeMfaSecret`
+- `GetMfaCompanyPolicy` / `SetMfaCompanyPolicy`
+- `SetUserMfaFlags`
+- `LinkMfaDevice` / `CheckMfaDevice` (no UI this delivery)
+- `ValidateMfaTicket` / `IssueMfaSkipTicket`
+
+**Portal:** `MfaController` after company selection; keep pending company choice until TOTP succeeds.
+
+**Application:** ticket gate on `Authentication`. Do not implement `loginPOS` MFA in this delivery.
+
+---
+
+## Admin UI (existing user screens only)
+
+No new admin window. Fields on:
+
+- **Cadastro e manutenção de usuários** → `CadastroUsuarioLocal`
+- **Usuário (Server)** → `CadastroUsuarioAutenticacao`
+
+Controls: **Utiliza SSO**, **Utiliza MFA**, **Revoga MFA** (enabled only if a valid `ACCESS_SECRET` exists).
+
+---
+
+## Audit (`TCS_LOG_ACESSO_AUTH`)
+
+Log enroll start, enroll confirm, TOTP success, TOTP failure, revoke, company toggle, trusted-device grant.
+
+`CANAL`: `Portal`, `PortalSSO`, `Application`, `MFA`, `MFA-Admin`.
+
+Event kinds stay off the password lockout window (`M` / `E` / `R` plus `INDICA_CONTA_TENTATIVA = 0`).
+
+---
+
+## Encoding (IIS / Windows csc)
+
+Save new MFA `.cs` / `.cshtml` as **UTF-8 with BOM**. On AWS IIS, `csc` and Razor default to Windows-1252: UTF-8 without BOM turns `código` into `cÃ³digo`.
+
+If a file is already Windows-1252, convert to UTF-8 first, then add BOM. Do not prepend a UTF-8 BOM onto 1252 bytes.
+
+Portal and Application `Web.config` use `<globalization fileEncoding="utf-8" ... />`. Do **not** set `fileEncoding` on Service `Web.config` (legacy 1252 sources).
+
+---
+
+## Out of scope (this delivery)
+
+- POS / `AppLogin/loginPOS` / wiring `PDV` in the Portal/Application UI
+- BMD entity generation / standard Cadastro form / dedicated MFA admin page
+- Remember-device checkbox in the MFA challenge UI
+- Skipping our TOTP because Azure already did MFA

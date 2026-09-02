@@ -1,0 +1,120 @@
+# SI-PDR on AWS Windows — IIS Application / Service / Portal
+
+Same pattern as OmniPOS AWS CI: GitHub Actions packages sources → S3 → SSM on the shared Windows EC2 host → MSBuild publish → deploy into three IIS sites.
+
+## Sites
+
+| IIS site | Port | Content root |
+|----------|------|----------------|
+| **Application** | `8174` (also `8080`) | `C:\Linx Program Files\Linx Framework 6.0.0\Application` |
+| **Portal** | `8172` (also `8081`) | `...\Portal` |
+| **Service** (ServiceBus) | `1710` (also `8082`) | `...\Service` |
+
+Primary ports match Binary `web.config` (`PortalUrl`, `ServiceBus`, `authorizationServiceAddress`). `8080` / `8081` / `8082` remain optional CI aliases.
+
+Publish/deploy logic matches [`.vscode/stack-to-publish.ps1`](../.vscode/stack-to-publish.ps1) and [`.vscode/deploy-to-linx-framework.ps1`](../.vscode/deploy-to-linx-framework.ps1).
+
+## Branch
+
+- Base: `footer-presente-colocando-filtro-codigo-gpecon-na-exportacao`
+- CI branch: **`SI-PDR-CICD-AWS`**
+
+## Shared AWS host
+
+Reuses the OmniPOS Windows build machine:
+
+| Resource | Value |
+|----------|--------|
+| Instance | `i-0a266494b999c1b81` (`t3.small`, 100 GiB, `sa-east-1`) |
+| S3 bucket | `omnipos-cicd-253957900820-sa-east-1` (prefix `linx-ux/runs/`) |
+| Persistent workspace | `C:\lx\si-pdr` (robocopy merge; preserves `**/obj`) |
+| Host lock file | `C:\lx\.ci-lock` (avoids overlapping OmniPOS CI) |
+
+## GitHub secrets (required on **linx-ux**)
+
+Add repository secrets (same IAM user as OmniPOS CI works):
+
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+
+Without these, the workflow cannot talk to S3/SSM.
+
+### Binary web.config (authoritative)
+
+Deploy syncs `Main/Binary/{Service,Application,Portal}/Web.config` into the IIS Framework root. Current Binary configs target **QA 3-12** (`tcp:10.16.0.4` / `qa-ux-portal-3-12` / `qa-ux-app-3-12`), with:
+
+- Application / Service `ShellMode=PROD`
+- Service `LocalServiceBusSettings/mode=PROD` (so Portal `CurrentUser` headers are honored)
+- Portal `authorizationServiceAddress` + Application `ServiceBus` → `http://localhost:1710/`
+- Portal `PortalUrl` → `http://localhost:8172/`
+
+`Set-SiPdrSqlConnectionStrings.ps1` only rewrites SQL / Service URL / ShellMode when the matching `SI_PDR_*` env/secret is set; otherwise Binary configs are left as-is.
+
+## Workflow
+
+`.github/workflows/si-pdr-aws-iis.yml`
+
+1. Detect `skip_build` when the diff vs previous commit has no compilable `Main/` source (only `Main/Binary`, configs, `infra/`, `.vscode/`, docs) — or force via `workflow_dispatch`
+2. Package sources (extra excludes: CoreServiceBus/ImageService/SelfHost/WinHost/publish-output; lighter package when `skip_build`)
+3. Upload to S3
+4. SSM merges into **persistent workspace** `C:\lx\si-pdr` (preserves `**/obj` for incremental MSBuild). `skip_build` uses robocopy `/E` (no `/MIR`) so previously compiled `bin` folders are not deleted.
+5. `Invoke-SiPdrAwsPipeline.ps1`:
+   - `Ensure-BuildTools.ps1` — VS 2022 Build Tools (+ web)
+   - `Ensure-IisSiPdr.ps1` — IIS sites; `-SkipHeavySeed` skips Library robocopy when already present
+   - Backup `Main/Binary/{Service,Portal,Application}/Web.config`, then `stack-to-publish.ps1` — MSBuild Tools → BV → WebAPI → Application → Portal (skipped when `skip_build`)
+   - `deploy-to-linx-framework.ps1 -SkipBackup -Force` (`-KeepExistingIisDlls` when `skip_build`, so git Binary DLLs cannot replace the last MSBuild Portal.dll)
+   - Restore the backed-up Binary web.configs onto IIS (BM `XmlConfigMergeConsole` post-build otherwise overwrites QA `tcp:10.16.0.4` with DEV SSPI)
+   - `Set-SiPdrSqlConnectionStrings.ps1` — optional overrides only when `SI_PDR_*` set
+   - Smoke on `:8172|:8174|:1710` and aliases; Portal HTTP 5xx fails the job
+6. Cleanup old per-run dirs; **keep** `C:\lx\si-pdr` obj caches
+
+Manual dispatch: `skip_build=true` (Binary-only), `force_full_seed=true` (re-robocopy Library).
+
+## Local / RDP runbook
+
+1. Start EC2; wait for SSM Online
+2. RDP as `Administrator` to the **current** public IP
+3. Open:
+
+```text
+http://localhost:8174/   # Application (primary)
+http://localhost:8172/   # Portal (primary)
+http://localhost:1710/   # Service (primary)
+http://localhost:8080/   # Application alias
+http://localhost:8081/   # Portal alias
+http://localhost:8082/   # Service alias
+```
+
+From your laptop (after opening SG inbound for those ports to your `/32`):
+
+```text
+http://<public-ip>:8174/
+http://<public-ip>:8172/
+http://<public-ip>:1710/
+```
+
+## Manual pipeline on the host
+
+```powershell
+cd C:\lx\<run_id>   # or a git clone
+pwsh -File infra\si-pdr-cicd\scripts\Invoke-SiPdrAwsPipeline.ps1 -RepoRoot (Get-Location)
+```
+
+## Fixes included on this branch
+
+- `stack-to-publish.ps1` / `stack-to-deploy.ps1` resolve `Main\` correctly (same as deploy-to-linx-framework)
+- Publish build order includes **Linx.Tools** (matches Build All)
+
+## Security / networking
+
+- Windows firewall rules for 8080–8082 / 1710 / 8172 / 8174 are created by `Ensure-IisSiPdr.ps1`
+- AWS security group still needs inbound TCP for those ports from your IP (RDP SG is separate)
+- Portal login requires the EC2 host to open **real** SQL to `tcp:10.16.0.4,1433` (QA). A TCP SYN that never completes TDS still makes Service hang until the connection string `Connect Timeout` / `connect timeout`. If the host cannot reach QA SQL, set `SI_PDR_SQL_*` secrets to a reachable SQL auth endpoint, or peer/VPN the instance into the QA network.
+- Post-deploy `Diagnose-SiPdrRuntime.ps1` logs IIS bindings/pools, TCP+`SqlConnection` to FrameworkAutorizacao, and recent Application Event Log errors.
+- Service cold-start on `t3.small` (~2 GiB) often takes **30–40s**; smoke waits up to 60s on `:1710`. Host RAM can drop below 100 MiB free after all three sites warm — consider a larger instance if login/Service flakiness returns.
+- Optional Portal login smoke uses `SI_PDR_SMOKE_USER` / `SI_PDR_SMOKE_PASSWORD` (defaults to the QA `desenv.franqueado` test user when unset).
+
+## Related
+
+- OmniPOS runbook (other repo): `docs/omnipos-aws-build.md` in `nyxrepoadmin-license-server-dll`
+- VS Code tasks: `.vscode/TASKS.README.md`

@@ -44,7 +44,31 @@
         <div class="ux-logo">
             <img class="linx-img" src="~/assets/img/linxX.png" />
         </div>
-        <form id="FormLogIn" method="post">
+        @{
+            var ssoEnabled = Linx.Portal.Utils.IsSsoEnabled();
+            var ssoContingency = ssoEnabled && Session != null && Session[Linx.Portal.Authentication.SsoLoginHelper.ContingencySessionKey] != null
+                && Convert.ToBoolean(Session[Linx.Portal.Authentication.SsoLoginHelper.ContingencySessionKey]);
+            var showLocalLogin = !ssoEnabled || Linx.Portal.Utils.IsSsoOfflineFallbackAllowed() || ssoContingency;
+        }
+
+        @if (ssoEnabled)
+        {
+            <div class="sso-login" style="margin-bottom: 24px;">
+                <div class="button-row" style="margin-left: 0; width: 100%;">
+                    <a id="btnSsoLogin" href="@Url.Action("SsoLogin", "Account")" class="sso-button" style="display:inline-block; text-align:center; width:100%; padding:10px 12px; background:#5B2E90; color:#fff; text-decoration:none;">entrar com Microsoft</a>
+                </div>
+                @if (ssoContingency)
+                {
+                    <p class="sso-contingency-hint" style="margin-top:12px; color:#8a6d3b;">SSO em contingência — use usuário e senha local.</p>
+                }
+                else if (showLocalLogin)
+                {
+                    <p class="sso-or" style="margin-top:16px; text-align:center; opacity:0.7;">ou</p>
+                }
+            </div>
+        }
+
+        <form id="FormLogIn" method="post" style="@(showLocalLogin ? "" : "display:none;")">
 
             <div class="form-validation-response">
                 @if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Count() > 0)
@@ -61,7 +85,7 @@
                 }
             </div>
 
-            <label>usuário  <input type="text" id="UserName" name="UserName" autofocus required="required" autocomplete="off" />   </label>
+            <label>usuário  <input type="text" id="UserName" name="UserName" autofocus="autofocus" required="required" autocomplete="off" />   </label>
             <label>senha    <input type="password" id="Password" name="Password" required="required" autocomplete="off" />         </label>
 
             <div class="checkbox-row">
@@ -73,17 +97,20 @@
                 <button type="button" id="btnSubmit">entrar</button>
             </div>
 
-            @if (@Linx.Portal.Utils.GetRecoverPasswordOption())
-            {
-                <div class="forget-password">
-                    <a href="#" id="forgotPassword">Esqueci minha senha</a>
-                </div>
-            }
-
             <button type="submit" id="submitHidden" display="none"></button>
             <input type="hidden" name="ShowEnvironments" id="ShowEnvironments" value="false" />
             <input type="hidden" id="RecoverPassword" name="RecoverPassword" value="false" />
         </form>
+
+        @if (!showLocalLogin && ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Count() > 0)
+        {
+            <div class="form-validation-response">
+                @foreach (var error in ViewData.ModelState[""].Errors)
+                {
+                    <label class="error-message">@error.ErrorMessage</label>
+                }
+            </div>
+        }
 
         <div id="recoverSection" style="display:none;">
             <form id="FormRecovery" method="post">
@@ -116,6 +143,12 @@
             </form>
         </div>
 
+            @if (@Linx.Portal.Utils.GetRecoverPasswordOption() && showLocalLogin)
+            {
+                <div class="forget-password" id="loginForgetPassword">
+                    <a href="#" id="forgotPassword">Esqueci minha senha</a>
+                </div>
+            }
         <ul class="ul-redes">
             <li><a class="www" href="https://www.linx.com.br/" target="_blank"><img src='@Url.Content("~/assets/img/icon-redes-sociais.png")'></a></li>
             <li><a class="fb" href="http://www.facebook.com/linxretail" target="_blank"><img src='@Url.Content("~/assets/img/icon-redes-sociais.png")'></a></li>
@@ -261,13 +294,16 @@
         }
 
         // ---- mode switching ----
+        var loginForgetPassword = document.getElementById('loginForgetPassword');
         function showLogin() {
             form.style.display = '';
+            if (loginForgetPassword) loginForgetPassword.style.display = '';
             recoverSection.style.display = 'none';
             resetSection.style.display = 'none';
         }
         function showRecover(userName) {
             form.style.display = 'none';
+            if (loginForgetPassword) loginForgetPassword.style.display = 'none';
             resetSection.style.display = 'none';
             recoverSection.style.display = '';
             if (userName) recoverUserName.value = userName;
@@ -275,6 +311,7 @@
         }
         function showReset() {
             form.style.display = 'none';
+            if (loginForgetPassword) loginForgetPassword.style.display = 'none';
             recoverSection.style.display = 'none';
             resetSection.style.display = '';
             newPassword.focus();

@@ -1,0 +1,480 @@
+name: SI-PDR AWS IIS (Application / Service / Portal)
+
+on:
+  push:
+    branches: [SI-PDR-CICD-AWS, footer-presente-colocando-filtro-codigo-gpecon-na-exportacao, main]
+    paths:
+      - 'Main/**'
+      - '.vscode/stack-to-publish.ps1'
+      - '.vscode/stack-to-deploy.ps1'
+      - '.vscode/deploy-to-linx-framework.ps1'
+      - 'infra/si-pdr-cicd/**'
+      - '.github/workflows/si-pdr-aws-iis.yml'
+  # Push only. pull_request on PR #3 (SI-PDR-CICD-AWS → footer-presente) cancelled the
+  # pending push job (concurrency pending-cancel) and deployed a merge commit instead.
+  workflow_dispatch:
+    inputs:
+      skip_build:
+        description: Skip MSBuild and publish from existing Binary outputs
+        type: boolean
+        default: false
+      force_full_seed:
+        description: Force full Binary→Framework Library seed (ignore SkipHeavySeed)
+        type: boolean
+        default: false
+
+permissions:
+  id-token: write
+  contents: read
+
+# Serialize on the shared Windows EC2 host (also used by OmniPOS CI in another repo).
+# Group includes event_name so a pull_request run cannot cancel a pending push
+# (GitHub cancels previously pending jobs in the same group even when
+# cancel-in-progress is false). Host file C:\lx\.ci-lock still serializes SSM.
+concurrency:
+  group: aws-windows-ec2-si-pdr-${{ github.event_name }}
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: sa-east-1
+  SOURCE_BUCKET: omnipos-cicd-253957900820-sa-east-1
+  BUILD_INSTANCE_ID: i-0a266494b999c1b81
+  AWS_ROLE_ARN: arn:aws:iam::253957900820:role/github-actions-omnipos-build
+
+jobs:
+  build-deploy-iis:
+    name: Build + deploy IIS sites on EC2
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      HAS_AWS_KEYS: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect skip_build (config / Binary-only changes)
+        id: detect
+        env:
+          INPUT_SKIP: ${{ github.event.inputs.skip_build || 'false' }}
+          FORCE_FULL_SEED: ${{ github.event.inputs.force_full_seed || 'false' }}
+        run: |
+          set -euo pipefail
+          SKIP=false
+          if [ "$INPUT_SKIP" = "true" ]; then
+            SKIP=true
+            echo "skip_build forced by workflow_dispatch"
+          else
+            BEFORE=""
+            if [ "${{ github.event_name }}" = "push" ]; then
+              BEFORE="${{ github.event.before }}"
+            elif [ "${{ github.event_name }}" = "pull_request" ]; then
+              BEFORE="${{ github.event.pull_request.base.sha }}"
+            fi
+            if [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ] && git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+              mapfile -t CHANGED < <(git diff --name-only "$BEFORE" "${{ github.sha }}" || true)
+              echo "Changed files vs $BEFORE: ${#CHANGED[@]}"
+              NEED_BUILD=false
+              for f in "${CHANGED[@]}"; do
+                [ -z "$f" ] && continue
+                # Non-Main / Binary / infra / docs / vscode / workflow → never force MSBuild
+                if [[ "$f" == Main/Binary/* || "$f" == docs/* || "$f" == .github/* || "$f" == infra/* || "$f" == .vscode/* ]]; then
+                  continue
+                fi
+                # Config-only under Main → no MSBuild
+                base="$(basename "$f")"
+                if [[ "$base" == Web.config || "$base" == web.config || "$base" == *.dll.config ]]; then
+                  continue
+                fi
+                # Razor views are copied onto IIS without MSBuild
+                if [[ "$f" == *.cshtml ]]; then
+                  continue
+                fi
+                # Any other Main/ path is treated as needing a build
+                if [[ "$f" == Main/* ]]; then
+                  echo "Build required by: $f"
+                  NEED_BUILD=true
+                  break
+                fi
+              done
+              if [ "$NEED_BUILD" = false ] && [ "${#CHANGED[@]}" -gt 0 ]; then
+                SKIP=true
+                echo "No compilable source changes — skip_build=true"
+              fi
+            else
+              echo "No usable before-SHA; full build"
+            fi
+          fi
+          echo "skip_build=$SKIP" >> "$GITHUB_OUTPUT"
+          if [ "$FORCE_FULL_SEED" = "true" ]; then
+            echo "skip_heavy_seed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip_heavy_seed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Configure AWS credentials (access keys)
+        if: env.HAS_AWS_KEYS == 'true'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Configure AWS credentials (OIDC fallback)
+        if: env.HAS_AWS_KEYS != 'true'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+          role-session-name: github-linx-ux-si-pdr
+
+      - name: Verify build host is SSM Online
+        run: |
+          set -euo pipefail
+          PING=$(aws ssm describe-instance-information \
+            --region "$AWS_REGION" \
+            --filters "Key=InstanceIds,Values=${BUILD_INSTANCE_ID}" \
+            --query 'InstanceInformationList[0].PingStatus' --output text)
+          echo "SSM PingStatus=$PING"
+          if [ "$PING" != "Online" ]; then
+            echo "::error::Build host ${BUILD_INSTANCE_ID} is not SSM Online (state=$PING). Start the EC2 instance."
+            exit 1
+          fi
+
+      # GitHub push protection blocks SSO_CLIENT_SECRET in git. Repo Actions secret
+      # SI_PDR_SSO_CLIENT_SECRET is preferred; otherwise load from the CI S3 bucket
+      # (same IAM as this workflow). Value is packed as a sidecar, not put in SSM params.
+      - name: Load Portal SSO client secret
+        env:
+          GITHUB_SSO_SECRET: ${{ secrets.SI_PDR_SSO_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          SECRET="${GITHUB_SSO_SECRET:-}"
+          SOURCE="github"
+          if [ -z "$SECRET" ]; then
+            SOURCE="s3"
+            SECRET=$(aws s3 cp "s3://${SOURCE_BUCKET}/linx-ux/secrets/SSO_CLIENT_SECRET" - --region "$AWS_REGION" 2>/dev/null || true)
+            SECRET="${SECRET%$'\r'}"
+            SECRET="${SECRET%$'\n'}"
+          fi
+          if [ -n "$SECRET" ]; then
+            echo "::add-mask::$SECRET"
+            {
+              echo "SI_PDR_SSO_CLIENT_SECRET<<EOF"
+              echo "$SECRET"
+              echo "EOF"
+            } >> "$GITHUB_ENV"
+            echo "SI_PDR_SSO_SECRET_SOURCE=$SOURCE" >> "$GITHUB_ENV"
+            echo "SSO client secret loaded from $SOURCE (len=${#SECRET})"
+          else
+            echo "SI_PDR_SSO_SECRET_SOURCE=missing" >> "$GITHUB_ENV"
+            echo "SSO client secret not in GitHub Actions secret or S3; IIS inject will skip unless the Windows host can read S3"
+          fi
+
+      - name: Package sources
+        env:
+          SKIP_BUILD: ${{ steps.detect.outputs.skip_build }}
+        run: |
+          set -euo pipefail
+          STAGE=$(mktemp -d)
+          # Shared excludes (keep package lean; obj is preserved on the Windows host workspace).
+          RSYNC_EXCLUDES=(
+            --exclude '.git/'
+            --exclude '**/obj/'
+            --exclude '**/node_modules/'
+            --exclude '**/packages/cef.redist.*/'
+            --exclude '**/Linx.Internet.Application.WinHost/'
+            --exclude 'Main/Demos/'
+            --exclude 'Main/Automation/'
+            --exclude 'Main/Deploy/'
+            --exclude 'Main/Binary/WebFormBuilder/'
+            --exclude 'Main/Binary/CoreServiceBus/'
+            --exclude 'Main/Binary/ImageService/'
+            --exclude 'Main/Binary/SelfHost/'
+            --exclude 'Main/Common/Mobile/'
+            --exclude 'Main/Application/Linx.Demo/'
+            --exclude '**/publish-output/'
+            --exclude '**/podman-volume-output/'
+            --exclude '**/*.nupkg'
+          )
+          if [ "$SKIP_BUILD" = "true" ]; then
+            echo "Lightweight package (skip_build): Binary + Portal/App sources + scripts"
+            mkdir -p "$STAGE/repo/Main/Application" "$STAGE/repo/.vscode" "$STAGE/repo/infra"
+            rsync -a "${RSYNC_EXCLUDES[@]}" Main/Binary/ "$STAGE/repo/Main/Binary/"
+            rsync -a "${RSYNC_EXCLUDES[@]}" Main/Application/Linx.Portal/ "$STAGE/repo/Main/Application/Linx.Portal/"
+            rsync -a "${RSYNC_EXCLUDES[@]}" Main/Application/Linx.Internet.Application/ "$STAGE/repo/Main/Application/Linx.Internet.Application/"
+            rsync -a .vscode/ "$STAGE/repo/.vscode/"
+            rsync -a infra/ "$STAGE/repo/infra/"
+            if [ -d docs ]; then rsync -a docs/ "$STAGE/repo/docs/"; fi
+          else
+            rsync -a "${RSYNC_EXCLUDES[@]}" "./" "$STAGE/repo/"
+          fi
+          if [ -n "${SI_PDR_SSO_CLIENT_SECRET:-}" ]; then
+            mkdir -p "$STAGE/repo/infra/si-pdr-cicd/scripts"
+            umask 077
+            printf '%s' "$SI_PDR_SSO_CLIENT_SECRET" > "$STAGE/repo/infra/si-pdr-cicd/scripts/.sso-client-secret"
+            echo "Packed SSO client secret sidecar (len=${#SI_PDR_SSO_CLIENT_SECRET} source=${SI_PDR_SSO_SECRET_SOURCE:-unknown})"
+          fi
+          # tar.gz + Windows tar.exe extract is much faster than zip/Expand-Archive on t3.small
+          KEY="linx-ux/runs/${GITHUB_RUN_ID}-${GITHUB_SHA}/source.tar.gz"
+          echo "SOURCE_KEY=$KEY" >> "$GITHUB_ENV"
+          (cd "$STAGE/repo" && tar -czf "$STAGE/source.tar.gz" .)
+          ls -lh "$STAGE/source.tar.gz"
+          aws s3 cp "$STAGE/source.tar.gz" "s3://${SOURCE_BUCKET}/${KEY}" --region "$AWS_REGION"
+          URL=$(aws s3 presign "s3://${SOURCE_BUCKET}/${KEY}" --expires-in 7200 --region "$AWS_REGION")
+          {
+            echo "SOURCE_URL<<EOF"
+            echo "$URL"
+            echo "EOF"
+          } >> "$GITHUB_ENV"
+          # S3 cleanup of prior runs disabled: IAM user lacks s3:DeleteObject on this prefix
+          # and the AccessDenied loop wasted ~45–60s every job.
+
+      - name: Run remote SI-PDR pipeline via SSM
+        id: remote_build
+        env:
+          SKIP_BUILD: ${{ steps.detect.outputs.skip_build }}
+          SKIP_HEAVY_SEED: ${{ steps.detect.outputs.skip_heavy_seed }}
+          # Optional SQL auth overrides for Portal login on EC2 (SSPI to corporate SQL fails).
+          SI_PDR_SQL_DATA_SOURCE: ${{ secrets.SI_PDR_SQL_DATA_SOURCE }}
+          SI_PDR_SQL_USER: ${{ secrets.SI_PDR_SQL_USER }}
+          SI_PDR_SQL_PASSWORD: ${{ secrets.SI_PDR_SQL_PASSWORD }}
+          SI_PDR_SQL_PORTAL_CATALOG: ${{ secrets.SI_PDR_SQL_PORTAL_CATALOG }}
+          SI_PDR_SQL_APP_CATALOG: ${{ secrets.SI_PDR_SQL_APP_CATALOG }}
+          SI_PDR_SQL_PORTAL_CONNECTION: ${{ secrets.SI_PDR_SQL_PORTAL_CONNECTION }}
+          SI_PDR_SQL_APP_CONNECTION: ${{ secrets.SI_PDR_SQL_APP_CONNECTION }}
+          SI_PDR_SERVICE_URL: ${{ secrets.SI_PDR_SERVICE_URL }}
+          SI_PDR_SHELL_MODE: ${{ secrets.SI_PDR_SHELL_MODE }}
+          SI_PDR_LOCAL_SERVICEBUS_MODE: ${{ secrets.SI_PDR_LOCAL_SERVICEBUS_MODE }}
+          # Do not forward the secret into SSM command parameters; it is packed as a sidecar.
+          SI_PDR_SSO_CLIENT_SECRET: ''
+        run: |
+          set -euo pipefail
+          python3 <<'PY' > /tmp/ssm-params.json
+          import json, os, textwrap
+          source_key = os.environ["SOURCE_KEY"]
+          source_bucket = os.environ["SOURCE_BUCKET"]
+          run_id = os.environ["GITHUB_RUN_ID"]
+          skip_build = os.environ.get("SKIP_BUILD", "false").lower() in ("1", "true", "yes")
+          skip_heavy_seed = os.environ.get("SKIP_HEAVY_SEED", "true").lower() in ("1", "true", "yes")
+          skip_ps = "$true" if skip_build else "$false"
+          seed_ps = "$true" if skip_heavy_seed else "$false"
+          def env_ps(name):
+              return json.dumps(os.environ.get(name) or "")
+          script = textwrap.dedent(f"""
+          $ErrorActionPreference = 'Stop'
+          $work = 'C:\\lx\\si-pdr'
+          $staging = 'C:\\lx\\si-pdr-staging'
+          $archive = 'C:\\lx\\si-pdr-src.tar.gz'
+          $log = 'C:\\lx\\si-pdr.log'
+          $lock = 'C:\\lx\\.ci-lock'
+          function Write-CiLog([string]$Message) {{
+            $line = "{{0}} {{1}}" -f (Get-Date -Format o), $Message
+            $line | Tee-Object -FilePath $log -Append
+          }}
+          New-Item -ItemType Directory -Force -Path 'C:\\lx' | Out-Null
+          if (Test-Path $log) {{
+            try {{ Move-Item -LiteralPath $log -Destination ($log + '.prev') -Force }}
+            catch {{ Remove-Item -LiteralPath $log -Force -ErrorAction SilentlyContinue }}
+          }}
+          $runLog = 'C:\\lx\\si-pdr-run.log'
+          if (Test-Path $runLog) {{ Remove-Item -LiteralPath $runLog -Force -ErrorAction SilentlyContinue }}
+          Write-CiLog 'Build start (persistent workspace)'
+
+          # Optional SQL overrides (from GitHub secrets) — do not log secret values
+          $env:SI_PDR_SQL_DATA_SOURCE = {env_ps("SI_PDR_SQL_DATA_SOURCE")}
+          $env:SI_PDR_SQL_USER = {env_ps("SI_PDR_SQL_USER")}
+          $env:SI_PDR_SQL_PASSWORD = {env_ps("SI_PDR_SQL_PASSWORD")}
+          $env:SI_PDR_SQL_PORTAL_CATALOG = {env_ps("SI_PDR_SQL_PORTAL_CATALOG")}
+          $env:SI_PDR_SQL_APP_CATALOG = {env_ps("SI_PDR_SQL_APP_CATALOG")}
+          $env:SI_PDR_SQL_PORTAL_CONNECTION = {env_ps("SI_PDR_SQL_PORTAL_CONNECTION")}
+          $env:SI_PDR_SQL_APP_CONNECTION = {env_ps("SI_PDR_SQL_APP_CONNECTION")}
+          if ({env_ps("SI_PDR_SERVICE_URL")}) {{ $env:SI_PDR_SERVICE_URL = {env_ps("SI_PDR_SERVICE_URL")} }}
+          if ({env_ps("SI_PDR_SHELL_MODE")}) {{ $env:SI_PDR_SHELL_MODE = {env_ps("SI_PDR_SHELL_MODE")} }}
+          if ({env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")}) {{ $env:SI_PDR_LOCAL_SERVICEBUS_MODE = {env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")} }}
+          $env:SI_PDR_SSO_CLIENT_SECRET_S3 = {json.dumps("s3://" + os.environ.get("SOURCE_BUCKET", "omnipos-cicd-253957900820-sa-east-1") + "/linx-ux/secrets/SSO_CLIENT_SECRET")}
+          $hasSql = [bool]($env:SI_PDR_SQL_PORTAL_CONNECTION -or ($env:SI_PDR_SQL_DATA_SOURCE -and $env:SI_PDR_SQL_USER -and $env:SI_PDR_SQL_PASSWORD))
+          $ssoSource = {json.dumps(os.environ.get("SI_PDR_SSO_SECRET_SOURCE") or "missing")}
+          Write-CiLog ("SQL overrides present={{0}} SSO secret source={{1}} skipBuild={skip_ps} skipHeavySeed={seed_ps}" -f $hasSql, $ssoSource)
+
+          # Host lock so OmniPOS CI and SI-PDR CI do not overlap on the same machine
+          $deadline = (Get-Date).AddMinutes(90)
+          while (Test-Path $lock) {{
+            if ((Get-Date) -gt $deadline) {{ throw "Timed out waiting for CI lock $lock" }}
+            Write-CiLog 'Waiting for CI lock...'
+            Start-Sleep -Seconds 30
+          }}
+          Set-Content -Path $lock -Value "linx-ux {run_id}" -Encoding ascii
+
+          try {{
+            $env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path','User')
+            $skipBuild = {skip_ps}
+            $skipHeavySeed = {seed_ps}
+            $sourceBucket = {json.dumps(source_bucket)}
+            $sourceKey = {json.dumps(source_key)}
+
+            Write-CiLog '===== Pre-build cleanup (keep si-pdr workspace) ====='
+            Get-ChildItem 'C:\\lx' -Force -ErrorAction SilentlyContinue | Where-Object {{
+              $_.Name -notin @('si-pdr', 'si-pdr-staging', 'si-pdr.log', 'si-pdr-src.tar.gz', '.ci-lock')
+            }} | ForEach-Object {{
+              # Drop old per-run dirs / archives; keep persistent workspace + obj caches
+              if ($_.Name -match '^\\d+' -or $_.Extension -in '.gz', '.zip', '.log' -or $_.Name -like '*.tar.gz') {{
+                Remove-Item -LiteralPath $_.FullName -Recurse -Force -ErrorAction SilentlyContinue
+                Write-CiLog ("Removed {{0}}" -f $_.FullName)
+              }}
+            }}
+
+            if (Test-Path $archive) {{ Remove-Item -LiteralPath $archive -Force -ErrorAction SilentlyContinue }}
+            $sourceUrl = {json.dumps(os.environ.get("SOURCE_URL", ""))}
+            $downloaded = $false
+            Write-CiLog ("Downloading s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey)
+            if (Get-Command aws -ErrorAction SilentlyContinue) {{
+              Write-CiLog 'Trying aws s3 cp --no-progress...'
+              aws s3 cp ("s3://{{0}}/{{1}}" -f $sourceBucket, $sourceKey) $archive --region sa-east-1 --no-progress *>> $log
+              if ($LASTEXITCODE -eq 0 -and (Test-Path $archive) -and (Get-Item $archive).Length -gt 0) {{ $downloaded = $true }}
+              else {{ Write-CiLog 'aws s3 cp failed or empty; will try curl/IWR' }}
+            }}
+            if (-not $downloaded) {{
+              if (-not $sourceUrl) {{ throw 'SOURCE_URL empty and aws s3 cp unavailable' }}
+              [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+              $curl = Join-Path $env:SystemRoot 'System32\\curl.exe'
+              if (Test-Path $curl) {{
+                Write-CiLog 'Downloading via curl.exe (presigned URL)...'
+                & $curl -L --fail --retry 3 --retry-delay 5 -o $archive $sourceUrl *>> $log
+                if ($LASTEXITCODE -ne 0) {{ throw "curl download failed: $LASTEXITCODE" }}
+                $downloaded = $true
+              }} else {{
+                Write-CiLog 'Downloading via Invoke-WebRequest (presigned URL)...'
+                Invoke-WebRequest -Uri $sourceUrl -OutFile $archive -UseBasicParsing
+                $downloaded = $true
+              }}
+            }}
+            if (-not (Test-Path $archive) -or (Get-Item $archive).Length -le 0) {{ throw 'Download produced empty archive' }}
+            Write-CiLog ("Download complete size={{0}}" -f (Get-Item $archive).Length)
+
+            if (Test-Path $staging) {{ Remove-Item -LiteralPath $staging -Recurse -Force }}
+            New-Item -ItemType Directory -Force -Path $staging | Out-Null
+            $tar = Join-Path $env:SystemRoot 'System32\\tar.exe'
+            if (-not (Test-Path $tar)) {{ throw 'tar.exe missing on host' }}
+            Write-CiLog 'Extracting to staging with tar.exe...'
+            & $tar -xzf $archive -C $staging
+            if ($LASTEXITCODE -ne 0) {{ throw "tar extract failed: $LASTEXITCODE" }}
+            Remove-Item -LiteralPath $archive -Force -ErrorAction SilentlyContinue
+            Write-CiLog 'Extract complete'
+
+            # Merge staging into persistent workspace, preserving **/obj for incremental MSBuild
+            New-Item -ItemType Directory -Force -Path $work | Out-Null
+            $syncScript = Get-ChildItem -Path $staging -Recurse -Filter 'Sync-SiPdrWorkspace.ps1' | Select-Object -First 1
+            if ($syncScript) {{
+              Write-CiLog 'Running Sync-SiPdrWorkspace.ps1 (preserve obj)'
+              $syncArgs = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $syncScript.FullName, '-StagingRoot', $staging, '-WorkspaceRoot', $work)
+              if ($skipBuild) {{ $syncArgs += '-NoMirror' }}
+              & powershell.exe @syncArgs
+              if ($LASTEXITCODE -ne 0) {{ throw "Workspace sync failed: $LASTEXITCODE" }}
+            }} else {{
+              $copyMode = if ($skipBuild) {{ '/E' }} else {{ '/MIR' }}
+              Write-CiLog ("Sync script missing; robocopy {0} /XD obj" -f $copyMode)
+              & robocopy $staging $work $copyMode /XD obj /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null
+              if ($LASTEXITCODE -ge 8) {{ throw "robocopy workspace sync failed: $LASTEXITCODE" }}
+              cmd.exe /c "exit /b 0" | Out-Null
+            }}
+            Remove-Item -LiteralPath $staging -Recurse -Force -ErrorAction SilentlyContinue
+            Write-CiLog 'Workspace sync complete'
+
+            $pipeline = Get-ChildItem -Path $work -Recurse -Filter 'Invoke-SiPdrAwsPipeline.ps1' | Select-Object -First 1
+            if (-not $pipeline) {{ throw 'Invoke-SiPdrAwsPipeline.ps1 missing' }}
+            $repoRoot = $work
+            Set-Location $repoRoot
+            Write-CiLog 'Running Invoke-SiPdrAwsPipeline.ps1 (subprocess)'
+            $argList = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $pipeline.FullName, '-RepoRoot', $repoRoot)
+            if ($skipBuild) {{ $argList += '-SkipBuild' }}
+            if ($skipHeavySeed) {{ $argList += '-SkipHeavySeed' }}
+            # Do not stream MSBuild to SSM stdout (24KB cap). Start-Process -Redirect was empty on this host.
+            $argLine = ($argList | ForEach-Object {{ if ($_ -match '\s') {{ '"' + $_ + '"' }} else {{ $_ }} }}) -join ' '
+            & cmd.exe /c "powershell.exe $argLine 1> `"$runLog`" 2>&1"
+            $buildExit = $LASTEXITCODE
+            if ($null -eq $buildExit) {{ $buildExit = 1 }}
+            if (Test-Path $runLog) {{ Get-Content -LiteralPath $runLog -ErrorAction SilentlyContinue | Add-Content -Path $log }}
+            Write-CiLog ("Pipeline process exit=$buildExit")
+            $cleaner = Get-ChildItem -Path $work -Recurse -Filter 'Clear-BuildWorkspace.ps1' | Select-Object -First 1
+            if ($buildExit -ne 0) {{
+              $runLines = @()
+              if (Test-Path $runLog) {{ $runLines = @(Get-Content -LiteralPath $runLog -ErrorAction SilentlyContinue) }}
+              $signal = @(
+                $runLines | Where-Object {{
+                  $_ -and
+                  ($_ -match '(?i)(error CS|error MSB|: error |script failed|smoke failed|Exception:|failed exit|being used by another process|PIPELINE)') -and
+                  ($_ -notmatch '(?i)EventLog |warning CS')
+                }} | Select-Object -Last 40
+              )
+              if (-not $signal -or $signal.Count -eq 0) {{
+                $signal = @($runLines | Where-Object {{ $_ -and ($_ -notmatch '(?i)EventLog ') }} | Select-Object -Last 80)
+              }}
+              Write-Output '===== pipeline failed; current-run signal ====='
+              $signal | ForEach-Object {{ Write-Output $_ }}
+              [Console]::Error.WriteLine('===== pipeline failed; current-run signal =====')
+              $signal | ForEach-Object {{ [Console]::Error.WriteLine($_) }}
+              if ($cleaner) {{ & $cleaner.FullName -KeepCount 0 }}
+              throw "SI-PDR pipeline failed: $buildExit"
+            }}
+            'PIPELINE_SUCCEEDED' | Tee-Object -FilePath $log -Append
+            if ($cleaner) {{
+              Write-Output '===== Post-build cleanup (preserve si-pdr obj caches) ====='
+              & $cleaner.FullName -KeepCount 0
+            }}
+            if (Test-Path $runLog) {{ Get-Content -LiteralPath $runLog -Tail 80 }}
+            elseif (Test-Path $log) {{ Get-Content $log -Tail 80 }}
+          }}
+          finally {{
+            Remove-Item -LiteralPath $lock -Force -ErrorAction SilentlyContinue
+          }}
+          """).strip()
+          print(json.dumps({"commands": [script]}))
+          PY
+
+          CMD_ID=$(aws ssm send-command \
+            --region "$AWS_REGION" \
+            --instance-ids "$BUILD_INSTANCE_ID" \
+            --document-name AWS-RunPowerShellScript \
+            --timeout-seconds 10800 \
+            --comment "linx-ux SI-PDR CI ${GITHUB_RUN_ID} ${GITHUB_SHA}" \
+            --parameters file:///tmp/ssm-params.json \
+            --query 'Command.CommandId' --output text)
+          echo "SSM CommandId=$CMD_ID"
+
+          for i in $(seq 1 360); do
+            STATUS=$(aws ssm get-command-invocation \
+              --region "$AWS_REGION" \
+              --command-id "$CMD_ID" \
+              --instance-id "$BUILD_INSTANCE_ID" \
+              --query 'Status' --output text 2>/dev/null || echo Pending)
+            echo "$(date -u +%H:%M:%S) status=$STATUS"
+            case "$STATUS" in
+              Success|Failed|Cancelled|TimedOut) break ;;
+            esac
+            sleep 15
+          done
+
+          aws ssm get-command-invocation \
+            --region "$AWS_REGION" \
+            --command-id "$CMD_ID" \
+            --instance-id "$BUILD_INSTANCE_ID" \
+            --query '{Status:Status,Out:StandardOutputContent,Err:StandardErrorContent}' \
+            --output json | tee ssm-result.json | python3 -c '
+          import json,sys
+          d=json.load(sys.stdin)
+          print(d.get("Out") or "")
+          err=d.get("Err") or ""
+          if err:
+              print(err, file=sys.stderr)
+          raise SystemExit(0 if d.get("Status")=="Success" else 1)
+          '
+
+      - name: Upload SSM result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: si-pdr-ssm-${{ github.run_id }}
+          path: ssm-result.json
+          if-no-files-found: ignore
