@@ -26,6 +26,14 @@
         padding: 6px;
         border: 1px solid #ddd;
     }
+    #authentication,
+    #authentication .mfa-hint,
+    #authentication .mfa-code,
+    #authentication .mfa-code label,
+    #authentication .mfa-code input,
+    #authentication .font-size-20 {
+        font-family: "Dosis Regular", Verdana, sans-serif;
+    }
     .mfa-hint {
         margin: 6px 0 10px 0;
         opacity: 0.85;
@@ -37,13 +45,12 @@
     }
     .mfa-code label {
         display: block;
-        font-weight: bold;
+        font-weight: normal;
         margin-bottom: 8px;
         text-transform: none;
     }
     .mfa-code input {
         letter-spacing: 8px;
-        font-size: 24px;
         text-align: center;
         height: 44px;
         border: 1px solid #5B2E90 !important;
@@ -125,7 +132,7 @@
             <p class="mfa-hint">Para continuar é necessário inserir o código gerado pelo aplicativo de autenticação</p>
 
             <form method="post" action="@Url.Action("Verify", "Mfa")" class="mfa-code" autocomplete="off">
-                <label for="code">código de 6 dígitos</label>
+                <label for="code">Código de 6 dígitos</label>
                 <input type="text" name="code" id="code" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code" autofocus="autofocus" required="required" placeholder="000000" />
                 <div class="button-row">
                     <button type="submit" id="btnMfaSubmit">continuar</button>
