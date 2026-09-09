@@ -1,12 +1,23 @@
 # Login, SSO e MFA — guia técnico das APIs
 
-Documento para integrar o fluxo de autenticação do Linx UX (Portal + Service + Application). **Não existe um único endpoint** “login + SSO + MFA”. O consumidor orquestra as APIs abaixo na ordem descrita.
+Documento para integrar o fluxo de autenticação do Linx UX (Portal + Service + Application).
 
-Base do Service (IIS): `{ServiceUrl}` — em QA AWS, `http://<host>:1710/`.  
-Controller: `LinxFrameworkAutorizacao`.  
-Criptografia de parâmetros de login e de ticket MFA: `Linx.Security.Cryptography`. Tickets MFA usam `UseSeed = false`.
+**Não existe um único endpoint** “login + SSO + MFA”. O consumidor chama APIs em sequência. Um app **desktop .NET** não usa o cookie do Portal: fala com o Service (`:1710`) e, no SSO, com o Entra ID via MSAL.
 
-SSO do Azure **não** encaminha access token ao Service. O Portal prova identidade no Entra ID e só envia o login local (`NomeAutenticacao`).
+Cookbook com código C# copiável: [login-mfa-sso-desktop-dotnet.md](login-mfa-sso-desktop-dotnet.md).  
+Texto para usuário: [login-mfa-sso-usuario.md](login-mfa-sso-usuario.md).
+
+| Peça | Papel |
+|------|--------|
+| **Portal** (`:8172`) | Telas de senha, Microsoft, ambientes, QR/TOTP. Orquestra o Service. |
+| **Service** (`:1710`) | Fonte da verdade: `LinxFrameworkAutorizacao` + `LinxFrameworkUsuarioAutorizacao`. |
+| **Application** (`:8174`) | Consome `mfaTicket` e `AuthenticateUser`. Cliente desktop pode chamar `AuthenticateUser` direto. |
+| **Entra ID** | Só o 1º fator SSO. O access token **não** vai ao Service. |
+
+Base do Service: `{ServiceUrl}` — QA típico `http://<host>:1710/`.  
+Criptografia de senha e de ticket: `Linx.Security.Cryptography` (referencie a DLL do produto). Tickets MFA: `UseSeed = false` **no servidor**; o cliente só transporta o `Ticket` opaco.
+
+Mapeamento SSO: `UPN` antes de `@` = `NomeAutenticacao` local.
 
 ---
 
@@ -57,6 +68,35 @@ Regras de produto:
 - MFA **não** roda na tela de senha/SSO. Roda **depois** que o GPECON (`IdLinxGpecon`) é conhecido.
 - SSO Azure **não** dispensa TOTP Linx.
 - Cookie Forms do Portal **não** autoriza o Application sozinho. Application exige `mfaTicket` válido (ou skip documentado).
+- Desktop: após o ticket, chame `AuthenticateUser` (o Application web faz isso no `LIA/Authentication`).
+
+```mermaid
+sequenceDiagram
+    participant D as App desktop .NET
+    participant AAD as Entra ID
+    participant S as Service :1710
+
+    alt Senha
+        D->>S: GET AuthenticatePortal (envelope Encrypt)
+    else SSO
+        D->>AAD: MSAL AcquireTokenInteractive (public client)
+        AAD-->>D: UPN
+        D->>S: GET AuthenticatePortalSso?userName=prefixo
+    end
+    D->>S: POST PortalUserAccess
+    S-->>D: ambientes + IdLinxGpecon
+    D->>S: GET GetMfaStatus
+    alt enroll
+        D->>S: BeginMfaEnrollment → UI QR → ConfirmMfaEnrollment
+    else TOTP
+        D->>S: ValidateMfaCode
+    else skip
+        D->>S: IssueMfaSkipTicket
+    end
+    D->>S: ValidateMfaTicket
+    D->>S: GET AuthenticateUser
+    S-->>D: LoginInfo + Token
+```
 
 ---
 
@@ -162,15 +202,17 @@ Cada item inclui, entre outros: `UidUsuario`, `UidEmpresa`, `UidAplicacao`, `IdT
 
 Abre sessão de Application (tokens de acesso). Chamar **somente após** MFA/ticket.
 
+O Portal/Application passam `accessGroupId=00000000-0000-0000-0000-000000000000`.
+
 | Query | Tipo |
 |-------|------|
 | `authenticatedUser` | string (`NomeAutenticacao`) |
-| `applicationId` | Guid |
-| `companyId` | Guid |
-| `accessGroupId` | Guid |
+| `applicationId` | Guid (`UidAplicacao`) |
+| `companyId` | Guid (`UidEmpresa`) |
+| `accessGroupId` | Guid (`Empty` no cliente oficial) |
 | `environmentId` | int (`IdTcsAmbiente`) |
 
-Retorno JSON `LoginInfo`.
+Retorno JSON `LoginInfo` (`Ambientes[].Token` para as APIs de negócio).
 
 ---
 
@@ -283,18 +325,21 @@ Suporte/impersonação: desafiar o MFA do **usuário impersonado** no GPECON sel
 
 ## 8. Receita mínima para um cliente de API (UX)
 
+**Desktop .NET:** código completo em [login-mfa-sso-desktop-dotnet.md](login-mfa-sso-desktop-dotnet.md).
+
 1. **Identidade**  
-   - Browser SSO: `/Account/SsoLogin` → callback, **ou**  
-   - `AuthenticatePortal` com envelope criptografado (mesma lib do Portal).
-2. **GPECON / ambiente** — `PortalUserAccess`. Usar `IdLinxGpecon` + UIDs da linha escolhida (ou `IndicaAcessoPadrao` / única linha).
+   - Desktop senha: `AuthenticatePortal` com envelope `Encrypt(Encrypt(user)||Encrypt(password))` via `Linx.Security.Cryptography`.  
+   - Desktop SSO: MSAL **public client** → prefixo do UPN → `AuthenticatePortalSso`.  
+   - Browser: `/Account/SsoLogin` → callback (confidential client do Portal).
+2. **GPECON / ambiente** — `PortalUserAccess`. Usar `IdLinxGpecon` + UIDs da linha (`IndicaAcessoPadrao` / única linha / escolha na UI). `AcessoLocal=false` contra IIS remoto.
 3. **MFA** — `GetMfaStatus`.  
    - `RequiresMfa && !Enrolled` → `BeginMfaEnrollment` → usuário confirma → `ConfirmMfaEnrollment`.  
    - `RequiresMfa && Enrolled` → `ValidateMfaCode`.  
    - `!RequiresMfa` → `IssueMfaSkipTicket`.
-4. Guardar `Ticket` (≤ 10 min). Não logar secret, `otpauth` completo em produção, nem plaintext do ticket.
-5. Chamar Application `Authentication` com os UIDs **e** `mfaTicket`, **ou** `AuthenticateUser` só depois de validar o ticket no Service.
+4. Guardar `Ticket` (≤ 10 min). Não logar secret, `otpauth` completo, nem plaintext do ticket.
+5. `ValidateMfaTicket` e então `AuthenticateUser`. No browser, o Portal redireciona para `LIA/Authentication?mfaTicket=`.
 
-Não chamar `AuthenticatePortalSso` com um login inventado: o contrato assume que o Azure já autenticou no Portal.
+Não chamar `AuthenticatePortalSso` com um login inventado: o Azure (MSAL ou Portal) tem de ter autenticado neste processo.
 
 ---
 
@@ -318,11 +363,19 @@ Validar ticket:
 GET {ServiceUrl}/LinxFrameworkAutorizacao/ValidateMfaTicket?ticket={ticketUrlEncoded}
 ```
 
-SSO no Service (após Azure no Portal):
+SSO no Service (depois do MSAL no desktop ou do callback do Portal):
 
 ```
 GET {ServiceUrl}/LinxFrameworkAutorizacao/AuthenticatePortalSso?userName=joao.silva
 ```
+
+Sessão Application:
+
+```
+GET {ServiceUrl}/LinxFrameworkAutorizacao/AuthenticateUser?authenticatedUser=joao.silva&applicationId={uidApp}&companyId={uidEmpresa}&accessGroupId=00000000-0000-0000-0000-000000000000&environmentId=1
+```
+
+Exemplos C# (HttpClient + MSAL + TOTP): [login-mfa-sso-desktop-dotnet.md](login-mfa-sso-desktop-dotnet.md).
 
 ---
 
@@ -334,4 +387,5 @@ GET {ServiceUrl}/LinxFrameworkAutorizacao/AuthenticatePortalSso?userName=joao.si
 - Encaminhar access token Azure ao Service
 
 Código de referência: `LinxFrameworkAutorizacao.cs`, `Autorizacao.Mfa.Operations.cs`, `AccountController.cs`, `HomeController.cs`, `MfaController.cs`, `PortalMfaClient.cs`, `LIAController.cs`.  
+Desktop .NET: [login-mfa-sso-desktop-dotnet.md](login-mfa-sso-desktop-dotnet.md).  
 Descrição para usuário: [login-mfa-sso-usuario.md](login-mfa-sso-usuario.md).
