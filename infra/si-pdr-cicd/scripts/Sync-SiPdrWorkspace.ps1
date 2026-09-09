@@ -7,6 +7,7 @@
   compiles across CI runs. Default is robocopy /MIR so deleted source files are
   removed from the workspace, while /XD obj keeps compile caches. Pass -NoMirror
   on skip_build so a lightweight package does not delete previously compiled bins.
+  skip_build packages Binary + Portal/App + docs + samples + infra (not full Main/Common).
 #>
 [CmdletBinding()]
 param(

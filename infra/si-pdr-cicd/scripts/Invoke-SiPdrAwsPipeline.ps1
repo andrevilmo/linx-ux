@@ -277,6 +277,18 @@ if (Test-Path -LiteralPath $sqlOverride) {
 Write-Phase 'Start IIS app pools'
 Start-SiPdrAppPools
 
+$publishSample = Join-Path $scriptsRoot 'Publish-SampleSsoMfa.ps1'
+if (Test-Path -LiteralPath $publishSample) {
+    Write-Phase 'Publish Sample SSO/MFA (C:\Sample-SSO-MFA)'
+    $sw.Restart()
+    $sampleDest = 'C:\Sample-SSO-MFA'
+    if ($env:SAMPLE_SSO_MFA_ROOT) { $sampleDest = $env:SAMPLE_SSO_MFA_ROOT }
+    Invoke-Ps1File -FilePath $publishSample -ArgumentList @('-RepoRoot', $RepoRoot, '-Destination', $sampleDest)
+    Write-Host ("Sample SSO/MFA publish done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
+} else {
+    Write-Warning "Publish-SampleSsoMfa.ps1 missing; skipped C:\Sample-SSO-MFA"
+}
+
 $diagnose = Join-Path $scriptsRoot 'Diagnose-SiPdrRuntime.ps1'
 if (Test-Path -LiteralPath $diagnose) {
     Write-Phase 'Diagnose IIS / SQL reachability'

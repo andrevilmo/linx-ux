@@ -54,7 +54,7 @@ Deploy syncs `Main/Binary/{Service,Application,Portal}/Web.config` into the IIS 
 
 `.github/workflows/si-pdr-aws-iis.yml`
 
-1. Detect `skip_build` when the diff vs previous commit has no compilable `Main/` source (only `Main/Binary`, configs, `infra/`, `.vscode/`, docs) — or force via `workflow_dispatch`
+1. Detect `skip_build` when the diff vs previous commit has no compilable `Main/` source (only `Main/Binary`, configs, `infra/`, `.vscode/`, docs, samples) — or force via `workflow_dispatch`
 2. Package sources (extra excludes: CoreServiceBus/ImageService/SelfHost/WinHost/publish-output; lighter package when `skip_build`)
 3. Upload to S3
 4. SSM merges into **persistent workspace** `C:\lx\si-pdr` (preserves `**/obj` for incremental MSBuild). `skip_build` uses robocopy `/E` (no `/MIR`) so previously compiled `bin` folders are not deleted.
@@ -65,10 +65,31 @@ Deploy syncs `Main/Binary/{Service,Application,Portal}/Web.config` into the IIS 
    - `deploy-to-linx-framework.ps1 -SkipBackup -Force` (`-KeepExistingIisDlls` when `skip_build`, so git Binary DLLs cannot replace the last MSBuild Portal.dll)
    - Restore the backed-up Binary web.configs onto IIS (BM `XmlConfigMergeConsole` post-build otherwise overwrites QA `tcp:10.16.0.4` with DEV SSPI)
    - `Set-SiPdrSqlConnectionStrings.ps1` — optional overrides only when `SI_PDR_*` set
+   - Copy MFA/SSO docs + desktop sample to **`C:\Sample-SSO-MFA`** (`Publish-SampleSsoMfa.ps1`; includes a local `Linx\Cryptography.cs` so the folder is standalone)
    - Smoke on `:8172|:8174|:1710` and aliases; Portal HTTP 5xx fails the job
 6. Cleanup old per-run dirs; **keep** `C:\lx\si-pdr` obj caches
 
 Manual dispatch: `skip_build=true` (Binary-only), `force_full_seed=true` (re-robocopy Library).
+
+## Sample SSO/MFA drop folder
+
+Each pipeline run (full MSBuild or `skip_build`) copies the MFA/SSO guides and the .NET 8 desktop POC to:
+
+```text
+C:\Sample-SSO-MFA\
+  README.txt
+  MANIFEST.txt
+  docs\                          login-mfa-sso-*.md, Portal SSO notes, cursor MFA rule
+  LinxUxAuthDesktopPoc\          console sample (bin/obj excluded)
+  LinxUxAuthDesktopPoc\Linx\     Cryptography.cs (same class as Portal)
+```
+
+No passwords or Azure client secrets are written there. On the host:
+
+```bat
+cd C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc
+dotnet run -- --service http://localhost:1710/ --user SEU_LOGIN --password SUA_SENHA
+```
 
 ## Local / RDP runbook
 

@@ -17,6 +17,8 @@ Não use o **client secret** do Portal. Desktop = app Entra **Mobile and desktop
 
 ## Rodar
 
+No repositório:
+
 ```bash
 dotnet run --project samples/LinxUxAuthDesktopPoc -- --libs
 
@@ -24,6 +26,14 @@ dotnet run --project samples/LinxUxAuthDesktopPoc -- \
   --service http://localhost:1710/ \
   --user SEU_LOGIN \
   --password 'SUA_SENHA'
+```
+
+No host AWS Windows a pipeline copia esta pasta (com `Linx\Cryptography.cs`) para `C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc`:
+
+```bat
+cd C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc
+dotnet run -- --libs
+dotnet run -- --service http://localhost:1710/ --user SEU_LOGIN --password SUA_SENHA
 ```
 
 SSO (abre o browser da Microsoft):

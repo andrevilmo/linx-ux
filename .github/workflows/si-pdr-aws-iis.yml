@@ -10,6 +10,8 @@ on:
       - '.vscode/deploy-to-linx-framework.ps1'
       - 'infra/si-pdr-cicd/**'
       - '.github/workflows/si-pdr-aws-iis.yml'
+      - 'docs/**'
+      - 'samples/**'
   # Push only. pull_request on PR #3 (SI-PDR-CICD-AWS → footer-presente) cancelled the
   # pending push job (concurrency pending-cancel) and deployed a merge commit instead.
   workflow_dispatch:
@@ -78,8 +80,8 @@ jobs:
               NEED_BUILD=false
               for f in "${CHANGED[@]}"; do
                 [ -z "$f" ] && continue
-                # Non-Main / Binary / infra / docs / vscode / workflow → never force MSBuild
-                if [[ "$f" == Main/Binary/* || "$f" == docs/* || "$f" == .github/* || "$f" == infra/* || "$f" == .vscode/* ]]; then
+                # Non-Main / Binary / infra / docs / samples / vscode / workflow → never force MSBuild
+                if [[ "$f" == Main/Binary/* || "$f" == docs/* || "$f" == samples/* || "$f" == .github/* || "$f" == infra/* || "$f" == .vscode/* ]]; then
                   continue
                 fi
                 # Config-only under Main → no MSBuild
@@ -199,7 +201,7 @@ jobs:
             --exclude '**/*.nupkg'
           )
           if [ "$SKIP_BUILD" = "true" ]; then
-            echo "Lightweight package (skip_build): Binary + Portal/App sources + scripts"
+            echo "Lightweight package (skip_build): Binary + Portal/App sources + scripts + docs + samples"
             mkdir -p "$STAGE/repo/Main/Application" "$STAGE/repo/.vscode" "$STAGE/repo/infra"
             rsync -a "${RSYNC_EXCLUDES[@]}" Main/Binary/ "$STAGE/repo/Main/Binary/"
             rsync -a "${RSYNC_EXCLUDES[@]}" Main/Application/Linx.Portal/ "$STAGE/repo/Main/Application/Linx.Portal/"
@@ -207,6 +209,18 @@ jobs:
             rsync -a .vscode/ "$STAGE/repo/.vscode/"
             rsync -a infra/ "$STAGE/repo/infra/"
             if [ -d docs ]; then rsync -a docs/ "$STAGE/repo/docs/"; fi
+            if [ -d samples ]; then
+              rsync -a --exclude '**/bin/' --exclude '**/obj/' samples/ "$STAGE/repo/samples/"
+            fi
+            CRYPTO_SRC="Main/Common/Linx.Tools.Library/Desktop/Linx.Desktop.Tools/Cryptography.cs"
+            if [ -f "$CRYPTO_SRC" ]; then
+              mkdir -p "$STAGE/repo/$(dirname "$CRYPTO_SRC")"
+              cp "$CRYPTO_SRC" "$STAGE/repo/$CRYPTO_SRC"
+            fi
+            if [ -f .cursor/rules/mfa-totp-framework-ux.mdc ]; then
+              mkdir -p "$STAGE/repo/.cursor/rules"
+              cp .cursor/rules/mfa-totp-framework-ux.mdc "$STAGE/repo/.cursor/rules/"
+            fi
           else
             rsync -a "${RSYNC_EXCLUDES[@]}" "./" "$STAGE/repo/"
           fi

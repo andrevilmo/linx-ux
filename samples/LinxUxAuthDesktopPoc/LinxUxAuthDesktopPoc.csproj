@@ -15,8 +15,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <!-- Mesma classe Linx.Security.Cryptography usada pelo Portal (não reimplementar). -->
-  <ItemGroup>
+  <!-- Pasta publicada (C:\Sample-SSO-MFA): Linx\Cryptography.cs entra pelo glob do SDK.
+       No repositório o .cs é linkado a partir de Main/Common. -->
+  <ItemGroup Condition="!Exists('Linx\Cryptography.cs')">
     <Compile Include="..\..\Main\Common\Linx.Tools.Library\Desktop\Linx.Desktop.Tools\Cryptography.cs" Link="Linx\Cryptography.cs" />
   </ItemGroup>
 </Project>
