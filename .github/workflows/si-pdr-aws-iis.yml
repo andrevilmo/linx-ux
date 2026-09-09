@@ -174,6 +174,11 @@ jobs:
             echo "SSO client secret not in GitHub Actions secret or S3; IIS inject will skip unless the Windows host can read S3"
           fi
 
+      - name: Setup .NET 8 (desktop sample win-x64)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
       - name: Package sources
         env:
           SKIP_BUILD: ${{ steps.detect.outputs.skip_build }}
@@ -223,6 +228,26 @@ jobs:
             fi
           else
             rsync -a "${RSYNC_EXCLUDES[@]}" "./" "$STAGE/repo/"
+          fi
+          SAMPLE_CSPROJ="samples/LinxUxAuthDesktopPoc/LinxUxAuthDesktopPoc.csproj"
+          if [ -f "$SAMPLE_CSPROJ" ]; then
+            echo "dotnet publish desktop sample -> win-x64 self-contained single-file"
+            PUBOUT="$STAGE/repo/samples/LinxUxAuthDesktopPoc/publish-win-x64"
+            mkdir -p "$PUBOUT"
+            dotnet publish "$SAMPLE_CSPROJ" \
+              -c Release \
+              -r win-x64 \
+              --self-contained true \
+              -p:PublishSingleFile=true \
+              -p:IncludeNativeLibrariesForSelfExtract=true \
+              -p:EnableCompressionInSingleFile=true \
+              -p:DebugType=None \
+              -p:DebugSymbols=false \
+              -o "$PUBOUT"
+            ls -lh "$PUBOUT"
+            test -f "$PUBOUT/LinxUxAuthDesktopPoc.exe"
+          else
+            echo "Desktop sample csproj missing; skip win-x64 publish"
           fi
           if [ -n "${SI_PDR_SSO_CLIENT_SECRET:-}" ]; then
             mkdir -p "$STAGE/repo/infra/si-pdr-cicd/scripts"

@@ -65,7 +65,7 @@ Deploy syncs `Main/Binary/{Service,Application,Portal}/Web.config` into the IIS 
    - `deploy-to-linx-framework.ps1 -SkipBackup -Force` (`-KeepExistingIisDlls` when `skip_build`, so git Binary DLLs cannot replace the last MSBuild Portal.dll)
    - Restore the backed-up Binary web.configs onto IIS (BM `XmlConfigMergeConsole` post-build otherwise overwrites QA `tcp:10.16.0.4` with DEV SSPI)
    - `Set-SiPdrSqlConnectionStrings.ps1` — optional overrides only when `SI_PDR_*` set
-   - Copy MFA/SSO docs + desktop sample to **`C:\Sample-SSO-MFA`** (`Publish-SampleSsoMfa.ps1`; includes a local `Linx\Cryptography.cs` so the folder is standalone)
+   - Compile the desktop POC (`dotnet publish` win-x64 self-contained) and copy docs + exe to **`C:\Sample-SSO-MFA`**
    - Smoke on `:8172|:8174|:1710` and aliases; Portal HTTP 5xx fails the job
 6. Cleanup old per-run dirs; **keep** `C:\lx\si-pdr` obj caches
 
@@ -73,22 +73,21 @@ Manual dispatch: `skip_build=true` (Binary-only), `force_full_seed=true` (re-rob
 
 ## Sample SSO/MFA drop folder
 
-Each pipeline run (full MSBuild or `skip_build`) copies the MFA/SSO guides and the .NET 8 desktop POC to:
+Each pipeline run compiles the .NET 8 desktop POC (`win-x64` self-contained single-file) and copies it with the MFA/SSO guides to:
 
 ```text
 C:\Sample-SSO-MFA\
+  LinxUxAuthDesktopPoc.exe       compiled POC (no SDK required)
   README.txt
   MANIFEST.txt
   docs\                          login-mfa-sso-*.md, Portal SSO notes, cursor MFA rule
-  LinxUxAuthDesktopPoc\          console sample (bin/obj excluded)
-  LinxUxAuthDesktopPoc\Linx\     Cryptography.cs (same class as Portal)
+  src\                           console sample source + Cryptography.cs
 ```
 
 No passwords or Azure client secrets are written there. On the host:
 
 ```bat
-cd C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc
-dotnet run -- --service http://localhost:1710/ --user SEU_LOGIN --password SUA_SENHA
+C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc.exe --service http://localhost:1710/ --user SEU_LOGIN --password SUA_SENHA
 ```
 
 ## Local / RDP runbook

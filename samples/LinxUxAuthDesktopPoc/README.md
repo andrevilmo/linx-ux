@@ -28,13 +28,14 @@ dotnet run --project samples/LinxUxAuthDesktopPoc -- \
   --password 'SUA_SENHA'
 ```
 
-No host AWS Windows a pipeline copia esta pasta (com `Linx\Cryptography.cs`) para `C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc`:
+No host AWS Windows a pipeline **compila** (win-x64 self-contained) e publica em `C:\Sample-SSO-MFA`:
 
 ```bat
-cd C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc
-dotnet run -- --libs
-dotnet run -- --service http://localhost:1710/ --user SEU_LOGIN --password SUA_SENHA
+C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc.exe --libs
+C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc.exe --service http://localhost:1710/ --user SEU_LOGIN --password SUA_SENHA
 ```
+
+Fonte para rebuild: `C:\Sample-SSO-MFA\src\`.
 
 SSO (abre o browser da Microsoft):
 

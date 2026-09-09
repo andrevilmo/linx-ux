@@ -34,7 +34,7 @@ No Entra ID, o app desktop precisa de plataforma **Mobile and desktop** (public 
 
 ## 2. Pacotes e config
 
-POC compilável: `samples/LinxUxAuthDesktopPoc/` (`dotnet run -- --libs`). No host AWS Windows a pipeline copia docs + sample para `C:\Sample-SSO-MFA`.
+POC compilável: `samples/LinxUxAuthDesktopPoc/` (`dotnet run -- --libs`). No host AWS Windows a pipeline publica o exe em `C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc.exe`.
 
 | Biblioteca | Versão | Obrigatória? |
 |------------|--------|----------------|

@@ -1,11 +1,11 @@
 <#
 .SYNOPSIS
-  Copy MFA/SSO docs and the .NET desktop sample to C:\Sample-SSO-MFA on the AWS Windows host.
+  Copy MFA/SSO docs and compile/publish the .NET desktop sample to C:\Sample-SSO-MFA.
 
 .DESCRIPTION
-  Idempotent drop folder for RDP users. The sample is made standalone by copying
-  Cryptography.cs next to the project (skip_build packages do not include Main/Common).
-  Never copies secrets, passwords, or .sso-client-secret.
+  Idempotent drop folder for RDP users. Prefers a CI-built win-x64 self-contained
+  exe (samples/LinxUxAuthDesktopPoc/publish-win-x64). If that folder is missing,
+  runs dotnet publish on the host. Never copies secrets or .sso-client-secret.
 #>
 [CmdletBinding()]
 param(
@@ -43,6 +43,75 @@ function Copy-RepoFile {
     }
     Copy-Item -LiteralPath $src -Destination $dst -Force
     Write-Host ("Copied {0} -> {1}" -f $RelativeSource, $RelativeDest)
+}
+
+function Find-DotNetExe {
+    $cmd = Get-Command dotnet -ErrorAction SilentlyContinue
+    if ($cmd -and $cmd.Source) { return $cmd.Source }
+    foreach ($c in @(
+            'C:\Program Files\dotnet\dotnet.exe',
+            'C:\Program Files (x86)\dotnet\dotnet.exe'
+        )) {
+        if (Test-Path -LiteralPath $c) { return $c }
+    }
+    return $null
+}
+
+function Test-DotNet8Sdk {
+    param([string] $DotNetExe)
+    $sdks = & $DotNetExe --list-sdks 2>$null
+    if (-not $sdks) { return $false }
+    return [bool]($sdks | Where-Object { $_ -match '^8\.' })
+}
+
+function Get-DotNet8Sdk {
+    $dotnet = Find-DotNetExe
+    if ($dotnet -and (Test-DotNet8Sdk -DotNetExe $dotnet)) {
+        return $dotnet
+    }
+    if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
+        throw 'dotnet 8 SDK not found and Chocolatey is not available to install it.'
+    }
+    Write-Host 'Installing .NET 8 SDK (dotnet-8.0-sdk) for sample publish'
+    & choco install -y dotnet-8.0-sdk --no-progress
+    if ($LASTEXITCODE -ne 0) {
+        throw "choco install dotnet-8.0-sdk failed exit=$LASTEXITCODE"
+    }
+    $env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' +
+                [System.Environment]::GetEnvironmentVariable('Path', 'User')
+    $dotnet = Find-DotNetExe
+    if (-not $dotnet -or -not (Test-DotNet8Sdk -DotNetExe $dotnet)) {
+        throw 'dotnet 8 SDK still missing after Chocolatey install.'
+    }
+    return $dotnet
+}
+
+function Invoke-WinX64Publish {
+    param(
+        [Parameter(Mandatory = $true)][string] $ProjectFile,
+        [Parameter(Mandatory = $true)][string] $OutputDir
+    )
+    $dotnet = Get-DotNet8Sdk
+    if (-not (Test-Path -LiteralPath $OutputDir)) {
+        New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
+    }
+    Write-Host ("dotnet publish {0} -> {1} (win-x64 self-contained)" -f $ProjectFile, $OutputDir)
+    $publishArgs = @(
+        'publish', $ProjectFile,
+        '-c', 'Release',
+        '-r', 'win-x64',
+        '--self-contained', 'true',
+        '-p:PublishSingleFile=true',
+        '-p:IncludeNativeLibrariesForSelfExtract=true',
+        '-p:EnableCompressionInSingleFile=true',
+        '-p:DebugType=None',
+        '-p:DebugSymbols=false',
+        '-o', $OutputDir
+    )
+    & $dotnet $publishArgs
+    if ($LASTEXITCODE -ne 0) {
+        throw ("dotnet publish failed exit={0}: {1}" -f $LASTEXITCODE, $ProjectFile)
+    }
 }
 
 if (-not (Test-Path -LiteralPath $RepoRoot)) {
@@ -88,12 +157,12 @@ if (Test-Path -LiteralPath $ruleFull) {
     Write-Warning "Cursor MFA rule not found; skipped: $ruleFull"
 }
 
-$sampleDst = Join-Path $Destination 'LinxUxAuthDesktopPoc'
+$sampleDst = Join-Path $Destination 'src'
 New-Item -ItemType Directory -Force -Path $sampleDst | Out-Null
 $prefixLen = $sampleSrc.TrimEnd('\', '/').Length
 Get-ChildItem -LiteralPath $sampleSrc -Recurse -Force | Where-Object { -not $_.PSIsContainer } | ForEach-Object {
     $full = $_.FullName
-    if ($full -match '[\\/](bin|obj)([\\/]|$)') { return }
+    if ($full -match '[\\/](bin|obj|publish-win-x64)([\\/]|$)') { return }
     if (Test-BlockedName -Name $_.Name) {
         Write-Warning ("Skipped blocked sample file: {0}" -f $_.Name)
         return
@@ -106,14 +175,51 @@ Get-ChildItem -LiteralPath $sampleSrc -Recurse -Force | Where-Object { -not $_.P
     }
     Copy-Item -LiteralPath $full -Destination $out -Force
 }
-Write-Host "Copied samples/LinxUxAuthDesktopPoc (excluding bin/obj)"
+Write-Host "Copied sample source -> src\ (excluding bin/obj/publish-win-x64)"
 
 $linxDir = Join-Path $sampleDst 'Linx'
 New-Item -ItemType Directory -Force -Path $linxDir | Out-Null
 Copy-Item -LiteralPath $cryptoSrc -Destination (Join-Path $linxDir 'Cryptography.cs') -Force
-Write-Host 'Copied Cryptography.cs -> LinxUxAuthDesktopPoc\Linx\Cryptography.cs (standalone)'
+Write-Host 'Copied Cryptography.cs -> src\Linx\Cryptography.cs (standalone)'
 
-$sampleRunDir = Join-Path $Destination 'LinxUxAuthDesktopPoc'
+$exeName = 'LinxUxAuthDesktopPoc.exe'
+$prebuilt = Join-Path $sampleSrc 'publish-win-x64'
+$prebuiltExe = Join-Path $prebuilt $exeName
+if (Test-Path -LiteralPath $prebuiltExe) {
+    Write-Host ("Using CI prebuilt {0}" -f $prebuilt)
+    Get-ChildItem -LiteralPath $prebuilt -Force | Where-Object { -not $_.PSIsContainer } | ForEach-Object {
+        if (Test-BlockedName -Name $_.Name) { return }
+        Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $Destination $_.Name) -Force
+        Write-Host ("Copied prebuilt {0} ({1} bytes)" -f $_.Name, $_.Length)
+    }
+} else {
+    Write-Host 'No CI prebuilt publish-win-x64; compiling on this host'
+    $csprojInSrc = Join-Path $sampleDst 'LinxUxAuthDesktopPoc.csproj'
+    if (-not (Test-Path -LiteralPath $csprojInSrc)) {
+        throw "Sample csproj missing for host publish: $csprojInSrc"
+    }
+    $buildRoot = Join-Path ([System.IO.Path]::GetTempPath()) ('sample-sso-mfa-' + [guid]::NewGuid().ToString('n'))
+    Copy-Item -LiteralPath $sampleDst -Destination $buildRoot -Recurse -Force
+    $csproj = Join-Path $buildRoot 'LinxUxAuthDesktopPoc.csproj'
+    $hostOut = Join-Path $buildRoot 'out'
+    try {
+        Invoke-WinX64Publish -ProjectFile $csproj -OutputDir $hostOut
+        Get-ChildItem -LiteralPath $hostOut -Force | Where-Object { -not $_.PSIsContainer } | ForEach-Object {
+            Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $Destination $_.Name) -Force
+            Write-Host ("Copied host-built {0} ({1} bytes)" -f $_.Name, $_.Length)
+        }
+    } finally {
+        Remove-Item -LiteralPath $buildRoot -Recurse -Force -ErrorAction SilentlyContinue
+    }
+}
+
+$exePath = Join-Path $Destination $exeName
+if (-not (Test-Path -LiteralPath $exePath)) {
+    throw "Compiled sample missing: $exePath"
+}
+$exeSize = (Get-Item -LiteralPath $exePath).Length
+Write-Host ("SAMPLE_SSO_MFA_EXE path={0} bytes={1}" -f $exePath, $exeSize)
+
 $readme = @"
 Sample SSO + MFA (Linx UX)
 ==========================
@@ -123,20 +229,18 @@ Não contém senhas, client secrets nem tickets MFA.
 
 Layout
 ------
+LinxUxAuthDesktopPoc.exe       POC compilado (win-x64, self-contained)
 docs\                          Guias MFA/SSO (usuario, API, desktop .NET)
-LinxUxAuthDesktopPoc\          POC console .NET 8 (senha ou SSO + TOTP)
-LinxUxAuthDesktopPoc\Linx\     Cryptography.cs (mesma classe do Portal)
+src\                           Fonte do POC + Cryptography.cs
 
 Service local neste host
 ------------------------
 http://localhost:1710/
 
-Como rodar o sample (requer .NET 8 SDK)
-----------------------------------------
-cd $sampleRunDir
-dotnet restore
-dotnet run -- --libs
-dotnet run -- --service http://localhost:1710/ --user SEU_LOGIN --password SUA_SENHA
+Como rodar (não precisa do SDK)
+-------------------------------
+$exePath --libs
+$exePath --service http://localhost:1710/ --user SEU_LOGIN --password SUA_SENHA
 
 SSO desktop usa app Entra "Mobile and desktop" (público). Não use o client secret do Portal.
 
@@ -150,6 +254,8 @@ $manifestLines = New-Object System.Collections.Generic.List[string]
 $manifestLines.Add("SAMPLE_SSO_MFA dest=$Destination")
 $manifestLines.Add("publishedUtc=$((Get-Date).ToUniversalTime().ToString('o'))")
 $manifestLines.Add("repoRoot=$RepoRoot")
+$manifestLines.Add("exe=$exePath")
+$manifestLines.Add("exeBytes=$exeSize")
 $manifestLines.Add('')
 $fileCount = 0
 Get-ChildItem -LiteralPath $Destination -Recurse -Force | Where-Object { -not $_.PSIsContainer } | Sort-Object FullName | ForEach-Object {
@@ -160,5 +266,5 @@ Get-ChildItem -LiteralPath $Destination -Recurse -Force | Where-Object { -not $_
 }
 [System.IO.File]::WriteAllText((Join-Path $Destination 'MANIFEST.txt'), (($manifestLines -join "`r`n") + "`r`n"), $utf8Bom)
 
-Write-Host ("SAMPLE_SSO_MFA_PUBLISHED dest={0} files={1}" -f $Destination, $fileCount)
+Write-Host ("SAMPLE_SSO_MFA_PUBLISHED dest={0} files={1} exe={2}" -f $Destination, $fileCount, $exePath)
 exit 0
