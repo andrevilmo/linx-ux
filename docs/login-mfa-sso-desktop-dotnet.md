@@ -34,12 +34,21 @@ No Entra ID, o app desktop precisa de plataforma **Mobile and desktop** (public 
 
 ## 2. Pacotes e config
 
+POC compilável: `samples/LinxUxAuthDesktopPoc/` (`dotnet run -- --libs`).
+
+| Biblioteca | Versão | Obrigatória? |
+|------------|--------|----------------|
+| `Newtonsoft.Json` | 13.0.3 | sim |
+| `Microsoft.Identity.Client` | 4.83.0 | só SSO |
+| `System.Net.Http` | BCL | sim |
+| `Linx.Security.Cryptography` | produto | sim para senha (`AuthenticatePortal`) |
+
+A POC **linka** `Main/Common/Linx.Tools.Library/Desktop/Linx.Desktop.Tools/Cryptography.cs`. Em um exe Windows de produção, referencie `Linx.Tools.dll` (GAC Binary).
+
 ```xml
 <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 <PackageReference Include="Microsoft.Identity.Client" Version="4.83.0" />
 ```
-
-Referência de projeto/DLL: `Linx.Security` (`Cryptography`), a mesma usada pelo Portal.
 
 ```json
 {
