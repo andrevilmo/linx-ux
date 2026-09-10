@@ -25,13 +25,15 @@ dotnet run --project samples/LinxUxAuthDesktopPoc -- --libs
 dotnet run --project samples/LinxUxAuthDesktopPoc -- \
   --service http://localhost:1710/ \
   --user SEU_LOGIN \
-  --password 'SUA_SENHA'
+  --password 'SUA_SENHA' \
+  --list
 ```
 
 No host AWS Windows a pipeline **compila** (win-x64 self-contained) e publica em `C:\Sample-SSO-MFA`:
 
 ```bat
 C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc.exe --libs
+C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc.exe --list --service http://localhost:1710/ --user SEU_LOGIN --password SUA_SENHA
 C:\Sample-SSO-MFA\LinxUxAuthDesktopPoc.exe --service http://localhost:1710/ --user SEU_LOGIN --password SUA_SENHA
 ```
 

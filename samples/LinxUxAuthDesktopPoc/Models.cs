@@ -17,6 +17,15 @@ namespace Linx.Ux.AuthDesktopPoc
         public bool IndicaAcessoPadrao { get; set; }
         public string Url { get; set; }
         public string NomeAutenticacao { get; set; }
+        public string DescricaoAplicacao { get; set; }
+        public string UrlWorkArea { get; set; }
+    }
+
+    public sealed class ListaAmbientes
+    {
+        public string NomeAutenticacao { get; set; }
+        public bool AcessoLocal { get; set; }
+        public List<AmbienteAcesso> Ambientes { get; set; }
     }
 
     public sealed class MfaStatusDto

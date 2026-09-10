@@ -48,16 +48,64 @@ namespace Linx.Ux.AuthDesktopPoc
             return parts.Length > 3 ? DecryptPart(parts, 3) : nomeAutenticacao;
         }
 
-        public async Task<List<AmbienteAcesso>> ListarAmbientesAsync(string nomeAutenticacao, bool? acessoLocal = null)
+        public async Task<ListaAmbientes> ListarAmbientesAsync(string nomeAutenticacao, bool? acessoLocal = null)
         {
             if (acessoLocal.HasValue)
-                return await PortalUserAccessAsync(nomeAutenticacao, acessoLocal.Value).ConfigureAwait(false);
+            {
+                return new ListaAmbientes
+                {
+                    NomeAutenticacao = nomeAutenticacao,
+                    AcessoLocal = acessoLocal.Value,
+                    Ambientes = await PortalUserAccessAsync(nomeAutenticacao, acessoLocal.Value).ConfigureAwait(false)
+                };
+            }
 
             // Portal usa Request.IsLocal. No desktop, tenta produção (false) e depois dev (true).
             List<AmbienteAcesso> lista = await PortalUserAccessAsync(nomeAutenticacao, false).ConfigureAwait(false);
             if (lista.Count > 0)
-                return lista;
-            return await PortalUserAccessAsync(nomeAutenticacao, true).ConfigureAwait(false);
+            {
+                return new ListaAmbientes
+                {
+                    NomeAutenticacao = nomeAutenticacao,
+                    AcessoLocal = false,
+                    Ambientes = lista
+                };
+            }
+            return new ListaAmbientes
+            {
+                NomeAutenticacao = nomeAutenticacao,
+                AcessoLocal = true,
+                Ambientes = await PortalUserAccessAsync(nomeAutenticacao, true).ConfigureAwait(false)
+            };
+        }
+
+        public static void EscreverAmbientes(ListaAmbientes lista)
+        {
+            if (lista == null)
+            {
+                Console.WriteLine("Ambientes: 0");
+                return;
+            }
+            IList<AmbienteAcesso> itens = lista.Ambientes ?? new List<AmbienteAcesso>();
+            Console.WriteLine("Ambientes de {0} (AcessoLocal={1}): {2}",
+                lista.NomeAutenticacao, lista.AcessoLocal, itens.Count);
+            int i = 1;
+            foreach (AmbienteAcesso a in itens)
+            {
+                Console.WriteLine("--- {0} ---", i++);
+                Console.WriteLine("  IdTcsAmbiente     {0}{1}", a.IdTcsAmbiente, a.IndicaAcessoPadrao ? "  (padrão)" : "");
+                Console.WriteLine("  Descricao         {0}", a.DescricaoAmbiente);
+                Console.WriteLine("  Empresa           {0}", a.NomeEmpresa);
+                Console.WriteLine("  Grupo economico   {0}", a.GrupoEconomico);
+                Console.WriteLine("  Aplicacao         {0}", a.DescricaoAplicacao);
+                Console.WriteLine("  IdLinxGpecon      {0}", a.IdLinxGpecon);
+                Console.WriteLine("  UidUsuario        {0}", a.UidUsuario);
+                Console.WriteLine("  UidEmpresa        {0}", a.UidEmpresa);
+                Console.WriteLine("  UidAplicacao      {0}", a.UidAplicacao);
+                Console.WriteLine("  Url               {0}", a.Url);
+                if (!string.IsNullOrEmpty(a.UrlWorkArea))
+                    Console.WriteLine("  UrlWorkArea       {0}", a.UrlWorkArea);
+            }
         }
 
         private async Task<List<AmbienteAcesso>> PortalUserAccessAsync(string nomeAutenticacao, bool acessoLocal)

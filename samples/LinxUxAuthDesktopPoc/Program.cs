@@ -35,43 +35,28 @@ namespace Linx.Ux.AuthDesktopPoc
                 acessoLocal = false;
             int? ambienteId = flags.ContainsKey("ambiente") ? int.Parse(flags["ambiente"]) : (int?)null;
             string totp = Get(flags, "totp", Environment.GetEnvironmentVariable("LINX_TOTP"));
+            bool soListar = flags.ContainsKey("list")
+                            || flags.ContainsKey("list-environments")
+                            || flags.ContainsKey("ambientes");
 
             try
             {
                 using (var client = new LinxUxAuthClient(service))
                 {
-                    string login;
-                    if (useSso)
-                    {
-                        string clientId = Req(flags, "client-id", "LINX_SSO_CLIENT_ID");
-                        string tenantId = Req(flags, "tenant-id", "LINX_SSO_TENANT_ID");
-                        string redirect = Get(flags, "redirect", "http://localhost");
-                        Console.WriteLine("Abrindo login Microsoft...");
-                        string prefix = await LinxDesktopSso.ObterNomeAutenticacaoAsync(clientId, tenantId, redirect)
-                            .ConfigureAwait(false);
-                        Console.WriteLine("UPN prefixo: " + prefix);
-                        login = await client.LoginAposSsoAsync(prefix).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(password))
-                        {
-                            Console.Error.WriteLine("Informe --user e --password (ou LINX_USER / LINX_PASSWORD), ou --sso.");
-                            return 2;
-                        }
-                        login = await client.LoginComSenhaAsync(user, password).ConfigureAwait(false);
-                    }
-
+                    string login = await AutenticarPrimeiroFatorAsync(client, flags, useSso, user, password)
+                        .ConfigureAwait(false);
                     Console.WriteLine("1º fator OK: " + login);
 
-                    List<AmbienteAcesso> ambientes = await client.ListarAmbientesAsync(login, acessoLocal)
+                    ListaAmbientes lista = await client.ListarAmbientesAsync(login, acessoLocal)
                         .ConfigureAwait(false);
+                    LinxUxAuthClient.EscreverAmbientes(lista);
+                    if (soListar)
+                        return 0;
+
+                    List<AmbienteAcesso> ambientes = lista.Ambientes ?? new List<AmbienteAcesso>();
                     if (ambientes.Count == 0)
                         throw new InvalidOperationException(
                             "Nenhum ambiente (PortalUserAccess). Tente --local ou --remote.");
-                    Console.WriteLine("Ambientes: " + ambientes.Count);
-                    foreach (AmbienteAcesso a in ambientes)
-                        Console.WriteLine("  - {0} id={1} gpecon={2} padrao={3}", a.DescricaoAmbiente, a.IdTcsAmbiente, a.IdLinxGpecon, a.IndicaAcessoPadrao);
 
                     AmbienteAcesso ambiente = ambienteId.HasValue
                         ? ambientes.FirstOrDefault(x => x.IdTcsAmbiente == ambienteId.Value)
@@ -126,12 +111,36 @@ namespace Linx.Ux.AuthDesktopPoc
             return Console.ReadLine() ?? "";
         }
 
+        private static async Task<string> AutenticarPrimeiroFatorAsync(
+            LinxUxAuthClient client,
+            Dictionary<string, string> flags,
+            bool useSso,
+            string user,
+            string password)
+        {
+            if (useSso)
+            {
+                string clientId = Req(flags, "client-id", "LINX_SSO_CLIENT_ID");
+                string tenantId = Req(flags, "tenant-id", "LINX_SSO_TENANT_ID");
+                string redirect = Get(flags, "redirect", "http://localhost");
+                Console.WriteLine("Abrindo login Microsoft...");
+                string prefix = await LinxDesktopSso.ObterNomeAutenticacaoAsync(clientId, tenantId, redirect)
+                    .ConfigureAwait(false);
+                Console.WriteLine("UPN prefixo: " + prefix);
+                return await client.LoginAposSsoAsync(prefix).ConfigureAwait(false);
+            }
+            if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(password))
+                throw new InvalidOperationException("Informe --user e --password (ou LINX_USER / LINX_PASSWORD), ou --sso.");
+            return await client.LoginComSenhaAsync(user, password).ConfigureAwait(false);
+        }
+
         private static void PrintHelp()
         {
             Console.WriteLine(@"POC desktop Linx UX — senha ou SSO + MFA + AuthenticateUser
 
 Uso:
   dotnet run --project samples/LinxUxAuthDesktopPoc -- --libs
+  dotnet run --project samples/LinxUxAuthDesktopPoc -- --list --user NOME --password SENHA --service http://localhost:1710/
   dotnet run --project samples/LinxUxAuthDesktopPoc -- --user NOME --password SENHA --service http://localhost:1710/
   dotnet run --project samples/LinxUxAuthDesktopPoc -- --sso --client-id ID --tenant-id TID
 
@@ -139,6 +148,7 @@ Flags:
   --service URL     Service (default http://localhost:1710/ ou LINX_SERVICE_URL)
   --user NOME       Login local (ou LINX_USER)
   --password SENHA  Senha (ou LINX_PASSWORD)
+  --list            Só lista ambientes (PortalUserAccess); aliases: --list-environments --ambientes
   --totp 123456     Código MFA (ou LINX_TOTP); senão pergunta no console
   --ambiente N      IdTcsAmbiente se houver vários
   --local           AcessoLocal=true (EmDesenvolvimento)
@@ -187,7 +197,7 @@ NÃO use:
             Console.WriteLine(@"Fluxo deste esqueleto
 ---------------------
 1. AuthenticatePortal  OU  MSAL + AuthenticatePortalSso
-2. PortalUserAccess
+2. PortalUserAccess  (`--list` para só listar ambientes)
 3. GetMfaStatus → enroll/ValidateMfaCode/skip
 4. ValidateMfaTicket → AuthenticateUser
 ");
