@@ -214,13 +214,37 @@ namespace Linx.Ux.AuthDesktopPoc
                     .ConfigureAwait(false);
                 if (!enroll.Success)
                     throw new InvalidOperationException(enroll.Message ?? "Falha ao iniciar MFA.");
-                string code = pedirCodigoComQr(enroll);
-                return await ConfirmEnrollAsync(ambiente.UidUsuario, ambiente.IdLinxGpecon, code)
-                    .ConfigureAwait(false);
+                for (int tentativa = 1; tentativa <= 5; tentativa++)
+                {
+                    string code = NormalizeTotp(tentativa == 1 ? pedirCodigoComQr(enroll) : pedirCodigo());
+                    MfaTicketDto confirm = await ConfirmEnrollAsync(ambiente.UidUsuario, ambiente.IdLinxGpecon, code)
+                        .ConfigureAwait(false);
+                    if (confirm != null && confirm.Success)
+                        return confirm;
+                    if (confirm != null && confirm.MfaLocked)
+                        throw new InvalidOperationException(confirm.Message ?? "MFA bloqueado por excesso de tentativas (15 min).");
+                    Console.WriteLine(confirm != null ? confirm.Message : "Código MFA inválido.");
+                    Console.WriteLine(
+                        "O TOTP não bateu com o ACCESS_SECRET (janela ±60s). UTC servidor-cliente={0:u}. "
+                        + "Apague no autenticador uma conta antiga com o mesmo nome, use o QR/segredo desta execução e o código que está na tela agora. Tentativa {1}/5.",
+                        DateTime.UtcNow, tentativa);
+                }
+                throw new InvalidOperationException("Código MFA inválido.");
             }
 
-            return await ValidateTotpAsync(ambiente.UidUsuario, ambiente.IdLinxGpecon, pedirCodigo())
-                .ConfigureAwait(false);
+            for (int tentativa = 1; tentativa <= 5; tentativa++)
+            {
+                string code = NormalizeTotp(pedirCodigo());
+                MfaTicketDto totp = await ValidateTotpAsync(ambiente.UidUsuario, ambiente.IdLinxGpecon, code)
+                    .ConfigureAwait(false);
+                if (totp != null && totp.Success)
+                    return totp;
+                if (totp != null && totp.MfaLocked)
+                    throw new InvalidOperationException(totp.Message ?? "MFA bloqueado por excesso de tentativas (15 min).");
+                Console.WriteLine(totp != null ? totp.Message : "Código MFA inválido.");
+                Console.WriteLine("Tentativa {0}/5. UTC={1:u}", tentativa, DateTime.UtcNow);
+            }
+            throw new InvalidOperationException("Código MFA inválido.");
         }
 
         public async Task<LoginInfoDto> AbrirSessaoApplicationAsync(
@@ -285,6 +309,36 @@ namespace Linx.Ux.AuthDesktopPoc
             if (!resp.IsSuccessStatusCode)
                 throw new InvalidOperationException((int)resp.StatusCode + " " + Truncate(body, 400));
             return body;
+        }
+
+        public static string NormalizeTotp(string code)
+        {
+            if (string.IsNullOrEmpty(code))
+                return "";
+            var sb = new StringBuilder(6);
+            foreach (char c in code)
+            {
+                if (c >= '0' && c <= '9')
+                    sb.Append(c);
+            }
+            return sb.ToString();
+        }
+
+        public static string ExtrairSegredoOtpauth(string otpauthUri)
+        {
+            if (string.IsNullOrEmpty(otpauthUri))
+                return "";
+            int q = otpauthUri.IndexOf('?');
+            string query = q >= 0 ? otpauthUri.Substring(q + 1) : otpauthUri;
+            foreach (string part in query.Split('&'))
+            {
+                int eq = part.IndexOf('=');
+                if (eq <= 0)
+                    continue;
+                if (part.Substring(0, eq).Equals("secret", StringComparison.OrdinalIgnoreCase))
+                    return Uri.UnescapeDataString(part.Substring(eq + 1));
+            }
+            return "";
         }
 
         private static string Truncate(string s, int n)

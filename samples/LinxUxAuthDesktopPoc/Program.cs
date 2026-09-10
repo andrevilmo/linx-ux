@@ -70,13 +70,23 @@ namespace Linx.Ux.AuthDesktopPoc
                         ambiente,
                         enroll =>
                         {
+                            Console.WriteLine("Cadastro MFA (ainda não confirmado).");
+                            Console.WriteLine("UTC agora: {0:u}  (o autenticador usa o relógio do celular)", DateTime.UtcNow);
+                            if (!string.IsNullOrEmpty(enroll.OtpauthUri))
+                            {
+                                Console.WriteLine("otpauth: " + enroll.OtpauthUri);
+                                string secret = LinxUxAuthClient.ExtrairSegredoOtpauth(enroll.OtpauthUri);
+                                if (!string.IsNullOrEmpty(secret))
+                                    Console.WriteLine("Segredo (entrada manual): " + secret);
+                            }
                             if (!string.IsNullOrEmpty(enroll.QrCodePngBase64))
                             {
                                 string png = Path.Combine(Path.GetTempPath(), "linx-mfa-enroll.png");
                                 File.WriteAllBytes(png, Convert.FromBase64String(enroll.QrCodePngBase64));
                                 Console.WriteLine("QR salvo em " + png);
-                                Console.WriteLine(enroll.AccountLabel);
                             }
+                            Console.WriteLine(enroll.AccountLabel);
+                            Console.WriteLine("Se já existir uma conta com esse nome no autenticador, APAGUE-A e escaneie este QR (segredo novo vs conta antiga = Código MFA inválido).");
                             return AskTotp(totp, "Informe o código de 6 dígitos do QR: ");
                         },
                         () => AskTotp(totp, "Código de 6 dígitos: "))
@@ -106,9 +116,9 @@ namespace Linx.Ux.AuthDesktopPoc
         private static string AskTotp(string fromFlag, string prompt)
         {
             if (!string.IsNullOrWhiteSpace(fromFlag))
-                return fromFlag.Trim();
+                return LinxUxAuthClient.NormalizeTotp(fromFlag);
             Console.Write(prompt);
-            return Console.ReadLine() ?? "";
+            return LinxUxAuthClient.NormalizeTotp(Console.ReadLine() ?? "");
         }
 
         private static async Task<string> AutenticarPrimeiroFatorAsync(

@@ -282,7 +282,9 @@ WHERE TABLE_ORIGIN = @o AND ID_GPCON = @g AND ID_USER_MFA = @u";
             string login = string.IsNullOrWhiteSpace(status.NomeAutenticacao) ? status.IdUserMfa.ToString(CultureInfo.InvariantCulture) : status.NomeAutenticacao;
             string label = Uri.EscapeDataString(company + ":" + login);
             string issuer = Uri.EscapeDataString(company);
-            string uri = string.Format("otpauth://totp/{0}?secret={1}&issuer={2}&digits=6&period=30", label, rawSecret, issuer);
+            string uri = string.Format(
+                "otpauth://totp/{0}?secret={1}&issuer={2}&digits=6&period=30&algorithm=SHA1",
+                label, rawSecret, issuer);
             return new MfaEnrollResult { Success = true, OtpauthUri = uri, AccountLabel = company + " + " + login };
         }
 
@@ -512,7 +514,7 @@ WHERE TABLE_ORIGIN = @o AND ID_GPCON = @g AND ID_USER_MFA = @u";
                 return new MfaValidateResult { Success = false, Message = "Cadastre o autenticador (QR Code) antes de validar." };
 
             string secret = DecryptMfaSecret(encrypted);
-            bool ok = MfaTotp.Verify(secret, code, 1);
+            bool ok = MfaTotp.Verify(secret, code, 2);
             if (!ok)
             {
                 attempts++;
