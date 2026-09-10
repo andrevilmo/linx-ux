@@ -251,8 +251,6 @@ WHERE TABLE_ORIGIN = @o AND ID_GPCON = @g AND ID_USER_MFA = @u";
                 return new MfaEnrollResult { Success = false, Message = status.SkipReason ?? "MFA não é exigido." };
             if (status.IdUserMfa <= 0)
                 return new MfaEnrollResult { Success = false, Message = "idUserMfa é obrigatório." };
-            if (status.MfaLocked)
-                return new MfaEnrollResult { Success = false, Message = "MFA bloqueado por excesso de tentativas." };
             if (status.Enrolled)
                 return new MfaEnrollResult { Success = false, Message = "MFA já cadastrado. Informe o código do autenticador." };
 

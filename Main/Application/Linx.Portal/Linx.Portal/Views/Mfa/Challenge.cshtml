@@ -112,25 +112,29 @@
             </div>
         }
 
-        @if (!locked)
+        @if (!enrolled)
         {
-            if (!enrolled)
-            {
-                <p class="mfa-hint">Escaneie o QR Code no aplicativo de autenticação.</p>
-                if (!string.IsNullOrWhiteSpace(label))
-                {
-                    <p class="mfa-hint">@label</p>
-                }
-                if (!string.IsNullOrWhiteSpace(qr))
-                {
-                    <img class="mfa-qr" alt="QR Code MFA" src="data:image/png;base64,@qr" />
-                }
-            }
-            else if (!string.IsNullOrWhiteSpace(label))
+            <p class="mfa-hint">Escaneie o QR Code no aplicativo de autenticação.</p>
+            if (!string.IsNullOrWhiteSpace(label))
             {
                 <p class="mfa-hint">@label</p>
             }
+            if (!string.IsNullOrWhiteSpace(qr))
+            {
+                <img class="mfa-qr" alt="QR Code MFA" src="data:image/png;base64,@qr" />
+            }
+            if (locked)
+            {
+                <p class="mfa-hint">Cadastre o QR agora. O código só será aceito depois dos 15 minutos de bloqueio.</p>
+            }
+        }
+        else if (!string.IsNullOrWhiteSpace(label))
+        {
+            <p class="mfa-hint">@label</p>
+        }
 
+        @if (!locked)
+        {
             <p class="mfa-hint">Para continuar é necessário inserir o código gerado pelo aplicativo de autenticação</p>
 
             <form method="post" action="@Url.Action("Verify", "Mfa")" class="mfa-code" autocomplete="off">

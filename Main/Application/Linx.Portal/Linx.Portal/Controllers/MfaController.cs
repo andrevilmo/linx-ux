@@ -37,9 +37,8 @@ namespace Linx.Portal.Controllers
                 if (status.MfaLocked)
                 {
                     ViewBag.Locked = true;
-                    ViewBag.Error = "MFA bloqueado por excesso de tentativas. Tente novamente em alguns minutos.";
-                    BindAccountLabel(status, pending);
-                    ViewBag.Enrolled = status.Enrolled;
+                    ViewBag.Error = "MFA bloqueado por excesso de tentativas. Aguarde 15 minutos.";
+                    BindChallenge(pending, status);
                     return View();
                 }
 
@@ -96,6 +95,8 @@ namespace Linx.Portal.Controllers
                 {
                     ViewBag.Error = result != null ? result.Message : "Código MFA inválido.";
                     ViewBag.Locked = result != null && result.MfaLocked;
+                    if (ViewBag.Locked)
+                        ViewBag.Error = "MFA bloqueado por excesso de tentativas. Aguarde 15 minutos.";
                     BindChallenge(pending, status);
                     return View("Challenge");
                 }
@@ -112,9 +113,9 @@ namespace Linx.Portal.Controllers
         private void BindChallenge(MfaPendingRedirect pending, PortalMfaStatus status)
         {
             ViewBag.Enrolled = status.Enrolled;
-            ViewBag.Locked = status.MfaLocked;
+            ViewBag.Locked = status.MfaLocked || (ViewBag.Locked as bool? ?? false);
             BindAccountLabel(status, pending);
-            if (status.MfaLocked || status.Enrolled)
+            if (status.Enrolled)
                 return;
 
             PortalMfaEnroll enroll = PortalMfaClient.BeginEnroll(pending.UidUsuario, pending.IdLinxGpecon);
