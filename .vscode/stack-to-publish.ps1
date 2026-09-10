@@ -6,7 +6,14 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$workspace = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+# Source tree lives under Main\ (same resolution as deploy-to-linx-framework.ps1)
+$workspace = if (Test-Path (Join-Path $repoRoot 'Main\Application')) {
+    Join-Path $repoRoot 'Main'
+}
+else {
+    $repoRoot
+}
 
 if (-not $BaselineRoot) {
     $BaselineRoot = 'C:\Linx Program Files\Linx Framework 6.0.0'
@@ -35,6 +42,18 @@ $portalDllSources = @{
     'Linx.Resources.Localization.dll' = @(
         (Join-Path $binaryServiceBin 'Linx.Resources.Localization.dll')
         (Join-Path $binaryPortalBin 'Linx.Resources.Localization.dll')
+    )
+    'Microsoft.Identity.Client.dll' = @(
+        (Join-Path $portalProject 'bin\Microsoft.Identity.Client.dll')
+        (Join-Path $workspace 'Application\Linx.Portal\packages\Microsoft.Identity.Client.4.54.1\lib\net461\Microsoft.Identity.Client.dll')
+        (Join-Path $binaryPortalBin 'Microsoft.Identity.Client.dll')
+        (Join-Path $workspace 'Binary\Library\Common\Microsoft\Identity\Microsoft.Identity.Client.dll')
+    )
+    'Microsoft.IdentityModel.Abstractions.dll' = @(
+        (Join-Path $portalProject 'bin\Microsoft.IdentityModel.Abstractions.dll')
+        (Join-Path $workspace 'Application\Linx.Portal\packages\Microsoft.IdentityModel.Abstractions.6.22.0\lib\net461\Microsoft.IdentityModel.Abstractions.dll')
+        (Join-Path $binaryPortalBin 'Microsoft.IdentityModel.Abstractions.dll')
+        (Join-Path $workspace 'Binary\Library\Common\Microsoft\Identity\Microsoft.IdentityModel.Abstractions.dll')
     )
 }
 
@@ -171,7 +190,9 @@ function Get-ApplicationDllSources {
 }
 
 function Invoke-WorkspaceBuild {
+    # Match "Build All" task order (Tools first)
     $buildScripts = @(
+        (Join-Path $workspace 'Common\Linx.Tools.Library\Desktop\Linx.Desktop.Tools\.vscode\msbuild-build.ps1')
         (Join-Path $workspace 'User Interface\Linx.Framework.BV\.vscode\msbuild-build.ps1')
         (Join-Path $workspace 'Business\Linx.Framework.BV\Linx.Framework.BV.WebAPI.DS\.vscode\msbuild-build.ps1')
         (Join-Path $workspace 'Application\Linx.Internet.Application\.vscode\msbuild-build.ps1')

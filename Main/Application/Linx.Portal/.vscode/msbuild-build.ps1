@@ -10,7 +10,7 @@ if (-not (Test-Path $vswhere)) {
     Write-Error "vswhere not found at $vswhere. Install Visual Studio or Build Tools with MSBuild."
     exit 1
 }
-$msbuild = & $vswhere -latest -requires Microsoft.Component.MSBuild -find 'MSBuild\**\Bin\MSBuild.exe' | Select-Object -First 1
+$msbuild = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild -find 'MSBuild\**\Bin\MSBuild.exe' | Select-Object -First 1
 if (-not $msbuild) {
     Write-Error 'MSBuild not found. Install the MSBuild workload (e.g. .NET desktop build tools).'
     exit 1

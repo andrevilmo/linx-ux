@@ -446,7 +446,7 @@ namespace Linx.Framework.BV.Autorizacao
                 // Self-service "Alteração de senha" — audit trail (best-effort, outside TransactionScope).
                 if (passwordChanged)
                 {
-                    try { this.LogAuthAccessPasswordChange(usuario.NomeAutenticacao, canal: "AlteracaoSenha"); }
+                    try { this.LogAuthAccessPasswordChange(usuario.NomeAutenticacao, canal: "Alteração de senha"); }
                     catch { }
                 }
             }
@@ -514,7 +514,7 @@ namespace Linx.Framework.BV.Autorizacao
         /// <summary>
         /// Tempo de validade (em minutos) do link de redefini??????o de senha.
         /// </summary>
-        private const int _PasswordResetTokenValidityMinutes = 60;
+        private const int _PasswordResetTokenValidityMinutes = 5;
 
         /// <summary>
         /// Gera um token de redefini??????o de senha e envia, por e-mail, um link para o usu???rio redefinir a senha.

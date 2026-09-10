@@ -51,4 +51,57 @@ namespace Linx.Portal.Models
         public string NomeCurtoUsuario { get; set; }
         public string NomeUsuario { get; set; }
     }
+
+    [Serializable]
+    public class MfaPendingRedirect
+    {
+        public string Url { get; set; }
+        public Guid UidEmpresa { get; set; }
+        public Guid UidGrupoEconomico { get; set; }
+        public Guid UidUsuario { get; set; }
+        public Guid UidAplicacao { get; set; }
+        public int IdAmbiente { get; set; }
+        public string Formulario { get; set; }
+        public string NomeEmpresa { get; set; }
+        public string GrupoEconomico { get; set; }
+        public int IdLinxGpecon { get; set; }
+        public string UsuarioAutenticacao { get; set; }
+        public bool SupportMode { get; set; }
+        public string UrlWorkArea { get; set; }
+        public string Ticket { get; set; }
+    }
+
+    public class PortalMfaStatus
+    {
+        public string TableOrigin { get; set; }
+        public int IdGpecon { get; set; }
+        public long IdUserMfa { get; set; }
+        public Guid? UidUsuario { get; set; }
+        public string NomeAutenticacao { get; set; }
+        public string NomeEmpresa { get; set; }
+        public bool CompanyMfaEnabled { get; set; }
+        public bool UserUtilizaMfa { get; set; }
+        public bool Enrolled { get; set; }
+        public bool RequiresMfa { get; set; }
+        public bool MfaLocked { get; set; }
+        public string SkipReason { get; set; }
+    }
+
+    public class PortalMfaEnroll
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public string OtpauthUri { get; set; }
+        public string AccountLabel { get; set; }
+        public string QrCodePngBase64 { get; set; }
+    }
+
+    public class PortalMfaValidate
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public string Ticket { get; set; }
+        public DateTime? TicketExpiresUtc { get; set; }
+        public bool MfaLocked { get; set; }
+    }
 }
