@@ -49,7 +49,10 @@ namespace Linx.Portal.Controllers
                     else if (!model.UserName.IsNullOrEmpty() && !model.Password.IsNullOrEmpty())
                     {
                         if (AuthenticateUser(model.UserName, model.Password, model.RememberMe))
+                        {
+                            PortalMfaClient.ClearSession(Session);
                             return RedirectToAction("Index", "Home", new RouteValueDictionary { { "formulario", HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["formulario"] }, { "supportMode", HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["supportMode"] }, { "showEnvironments", model.ShowEnvironments } });
+                        }
                     }
                 }
             }
@@ -116,14 +119,14 @@ namespace Linx.Portal.Controllers
                     ? error_description
                     : (string.Equals(error, "access_denied", StringComparison.OrdinalIgnoreCase)
                         ? "O usuário abortou o processo de autenticação."
-                        : "Não foi possível realizar autenticação.");
+                        : ("Azure SSO error: " + error));
                 ModelState.AddModelError("", msg.Translate());
                 return View("Login");
             }
 
             if (code.IsNullOrEmpty())
             {
-                ModelState.AddModelError("", "Não foi possível realizar autenticação.".Translate());
+                ModelState.AddModelError("", "Azure não devolveu o código de autorização (callback sem code). Use o navegador em /Account/SsoLogin.".Translate());
                 return View("Login");
             }
 
@@ -152,6 +155,7 @@ namespace Linx.Portal.Controllers
                 }
 
                 SsoLoginHelper.ClearContingency(Session);
+                PortalMfaClient.ClearSession(Session);
 
                 string formulario = Request["formulario"] ?? (Request.UrlReferrer != null ? HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["formulario"] : null);
                 string supportMode = Request["supportMode"] ?? (Request.UrlReferrer != null ? HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["supportMode"] : null);

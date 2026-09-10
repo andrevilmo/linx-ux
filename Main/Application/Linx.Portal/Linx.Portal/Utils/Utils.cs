@@ -115,7 +115,7 @@ namespace Linx.Portal
             string[] scopes = (scopesRaw ?? "User.Read")
                 .Split(new[] { ',', ';', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            return new AzureAdOptions
+            AzureAdOptions options = new AzureAdOptions
             {
                 ClientId = GetSetting("SSO_CLIENT_ID", null),
                 TenantId = GetSetting("SSO_TENANT_ID", null),
@@ -123,7 +123,15 @@ namespace Linx.Portal
                 RedirectUri = redirect,
                 Scopes = scopes.Length > 0 ? scopes : new[] { "User.Read" }
             };
+
+            if (string.IsNullOrWhiteSpace(options.ClientSecret))
+            {
+                string fromEnv = Environment.GetEnvironmentVariable("SI_PDR_SSO_CLIENT_SECRET");
+                if (!string.IsNullOrWhiteSpace(fromEnv))
+                    options.ClientSecret = fromEnv.Trim();
+            }
+
+            return options;
         }
     }
-
 }

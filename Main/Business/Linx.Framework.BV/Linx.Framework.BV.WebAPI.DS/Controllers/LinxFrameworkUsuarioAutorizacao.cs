@@ -33,7 +33,8 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                 List<UsuarioAcesso> usuarioAcesso = new List<UsuarioAcesso>();
                 Linx.Security.Cryptography crypto = new Linx.Security.Cryptography();
 
-                var parametros = crypto.Decrypt(requisicaoAcesso.Parametros);
+                // Decrypt("") throws ArgumentOutOfRangeException (Substring length). Empty = acesso normal.
+                string parametros = DecryptPortalParametros(crypto, requisicaoAcesso == null ? null : requisicaoAcesso.Parametros);
 
                 if (parametros.IsNullOrEmpty())
                 {
@@ -122,6 +123,20 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             catch (Exception oException)
             {
                 throw oException;
+            }
+        }
+
+        private static string DecryptPortalParametros(Linx.Security.Cryptography crypto, string raw)
+        {
+            if (string.IsNullOrEmpty(raw) || raw.Length < 4)
+                return string.Empty;
+            try
+            {
+                return crypto.Decrypt(raw) ?? string.Empty;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return string.Empty;
             }
         }
 

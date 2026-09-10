@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>Linx.Ux.AuthDesktopPoc</RootNamespace>
+    <AssemblyName>LinxUxAuthDesktopPoc</AssemblyName>
+    <Description>POC: login Linx UX (senha ou SSO) + MFA TOTP + AuthenticateUser via Service.</Description>
+    <NoWarn>$(NoWarn);SYSLIB0022;SYSLIB0041;SYSLIB0023</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.83.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <!-- Pasta publicada (C:\Sample-SSO-MFA): Linx\Cryptography.cs entra pelo glob do SDK.
+       No repositório o .cs é linkado a partir de Main/Common. -->
+  <ItemGroup Condition="!Exists('Linx\Cryptography.cs')">
+    <Compile Include="..\..\Main\Common\Linx.Tools.Library\Desktop\Linx.Desktop.Tools\Cryptography.cs" Link="Linx\Cryptography.cs" />
+  </ItemGroup>
+</Project>
