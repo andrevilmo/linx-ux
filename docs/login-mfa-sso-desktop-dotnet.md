@@ -62,7 +62,9 @@ A POC **linka** `Main/Common/Linx.Tools.Library/Desktop/Linx.Desktop.Tools/Crypt
 }
 ```
 
-`AcessoLocal` em `PortalUserAccess`: `true` só se o Service estiver na mesma máquina que o cliente (equivalente a `Request.IsLocal` no Portal). Contra o IIS remoto, use `false`.
+`AcessoLocal` em `PortalUserAccess`: `true` só se o acesso for `EmDesenvolvimento` (equivalente a `Request.IsLocal` no Portal). Contra o IIS remoto de QA, use `false`. A POC tenta `false` e depois `true` se a lista vier vazia.
+
+`Parametros` deve ser `crypto.Encrypt("")` (igual ao Portal). `""` no JSON faz o Service estourar `Substring` no `Decrypt`.
 
 ---
 
@@ -200,7 +202,7 @@ public sealed class LinxUxAuthClient : IDisposable
         {
             NomeAutenticacao = nomeAutenticacao,
             AcessoLocal = acessoLocal,
-            Parametros = ""
+            Parametros = _crypto.Encrypt("")
         };
         using (var req = new HttpRequestMessage(HttpMethod.Post, "LinxFrameworkUsuarioAutorizacao/PortalUserAccess"))
         {
@@ -482,7 +484,7 @@ GET {Service}/LinxFrameworkAutorizacao/AuthenticatePortalSso?userName=joao.silva
 POST {Service}/LinxFrameworkUsuarioAutorizacao/PortalUserAccess
 Content-Type: application/json
 
-{ "NomeAutenticacao": "joao.silva", "AcessoLocal": false, "Parametros": "" }
+{ "NomeAutenticacao": "joao.silva", "AcessoLocal": false, "Parametros": "<Encrypt(\"\")>" }
 ```
 
 **MFA:**

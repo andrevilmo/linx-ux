@@ -28,7 +28,11 @@ namespace Linx.Ux.AuthDesktopPoc
             string user = Get(flags, "user", Environment.GetEnvironmentVariable("LINX_USER"));
             string password = Get(flags, "password", Environment.GetEnvironmentVariable("LINX_PASSWORD"));
             bool useSso = flags.ContainsKey("sso");
-            bool acessoLocal = flags.ContainsKey("local");
+            bool? acessoLocal = null;
+            if (flags.ContainsKey("local"))
+                acessoLocal = true;
+            else if (flags.ContainsKey("remote"))
+                acessoLocal = false;
             int? ambienteId = flags.ContainsKey("ambiente") ? int.Parse(flags["ambiente"]) : (int?)null;
             string totp = Get(flags, "totp", Environment.GetEnvironmentVariable("LINX_TOTP"));
 
@@ -62,6 +66,9 @@ namespace Linx.Ux.AuthDesktopPoc
 
                     List<AmbienteAcesso> ambientes = await client.ListarAmbientesAsync(login, acessoLocal)
                         .ConfigureAwait(false);
+                    if (ambientes.Count == 0)
+                        throw new InvalidOperationException(
+                            "Nenhum ambiente (PortalUserAccess). Tente --local ou --remote.");
                     Console.WriteLine("Ambientes: " + ambientes.Count);
                     foreach (AmbienteAcesso a in ambientes)
                         Console.WriteLine("  - {0} id={1} gpecon={2} padrao={3}", a.DescricaoAmbiente, a.IdTcsAmbiente, a.IdLinxGpecon, a.IndicaAcessoPadrao);
@@ -134,7 +141,8 @@ Flags:
   --password SENHA  Senha (ou LINX_PASSWORD)
   --totp 123456     Código MFA (ou LINX_TOTP); senão pergunta no console
   --ambiente N      IdTcsAmbiente se houver vários
-  --local           AcessoLocal=true (Service na mesma máquina)
+  --local           AcessoLocal=true (EmDesenvolvimento)
+  --remote          AcessoLocal=false (não tenta o outro valor)
   --sso             MSAL interactive (precisa --client-id --tenant-id)
   --redirect URI    Default http://localhost
   --libs            Lista bibliotecas e o fluxo (não chama a rede)
@@ -168,6 +176,10 @@ NÃO use:
             var crypto = new Linx.Security.Cryptography();
             string round = crypto.Decrypt(crypto.Encrypt("poc-ok"));
             Console.WriteLine("Linx.Security.Cryptography round-trip: " + (round == "poc-ok" ? "OK" : "FALHOU"));
+            string emptyParams = crypto.Encrypt("");
+            string emptyDec = crypto.Decrypt(emptyParams);
+            Console.WriteLine("PortalUserAccess Parametros=Encrypt(\"\"): "
+                              + (emptyParams.Length >= 4 && emptyDec == "" ? "OK (" + emptyParams.Length + " chars)" : "FALHOU"));
         }
 
         private static void PrintFlow()
@@ -190,6 +202,8 @@ NÃO use:
                 if (!a.StartsWith("--", StringComparison.Ordinal))
                     continue;
                 string key = a.Substring(2);
+                if (key.Length == 0)
+                    continue;
                 string val = "1";
                 if (i + 1 < args.Length && !args[i + 1].StartsWith("--", StringComparison.Ordinal))
                 {

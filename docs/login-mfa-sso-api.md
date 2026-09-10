@@ -188,11 +188,11 @@ Body JSON:
 {
   "NomeAutenticacao": "usuario.local",
   "AcessoLocal": false,
-  "Parametros": ""
+  "Parametros": "<Encrypt(\"\")>"
 }
 ```
 
-`Parametros` vazio = acesso normal. Preenchido (criptografado) = modo suporte.
+`Parametros` **não** pode ser `""`. O Service chama `Cryptography.Decrypt`; string vazia dispara `ArgumentOutOfRangeException` (`Substring`). O Portal envia `crypto.Encrypt("")`, que descriptografa para vazio = acesso normal. Preenchido (ticket de suporte criptografado) = modo suporte.
 
 Cada item inclui, entre outros: `UidUsuario`, `UidEmpresa`, `UidAplicacao`, `IdTcsAmbiente`, `IdLinxGpecon`, `IndicaAcessoPadrao`, `Url` (Application).
 

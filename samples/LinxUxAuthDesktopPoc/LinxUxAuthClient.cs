@@ -48,13 +48,26 @@ namespace Linx.Ux.AuthDesktopPoc
             return parts.Length > 3 ? DecryptPart(parts, 3) : nomeAutenticacao;
         }
 
-        public async Task<List<AmbienteAcesso>> ListarAmbientesAsync(string nomeAutenticacao, bool acessoLocal = false)
+        public async Task<List<AmbienteAcesso>> ListarAmbientesAsync(string nomeAutenticacao, bool? acessoLocal = null)
         {
+            if (acessoLocal.HasValue)
+                return await PortalUserAccessAsync(nomeAutenticacao, acessoLocal.Value).ConfigureAwait(false);
+
+            // Portal usa Request.IsLocal. No desktop, tenta produção (false) e depois dev (true).
+            List<AmbienteAcesso> lista = await PortalUserAccessAsync(nomeAutenticacao, false).ConfigureAwait(false);
+            if (lista.Count > 0)
+                return lista;
+            return await PortalUserAccessAsync(nomeAutenticacao, true).ConfigureAwait(false);
+        }
+
+        private async Task<List<AmbienteAcesso>> PortalUserAccessAsync(string nomeAutenticacao, bool acessoLocal)
+        {
+            // Igual ao Portal: Parametros = Encrypt("") (Decrypt("") estoura Substring no Service).
             var body = new
             {
                 NomeAutenticacao = nomeAutenticacao,
                 AcessoLocal = acessoLocal,
-                Parametros = ""
+                Parametros = _crypto.Encrypt("")
             };
             using (var req = new HttpRequestMessage(HttpMethod.Post, "LinxFrameworkUsuarioAutorizacao/PortalUserAccess"))
             {
