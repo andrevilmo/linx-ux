@@ -52,6 +52,12 @@ namespace Linx.Portal.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult Verify()
+        {
+            return RedirectToAction("Challenge");
+        }
+
         [HttpPost]
         public ActionResult Verify(string code)
         {
@@ -97,7 +103,8 @@ namespace Linx.Portal.Controllers
                     ViewBag.Locked = result != null && result.MfaLocked;
                     if (ViewBag.Locked)
                         ViewBag.Error = "MFA bloqueado por excesso de tentativas. Aguarde 15 minutos.";
-                    BindChallenge(pending, status);
+                    PortalMfaStatus fresh = PortalMfaClient.GetStatus(pending.UidUsuario, pending.IdLinxGpecon) ?? status;
+                    BindChallenge(pending, fresh);
                     return View("Challenge");
                 }
 
