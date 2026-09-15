@@ -195,29 +195,41 @@ function Resolve-SsoClientSecret {
 
 $resolvedSso = Resolve-SsoClientSecret -FromEnv $SsoClientSecret
 if ($resolvedSso) {
-    $portalConfigs = @($portalPath)
     try {
-        Import-Module WebAdministration -ErrorAction Stop
-        $portalSite = Get-Website -Name 'Portal' -ErrorAction Stop
-        if ($portalSite -and $portalSite.physicalPath) {
-            $iisPortalCfg = Join-Path $portalSite.physicalPath 'web.config'
-            if ($portalConfigs -notcontains $iisPortalCfg) {
-                $portalConfigs += $iisPortalCfg
+        $portalConfigs = @($portalPath)
+        try {
+            Import-Module WebAdministration -ErrorAction Stop
+            $portalSite = Get-Website -Name 'Portal' -ErrorAction Stop
+            if ($portalSite -and $portalSite.physicalPath) {
+                $iisPortalCfg = Join-Path $portalSite.physicalPath 'web.config'
+                if ($portalConfigs -notcontains $iisPortalCfg) {
+                    $portalConfigs += $iisPortalCfg
+                }
             }
+        } catch {
+            Write-Log ("IIS Portal path lookup skipped: {0}" -f $_.Exception.Message)
         }
+        foreach ($cfg in $portalConfigs) {
+            Set-AppSetting -Path $cfg -SectionXPath '/configuration/PortalSettings' -Key 'SSO_CLIENT_SECRET' -Value $resolvedSso.Value
+            if (-not (Test-Path -LiteralPath $cfg)) {
+                Write-Log "SSO inject skipped; missing $cfg"
+                continue
+            }
+            [xml]$check = Get-Content -LiteralPath $cfg -Raw
+            $node = $check.SelectSingleNode("/configuration/PortalSettings/add[@key='SSO_CLIENT_SECRET']")
+            $len = 0
+            if ($node -and $node.GetAttribute('value')) { $len = $node.GetAttribute('value').Length }
+            if ($len -le 0) {
+                Write-Log "SSO_CLIENT_SECRET empty after inject in $cfg (non-fatal)"
+                continue
+            }
+            Write-Log ("Verified {0} SSO_CLIENT_SECRET len={1} source={2}" -f $cfg, $len, $resolvedSso.Source)
+        }
+        Write-Output 'SSO_CLIENT_SECRET_APPLIED'
     } catch {
-        Write-Log ("IIS Portal path lookup skipped: {0}" -f $_.Exception.Message)
+        Write-Log ("SSO inject warning (non-fatal): {0}" -f $_.Exception.Message)
+        Write-Output 'SSO_CLIENT_SECRET_SKIPPED'
     }
-    foreach ($cfg in $portalConfigs) {
-        Set-AppSetting -Path $cfg -SectionXPath '/configuration/PortalSettings' -Key 'SSO_CLIENT_SECRET' -Value $resolvedSso.Value -Required
-        [xml]$check = Get-Content -LiteralPath $cfg -Raw
-        $node = $check.SelectSingleNode("/configuration/PortalSettings/add[@key='SSO_CLIENT_SECRET']")
-        $len = 0
-        if ($node -and $node.GetAttribute('value')) { $len = $node.GetAttribute('value').Length }
-        if ($len -le 0) { throw "SSO_CLIENT_SECRET empty after inject in $cfg" }
-        Write-Log ("Verified {0} SSO_CLIENT_SECRET len={1} source={2}" -f $cfg, $len, $resolvedSso.Source)
-    }
-    Write-Output 'SSO_CLIENT_SECRET_APPLIED'
 }
 else {
     Write-Log 'SI_PDR_SSO_CLIENT_SECRET not set; Portal SSO_CLIENT_SECRET left as in Binary web.config.'

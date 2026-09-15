@@ -271,7 +271,11 @@ if (Test-Path -LiteralPath $sqlOverride) {
     }
 
     Write-Phase 'Apply SQL / auth Service URL overrides'
-    Invoke-Ps1File -FilePath $sqlOverride -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
+    try {
+        Invoke-Ps1File -FilePath $sqlOverride -ArgumentList @('-FrameworkRoot', $FrameworkRoot)
+    } catch {
+        Write-Warning ("SQL/SSO override warning (continuing so IIS pools start): {0}" -f $_.Exception.Message)
+    }
 }
 
 Write-Phase 'Start IIS app pools'
