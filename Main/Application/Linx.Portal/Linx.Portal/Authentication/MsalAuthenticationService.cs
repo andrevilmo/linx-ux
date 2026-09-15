@@ -118,7 +118,12 @@ namespace Linx.Portal.Authentication
             return MapResult(result);
         }
 
-        public async Task<Uri> GetAuthorizationUrlAsync(string state, bool forceLogin = true, string loginHint = null)
+        public Task<Uri> GetAuthorizationUrlAsync(string state, bool forceLogin = true)
+        {
+            return GetAuthorizationUrlAsync(state, forceLogin, null);
+        }
+
+        public async Task<Uri> GetAuthorizationUrlAsync(string state, bool forceLogin, string loginHint)
         {
             // Portal IIS uses confidential client only. IPublicClientApplication in MSAL 4.54
             // does not expose GetAuthorizationRequestUrl (desktop interactive APIs do).
