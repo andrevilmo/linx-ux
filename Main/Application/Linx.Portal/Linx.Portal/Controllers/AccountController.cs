@@ -19,6 +19,7 @@ namespace Linx.Portal.Controllers
     {
         private const string SessionIdentifiedUser = "PortalLoginIdentifiedUser";
         private const string SessionIdentifiedSso = "PortalLoginIdentifiedSso";
+        // Identifier-first: username → GetPortalLoginOptions → password and optional Microsoft SSO.
 
         //
         // GET: /Account/
