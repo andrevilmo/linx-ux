@@ -47,6 +47,25 @@ function New-SqlAuthConnectionString {
     return ("Data Source={0};Initial Catalog={1};User ID={2};Password={3};" -f $Server, $Catalog, $User, $Password)
 }
 
+function Save-XmlWithRetry {
+    param(
+        [Parameter(Mandatory = $true)][xml] $Xml,
+        [Parameter(Mandatory = $true)][string] $Path
+    )
+    $attempts = 0
+    while ($true) {
+        try {
+            $Xml.Save($Path)
+            return
+        } catch {
+            $attempts++
+            Write-Log ("Save retry {0}/8 {1}: {2}" -f $attempts, $Path, $_.Exception.Message)
+            if ($attempts -ge 8) { throw }
+            Start-Sleep -Seconds 2
+        }
+    }
+}
+
 function Set-XmlConnectionString {
     param(
         [Parameter(Mandatory = $true)][string] $Path,
@@ -79,7 +98,7 @@ function Set-XmlConnectionString {
         Write-Log ("Updated {0} :: {1}" -f $Path, $name)
     }
     if ($changed) {
-        $xml.Save($Path)
+        Save-XmlWithRetry -Xml $xml -Path $Path
     }
 }
 
@@ -108,7 +127,7 @@ function Set-AppSetting {
         [void]$section.AppendChild($node)
     }
     $node.SetAttribute('value', $Value)
-    $xml.Save($Path)
+    Save-XmlWithRetry -Xml $xml -Path $Path
     if ($Key -match '(?i)PASSWORD|SECRET') {
         Write-Log ("{0} {1} => (set, len={2})" -f $Path, $Key, $Value.Length)
     }
