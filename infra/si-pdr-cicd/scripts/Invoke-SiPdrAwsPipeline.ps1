@@ -287,8 +287,12 @@ if (Test-Path -LiteralPath $publishSample) {
     $sw.Restart()
     $sampleDest = 'C:\Sample-SSO-MFA'
     if ($env:SAMPLE_SSO_MFA_ROOT) { $sampleDest = $env:SAMPLE_SSO_MFA_ROOT }
-    Invoke-Ps1File -FilePath $publishSample -ArgumentList @('-RepoRoot', $RepoRoot, '-Destination', $sampleDest)
-    Write-Host ("Sample SSO/MFA publish done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
+    try {
+        Invoke-Ps1File -FilePath $publishSample -ArgumentList @('-RepoRoot', $RepoRoot, '-Destination', $sampleDest)
+        Write-Host ("Sample SSO/MFA publish done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
+    } catch {
+        Write-Warning ("Sample SSO/MFA publish warning (Portal IIS already deployed): {0}" -f $_.Exception.Message)
+    }
 } else {
     Write-Warning "Publish-SampleSsoMfa.ps1 missing; skipped C:\Sample-SSO-MFA"
 }
