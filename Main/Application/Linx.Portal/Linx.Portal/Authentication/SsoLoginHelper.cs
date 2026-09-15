@@ -32,14 +32,14 @@ namespace Linx.Portal.Authentication
             return new MsalAuthenticationService(options, new FileTokenCacheStore("msal.cache", "LinxPortal"));
         }
 
-        public static async Task<Uri> BeginForceLoginAsync(HttpSessionStateBase session)
+        public static async Task<Uri> BeginForceLoginAsync(HttpSessionStateBase session, string loginHint = null)
         {
             var state = Guid.NewGuid().ToString("N");
             if (session != null)
                 session[OAuthStateSessionKey] = state;
 
             var service = CreateService();
-            return await service.GetAuthorizationUrlAsync(state, forceLogin: true).ConfigureAwait(false);
+            return await service.GetAuthorizationUrlAsync(state, forceLogin: true, loginHint: loginHint).ConfigureAwait(false);
         }
 
         public static async Task<AuthenticationResultModel> CompleteForceLoginAsync(

@@ -64,6 +64,12 @@ namespace Linx.Framework.BV.Autorizacao
         public DateTime? ExpiresUtc { get; set; }
     }
 
+    public class PortalLoginOptionsResult
+    {
+        public bool UserUtilizaSso { get; set; }
+        public string NomeAutenticacao { get; set; }
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     /////////////////////////// MFA TOTP (UX / PDV / CLIENTE_CONNECT) //////////
     ////////////////////////////////////////////////////////////////////////////
@@ -393,6 +399,39 @@ ELSE
                     new SqlParameter("@u", uidUsuario));
             }
             return GetMfaStatus(MfaOriginUx, 0, 0, uidUsuario);
+        }
+
+        public PortalLoginOptionsResult GetPortalLoginOptions(string userName)
+        {
+            PortalLoginOptionsResult result = new PortalLoginOptionsResult();
+            if (string.IsNullOrWhiteSpace(userName))
+                return result;
+
+            try
+            {
+                EnsureMfaTables();
+                using (SqlConnection conn = CreateMfaConnection())
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT TOP 1 NOME_AUTENTICACAO, ISNULL(INDICA_UTILIZA_SSO,0)
+FROM [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
+WHERE UPPER(LTRIM(RTRIM(NOME_AUTENTICACAO))) = UPPER(LTRIM(RTRIM(@n)))";
+                    cmd.Parameters.AddWithValue("@n", userName.Trim());
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            result.NomeAutenticacao = reader.IsDBNull(0) ? userName.Trim() : reader.GetString(0);
+                            result.UserUtilizaSso = Convert.ToBoolean(reader.GetValue(1));
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            return result;
         }
 
         public MfaDeviceResult LinkMfaDevice(string tableOrigin, int idGpecon, long idUserMfa, Guid? uidUsuario, string userAgent)

@@ -12,6 +12,13 @@ namespace Linx.Portal.Models
         public bool RememberMe { get; set; }
         public bool RecoverPassword { get; set; }
         public bool ShowEnvironments { get; set; }
+        public bool IdentifyOnly { get; set; }
+    }
+
+    public class PortalLoginOptions
+    {
+        public bool UserUtilizaSso { get; set; }
+        public string NomeAutenticacao { get; set; }
     }
 
     public class LoggedUser

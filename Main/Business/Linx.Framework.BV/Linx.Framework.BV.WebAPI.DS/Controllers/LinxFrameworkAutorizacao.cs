@@ -252,6 +252,12 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return new AutorizacaoDomainService().GetMfaStatus(tableOrigin, idGpecon, idUserMfa, uidUsuario);
         }
 
+        [Route("GetPortalLoginOptions"), System.Web.Http.HttpGet()]
+        public PortalLoginOptionsResult GetPortalLoginOptions(string userName)
+        {
+            return new AutorizacaoDomainService().GetPortalLoginOptions(userName);
+        }
+
         [Route("BeginMfaEnrollment"), System.Web.Http.HttpGet()]
         public object BeginMfaEnrollment(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null)
         {

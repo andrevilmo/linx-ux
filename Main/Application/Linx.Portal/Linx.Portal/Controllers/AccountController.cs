@@ -9,6 +9,7 @@ using System.Web.Security;
 using Linx.Portal.Authentication;
 using Linx.Portal.Models;
 using Linx.Tools;
+using Newtonsoft.Json;
 using RestSharp;
 
 
@@ -16,74 +17,91 @@ namespace Linx.Portal.Controllers
 {
     public class AccountController : Controller
     {
+        private const string SessionIdentifiedUser = "PortalLoginIdentifiedUser";
+        private const string SessionIdentifiedSso = "PortalLoginIdentifiedSso";
+
         //
         // GET: /Account/
         public ActionResult Login(RouteValueDictionary values)
         {
-            return View();
+            if (string.Equals(Request["alterar"], "1", StringComparison.OrdinalIgnoreCase))
+                ClearIdentifiedLogin();
+            return LoginView();
         }
 
         [HttpPost]
         public ActionResult Login(LogOnModel model)
         {
+            if (model == null)
+                model = new LogOnModel();
+
             try
             {
-                // When SSO is on and not in contingency, reject classic login unless offline fallback is allowed.
-                if (Utils.IsSsoEnabled()
-                    && !SsoLoginHelper.IsContingencyEnabled(Session)
-                    && !Utils.IsSsoOfflineFallbackAllowed()
-                    && !model.RecoverPassword)
+                if (model.RecoverPassword)
                 {
-                    ModelState.AddModelError("", "Use o login com Microsoft (SSO).".Translate());
-                    return View();
-                }
-
-                if (ModelState.IsValid)
-                {
-                    if (model.RecoverPassword)
+                    if (ModelState.IsValid)
                     {
                         Uri uri = new Uri(string.Format("{0}LinxFrameworkAutorizacao/RecoverUserPassword?userName={1}", Utils.GetServiceUrl(), model.UserName));
                         var result = WebClientHelper.Get(uri);
                         ViewBag.SuccessMessage = "E-mail enviado com sucesso.".Translate();
                     }
-                    else if (!model.UserName.IsNullOrEmpty() && !model.Password.IsNullOrEmpty())
+                    return LoginView(model);
+                }
+
+                if (model.IdentifyOnly || (string.IsNullOrWhiteSpace(model.Password) && !string.IsNullOrWhiteSpace(model.UserName)))
+                    return IdentifyUser(model);
+
+                if (string.IsNullOrWhiteSpace(model.UserName) && Session != null)
+                    model.UserName = Session[SessionIdentifiedUser] as string;
+
+                if (!model.UserName.IsNullOrEmpty() && !model.Password.IsNullOrEmpty())
+                {
+                    if (AuthenticateUser(model.UserName, model.Password, model.RememberMe))
                     {
-                        if (AuthenticateUser(model.UserName, model.Password, model.RememberMe))
-                        {
-                            PortalMfaClient.ClearSession(Session);
-                            return RedirectToAction("Index", "Home", new RouteValueDictionary { { "formulario", HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["formulario"] }, { "supportMode", HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["supportMode"] }, { "showEnvironments", model.ShowEnvironments } });
-                        }
+                        ClearIdentifiedLogin();
+                        PortalMfaClient.ClearSession(Session);
+                        return RedirectToAction("Index", "Home", new RouteValueDictionary { { "formulario", HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["formulario"] }, { "supportMode", HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["supportMode"] }, { "showEnvironments", model.ShowEnvironments } });
                     }
+                }
+                else if (model.UserName.IsNullOrEmpty())
+                {
+                    ModelState.AddModelError("", "Informe o usuário.".Translate());
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Informe a senha.".Translate());
                 }
             }
             catch (Exception oException)
             {
                 ModelState.AddModelError("", oException.Message);
             }
-            return View();
+            return LoginView(model);
         }
 
         /// <summary>
         /// OmniPOS-equivalent LoginForceAsync entry: redirect browser to Azure AD authorize (prompt=login).
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult> SsoLogin()
+        public async Task<ActionResult> SsoLogin(string userName)
         {
             if (!Utils.IsSsoEnabled())
             {
                 ModelState.AddModelError("", "SSO não está habilitado.".Translate());
-                return View("Login");
+                return LoginView();
             }
 
             if (SsoLoginHelper.IsContingencyEnabled(Session) && Utils.IsSsoOfflineFallbackAllowed())
             {
                 ModelState.AddModelError("", "SSO em modo contingência. Use usuário e senha local.".Translate());
-                return View("Login");
+                return LoginView();
             }
 
             try
             {
-                Uri authorizeUrl = await SsoLoginHelper.BeginForceLoginAsync(Session);
+                if (userName.IsNullOrEmpty() && Session != null)
+                    userName = Session[SessionIdentifiedUser] as string;
+                Uri authorizeUrl = await SsoLoginHelper.BeginForceLoginAsync(Session, userName);
                 return Redirect(authorizeUrl.ToString());
             }
             catch (Exception ex)
@@ -93,7 +111,7 @@ namespace Linx.Portal.Controllers
                 if (suggestContingency && Utils.IsSsoOfflineFallbackAllowed())
                     SsoLoginHelper.EnableContingency(Session);
                 ModelState.AddModelError("", message.Translate());
-                return View("Login");
+                return LoginView();
             }
         }
 
@@ -106,7 +124,7 @@ namespace Linx.Portal.Controllers
             if (!Utils.IsSsoEnabled())
             {
                 ModelState.AddModelError("", "SSO não está habilitado.".Translate());
-                return View("Login");
+                return LoginView();
             }
 
             if (!error.IsNullOrEmpty())
@@ -121,13 +139,13 @@ namespace Linx.Portal.Controllers
                         ? "O usuário abortou o processo de autenticação."
                         : ("Azure SSO error: " + error));
                 ModelState.AddModelError("", msg.Translate());
-                return View("Login");
+                return LoginView();
             }
 
             if (code.IsNullOrEmpty())
             {
                 ModelState.AddModelError("", "Azure não devolveu o código de autorização (callback sem code). Use o navegador em /Account/SsoLogin.".Translate());
-                return View("Login");
+                return LoginView();
             }
 
             try
@@ -136,14 +154,14 @@ namespace Linx.Portal.Controllers
                 if (auth == null || !auth.IsAuthenticated || auth.User == null || auth.User.Username.IsNullOrEmpty())
                 {
                     ModelState.AddModelError("", (auth != null && !auth.Message.IsNullOrEmpty() ? auth.Message : "Usuário não autenticado.").Translate());
-                    return View("Login");
+                    return LoginView();
                 }
 
                 string localLogin = SsoLoginHelper.ExtractLocalLogin(auth.User.Username);
                 if (localLogin.IsNullOrEmpty())
                 {
                     ModelState.AddModelError("", "Usuário não autenticado.".Translate());
-                    return View("Login");
+                    return LoginView();
                 }
 
                 // Azure token is not forwarded — only local session after Service validates cadastro.
@@ -151,10 +169,11 @@ namespace Linx.Portal.Controllers
                 if (!AuthenticateUserSso(localLogin, rememberMe: true, out canonicalUser))
                 {
                     ModelState.AddModelError("", "Usuário autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda.".Translate());
-                    return View("Login");
+                    return LoginView();
                 }
 
                 SsoLoginHelper.ClearContingency(Session);
+                ClearIdentifiedLogin();
                 PortalMfaClient.ClearSession(Session);
 
                 string formulario = Request["formulario"] ?? (Request.UrlReferrer != null ? HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["formulario"] : null);
@@ -174,7 +193,7 @@ namespace Linx.Portal.Controllers
                 if (suggestContingency && Utils.IsSsoOfflineFallbackAllowed())
                     SsoLoginHelper.EnableContingency(Session);
                 ModelState.AddModelError("", message.Translate());
-                return View("Login");
+                return LoginView();
             }
         }
 
@@ -256,6 +275,84 @@ namespace Linx.Portal.Controllers
                 return RedirectToAction("Index", "Home", new RouteValueDictionary { { "formulario", _formulario }, { "showEnvironments", _showEnvironments } });
 
             return RedirectToAction("Login", "Account", new RouteValueDictionary { { "formulario", _formulario.IsNull() ? "" : _formulario } });
+        }
+
+        private ActionResult IdentifyUser(LogOnModel model)
+        {
+            string user = (model.UserName ?? string.Empty).Trim();
+            if (user.IsNullOrEmpty())
+            {
+                ModelState.AddModelError("", "Informe o usuário.".Translate());
+                ClearIdentifiedLogin();
+                return LoginView(model);
+            }
+
+            PortalLoginOptions options = LookupPortalLoginOptions(user);
+            string canonical = options != null && !string.IsNullOrWhiteSpace(options.NomeAutenticacao)
+                ? options.NomeAutenticacao
+                : user;
+            if (Session != null)
+            {
+                Session[SessionIdentifiedUser] = canonical;
+                Session[SessionIdentifiedSso] = options != null && options.UserUtilizaSso;
+            }
+            model.UserName = canonical;
+            model.IdentifyOnly = false;
+            model.Password = null;
+            return LoginView(model);
+        }
+
+        private ActionResult LoginView(LogOnModel model = null)
+        {
+            if (model == null)
+                model = new LogOnModel();
+            BindIdentifiedLogin(model);
+            return View("Login", model);
+        }
+
+        private void BindIdentifiedLogin(LogOnModel model)
+        {
+            string user = model != null ? model.UserName : null;
+            if (user.IsNullOrEmpty() && Session != null)
+                user = Session[SessionIdentifiedUser] as string;
+            if (model != null && model.UserName.IsNullOrEmpty() && !user.IsNullOrEmpty())
+                model.UserName = user;
+
+            bool identified = Session != null && Session[SessionIdentifiedUser] != null && !string.IsNullOrWhiteSpace(user);
+            bool userSso = identified && Session != null && Session[SessionIdentifiedSso] != null && Convert.ToBoolean(Session[SessionIdentifiedSso]);
+            bool ssoEnabled = Utils.IsSsoEnabled();
+            bool contingency = SsoLoginHelper.IsContingencyEnabled(Session);
+
+            ViewBag.LoginStep = identified ? "password" : "identify";
+            ViewBag.IdentifiedUserName = user;
+            ViewBag.ShowSsoButton = identified && ssoEnabled && !contingency && userSso;
+            ViewBag.SsoContingency = ssoEnabled && contingency;
+        }
+
+        private void ClearIdentifiedLogin()
+        {
+            if (Session == null)
+                return;
+            Session.Remove(SessionIdentifiedUser);
+            Session.Remove(SessionIdentifiedSso);
+        }
+
+        private static PortalLoginOptions LookupPortalLoginOptions(string userName)
+        {
+            try
+            {
+                var client = new RestClient(Utils.GetServiceUrl());
+                var request = new RestRequest("LinxFrameworkAutorizacao/GetPortalLoginOptions");
+                request.AddParameter("userName", userName);
+                var result = client.ExecuteAsGet(request, "GET");
+                if (result.ErrorException != null || result.StatusCode != System.Net.HttpStatusCode.OK || string.IsNullOrWhiteSpace(result.Content))
+                    return new PortalLoginOptions();
+                return JsonConvert.DeserializeObject<PortalLoginOptions>(result.Content) ?? new PortalLoginOptions();
+            }
+            catch
+            {
+                return new PortalLoginOptions();
+            }
         }
 
         private bool AuthenticateUser(string user, string password, bool rememberMe)

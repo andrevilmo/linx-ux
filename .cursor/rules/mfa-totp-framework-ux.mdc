@@ -102,7 +102,7 @@ MFA is **not** on the password/SSO screen. It runs **after** Portal environment/
 
 `idGpecon` = selected environment’s `IdLinxGpecon` (from `TCS_USUARIO_AUTENTICACAO.ID_LINX_GPECON` / `TCS_EMPRESA_AUTENTICACAO.ID_LINX`).
 
-1. Portal login (password or Microsoft SSO) succeeds. Forms cookie is allowed so the user can pick a company. This cookie is **not** enough to open Application.
+1. Portal login is **identifier-first**: username + continuar, then password. If the user has **Utiliza SSO** and Portal SSO is on, step 2 also shows **entrar com Microsoft**. Password remains a valid first factor. MFA is **not** on this screen.
 2. `HomeController` / `PortalUserAccess` lists environments. One default company still auto-selects, but **must not** redirect to Application until MFA is done or skipped by rule.
 3. Resolve skip rules for the selected GPECON + user.
 4. **Enroll** if no active secret: insert/update `TCS_USUARIO_MFA`, show QR (`otpauth://totp/` issuer = **company name + `NOME_AUTENTICACAO`**), user confirms first 6 digits, then set `ATIVO = 1`.
