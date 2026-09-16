@@ -70,7 +70,10 @@ var vmConstructor = function () {
 	 {Name: "CadastroUsuarioLocal_tbEmail", DisplayName: "Email", ColumnSpan: 12, Visible: true, Key: "Email"},
 	 {Name: "CadastroUsuarioLocal_ckInativo", DisplayName: "Inativo", ColumnSpan: 4, Visible: true, Key: "Inativo"},
 	 {Name: "CadastroUsuarioLocal_ckIndicaUsuarioServico", DisplayName: "Usuário de serviço", ColumnSpan: 4, Visible: true, Key: "IndicaUsuarioServico"},
-	 {Name: "CadastroUsuarioLocal_ckBlocked", DisplayName: "Bloqueado", ColumnSpan: 4, Visible: true, Key: "Blocked"},]},
+	 {Name: "CadastroUsuarioLocal_ckBlocked", DisplayName: "Bloqueado", ColumnSpan: 4, Visible: true, Key: "Blocked"},
+	 {Name: "CadastroUsuarioLocal_ckUtilizaSso", DisplayName: "Utiliza SSO", ColumnSpan: 4, Visible: true, Key: "IndicaUtilizaSso"},
+	 {Name: "CadastroUsuarioLocal_ckUtilizaMfa", DisplayName: "Utiliza MFA", ColumnSpan: 4, Visible: true, Key: "IndicaUtilizaMfa"},
+	 {Name: "CadastroUsuarioLocal_btnRevogaMfa", DisplayName: "Revoga MFA", ColumnSpan: 4, Visible: true, Key: ""},]},
 	 {Name: "CadastroUsuarioLocal_gbGroupBox_294d36395b1f414997b597e9a47dd1b7", DisplayName: "", ColumnSpan: 2, Visible: true, Items: [
 	 {Name: "CadastroUsuarioLocal_dtVigenciaInicial", DisplayName: "Vigência Inicial", ColumnSpan: 12, Visible: true, Key: "VigenciaInicial"},
 	 {Name: "CadastroUsuarioLocal_dtVigenciaFinal", DisplayName: "Vigência Final", ColumnSpan: 12, Visible: true, Key: "VigenciaFinal"},
@@ -458,6 +461,8 @@ var vmConstructor = function () {
         scrollMainTop();
         currentDataItem.subscribe(function (item) {
             refreshMembershipBlocked(item);
+            if (!mfaRefreshBlocked)
+                refreshMfaFlags(item);
         });
         vm.currentBrands.subscribe(function(newValue) {
             newValue = isNull(newValue) ? vm.currentBrands() : newValue;
@@ -691,16 +696,64 @@ var vmConstructor = function () {
     var getTranslatedFilter = function () {
         return translatedJEntitySearch + (isNullOrEmpty(translatedJEntitySearch) || isNullOrEmpty(customSearchResult.translatedSearch) ? '' : ' e ') + customSearchResult.translatedSearch;
     }
+    // Membership "Bloqueado" is unbound — capture filter in search (C) and apply after OData returns (not in edit E).
+    var pendingBlockedFilter = null;
     var getQueryFilter = function (currentDI) {
         if (typeof currentDI === 'undefined') currentDI = currentDataItem();
         dataBind('', true);
         currentDI.setBandeiraRede(getBandeiraRede());
+        pendingBlockedFilter = null;
+        try {
+            // Only filter when Bloqueado is checked (true). Unchecked/false means "no Membership filter"
+            // so default search is not reduced to non-locked users only.
+            if (!isNullOrEmpty(currentDI) && typeof currentDI.Blocked !== 'undefined' && status() !== 'E') {
+                if (getAbsoluteValue(currentDI.Blocked) === true)
+                    pendingBlockedFilter = true;
+            }
+        } catch (eBlocked) { pendingBlockedFilter = null; }
         eSearch = getJExpression(currentDI);
         if (eSearch === 'Error')
            return 'Error';
        translatedJEntitySearch = common.translateSearch(dataContext, eSearch);
         if (!isNullOrEmpty(customSearchResult.searchDefinition)) eSearch += customSearchResult.searchDefinition;
         return eSearch;
+    }
+    var applyPendingBlockedFilter = function (results, done) {
+        if (pendingBlockedFilter === null || !(results instanceof Array) || results.length === 0) {
+            if (typeof done === 'function') done(results || []);
+            return;
+        }
+        var wantBlocked = pendingBlockedFilter;
+        pendingBlockedFilter = null;
+        var remaining = results.length;
+        var kept = [];
+        var finishOne = function () {
+            remaining--;
+            if (remaining <= 0 && typeof done === 'function') done(kept);
+        };
+        for (var i = 0; i < results.length; i++) {
+            (function (item) {
+                ensureBlockedObservable(item);
+                var loginName = getAbsoluteValue(item.NomeAutenticacao);
+                if (isNullOrEmpty(loginName)) {
+                    if (wantBlocked === false) kept.push(item);
+                    finishOne();
+                    return;
+                }
+                $.ajax({
+                    url: managerAuth.getServiceAddress('LinxFrameworkAutorizacao', 'Linx.Framework.BV') + '/IsMembershipUserLockedOut',
+                    data: { userName: loginName },
+                    type: 'GET',
+                    dataType: 'json'
+                }).done(function (locked) {
+                    var isLocked = parseMembershipLocked(locked);
+                    setAbsoluteValue(item, 'Blocked', isLocked);
+                    if (isLocked === wantBlocked) kept.push(item);
+                }).fail(function () {
+                    if (wantBlocked === false) kept.push(item);
+                }).always(finishOne);
+            })(results[i]);
+        }
     }
     var queryInnerUIs = function (parentEntity, parentTypeName) {
        if (status() === 'C') return;
@@ -864,7 +917,9 @@ var vmConstructor = function () {
         function querySucceeded(data) {
             if (vm.status() !== 'E') { for (var idx = 0; idx < data.results.length; idx++) { dataContext.initializePOCO(data.results[idx], 'TcsUsuarioAutenticacao'); } }
             hasError = false;
-            dataView(data.results);
+            var usedBlockedFilter = (pendingBlockedFilter !== null);
+            var finishWithResults = function (results) {
+            dataView(results);
             if (dataView().length === 0 && (parentVM == null || (parentVM != null && uiSettings != null && isNullOrEmpty(uiSettings.parentSelectorDataName)) || isLookup())) {
                 if (isLookup() && (parentVM != null) && lookupInitializing === true) {
                    uiSettings.ownerReference.clearLookUp(uiSettings.lookupName);
@@ -890,8 +945,8 @@ var vmConstructor = function () {
                 }
                 return true;
             }
-            pageCount( (pageSize() > 0 ? Math.ceil((data.inlineCount ? data.inlineCount : dataView().length) / pageSize()) : 1) );
-            totalItemCount((data.inlineCount ? data.inlineCount : dataView().length));
+            pageCount( (pageSize() > 0 ? Math.ceil(((!usedBlockedFilter && data.inlineCount) ? data.inlineCount : dataView().length) / pageSize()) : 1) );
+            totalItemCount((!usedBlockedFilter && data.inlineCount) ? data.inlineCount : dataView().length);
             currentPage(0);
             if (!(isChildVM() && (uiSettings.canAddNew || uiSettings.canEdit || uiSettings.canDelete)))
                status('Q');
@@ -907,6 +962,8 @@ var vmConstructor = function () {
             if (common.getGridMode() == 'G' && !vm.navigationByPage() && (viewType() === 'Main') && !isChildVM() && dataView().length > 1 && (parentVM == null))
                 dataToolbar.viewInfo();
             if (typeof externalQueryCallBack === 'function') externalQueryCallBack();
+            };
+            applyPendingBlockedFilter(data.results, finishWithResults);
         }
     };
     function goToIndex(index, noDetails) {
@@ -1308,11 +1365,29 @@ if (control.length >0 && control[0].childNodes.length == 1){
         if (isExclusion) { removeItem(); }
         commitInternalUIsData();
         dataBind('', true);
+        pendingMfaFlagSnapshot = snapshotMfaFlags(currentDataItem());
         vm.changes = getAllChanges();
-        if (!onSavingValidation(vm.changes)) { if (isExclusion) return undo(indexForUndoAction); else return; }
-        if (hasInternalUIsSavingErrors()) { if (isExclusion) return undo(indexForUndoAction); else return; }
-        if (hasInternalUIsValidationErrors() || hasValidationErrors()) { if (isExclusion) return undo(indexForUndoAction); else { refreshToolbar(); return dataBind(); } }
+        if (!isExclusion && vm.changes.length === 0 && pendingMfaFlagSnapshot && pendingMfaFlagSnapshot.uid) {
+            mfaRefreshBlocked = true;
+            isSaving(true);
+            vm.showProcessing('Salvando informações...');
+            persistUserMfaFlags(currentDataItem(), pendingMfaFlagSnapshot, function (ok) {
+                pendingMfaFlagSnapshot = null;
+                complete();
+                if (ok) {
+                    saveSucceeded({ entities: [] });
+                } else {
+                    mfaRefreshBlocked = false;
+                    saveFailed({ message: 'Falha ao gravar flags SSO/MFA.' });
+                }
+            });
+            return;
+        }
+        if (!onSavingValidation(vm.changes)) { pendingMfaFlagSnapshot = null; if (isExclusion) return undo(indexForUndoAction); else return; }
+        if (hasInternalUIsSavingErrors()) { pendingMfaFlagSnapshot = null; if (isExclusion) return undo(indexForUndoAction); else return; }
+        if (hasInternalUIsValidationErrors() || hasValidationErrors()) { pendingMfaFlagSnapshot = null; if (isExclusion) return undo(indexForUndoAction); else { refreshToolbar(); return dataBind(); } }
         isSaving(true);
+        mfaRefreshBlocked = true;
         if (!isExclusion && currentDataItem() && currentDataItem().checkForSendingAllRowsToServer) { currentDataItem().checkForSendingAllRowsToServer(); }
         vm.showProcessing('Salvando informações...');
         return dataContext.saveChanges(saveSucceeded, saveFailed, complete, false);
@@ -1324,6 +1399,8 @@ if (control.length >0 && control[0].childNodes.length == 1){
         }
     
         function saveFailed(error) {
+            mfaRefreshBlocked = false;
+            pendingMfaFlagSnapshot = null;
             if (isChildVM()) parentVM.dataToolbar.edit(true);
             if (isExclusion) return undo(indexForUndoAction); else return dataBind();
         }
@@ -1349,6 +1426,17 @@ if (control.length >0 && control[0].childNodes.length == 1){
             status('Q');
             refreshToolbar();
             OnSaved(vm.changes);
+            var snapshot = pendingMfaFlagSnapshot;
+            pendingMfaFlagSnapshot = null;
+            if (snapshot) {
+                persistUserMfaFlags(currentDataItem(), snapshot, function () {
+                    mfaRefreshBlocked = false;
+                    delayRefreshMfaFlags(currentDataItem(), 400);
+                });
+            } else {
+                mfaRefreshBlocked = false;
+                delayRefreshMfaFlags(currentDataItem(), 400);
+            }
             if (typeof externalSaveSucceeded == 'function') {
                 externalSaveSucceeded();
             }
@@ -1844,6 +1932,216 @@ if (control.length >0 && control[0].childNodes.length == 1){
                         dataToolbar.isBusy(false);
                         setAbsoluteValue(item, 'Blocked', false);
                         app.showMessage('Usuário "' + loginName + '" desbloqueado com sucesso.', 'Informação', ['Ok']);
+                    }
+                });
+            });
+        }
+        catch (e) {
+            dataToolbar.isBusy(false);
+            app.showMessage(e.message || e, 'Atenção', ['Ok']);
+        }
+    };
+    var mfaServiceUrl = function (action) {
+        return managerAuth.getServiceAddress('LinxFrameworkAutorizacao', 'Linx.Framework.BV') + '/' + action;
+    };
+    var pendingMfaFlagSnapshot = null;
+    var mfaRefreshBlocked = false;
+    var mfaRefreshTimer = null;
+    var snapshotMfaFlags = function (item) {
+        if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+            return null;
+        ensureMfaObservables(item);
+        return {
+            uid: getMfaUid(item),
+            utilizaSso: !!getAbsoluteValue(item.IndicaUtilizaSso),
+            utilizaMfa: getAbsoluteValue(item.IndicaUtilizaMfa) !== false
+        };
+    };
+    var applyMfaStatus = function (item, status) {
+        if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+            return;
+        ensureMfaObservables(item);
+        setAbsoluteValue(item, 'IndicaUtilizaSso', !!(status && status.UserUtilizaSso));
+        setAbsoluteValue(item, 'IndicaUtilizaMfa', !(status && status.UserUtilizaMfa === false));
+        setAbsoluteValue(item, 'CanRevokeMfa', !!(status && status.CanRevoke));
+    };
+    var delayRefreshMfaFlags = function (item, delayMs) {
+        if (mfaRefreshTimer) {
+            clearTimeout(mfaRefreshTimer);
+            mfaRefreshTimer = null;
+        }
+        mfaRefreshTimer = setTimeout(function () {
+            mfaRefreshTimer = null;
+            if (!mfaRefreshBlocked)
+                refreshMfaFlags(item || currentDataItem());
+        }, delayMs || 400);
+    };
+    var ensureMfaObservables = function (entity) {
+        if (isNullOrEmpty(entity))
+            return;
+        if (typeof entity.IndicaUtilizaSso === 'undefined')
+            entity.IndicaUtilizaSso = ko.observable(false);
+        else if (typeof entity.IndicaUtilizaSso !== 'function')
+            entity.IndicaUtilizaSso = ko.observable(!!entity.IndicaUtilizaSso);
+        if (typeof entity.IndicaUtilizaMfa === 'undefined')
+            entity.IndicaUtilizaMfa = ko.observable(true);
+        else if (typeof entity.IndicaUtilizaMfa !== 'function')
+            entity.IndicaUtilizaMfa = ko.observable(entity.IndicaUtilizaMfa !== false);
+        if (typeof entity.CanRevokeMfa === 'undefined')
+            entity.CanRevokeMfa = ko.observable(false);
+        else if (typeof entity.CanRevokeMfa !== 'function')
+            entity.CanRevokeMfa = ko.observable(!!entity.CanRevokeMfa);
+    };
+    var getMfaUid = function (item) {
+        if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+            return null;
+        var uid = getAbsoluteValue(item.UidUsuario);
+        if (isNullOrEmpty(uid) || uid === '00000000-0000-0000-0000-000000000000')
+            return null;
+        return uid;
+    };
+    var refreshMfaFlags = function (item) {
+        try {
+            if (mfaRefreshBlocked)
+                return;
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+                return;
+            ensureMfaObservables(item);
+            var uid = getMfaUid(item);
+            if (isNullOrEmpty(uid))
+                return;
+            $.ajax({
+                type: 'GET',
+                headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                url: mfaServiceUrl('GetMfaStatus'),
+                data: { tableOrigin: 'UX', idGpecon: 0, uidUsuario: uid },
+                dataType: 'json',
+                async: true,
+                cache: false,
+                success: function (status) {
+                    var current = currentDataItem();
+                    if (isNullOrEmpty(current) || String(getMfaUid(current)) !== String(uid))
+                        return;
+                    applyMfaStatus(current, status);
+                }
+            });
+        }
+        catch (e) {
+        }
+    };
+    var persistUserMfaFlags = function (item, snapshot, onDone) {
+        var done = function (ok, status) {
+            if (typeof onDone === 'function')
+                onDone(ok, status);
+        };
+        try {
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item)) {
+                done(true);
+                return;
+            }
+            ensureMfaObservables(item);
+            var uid = getMfaUid(item);
+            if (isNullOrEmpty(uid) && snapshot)
+                uid = snapshot.uid;
+            if (isNullOrEmpty(uid)) {
+                done(true);
+                return;
+            }
+            var utilizaSso = snapshot ? !!snapshot.utilizaSso : !!getAbsoluteValue(item.IndicaUtilizaSso);
+            var utilizaMfa = snapshot ? snapshot.utilizaMfa !== false : (getAbsoluteValue(item.IndicaUtilizaMfa) !== false);
+            return $.ajax({
+                type: 'GET',
+                headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                url: mfaServiceUrl('SetUserMfaFlags'),
+                data: {
+                    uidUsuario: uid,
+                    utilizaSso: utilizaSso,
+                    utilizaMfa: utilizaMfa
+                },
+                dataType: 'json',
+                async: true,
+                cache: false,
+                success: function (status) {
+                    var current = currentDataItem();
+                    var target = (!isNullOrEmpty(current) && String(getMfaUid(current)) === String(uid)) ? current : item;
+                    applyMfaStatus(target, status);
+                    done(true, status);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    var msg = 'Falha ao gravar Utiliza SSO / Utiliza MFA.';
+                    try {
+                        if (jqXHR && jqXHR.responseJSON)
+                            msg = jqXHR.responseJSON.ExceptionMessage || jqXHR.responseJSON.Message || msg;
+                        else if (errorThrown)
+                            msg = errorThrown;
+                    }
+                    catch (e2) {
+                    }
+                    app.showMessage(msg, 'Atenção', ['Ok']);
+                    done(false);
+                }
+            });
+        }
+        catch (e) {
+            try { app.showMessage(e.message || e, 'Atenção', ['Ok']); } catch (e2) { }
+            done(false);
+        }
+    };
+    var canRevokeMfa = ko.computed(function () {
+        try {
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+                return false;
+            ensureMfaObservables(item);
+            return !!getAbsoluteValue(item.CanRevokeMfa);
+        }
+        catch (e) {
+            return false;
+        }
+    });
+    var revokeMfa = function () {
+        try {
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item)) {
+                app.showMessage('Selecione um usuário para revogar o MFA.', 'Atenção', ['Ok']);
+                return;
+            }
+            var uid = getMfaUid(item);
+            if (isNullOrEmpty(uid)) {
+                app.showMessage('Usuário sem identificador para MFA.', 'Atenção', ['Ok']);
+                return;
+            }
+            if (!getAbsoluteValue(item.CanRevokeMfa)) {
+                app.showMessage('Não há MFA cadastrado para revogar.', 'Atenção', ['Ok']);
+                return;
+            }
+            app.showMessage(
+                'Revogar o MFA deste usuário? No próximo acesso ele cadastrará um novo QR Code.',
+                'Revogar MFA',
+                ['Yes', 'No']
+            ).then(function (answer) {
+                if (answer !== 'Yes')
+                    return;
+                dataToolbar.isBusy(true);
+                $.ajax({
+                    type: 'GET',
+                    messageUser: 'Revogação de MFA',
+                    headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                    url: mfaServiceUrl('RevokeMfaSecret'),
+                    data: { tableOrigin: 'UX', idGpecon: 0, uidUsuario: uid },
+                    dataType: 'json',
+                    async: true,
+                    cache: false,
+                    error: function (jqXHR) {
+                        dataToolbar.isBusy(false);
+                        var errorMessage = (jqXHR.responseJSON && (jqXHR.responseJSON.ExceptionMessage || jqXHR.responseJSON.Message)) || jqXHR.statusText || 'Erro ao revogar MFA.';
+                        app.showMessage(errorMessage, 'Atenção', ['Ok']);
+                    },
+                    success: function (result) {
+                        dataToolbar.isBusy(false);
+                        setAbsoluteValue(item, 'CanRevokeMfa', false);
+                        var msg = (result && result.Message) ? result.Message : 'MFA revogado.';
+                        app.showMessage(msg, 'Informação', ['Ok']);
                     }
                 });
             });
@@ -2361,6 +2659,8 @@ if (control.length >0 && control[0].childNodes.length == 1){
             canPrint: canPrint,
             canUnlockUser: canUnlockUser,
             unlockUser: unlockUser,
+            canRevokeMfa: canRevokeMfa,
+            revokeMfa: revokeMfa,
             goFirst: goFirst,
             goBack: goBack,
             goForward: goForward,
@@ -2431,6 +2731,8 @@ if (control.length >0 && control[0].childNodes.length == 1){
             hasChanges: hasChanges,
             isSaving: isSaving,
             enabledForEditing: enabledForEditing,
+            revokeMfa: revokeMfa,
+            canRevokeMfa: canRevokeMfa,
             dataToolbar: dataToolbar,
             getDataContext: function() { return dataContext; },
             getParentSelectorDataName: getParentSelectorDataName,

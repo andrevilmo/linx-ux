@@ -254,6 +254,20 @@ Require-Copy @(
 
 Require-Copy @((Join-Path $portalProj 'assets\css\portal.css')) 'Portal\assets\css\portal.css'
 
+Require-Copy @(
+    (Join-Path $portalProj 'bin\Microsoft.Identity.Client.dll')
+    (Join-Path $workspace 'Application\Linx.Portal\packages\Microsoft.Identity.Client.4.54.1\lib\net461\Microsoft.Identity.Client.dll')
+    (Join-Path $portalBin 'Microsoft.Identity.Client.dll')
+    (Join-Path $workspace 'Binary\Library\Common\Microsoft\Identity\Microsoft.Identity.Client.dll')
+) 'Portal\bin\Microsoft.Identity.Client.dll'
+
+Require-Copy @(
+    (Join-Path $portalProj 'bin\Microsoft.IdentityModel.Abstractions.dll')
+    (Join-Path $workspace 'Application\Linx.Portal\packages\Microsoft.IdentityModel.Abstractions.6.22.0\lib\net461\Microsoft.IdentityModel.Abstractions.dll')
+    (Join-Path $portalBin 'Microsoft.IdentityModel.Abstractions.dll')
+    (Join-Path $workspace 'Binary\Library\Common\Microsoft\Identity\Microsoft.IdentityModel.Abstractions.dll')
+) 'Portal\bin\Microsoft.IdentityModel.Abstractions.dll'
+
 # DB
 Require-Copy @(
     (Join-Path $workspace 'BM\Linx.Framework.Autorizacao.BM\Linx.Framework.Autorizacao.BM\Scripts\TCS_LOG_ACESSO_AUTH.sql')
