@@ -1,12 +1,13 @@
-using System;
+﻿using System;
 using System.IO;
+using System.Web.Hosting;
 using Microsoft.Identity.Client;
 
 namespace Linx.Portal.Authentication
 {
     /// <summary>
-    /// Persistent MSAL token cache under LocalApplicationData (OmniPOS DpapiTokenCacheStore pattern,
-    /// without Extensions.Msal — works on IIS/.NET Framework 4.6.1).
+    /// Persistent MSAL token cache. IIS ApplicationPoolIdentity often has no usable
+    /// LocalApplicationData, so prefer ~/App_Data then TEMP.
     /// </summary>
     public class FileTokenCacheStore : ITokenCacheStore
     {
@@ -15,10 +16,25 @@ namespace Linx.Portal.Authentication
 
         public FileTokenCacheStore(string cacheName, string appFolderName = "LinxPortal")
         {
-            var dir = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                appFolderName,
-                "AuthCache");
+            string dir = null;
+            try
+            {
+                if (HostingEnvironment.IsHosted)
+                    dir = HostingEnvironment.MapPath("~/App_Data/AuthCache");
+            }
+            catch
+            {
+                dir = null;
+            }
+
+            if (string.IsNullOrWhiteSpace(dir))
+            {
+                string local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                if (!string.IsNullOrWhiteSpace(local))
+                    dir = Path.Combine(local, appFolderName, "AuthCache");
+                else
+                    dir = Path.Combine(Path.GetTempPath(), appFolderName, "AuthCache");
+            }
 
             Directory.CreateDirectory(dir);
             _cacheFilePath = Path.Combine(dir, cacheName);

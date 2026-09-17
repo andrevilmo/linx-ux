@@ -30,7 +30,8 @@ param(
     [string] $ServiceUrl = $env:SI_PDR_SERVICE_URL,
     # Only override when SI_PDR_* env is set - Binary web.configs are authoritative.
     [string] $ShellMode = $env:SI_PDR_SHELL_MODE,
-    [string] $LocalServiceBusMode = $env:SI_PDR_LOCAL_SERVICEBUS_MODE
+    [string] $LocalServiceBusMode = $env:SI_PDR_LOCAL_SERVICEBUS_MODE,
+    [string] $SsoClientSecret = $env:SI_PDR_SSO_CLIENT_SECRET
 )
 
 $ErrorActionPreference = 'Stop'
@@ -44,6 +45,25 @@ function Write-Log([string]$Message) {
 function New-SqlAuthConnectionString {
     param([string]$Server, [string]$Catalog, [string]$User, [string]$Password)
     return ("Data Source={0};Initial Catalog={1};User ID={2};Password={3};" -f $Server, $Catalog, $User, $Password)
+}
+
+function Save-XmlWithRetry {
+    param(
+        [Parameter(Mandatory = $true)][xml] $Xml,
+        [Parameter(Mandatory = $true)][string] $Path
+    )
+    $attempts = 0
+    while ($true) {
+        try {
+            $Xml.Save($Path)
+            return
+        } catch {
+            $attempts++
+            Write-Log ("Save retry {0}/8 {1}: {2}" -f $attempts, $Path, $_.Exception.Message)
+            if ($attempts -ge 8) { throw }
+            Start-Sleep -Seconds 2
+        }
+    }
 }
 
 function Set-XmlConnectionString {
@@ -78,16 +98,28 @@ function Set-XmlConnectionString {
         Write-Log ("Updated {0} :: {1}" -f $Path, $name)
     }
     if ($changed) {
-        $xml.Save($Path)
+        Save-XmlWithRetry -Xml $xml -Path $Path
     }
 }
 
 function Set-AppSetting {
-    param([string]$Path, [string]$SectionXPath, [string]$Key, [string]$Value)
-    if (-not (Test-Path -LiteralPath $Path)) { return }
+    param(
+        [string]$Path,
+        [string]$SectionXPath,
+        [string]$Key,
+        [string]$Value,
+        [switch]$Required
+    )
+    if (-not (Test-Path -LiteralPath $Path)) {
+        if ($Required) { throw "Missing config file $Path" }
+        return
+    }
     [xml]$xml = Get-Content -LiteralPath $Path -Raw
     $section = $xml.SelectSingleNode($SectionXPath)
-    if (-not $section) { return }
+    if (-not $section) {
+        if ($Required) { throw "Missing section $SectionXPath in $Path" }
+        return
+    }
     $node = $section.SelectSingleNode("add[@key='$Key']")
     if (-not $node) {
         $node = $xml.CreateElement('add')
@@ -95,8 +127,13 @@ function Set-AppSetting {
         [void]$section.AppendChild($node)
     }
     $node.SetAttribute('value', $Value)
-    $xml.Save($Path)
-    Write-Log ("{0} {1} => {2}" -f $Path, $Key, $Value)
+    Save-XmlWithRetry -Xml $xml -Path $Path
+    if ($Key -match '(?i)PASSWORD|SECRET') {
+        Write-Log ("{0} {1} => (set, len={2})" -f $Path, $Key, $Value.Length)
+    }
+    else {
+        Write-Log ("{0} {1} => {2}" -f $Path, $Key, $Value)
+    }
 }
 
 # Load optional overrides file dropped into the CI package by GitHub Actions
@@ -135,9 +172,91 @@ if ($LocalServiceBusMode) {
     Set-AppSetting -Path $servicePath -SectionXPath '/configuration/LocalServiceBusSettings' -Key 'mode' -Value $LocalServiceBusMode
 }
 
+# Azure AD confidential-client secret is not stored in git (GitHub push protection).
+# Resolve from (1) env SI_PDR_SSO_CLIENT_SECRET, (2) sidecar next to this script,
+# (3) S3 object used by SI-PDR CI. Never log the value.
+function Resolve-SsoClientSecret {
+    param([string] $FromEnv)
+    if (-not [string]::IsNullOrWhiteSpace($FromEnv)) {
+        return @{ Value = $FromEnv.Trim(); Source = 'env' }
+    }
+    $sidecar = Join-Path $PSScriptRoot '.sso-client-secret'
+    if (Test-Path -LiteralPath $sidecar) {
+        $raw = (Get-Content -LiteralPath $sidecar -Raw -ErrorAction SilentlyContinue)
+        if (-not [string]::IsNullOrWhiteSpace($raw)) {
+            return @{ Value = $raw.Trim(); Source = 'sidecar' }
+        }
+    }
+    $s3Uri = if ($env:SI_PDR_SSO_CLIENT_SECRET_S3) {
+        $env:SI_PDR_SSO_CLIENT_SECRET_S3
+    } else {
+        's3://omnipos-cicd-253957900820-sa-east-1/linx-ux/secrets/SSO_CLIENT_SECRET'
+    }
+    try {
+        $tmp = Join-Path $env:TEMP ('si-pdr-sso-' + [guid]::NewGuid().ToString('n') + '.txt')
+        $aws = Get-Command aws -ErrorAction SilentlyContinue
+        if ($aws) {
+            & aws s3 cp $s3Uri $tmp --region sa-east-1 --no-progress 2>$null | Out-Null
+            if ($LASTEXITCODE -eq 0 -and (Test-Path -LiteralPath $tmp)) {
+                $raw = (Get-Content -LiteralPath $tmp -Raw -ErrorAction SilentlyContinue)
+                Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+                if (-not [string]::IsNullOrWhiteSpace($raw)) {
+                    return @{ Value = $raw.Trim(); Source = 's3' }
+                }
+            }
+            Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+        }
+    } catch {
+        Write-Log 'SSO client secret S3 fallback failed (non-fatal)'
+    }
+    return $null
+}
+
+$resolvedSso = Resolve-SsoClientSecret -FromEnv $SsoClientSecret
+if ($resolvedSso) {
+    try {
+        $portalConfigs = @($portalPath)
+        try {
+            Import-Module WebAdministration -ErrorAction Stop
+            $portalSite = Get-Website -Name 'Portal' -ErrorAction Stop
+            if ($portalSite -and $portalSite.physicalPath) {
+                $iisPortalCfg = Join-Path $portalSite.physicalPath 'web.config'
+                if ($portalConfigs -notcontains $iisPortalCfg) {
+                    $portalConfigs += $iisPortalCfg
+                }
+            }
+        } catch {
+            Write-Log ("IIS Portal path lookup skipped: {0}" -f $_.Exception.Message)
+        }
+        foreach ($cfg in $portalConfigs) {
+            Set-AppSetting -Path $cfg -SectionXPath '/configuration/PortalSettings' -Key 'SSO_CLIENT_SECRET' -Value $resolvedSso.Value
+            if (-not (Test-Path -LiteralPath $cfg)) {
+                Write-Log "SSO inject skipped; missing $cfg"
+                continue
+            }
+            [xml]$check = Get-Content -LiteralPath $cfg -Raw
+            $node = $check.SelectSingleNode("/configuration/PortalSettings/add[@key='SSO_CLIENT_SECRET']")
+            $len = 0
+            if ($node -and $node.GetAttribute('value')) { $len = $node.GetAttribute('value').Length }
+            if ($len -le 0) {
+                Write-Log "SSO_CLIENT_SECRET empty after inject in $cfg (non-fatal)"
+                continue
+            }
+            Write-Log ("Verified {0} SSO_CLIENT_SECRET len={1} source={2}" -f $cfg, $len, $resolvedSso.Source)
+        }
+        Write-Output 'SSO_CLIENT_SECRET_APPLIED'
+    } catch {
+        Write-Log ("SSO inject warning (non-fatal): {0}" -f $_.Exception.Message)
+        Write-Output 'SSO_CLIENT_SECRET_SKIPPED'
+    }
+}
+else {
+    Write-Log 'SI_PDR_SSO_CLIENT_SECRET not set; Portal SSO_CLIENT_SECRET left as in Binary web.config.'
+    Write-Output 'SSO_CLIENT_SECRET_SKIPPED'
+}
+
 if (-not $PortalConnection -and -not $AppConnection) {
     Write-Log 'No SI_PDR_SQL_* overrides provided; leaving Binary SQL connection strings unchanged.'
-    Write-Log 'Leaving Binary Service/Application/Portal web.configs unchanged (no SI_PDR_SQL_* / URL overrides).'
     Write-Output 'SQL_OVERRIDES_SKIPPED'
     # Still recycle so authorizationServiceAddress / ServiceBus changes take effect
 } else {

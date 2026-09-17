@@ -2,6 +2,8 @@
 
 See [sso-azure-ad-msal-guide.md](sso-azure-ad-msal-guide.md) for the OmniPOS pattern and section **10** for the Portal web adaptation.
 
+Login + MFA + SSO APIs (including a .NET desktop cookbook): [login-mfa-sso-api.md](login-mfa-sso-api.md), [login-mfa-sso-desktop-dotnet.md](login-mfa-sso-desktop-dotnet.md).
+
 ## Enable on an environment
 
 1. Azure App Registration (Web platform):
