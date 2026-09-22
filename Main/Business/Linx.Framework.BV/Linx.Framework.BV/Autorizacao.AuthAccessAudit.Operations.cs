@@ -22,6 +22,51 @@ namespace Linx.Framework.BV.Autorizacao
             Message = "Usuário bloqueado por excesso de tentativas inválidas de senha. Solicite o desbloqueio ao administrador."
         };
 
+        // Service users may authenticate via API; Portal / PortalSSO must refuse them.
+        private static readonly ErrorInfo ServiceUserPortalDenied = new ErrorInfo()
+        {
+            Code = "ERRAUT022",
+            Message = "Usuário de serviço não pode acessar pelo Portal."
+        };
+
+        public static string FormatServiceUserPortalDeniedMessage()
+        {
+            return string.Format("{0} - {1}", ServiceUserPortalDenied.Code, ServiceUserPortalDenied.Message);
+        }
+
+        public static string GetRequestAuthChannel()
+        {
+            string ip;
+            string machine;
+            string canal;
+            ResolveRequestContext(out ip, out machine, out canal);
+            return string.IsNullOrWhiteSpace(canal) ? "Service" : canal;
+        }
+
+        public static bool IsPortalAuthChannel(string canal)
+        {
+            return string.Equals(canal, "Portal", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(canal, "PortalSSO", StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Blocks INDICA_USUARIO_SERVICO when the caller is Portal / PortalSSO.
+        /// API / Desktop / Service channels are allowed.
+        /// </summary>
+        public void EnsureServiceUserNotFromPortal(string userName, string canal)
+        {
+            if (!IsPortalAuthChannel(canal) || string.IsNullOrWhiteSpace(userName))
+                return;
+
+            string normalized = NormalizeUserName(userName);
+            if (!ResolveIndicaUsuarioServico(normalized))
+                return;
+
+            string description = FormatServiceUserPortalDeniedMessage();
+            LogAuthAccessFailure(normalized, ServiceUserPortalDenied.Code, ServiceUserPortalDenied.Message, canal, false);
+            throw new Exception(description);
+        }
+
         private const string AuthAccessSchemaEnsureSql = @"
 IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = N'LX_TCS')
     EXEC(N'CREATE SCHEMA [LX_TCS]');";

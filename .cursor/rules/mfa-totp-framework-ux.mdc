@@ -85,12 +85,14 @@ All new tables have `CREATED_AT` / `UPDATED_AT`.
 
 ## Skip MFA when (`UX`)
 
-- `INDICA_USUARIO_SERVICO` = true
+- `INDICA_USUARIO_SERVICO` = true (API only — Portal / PortalSSO **refuse** the login)
 - `AUTENTICACAO_WINDOWS` = true
 - Company row exists with `INDICA_MFA_HABILITADO = 0`
 - User **Utiliza MFA** = false (NULL/empty = ON)
 
 Do **not** skip because of Azure MFA / SSO. After company selection, run TOTP if company MFA is on.
+
+Portal login (`X-Auth-Channel` `Portal` or `PortalSSO`) **blocks** `INDICA_USUARIO_SERVICO`. API / Desktop / Service channels stay allowed.
 
 **Support / impersonation:** challenge the **impersonated** user’s MFA for the selected GPECON.
 

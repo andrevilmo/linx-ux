@@ -289,6 +289,12 @@ namespace Linx.Portal.Controllers
             }
 
             PortalLoginOptions options = LookupPortalLoginOptions(user);
+            if (options != null && options.IndicaUsuarioServico)
+            {
+                ModelState.AddModelError("", "ERRAUT022 - Usuário de serviço não pode acessar pelo Portal.".Translate());
+                ClearIdentifiedLogin();
+                return LoginView(model);
+            }
             string canonical = options != null && !string.IsNullOrWhiteSpace(options.NomeAutenticacao)
                 ? options.NomeAutenticacao
                 : user;

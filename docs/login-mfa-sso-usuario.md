@@ -23,7 +23,7 @@ Em seguida o Portal pede o **código de 6 dígitos** gerado pelo Google Authenti
 
 Essa verificação é da **empresa (GPECON)** no Linx. Mesmo quem entrou com Microsoft precisa dela, se a empresa estiver com MFA ligado.
 
-Alguns casos **não** pedem o código: usuário de serviço, autenticação Windows, empresa com MFA desligado, ou usuário com “Utiliza MFA” desmarcado.
+Usuário de serviço **não entra pelo Portal**. Nas APIs ele entra e **não** pede o código. Também não pedem o código: autenticação Windows, empresa com MFA desligado, ou usuário com “Utiliza MFA” desmarcado.
 
 ## O que isso não é
 

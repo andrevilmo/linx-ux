@@ -154,6 +154,8 @@ Login senha.
 
 Headers usados pelo Portal: `X-Client-IP`, `X-Auth-Channel=Portal`.
 
+`INDICA_USUARIO_SERVICO` + channel `Portal` / `PortalSSO` → falha `ERRAUT022` (não conta lockout). Channel `Desktop` / `Service` / sem header continua permitido.
+
 Resposta (texto, URL-encoded, depois decrypt):
 
 - Sucesso: `1 || NomeUsuario || NomeCurtoUsuario`
@@ -312,7 +314,7 @@ Query típica montada pelo Portal (`PortalMfaClient.BuildApplicationUrl`):
 
 | Condição | `SkipReason` |
 |----------|----------------|
-| `INDICA_USUARIO_SERVICO` | `INDICA_USUARIO_SERVICO` |
+| `INDICA_USUARIO_SERVICO` | `INDICA_USUARIO_SERVICO` (API only; Portal / PortalSSO returns ERRAUT022) |
 | `AUTENTICACAO_WINDOWS` | `AUTENTICACAO_WINDOWS` |
 | Linha em `TCS_GPECON_MFA` com `INDICA_MFA_HABILITADO=0` | `COMPANY_MFA_OFF` |
 | `INDICA_UTILIZA_MFA = false` | `USER_MFA_OFF` |

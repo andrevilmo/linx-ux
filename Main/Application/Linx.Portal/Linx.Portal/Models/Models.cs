@@ -18,6 +18,7 @@ namespace Linx.Portal.Models
     public class PortalLoginOptions
     {
         public bool UserUtilizaSso { get; set; }
+        public bool IndicaUsuarioServico { get; set; }
         public string NomeAutenticacao { get; set; }
     }
 

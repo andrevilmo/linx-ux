@@ -67,6 +67,7 @@ namespace Linx.Framework.BV.Autorizacao
     public class PortalLoginOptionsResult
     {
         public bool UserUtilizaSso { get; set; }
+        public bool IndicaUsuarioServico { get; set; }
         public string NomeAutenticacao { get; set; }
     }
 
@@ -413,7 +414,7 @@ ELSE
                 using (SqlConnection conn = CreateMfaConnection())
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT TOP 1 NOME_AUTENTICACAO, ISNULL(INDICA_UTILIZA_SSO,0)
+                    cmd.CommandText = @"SELECT TOP 1 NOME_AUTENTICACAO, ISNULL(INDICA_UTILIZA_SSO,0), ISNULL(INDICA_USUARIO_SERVICO,0)
 FROM [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
 WHERE UPPER(LTRIM(RTRIM(NOME_AUTENTICACAO))) = UPPER(LTRIM(RTRIM(@n)))";
                     cmd.Parameters.AddWithValue("@n", userName.Trim());
@@ -423,6 +424,7 @@ WHERE UPPER(LTRIM(RTRIM(NOME_AUTENTICACAO))) = UPPER(LTRIM(RTRIM(@n)))";
                         {
                             result.NomeAutenticacao = reader.IsDBNull(0) ? userName.Trim() : reader.GetString(0);
                             result.UserUtilizaSso = Convert.ToBoolean(reader.GetValue(1));
+                            result.IndicaUsuarioServico = Convert.ToBoolean(reader.GetValue(2));
                         }
                     }
                 }
