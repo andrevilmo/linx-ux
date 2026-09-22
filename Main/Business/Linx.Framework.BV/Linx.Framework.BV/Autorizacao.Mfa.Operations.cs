@@ -93,6 +93,8 @@ IF COL_LENGTH(N'LX_TCS.TCS_USUARIO_AUTENTICACAO', N'INDICA_UTILIZA_SSO') IS NULL
     ALTER TABLE [LX_TCS].[TCS_USUARIO_AUTENTICACAO] ADD [INDICA_UTILIZA_SSO] BIT NOT NULL CONSTRAINT [DF_TCS_USUARIO_AUT_SSO] DEFAULT ((0));
 IF COL_LENGTH(N'LX_TCS.TCS_USUARIO_AUTENTICACAO', N'INDICA_UTILIZA_MFA') IS NULL
     ALTER TABLE [LX_TCS].[TCS_USUARIO_AUTENTICACAO] ADD [INDICA_UTILIZA_MFA] BIT NULL;
+IF COL_LENGTH(N'LX_TCS.TCS_USUARIO_AUTENTICACAO', N'INDICA_USUARIO_SERVICO') IS NULL
+    ALTER TABLE [LX_TCS].[TCS_USUARIO_AUTENTICACAO] ADD [INDICA_USUARIO_SERVICO] BIT NOT NULL CONSTRAINT [DF_TCS_USUARIO_AUT_SERV] DEFAULT ((0));
 IF NOT EXISTS (SELECT 1 FROM sys.tables t INNER JOIN sys.schemas s ON t.schema_id = s.schema_id WHERE s.name = N'LX_TCS' AND t.name = N'TCS_GPECON_MFA')
 BEGIN
     CREATE TABLE [LX_TCS].[TCS_GPECON_MFA] (
@@ -414,17 +416,35 @@ ELSE
                 using (SqlConnection conn = CreateMfaConnection())
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT TOP 1 NOME_AUTENTICACAO, ISNULL(INDICA_UTILIZA_SSO,0), ISNULL(INDICA_USUARIO_SERVICO,0)
+                    cmd.Parameters.AddWithValue("@n", userName.Trim());
+                    try
+                    {
+                        cmd.CommandText = @"SELECT TOP 1 NOME_AUTENTICACAO, ISNULL(INDICA_UTILIZA_SSO,0), ISNULL(INDICA_USUARIO_SERVICO,0)
 FROM [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
 WHERE UPPER(LTRIM(RTRIM(NOME_AUTENTICACAO))) = UPPER(LTRIM(RTRIM(@n)))";
-                    cmd.Parameters.AddWithValue("@n", userName.Trim());
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            result.NomeAutenticacao = reader.IsDBNull(0) ? userName.Trim() : reader.GetString(0);
-                            result.UserUtilizaSso = Convert.ToBoolean(reader.GetValue(1));
-                            result.IndicaUsuarioServico = Convert.ToBoolean(reader.GetValue(2));
+                            if (reader.Read())
+                            {
+                                result.NomeAutenticacao = reader.IsDBNull(0) ? userName.Trim() : reader.GetString(0);
+                                result.UserUtilizaSso = Convert.ToBoolean(reader.GetValue(1));
+                                result.IndicaUsuarioServico = Convert.ToBoolean(reader.GetValue(2));
+                            }
+                        }
+                    }
+                    catch (SqlException)
+                    {
+                        cmd.CommandText = @"SELECT TOP 1 NOME_AUTENTICACAO, ISNULL(INDICA_UTILIZA_SSO,0)
+FROM [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
+WHERE UPPER(LTRIM(RTRIM(NOME_AUTENTICACAO))) = UPPER(LTRIM(RTRIM(@n)))";
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                result.NomeAutenticacao = reader.IsDBNull(0) ? userName.Trim() : reader.GetString(0);
+                                result.UserUtilizaSso = Convert.ToBoolean(reader.GetValue(1));
+                                result.IndicaUsuarioServico = false;
+                            }
                         }
                     }
                 }
