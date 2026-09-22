@@ -10,7 +10,6 @@ using System.ComponentModel.Composition;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Linx.Framework.BV.Autorizacao;
 using Linx.Framework.BV.UsuarioAutorizacao;
 using System.ServiceModel.DomainServices.Server;
 using System.Web;
@@ -33,7 +32,8 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             {
                 if (requisicaoAcesso != null && !string.IsNullOrWhiteSpace(requisicaoAcesso.NomeAutenticacao))
                 {
-                    AutorizacaoDomainService dsPortalGate = new AutorizacaoDomainService();
+                    Linx.Framework.BV.Autorizacao.AutorizacaoDomainService dsPortalGate =
+                        new Linx.Framework.BV.Autorizacao.AutorizacaoDomainService();
                     dsPortalGate.EnsureServiceUserNotFromPortal(requisicaoAcesso.NomeAutenticacao, "Portal");
                 }
 
