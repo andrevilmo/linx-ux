@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Linx.Security;
@@ -410,44 +411,38 @@ ELSE
             if (string.IsNullOrWhiteSpace(userName))
                 return result;
 
+            string trimmed = userName.Trim();
+            string normalized = trimmed.ToUpperInvariant();
+
+            // Use the same EF connection as login. A second SqlConnection (CreateMfaConnection)
+            // often times out on this host and CONTINUAR then never sees IndicaUsuarioServico.
+            try
+            {
+                var row = this.DbContext.TCS_USUARIO_AUTENTICACAO
+                    .Where(u => u.NOME_AUTENTICACAO.ToUpper() == normalized)
+                    .Select(u => new { u.NOME_AUTENTICACAO, u.INDICA_USUARIO_SERVICO })
+                    .FirstOrDefault();
+                if (row != null)
+                {
+                    result.NomeAutenticacao = string.IsNullOrWhiteSpace(row.NOME_AUTENTICACAO)
+                        ? trimmed
+                        : row.NOME_AUTENTICACAO;
+                    result.IndicaUsuarioServico = row.INDICA_USUARIO_SERVICO;
+                }
+            }
+            catch
+            {
+            }
+
             try
             {
                 EnsureMfaTables();
-                using (SqlConnection conn = CreateMfaConnection())
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.Parameters.AddWithValue("@n", userName.Trim());
-                    try
-                    {
-                        cmd.CommandText = @"SELECT TOP 1 NOME_AUTENTICACAO, ISNULL(INDICA_UTILIZA_SSO,0), ISNULL(INDICA_USUARIO_SERVICO,0)
+                int sso = this.DbContext.Database.SqlQuery<int>(
+                    @"SELECT TOP 1 CAST(ISNULL(INDICA_UTILIZA_SSO,0) AS int)
 FROM [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
-WHERE UPPER(LTRIM(RTRIM(NOME_AUTENTICACAO))) = UPPER(LTRIM(RTRIM(@n)))";
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                result.NomeAutenticacao = reader.IsDBNull(0) ? userName.Trim() : reader.GetString(0);
-                                result.UserUtilizaSso = Convert.ToBoolean(reader.GetValue(1));
-                                result.IndicaUsuarioServico = Convert.ToBoolean(reader.GetValue(2));
-                            }
-                        }
-                    }
-                    catch (SqlException)
-                    {
-                        cmd.CommandText = @"SELECT TOP 1 NOME_AUTENTICACAO, ISNULL(INDICA_UTILIZA_SSO,0)
-FROM [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
-WHERE UPPER(LTRIM(RTRIM(NOME_AUTENTICACAO))) = UPPER(LTRIM(RTRIM(@n)))";
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                result.NomeAutenticacao = reader.IsDBNull(0) ? userName.Trim() : reader.GetString(0);
-                                result.UserUtilizaSso = Convert.ToBoolean(reader.GetValue(1));
-                                result.IndicaUsuarioServico = false;
-                            }
-                        }
-                    }
-                }
+WHERE UPPER(LTRIM(RTRIM(NOME_AUTENTICACAO))) = @n",
+                    new SqlParameter("@n", normalized)).FirstOrDefault();
+                result.UserUtilizaSso = sso != 0;
             }
             catch
             {
