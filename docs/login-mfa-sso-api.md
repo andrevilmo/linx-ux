@@ -17,7 +17,7 @@ Texto para usuário: [login-mfa-sso-usuario.md](login-mfa-sso-usuario.md).
 Base do Service: `{ServiceUrl}` — QA típico `http://<host>:1710/`.  
 Criptografia de senha e de ticket: `Linx.Security.Cryptography` (referencie a DLL do produto). Tickets MFA: `UseSeed = false` **no servidor**; o cliente só transporta o `Ticket` opaco.
 
-Mapeamento SSO: `UPN` antes de `@` = `NomeAutenticacao` local.
+Mapeamento SSO: o Portal segue com o `NomeAutenticacao` digitado no CONTINUAR (sessão). Se não houver sessão, cai no prefixo do `UPN` antes de `@`.
 
 ---
 

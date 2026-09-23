@@ -158,14 +158,15 @@ namespace Linx.Portal.Controllers
                     return LoginView();
                 }
 
-                string localLogin = SsoLoginHelper.ExtractLocalLogin(auth.User.Username);
+                // Prefer the NomeAutenticacao typed on CONTINUAR (session), not the Azure UPN prefix.
+                string localLogin = SsoLoginHelper.ResolveLocalLoginAfterSso(Session, auth.User.Username);
                 if (localLogin.IsNullOrEmpty())
                 {
                     ModelState.AddModelError("", "Usuário não autenticado.".Translate());
                     return LoginView();
                 }
 
-                // Azure token is not forwarded — only local session after Service validates cadastro.
+                // Azure token is identity proof only — Portal session continues as the Linx login.
                 string canonicalUser;
                 if (!AuthenticateUserSso(localLogin, rememberMe: true, out canonicalUser))
                 {
@@ -174,6 +175,7 @@ namespace Linx.Portal.Controllers
                 }
 
                 SsoLoginHelper.ClearContingency(Session);
+                SsoLoginHelper.ClearPendingLocalUser(Session);
                 ClearIdentifiedLogin();
                 PortalMfaClient.ClearSession(Session);
 
@@ -302,6 +304,7 @@ namespace Linx.Portal.Controllers
             {
                 Session[SessionIdentifiedUser] = canonical;
                 Session[SessionIdentifiedSso] = options != null && options.UserUtilizaSso;
+                SsoLoginHelper.RememberPendingLocalUser(Session, canonical);
             }
             model.UserName = canonical;
             model.IdentifyOnly = false;
@@ -342,6 +345,7 @@ namespace Linx.Portal.Controllers
                 return;
             Session.Remove(SessionIdentifiedUser);
             Session.Remove(SessionIdentifiedSso);
+            SsoLoginHelper.ClearPendingLocalUser(Session);
         }
 
         private static PortalLoginOptions LookupPortalLoginOptions(string userName)
