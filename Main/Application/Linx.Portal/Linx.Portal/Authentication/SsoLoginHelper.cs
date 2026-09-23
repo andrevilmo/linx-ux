@@ -8,13 +8,14 @@ using Microsoft.Identity.Client;
 namespace Linx.Portal.Authentication
 {
     /// <summary>
-    /// OmniPOS-style orchestration: MSAL ForceLogin → UPN prefix → local user session.
-    /// Azure token is identity proof only; Portal Forms cookie uses local NomeAutenticacao.
+    /// OmniPOS-style orchestration: MSAL ForceLogin → session NomeAutenticacao (CONTINUAR) → local user session.
+    /// Azure token is identity proof only; Portal Forms cookie uses the Linx login typed before SSO.
     /// </summary>
     public static class SsoLoginHelper
     {
         public const string ContingencySessionKey = "EnableContingencySSO";
         public const string OAuthStateSessionKey = "SsoOAuthState";
+        public const string PendingLocalUserSessionKey = "PortalSsoPendingNomeAutenticacao";
 
         public static string ExtractLocalLogin(string upn)
         {
@@ -24,6 +25,35 @@ namespace Linx.Portal.Authentication
             var at = upn.IndexOf('@');
             var local = (at > 0 ? upn.Substring(0, at) : upn).ToLowerInvariant();
             return local;
+        }
+
+        /// <summary>
+        /// After Azure succeeds, continue as the Linx login typed on CONTINUAR (session).
+        /// Falls back to the Azure UPN prefix only when no session login was stored.
+        /// </summary>
+        public static string ResolveLocalLoginAfterSso(HttpSessionStateBase session, string azureUpn)
+        {
+            if (session != null)
+            {
+                string pending = session[PendingLocalUserSessionKey] as string;
+                if (!string.IsNullOrWhiteSpace(pending))
+                    return pending.Trim();
+            }
+
+            return ExtractLocalLogin(azureUpn);
+        }
+
+        public static void RememberPendingLocalUser(HttpSessionStateBase session, string nomeAutenticacao)
+        {
+            if (session == null || string.IsNullOrWhiteSpace(nomeAutenticacao))
+                return;
+            session[PendingLocalUserSessionKey] = nomeAutenticacao.Trim();
+        }
+
+        public static void ClearPendingLocalUser(HttpSessionStateBase session)
+        {
+            if (session != null)
+                session.Remove(PendingLocalUserSessionKey);
         }
 
         public static MsalAuthenticationService CreateService()
@@ -37,6 +67,7 @@ namespace Linx.Portal.Authentication
             var state = Guid.NewGuid().ToString("N");
             if (session != null)
                 session[OAuthStateSessionKey] = state;
+            RememberPendingLocalUser(session, loginHint);
 
             var service = CreateService();
             return await service.GetAuthorizationUrlAsync(state, forceLogin: true, loginHint: loginHint).ConfigureAwait(false);

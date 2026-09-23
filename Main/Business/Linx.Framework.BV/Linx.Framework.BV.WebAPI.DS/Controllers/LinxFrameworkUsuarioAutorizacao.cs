@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -30,6 +30,13 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         {
             try
             {
+                if (requisicaoAcesso != null && !string.IsNullOrWhiteSpace(requisicaoAcesso.NomeAutenticacao))
+                {
+                    Linx.Framework.BV.Autorizacao.AutorizacaoDomainService dsPortalGate =
+                        new Linx.Framework.BV.Autorizacao.AutorizacaoDomainService();
+                    dsPortalGate.EnsureServiceUserNotFromPortal(requisicaoAcesso.NomeAutenticacao, "Portal");
+                }
+
                 List<UsuarioAcesso> usuarioAcesso = new List<UsuarioAcesso>();
                 Linx.Security.Cryptography crypto = new Linx.Security.Cryptography();
 
@@ -65,7 +72,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                     string[] decryptedLines = parametros.Split(new string[] { "||" }, StringSplitOptions.None);
 
                     if (decryptedLines.Count() != 3)
-                        throw new Exception("Par‚metros inv·lidos.");
+                        throw new Exception("Par√¢metros inv√°lidos.");
 
                     int idTcsSuporteAcesso = Convert.ToInt32(decryptedLines[0]);
                     string nomeAutenticacaoAcesso = decryptedLines[1];
@@ -75,7 +82,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                                    select new { IdUsuario = result.IdUsuario, UidUsuario = result.UidUsuario, NomeUsuario = result.NomeUsuario, IndicaAcessoSuporte = result.IndicaAcessoSuporte }).FirstOrDefault();
 
                     if (!usuario.IndicaAcessoSuporte)
-                        throw new Exception("Usu·rio sem permiss„o para acesso de Suporte.");
+                        throw new Exception("Usu√°rio sem permiss√£o para acesso de Suporte.");
 
                     TcsSuporteAcessoLog acessoSuporte = (from result in this.repository.Context.GetTcsSuporteAcessoLogNoAssociations().Where(i => i.IdTcsSuporteAcessoLog == idTcsSuporteAcesso && i.DataAcesso == null
                                                 && i.NomeAutenticacaoAcesso == nomeAutenticacaoAcesso && i.DataCadastro == dataCadastro && !i.AcessoExpirado)
@@ -163,7 +170,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                           select result.IdTcsUsuarioAcesso).FirstOrDefault();
 
             if (acesso.IsNullOrEmpty())
-                throw new Exception("Acesso n„o encontrado.");
+                throw new Exception("Acesso n√£o encontrado.");
 
             TcsSuporteAcessoLog suporteAcesso = new TcsSuporteAcessoLog() { IdTcsUsuarioAcesso = acesso, IdUsuarioAcesso = idUsuario, DataCadastro = DateTime.Parse(DateTime.Now.ToString()) };
             this.repository.Context.AddCustomChanges(suporteAcesso, null, ChangeOperation.Insert);

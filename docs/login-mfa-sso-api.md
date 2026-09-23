@@ -17,7 +17,7 @@ Texto para usuário: [login-mfa-sso-usuario.md](login-mfa-sso-usuario.md).
 Base do Service: `{ServiceUrl}` — QA típico `http://<host>:1710/`.  
 Criptografia de senha e de ticket: `Linx.Security.Cryptography` (referencie a DLL do produto). Tickets MFA: `UseSeed = false` **no servidor**; o cliente só transporta o `Ticket` opaco.
 
-Mapeamento SSO: `UPN` antes de `@` = `NomeAutenticacao` local.
+Mapeamento SSO: o Portal segue com o `NomeAutenticacao` digitado no CONTINUAR (sessão). Se não houver sessão, cai no prefixo do `UPN` antes de `@`.
 
 ---
 
@@ -153,6 +153,8 @@ Login senha.
 | `authenticateParameters` | string | `Encrypt( Encrypt(user) + "\|\|" + Encrypt(password) )` |
 
 Headers usados pelo Portal: `X-Client-IP`, `X-Auth-Channel=Portal`.
+
+`INDICA_USUARIO_SERVICO` + channel `Portal` / `PortalSSO` → falha `ERRAUT022` (não conta lockout). Channel `Desktop` / `Service` / sem header continua permitido.
 
 Resposta (texto, URL-encoded, depois decrypt):
 
@@ -312,7 +314,7 @@ Query típica montada pelo Portal (`PortalMfaClient.BuildApplicationUrl`):
 
 | Condição | `SkipReason` |
 |----------|----------------|
-| `INDICA_USUARIO_SERVICO` | `INDICA_USUARIO_SERVICO` |
+| `INDICA_USUARIO_SERVICO` | `INDICA_USUARIO_SERVICO` (API only; Portal / PortalSSO returns ERRAUT022) |
 | `AUTENTICACAO_WINDOWS` | `AUTENTICACAO_WINDOWS` |
 | Linha em `TCS_GPECON_MFA` com `INDICA_MFA_HABILITADO=0` | `COMPANY_MFA_OFF` |
 | `INDICA_UTILIZA_MFA = false` | `USER_MFA_OFF` |

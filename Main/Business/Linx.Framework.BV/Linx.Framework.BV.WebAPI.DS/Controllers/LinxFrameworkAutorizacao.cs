@@ -109,6 +109,8 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                         crypto.Encrypt("Usuário autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda."))));
                 }
 
+                dsAuth.EnsureServiceUserNotFromPortal(usuario.NomeAutenticacao, AutorizacaoDomainService.GetRequestAuthChannel());
+
                 // Validate User (Inativo - Vigencia) — same gates as password login, without Membership password.
                 dsAuth.ValidateUserAccess(usuario.UidUsuario);
 
@@ -132,7 +134,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                     AutorizacaoDomainService ds = new AutorizacaoDomainService();
                     if (!userNameAttempt.IsNullOrEmpty() && ds.IsMembershipUserLockedOut(userNameAttempt))
                         errorMessage = ErrorConstants.FormatUserLockedOutMessage();
-                    else
+                    else if (errorMessage == null || errorMessage.IndexOf("ERRAUT022", StringComparison.OrdinalIgnoreCase) < 0)
                         ds.LogAuthAccessFailure(userNameAttempt ?? string.Empty, null, errorMessage, "PortalSSO", false);
                 }
                 catch { }
@@ -159,6 +161,8 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                 }
 
                 userNameAttempt = crypto.Decrypt(decryptedLines[0]);
+                AutorizacaoDomainService dsPortalGate = new AutorizacaoDomainService();
+                dsPortalGate.EnsureServiceUserNotFromPortal(userNameAttempt, AutorizacaoDomainService.GetRequestAuthChannel());
                 Guid uidUsuario = this.validateuser(userNameAttempt, crypto.Decrypt(decryptedLines[1]));
 
                 UsuarioAutorizacao.UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacao.UsuarioAutorizacaoDomainService();
