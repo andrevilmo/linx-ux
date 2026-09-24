@@ -447,14 +447,6 @@ WHERE [ID_USUARIO] = @id",
             catch
             {
             }
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(LocalServiceBus.CurrentUser))
-                    return LocalServiceBus.CurrentUser;
-            }
-            catch
-            {
-            }
             return "cadastro";
         }
 
