@@ -23,6 +23,21 @@ namespace Linx.Portal.Models
         public string Email { get; set; }
     }
 
+    public class PortalSsoVinculoResult
+    {
+        public bool Success { get; set; }
+        public string Code { get; set; }
+        public string Message { get; set; }
+        public bool HasVinculo { get; set; }
+        public bool CanRevoke { get; set; }
+        public string NomeAutenticacao { get; set; }
+        public long? IdUsuario { get; set; }
+        public string AzureOid { get; set; }
+        public string AzureUpn { get; set; }
+        public DateTime? DataVinculo { get; set; }
+        public DateTime? DataUltimoLogin { get; set; }
+    }
+
     public class LoggedUser
     {
         public string DescricaoAmbiente { get; set; }

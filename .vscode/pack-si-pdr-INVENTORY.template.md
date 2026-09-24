@@ -81,7 +81,8 @@ Ordem sugerida:
 
 1. `TCS_LOG_ACESSO_AUTH.sql`
 2. `INDICA_USUARIO_SERVICO.sql`
-3. `Disable_Update_aspnet_Membership_Trigger.sql`
+3. `TCS_USUARIO_SSO_VINCULO.sql`
+4. `Disable_Update_aspnet_Membership_Trigger.sql`
 
 ---
 

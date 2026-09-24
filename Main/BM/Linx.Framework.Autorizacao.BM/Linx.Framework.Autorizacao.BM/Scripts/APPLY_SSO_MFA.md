@@ -21,6 +21,7 @@ Creates / adds, if missing:
 | `TCS_GPECON_MFA` | Company MFA policy (no row = MFA on) |
 | `TCS_USUARIO_MFA` | TOTP secret, attempts, lockout |
 | `TCS_USUARIO_MFA_DISPOSITIVO` | Remember-device tokens |
+| `TCS_USUARIO_SSO_VINCULO` | Last Azure OID+UPN bound to a Linx user (Revogar SSO) |
 
 The Service also runs a subset of this on first MFA API call if the SQL login has `ALTER`. Use this script when that login cannot alter, or to apply ahead of time.
 
@@ -40,3 +41,4 @@ If you prefer one object per file:
 - `INDICA_USUARIO_SERVICO.sql`
 - `TCS_LOG_ACESSO_AUTH.sql`
 - `TCS_MFA.sql`
+- `TCS_USUARIO_SSO_VINCULO.sql`

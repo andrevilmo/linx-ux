@@ -218,6 +218,44 @@ END
 GO
 
 -- -----------------------------------------------------------------------------
+-- 6b) Last Azure account bound to a Linx user (Portal SSO)
+-- -----------------------------------------------------------------------------
+IF NOT EXISTS (
+    SELECT 1 FROM sys.tables t
+    INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE s.name = N'LX_TCS' AND t.name = N'TCS_USUARIO_SSO_VINCULO')
+BEGIN
+    CREATE TABLE [LX_TCS].[TCS_USUARIO_SSO_VINCULO]
+    (
+        [ID_USUARIO] BIGINT NOT NULL,
+        [NOME_AUTENTICACAO] NVARCHAR(256) NOT NULL,
+        [AZURE_OID] NVARCHAR(64) NOT NULL,
+        [AZURE_UPN] NVARCHAR(256) NOT NULL,
+        [DATA_VINCULO] DATETIME NOT NULL CONSTRAINT [DF_TCS_USUARIO_SSO_VINCULO_VINC] DEFAULT (GETDATE()),
+        [DATA_ULTIMO_LOGIN] DATETIME NOT NULL CONSTRAINT [DF_TCS_USUARIO_SSO_VINCULO_ULT] DEFAULT (GETDATE()),
+        CONSTRAINT [XPK_TCS_USUARIO_SSO_VINCULO] PRIMARY KEY CLUSTERED ([ID_USUARIO] ASC)
+    );
+    CREATE UNIQUE NONCLUSTERED INDEX [UX_TCS_USUARIO_SSO_VINCULO_OID]
+        ON [LX_TCS].[TCS_USUARIO_SSO_VINCULO] ([AZURE_OID]);
+    PRINT 'Created TCS_USUARIO_SSO_VINCULO';
+END
+ELSE
+    PRINT 'OK TCS_USUARIO_SSO_VINCULO';
+GO
+
+IF NOT EXISTS (
+    SELECT 1 FROM sys.indexes
+    WHERE name = N'UX_TCS_USUARIO_SSO_VINCULO_OID'
+      AND object_id = OBJECT_ID(N'LX_TCS.TCS_USUARIO_SSO_VINCULO'))
+    AND OBJECT_ID(N'LX_TCS.TCS_USUARIO_SSO_VINCULO', N'U') IS NOT NULL
+BEGIN
+    CREATE UNIQUE NONCLUSTERED INDEX [UX_TCS_USUARIO_SSO_VINCULO_OID]
+        ON [LX_TCS].[TCS_USUARIO_SSO_VINCULO] ([AZURE_OID]);
+    PRINT 'Created UX_TCS_USUARIO_SSO_VINCULO_OID';
+END
+GO
+
+-- -----------------------------------------------------------------------------
 -- 7) Verify
 -- -----------------------------------------------------------------------------
 PRINT '=== VERIFY ===';
@@ -236,7 +274,7 @@ SELECT s.name AS schema_name, t.name AS table_name
 FROM sys.tables t
 INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
 WHERE s.name = N'LX_TCS'
-  AND t.name IN (N'TCS_GPECON_MFA', N'TCS_USUARIO_MFA', N'TCS_USUARIO_MFA_DISPOSITIVO', N'TCS_LOG_ACESSO_AUTH')
+  AND t.name IN (N'TCS_GPECON_MFA', N'TCS_USUARIO_MFA', N'TCS_USUARIO_MFA_DISPOSITIVO', N'TCS_LOG_ACESSO_AUTH', N'TCS_USUARIO_SSO_VINCULO')
 ORDER BY t.name;
 
 PRINT '=== APPLY_SSO_MFA done ===';
