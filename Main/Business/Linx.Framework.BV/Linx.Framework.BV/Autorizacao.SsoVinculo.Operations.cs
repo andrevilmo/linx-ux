@@ -208,9 +208,26 @@ END";
 
         public PortalSsoVinculoResult RevokePortalSsoVinculo(string userName, Guid? uidUsuario, string revokedByUserName)
         {
-            EnsureSsoVinculoTable();
-            SsoVinculoUser user = ResolveSsoVinculoUser(userName, uidUsuario);
             string revokedBy = ResolveRevokedBy(revokedByUserName);
+            SsoVinculoUser user;
+            try
+            {
+                EnsureSsoVinculoTable();
+                user = ResolveSsoVinculoUser(userName, uidUsuario);
+            }
+            catch (Exception resolveEx)
+            {
+                string unknown = string.IsNullOrWhiteSpace(userName) ? "(UNKNOWN)" : userName.Trim();
+                LogAuthAccessSsoProcess(unknown, true, SsoVinculoCodeRevokeFail,
+                    "REV: local=" + unknown + " reason=" + resolveEx.Message + " by=" + revokedBy);
+                return new PortalSsoVinculoResult
+                {
+                    Success = false,
+                    Code = SsoVinculoCodeRevokeFail,
+                    Message = resolveEx.Message,
+                    NomeAutenticacao = unknown
+                };
+            }
             if (user == null)
             {
                 string unknown = string.IsNullOrWhiteSpace(userName) ? "(UNKNOWN)" : userName.Trim();
