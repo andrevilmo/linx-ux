@@ -266,6 +266,24 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         /// Best-effort Portal SSO process trail on TCS_LOG_ACESSO_AUTH (canal PortalSSO).
         /// Info steps: TIPO_EVENTO=I. Failures: F, not counted toward password lockout.
         /// </summary>
+        [Route("CheckPortalSsoVinculo"), System.Web.Http.HttpGet()]
+        public PortalSsoVinculoResult CheckPortalSsoVinculo(string userName = null, Guid? uidUsuario = null)
+        {
+            return new AutorizacaoDomainService().CheckPortalSsoVinculo(userName, uidUsuario);
+        }
+
+        [Route("BindPortalSsoVinculo"), System.Web.Http.HttpGet()]
+        public PortalSsoVinculoResult BindPortalSsoVinculo(string userName, string azureOid, string azureUpn = null)
+        {
+            return new AutorizacaoDomainService().BindPortalSsoVinculo(userName, azureOid, azureUpn);
+        }
+
+        [Route("RevokePortalSsoVinculo"), System.Web.Http.HttpGet()]
+        public PortalSsoVinculoResult RevokePortalSsoVinculo(string userName = null, Guid? uidUsuario = null, string revokedByUserName = null)
+        {
+            return new AutorizacaoDomainService().RevokePortalSsoVinculo(userName, uidUsuario, revokedByUserName);
+        }
+
         [Route("LogPortalSsoProcess"), System.Web.Http.HttpGet()]
         public bool LogPortalSsoProcess(string userName, string step, string detail = null, bool failed = false)
         {

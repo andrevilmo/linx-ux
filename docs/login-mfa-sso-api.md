@@ -19,6 +19,8 @@ Criptografia de senha e de ticket: `Linx.Security.Cryptography` (referencie a DL
 
 Mapeamento SSO: o Portal segue com o `NomeAutenticacao` digitado no CONTINUAR (sessão). Se não houver sessão, cai no prefixo do `UPN` antes de `@`.
 
+Depois do Azure, o Service grava/confirma `TCS_USUARIO_SSO_VINCULO` (`AZURE_OID` + `AZURE_UPN`). Primeiro SSO insere. SSO seguinte com o mesmo OID atualiza `DATA_ULTIMO_LOGIN`. Conta Microsoft diferente (`OID` distinto) falha (`SSOF-LINK`), não abre sessão e volta à tela CONTINUAR. **Revogar SSO** no cadastro apaga só o vínculo.
+
 `login_hint` no authorize da Microsoft: e-mail de `TCS_USUARIO_AUTENTICACAO.EMAIL` (via `GetPortalLoginOptions.Email`). Se o e-mail estiver vazio e o login digitado já tiver `@`, usa o login. Sem `@`, omite `login_hint`. Não altera o bind local.
 
 ---
@@ -41,8 +43,15 @@ sequenceDiagram
         C->>P: GET /Account/SsoLogin
         P->>AAD: authorize (prompt=login)
         AAD-->>P: GET /Account/SsoCallback?code=
-        P->>S: GET AuthenticatePortalSso?userName=
-        S-->>P: envelope criptografado OK
+        P->>S: GET BindPortalSsoVinculo (OID+UPN)
+        alt OID mismatch
+            S-->>P: SSOF-LINK
+            P-->>C: tela CONTINUAR + erro
+        else first bind / match
+            S-->>P: SSOI-FIRST ou SSOI-LINK
+            P->>S: GET AuthenticatePortalSso?userName=
+            S-->>P: envelope criptografado OK
+        end
     end
     P->>P: Forms cookie (1º fator)
     P->>S: POST PortalUserAccess
@@ -128,7 +137,7 @@ Estes endpoints são **MVC do Portal**, não JSON de negócio. Úteis para brows
 |--------|---------|--------|
 | POST | `/Account/Login` | Senha. Campo `ShowEnvironments` (`true` = listar ambientes). |
 | GET | `/Account/SsoLogin` | Inicia OAuth Azure (`Prompt.ForceLogin`). 302 para `login.microsoftonline.com`. |
-| GET | `/Account/SsoCallback` | Troca `code` → UPN → `AuthenticatePortalSso` → cookie Forms. Sempre `showEnvironments=false`. |
+| GET | `/Account/SsoCallback` | Troca `code` → UPN → `BindPortalSsoVinculo` → `AuthenticatePortalSso` → cookie Forms. Mismatch (`SSOF-LINK`) volta à tela CONTINUAR. Sempre `showEnvironments=false`. |
 | GET | `/Account/Authenticate` | Login por query/headers `usuario` + `senha`. Default `listaAmbientes=true`. **Sem SSO e sem MFA nesta chamada.** |
 | GET | `/Home/Index` | Lista ambientes (`PortalUserAccess`). Auto-redirect se 1 ambiente ou `IndicaAcessoPadrao`. |
 | GET | `/Home/Redirect` | Porta de MFA: `GetMfaStatus` → Challenge ou skip ticket → Application. |
@@ -180,7 +189,7 @@ O Portal também chama `GET LinxFrameworkAutorizacao/LogPortalSsoProcess` em cad
 | Query `LogPortalSsoProcess` | Tipo | Descrição |
 |-----------------------------|------|-----------|
 | `userName` | string | `NomeAutenticacao` (ou UPN se ainda não houver login local) |
-| `step` | string | `IDENT`, `START`, `AZURE`, `BIND`, `TOKEN`, `CODE`, `OFF`, `CONT`, `EXC` |
+| `step` | string | `IDENT`, `START`, `AZURE`, `BIND`, `FIRST`, `LINK`, `REV`, `TOKEN`, `CODE`, `OFF`, `CONT`, `EXC` |
 | `detail` | string | Texto livre (UPN, source=session/azure-upn, mensagem de erro) |
 | `failed` | bool | `false` = I; `true` = F sem lockout |
 
@@ -189,7 +198,19 @@ Resposta decrypt:
 - Sucesso: `1 || NomeUsuario || NomeCurtoUsuario || NomeAutenticacao` (canônico)
 - Falha: `0 || mensagem` (ex.: sem cadastro local)
 
-Não emite ticket MFA.
+Não emite ticket MFA. Só é chamado depois de `BindPortalSsoVinculo` com sucesso.
+
+### 4.2b Vínculo Azure ↔ Linx (`TCS_USUARIO_SSO_VINCULO`)
+
+Todos GET, JSON (`PortalSsoVinculoResult`). Canal `PortalSSO`. Eventos em `TCS_LOG_ACESSO_AUTH` (`I` sucesso de processo, `F` sem lockout).
+
+| API | Uso | Código de log |
+|-----|-----|----------------|
+| `CheckPortalSsoVinculo` | `userName` ou `uidUsuario` — tem vínculo? último OID/UPN/`DATA_ULTIMO_LOGIN` | leitura; sem log de falha se o usuário não existe |
+| `BindPortalSsoVinculo` | `userName`, `azureOid`, `azureUpn` — 1º SSO insere; match atualiza último login; OID diferente recusa | `SSOI-FIRST`, `SSOI-LINK`, `SSOF-LINK`, `SSOF-BIND` |
+| `RevokePortalSsoVinculo` | `userName` ou `uidUsuario` — apaga só o vínculo (não mexe em MFA/senha) | `SSOI-REV`, `SSOF-REV` |
+
+`DESCRICAO` inclui login local, Azure OID/UPN e último login quando conhecido. Cadastro **Revogar SSO** (ao lado de Revogar MFA) chama `RevokePortalSsoVinculo`.
 
 ### 4.3 `POST LinxFrameworkUsuarioAutorizacao/PortalUserAccess`
 

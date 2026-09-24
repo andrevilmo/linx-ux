@@ -73,7 +73,8 @@ var vmConstructor = function () {
 	 {Name: "CadastroUsuarioLocal_ckBlocked", DisplayName: "Bloqueado", ColumnSpan: 4, Visible: true, Key: "Blocked"},
 	 {Name: "CadastroUsuarioLocal_ckUtilizaSso", DisplayName: "Utiliza SSO", ColumnSpan: 4, Visible: true, Key: "IndicaUtilizaSso"},
 	 {Name: "CadastroUsuarioLocal_ckUtilizaMfa", DisplayName: "Utiliza MFA", ColumnSpan: 4, Visible: true, Key: "IndicaUtilizaMfa"},
-	 {Name: "CadastroUsuarioLocal_btnRevogaMfa", DisplayName: "Revoga MFA", ColumnSpan: 4, Visible: true, Key: ""},]},
+	 {Name: "CadastroUsuarioLocal_btnRevogaMfa", DisplayName: "Revoga MFA", ColumnSpan: 4, Visible: true, Key: ""},
+	 {Name: "CadastroUsuarioLocal_btnRevogaSso", DisplayName: "Revogar SSO", ColumnSpan: 4, Visible: true, Key: ""},]},
 	 {Name: "CadastroUsuarioLocal_gbGroupBox_294d36395b1f414997b597e9a47dd1b7", DisplayName: "", ColumnSpan: 2, Visible: true, Items: [
 	 {Name: "CadastroUsuarioLocal_dtVigenciaInicial", DisplayName: "Vigência Inicial", ColumnSpan: 12, Visible: true, Key: "VigenciaInicial"},
 	 {Name: "CadastroUsuarioLocal_dtVigenciaFinal", DisplayName: "Vigência Final", ColumnSpan: 12, Visible: true, Key: "VigenciaFinal"},
@@ -1991,6 +1992,10 @@ if (control.length >0 && control[0].childNodes.length == 1){
             entity.CanRevokeMfa = ko.observable(false);
         else if (typeof entity.CanRevokeMfa !== 'function')
             entity.CanRevokeMfa = ko.observable(!!entity.CanRevokeMfa);
+        if (typeof entity.CanRevokeSso === 'undefined')
+            entity.CanRevokeSso = ko.observable(false);
+        else if (typeof entity.CanRevokeSso !== 'function')
+            entity.CanRevokeSso = ko.observable(!!entity.CanRevokeSso);
     };
     var getMfaUid = function (item) {
         if (isNullOrEmpty(item) || isEmptyEntityFn(item))
@@ -2023,6 +2028,30 @@ if (control.length >0 && control[0].childNodes.length == 1){
                     if (isNullOrEmpty(current) || String(getMfaUid(current)) !== String(uid))
                         return;
                     applyMfaStatus(current, status);
+                    refreshSsoVinculo(current, uid);
+                }
+            });
+        }
+        catch (e) {
+        }
+    };
+    var refreshSsoVinculo = function (item, uid) {
+        try {
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item) || isNullOrEmpty(uid))
+                return;
+            $.ajax({
+                type: 'GET',
+                headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                url: mfaServiceUrl('CheckPortalSsoVinculo'),
+                data: { uidUsuario: uid },
+                dataType: 'json',
+                async: true,
+                cache: false,
+                success: function (status) {
+                    var current = currentDataItem();
+                    if (isNullOrEmpty(current) || String(getMfaUid(current)) !== String(uid))
+                        return;
+                    setAbsoluteValue(current, 'CanRevokeSso', !!(status && status.CanRevoke));
                 }
             });
         }
@@ -2141,6 +2170,74 @@ if (control.length >0 && control[0].childNodes.length == 1){
                         dataToolbar.isBusy(false);
                         setAbsoluteValue(item, 'CanRevokeMfa', false);
                         var msg = (result && result.Message) ? result.Message : 'MFA revogado.';
+                        app.showMessage(msg, 'Informação', ['Ok']);
+                    }
+                });
+            });
+        }
+        catch (e) {
+            dataToolbar.isBusy(false);
+            app.showMessage(e.message || e, 'Atenção', ['Ok']);
+        }
+    };
+    var canRevokeSso = ko.computed(function () {
+        try {
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+                return false;
+            ensureMfaObservables(item);
+            return !!getAbsoluteValue(item.CanRevokeSso);
+        }
+        catch (e) {
+            return false;
+        }
+    });
+    var revokeSso = function () {
+        try {
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item)) {
+                app.showMessage('Selecione um usuário para revogar o SSO.', 'Atenção', ['Ok']);
+                return;
+            }
+            var uid = getMfaUid(item);
+            if (isNullOrEmpty(uid)) {
+                app.showMessage('Usuário sem identificador para SSO.', 'Atenção', ['Ok']);
+                return;
+            }
+            if (!getAbsoluteValue(item.CanRevokeSso)) {
+                app.showMessage('Não há vínculo SSO para revogar.', 'Atenção', ['Ok']);
+                return;
+            }
+            app.showMessage(
+                'Revogar o SSO deste usuário? Remove só o vínculo da conta Microsoft. O próximo login SSO gravará um novo OID/UPN.',
+                'Revogar SSO',
+                ['Yes', 'No']
+            ).then(function (answer) {
+                if (answer !== 'Yes')
+                    return;
+                dataToolbar.isBusy(true);
+                $.ajax({
+                    type: 'GET',
+                    messageUser: 'Revogação de SSO',
+                    headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                    url: mfaServiceUrl('RevokePortalSsoVinculo'),
+                    data: { uidUsuario: uid },
+                    dataType: 'json',
+                    async: true,
+                    cache: false,
+                    error: function (jqXHR) {
+                        dataToolbar.isBusy(false);
+                        var errorMessage = (jqXHR.responseJSON && (jqXHR.responseJSON.ExceptionMessage || jqXHR.responseJSON.Message)) || jqXHR.statusText || 'Erro ao revogar SSO.';
+                        app.showMessage(errorMessage, 'Atenção', ['Ok']);
+                    },
+                    success: function (result) {
+                        dataToolbar.isBusy(false);
+                        if (result && result.Success === false) {
+                            app.showMessage((result && result.Message) ? result.Message : 'Não há vínculo SSO para revogar.', 'Atenção', ['Ok']);
+                            return;
+                        }
+                        setAbsoluteValue(item, 'CanRevokeSso', false);
+                        var msg = (result && result.Message) ? result.Message : 'SSO revogado.';
                         app.showMessage(msg, 'Informação', ['Ok']);
                     }
                 });
@@ -2661,6 +2758,8 @@ if (control.length >0 && control[0].childNodes.length == 1){
             unlockUser: unlockUser,
             canRevokeMfa: canRevokeMfa,
             revokeMfa: revokeMfa,
+            canRevokeSso: canRevokeSso,
+            revokeSso: revokeSso,
             goFirst: goFirst,
             goBack: goBack,
             goForward: goForward,
@@ -2733,6 +2832,8 @@ if (control.length >0 && control[0].childNodes.length == 1){
             enabledForEditing: enabledForEditing,
             revokeMfa: revokeMfa,
             canRevokeMfa: canRevokeMfa,
+            revokeSso: revokeSso,
+            canRevokeSso: canRevokeSso,
             dataToolbar: dataToolbar,
             getDataContext: function() { return dataContext; },
             getParentSelectorDataName: getParentSelectorDataName,

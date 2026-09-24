@@ -189,6 +189,24 @@ namespace Linx.Portal.Controllers
                 string bindSource = !string.IsNullOrWhiteSpace(pendingUser) ? "session" : "azure-upn";
                 PortalSsoAudit.Info(localLogin, "BIND", "local=" + localLogin + " azure=" + azureUpn + " source=" + bindSource);
 
+                string azureOid = auth.User.ObjectId;
+                PortalSsoVinculoResult vinculo = BindPortalSsoVinculo(localLogin, azureOid, azureUpn);
+                if (vinculo == null || !vinculo.Success)
+                {
+                    string vinculoCode = vinculo != null ? vinculo.Code : "SSOF-BIND";
+                    string vinculoMsg = vinculo != null && !string.IsNullOrWhiteSpace(vinculo.Message)
+                        ? vinculo.Message
+                        : "Não foi possível vincular a conta Microsoft.";
+                    bool mismatch = string.Equals(vinculoCode, "SSOF-LINK", StringComparison.OrdinalIgnoreCase);
+                    PortalSsoAudit.Fail(localLogin, mismatch ? "LINK" : "FIRST",
+                        "code=" + vinculoCode + " oid=" + (azureOid ?? "(none)") + " upn=" + azureUpn + " " + vinculoMsg);
+                    return SsoVinculoRejected(localLogin, vinculoMsg);
+                }
+
+                PortalSsoAudit.Info(localLogin,
+                    string.Equals(vinculo.Code, "SSOI-FIRST", StringComparison.OrdinalIgnoreCase) ? "FIRST" : "LINK",
+                    "code=" + vinculo.Code + " oid=" + (azureOid ?? "(none)") + " upn=" + azureUpn);
+
                 // Azure token is identity proof only — Portal session continues as the Linx login.
                 string canonicalUser;
                 if (!AuthenticateUserSso(localLogin, rememberMe: true, out canonicalUser))
@@ -506,12 +524,59 @@ namespace Linx.Portal.Controllers
             return false;
         }
 
+        /// <summary>
+        /// Persist / confirm Azure OID↔Linx vínculo before opening the Portal session.
+        /// Mismatch must not create a Forms cookie.
+        /// </summary>
+        private PortalSsoVinculoResult BindPortalSsoVinculo(string localLogin, string azureOid, string azureUpn)
+        {
+            try
+            {
+                var client = new RestClient(Utils.GetServiceUrl());
+                var request = new RestRequest("LinxFrameworkAutorizacao/BindPortalSsoVinculo");
+                request.AddParameter("userName", localLogin ?? string.Empty);
+                request.AddParameter("azureOid", azureOid ?? string.Empty);
+                request.AddParameter("azureUpn", azureUpn ?? string.Empty);
+                request.AddHeader("X-Auth-Channel", "PortalSSO");
+                var result = client.ExecuteAsGet(request, "GET");
+                if (result.ErrorException != null)
+                    throw new Exception(result.ErrorException.Message);
+                if (result.StatusCode != System.Net.HttpStatusCode.OK || string.IsNullOrWhiteSpace(result.Content))
+                    throw new Exception(result.StatusDescription ?? "BindPortalSsoVinculo falhou.");
+                return JsonConvert.DeserializeObject<PortalSsoVinculoResult>(result.Content)
+                    ?? new PortalSsoVinculoResult { Success = false, Code = "SSOF-BIND", Message = "Resposta de vínculo SSO vazia." };
+            }
+            catch (Exception ex)
+            {
+                return new PortalSsoVinculoResult
+                {
+                    Success = false,
+                    Code = "SSOF-BIND",
+                    Message = "Falha ao gravar vínculo SSO: " + ex.Message
+                };
+            }
+        }
+
+        private ActionResult SsoVinculoRejected(string localLogin, string message)
+        {
+            ClearIdentifiedLogin();
+            var model = new LogOnModel
+            {
+                UserName = localLogin,
+                IdentifyOnly = true
+            };
+            ModelState.AddModelError("", (message ?? "Conta Microsoft diferente da vinculada a este usuário.").Translate());
+            return LoginView(model);
+        }
+
         private static bool IsLocalSsoAuthFailure(string message)
         {
             if (string.IsNullOrWhiteSpace(message))
                 return false;
             return message.IndexOf("sem cadastro local", StringComparison.OrdinalIgnoreCase) >= 0
                 || message.IndexOf("ERRAUT022", StringComparison.OrdinalIgnoreCase) >= 0
+                || message.IndexOf("SSOF-LINK", StringComparison.OrdinalIgnoreCase) >= 0
+                || message.IndexOf("Conta Microsoft diferente", StringComparison.OrdinalIgnoreCase) >= 0
                 || ErrorConstants.IsMembershipLockoutMessage(message);
         }
 
