@@ -1,5 +1,6 @@
 using System;
 using System.Data.SqlClient;
+using System.Linq;
 using Linx.Tools;
 
 namespace Linx.Framework.BV.Autorizacao
@@ -67,18 +68,18 @@ END";
 
         private sealed class SsoVinculoUser
         {
-            public long IdUsuario;
-            public string NomeAutenticacao;
+            public long IdUsuario { get; set; }
+            public string NomeAutenticacao { get; set; }
         }
 
         private sealed class SsoVinculoRow
         {
-            public long IdUsuario;
-            public string NomeAutenticacao;
-            public string AzureOid;
-            public string AzureUpn;
-            public DateTime DataVinculo;
-            public DateTime DataUltimoLogin;
+            public long IdUsuario { get; set; }
+            public string NomeAutenticacao { get; set; }
+            public string AzureOid { get; set; }
+            public string AzureUpn { get; set; }
+            public DateTime DataVinculo { get; set; }
+            public DateTime DataUltimoLogin { get; set; }
         }
 
         private void EnsureSsoVinculoTable()
@@ -145,7 +146,15 @@ END";
             if (string.IsNullOrEmpty(oid))
                 return BindFail(localLogin, oid, upn, null, "Azure OID vazio.");
 
-            SsoVinculoUser user = ResolveSsoVinculoUser(localLogin, null);
+            SsoVinculoUser user;
+            try
+            {
+                user = ResolveSsoVinculoUser(localLogin, null);
+            }
+            catch (Exception resolveEx)
+            {
+                return BindFail(localLogin, oid, upn, null, resolveEx.Message);
+            }
             if (user == null)
                 return BindFail(localLogin, oid, upn, null, "usuário sem cadastro local.");
 
@@ -331,81 +340,45 @@ END";
 
         private SsoVinculoUser ResolveSsoVinculoUser(string userName, Guid? uidUsuario)
         {
-            using (SqlConnection conn = CreateMfaConnection())
-            using (SqlCommand cmd = conn.CreateCommand())
+            // Same EF connection as login / GetPortalLoginOptions. A second SqlConnection
+            // (CreateMfaConnection) times out on the AWS host.
+            if (uidUsuario.HasValue && uidUsuario.Value != Guid.Empty)
             {
-                if (uidUsuario.HasValue && uidUsuario.Value != Guid.Empty)
-                {
-                    cmd.CommandText = @"SELECT ID_USUARIO, NOME_AUTENTICACAO
+                return this.DbContext.Database.SqlQuery<SsoVinculoUser>(
+                    @"SELECT ID_USUARIO AS IdUsuario, NOME_AUTENTICACAO AS NomeAutenticacao
 FROM [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
-WHERE UID_USUARIO = @uid";
-                    cmd.Parameters.AddWithValue("@uid", uidUsuario.Value);
-                }
-                else if (!string.IsNullOrWhiteSpace(userName))
-                {
-                    cmd.CommandText = @"SELECT ID_USUARIO, NOME_AUTENTICACAO
-FROM [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
-WHERE UPPER(NOME_AUTENTICACAO) = UPPER(@n)";
-                    cmd.Parameters.AddWithValue("@n", userName.Trim());
-                }
-                else
-                    return null;
-
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    if (!reader.Read())
-                        return null;
-                    return new SsoVinculoUser
-                    {
-                        IdUsuario = Convert.ToInt64(reader.GetValue(0)),
-                        NomeAutenticacao = reader.IsDBNull(1) ? null : reader.GetString(1)
-                    };
-                }
+WHERE UID_USUARIO = @uid",
+                    new SqlParameter("@uid", uidUsuario.Value)).FirstOrDefault();
             }
+            if (string.IsNullOrWhiteSpace(userName))
+                return null;
+            return this.DbContext.Database.SqlQuery<SsoVinculoUser>(
+                @"SELECT ID_USUARIO AS IdUsuario, NOME_AUTENTICACAO AS NomeAutenticacao
+FROM [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
+WHERE UPPER(LTRIM(RTRIM(NOME_AUTENTICACAO))) = UPPER(LTRIM(RTRIM(@n)))",
+                new SqlParameter("@n", userName.Trim())).FirstOrDefault();
         }
 
         private SsoVinculoRow LoadVinculoByUserId(long idUsuario)
         {
-            using (SqlConnection conn = CreateMfaConnection())
-            using (SqlCommand cmd = conn.CreateCommand())
-            {
-                cmd.CommandText = @"SELECT ID_USUARIO, NOME_AUTENTICACAO, AZURE_OID, AZURE_UPN, DATA_VINCULO, DATA_ULTIMO_LOGIN
+            return this.DbContext.Database.SqlQuery<SsoVinculoRow>(
+                @"SELECT ID_USUARIO AS IdUsuario, NOME_AUTENTICACAO AS NomeAutenticacao,
+AZURE_OID AS AzureOid, AZURE_UPN AS AzureUpn,
+DATA_VINCULO AS DataVinculo, DATA_ULTIMO_LOGIN AS DataUltimoLogin
 FROM [LX_TCS].[TCS_USUARIO_SSO_VINCULO]
-WHERE ID_USUARIO = @id";
-                cmd.Parameters.AddWithValue("@id", idUsuario);
-                return ReadVinculoRow(cmd);
-            }
+WHERE ID_USUARIO = @id",
+                new SqlParameter("@id", idUsuario)).FirstOrDefault();
         }
 
         private SsoVinculoRow LoadVinculoByOid(string azureOid)
         {
-            using (SqlConnection conn = CreateMfaConnection())
-            using (SqlCommand cmd = conn.CreateCommand())
-            {
-                cmd.CommandText = @"SELECT ID_USUARIO, NOME_AUTENTICACAO, AZURE_OID, AZURE_UPN, DATA_VINCULO, DATA_ULTIMO_LOGIN
+            return this.DbContext.Database.SqlQuery<SsoVinculoRow>(
+                @"SELECT ID_USUARIO AS IdUsuario, NOME_AUTENTICACAO AS NomeAutenticacao,
+AZURE_OID AS AzureOid, AZURE_UPN AS AzureUpn,
+DATA_VINCULO AS DataVinculo, DATA_ULTIMO_LOGIN AS DataUltimoLogin
 FROM [LX_TCS].[TCS_USUARIO_SSO_VINCULO]
-WHERE UPPER(AZURE_OID) = UPPER(@oid)";
-                cmd.Parameters.AddWithValue("@oid", azureOid);
-                return ReadVinculoRow(cmd);
-            }
-        }
-
-        private static SsoVinculoRow ReadVinculoRow(SqlCommand cmd)
-        {
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-                if (!reader.Read())
-                    return null;
-                return new SsoVinculoRow
-                {
-                    IdUsuario = Convert.ToInt64(reader.GetValue(0)),
-                    NomeAutenticacao = reader.IsDBNull(1) ? null : reader.GetString(1),
-                    AzureOid = reader.IsDBNull(2) ? null : reader.GetString(2),
-                    AzureUpn = reader.IsDBNull(3) ? null : reader.GetString(3),
-                    DataVinculo = reader.GetDateTime(4),
-                    DataUltimoLogin = reader.GetDateTime(5)
-                };
-            }
+WHERE UPPER(AZURE_OID) = UPPER(@oid)",
+                new SqlParameter("@oid", azureOid)).FirstOrDefault();
         }
 
         private void InsertVinculo(SsoVinculoUser user, string azureOid, string azureUpn)
