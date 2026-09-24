@@ -1,0 +1,132 @@
+using System;
+using Linx.Framework.BV.LicenseServer;
+
+namespace Linx.License.Server.Access.Tests
+{
+    internal static class Program
+    {
+        private static int failures;
+
+        private static LicenseAccessSnapshot LicensedCustomer()
+        {
+            return new LicenseAccessSnapshot
+            {
+                LxStatusLicenca = LicenseAccessDecision.StatusLicencaProducao,
+                LxStatusLicencaCliente = LicenseAccessDecision.StatusLicencaProducao,
+                LxStatusLicencaClienteName = "Produção"
+            };
+        }
+
+        private static void AssertTrue(bool condition, string name)
+        {
+            if (condition)
+            {
+                Console.WriteLine("PASS  " + name);
+                return;
+            }
+
+            failures++;
+            Console.WriteLine("FAIL  " + name);
+        }
+
+        private static void AssertEqual(string expected, string actual, string name)
+        {
+            AssertTrue(expected == actual, name + " (expected '" + expected + "', got '" + actual + "')");
+        }
+
+        private static void AssertContains(string expected, string actual, string name)
+        {
+            AssertTrue(actual != null && actual.IndexOf(expected, StringComparison.Ordinal) >= 0, name);
+        }
+
+        private static int Main()
+        {
+            LicenseAccessResult production = LicenseAccessDecision.EvaluateCustomer(LicensedCustomer());
+            AssertTrue(production.Allowed, "Allows production customer license");
+
+            LicenseAccessSnapshot test = LicensedCustomer();
+            test.LxStatusLicenca = LicenseAccessDecision.StatusLicencaTestes;
+            test.LxStatusLicencaCliente = LicenseAccessDecision.StatusLicencaTestes;
+            AssertTrue(LicenseAccessDecision.EvaluateCustomer(test).Allowed, "Allows test customer license");
+
+            LicenseAccessResult missing = LicenseAccessDecision.EvaluateCustomer(null);
+            AssertTrue(!missing.Allowed, "Blocks missing customer license");
+            AssertEqual("CUSTOMER_LICENSE_MISSING", missing.ReasonCode, "Missing customer reason");
+
+            LicenseAccessResult undeclared = LicenseAccessDecision.EvaluateCustomer(new LicenseAccessSnapshot());
+            AssertTrue(!undeclared.Allowed, "Blocks undeclared customer license");
+            AssertEqual("CUSTOMER_LICENSE_MISSING", undeclared.ReasonCode, "Undeclared customer reason");
+
+            LicenseAccessSnapshot inactiveCustomer = LicensedCustomer();
+            inactiveCustomer.InativoCliente = true;
+            AssertEqual("CUSTOMER_INACTIVE", LicenseAccessDecision.EvaluateCustomer(inactiveCustomer).ReasonCode, "Blocks inactive customer");
+
+            LicenseAccessSnapshot inactiveLicense = LicensedCustomer();
+            inactiveLicense.InativoLicenca = true;
+            AssertEqual("CUSTOMER_LICENSE_INACTIVE", LicenseAccessDecision.EvaluateCustomer(inactiveLicense).ReasonCode, "Blocks inactive license");
+
+            LicenseAccessSnapshot inactiveProduct = LicensedCustomer();
+            inactiveProduct.InativoProduto = true;
+            AssertEqual("PRODUCT_INACTIVE", LicenseAccessDecision.EvaluateCustomer(inactiveProduct).ReasonCode, "Blocks inactive product");
+
+            LicenseAccessSnapshot financialCustomer = LicensedCustomer();
+            financialCustomer.IndicaBloqueioFinanceiroCliente = true;
+            AssertEqual("CUSTOMER_FINANCIAL_BLOCK", LicenseAccessDecision.EvaluateCustomer(financialCustomer).ReasonCode, "Blocks customer financial lock");
+
+            LicenseAccessSnapshot financialLicense = LicensedCustomer();
+            financialLicense.IndicaBloqueioFinanceiroLicenca = true;
+            AssertEqual("LICENSE_FINANCIAL_BLOCK", LicenseAccessDecision.EvaluateCustomer(financialLicense).ReasonCode, "Blocks license financial lock");
+
+            LicenseAccessSnapshot discontinuedProduct = LicensedCustomer();
+            discontinuedProduct.LxStatusLicenca = LicenseAccessDecision.StatusLicencaDescontinuada;
+            AssertEqual("PRODUCT_LICENSE_DISCONTINUED", LicenseAccessDecision.EvaluateCustomer(discontinuedProduct).ReasonCode, "Blocks discontinued product");
+
+            LicenseAccessSnapshot discontinuedCustomer = LicensedCustomer();
+            discontinuedCustomer.LxStatusLicencaCliente = LicenseAccessDecision.StatusLicencaDescontinuada;
+            discontinuedCustomer.LxStatusLicencaClienteName = "Descontinuada";
+            LicenseAccessResult discontinued = LicenseAccessDecision.EvaluateCustomer(discontinuedCustomer);
+            AssertEqual("CUSTOMER_LICENSE_DISCONTINUED", discontinued.ReasonCode, "Blocks discontinued customer");
+            AssertContains("Descontinuada", discontinued.Message, "Discontinued message includes status name");
+
+            LicenseAccessSnapshot quota = LicensedCustomer();
+            quota.ControlaQtde = true;
+            quota.QtdeContratada = 5;
+            quota.QtdeEmUso = 6;
+            AssertEqual("LICENSE_QUOTA_EXCEEDED", LicenseAccessDecision.EvaluateCustomer(quota).ReasonCode, "Blocks exceeded quota");
+
+            LicenseAccessSnapshot atLimit = LicensedCustomer();
+            atLimit.ControlaQtde = true;
+            atLimit.QtdeContratada = 5;
+            atLimit.QtdeEmUso = 5;
+            AssertTrue(LicenseAccessDecision.EvaluateCustomer(atLimit).Allowed, "Allows quantity at contracted limit");
+
+            AssertTrue(LicenseAccessDecision.EvaluateUsageKey(new LicenseUsageSnapshot
+            {
+                LxStatusChave = LicenseAccessDecision.StatusChaveAtivo
+            }).Allowed, "Allows active usage key");
+
+            AssertEqual("USAGE_KEY_PENDING", LicenseAccessDecision.EvaluateUsageKey(new LicenseUsageSnapshot { LxStatusChave = 2 }).ReasonCode, "Blocks pending key");
+            AssertEqual("USAGE_KEY_REVOKED", LicenseAccessDecision.EvaluateUsageKey(new LicenseUsageSnapshot { LxStatusChave = 3 }).ReasonCode, "Blocks revoked key");
+            AssertEqual("USAGE_KEY_UNAUTHORIZED", LicenseAccessDecision.EvaluateUsageKey(new LicenseUsageSnapshot { LxStatusChave = 4 }).ReasonCode, "Blocks unauthorized key");
+            AssertEqual("USAGE_KEY_INVALID", LicenseAccessDecision.EvaluateUsageKey(new LicenseUsageSnapshot { LxStatusChave = 0 }).ReasonCode, "Blocks invalid key");
+            AssertEqual("USAGE_KEY_MISSING", LicenseAccessDecision.EvaluateUsageKey(null).ReasonCode, "Blocks missing usage key");
+
+            LicenseAccessResult serverMessage = LicenseAccessDecision.EvaluateUsageKey(new LicenseUsageSnapshot
+            {
+                LxStatusChave = LicenseAccessDecision.StatusChaveNaoAutorizado,
+                Mensagem = "Quantidade de licenças excedida."
+            });
+            AssertContains("Quantidade de licenças excedida.", serverMessage.Message, "Uses server message for usage key block");
+
+            Console.WriteLine();
+            if (failures == 0)
+            {
+                Console.WriteLine("All license access decision tests passed.");
+                return 0;
+            }
+
+            Console.WriteLine(failures + " test(s) failed.");
+            return 1;
+        }
+    }
+}
