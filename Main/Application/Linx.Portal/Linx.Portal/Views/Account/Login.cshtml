@@ -16,6 +16,24 @@
         color: #5B2E90;
         text-decoration: none;
     }
+    #login .button-row.login-identify button {
+        width: 100%;
+        margin-left: 0 !important;
+        float: none;
+    }
+    #login .login-alterar {
+        display: inline-block;
+        margin: 0 0 12px 0;
+        color: #5B2E90;
+        text-decoration: none;
+        text-transform: none;
+        font-size: 13px;
+    }
+    #login .sso-or {
+        margin: 16px 0;
+        text-align: center;
+        opacity: 0.7;
+    }
 </style>
 <article id="login">
     <section id="info-product" >
@@ -44,6 +62,16 @@
         <div class="ux-logo">
             <img class="linx-img" src="~/assets/img/linxX.png" />
         </div>
+        @{
+            var ssoContingency = ViewBag.SsoContingency as bool? ?? false;
+            var loginStep = ViewBag.LoginStep as string ?? "identify";
+            var identified = string.Equals(loginStep, "password", StringComparison.OrdinalIgnoreCase);
+            var showSsoButton = ViewBag.ShowSsoButton as bool? ?? false;
+            var userNameValue = Model != null && !string.IsNullOrEmpty(Model.UserName)
+                ? Model.UserName
+                : (ViewBag.IdentifiedUserName as string ?? "");
+        }
+
         <form id="FormLogIn" method="post">
 
             <div class="form-validation-response">
@@ -61,29 +89,54 @@
                 }
             </div>
 
-            <label>usuário  <input type="text" id="UserName" name="UserName" autofocus required="required" autocomplete="off" />   </label>
-            <label>senha    <input type="password" id="Password" name="Password" required="required" autocomplete="off" />         </label>
-
-            <div class="checkbox-row">
-                <input type="checkbox" checked="checked" name="RememberMe" id="RememberMe" value="true" />
-                <label for="RememberMe">mantenha-me conectado</label>
-            </div>
-            <div class="button-row">
-                <button type="button" id="btnSubmitEnvironments" style="visibility: @(Linx.Portal.Utils.GetListEnvironmentOptionOnLogin()?"visible": "hidden");">listar ambientes</button>
-                <button type="button" id="btnSubmit">entrar</button>
-            </div>
-
-            @if (@Linx.Portal.Utils.GetRecoverPasswordOption())
+            <label>usuário  <input type="text" id="UserName" name="UserName" autofocus="autofocus" required="required" autocomplete="off" value="@userNameValue" @(identified ? "readonly=\"readonly\"" : null) />   </label>
+            @if (identified)
             {
-                <div class="forget-password">
-                    <a href="#" id="forgotPassword">Esqueci minha senha</a>
+                <a class="login-alterar" href="@Url.Action("Login", "Account", new { alterar = 1 })">alterar usuário</a>
+            }
+
+            <div id="passwordStep" style="@(identified ? "" : "display:none;")">
+                <label>senha    <input type="password" id="Password" name="Password" autocomplete="off" @(identified ? "required=\"required\"" : null) />         </label>
+
+                <div class="checkbox-row">
+                    <input type="checkbox" checked="checked" name="RememberMe" id="RememberMe" value="true" />
+                    <label for="RememberMe">mantenha-me conectado</label>
+                </div>
+            </div>
+
+            @if (!identified)
+            {
+                <div class="button-row login-identify">
+                    <button type="button" id="btnIdentify">continuar</button>
+                </div>
+            }
+            else
+            {
+                <div class="button-row">
+                    <button type="button" id="btnSubmitEnvironments" style="visibility: @(Linx.Portal.Utils.GetListEnvironmentOptionOnLogin()?"visible": "hidden");">listar ambientes</button>
+                    <button type="button" id="btnSubmit">entrar</button>
                 </div>
             }
 
             <button type="submit" id="submitHidden" display="none"></button>
             <input type="hidden" name="ShowEnvironments" id="ShowEnvironments" value="false" />
             <input type="hidden" id="RecoverPassword" name="RecoverPassword" value="false" />
+            <input type="hidden" id="IdentifyOnly" name="IdentifyOnly" value="@(identified ? "false" : "true")" />
         </form>
+
+        @if (identified && ssoContingency)
+        {
+            <p class="sso-contingency-hint" style="margin-top:12px; color:#8a6d3b;">SSO em contingência — use usuário e senha local.</p>
+        }
+        else if (showSsoButton)
+        {
+            <p class="sso-or">ou</p>
+            <div class="sso-login" style="margin-bottom: 24px;">
+                <div class="button-row" style="margin-left: 0; width: 100%; padding-top: 0;">
+                    <a id="btnSsoLogin" href="@Url.Action("SsoLogin", "Account", new { userName = userNameValue })" class="sso-button" style="display:inline-block; text-align:center; width:100%; padding:10px 12px; background:#5B2E90; color:#fff; text-decoration:none;">entrar com Microsoft</a>
+                </div>
+            </div>
+        }
 
         <div id="recoverSection" style="display:none;">
             <form id="FormRecovery" method="post">
@@ -116,6 +169,12 @@
             </form>
         </div>
 
+            @if (@Linx.Portal.Utils.GetRecoverPasswordOption() && identified)
+            {
+                <div class="forget-password" id="loginForgetPassword">
+                    <a href="#" id="forgotPassword">Esqueci minha senha</a>
+                </div>
+            }
         <ul class="ul-redes">
             <li><a class="www" href="https://www.linx.com.br/" target="_blank"><img src='@Url.Content("~/assets/img/icon-redes-sociais.png")'></a></li>
             <li><a class="fb" href="http://www.facebook.com/linxretail" target="_blank"><img src='@Url.Content("~/assets/img/icon-redes-sociais.png")'></a></li>
@@ -149,6 +208,8 @@
 
         var form = document.getElementById('FormLogIn');
         var recoverPassword = document.getElementById('RecoverPassword');
+        var identifyOnly = document.getElementById('IdentifyOnly');
+        var btnIdentify = document.getElementById('btnIdentify');
         var btnSubmitEnvironments = document.getElementById('btnSubmitEnvironments');
         var btnSumit = document.getElementById('btnSubmit');
         var forgotPassword = document.getElementById('forgotPassword');
@@ -168,18 +229,33 @@
         var resetMessage = document.getElementById('resetMessage');
 
         // ---- login handlers (existing behavior) ----
-        btnSumit.addEventListener('click', function () {
-            password.setAttribute('required', true);
-            recoverPassword.value = false;
-            submitHidden.click();
-        });
+        if (btnIdentify) {
+            btnIdentify.addEventListener('click', function () {
+                if (password) password.removeAttribute('required');
+                if (identifyOnly) identifyOnly.value = 'true';
+                recoverPassword.value = false;
+                submitHidden.click();
+            });
+        }
 
-        btnSubmitEnvironments.addEventListener('click', function () {
-            password.setAttribute('required', true);
-            recoverPassword.value = false;
-            showEnviroments.value = true;
-            submitHidden.click();
-        });
+        if (btnSumit) {
+            btnSumit.addEventListener('click', function () {
+                if (password) password.setAttribute('required', true);
+                if (identifyOnly) identifyOnly.value = 'false';
+                recoverPassword.value = false;
+                submitHidden.click();
+            });
+        }
+
+        if (btnSubmitEnvironments) {
+            btnSubmitEnvironments.addEventListener('click', function () {
+                if (password) password.setAttribute('required', true);
+                if (identifyOnly) identifyOnly.value = 'false';
+                recoverPassword.value = false;
+                showEnviroments.value = true;
+                submitHidden.click();
+            });
+        }
 
         function setRecoverBusy(busy) {
             btnRequestRecover.disabled = busy;
@@ -261,13 +337,16 @@
         }
 
         // ---- mode switching ----
+        var loginForgetPassword = document.getElementById('loginForgetPassword');
         function showLogin() {
             form.style.display = '';
+            if (loginForgetPassword) loginForgetPassword.style.display = '';
             recoverSection.style.display = 'none';
             resetSection.style.display = 'none';
         }
         function showRecover(userName) {
             form.style.display = 'none';
+            if (loginForgetPassword) loginForgetPassword.style.display = 'none';
             resetSection.style.display = 'none';
             recoverSection.style.display = '';
             if (userName) recoverUserName.value = userName;
@@ -275,6 +354,7 @@
         }
         function showReset() {
             form.style.display = 'none';
+            if (loginForgetPassword) loginForgetPassword.style.display = 'none';
             recoverSection.style.display = 'none';
             resetSection.style.display = '';
             newPassword.focus();

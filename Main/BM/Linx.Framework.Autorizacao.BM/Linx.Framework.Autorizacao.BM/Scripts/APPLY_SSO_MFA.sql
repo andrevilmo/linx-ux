@@ -1,0 +1,244 @@
+-- =============================================================================
+-- APPLY SSO + MFA schema (idempotent)
+-- Database: the Portal / FrameworkAutorizacao catalog (same DB as TCS_USUARIO_AUTENTICACAO)
+--   QA example: QA-UX-Portal-3-12
+-- Run in SSMS as a login that can CREATE SCHEMA / CREATE TABLE / ALTER TABLE.
+-- Safe to re-run.
+-- =============================================================================
+
+SET NOCOUNT ON;
+SET XACT_ABORT ON;
+GO
+
+PRINT '=== APPLY_SSO_MFA start ===';
+PRINT DB_NAME();
+GO
+
+-- -----------------------------------------------------------------------------
+-- 1) Schema
+-- -----------------------------------------------------------------------------
+IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = N'LX_TCS')
+    EXEC(N'CREATE SCHEMA [LX_TCS]');
+GO
+
+-- -----------------------------------------------------------------------------
+-- 2) TCS_USUARIO_AUTENTICACAO flags (SSO, MFA, service user)
+-- -----------------------------------------------------------------------------
+IF OBJECT_ID(N'LX_TCS.TCS_USUARIO_AUTENTICACAO', N'U') IS NULL
+    RAISERROR(N'Table LX_TCS.TCS_USUARIO_AUTENTICACAO not found. Connect to the Portal / FrameworkAutorizacao catalog.', 16, 1);
+GO
+
+IF COL_LENGTH(N'LX_TCS.TCS_USUARIO_AUTENTICACAO', N'INDICA_USUARIO_SERVICO') IS NULL
+BEGIN
+    ALTER TABLE [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
+        ADD [INDICA_USUARIO_SERVICO] BIT NOT NULL
+            CONSTRAINT [DF_TCS_USUARIO_AUTENTICACAO_INDICA_USUARIO_SERVICO] DEFAULT ((0));
+    PRINT 'Added TCS_USUARIO_AUTENTICACAO.INDICA_USUARIO_SERVICO';
+END
+ELSE
+    PRINT 'OK INDICA_USUARIO_SERVICO';
+GO
+
+IF COL_LENGTH(N'LX_TCS.TCS_USUARIO_AUTENTICACAO', N'INDICA_UTILIZA_SSO') IS NULL
+BEGIN
+    ALTER TABLE [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
+        ADD [INDICA_UTILIZA_SSO] BIT NOT NULL CONSTRAINT [DF_TCS_USUARIO_AUT_SSO] DEFAULT ((0));
+    PRINT 'Added TCS_USUARIO_AUTENTICACAO.INDICA_UTILIZA_SSO';
+END
+ELSE
+    PRINT 'OK INDICA_UTILIZA_SSO';
+GO
+
+IF COL_LENGTH(N'LX_TCS.TCS_USUARIO_AUTENTICACAO', N'INDICA_UTILIZA_MFA') IS NULL
+BEGIN
+    ALTER TABLE [LX_TCS].[TCS_USUARIO_AUTENTICACAO]
+        ADD [INDICA_UTILIZA_MFA] BIT NULL;
+    PRINT 'Added TCS_USUARIO_AUTENTICACAO.INDICA_UTILIZA_MFA (NULL = treat as enabled)';
+END
+ELSE
+    PRINT 'OK INDICA_UTILIZA_MFA';
+GO
+
+-- -----------------------------------------------------------------------------
+-- 3) Auth audit log (password lockout + MFA events)
+-- -----------------------------------------------------------------------------
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE s.name = N'LX_TCS' AND t.name = N'TCS_LOG_ACESSO_AUTH')
+BEGIN
+    CREATE TABLE [LX_TCS].[TCS_LOG_ACESSO_AUTH]
+    (
+        [ID_TCS_LOG_ACESSO_AUTH] INT IDENTITY(1,1) NOT NULL,
+        [DATA_HORA] DATETIME NOT NULL,
+        [TIPO_EVENTO] CHAR(1) NOT NULL,
+        [NOME_USUARIO] NVARCHAR(256) NOT NULL,
+        [ID_USUARIO] BIGINT NULL,
+        [ID_LINX] INT NULL,
+        [CODIGO_ERRO] NVARCHAR(20) NULL,
+        [DESCRICAO] NVARCHAR(500) NULL,
+        [QTD_TENTATIVAS] INT NOT NULL CONSTRAINT [DF_TCS_LOG_ACESSO_AUTH_QTD] DEFAULT ((0)),
+        [ENDERECO_IP] NVARCHAR(64) NULL,
+        [NOME_MAQUINA] NVARCHAR(128) NULL,
+        [CANAL] NVARCHAR(50) NULL,
+        [INDICA_CONTA_TENTATIVA] BIT NOT NULL CONSTRAINT [DF_TCS_LOG_ACESSO_AUTH_CONTA] DEFAULT ((0)),
+        [INDICA_BLOQUEIO] BIT NOT NULL CONSTRAINT [DF_TCS_LOG_ACESSO_AUTH_BLOQ] DEFAULT ((0)),
+        [INDICA_USUARIO_SERVICO] BIT NOT NULL CONSTRAINT [DF_TCS_LOG_ACESSO_AUTH_INDICA_USUARIO_SERVICO] DEFAULT ((0)),
+        CONSTRAINT [XPK_TCS_LOG_ACESSO_AUTH] PRIMARY KEY CLUSTERED ([ID_TCS_LOG_ACESSO_AUTH] ASC)
+    );
+
+    CREATE NONCLUSTERED INDEX [IX_TCS_LOG_ACESSO_AUTH_USUARIO_DATA]
+        ON [LX_TCS].[TCS_LOG_ACESSO_AUTH] ([NOME_USUARIO], [DATA_HORA] DESC);
+
+    PRINT 'Created TCS_LOG_ACESSO_AUTH';
+END
+ELSE
+    PRINT 'OK TCS_LOG_ACESSO_AUTH';
+GO
+
+IF COL_LENGTH(N'LX_TCS.TCS_LOG_ACESSO_AUTH', N'INDICA_USUARIO_SERVICO') IS NULL
+BEGIN
+    ALTER TABLE [LX_TCS].[TCS_LOG_ACESSO_AUTH]
+        ADD [INDICA_USUARIO_SERVICO] BIT NOT NULL
+            CONSTRAINT [DF_TCS_LOG_ACESSO_AUTH_INDICA_USUARIO_SERVICO] DEFAULT ((0));
+    PRINT 'Added TCS_LOG_ACESSO_AUTH.INDICA_USUARIO_SERVICO';
+END
+GO
+
+IF COL_LENGTH(N'LX_TCS.TCS_LOG_ACESSO_AUTH', N'ID_LINX') IS NULL
+BEGIN
+    ALTER TABLE [LX_TCS].[TCS_LOG_ACESSO_AUTH]
+        ADD [ID_LINX] INT NULL;
+    PRINT 'Added TCS_LOG_ACESSO_AUTH.ID_LINX';
+END
+GO
+
+IF NOT EXISTS (
+    SELECT 1 FROM sys.indexes
+    WHERE name = N'IX_TCS_LOG_ACESSO_AUTH_USUARIO_DATA'
+      AND object_id = OBJECT_ID(N'LX_TCS.TCS_LOG_ACESSO_AUTH'))
+BEGIN
+    CREATE NONCLUSTERED INDEX [IX_TCS_LOG_ACESSO_AUTH_USUARIO_DATA]
+        ON [LX_TCS].[TCS_LOG_ACESSO_AUTH] ([NOME_USUARIO], [DATA_HORA] DESC);
+    PRINT 'Created IX_TCS_LOG_ACESSO_AUTH_USUARIO_DATA';
+END
+GO
+
+-- -----------------------------------------------------------------------------
+-- 4) Company MFA policy (no row = MFA on)
+-- -----------------------------------------------------------------------------
+IF NOT EXISTS (
+    SELECT 1 FROM sys.tables t
+    INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE s.name = N'LX_TCS' AND t.name = N'TCS_GPECON_MFA')
+BEGIN
+    CREATE TABLE [LX_TCS].[TCS_GPECON_MFA]
+    (
+        [ID_GPCON] INT NOT NULL,
+        [INDICA_MFA_HABILITADO] BIT NOT NULL CONSTRAINT [DF_TCS_GPECON_MFA_HAB] DEFAULT ((1)),
+        [INDICA_DISPOSITIVO_CONFIAVEL] BIT NOT NULL CONSTRAINT [DF_TCS_GPECON_MFA_DEV] DEFAULT ((0)),
+        [QTD_DIAS_CONFIANCA] INT NOT NULL CONSTRAINT [DF_TCS_GPECON_MFA_DIAS] DEFAULT ((0)),
+        [CREATED_AT] DATETIME NOT NULL CONSTRAINT [DF_TCS_GPECON_MFA_CRT] DEFAULT (GETDATE()),
+        [UPDATED_AT] DATETIME NOT NULL CONSTRAINT [DF_TCS_GPECON_MFA_UPD] DEFAULT (GETDATE()),
+        CONSTRAINT [XPK_TCS_GPECON_MFA] PRIMARY KEY CLUSTERED ([ID_GPCON] ASC)
+    );
+    PRINT 'Created TCS_GPECON_MFA';
+END
+ELSE
+    PRINT 'OK TCS_GPECON_MFA';
+GO
+
+-- -----------------------------------------------------------------------------
+-- 5) User TOTP secret / lockout
+-- -----------------------------------------------------------------------------
+IF NOT EXISTS (
+    SELECT 1 FROM sys.tables t
+    INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE s.name = N'LX_TCS' AND t.name = N'TCS_USUARIO_MFA')
+BEGIN
+    CREATE TABLE [LX_TCS].[TCS_USUARIO_MFA]
+    (
+        [TABLE_ORIGIN] VARCHAR(32) NOT NULL,
+        [ID_GPCON] INT NOT NULL,
+        [ID_USER_MFA] BIGINT NOT NULL,
+        [ATIVO] BIT NOT NULL CONSTRAINT [DF_TCS_USUARIO_MFA_ATIVO] DEFAULT ((0)),
+        [ACCESS_SECRET] NVARCHAR(512) NULL,
+        [QTD_TENTATIVAS_TOTP] INT NOT NULL CONSTRAINT [DF_TCS_USUARIO_MFA_QTD] DEFAULT ((0)),
+        [DATA_BLOQUEIO_ATE] DATETIME NULL,
+        [CREATED_AT] DATETIME NOT NULL CONSTRAINT [DF_TCS_USUARIO_MFA_CRT] DEFAULT (GETDATE()),
+        [UPDATED_AT] DATETIME NOT NULL CONSTRAINT [DF_TCS_USUARIO_MFA_UPD] DEFAULT (GETDATE()),
+        CONSTRAINT [XPK_TCS_USUARIO_MFA] PRIMARY KEY CLUSTERED ([TABLE_ORIGIN] ASC, [ID_GPCON] ASC, [ID_USER_MFA] ASC)
+    );
+    PRINT 'Created TCS_USUARIO_MFA';
+END
+ELSE
+    PRINT 'OK TCS_USUARIO_MFA';
+GO
+
+-- -----------------------------------------------------------------------------
+-- 6) Trusted device (API ready; UI hidden in this delivery)
+-- -----------------------------------------------------------------------------
+IF NOT EXISTS (
+    SELECT 1 FROM sys.tables t
+    INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE s.name = N'LX_TCS' AND t.name = N'TCS_USUARIO_MFA_DISPOSITIVO')
+BEGIN
+    CREATE TABLE [LX_TCS].[TCS_USUARIO_MFA_DISPOSITIVO]
+    (
+        [ID_DISPOSITIVO] BIGINT IDENTITY(1,1) NOT NULL,
+        [TABLE_ORIGIN] VARCHAR(32) NOT NULL,
+        [ID_GPCON] INT NOT NULL,
+        [ID_USER_MFA] BIGINT NOT NULL,
+        [TOKEN_HASH] NVARCHAR(128) NOT NULL,
+        [USER_AGENT] NVARCHAR(256) NULL,
+        [DATA_EXPIRACAO] DATETIME NOT NULL,
+        [CREATED_AT] DATETIME NOT NULL CONSTRAINT [DF_TCS_USUARIO_MFA_DEV_CRT] DEFAULT (GETDATE()),
+        [UPDATED_AT] DATETIME NOT NULL CONSTRAINT [DF_TCS_USUARIO_MFA_DEV_UPD] DEFAULT (GETDATE()),
+        CONSTRAINT [XPK_TCS_USUARIO_MFA_DISPOSITIVO] PRIMARY KEY CLUSTERED ([ID_DISPOSITIVO] ASC)
+    );
+    CREATE NONCLUSTERED INDEX [IX_TCS_USUARIO_MFA_DISPOSITIVO_KEY]
+        ON [LX_TCS].[TCS_USUARIO_MFA_DISPOSITIVO] ([TABLE_ORIGIN], [ID_GPCON], [ID_USER_MFA], [TOKEN_HASH]);
+    PRINT 'Created TCS_USUARIO_MFA_DISPOSITIVO';
+END
+ELSE
+    PRINT 'OK TCS_USUARIO_MFA_DISPOSITIVO';
+GO
+
+IF NOT EXISTS (
+    SELECT 1 FROM sys.indexes
+    WHERE name = N'IX_TCS_USUARIO_MFA_DISPOSITIVO_KEY'
+      AND object_id = OBJECT_ID(N'LX_TCS.TCS_USUARIO_MFA_DISPOSITIVO'))
+    AND OBJECT_ID(N'LX_TCS.TCS_USUARIO_MFA_DISPOSITIVO', N'U') IS NOT NULL
+BEGIN
+    CREATE NONCLUSTERED INDEX [IX_TCS_USUARIO_MFA_DISPOSITIVO_KEY]
+        ON [LX_TCS].[TCS_USUARIO_MFA_DISPOSITIVO] ([TABLE_ORIGIN], [ID_GPCON], [ID_USER_MFA], [TOKEN_HASH]);
+    PRINT 'Created IX_TCS_USUARIO_MFA_DISPOSITIVO_KEY';
+END
+GO
+
+-- -----------------------------------------------------------------------------
+-- 7) Verify
+-- -----------------------------------------------------------------------------
+PRINT '=== VERIFY ===';
+
+SELECT
+    c.name AS column_name,
+    t.name AS type_name,
+    c.is_nullable
+FROM sys.columns c
+INNER JOIN sys.types t ON c.user_type_id = t.user_type_id
+WHERE c.object_id = OBJECT_ID(N'LX_TCS.TCS_USUARIO_AUTENTICACAO')
+  AND c.name IN (N'INDICA_UTILIZA_SSO', N'INDICA_UTILIZA_MFA', N'INDICA_USUARIO_SERVICO')
+ORDER BY c.name;
+
+SELECT s.name AS schema_name, t.name AS table_name
+FROM sys.tables t
+INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+WHERE s.name = N'LX_TCS'
+  AND t.name IN (N'TCS_GPECON_MFA', N'TCS_USUARIO_MFA', N'TCS_USUARIO_MFA_DISPOSITIVO', N'TCS_LOG_ACESSO_AUTH')
+ORDER BY t.name;
+
+PRINT '=== APPLY_SSO_MFA done ===';
+PRINT 'Next: APPLY_SSO_MFA_OPTIONAL_DATA.sql if you need to turn SSO/MFA on for a user or company.';
+GO

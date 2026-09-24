@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -22,6 +22,51 @@ namespace Linx.Framework.BV.Autorizacao
             Message = "Usuário bloqueado por excesso de tentativas inválidas de senha. Solicite o desbloqueio ao administrador."
         };
 
+        // Service users may authenticate via API; Portal / PortalSSO must refuse them.
+        private static readonly ErrorInfo ServiceUserPortalDenied = new ErrorInfo()
+        {
+            Code = "ERRAUT022",
+            Message = "Usuário de serviço não pode acessar pelo Portal."
+        };
+
+        public static string FormatServiceUserPortalDeniedMessage()
+        {
+            return string.Format("{0} - {1}", ServiceUserPortalDenied.Code, ServiceUserPortalDenied.Message);
+        }
+
+        public static string GetRequestAuthChannel()
+        {
+            string ip;
+            string machine;
+            string canal;
+            ResolveRequestContext(out ip, out machine, out canal);
+            return string.IsNullOrWhiteSpace(canal) ? "Service" : canal;
+        }
+
+        public static bool IsPortalAuthChannel(string canal)
+        {
+            return string.Equals(canal, "Portal", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(canal, "PortalSSO", StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Blocks INDICA_USUARIO_SERVICO when the caller is Portal / PortalSSO.
+        /// API / Desktop / Service channels are allowed.
+        /// </summary>
+        public void EnsureServiceUserNotFromPortal(string userName, string canal)
+        {
+            if (!IsPortalAuthChannel(canal) || string.IsNullOrWhiteSpace(userName))
+                return;
+
+            string normalized = NormalizeUserName(userName);
+            if (!ResolveIndicaUsuarioServico(normalized))
+                return;
+
+            string description = FormatServiceUserPortalDeniedMessage();
+            LogAuthAccessFailure(normalized, ServiceUserPortalDenied.Code, ServiceUserPortalDenied.Message, canal, false);
+            throw new Exception(description);
+        }
+
         private const string AuthAccessSchemaEnsureSql = @"
 IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = N'LX_TCS')
     EXEC(N'CREATE SCHEMA [LX_TCS]');";
@@ -36,9 +81,10 @@ BEGIN
     (
         [ID_TCS_LOG_ACESSO_AUTH] INT IDENTITY(1,1) NOT NULL,
         [DATA_HORA] DATETIME NOT NULL,
-        [TIPO_EVENTO] CHAR(1) NOT NULL, -- S = success, F = failure, U = unlock, P = password change
+        [TIPO_EVENTO] CHAR(1) NOT NULL, -- S = success, F = failure, U = unlock, P = password change, I = SSO process info
         [NOME_USUARIO] NVARCHAR(256) NOT NULL,
         [ID_USUARIO] BIGINT NULL,
+        [ID_LINX] INT NULL,
         [CODIGO_ERRO] NVARCHAR(20) NULL,
         [DESCRICAO] NVARCHAR(500) NULL,
         [QTD_TENTATIVAS] INT NOT NULL CONSTRAINT [DF_TCS_LOG_ACESSO_AUTH_QTD] DEFAULT ((0)),
@@ -66,6 +112,11 @@ BEGIN
     ALTER TABLE [LX_TCS].[TCS_LOG_ACESSO_AUTH]
         ADD [INDICA_USUARIO_SERVICO] BIT NOT NULL
             CONSTRAINT [DF_TCS_LOG_ACESSO_AUTH_INDICA_USUARIO_SERVICO] DEFAULT ((0));
+END
+IF COL_LENGTH(N'LX_TCS.TCS_LOG_ACESSO_AUTH', N'ID_LINX') IS NULL
+BEGIN
+    ALTER TABLE [LX_TCS].[TCS_LOG_ACESSO_AUTH]
+        ADD [ID_LINX] INT NULL;
 END";
 
         private static bool _authAccessTableEnsured;
@@ -276,12 +327,15 @@ END";
                 if (string.IsNullOrEmpty(normalized))
                     return;
 
+                string successDescricao = string.Equals(canal, "PortalSSO", StringComparison.OrdinalIgnoreCase)
+                    ? "Login SSO efetuado"
+                    : "Login efetuado";
                 InsertAuthAccessEvent(
                     tipoEvento: 'S',
                     userName: normalized,
                     idUsuario: ResolveUserId(normalized),
                     codigoErro: null,
-                    descricao: "Login efetuado",
+                    descricao: successDescricao,
                     qtdTentativas: 0,
                     contaTentativa: false,
                     indicaBloqueio: false,
@@ -294,11 +348,41 @@ END";
         }
 
         /// <summary>
+        /// Logs one Portal SSO process step to TCS_LOG_ACESSO_AUTH.
+        /// Info steps use TIPO_EVENTO = I; failures use F and never count toward password lockout.
+        /// </summary>
+        public void LogAuthAccessSsoProcess(string userName, bool failed, string codigoErro, string descricao)
+        {
+            try
+            {
+                EnsureAuthAccessTable();
+                string normalized = NormalizeUserName(userName);
+                if (string.IsNullOrEmpty(normalized))
+                    normalized = "(UNKNOWN)";
+
+                InsertAuthAccessEvent(
+                    tipoEvento: failed ? 'F' : 'I',
+                    userName: normalized,
+                    idUsuario: ResolveUserId(normalized),
+                    codigoErro: Truncate(codigoErro, 20),
+                    descricao: Truncate(descricao, 500),
+                    qtdTentativas: 0,
+                    contaTentativa: false,
+                    indicaBloqueio: false,
+                    canal: "PortalSSO");
+            }
+            catch
+            {
+                // Best-effort audit.
+            }
+        }
+
+        /// <summary>
         /// Logs self-service password change (tela Alteração de senha) to TCS_LOG_ACESSO_AUTH (TIPO_EVENTO = P).
         /// Does not reset the sliding-window lockout (only S/U do).
         /// </summary>
         /// <param name="userName">Authentication name of the user who changed their password.</param>
-        /// <param name="canal">Optional channel override (default resolved from request; prefer "AlteracaoSenha").</param>
+        /// <param name="canal">Optional channel override (default resolved from request; prefer "Alteração de senha").</param>
         public void LogAuthAccessPasswordChange(string userName, string canal = null)
         {
             try
@@ -317,7 +401,7 @@ END";
                     qtdTentativas: 0,
                     contaTentativa: false,
                     indicaBloqueio: false,
-                    canal: canal);
+                    canal: string.IsNullOrEmpty(canal) ? "Alteração de senha" : canal);
             }
             catch
             {
@@ -394,6 +478,34 @@ END";
                 return this.DbContext.TCS_USUARIO_AUTENTICACAO
                     .Where(u => u.NOME_AUTENTICACAO.ToUpper() == normalizedUserName)
                     .Select(u => (long?)u.ID_USUARIO)
+                    .FirstOrDefault();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Prefer the authenticated session IdLinx (LocalServiceBus / CurrentUser headers);
+        /// fall back to the user's ID_LINX_GPECON when available.
+        /// </summary>
+        private int? ResolveIdLinx(string normalizedUserName)
+        {
+            try
+            {
+                if (LocalServiceBus.IdLinx > 0)
+                    return LocalServiceBus.IdLinx;
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                return this.DbContext.TCS_USUARIO_AUTENTICACAO
+                    .Where(u => u.NOME_AUTENTICACAO.ToUpper() == normalizedUserName)
+                    .Select(u => (int?)u.ID_LINX_GPECON)
                     .FirstOrDefault();
             }
             catch
@@ -480,17 +592,18 @@ WHERE F.NOME_USUARIO = @user
                 resolvedCanal = canal;
 
             bool indicaUsuarioServico = ResolveIndicaUsuarioServico(userName);
+            int? idLinx = ResolveIdLinx(userName);
 
             const string sql = @"
 INSERT INTO [LX_TCS].[TCS_LOG_ACESSO_AUTH]
 (
-    [DATA_HORA], [TIPO_EVENTO], [NOME_USUARIO], [ID_USUARIO], [CODIGO_ERRO], [DESCRICAO],
+    [DATA_HORA], [TIPO_EVENTO], [NOME_USUARIO], [ID_USUARIO], [ID_LINX], [CODIGO_ERRO], [DESCRICAO],
     [QTD_TENTATIVAS], [ENDERECO_IP], [NOME_MAQUINA], [CANAL], [INDICA_CONTA_TENTATIVA], [INDICA_BLOQUEIO],
     [INDICA_USUARIO_SERVICO]
 )
 VALUES
 (
-    @dataHora, @tipo, @user, @idUsuario, @codigo, @descricao,
+    @dataHora, @tipo, @user, @idUsuario, @idLinx, @codigo, @descricao,
     @qtd, @ip, @machine, @canal, @conta, @bloqueio,
     @indicaUsuarioServico
 )";
@@ -500,6 +613,7 @@ VALUES
                 new SqlParameter("@tipo", tipoEvento.ToString()),
                 new SqlParameter("@user", userName ?? string.Empty),
                 new SqlParameter("@idUsuario", (object)idUsuario ?? DBNull.Value),
+                new SqlParameter("@idLinx", (object)idLinx ?? DBNull.Value),
                 new SqlParameter("@codigo", (object)codigoErro ?? DBNull.Value),
                 new SqlParameter("@descricao", (object)descricao ?? DBNull.Value),
                 new SqlParameter("@qtd", qtdTentativas),

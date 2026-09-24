@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -30,10 +30,18 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         {
             try
             {
+                if (requisicaoAcesso != null && !string.IsNullOrWhiteSpace(requisicaoAcesso.NomeAutenticacao))
+                {
+                    Linx.Framework.BV.Autorizacao.AutorizacaoDomainService dsPortalGate =
+                        new Linx.Framework.BV.Autorizacao.AutorizacaoDomainService();
+                    dsPortalGate.EnsureServiceUserNotFromPortal(requisicaoAcesso.NomeAutenticacao, "Portal");
+                }
+
                 List<UsuarioAcesso> usuarioAcesso = new List<UsuarioAcesso>();
                 Linx.Security.Cryptography crypto = new Linx.Security.Cryptography();
 
-                var parametros = crypto.Decrypt(requisicaoAcesso.Parametros);
+                // Decrypt("") throws ArgumentOutOfRangeException (Substring length). Empty = acesso normal.
+                string parametros = DecryptPortalParametros(crypto, requisicaoAcesso == null ? null : requisicaoAcesso.Parametros);
 
                 if (parametros.IsNullOrEmpty())
                 {
@@ -64,7 +72,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                     string[] decryptedLines = parametros.Split(new string[] { "||" }, StringSplitOptions.None);
 
                     if (decryptedLines.Count() != 3)
-                        throw new Exception("Parâmetros inválidos.");
+                        throw new Exception("ParÃ¢metros invÃ¡lidos.");
 
                     int idTcsSuporteAcesso = Convert.ToInt32(decryptedLines[0]);
                     string nomeAutenticacaoAcesso = decryptedLines[1];
@@ -74,7 +82,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                                    select new { IdUsuario = result.IdUsuario, UidUsuario = result.UidUsuario, NomeUsuario = result.NomeUsuario, IndicaAcessoSuporte = result.IndicaAcessoSuporte }).FirstOrDefault();
 
                     if (!usuario.IndicaAcessoSuporte)
-                        throw new Exception("Usuário sem permissão para acesso de Suporte.");
+                        throw new Exception("UsuÃ¡rio sem permissÃ£o para acesso de Suporte.");
 
                     TcsSuporteAcessoLog acessoSuporte = (from result in this.repository.Context.GetTcsSuporteAcessoLogNoAssociations().Where(i => i.IdTcsSuporteAcessoLog == idTcsSuporteAcesso && i.DataAcesso == null
                                                 && i.NomeAutenticacaoAcesso == nomeAutenticacaoAcesso && i.DataCadastro == dataCadastro && !i.AcessoExpirado)
@@ -125,6 +133,20 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             }
         }
 
+        private static string DecryptPortalParametros(Linx.Security.Cryptography crypto, string raw)
+        {
+            if (string.IsNullOrEmpty(raw) || raw.Length < 4)
+                return string.Empty;
+            try
+            {
+                return crypto.Decrypt(raw) ?? string.Empty;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return string.Empty;
+            }
+        }
+
         [Route("SupportRequest"), System.Web.Http.HttpPost()]
         public string SupportRequest(RequisicaoSuporte requisicaoSuporte)
         {
@@ -148,7 +170,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
                           select result.IdTcsUsuarioAcesso).FirstOrDefault();
 
             if (acesso.IsNullOrEmpty())
-                throw new Exception("Acesso não encontrado.");
+                throw new Exception("Acesso nÃ£o encontrado.");
 
             TcsSuporteAcessoLog suporteAcesso = new TcsSuporteAcessoLog() { IdTcsUsuarioAcesso = acesso, IdUsuarioAcesso = idUsuario, DataCadastro = DateTime.Parse(DateTime.Now.ToString()) };
             this.repository.Context.AddCustomChanges(suporteAcesso, null, ChangeOperation.Insert);

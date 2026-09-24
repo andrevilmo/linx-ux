@@ -814,6 +814,7 @@
                 ownerReference.myProperties = ['AutenticacaoWindows', 'Bairro', 'Cep', 'CnpjCpf', 'Complemento', 'ConfirmacaoUsuario', 'ConfirmacaoUsuario1', 'CriaUsuario', 'DataAlteracao', 'DataCadastro', 'DataExpiracaoSenha', 'Email', 'FoneCelular', 'FoneFixo', 'GeraSenhaUsuario', 'IdLinx', 'IdUsuario', 'Inativo', 'IndicaUsuarioServico', 'InscrEstadualRg', 'Logradouro', 'LxPfjFisicaJuridica', 'LxTipoLogradouro', 'Municipio', 'NomeAutenticacao', 'NomeCurtoUsuario', 'NomeUsuario', 'Numero', 'ObsEndereco', 'Ramal', 'Uf', 'UidUsuario', 'VigenciaFinal', 'VigenciaInicial'];
                 ownerReference.queryRequiredProperties = {};
                 // Senha / Confirmação / Blocked are UI-only — never use as QBE / export filters
+                // Blocked stays excluded from OData; CadastroUsuario* applies Membership filter client-side after search.
                 ownerReference.excludedFilters = ['ConfirmacaoUsuario', 'ConfirmacaoUsuario1', 'Blocked'];
                 ownerReference.getCurrentElements = function () {
                     var result = [ownerReference];
