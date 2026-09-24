@@ -19,6 +19,8 @@ Criptografia de senha e de ticket: `Linx.Security.Cryptography` (referencie a DL
 
 Mapeamento SSO: o Portal segue com o `NomeAutenticacao` digitado no CONTINUAR (sessão). Se não houver sessão, cai no prefixo do `UPN` antes de `@`.
 
+`login_hint` no authorize da Microsoft: e-mail de `TCS_USUARIO_AUTENTICACAO.EMAIL` (via `GetPortalLoginOptions.Email`). Se o e-mail estiver vazio e o login digitado já tiver `@`, usa o login. Sem `@`, omite `login_hint`. Não altera o bind local.
+
 ---
 
 ## 1. Visão do fluxo

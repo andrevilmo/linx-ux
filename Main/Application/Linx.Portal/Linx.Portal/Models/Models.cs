@@ -20,6 +20,7 @@ namespace Linx.Portal.Models
         public bool UserUtilizaSso { get; set; }
         public bool IndicaUsuarioServico { get; set; }
         public string NomeAutenticacao { get; set; }
+        public string Email { get; set; }
     }
 
     public class LoggedUser

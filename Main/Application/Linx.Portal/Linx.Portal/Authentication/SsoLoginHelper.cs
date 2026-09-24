@@ -10,12 +10,14 @@ namespace Linx.Portal.Authentication
     /// <summary>
     /// OmniPOS-style orchestration: MSAL ForceLogin → session NomeAutenticacao (CONTINUAR) → local user session.
     /// Azure token is identity proof only; Portal Forms cookie uses the Linx login typed before SSO.
+    /// login_hint on the authorize URL is EMAIL (UPN), not NomeAutenticacao.
     /// </summary>
     public static class SsoLoginHelper
     {
         public const string ContingencySessionKey = "EnableContingencySSO";
         public const string OAuthStateSessionKey = "SsoOAuthState";
         public const string PendingLocalUserSessionKey = "PortalSsoPendingNomeAutenticacao";
+        public const string LoginHintEmailSessionKey = "PortalSsoLoginHintEmail";
 
         public static string ExtractLocalLogin(string upn)
         {
@@ -50,10 +52,41 @@ namespace Linx.Portal.Authentication
             session[PendingLocalUserSessionKey] = nomeAutenticacao.Trim();
         }
 
+        public static void RememberLoginHintEmail(HttpSessionStateBase session, string email)
+        {
+            if (session == null)
+                return;
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                session.Remove(LoginHintEmailSessionKey);
+                return;
+            }
+            session[LoginHintEmailSessionKey] = email.Trim();
+        }
+
+        public static string ResolveAzureLoginHint(string email, string nomeAutenticacao)
+        {
+            if (LooksLikeEmail(email))
+                return email.Trim();
+            if (LooksLikeEmail(nomeAutenticacao))
+                return nomeAutenticacao.Trim();
+            return null;
+        }
+
+        public static bool LooksLikeEmail(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return false;
+            int at = value.IndexOf('@');
+            return at > 0 && at < value.Length - 1;
+        }
+
         public static void ClearPendingLocalUser(HttpSessionStateBase session)
         {
-            if (session != null)
-                session.Remove(PendingLocalUserSessionKey);
+            if (session == null)
+                return;
+            session.Remove(PendingLocalUserSessionKey);
+            session.Remove(LoginHintEmailSessionKey);
         }
 
         public static MsalAuthenticationService CreateService()
@@ -62,15 +95,17 @@ namespace Linx.Portal.Authentication
             return new MsalAuthenticationService(options, new FileTokenCacheStore("msal.cache", "LinxPortal"));
         }
 
-        public static async Task<Uri> BeginForceLoginAsync(HttpSessionStateBase session, string loginHint = null)
+        public static async Task<Uri> BeginForceLoginAsync(HttpSessionStateBase session, string nomeAutenticacao = null, string loginHintEmail = null)
         {
             var state = Guid.NewGuid().ToString("N");
             if (session != null)
                 session[OAuthStateSessionKey] = state;
-            RememberPendingLocalUser(session, loginHint);
+            RememberPendingLocalUser(session, nomeAutenticacao);
+            RememberLoginHintEmail(session, loginHintEmail);
 
+            string azureHint = ResolveAzureLoginHint(loginHintEmail, nomeAutenticacao);
             var service = CreateService();
-            return await service.GetAuthorizationUrlAsync(state, forceLogin: true, loginHint: loginHint).ConfigureAwait(false);
+            return await service.GetAuthorizationUrlAsync(state, forceLogin: true, loginHint: azureHint).ConfigureAwait(false);
         }
 
         public static async Task<AuthenticationResultModel> CompleteForceLoginAsync(

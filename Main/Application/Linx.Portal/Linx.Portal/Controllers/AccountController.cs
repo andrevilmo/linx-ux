@@ -104,8 +104,11 @@ namespace Linx.Portal.Controllers
             {
                 if (userName.IsNullOrEmpty() && Session != null)
                     userName = Session[SessionIdentifiedUser] as string;
-                PortalSsoAudit.Info(userName, "START", "Redirecionando para Azure AD.");
-                Uri authorizeUrl = await SsoLoginHelper.BeginForceLoginAsync(Session, userName);
+                string hintEmail = Session != null ? Session[SsoLoginHelper.LoginHintEmailSessionKey] as string : null;
+                string azureHint = SsoLoginHelper.ResolveAzureLoginHint(hintEmail, userName);
+                PortalSsoAudit.Info(userName, "START",
+                    "Redirecionando para Azure AD. login_hint=" + (azureHint ?? "(none)"));
+                Uri authorizeUrl = await SsoLoginHelper.BeginForceLoginAsync(Session, userName, hintEmail);
                 return Redirect(authorizeUrl.ToString());
             }
             catch (Exception ex)
@@ -328,9 +331,11 @@ namespace Linx.Portal.Controllers
                 Session[SessionIdentifiedUser] = canonical;
                 Session[SessionIdentifiedSso] = options != null && options.UserUtilizaSso;
                 SsoLoginHelper.RememberPendingLocalUser(Session, canonical);
+                SsoLoginHelper.RememberLoginHintEmail(Session, options != null ? options.Email : null);
             }
             if (options != null && options.UserUtilizaSso)
-                PortalSsoAudit.Info(canonical, "IDENT", "Usuário identificado com SSO habilitado.");
+                PortalSsoAudit.Info(canonical, "IDENT",
+                    "Usuário identificado com SSO habilitado. email=" + (options.Email ?? "(none)"));
             model.UserName = canonical;
             model.IdentifyOnly = false;
             model.Password = null;
