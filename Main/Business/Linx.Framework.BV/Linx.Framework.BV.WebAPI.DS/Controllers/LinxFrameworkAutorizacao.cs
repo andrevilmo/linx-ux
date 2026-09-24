@@ -262,6 +262,28 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return new AutorizacaoDomainService().GetPortalLoginOptions(userName);
         }
 
+        /// <summary>
+        /// Best-effort Portal SSO process trail on TCS_LOG_ACESSO_AUTH (canal PortalSSO).
+        /// Info steps: TIPO_EVENTO=I. Failures: F, not counted toward password lockout.
+        /// </summary>
+        [Route("LogPortalSsoProcess"), System.Web.Http.HttpGet()]
+        public bool LogPortalSsoProcess(string userName, string step, string detail = null, bool failed = false)
+        {
+            string safeStep = string.IsNullOrWhiteSpace(step) ? "STEP" : step.Trim().ToUpperInvariant();
+            if (safeStep.Length > 12)
+                safeStep = safeStep.Substring(0, 12);
+            string codigo = (failed ? "SSOF-" : "SSOI-") + safeStep;
+            if (codigo.Length > 20)
+                codigo = codigo.Substring(0, 20);
+
+            string descricao = safeStep;
+            if (!string.IsNullOrWhiteSpace(detail))
+                descricao = safeStep + ": " + detail.Trim();
+
+            new AutorizacaoDomainService().LogAuthAccessSsoProcess(userName, failed, codigo, descricao);
+            return true;
+        }
+
         [Route("BeginMfaEnrollment"), System.Web.Http.HttpGet()]
         public object BeginMfaEnrollment(string tableOrigin, int idGpecon, long idUserMfa = 0, Guid? uidUsuario = null)
         {

@@ -171,7 +171,16 @@ Login sem senha **depois** do Azure.
 |-------|------|-----------|
 | `userName` | string | Prefixo do UPN / `NomeAutenticacao` |
 
-Não recebe token Azure. Valida cadastro local + vigência/inativo. Auditoria canal `PortalSSO`.
+Não recebe token Azure. Valida cadastro local + vigência/inativo. Sucesso grava `TCS_LOG_ACESSO_AUTH` `TIPO_EVENTO=S` canal `PortalSSO` (`Login SSO efetuado`). Falha grava `F` (não conta lockout).
+
+O Portal também chama `GET LinxFrameworkAutorizacao/LogPortalSsoProcess` em cada etapa (identificação SSO, redirect Azure, callback, UPN, bind session/UPN, erros MSAL). `TIPO_EVENTO=I` (processo) ou `F` (falha de processo). `CODIGO_ERRO` no formato `SSOI-STEP` / `SSOF-STEP`.
+
+| Query `LogPortalSsoProcess` | Tipo | Descrição |
+|-----------------------------|------|-----------|
+| `userName` | string | `NomeAutenticacao` (ou UPN se ainda não houver login local) |
+| `step` | string | `IDENT`, `START`, `AZURE`, `BIND`, `TOKEN`, `CODE`, `OFF`, `CONT`, `EXC` |
+| `detail` | string | Texto livre (UPN, source=session/azure-upn, mensagem de erro) |
+| `failed` | bool | `false` = I; `true` = F sem lockout |
 
 Resposta decrypt:
 
