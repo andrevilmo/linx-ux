@@ -33,6 +33,15 @@ namespace Linx.Framework.BV.LicenseServer
             return Send<LicenseValidationRequest, LicenseInfo>("api/v1/Licensing/Revoke", request);
         }
 
+        internal static void ResetTokenCacheForTests()
+        {
+            lock (TokenSync)
+            {
+                _cachedToken = null;
+                _tokenExpiryUtc = DateTime.MinValue;
+            }
+        }
+
         public string GetToken(bool forceRefresh)
         {
             lock (TokenSync)

@@ -229,5 +229,23 @@ namespace Linx.License.Server.Access.Tests
                 LicenseServerSettings.NormalizeBaseUrl("https://api-hml.linx.com.br/app-licensing/api/v1/"));
             Assert.Equal("45510647000100", LicenseServerSettings.SanitizeCnpj("45.510.647/0001-00"));
         }
+
+        [Fact]
+        public void Rejects_empty_password_in_Web_config()
+        {
+            var settings = new LicenseServerSettings
+            {
+                Email = "linxpos@linx.com.br",
+                Password = "",
+                Cnpj = "45510647000100",
+                Key = "MAQUINA-01",
+                LicenseId = 4,
+                ProductId = "LINX-POS",
+                BaseUrl = "https://api-hml.linx.com.br/app-licensing/"
+            };
+
+            Assert.False(settings.IsValid(out string message));
+            Assert.Contains("Password", message);
+        }
     }
 }

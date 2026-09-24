@@ -3,13 +3,6 @@ using System;
 
 namespace Linx.Framework.BV
 {
-    class LicenseException : Exception
-    {
-        public LicenseException(string message) : base(message)
-        {
-        }
-    }
-
     public static class LicenseControl
     {
         public static void Validate(string chave, string usuario, Guid uidEmpresa)

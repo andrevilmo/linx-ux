@@ -17,7 +17,7 @@ namespace Linx.License.Server.Access.Tests
             };
         }
 
-        private static void AssertTrue(bool condition, string name)
+        internal static void AssertTrue(bool condition, string name)
         {
             if (condition)
             {
@@ -29,12 +29,12 @@ namespace Linx.License.Server.Access.Tests
             Console.WriteLine("FAIL  " + name);
         }
 
-        private static void AssertEqual(string expected, string actual, string name)
+        internal static void AssertEqual(string expected, string actual, string name)
         {
             AssertTrue(expected == actual, name + " (expected '" + expected + "', got '" + actual + "')");
         }
 
-        private static void AssertContains(string expected, string actual, string name)
+        internal static void AssertContains(string expected, string actual, string name)
         {
             AssertTrue(actual != null && actual.IndexOf(expected, StringComparison.Ordinal) >= 0, name);
         }
@@ -162,6 +162,21 @@ namespace Linx.License.Server.Access.Tests
             AssertContains("\"cnpj\":\"45510647000100\"", requestJson, "Serializes cnpj");
             AssertContains("\"chave\":\"MAQUINA-01\"", requestJson, "Serializes chave");
             AssertTrue(requestJson.IndexOf("IdLicenca", StringComparison.Ordinal) < 0, "Does not emit PascalCase IdLicenca");
+
+            var missingPassword = new LicenseServerSettings
+            {
+                Email = "linxpos@linx.com.br",
+                Password = "",
+                Cnpj = "45510647000100",
+                Key = "MAQUINA-01",
+                LicenseId = 4,
+                ProductId = "LINX-POS",
+                BaseUrl = "https://api-hml.linx.com.br/app-licensing/"
+            };
+            AssertTrue(!missingPassword.IsValid(out string missingPasswordMessage), "Rejects empty password in Web.config");
+            AssertContains("Password", missingPasswordMessage, "Empty password mentions Password");
+
+            LicenseServerLiveTests.Run();
 
             Console.WriteLine();
             if (failures == 0)
