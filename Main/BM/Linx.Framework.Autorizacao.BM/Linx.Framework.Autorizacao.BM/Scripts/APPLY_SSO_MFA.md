@@ -17,7 +17,7 @@ Creates / adds, if missing:
 | `TCS_USUARIO_AUTENTICACAO.INDICA_UTILIZA_SSO` | Utiliza SSO (Microsoft button) |
 | `TCS_USUARIO_AUTENTICACAO.INDICA_UTILIZA_MFA` | Utiliza MFA (`NULL` or `1` = on, `0` = skip TOTP) |
 | `TCS_USUARIO_AUTENTICACAO.INDICA_USUARIO_SERVICO` | Service user skip MFA |
-| `TCS_LOG_ACESSO_AUTH` | Login + MFA audit / password lockout |
+| `TCS_LOG_ACESSO_AUTH` | Login + MFA + SSO process audit / password lockout (`I` = SSO step) |
 | `TCS_GPECON_MFA` | Company MFA policy (no row = MFA on) |
 | `TCS_USUARIO_MFA` | TOTP secret, attempts, lockout |
 | `TCS_USUARIO_MFA_DISPOSITIVO` | Remember-device tokens |

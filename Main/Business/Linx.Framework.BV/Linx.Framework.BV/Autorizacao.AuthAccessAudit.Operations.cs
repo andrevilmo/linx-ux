@@ -81,7 +81,7 @@ BEGIN
     (
         [ID_TCS_LOG_ACESSO_AUTH] INT IDENTITY(1,1) NOT NULL,
         [DATA_HORA] DATETIME NOT NULL,
-        [TIPO_EVENTO] CHAR(1) NOT NULL, -- S = success, F = failure, U = unlock, P = password change
+        [TIPO_EVENTO] CHAR(1) NOT NULL, -- S = success, F = failure, U = unlock, P = password change, I = SSO process info
         [NOME_USUARIO] NVARCHAR(256) NOT NULL,
         [ID_USUARIO] BIGINT NULL,
         [ID_LINX] INT NULL,
@@ -327,16 +327,49 @@ END";
                 if (string.IsNullOrEmpty(normalized))
                     return;
 
+                string successDescricao = string.Equals(canal, "PortalSSO", StringComparison.OrdinalIgnoreCase)
+                    ? "Login SSO efetuado"
+                    : "Login efetuado";
                 InsertAuthAccessEvent(
                     tipoEvento: 'S',
                     userName: normalized,
                     idUsuario: ResolveUserId(normalized),
                     codigoErro: null,
-                    descricao: "Login efetuado",
+                    descricao: successDescricao,
                     qtdTentativas: 0,
                     contaTentativa: false,
                     indicaBloqueio: false,
                     canal: canal);
+            }
+            catch
+            {
+                // Best-effort audit.
+            }
+        }
+
+        /// <summary>
+        /// Logs one Portal SSO process step to TCS_LOG_ACESSO_AUTH.
+        /// Info steps use TIPO_EVENTO = I; failures use F and never count toward password lockout.
+        /// </summary>
+        public void LogAuthAccessSsoProcess(string userName, bool failed, string codigoErro, string descricao)
+        {
+            try
+            {
+                EnsureAuthAccessTable();
+                string normalized = NormalizeUserName(userName);
+                if (string.IsNullOrEmpty(normalized))
+                    normalized = "(UNKNOWN)";
+
+                InsertAuthAccessEvent(
+                    tipoEvento: failed ? 'F' : 'I',
+                    userName: normalized,
+                    idUsuario: ResolveUserId(normalized),
+                    codigoErro: Truncate(codigoErro, 20),
+                    descricao: Truncate(descricao, 500),
+                    qtdTentativas: 0,
+                    contaTentativa: false,
+                    indicaBloqueio: false,
+                    canal: "PortalSSO");
             }
             catch
             {
