@@ -70,6 +70,7 @@ namespace Linx.Framework.BV.Autorizacao
         public bool UserUtilizaSso { get; set; }
         public bool IndicaUsuarioServico { get; set; }
         public string NomeAutenticacao { get; set; }
+        public string Email { get; set; }
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -420,7 +421,7 @@ ELSE
             {
                 var row = this.DbContext.TCS_USUARIO_AUTENTICACAO
                     .Where(u => u.NOME_AUTENTICACAO.ToUpper() == normalized)
-                    .Select(u => new { u.NOME_AUTENTICACAO, u.INDICA_USUARIO_SERVICO })
+                    .Select(u => new { u.NOME_AUTENTICACAO, u.INDICA_USUARIO_SERVICO, u.EMAIL })
                     .FirstOrDefault();
                 if (row != null)
                 {
@@ -428,6 +429,7 @@ ELSE
                         ? trimmed
                         : row.NOME_AUTENTICACAO;
                     result.IndicaUsuarioServico = row.INDICA_USUARIO_SERVICO;
+                    result.Email = string.IsNullOrWhiteSpace(row.EMAIL) ? null : row.EMAIL.Trim();
                 }
             }
             catch
