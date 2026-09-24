@@ -96,6 +96,76 @@ namespace Linx.Framework.BV.LicenseServer
             return LicenseAccessResult.Allow();
         }
 
+        public static LicenseAccessResult EvaluateValidation(LicenseValidationResult result)
+        {
+            if (result == null || result.Licenca == null)
+            {
+                return LicenseAccessResult.Deny(
+                    "USAGE_KEY_MISSING",
+                    GetBlockReasonMessage("NotYetValidated"));
+            }
+
+            if (result.IsActive)
+                return LicenseAccessResult.Allow();
+
+            var info = result.Licenca;
+            if (info.LxStatusChave == StatusChaveRevogado)
+            {
+                return LicenseAccessResult.Deny(
+                    "USAGE_KEY_REVOKED",
+                    FirstNonEmpty(info.Mensagem, GetBlockReasonMessage("Revoked")));
+            }
+
+            if (info.LxStatusChave == StatusChaveNaoAutorizado)
+            {
+                if (info.BlockOrigin == "F")
+                {
+                    return LicenseAccessResult.Deny(
+                        "CUSTOMER_FINANCIAL_BLOCK",
+                        FirstNonEmpty(info.Mensagem, GetBlockReasonMessage("BlockedByBillingRuler")));
+                }
+
+                if (info.BlockOrigin == "C")
+                {
+                    return LicenseAccessResult.Deny(
+                        "CUSTOMER_LICENSE_DISCONTINUED",
+                        FirstNonEmpty(info.Mensagem, GetBlockReasonMessage("BlockedByContract")));
+                }
+
+                return LicenseAccessResult.Deny(
+                    "USAGE_KEY_UNAUTHORIZED",
+                    FirstNonEmpty(info.Mensagem, GetBlockReasonMessage("UsageLimitReached")));
+            }
+
+            return LicenseAccessResult.Deny(
+                "USAGE_KEY_INVALID",
+                FirstNonEmpty(info.Mensagem, GetBlockReasonMessage("Unknown")));
+        }
+
+        public static string GetBlockReasonMessage(string reason)
+        {
+            switch (reason)
+            {
+                case "NotYetValidated":
+                    return "A licença deste terminal ainda não foi validada pelo servidor de licenças. "
+                        + "Costuma indicar falha na comunicação com o servidor de licenças.";
+                case "BlockedByContract":
+                case "BlockedByBillingRuler":
+                case "OfflineBudgetExpired":
+                    return "Tivemos um problema ao validar a licença deste terminal. "
+                        + "Por favor, entre em contato com o suporte para maiores informações.";
+                case "UsageLimitReached":
+                    return "O limite máximo de terminais licenciados foi atingido. "
+                        + "Se você removeu algum terminal recentemente, aguarde alguns instantes e tente novamente.";
+                case "Revoked":
+                    return "A licença foi revogada. Tente novamente para obter uma nova licença.";
+                case "Unknown":
+                default:
+                    return "O sistema teve um bloqueio de licença. "
+                        + "Por favor, entre em contato com o suporte para maiores informações.";
+            }
+        }
+
         public static LicenseAccessResult EvaluateUsageKey(LicenseUsageSnapshot snapshot)
         {
             if (snapshot == null)
@@ -141,6 +211,11 @@ namespace Linx.Framework.BV.LicenseServer
             if (status == StatusChaveNaoAutorizado)
                 return "USAGE_KEY_UNAUTHORIZED";
             return "USAGE_KEY_INVALID";
+        }
+
+        private static string FirstNonEmpty(string preferred, string fallback)
+        {
+            return string.IsNullOrWhiteSpace(preferred) ? fallback : preferred.Trim();
         }
 
         private static string UsageKeyMessage(LicenseUsageSnapshot snapshot)

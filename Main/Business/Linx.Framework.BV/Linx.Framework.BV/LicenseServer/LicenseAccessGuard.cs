@@ -13,6 +13,13 @@ namespace Linx.Framework.BV.LicenseServer
                 throw new LicenseException(result.Message);
         }
 
+        public static void EnsureValidationAccess(LicenseValidationResult result)
+        {
+            LicenseAccessResult decision = LicenseAccessDecision.EvaluateValidation(result);
+            if (!decision.Allowed)
+                throw new LicenseException(decision.Message);
+        }
+
         public static void EnsureUsageKeyAccess(LicenseUsageSnapshot snapshot)
         {
             LicenseAccessResult result = LicenseAccessDecision.EvaluateUsageKey(snapshot);

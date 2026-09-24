@@ -175,5 +175,59 @@ namespace Linx.License.Server.Access.Tests
             });
             Assert.Contains("Quantidade de licenças excedida.", result.Message);
         }
+
+        [Fact]
+        public void Omni_Validate_allows_active_key()
+        {
+            LicenseAccessResult result = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo { LxStatusChave = 1 }
+            });
+            Assert.True(result.Allowed);
+        }
+
+        [Fact]
+        public void Omni_Validate_blocks_missing_payload()
+        {
+            LicenseAccessResult result = LicenseAccessDecision.EvaluateValidation(null);
+            Assert.False(result.Allowed);
+            Assert.Equal("USAGE_KEY_MISSING", result.ReasonCode);
+        }
+
+        [Fact]
+        public void Omni_Validate_blocks_financial_and_contract_origins()
+        {
+            LicenseAccessResult financial = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo { LxStatusChave = 4, OrigemBloqueio = "F", Mensagem = "Bloqueio financeiro." }
+            });
+            Assert.Equal("CUSTOMER_FINANCIAL_BLOCK", financial.ReasonCode);
+            Assert.Contains("Bloqueio financeiro.", financial.Message);
+
+            LicenseAccessResult contract = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo { LxStatusChave = 4, OrigemBloqueio = "C" }
+            });
+            Assert.Equal("CUSTOMER_LICENSE_DISCONTINUED", contract.ReasonCode);
+        }
+
+        [Fact]
+        public void Omni_Validate_blocks_revoked_key()
+        {
+            LicenseAccessResult result = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo { LxStatusChave = 3 }
+            });
+            Assert.Equal("USAGE_KEY_REVOKED", result.ReasonCode);
+        }
+
+        [Fact]
+        public void Normalizes_base_url_and_cnpj_from_Web_config_values()
+        {
+            Assert.Equal(
+                "https://api-hml.linx.com.br/app-licensing/",
+                LicenseServerSettings.NormalizeBaseUrl("https://api-hml.linx.com.br/app-licensing/api/v1/"));
+            Assert.Equal("45510647000100", LicenseServerSettings.SanitizeCnpj("45.510.647/0001-00"));
+        }
     }
 }

@@ -118,6 +118,51 @@ namespace Linx.License.Server.Access.Tests
             });
             AssertContains("Quantidade de licenças excedida.", serverMessage.Message, "Uses server message for usage key block");
 
+            AssertTrue(LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo { LxStatusChave = 1 }
+            }).Allowed, "Omni Validate allows active key");
+
+            LicenseAccessResult missingValidation = LicenseAccessDecision.EvaluateValidation(null);
+            AssertEqual("USAGE_KEY_MISSING", missingValidation.ReasonCode, "Omni Validate blocks missing payload");
+
+            LicenseAccessResult financial = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo { LxStatusChave = 4, OrigemBloqueio = "F", Mensagem = "Bloqueio financeiro." }
+            });
+            AssertEqual("CUSTOMER_FINANCIAL_BLOCK", financial.ReasonCode, "Omni Validate blocks financial origin");
+            AssertContains("Bloqueio financeiro.", financial.Message, "Omni Validate keeps server financial message");
+
+            LicenseAccessResult contract = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo { LxStatusChave = 4, OrigemBloqueio = "C" }
+            });
+            AssertEqual("CUSTOMER_LICENSE_DISCONTINUED", contract.ReasonCode, "Omni Validate blocks contract origin");
+
+            LicenseAccessResult revoked = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo { LxStatusChave = 3 }
+            });
+            AssertEqual("USAGE_KEY_REVOKED", revoked.ReasonCode, "Omni Validate blocks revoked key");
+
+            AssertEqual("https://api-hml.linx.com.br/app-licensing/", LicenseServerSettings.NormalizeBaseUrl("https://api-hml.linx.com.br/app-licensing/api/v1/"), "Strips trailing api/v1 from BaseUrl");
+            AssertEqual("https://api-hml.linx.com.br/app-licensing/", LicenseServerSettings.NormalizeBaseUrl("https://api-hml.linx.com.br/app-licensing"), "Adds trailing slash to BaseUrl");
+            AssertEqual("45510647000100", LicenseServerSettings.SanitizeCnpj("45.510.647/0001-00"), "Sanitizes CNPJ digits");
+
+            string requestJson = Newtonsoft.Json.JsonConvert.SerializeObject(new LicenseValidationRequest
+            {
+                IdLicenca = 4,
+                Cnpj = "45510647000100",
+                Chave = "MAQUINA-01",
+                Usuario = "linxpos@linx.com.br",
+                Terminal = "MAQUINA-01",
+                Versao = "1.0"
+            });
+            AssertContains("\"idLicenca\":4", requestJson, "Serializes idLicenca");
+            AssertContains("\"cnpj\":\"45510647000100\"", requestJson, "Serializes cnpj");
+            AssertContains("\"chave\":\"MAQUINA-01\"", requestJson, "Serializes chave");
+            AssertTrue(requestJson.IndexOf("IdLicenca", StringComparison.Ordinal) < 0, "Does not emit PascalCase IdLicenca");
+
             Console.WriteLine();
             if (failures == 0)
             {
