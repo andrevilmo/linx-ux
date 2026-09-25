@@ -84,18 +84,24 @@ só por MFA/SSO (schema vai pelo SQL).
 | Arquivo no pacote | Colar em |
 |-------------------|----------|
 | `Application\bin\Linx.Internet.Application.dll` | `bin\Linx.Internet.Application.dll` |
+| `Application\bin\Linx.Framework.BV.SPA.dll` | `bin\Linx.Framework.BV.SPA.dll` |
+| `Application\App\views\CadastroUsuario.html` | `App\views\CadastroUsuario.html` |
 | `Application\App\views\CadastroUsuarioLocal.html` | `App\views\CadastroUsuarioLocal.html` |
 | `Application\App\views\CadastroUsuarioAutenticacao.html` | `App\views\CadastroUsuarioAutenticacao.html` |
+| `Application\App\viewmodels\CadastroUsuario.js` | `App\viewmodels\CadastroUsuario.js` |
 | `Application\App\viewmodels\CadastroUsuarioLocal.js` | `App\viewmodels\CadastroUsuarioLocal.js` |
 | `Application\App\viewmodels\CadastroUsuarioAutenticacao.js` | `App\viewmodels\CadastroUsuarioAutenticacao.js` |
+| `Application\App\resources\CadastroUsuario_pt-br.js` | `App\resources\CadastroUsuario_pt-br.js` |
 | `Application\App\resources\CadastroUsuarioLocal_pt-br.js` | `App\resources\CadastroUsuarioLocal_pt-br.js` |
 | `Application\App\resources\CadastroUsuarioAutenticacao_pt-br.js` | `App\resources\CadastroUsuarioAutenticacao_pt-br.js` |
 | `Application\App\widgets\datatoolbar\view.html` | `App\widgets\datatoolbar\view.html` |
 
 `Linx.Internet.Application.dll` = gate `mfaTicket` no login da Application (~51.7 MB).  
-Cadastros soltos = **Revoga MFA** e **Revoga SSO** (sempre visíveis no formulário, um ao lado do outro, e **Revoga SSO** sempre na toolbar desses cadastros).
+Cadastros = **Revoga MFA** e **Revoga SSO** (sempre visíveis no formulário, um ao lado do outro, e **Revoga SSO** sempre na toolbar).
 
-`Linx.Framework.BV.SPA.dll` **não** é obrigatório se você colar os `App\` acima.
+`Linx.Framework.BV.SPA.dll` **é obrigatório** para **Cadastro e Manutenção de Usuários**
+(`#.../Cadastro-e-Manutencao-de-Usuarios`) e os outros cadastros `pkg_linx-framework-bv-spa`.
+Essas telas leem HTML/JS embutidos na DLL; colar só `App\` solto **não** mostra Revoga SSO nessas rotas.
 
 Datas/hashes: `VERSIONS.txt`. Cópia automática: `Copy-ToIis.ps1` (não toca `Web.config`).
 
@@ -114,5 +120,5 @@ Datas/hashes: `VERSIONS.txt`. Cópia automática: `Copy-ToIis.ps1` (não toca `W
 ## 4. Não copiar
 
 - `Web.config` de nenhum site (SSO client secret, SQL, SMTP ficam no ambiente)
-- DLLs de Application além de `Linx.Internet.Application.dll`
+- DLLs de Application além de `Linx.Internet.Application.dll` e `Linx.Framework.BV.SPA.dll`
 - Pasta `DB\` para o IIS
