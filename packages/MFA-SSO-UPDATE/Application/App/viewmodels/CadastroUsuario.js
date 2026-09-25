@@ -58,6 +58,8 @@ var vmConstructor = function () {
 	 {Name: "CadastroUsuario_gbGroupBox_80c7842ca176453387b074fe0d4d4a1e", DisplayName: "", ColumnSpan: 12, Visible: true, Items: [
 	 {Name: "CadastroUsuario_gbGroupBox_e861b3b6bb124db1b794a698672af9e9", DisplayName: "", ColumnSpan: 12, Visible: true, Items: [
 	 {Name: "CadastroUsuario_tbNomeUsuario", DisplayName: "Usuário", ColumnSpan: 6, Visible: true, Key: "NomeUsuario"},
+	 {Name: "CadastroUsuario_ckUtilizaSso", DisplayName: "Utiliza SSO", ColumnSpan: 3, Visible: true, Key: "IndicaUtilizaSso"},
+	 {Name: "CadastroUsuario_ckUtilizaMfa", DisplayName: "Utiliza MFA", ColumnSpan: 3, Visible: true, Key: "IndicaUtilizaMfa"},
 	 {Name: "CadastroUsuario_btnRevogaMfa", DisplayName: "Revoga MFA", ColumnSpan: 3, Visible: true, Key: ""},
 	 {Name: "CadastroUsuario_btnRevogaSso", DisplayName: "Revoga SSO", ColumnSpan: 3, Visible: true, Key: ""},]},
 	 {Name: "CadastroUsuario_gbgroupCopiaUsuario", DisplayName: "Cópia de usuário", ColumnSpan: 12, Visible: false, Items: [
@@ -1093,10 +1095,25 @@ if(control.length){
         if (isExclusion) { removeItem(); }
         commitInternalUIsData();
         dataBind('', true);
+        pendingMfaFlagSnapshot = snapshotMfaFlags(currentDataItem());
         vm.changes = getAllChanges();
-        if (!onSavingValidation(vm.changes)) { if (isExclusion) return undo(indexForUndoAction); else return; }
-        if (hasInternalUIsSavingErrors()) { if (isExclusion) return undo(indexForUndoAction); else return; }
-        if (hasInternalUIsValidationErrors() || hasValidationErrors()) { if (isExclusion) return undo(indexForUndoAction); else { refreshToolbar(); return dataBind(); } }
+        if (!isExclusion && vm.changes.length === 0 && pendingMfaFlagSnapshot && pendingMfaFlagSnapshot.uid) {
+            isSaving(true);
+            vm.showProcessing('Salvando informações...');
+            persistUserMfaFlags(currentDataItem(), pendingMfaFlagSnapshot, function (ok) {
+                pendingMfaFlagSnapshot = null;
+                complete();
+                if (ok) {
+                    saveSucceeded({ entities: [] });
+                } else {
+                    saveFailed({ message: 'Falha ao gravar flags SSO/MFA.' });
+                }
+            });
+            return;
+        }
+        if (!onSavingValidation(vm.changes)) { pendingMfaFlagSnapshot = null; if (isExclusion) return undo(indexForUndoAction); else return; }
+        if (hasInternalUIsSavingErrors()) { pendingMfaFlagSnapshot = null; if (isExclusion) return undo(indexForUndoAction); else return; }
+        if (hasInternalUIsValidationErrors() || hasValidationErrors()) { pendingMfaFlagSnapshot = null; if (isExclusion) return undo(indexForUndoAction); else { refreshToolbar(); return dataBind(); } }
         isSaving(true);
         if (!isExclusion && currentDataItem() && currentDataItem().checkForSendingAllRowsToServer) { currentDataItem().checkForSendingAllRowsToServer(); }
         vm.showProcessing('Salvando informações...');
@@ -1109,6 +1126,7 @@ if(control.length){
         }
     
         function saveFailed(error) {
+            pendingMfaFlagSnapshot = null;
             if (isChildVM()) parentVM.dataToolbar.edit(true);
             if (isExclusion) return undo(indexForUndoAction); else return dataBind();
         }
@@ -1134,6 +1152,11 @@ if(control.length){
             status('Q');
             refreshToolbar();
             OnSaved(vm.changes);
+            var snapshot = pendingMfaFlagSnapshot;
+            pendingMfaFlagSnapshot = null;
+            if (snapshot) {
+                persistUserMfaFlags(currentDataItem(), snapshot, function () { });
+            }
             if (typeof externalSaveSucceeded == 'function') {
                 externalSaveSucceeded();
             }
@@ -2108,6 +2131,14 @@ if(control.length){
     var ensureMfaObservables = function (entity) {
         if (isNullOrEmpty(entity))
             return;
+        if (typeof entity.IndicaUtilizaSso === 'undefined')
+            entity.IndicaUtilizaSso = ko.observable(false);
+        else if (typeof entity.IndicaUtilizaSso !== 'function')
+            entity.IndicaUtilizaSso = ko.observable(!!entity.IndicaUtilizaSso);
+        if (typeof entity.IndicaUtilizaMfa === 'undefined')
+            entity.IndicaUtilizaMfa = ko.observable(true);
+        else if (typeof entity.IndicaUtilizaMfa !== 'function')
+            entity.IndicaUtilizaMfa = ko.observable(entity.IndicaUtilizaMfa !== false);
         if (typeof entity.CanRevokeMfa === 'undefined')
             entity.CanRevokeMfa = ko.observable(false);
         else if (typeof entity.CanRevokeMfa !== 'function')
@@ -2145,6 +2176,8 @@ if(control.length){
                     var current = currentDataItem();
                     if (isNullOrEmpty(current) || String(getMfaUid(current)) !== String(uid))
                         return;
+                    setAbsoluteValue(current, 'IndicaUtilizaSso', !!(status && status.UserUtilizaSso));
+                    setAbsoluteValue(current, 'IndicaUtilizaMfa', !(status && status.UserUtilizaMfa === false));
                     setAbsoluteValue(current, 'CanRevokeMfa', !!(status && status.CanRevoke));
                     refreshSsoVinculo(current, uid);
                 }
@@ -2176,13 +2209,90 @@ if(control.length){
         catch (e) {
         }
     };
+    var pendingMfaFlagSnapshot = null;
+    var snapshotMfaFlags = function (item) {
+        if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+            return null;
+        ensureMfaObservables(item);
+        return {
+            uid: getMfaUid(item),
+            utilizaSso: !!getAbsoluteValue(item.IndicaUtilizaSso),
+            utilizaMfa: getAbsoluteValue(item.IndicaUtilizaMfa) !== false
+        };
+    };
+    var applyMfaStatus = function (item, status) {
+        if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+            return;
+        ensureMfaObservables(item);
+        setAbsoluteValue(item, 'IndicaUtilizaSso', !!(status && status.UserUtilizaSso));
+        setAbsoluteValue(item, 'IndicaUtilizaMfa', !(status && status.UserUtilizaMfa === false));
+        setAbsoluteValue(item, 'CanRevokeMfa', !!(status && status.CanRevoke));
+    };
+    var persistUserMfaFlags = function (item, snapshot, onDone) {
+        var done = function (ok, status) {
+            if (typeof onDone === 'function')
+                onDone(ok, status);
+        };
+        try {
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item)) {
+                done(true);
+                return;
+            }
+            ensureMfaObservables(item);
+            var uid = getMfaUid(item);
+            if (isNullOrEmpty(uid) && snapshot)
+                uid = snapshot.uid;
+            if (isNullOrEmpty(uid)) {
+                done(true);
+                return;
+            }
+            var utilizaSso = snapshot ? !!snapshot.utilizaSso : !!getAbsoluteValue(item.IndicaUtilizaSso);
+            var utilizaMfa = snapshot ? snapshot.utilizaMfa !== false : (getAbsoluteValue(item.IndicaUtilizaMfa) !== false);
+            return $.ajax({
+                type: 'GET',
+                headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                url: mfaServiceUrl('SetUserMfaFlags'),
+                data: {
+                    uidUsuario: uid,
+                    utilizaSso: utilizaSso,
+                    utilizaMfa: utilizaMfa
+                },
+                dataType: 'json',
+                async: true,
+                cache: false,
+                success: function (status) {
+                    var current = currentDataItem();
+                    var target = (!isNullOrEmpty(current) && String(getMfaUid(current)) === String(uid)) ? current : item;
+                    applyMfaStatus(target, status);
+                    done(true, status);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    var msg = 'Falha ao gravar Utiliza SSO / Utiliza MFA.';
+                    try {
+                        if (jqXHR && jqXHR.responseJSON)
+                            msg = jqXHR.responseJSON.ExceptionMessage || jqXHR.responseJSON.Message || msg;
+                        else if (errorThrown)
+                            msg = errorThrown;
+                    }
+                    catch (e2) {
+                    }
+                    app.showMessage(msg, 'Atenção', ['Ok']);
+                    done(false);
+                }
+            });
+        }
+        catch (e) {
+            try { app.showMessage(e.message || e, 'Atenção', ['Ok']); } catch (e2) { }
+            done(false);
+        }
+    };
     var canRevokeMfa = ko.computed(function () {
         try {
             var item = currentDataItem();
             if (isNullOrEmpty(item) || isEmptyEntityFn(item))
                 return false;
             ensureMfaObservables(item);
-            return !!getAbsoluteValue(item.CanRevokeMfa);
+            return getAbsoluteValue(item.IndicaUtilizaMfa) !== false;
         }
         catch (e) {
             return false;
@@ -2246,7 +2356,7 @@ if(control.length){
             if (isNullOrEmpty(item) || isEmptyEntityFn(item))
                 return false;
             ensureMfaObservables(item);
-            return !!getAbsoluteValue(item.CanRevokeSso);
+            return !!getAbsoluteValue(item.IndicaUtilizaSso);
         }
         catch (e) {
             return false;

@@ -10,6 +10,8 @@ var objectLanguage = function () {
 	 {Name: 'CadastroUsuario_gbGroupBox_80c7842ca176453387b074fe0d4d4a1e', DisplayName: '', ColumnSpan: 12, Visible: true, Items: [
 	 {Name: 'CadastroUsuario_gbGroupBox_e861b3b6bb124db1b794a698672af9e9', DisplayName: '', ColumnSpan: 12, Visible: true, Items: [
 	 {Name: 'CadastroUsuario_tbNomeUsuario', DisplayName: 'Usuário', ColumnSpan: 6, Visible: true},
+	 {Name: 'CadastroUsuario_ckUtilizaSso', DisplayName: 'Utiliza SSO', ColumnSpan: 3, Visible: true},
+	 {Name: 'CadastroUsuario_ckUtilizaMfa', DisplayName: 'Utiliza MFA', ColumnSpan: 3, Visible: true},
 	 {Name: 'CadastroUsuario_btnRevogaMfa', DisplayName: 'Revoga MFA', ColumnSpan: 3, Visible: true},
 	 {Name: 'CadastroUsuario_btnRevogaSso', DisplayName: 'Revoga SSO', ColumnSpan: 3, Visible: true},]},
 	 {Name: 'CadastroUsuario_gbgroupCopiaUsuario', DisplayName: 'Cópia de usuário', ColumnSpan: 12, Visible: false, Items: [

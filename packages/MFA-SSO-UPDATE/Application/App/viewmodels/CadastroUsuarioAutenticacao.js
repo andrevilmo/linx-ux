@@ -2265,7 +2265,7 @@ $.ajax({
             if (isNullOrEmpty(item) || isEmptyEntityFn(item))
                 return false;
             ensureMfaObservables(item);
-            return !!getAbsoluteValue(item.CanRevokeMfa);
+            return getAbsoluteValue(item.IndicaUtilizaMfa) !== false;
         }
         catch (e) {
             return false;
@@ -2329,7 +2329,7 @@ $.ajax({
             if (isNullOrEmpty(item) || isEmptyEntityFn(item))
                 return false;
             ensureMfaObservables(item);
-            return !!getAbsoluteValue(item.CanRevokeSso);
+            return !!getAbsoluteValue(item.IndicaUtilizaSso);
         }
         catch (e) {
             return false;

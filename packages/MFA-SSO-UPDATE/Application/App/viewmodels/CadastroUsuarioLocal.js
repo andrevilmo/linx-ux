@@ -2122,7 +2122,7 @@ if (control.length >0 && control[0].childNodes.length == 1){
             if (isNullOrEmpty(item) || isEmptyEntityFn(item))
                 return false;
             ensureMfaObservables(item);
-            return !!getAbsoluteValue(item.CanRevokeMfa);
+            return getAbsoluteValue(item.IndicaUtilizaMfa) !== false;
         }
         catch (e) {
             return false;
@@ -2186,7 +2186,7 @@ if (control.length >0 && control[0].childNodes.length == 1){
             if (isNullOrEmpty(item) || isEmptyEntityFn(item))
                 return false;
             ensureMfaObservables(item);
-            return !!getAbsoluteValue(item.CanRevokeSso);
+            return !!getAbsoluteValue(item.IndicaUtilizaSso);
         }
         catch (e) {
             return false;
