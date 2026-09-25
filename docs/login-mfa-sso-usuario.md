@@ -1,5 +1,7 @@
 # Login Linx UX — descrição para usuário
 
+Versão em Word (frontend, prints e parâmetros SSO da empresa): [Linx-UX-MFA-SSO-Portal.docx](Linx-UX-MFA-SSO-Portal.docx).
+
 O acesso ao Linx UX tem **duas etapas**. Elas não acontecem na mesma tela.
 
 ## 1. Entrar (usuário e senha ou Microsoft)
