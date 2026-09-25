@@ -55,11 +55,11 @@ A identidade no Linx continua sendo o **Nome de autenticação** digitado no CON
 
 ## Processo de Revogar SSO
 
-**Revogar SSO** fica no cadastro de usuário (Application), ao lado de **Revogar MFA**. Também pode aparecer no ícone da barra de ferramentas quando aquele usuário já tem vínculo.
+**Revoga SSO** fica no cadastro de usuário (Application), **sempre ao lado** de **Revoga MFA**. O ícone da barra de ferramentas também fica **sempre** visível nesses cadastros.
 
 1. Abra o cadastro do usuário (local ou de autenticação).
-2. Confirme que existe vínculo (o ícone da barra só aparece se houver). O botão do formulário permanece visível; se não houver vínculo, o sistema avisa.
-3. Clique em **Revogar SSO**.
+2. Os dois botões aparecem na mesma linha. Se não houver vínculo, o clique avisa; o botão não some.
+3. Clique em **Revoga SSO**.
 4. Confirme: *“Revogar o SSO deste usuário? Remove só o vínculo da conta Microsoft. O próximo login SSO gravará um novo OID/UPN.”*
 5. O Service apaga só a linha em `TCS_USUARIO_SSO_VINCULO`. Senha Linx, secret MFA e flags `Utiliza SSO` / `Utiliza MFA` **não** mudam.
 6. Na próxima vez que a pessoa fizer CONTINUAR → Microsoft, o Linx grava um vínculo novo com a conta Azure usada naquele momento.

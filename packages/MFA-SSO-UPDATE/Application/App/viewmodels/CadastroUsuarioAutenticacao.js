@@ -77,7 +77,7 @@ var vmConstructor = function () {
 	 {Name: "CadastroUsuarioAutenticacao_ckUtilizaSso", DisplayName: "Utiliza SSO", ColumnSpan: 12, Visible: true, Key: "IndicaUtilizaSso"},
 	 {Name: "CadastroUsuarioAutenticacao_ckUtilizaMfa", DisplayName: "Utiliza MFA", ColumnSpan: 12, Visible: true, Key: "IndicaUtilizaMfa"},
 	 {Name: "CadastroUsuarioAutenticacao_btnRevogaMfa", DisplayName: "Revoga MFA", ColumnSpan: 12, Visible: true, Key: ""},
-	 {Name: "CadastroUsuarioAutenticacao_btnRevogaSso", DisplayName: "Revogar SSO", ColumnSpan: 12, Visible: true, Key: ""},]},]},
+	 {Name: "CadastroUsuarioAutenticacao_btnRevogaSso", DisplayName: "Revoga SSO", ColumnSpan: 12, Visible: true, Key: ""},]},]},
 	 {Name: "CadastroUsuarioAutenticacao_gbUserPasswordGroupBox", DisplayName: "Senha Usuário", ColumnSpan: 12, Visible: false, Items: [
 	 {Name: "CadastroUsuarioAutenticacao_tbConfirmacaoUsuario", DisplayName: "Senha", ColumnSpan: 8, Visible: true, Key: "ConfirmacaoUsuario"},
 	 {Name: "CadastroUsuarioAutenticacao_tbConfirmacaoUsuario1", DisplayName: "Confirmação", ColumnSpan: 8, Visible: true, Key: "ConfirmacaoUsuario1"},]},]},

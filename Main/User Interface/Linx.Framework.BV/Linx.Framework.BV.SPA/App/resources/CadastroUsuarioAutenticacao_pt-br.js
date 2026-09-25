@@ -29,7 +29,7 @@ var objectLanguage = function () {
 	 {Name: 'CadastroUsuarioAutenticacao_ckUtilizaSso', DisplayName: 'Utiliza SSO', ColumnSpan: 12, Visible: true},
 	 {Name: 'CadastroUsuarioAutenticacao_ckUtilizaMfa', DisplayName: 'Utiliza MFA', ColumnSpan: 12, Visible: true},
 	 {Name: 'CadastroUsuarioAutenticacao_btnRevogaMfa', DisplayName: 'Revoga MFA', ColumnSpan: 12, Visible: true},
-	 {Name: 'CadastroUsuarioAutenticacao_btnRevogaSso', DisplayName: 'Revogar SSO', ColumnSpan: 12, Visible: true},]},]},
+	 {Name: 'CadastroUsuarioAutenticacao_btnRevogaSso', DisplayName: 'Revoga SSO', ColumnSpan: 12, Visible: true},]},]},
 	 {Name: 'CadastroUsuarioAutenticacao_gbUserPasswordGroupBox', DisplayName: 'Senha Usuário', ColumnSpan: 12, Visible: false, Items: [
 	 {Name: 'CadastroUsuarioAutenticacao_tbConfirmacaoUsuario', DisplayName: 'Senha', ColumnSpan: 8, Visible: true},
 	 {Name: 'CadastroUsuarioAutenticacao_tbConfirmacaoUsuario1', DisplayName: 'Confirmação', ColumnSpan: 8, Visible: true},]},]},

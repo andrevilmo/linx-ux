@@ -520,7 +520,7 @@ def build_docx(shots):
     add_bullet(doc, "Ambiente e MFA — iguais ao caminho de senha. SSO não dispensa o código de 6 dígitos.")
 
     add_heading(doc, "9. Processo de Revogar SSO", 2)
-    add_body(doc, "Revogar SSO fica no cadastro de usuário (Application), ao lado de Revogar MFA. O ícone da barra de ferramentas só aparece quando aquele usuário já tem vínculo. O botão do formulário permanece visível; se não houver vínculo, o sistema avisa.")
+    add_body(doc, "Revoga SSO fica no cadastro de usuário (Application), sempre ao lado de Revoga MFA. O ícone da barra de ferramentas também fica sempre visível nesses cadastros. Se não houver vínculo, o clique avisa; o botão não some.")
     add_bullet(doc, "Abra o cadastro do usuário (local ou de autenticação).")
     add_bullet(doc, "Clique em Revogar SSO.")
     add_bullet(doc, "Confirme a mensagem: remove só o vínculo da conta Microsoft; o próximo SSO grava um OID/UPN novo.")

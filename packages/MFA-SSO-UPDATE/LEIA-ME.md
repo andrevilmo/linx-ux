@@ -93,7 +93,7 @@ só por MFA/SSO (schema vai pelo SQL).
 | `Application\App\widgets\datatoolbar\view.html` | `App\widgets\datatoolbar\view.html` |
 
 `Linx.Internet.Application.dll` = gate `mfaTicket` no login da Application (~51.7 MB).  
-Cadastros soltos = **Revogar MFA** e **Revogar SSO**.
+Cadastros soltos = **Revoga MFA** e **Revoga SSO** (sempre visíveis no formulário, um ao lado do outro, e **Revoga SSO** sempre na toolbar desses cadastros).
 
 `Linx.Framework.BV.SPA.dll` **não** é obrigatório se você colar os `App\` acima.
 
