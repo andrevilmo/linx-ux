@@ -1,5 +1,7 @@
 # Login, SSO e MFA — guia técnico das APIs
 
+Versão em PDF (alto nível, português, com figuras): [Linx-UX-Autenticacao-MFA-SSO-API.pdf](Linx-UX-Autenticacao-MFA-SSO-API.pdf).
+
 Documento para integrar o fluxo de autenticação do Linx UX (Portal + Service + Application).
 
 **Não existe um único endpoint** “login + SSO + MFA”. O consumidor chama APIs em sequência. Um app **desktop .NET** não usa o cookie do Portal: fala com o Service (`:1710`) e, no SSO, com o Entra ID via MSAL.
