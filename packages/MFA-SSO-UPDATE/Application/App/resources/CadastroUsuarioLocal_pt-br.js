@@ -26,7 +26,7 @@ var objectLanguage = function () {
 	 {Name: 'CadastroUsuarioLocal_ckUtilizaSso', DisplayName: 'Utiliza SSO', ColumnSpan: 4, Visible: true},
 	 {Name: 'CadastroUsuarioLocal_ckUtilizaMfa', DisplayName: 'Utiliza MFA', ColumnSpan: 4, Visible: true},
 	 {Name: 'CadastroUsuarioLocal_btnRevogaMfa', DisplayName: 'Revoga MFA', ColumnSpan: 4, Visible: true},
-	 {Name: 'CadastroUsuarioLocal_btnRevogaSso', DisplayName: 'Revogar SSO', ColumnSpan: 4, Visible: true},]},
+	 {Name: 'CadastroUsuarioLocal_btnRevogaSso', DisplayName: 'Revoga SSO', ColumnSpan: 4, Visible: true},]},
 	 {Name: 'CadastroUsuarioLocal_gbGroupBox_294d36395b1f414997b597e9a47dd1b7', DisplayName: '', ColumnSpan: 2, Visible: true, Items: [
 	 {Name: 'CadastroUsuarioLocal_dtVigenciaInicial', DisplayName: 'Vigência Inicial', ColumnSpan: 12, Visible: true},
 	 {Name: 'CadastroUsuarioLocal_dtVigenciaFinal', DisplayName: 'Vigência Final', ColumnSpan: 12, Visible: true},
