@@ -159,7 +159,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
                 return;
 
             if (entitySearch.Expressions == null)
-                entitySearch.Expressions = new List<EntitySearchExpression>();
+                return;
 
             for (int i = 0; i < entitySearch.Expressions.Count; i++)
             {
