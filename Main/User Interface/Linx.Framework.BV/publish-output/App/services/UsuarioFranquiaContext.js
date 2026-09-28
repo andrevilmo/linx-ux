@@ -1505,6 +1505,18 @@ if (!isNull(parent)){
 
 return true;
        }
+       ownerReference.BeforeGetLookUpTcsAmbiente2Query = function (fieldToSearch, lookupInfo) {
+    var parent = (typeof ownerReference.TcsUsuarioAutenticacao === 'function') ? ownerReference.TcsUsuarioAutenticacao() : null;
+    var currentItem = !isNullOrEmpty(parent) ? parent : vm.currentDataItem();
+    if (isNullOrEmpty(currentItem)) {
+        return;
+    }
+    var idUsuario = getAbsoluteValue(currentItem.IdUsuario);
+    if (isNullOrEmpty(idUsuario) || parseInt(idUsuario, 10) <= 0) {
+        return;
+    }
+    return "IdUsuario#==#L" + idUsuario;
+       }
        ownerReference.BeforeGetLookUpTcsAmbiente2RelacionadoQuery = function (fieldToSearch, lookupInfo) {
     if (!vm.dataToolbar.canUndo()){
 	return;

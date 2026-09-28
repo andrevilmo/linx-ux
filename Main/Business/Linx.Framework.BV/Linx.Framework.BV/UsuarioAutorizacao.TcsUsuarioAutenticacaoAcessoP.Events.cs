@@ -34,7 +34,7 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
     {
         public static void OnLookingUpLookUpTcsAmbiente2(ref IQueryable<LookUpTcsAmbiente2> searchDefinition, string propertyName, EntitySearch entitySearch)
         {
-            Int64 userId = BusinessUserServiceHelper.GetCurrentUserId().GetValueOrDefault();
+            Int64 userId = ResolveLookUpTcsAmbiente2UserId(entitySearch);
             UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacaoDomainService();
             //List<int> environments = ds.GetTcsUsuarioAutenticacaoAcessoPNoAssociations().Where(i => i.IdUsuario == userId).Select(i => i.IdTcsAmbiente).ToList();
             //searchDefinition = searchDefinition.Where(i => environments.Contains(i.IdTcsAmbiente));
@@ -50,6 +50,33 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
                 IdTcsAplicativo = i.IdTcsAplicativo,
                 IdLinx = i.IdLinx
             });
+        }
+
+        /// <summary>
+        /// Cadastro Usuario Local must list environments of the user being edited.
+        /// When the client sends IdUsuario in the lookup filter, use that id; otherwise keep the previous session-user fallback.
+        /// </summary>
+        public static Int64 ResolveLookUpTcsAmbiente2UserId(EntitySearch entitySearch)
+        {
+            Int64 userId = BusinessUserServiceHelper.GetCurrentUserId().GetValueOrDefault();
+            if (entitySearch == null || entitySearch.Expressions == null)
+                return userId;
+
+            EntitySearchExpression expression = entitySearch.Expressions.FirstOrDefault(i => i.Name == "Field" && i.Value != null && i.Value.ToString() == "IdUsuario");
+            if (expression.IsNull())
+                return userId;
+
+            int fieldPos = entitySearch.Expressions.IndexOf(expression);
+            if ((fieldPos + 2) < entitySearch.Expressions.Count
+                && entitySearch.Expressions[fieldPos + 1].Name == "Operator"
+                && entitySearch.Expressions[fieldPos + 2].Name == "Value"
+                && entitySearch.Expressions[fieldPos + 2].Value != null)
+            {
+                userId = Convert.ToInt64(entitySearch.Expressions[fieldPos + 2].Value);
+                Utils.RemoveExpressionFromEntitySearh(entitySearch, expression, fieldPos);
+            }
+
+            return userId;
         }
 
         public static void OnLookingUpLookUpTcsAmbiente2Relacionado(ref IQueryable<LookUpTcsAmbiente2Relacionado> searchDefinition, string propertyName, EntitySearch entitySearch)
