@@ -36,25 +36,38 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
         {
             Int64 userId = ResolveLookUpTcsAmbiente2UserId(entitySearch);
             UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacaoDomainService();
-            //List<int> environments = ds.GetTcsUsuarioAutenticacaoAcessoPNoAssociations().Where(i => i.IdUsuario == userId).Select(i => i.IdTcsAmbiente).ToList();
-            //searchDefinition = searchDefinition.Where(i => environments.Contains(i.IdTcsAmbiente));
 
-            searchDefinition = ds.GetTcsUsuarioAutenticacaoAcessoPNoAssociations().Where(i => i.IdUsuario == userId).Select(i => new LookUpTcsAmbiente2
+            EntitySearch userFilter = new EntitySearch();
+            userFilter.EntityName = string.Empty;
+            userFilter.Expressions.Add(new EntitySearchExpression("Field", "IdUsuario"));
+            userFilter.Expressions.Add(new EntitySearchExpression("Operator", "=="));
+            userFilter.Expressions.Add(new EntitySearchExpression("Value", userId));
+
+            List<EntitySearch> searchList = new List<EntitySearch>();
+            searchList.Add(userFilter);
+
+            List<LookUpTcsAmbiente2> result = new List<LookUpTcsAmbiente2>();
+            foreach (TcsUsuarioAutenticacaoAcessoP row in ds.GetTcsUsuarioAutenticacaoAcessoPByEntitySearchNoAssociations(SerializationManager<List<EntitySearch>>.ObjectToString(searchList)))
             {
-                DescricaoAmbiente = i.DescricaoAmbiente,
-                DescricaoAplicativo = i.DescricaoAplicativo,
-                NomeEmpresa = i.NomeEmpresa,
-                DescricaoAplicacao = i.DescricaoAplicacao,
-                IdTcsAmbiente = i.IdTcsAmbiente,
-                IdAplicacao = i.IdAplicacao,
-                IdTcsAplicativo = i.IdTcsAplicativo,
-                IdLinx = i.IdLinx
-            });
+                LookUpTcsAmbiente2 item = new LookUpTcsAmbiente2();
+                item.DescricaoAmbiente = row.DescricaoAmbiente;
+                item.DescricaoAplicativo = row.DescricaoAplicativo;
+                item.NomeEmpresa = row.NomeEmpresa;
+                item.DescricaoAplicacao = row.DescricaoAplicacao;
+                item.IdTcsAmbiente = row.IdTcsAmbiente;
+                item.IdAplicacao = row.IdAplicacao;
+                item.IdTcsAplicativo = row.IdTcsAplicativo;
+                item.IdLinx = row.IdLinx;
+                result.Add(item);
+            }
+
+            searchDefinition = result.AsQueryable();
         }
 
         /// <summary>
         /// Cadastro Usuario Local must list environments of the user being edited.
         /// When the client sends IdUsuario in the lookup filter, use that id; otherwise keep the previous session-user fallback.
+        /// Implemented without lambdas so the method can be published onto an existing Service assembly.
         /// </summary>
         public static Int64 ResolveLookUpTcsAmbiente2UserId(EntitySearch entitySearch)
         {
@@ -62,11 +75,25 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
             if (entitySearch == null || entitySearch.Expressions == null)
                 return userId;
 
-            EntitySearchExpression expression = entitySearch.Expressions.FirstOrDefault(i => i.Name == "Field" && i.Value != null && i.Value.ToString() == "IdUsuario");
-            if (expression.IsNull())
+            EntitySearchExpression expression = null;
+            int fieldPos = -1;
+            for (int i = 0; i < entitySearch.Expressions.Count; i++)
+            {
+                EntitySearchExpression candidate = entitySearch.Expressions[i];
+                if (candidate != null
+                    && candidate.Name == "Field"
+                    && candidate.Value != null
+                    && candidate.Value.ToString() == "IdUsuario")
+                {
+                    expression = candidate;
+                    fieldPos = i;
+                    break;
+                }
+            }
+
+            if (expression.IsNull() || fieldPos < 0)
                 return userId;
 
-            int fieldPos = entitySearch.Expressions.IndexOf(expression);
             if ((fieldPos + 2) < entitySearch.Expressions.Count
                 && entitySearch.Expressions[fieldPos + 1].Name == "Operator"
                 && entitySearch.Expressions[fieldPos + 2].Name == "Value"
