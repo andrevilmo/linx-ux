@@ -10,6 +10,8 @@ using Linx.Framework.BV.Autorizacao;
 using Linx.Framework.BV.Multimidia;
 using System.ServiceModel.DomainServices.Server;
 using Linx.Framework.BV.Filtro;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace Linx.Framework.BV
 {
@@ -911,12 +913,62 @@ namespace Linx.Framework.BV
                 cache = string.Format("{0}[##]{1}", idLinx, stringConexao);
                 WebCacheHelper.UpdateWebCache(cacheKey, cache, 720);
             }
-            return cache.ToString();
+            return ApplySqlAuthenticationFallback(connectionName, cache.ToString());
         }
         private static string GetConnectionString(string server, string database, string provider, string connectionString)
         {
             //@banco = Banco de Dados / @provider = Nome Provider - BM / @servidor = Servidor 
             return connectionString.Replace("@BANCO", database).Replace("@banco", database).Replace("@SERVIDOR", server).Replace("@servidor", server).Replace("@PROVIDER", provider).Replace("@provider", provider);
+        }
+
+        /// When an environment connection uses Windows/SSPI auth, IIS ApplicationPoolIdentity
+        /// opens SQL as NT AUTHORITY\ANONYMOUS LOGON. Reuse the SQL login from web.config
+        /// for the same connection name, keeping the environment Data Source/catalog.
+        private static string ApplySqlAuthenticationFallback(string connectionName, string cacheValue)
+        {
+            if (string.IsNullOrEmpty(cacheValue))
+                return cacheValue;
+
+            const string separator = "[##]";
+            int sep = cacheValue.IndexOf(separator, StringComparison.Ordinal);
+            if (sep < 0)
+                return cacheValue;
+
+            string connectionString = PreferSqlAuthentication(connectionName, cacheValue.Substring(sep + separator.Length));
+            return cacheValue.Substring(0, sep + separator.Length) + connectionString;
+        }
+
+        private static string PreferSqlAuthentication(string connectionName, string connectionString)
+        {
+            if (string.IsNullOrEmpty(connectionName) || string.IsNullOrEmpty(connectionString))
+                return connectionString;
+
+            ConnectionStringSettings config = ConfigurationManager.ConnectionStrings[connectionName];
+            if (config == null || string.IsNullOrEmpty(config.ConnectionString))
+                return connectionString;
+
+            try
+            {
+                SqlConnectionStringBuilder resolved = new SqlConnectionStringBuilder(connectionString);
+                if (!resolved.IntegratedSecurity)
+                    return connectionString;
+
+                SqlConnectionStringBuilder fallback = new SqlConnectionStringBuilder(config.ConnectionString);
+                if (string.IsNullOrEmpty(fallback.UserID))
+                    return connectionString;
+
+                resolved.IntegratedSecurity = false;
+                resolved.UserID = fallback.UserID;
+                resolved.Password = fallback.Password;
+                if (!fallback.Enlist)
+                    resolved.Enlist = false;
+
+                return resolved.ConnectionString;
+            }
+            catch
+            {
+                return connectionString;
+            }
         }
 
         public static string GetCustomSearchById(Int64 idSearch)
