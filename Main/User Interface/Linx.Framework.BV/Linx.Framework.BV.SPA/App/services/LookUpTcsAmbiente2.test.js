@@ -6,6 +6,17 @@ function getUnassignedEnvironmentIds(allEnvironmentIds, assignedEnvironmentIds) 
     return (allEnvironmentIds || []).filter(function (id) { return !assigned[id]; });
 }
 
+function matchesLoggedIdLinx(environmentIdLinx, loggedIdLinx) {
+    if (!loggedIdLinx) return true;
+    return environmentIdLinx === loggedIdLinx;
+}
+
+function filterEnvironmentsByLoggedIdLinx(environments, loggedIdLinx) {
+    return (environments || []).filter(function (env) {
+        return matchesLoggedIdLinx(env.IdLinx, loggedIdLinx);
+    });
+}
+
 function extractEditedUserId(entitySearch) {
     if (!entitySearch) return 0;
     entitySearch.EntityName = '';
@@ -93,6 +104,17 @@ assertEqual(
     buildAlreadyAddedClientFilter([{ IdTcsAmbiente: 10 }, { IdTcsAmbiente: 20 }], 20),
     'LookUpTcsAmbiente2{IdTcsAmbiente#!=#I10}',
     'keeps the environment of the row being edited selectable'
+);
+
+assertEqual(matchesLoggedIdLinx(4, 4), true, 'keeps environments of the logged user IdLinx');
+assertEqual(matchesLoggedIdLinx(1, 4), false, 'drops environments from another IdLinx');
+assertEqual(
+    filterEnvironmentsByLoggedIdLinx(
+        [{ IdTcsAmbiente: 1053, IdLinx: 1 }, { IdTcsAmbiente: 1062, IdLinx: 4 }, { IdTcsAmbiente: 3078, IdLinx: 4 }],
+        4
+    ),
+    [{ IdTcsAmbiente: 1062, IdLinx: 4 }, { IdTcsAmbiente: 3078, IdLinx: 4 }],
+    'list lookup only returns ambientes whose IdLinx matches the logged user'
 );
 
 if (failed > 0) {

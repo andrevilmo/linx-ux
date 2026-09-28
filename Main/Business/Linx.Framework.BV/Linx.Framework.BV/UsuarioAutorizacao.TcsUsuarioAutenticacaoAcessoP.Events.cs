@@ -38,6 +38,8 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
                 entitySearch = new EntitySearch();
 
             Int64 userId = ResolveLookUpTcsAmbiente2UserId(entitySearch);
+            int idLinx = ResolveLookUpTcsAmbiente2LoggedIdLinx();
+            AddLookUpTcsAmbiente2IdLinxFilter(entitySearch, idLinx);
 
             List<int> assignedEnvironments = new List<int>();
             if (userId != 0)
@@ -67,6 +69,9 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
             List<LookUpTcsAmbiente2> result = new List<LookUpTcsAmbiente2>();
             foreach (Ambiente.TcsAmbiente env in dsAmbiente.GetTcsAmbienteByEntitySearchNoAssociations(SerializationManager<List<EntitySearch>>.ObjectToString(environmentSearch)))
             {
+                if (idLinx != 0 && env.IdLinx != idLinx)
+                    continue;
+
                 if (assignedEnvironments.Contains(env.IdTcsAmbiente))
                     continue;
 
@@ -125,6 +130,55 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
             }
 
             return 0;
+        }
+
+        /// <summary>
+        /// Cadastro Usuario Local list and Ambientes lookup must only show TCS_AMBIENTE
+        /// rows whose IdLinx matches the logged-in company (CurrentCompany / EconomicGroup).
+        /// </summary>
+        public static int ResolveLookUpTcsAmbiente2LoggedIdLinx()
+        {
+            int idLinx = BusinessUserServiceHelper.GetCurrentIdLinxEnvironment().GetValueOrDefault();
+            if (idLinx != 0)
+                return idLinx;
+
+            return BusinessUserServiceHelper.GetCurrentIdGpecon().GetValueOrDefault();
+        }
+
+        public static bool MatchesLookUpTcsAmbiente2LoggedIdLinx(int environmentIdLinx, int loggedIdLinx)
+        {
+            if (loggedIdLinx == 0)
+                return true;
+
+            return environmentIdLinx == loggedIdLinx;
+        }
+
+        public static void AddLookUpTcsAmbiente2IdLinxFilter(EntitySearch entitySearch, int idLinx)
+        {
+            if (entitySearch == null || idLinx == 0)
+                return;
+
+            if (entitySearch.Expressions == null)
+                entitySearch.Expressions = new List<EntitySearchExpression>();
+
+            for (int i = 0; i < entitySearch.Expressions.Count; i++)
+            {
+                EntitySearchExpression candidate = entitySearch.Expressions[i];
+                if (candidate != null
+                    && candidate.Name == "Field"
+                    && candidate.Value != null
+                    && candidate.Value.ToString() == "IdLinx")
+                {
+                    return;
+                }
+            }
+
+            if (entitySearch.Expressions.Count != 0)
+                return;
+
+            entitySearch.Expressions.Add(new EntitySearchExpression("Field", "IdLinx"));
+            entitySearch.Expressions.Add(new EntitySearchExpression("Operator", "=="));
+            entitySearch.Expressions.Add(new EntitySearchExpression("Value", idLinx));
         }
 
         public static List<int> GetUnassignedLookUpTcsAmbiente2Ids(IEnumerable<int> allEnvironmentIds, IEnumerable<int> assignedEnvironmentIds)
