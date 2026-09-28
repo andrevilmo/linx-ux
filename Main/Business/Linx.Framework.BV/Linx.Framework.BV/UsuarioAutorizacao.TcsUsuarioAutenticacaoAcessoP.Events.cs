@@ -34,12 +34,22 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
     {
         public static void OnLookingUpLookUpTcsAmbiente2(ref IQueryable<LookUpTcsAmbiente2> searchDefinition, string propertyName, EntitySearch entitySearch)
         {
-            Int64 userId = BusinessUserServiceHelper.GetCurrentUserId().GetValueOrDefault();
-            UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacaoDomainService();
-            //List<int> environments = ds.GetTcsUsuarioAutenticacaoAcessoPNoAssociations().Where(i => i.IdUsuario == userId).Select(i => i.IdTcsAmbiente).ToList();
-            //searchDefinition = searchDefinition.Where(i => environments.Contains(i.IdTcsAmbiente));
+            if (entitySearch == null)
+                entitySearch = new EntitySearch();
 
-            searchDefinition = ds.GetTcsUsuarioAutenticacaoAcessoPNoAssociations().Where(i => i.IdUsuario == userId).Select(i => new LookUpTcsAmbiente2
+            Int64 userId = LookUpTcsAmbiente2Helper.ExtractEditedUserId(entitySearch);
+
+            UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacaoDomainService();
+            List<int> assignedEnvironments = LookUpTcsAmbiente2Helper.GetAssignedEnvironmentIds(ds, userId);
+
+            Ambiente.AmbienteDomainService dsAmbiente = new Ambiente.AmbienteDomainService();
+            IQueryable<Ambiente.TcsAmbiente> environments = dsAmbiente.GetTcsAmbienteByEntitySearchNoAssociations(
+                SerializationManager<List<EntitySearch>>.ObjectToString(new List<EntitySearch>() { entitySearch }));
+
+            if (assignedEnvironments.Count > 0)
+                environments = environments.Where(i => !assignedEnvironments.Contains(i.IdTcsAmbiente));
+
+            searchDefinition = environments.Select(i => new LookUpTcsAmbiente2
             {
                 DescricaoAmbiente = i.DescricaoAmbiente,
                 DescricaoAplicativo = i.DescricaoAplicativo,
@@ -65,6 +75,49 @@ namespace Linx.Framework.BV.UsuarioAutorizacao
                 IdTcsAmbienteRelacionado = i.IdTcsAmbiente,
             }).Distinct();
 
+        }
+    }
+
+    public static class LookUpTcsAmbiente2Helper
+    {
+        public static Int64 ExtractEditedUserId(EntitySearch entitySearch)
+        {
+            if (entitySearch == null)
+                return 0;
+
+            entitySearch.EntityName = string.Empty;
+
+            EntitySearchExpression expression = entitySearch.Expressions
+                .Where(i => i.Name == "Field" && i.Value != null && i.Value.ToString() == "IdUsuario")
+                .FirstOrDefault();
+
+            if (expression.IsNull())
+                return 0;
+
+            int fieldPos = entitySearch.Expressions.IndexOf(expression);
+            Int64 userId = Convert.ToInt64(entitySearch.Expressions[fieldPos + 2].Value.ToString());
+            Utils.RemoveExpressionFromEntitySearh(entitySearch, expression, fieldPos);
+            return userId;
+        }
+
+        public static List<int> GetAssignedEnvironmentIds(UsuarioAutorizacaoDomainService ds, Int64 userId)
+        {
+            if (ds == null || userId == 0)
+                return new List<int>();
+
+            return ds.GetTcsUsuarioAutenticacaoAcessoPNoAssociations()
+                .Where(i => i.IdUsuario == userId)
+                .Select(i => i.IdTcsAmbiente)
+                .Distinct()
+                .ToList();
+        }
+
+        public static List<int> GetUnassignedEnvironmentIds(IEnumerable<int> allEnvironmentIds, IEnumerable<int> assignedEnvironmentIds)
+        {
+            HashSet<int> assigned = new HashSet<int>(assignedEnvironmentIds ?? Enumerable.Empty<int>());
+            return (allEnvironmentIds ?? Enumerable.Empty<int>())
+                .Where(id => !assigned.Contains(id))
+                .ToList();
         }
     }
 }
