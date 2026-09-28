@@ -99,6 +99,7 @@ var result = function () {
         { key: 'IdLinx', isQbeZero: false, isDomain: false, domainName: '', lookupPropertyName: 'IdLinx', lookupVisibleColumns: '', maxLength: 12, isPartOfKey: false, headerText: 'Id Linx', width: '151px', dataType: 'number', format: 'int', hidden: false, unbound: false, group: null },
         { key: 'IdUsuario', isQbeZero: false, isDomain: false, domainName: '', lookupPropertyName: '', lookupVisibleColumns: '', isRequired: true, maxLength: 24, isPartOfKey: true, headerText: 'Id Usuario', width: '271px', dataType: 'number', format: 'int', hidden: false, unbound: false, group: null },
         { key: 'Inativo', isQbeZero: false, isDomain: false, domainName: '', lookupPropertyName: '', lookupVisibleColumns: '', maxLength: 0, isPartOfKey: false, headerText: 'Inativo', width: '127px', dataType: 'bool', format: 'checkbox', hidden: false, unbound: false, group: null },
+        { key: 'IndicaUsuarioServico', isQbeZero: false, isDomain: false, domainName: '', lookupPropertyName: '', lookupVisibleColumns: '', maxLength: 0, isPartOfKey: false, headerText: 'Usuário de serviço', width: '180px', dataType: 'bool', format: 'checkbox', hidden: false, unbound: false, group: null },
         { key: 'InscrEstadualRg', isQbeZero: false, isDomain: false, domainName: '', lookupPropertyName: '', lookupVisibleColumns: '', maxLength: 20, validateMaxLength: true, isPartOfKey: false, headerText: 'Inscr. Estadual / RG', width: '296px', dataType: 'string', format: '', hidden: false, unbound: false, group: null },
         { key: 'Logradouro', isQbeZero: false, isDomain: false, domainName: '', lookupPropertyName: '', lookupVisibleColumns: '', maxLength: 60, validateMaxLength: true, isPartOfKey: false, headerText: 'Logradouro', width: '400px', dataType: 'string', format: '', hidden: false, unbound: false, group: null },
         { key: 'LxPfjFisicaJuridica', isQbeZero: false, isDomain: true, domainName: 'LX_PFJ_FISICA_JURIDICA', lookupPropertyName: '', lookupVisibleColumns: '', isPartOfKey: false, headerText: 'Pessoa Física / Juridíca', width: '348px', dataType: 'number', format: 'int', hidden: false, unbound: false, group: null },
@@ -312,6 +313,7 @@ var result = function () {
     ,IdLinx: { dataType: DataType.Int32, isNullable: false, isPartOfKey: false, validators: [ ]  }
     ,IdUsuario: { dataType: DataType.Int64, isNullable: false, isPartOfKey: true, validators: [ Validator.hasValueValidator]  }
     ,Inativo: { dataType: DataType.Boolean, isNullable: true, isPartOfKey: false, validators: [ ]  }
+    ,IndicaUsuarioServico: { dataType: DataType.Boolean, isNullable: true, isPartOfKey: false, validators: [ ]  }
     ,InscrEstadualRg: { dataType: DataType.String, maxLength: 20, isNullable: true, isPartOfKey: false, validators: [ Validator.maxLength( {maxLength: 20})]  }
     ,Logradouro: { dataType: DataType.String, maxLength: 60, isNullable: true, isPartOfKey: false, validators: [ Validator.maxLength( {maxLength: 60})]  }
     ,LxPfjFisicaJuridica: { dataType: DataType.Byte, isNullable: true, isPartOfKey: false, validators: [ ]  }
@@ -555,6 +557,7 @@ var result = function () {
        ownerReference.serverDataType['IdLinx'] = 'I';
        ownerReference.serverDataType['IdUsuario'] = 'L';
        ownerReference.serverDataType['Inativo'] = 'B';
+       ownerReference.serverDataType['IndicaUsuarioServico'] = 'B';
        ownerReference.serverDataType['InscrEstadualRg'] = 'S';
        ownerReference.serverDataType['Logradouro'] = 'S';
        ownerReference.serverDataType['LxPfjFisicaJuridica'] = 'Y';
@@ -804,7 +807,7 @@ var result = function () {
            return vm.dataView();
        };
        ownerReference.namespace = 'Linx.Framework.BV.UsuarioFranquia';
-       ownerReference.myProperties = [ 'AutenticacaoWindows','Bairro','Cep','CnpjCpf','Complemento','ConfirmacaoUsuario','ConfirmacaoUsuario1','CriaUsuario','DataAlteracao','DataCadastro','DataExpiracaoSenha','Email','FoneCelular','FoneFixo','GeraSenhaUsuario','IdLinx','IdUsuario','Inativo','InscrEstadualRg','Logradouro','LxPfjFisicaJuridica','LxTipoLogradouro','Municipio','NomeAutenticacao','NomeCurtoUsuario','NomeUsuario','Numero','ObsEndereco','Ramal','Uf','UidUsuario','VigenciaFinal','VigenciaInicial' ];
+       ownerReference.myProperties = [ 'AutenticacaoWindows','Bairro','Cep','CnpjCpf','Complemento','ConfirmacaoUsuario','ConfirmacaoUsuario1','CriaUsuario','DataAlteracao','DataCadastro','DataExpiracaoSenha','Email','FoneCelular','FoneFixo','GeraSenhaUsuario','IdLinx','IdUsuario','Inativo','IndicaUsuarioServico','InscrEstadualRg','Logradouro','LxPfjFisicaJuridica','LxTipoLogradouro','Municipio','NomeAutenticacao','NomeCurtoUsuario','NomeUsuario','Numero','ObsEndereco','Ramal','Uf','UidUsuario','VigenciaFinal','VigenciaInicial' ];
        ownerReference.queryRequiredProperties = {  };
        ownerReference.excludedFilters = [];
        ownerReference.getCurrentElements = function() {
@@ -3717,7 +3720,7 @@ setAbsoluteValue(entity, 'NomeUsuario', info.nomeUsuario);
     var createTcsUsuarioAutenticacao = function() {
         //Create entity instance
         enableChangeTrack = false;
-        var entity = createEntity('TcsUsuarioAutenticacao', { AutenticacaoWindows: false, CriaUsuario: false, GeraSenhaUsuario: false, Inativo: false });
+        var entity = createEntity('TcsUsuarioAutenticacao', { AutenticacaoWindows: false, CriaUsuario: false, GeraSenhaUsuario: false, Inativo: false, IndicaUsuarioServico: false });
         entity.setDefaults();
         if (typeof entity.OnAdding == 'function') {
             if (!entity.OnAdding()) { dataContext.deleteEntity(entity); return; }
