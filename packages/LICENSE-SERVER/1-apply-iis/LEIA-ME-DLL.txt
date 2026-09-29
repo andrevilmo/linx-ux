@@ -1,0 +1,22 @@
+Binário de runtime do Omni app-licensing no login do UX:
+
+  1-apply-iis\Service\bin\Linx.Framework.BV.dll   →  IIS Service\bin\Linx.Framework.BV.dll
+
+English: README-DLL.txt
+
+Este arquivo sai da compilação do overlay de código:
+
+  2-overwrite-main\Main\Business\Linx.Framework.BV\Linx.Framework.BV\Linx.Framework.BV.csproj
+  Configuration=Release  →  bin\Release\Linx.Framework.BV.dll
+
+Copie essa DLL para 1-apply-iis\Service\bin\ e rode Copy-ToIis.ps1.
+
+NÃO copie Portal.dll nem DLLs da Application. LicenseControl.Validate já roda
+dentro de Linx.Framework.BV em authenticateUser / UpdateToken.
+
+Já presentes numa instalação normal do Service (reaproveitar, não substituir):
+
+  RestSharp.dll
+  Newtonsoft.Json.dll
+  Linx.Tools.dll
+  Linx.Framework.BV.WebAPI.DS.dll   (controllers inalterados; eles carregam o BV.dll)

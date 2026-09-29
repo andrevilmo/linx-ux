@@ -1,5 +1,7 @@
 Runtime binary for Omni app-licensing on UX login:
 
+Português: LEIA-ME-DLL.txt
+
   1-apply-iis\Service\bin\Linx.Framework.BV.dll   →  IIS Service\bin\Linx.Framework.BV.dll
 
 This file is produced by compiling the source overlay:

@@ -1,5 +1,7 @@
 # Inventory — IIS apply pack (`1-apply-iis`)
 
+Português: `INVENTARIO-IIS.md`.
+
 Branch: `origin/ux-license-server` @ f0ead48a.
 Runtime site: **Service** only.
 
@@ -30,8 +32,8 @@ Hash list of this pack: `1-apply-iis\FILE-LIST.txt`.
 | File | Role |
 |------|------|
 | `Copy-ToIis.ps1` | copy DLL if present + merge keys |
-| `COPY-MAP.txt` | same map in short form |
-| `README-DLL.txt` | where the DLL comes from (`Service\bin\`, gitignored until you drop it) |
+| `COPY-MAP.txt` / `MAPA-COPIA.txt` | same map in short form |
+| `README-DLL.txt` / `LEIA-ME-DLL.txt` | where the DLL comes from (`Service\bin\`, gitignored until you drop it) |
 
 ## Keys merged (HML values from the branch)
 

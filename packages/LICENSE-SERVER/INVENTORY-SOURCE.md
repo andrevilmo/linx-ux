@@ -1,5 +1,7 @@
 # Inventory — source overwrite pack (`2-overwrite-main`)
 
+Português: `INVENTARIO-FONTE.md`.
+
 Same tree as `Main\`. Overlay onto a clone, then compile. Files are from `origin/ux-license-server`.
 
 ## Overwrite (required to compile the gate)

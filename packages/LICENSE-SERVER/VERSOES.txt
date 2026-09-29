@@ -1,0 +1,39 @@
+Pacotes License Server
+English: VERSIONS.txt
+Gerado: 2026-09-29
+Branch de origem: origin/ux-license-server @ f0ead48a6751d9177f9231fa96ec393d8d1597f3
+Branch do pacote: cursor/license-server-pack-a3ba
+
+Este kit são dois overlays (mais inventários). Não altera Portal nem Application.
+
+--- Pacote 1 — aplicar sobre uma instalação IIS atual (1-apply-iis) ---
+Site em runtime: somente Service
+  Service\bin\Linx.Framework.BV.dll     NÃO ESTÁ NO GIT — compile o pacote 2 e coloque aqui
+  Service\Web.config.keys.xml           mesclar LicenseServer.* no Service\Web.config
+Já existem numa instalação normal do Service (reaproveitar, não substituir):
+  RestSharp.dll
+  Newtonsoft.Json.dll
+  Linx.Tools.dll
+  Linx.Framework.BV.WebAPI.DS.dll
+Não é desta branch / já está no disco:
+  Portal\bin\*
+  Application\bin\*
+  Main\Binary\Library\*\Linx.LicenseServer.*.dll  (módulo LicenseServer antigo; inalterado)
+
+--- Pacote 2 — sobrescrever Main para compilar (2-overwrite-main) ---
+A mesma árvore de Main\. Overlay e depois MSBuild Linx.Framework.BV.csproj.
+  LicenseServer\*.cs                    incluir (9 arquivos)
+  Utils\LicenseControl.cs               substituir (delega para LicenseServerBootstrap)
+  Linx.License.Server.Access.Tests\*    incluir (testes opcionais)
+  Linx.Framework.BV.csproj              mesclar 9 itens Compile (ou -ReplaceCsproj)
+  Main\Binary\Service\Web.config        mesclar só as chaves LicenseServer.*
+
+Chaves HML (do Web.config da ux-license-server):
+  LicenseServer.Enabled=true
+  LicenseServer.BaseUrl=https://api-hml.linx.com.br/app-licensing/
+  LicenseServer.ApiV1Root=https://api-hml.linx.com.br/app-licensing/api/v1/
+  LicenseServer.ProductId=LINX-POS
+  LicenseServer.LicenseId=4
+  LicenseServer.Email=linxpos@linx.com.br
+  LicenseServer.Cnpj=45510647000100
+  LicenseServer.Key=MAQUINA-01
