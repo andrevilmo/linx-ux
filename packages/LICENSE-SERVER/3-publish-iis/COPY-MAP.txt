@@ -1,0 +1,16 @@
+# 3-publish-iis → IIS Service (folder that contains Web.config)
+# Português: MAPA-COPIA.txt
+
+# --- Binary (compile pack 2 first) ---
+Service\bin\Linx.Framework.BV.dll     ->  bin\Linx.Framework.BV.dll
+
+# --- Config (merge keys; never replace whole Web.config) ---
+Service\Web.config.keys.xml           ->  merge into Web.config <appSettings>
+
+# --- Scripts ---
+Publish-ToIis.ps1                     ->  run as Administrator on the IIS host
+Test-Iis.ps1                          ->  verify files, pool, GET :1710, outbound HML
+
+# --- Already on the install; do not copy ---
+# RestSharp.dll  Newtonsoft.Json.dll  Linx.Tools.dll
+# Portal\*  Application\*

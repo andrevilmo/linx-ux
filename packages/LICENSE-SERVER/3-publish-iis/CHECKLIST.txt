@@ -1,0 +1,25 @@
+Checklist — publicar License Server no IIS (pacote 3)
+English below.
+
+[ ] 1. Backup: Service\Web.config e Service\bin\Linx.Framework.BV.dll
+[ ] 2. Pacote 2 no clone + MSBuild Linx.Framework.BV.csproj /p:Configuration=Release
+[ ] 3. Copiar bin\Release\Linx.Framework.BV.dll para 3-publish-iis\Service\bin\
+[ ] 4. PowerShell como Administrador
+[ ] 5. Publish-ToIis.ps1 -FrameworkRoot 'C:\Linx Program Files\Linx Framework 6.0.0'
+[ ] 6. Confirmar LicenseServer.Enabled=true e BaseUrl HML no Service\Web.config
+[ ] 7. Test-Iis.ps1 (pool Started, GET :1710, TCP 443 api-hml.linx.com.br)
+[ ] 8. Login no Portal http://localhost:8172/ (usuário sem LocalServiceBus)
+[ ] 9. Esperado: login ok se lxStatusChave=1; LicenseException se a licença HML não estiver Ativa
+[ ] 10. Produção: trocar Email/Password/Cnpj/Key/LicenseId/BaseUrl antes de liberar usuários
+
+--- English ---
+[ ] 1. Backup Service\Web.config and Service\bin\Linx.Framework.BV.dll
+[ ] 2. Pack 2 on a clone + MSBuild Linx.Framework.BV.csproj /p:Configuration=Release
+[ ] 3. Copy bin\Release\Linx.Framework.BV.dll into 3-publish-iis\Service\bin\
+[ ] 4. PowerShell as Administrator
+[ ] 5. Publish-ToIis.ps1 -FrameworkRoot 'C:\Linx Program Files\Linx Framework 6.0.0'
+[ ] 6. Confirm LicenseServer.Enabled=true and HML BaseUrl in Service\Web.config
+[ ] 7. Test-Iis.ps1 (pool Started, GET :1710, TCP 443 api-hml.linx.com.br)
+[ ] 8. Portal login http://localhost:8172/ (user not on LocalServiceBus)
+[ ] 9. Expected: login ok if lxStatusChave=1; LicenseException if the HML license is not Active
+[ ] 10. Production: change Email/Password/Cnpj/Key/LicenseId/BaseUrl before users sign in

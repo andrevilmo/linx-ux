@@ -4,7 +4,7 @@ Gerado: 2026-09-29
 Branch de origem: origin/ux-license-server @ f0ead48a6751d9177f9231fa96ec393d8d1597f3
 Branch do pacote: cursor/license-server-pack-a3ba
 
-Este kit são dois overlays (mais inventários). Não altera Portal nem Application.
+Este kit são três pacotes (mais inventários). Não altera Portal nem Application.
 
 --- Pacote 1 — aplicar sobre uma instalação IIS atual (1-apply-iis) ---
 Site em runtime: somente Service
@@ -27,6 +27,14 @@ A mesma árvore de Main\. Overlay e depois MSBuild Linx.Framework.BV.csproj.
   Linx.License.Server.Access.Tests\*    incluir (testes opcionais)
   Linx.Framework.BV.csproj              mesclar 9 itens Compile (ou -ReplaceCsproj)
   Main\Binary\Service\Web.config        mesclar só as chaves LicenseServer.*
+
+--- Pacote 3 — publicação completa no IIS (3-publish-iis) ---
+Guia: INSTALAR-IIS.md / INSTALL-IIS.md
+  Publish-ToIis.ps1                     backup + DLL + mesclar chaves + reciclar SI-PDR-Service
+  Test-Iis.ps1                          arquivos, chaves, pool, GET :1710, TCP 443 HML
+  Service\bin\Linx.Framework.BV.dll     NÃO ESTÁ NO GIT — compile o pacote 2 e coloque aqui
+  Service\Web.config.keys.xml           as mesmas chaves HML LicenseServer.* do pacote 1
+  CHECKLIST.txt                         ordem de instalação/execução
 
 Chaves HML (do Web.config da ux-license-server):
   LicenseServer.Enabled=true

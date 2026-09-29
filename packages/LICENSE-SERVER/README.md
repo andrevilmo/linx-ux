@@ -2,12 +2,13 @@
 
 Português: `LEIA-ME.md`.
 
-Two drop folders from branch **`ux-license-server`** @ `f0ead48a`. They do not change Portal or Application.
+Two drop folders from branch **`ux-license-server`** @ `f0ead48a`, plus a **full IIS publish-and-run** pack. They do not change Portal or Application.
 
 | Folder | Use |
 |--------|-----|
-| `1-apply-iis\` | Overlay a **running IIS** Service site (`Web.config` keys + `bin\Linx.Framework.BV.dll`) |
+| `1-apply-iis\` | Minimal overlay on a **running IIS** Service site (`Web.config` keys + `bin\Linx.Framework.BV.dll`) |
 | `2-overwrite-main\` | Overlay **source** under `Main\` (same paths) so you can compile |
+| `3-publish-iis\` | **Full IIS publish**: backup, DLL, keys, recycle, test, and `INSTALL-IIS.md` |
 
 Shared: `Merge-AppSettings.ps1` (merges `LicenseServer.*` keys, does not replace `Web.config`), `Merge-Csproj.ps1` (inserts 9 `<Compile>` items).
 
@@ -15,10 +16,12 @@ Inventories:
 
 | File | Covers |
 |------|--------|
-| `INVENTORY-IIS.md` / `INVENTARIO-IIS.md` | What to drop on IIS (binary + keys) |
-| `INVENTORY-SOURCE.md` / `INVENTARIO-FONTE.md` | What to overwrite under `Main\` |
+| `INVENTORY-IIS.md` / `INVENTARIO-IIS.md` | What to drop on IIS (binary + keys) — pack 1 |
+| `INVENTORY-SOURCE.md` / `INVENTARIO-FONTE.md` | What to overwrite under `Main\` — pack 2 |
+| `3-publish-iis\INSTALL-IIS.md` / `INSTALAR-IIS.md` | Full IIS install and run guide — pack 3 |
 | `1-apply-iis\FILE-LIST.txt` | Size + SHA256 of pack 1 |
 | `2-overwrite-main\FILE-LIST.txt` | Size + SHA256 of pack 2 |
+| `3-publish-iis\FILE-LIST.txt` | Size + SHA256 of pack 3 |
 | `FILE-LIST.txt` | Size + SHA256 of the whole kit |
 | `VERSIONS.txt` / `VERSOES.txt` | Branch / HML keys / what is not shipped |
 
@@ -75,6 +78,24 @@ Tests: `Main\Business\Linx.License.Server.Access.Tests\run-mono-tests.sh`.
 
 ---
 
-## 3. What login uses
+## 3. Publish on IIS (full pack)
+
+Guide: `3-publish-iis\INSTALL-IIS.md`. Checklist: `3-publish-iis\CHECKLIST.txt`.
+
+1. Compile with pack 2 and copy `Linx.Framework.BV.dll` into `3-publish-iis\Service\bin\`.
+2. On the IIS host, PowerShell as Administrator:
+
+```powershell
+pwsh -File packages\LICENSE-SERVER\3-publish-iis\Publish-ToIis.ps1 `
+    -FrameworkRoot 'C:\Linx Program Files\Linx Framework 6.0.0'
+pwsh -File packages\LICENSE-SERVER\3-publish-iis\Test-Iis.ps1 `
+    -FrameworkRoot 'C:\Linx Program Files\Linx Framework 6.0.0'
+```
+
+3. Sign in at Portal `http://localhost:8172/`. The gate runs on Service (`:1710`, pool `SI-PDR-Service`).
+
+---
+
+## 4. What login uses
 
 `LicenseControl.Validate` on `authenticateUser` / `UpdateToken` → Omni `POST api/v1/Authentication` then `POST api/v1/Licensing/billing/Validate`. Allow only `licenca.lxStatusChave == 1`. Logout → `Revoke` (revoke failure does not fail logout).

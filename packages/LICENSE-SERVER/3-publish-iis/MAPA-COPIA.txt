@@ -1,0 +1,16 @@
+# 3-publish-iis → IIS Service (pasta que contém o Web.config)
+# English: COPY-MAP.txt
+
+# --- Binário (compile o pacote 2 antes) ---
+Service\bin\Linx.Framework.BV.dll     ->  bin\Linx.Framework.BV.dll
+
+# --- Config (mesclar chaves; nunca substituir o Web.config inteiro) ---
+Service\Web.config.keys.xml           ->  mesclar em Web.config <appSettings>
+
+# --- Scripts ---
+Publish-ToIis.ps1                     ->  rodar como Administrador no host IIS
+Test-Iis.ps1                          ->  conferir arquivos, pool, GET :1710, saída HML
+
+# --- Já está na instalação; não copiar ---
+# RestSharp.dll  Newtonsoft.Json.dll  Linx.Tools.dll
+# Portal\*  Application\*
