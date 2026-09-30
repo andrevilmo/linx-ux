@@ -139,4 +139,20 @@ TAMANHO (bytes)   : 4855
 SHA256            : 5f6db00cb2ac3804a189942e46c7c8cb48aed09fd702f33c13f14d71e86eddfa
 FUNCAO            : View do desafio MFA TOTP (6 digitos / QR de enrollment) depois do login com senha ou SSO.
 
-Total de arquivos a instalar: 19
+Total de arquivos a instalar: 19 (IIS) + 1 script SQL
+
+================================================================================
+Banco de dados — NAO copiar para o IIS
+================================================================================
+
+ARQUIVO NO PACOTE : DB\APPLY_SSO_MFA.sql
+EXECUTAR EM       : catalogo Portal / FrameworkAutorizacao (LX_TCS.TCS_USUARIO_AUTENTICACAO)
+TAMANHO (bytes)   : 12778
+SHA256            : ed9fa43c01487183b705408fd7a50d8fef2c33072b050faf4d8cca2de4ff0384
+FUNCAO            : Atualiza um banco ja existente para MFA e SSO. Idempotente.
+                    Colunas novas: TCS_USUARIO_AUTENTICACAO.INDICA_UTILIZA_SSO,
+                    INDICA_UTILIZA_MFA, INDICA_USUARIO_SERVICO; e em
+                    TCS_LOG_ACESSO_AUTH (se ja existir): INDICA_USUARIO_SERVICO, ID_LINX.
+                    Tabelas novas: TCS_LOG_ACESSO_AUTH, TCS_GPECON_MFA, TCS_USUARIO_MFA,
+                    TCS_USUARIO_MFA_DISPOSITIVO, TCS_USUARIO_SSO_VINCULO.
+

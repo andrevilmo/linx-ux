@@ -43,8 +43,9 @@ call :COPY "Application\App\widgets\datatoolbar\view.html"
 
 echo.
 echo Concluido. Recicle os Application Pools Service, Portal e Application.
-echo Ajuste SSO no Portal\Web.config — veja README_INSTALL.TXT secao 4.
-echo Este script nao altera Web.config.
+echo Banco: execute DB\APPLY_SSO_MFA.sql no catalogo Portal (este BAT nao roda SQL).
+echo Ajuste SSO no Portal\Web.config — veja README_INSTALL.TXT secao 5.
+echo Este script nao altera Web.config e nao copia a pasta DB.
 exit /b 0
 
 :COPY

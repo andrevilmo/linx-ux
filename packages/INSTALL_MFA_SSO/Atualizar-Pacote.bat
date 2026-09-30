@@ -55,7 +55,8 @@ if errorlevel 1 (
 )
 
 echo.
-echo Pacote atualizado. Recalcule hashes em FILES_TO_INSTALL.txt se for redistribuir.
+echo Pacote atualizado (DLLs/views). DB\APPLY_SSO_MFA.sql permanece neste pacote.
+echo Recalcule hashes em FILES_TO_INSTALL.txt se for redistribuir.
 echo Zip: "%ZIP%"
 exit /b 0
 
