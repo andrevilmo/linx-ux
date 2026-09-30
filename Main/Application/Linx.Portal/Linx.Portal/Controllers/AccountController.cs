@@ -26,7 +26,7 @@ namespace Linx.Portal.Controllers
         public ActionResult Login(RouteValueDictionary values)
         {
             if (string.Equals(Request["alterar"], "1", StringComparison.OrdinalIgnoreCase))
-                ClearIdentifiedLogin();
+                ResetSsoLoginState();
             return LoginView();
         }
 
@@ -89,15 +89,13 @@ namespace Linx.Portal.Controllers
             if (!Utils.IsSsoEnabled())
             {
                 PortalSsoAudit.Fail(userName, "OFF", "SSO não está habilitado.");
-                ModelState.AddModelError("", "SSO não está habilitado.".Translate());
-                return LoginView();
+                return SsoErrorLoginView("SSO não está habilitado.");
             }
 
             if (SsoLoginHelper.IsContingencyEnabled(Session) && Utils.IsSsoOfflineFallbackAllowed())
             {
                 PortalSsoAudit.Fail(userName, "CONT", "SSO em modo contingência.");
-                ModelState.AddModelError("", "SSO em modo contingência. Use usuário e senha local.".Translate());
-                return LoginView();
+                return SsoErrorLoginView("SSO em modo contingência. Use usuário e senha local.");
             }
 
             try
@@ -115,11 +113,8 @@ namespace Linx.Portal.Controllers
             {
                 bool suggestContingency;
                 string message = SsoLoginHelper.MapMsalException(ex, out suggestContingency);
-                if (suggestContingency && Utils.IsSsoOfflineFallbackAllowed())
-                    SsoLoginHelper.EnableContingency(Session);
                 PortalSsoAudit.Fail(userName, "START", message);
-                ModelState.AddModelError("", message.Translate());
-                return LoginView();
+                return SsoErrorLoginView(message);
             }
         }
 
@@ -136,31 +131,24 @@ namespace Linx.Portal.Controllers
             if (!Utils.IsSsoEnabled())
             {
                 PortalSsoAudit.Fail(pendingUser, "OFF", "SSO não está habilitado no callback.");
-                ModelState.AddModelError("", "SSO não está habilitado.".Translate());
-                return LoginView();
+                return SsoErrorLoginView("SSO não está habilitado.");
             }
 
             if (!error.IsNullOrEmpty())
             {
-                bool contingency = string.Equals(error, "temporarily_unavailable", StringComparison.OrdinalIgnoreCase);
-                if (contingency && Utils.IsSsoOfflineFallbackAllowed())
-                    SsoLoginHelper.EnableContingency(Session);
-
                 string msg = !error_description.IsNullOrEmpty()
                     ? error_description
                     : (string.Equals(error, "access_denied", StringComparison.OrdinalIgnoreCase)
                         ? "O usuário abortou o processo de autenticação."
                         : ("Azure SSO error: " + error));
                 PortalSsoAudit.Fail(pendingUser, "AZURE", msg);
-                ModelState.AddModelError("", msg.Translate());
-                return LoginView();
+                return SsoErrorLoginView(msg);
             }
 
             if (code.IsNullOrEmpty())
             {
                 PortalSsoAudit.Fail(pendingUser, "CODE", "Callback Azure sem code.");
-                ModelState.AddModelError("", "Azure não devolveu o código de autorização (callback sem code). Use o navegador em /Account/SsoLogin.".Translate());
-                return LoginView();
+                return SsoErrorLoginView("Azure não devolveu o código de autorização (callback sem code). Use o navegador em /Account/SsoLogin.");
             }
 
             try
@@ -170,8 +158,7 @@ namespace Linx.Portal.Controllers
                 {
                     string tokenMsg = auth != null && !auth.Message.IsNullOrEmpty() ? auth.Message : "Usuário não autenticado.";
                     PortalSsoAudit.Fail(pendingUser, "TOKEN", tokenMsg);
-                    ModelState.AddModelError("", tokenMsg.Translate());
-                    return LoginView();
+                    return SsoErrorLoginView(tokenMsg);
                 }
 
                 string azureUpn = auth.User.Username;
@@ -182,8 +169,7 @@ namespace Linx.Portal.Controllers
                 if (localLogin.IsNullOrEmpty())
                 {
                     PortalSsoAudit.Fail(azureUpn, "BIND", "Login local vazio após Azure.");
-                    ModelState.AddModelError("", "Usuário não autenticado.".Translate());
-                    return LoginView();
+                    return SsoErrorLoginView("Usuário não autenticado.");
                 }
 
                 string bindSource = !string.IsNullOrWhiteSpace(pendingUser) ? "session" : "azure-upn";
@@ -200,7 +186,7 @@ namespace Linx.Portal.Controllers
                     bool mismatch = string.Equals(vinculoCode, "SSOF-LINK", StringComparison.OrdinalIgnoreCase);
                     PortalSsoAudit.Fail(localLogin, mismatch ? "LINK" : "FIRST",
                         "code=" + vinculoCode + " oid=" + (azureOid ?? "(none)") + " upn=" + azureUpn + " " + vinculoMsg);
-                    return SsoVinculoRejected(localLogin, vinculoMsg);
+                    return SsoErrorLoginView(vinculoMsg);
                 }
 
                 PortalSsoAudit.Info(localLogin,
@@ -212,8 +198,7 @@ namespace Linx.Portal.Controllers
                 if (!AuthenticateUserSso(localLogin, rememberMe: true, out canonicalUser))
                 {
                     // AuthenticatePortalSso already wrote TIPO_EVENTO=F.
-                    ModelState.AddModelError("", "Usuário autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda.".Translate());
-                    return LoginView();
+                    return SsoErrorLoginView("Usuário autenticado no Azure, mas sem cadastro local. Ajuste o login na retaguarda.");
                 }
 
                 SsoLoginHelper.ClearContingency(Session);
@@ -235,12 +220,9 @@ namespace Linx.Portal.Controllers
             {
                 bool suggestContingency;
                 string message = SsoLoginHelper.MapMsalException(ex, out suggestContingency);
-                if (suggestContingency && Utils.IsSsoOfflineFallbackAllowed())
-                    SsoLoginHelper.EnableContingency(Session);
                 if (!IsLocalSsoAuthFailure(message))
                     PortalSsoAudit.Fail(pendingUser, "EXC", message);
-                ModelState.AddModelError("", message.Translate());
-                return LoginView();
+                return SsoErrorLoginView(message);
             }
         }
 
@@ -394,6 +376,32 @@ namespace Linx.Portal.Controllers
             Session.Remove(SessionIdentifiedUser);
             Session.Remove(SessionIdentifiedSso);
             SsoLoginHelper.ClearPendingLocalUser(Session);
+        }
+
+        /// <summary>
+        /// SSO failures return to the identifier-first page with a clean session/cookies
+        /// so the user can type another credential.
+        /// </summary>
+        private ActionResult SsoErrorLoginView(string message)
+        {
+            ResetSsoLoginState();
+            ModelState.AddModelError("", (message ?? "Não foi possível realizar autenticação.").Translate());
+            return LoginView(new LogOnModel());
+        }
+
+        private void ResetSsoLoginState()
+        {
+            ClearIdentifiedLogin();
+            SsoLoginHelper.ClearSsoState(Session);
+            PortalMfaClient.ClearSession(Session);
+            try
+            {
+                FormsAuthentication.SignOut();
+            }
+            catch
+            {
+            }
+            SsoLoginHelper.ClearSsoBrowserCookies(Request, Response);
         }
 
         private static PortalLoginOptions LookupPortalLoginOptions(string userName)
@@ -555,18 +563,6 @@ namespace Linx.Portal.Controllers
                     Message = "Falha ao gravar vínculo SSO: " + ex.Message
                 };
             }
-        }
-
-        private ActionResult SsoVinculoRejected(string localLogin, string message)
-        {
-            ClearIdentifiedLogin();
-            var model = new LogOnModel
-            {
-                UserName = localLogin,
-                IdentifyOnly = true
-            };
-            ModelState.AddModelError("", (message ?? "Conta Microsoft diferente da vinculada a este usuário.").Translate());
-            return LoginView(model);
         }
 
         private static bool IsLocalSsoAuthFailure(string message)
