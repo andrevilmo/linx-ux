@@ -1,5 +1,9 @@
 # Login, SSO e MFA — guia técnico das APIs
 
+Versão em Word (Portal / usuário / parâmetros da empresa): [Linx-UX-MFA-SSO-Portal.docx](Linx-UX-MFA-SSO-Portal.docx).  
+Guia **só de SSO** (alto nível + requisitos): [Linx-UX-SSO-Portal.docx](Linx-UX-SSO-Portal.docx) e [login-sso-usuario.md](login-sso-usuario.md).  
+Versão em PDF (APIs, alto nível): [Linx-UX-Autenticacao-MFA-SSO-API.pdf](Linx-UX-Autenticacao-MFA-SSO-API.pdf).
+
 Documento para integrar o fluxo de autenticação do Linx UX (Portal + Service + Application).
 
 **Não existe um único endpoint** “login + SSO + MFA”. O consumidor chama APIs em sequência. Um app **desktop .NET** não usa o cookie do Portal: fala com o Service (`:1710`) e, no SSO, com o Entra ID via MSAL.
@@ -18,6 +22,8 @@ Base do Service: `{ServiceUrl}` — QA típico `http://<host>:1710/`.
 Criptografia de senha e de ticket: `Linx.Security.Cryptography` (referencie a DLL do produto). Tickets MFA: `UseSeed = false` **no servidor**; o cliente só transporta o `Ticket` opaco.
 
 Mapeamento SSO: o Portal segue com o `NomeAutenticacao` digitado no CONTINUAR (sessão). Se não houver sessão, cai no prefixo do `UPN` antes de `@`.
+
+Depois do Azure, o Service grava/confirma `TCS_USUARIO_SSO_VINCULO` (`AZURE_OID` + `AZURE_UPN`). Primeiro SSO insere. SSO seguinte com o mesmo OID atualiza `DATA_ULTIMO_LOGIN`. Conta Microsoft diferente (`OID` distinto) falha (`SSOF-LINK`), não abre sessão e volta à tela CONTINUAR. **Revogar SSO** no cadastro apaga só o vínculo.
 
 `login_hint` no authorize da Microsoft: e-mail de `TCS_USUARIO_AUTENTICACAO.EMAIL` (via `GetPortalLoginOptions.Email`). Se o e-mail estiver vazio e o login digitado já tiver `@`, usa o login. Sem `@`, omite `login_hint`. Não altera o bind local.
 
@@ -41,8 +47,15 @@ sequenceDiagram
         C->>P: GET /Account/SsoLogin
         P->>AAD: authorize (prompt=login)
         AAD-->>P: GET /Account/SsoCallback?code=
-        P->>S: GET AuthenticatePortalSso?userName=
-        S-->>P: envelope criptografado OK
+        P->>S: GET BindPortalSsoVinculo (OID+UPN)
+        alt OID mismatch
+            S-->>P: SSOF-LINK
+            P-->>C: tela CONTINUAR + erro
+        else first bind / match
+            S-->>P: SSOI-FIRST ou SSOI-LINK
+            P->>S: GET AuthenticatePortalSso?userName=
+            S-->>P: envelope criptografado OK
+        end
     end
     P->>P: Forms cookie (1º fator)
     P->>S: POST PortalUserAccess
@@ -128,7 +141,7 @@ Estes endpoints são **MVC do Portal**, não JSON de negócio. Úteis para brows
 |--------|---------|--------|
 | POST | `/Account/Login` | Senha. Campo `ShowEnvironments` (`true` = listar ambientes). |
 | GET | `/Account/SsoLogin` | Inicia OAuth Azure (`Prompt.ForceLogin`). 302 para `login.microsoftonline.com`. |
-| GET | `/Account/SsoCallback` | Troca `code` → UPN → `AuthenticatePortalSso` → cookie Forms. Sempre `showEnvironments=false`. |
+| GET | `/Account/SsoCallback` | Troca `code` → UPN → `BindPortalSsoVinculo` → `AuthenticatePortalSso` → cookie Forms. Mismatch (`SSOF-LINK`) volta à tela CONTINUAR. Sempre `showEnvironments=false`. |
 | GET | `/Account/Authenticate` | Login por query/headers `usuario` + `senha`. Default `listaAmbientes=true`. **Sem SSO e sem MFA nesta chamada.** |
 | GET | `/Home/Index` | Lista ambientes (`PortalUserAccess`). Auto-redirect se 1 ambiente ou `IndicaAcessoPadrao`. |
 | GET | `/Home/Redirect` | Porta de MFA: `GetMfaStatus` → Challenge ou skip ticket → Application. |
@@ -180,7 +193,7 @@ O Portal também chama `GET LinxFrameworkAutorizacao/LogPortalSsoProcess` em cad
 | Query `LogPortalSsoProcess` | Tipo | Descrição |
 |-----------------------------|------|-----------|
 | `userName` | string | `NomeAutenticacao` (ou UPN se ainda não houver login local) |
-| `step` | string | `IDENT`, `START`, `AZURE`, `BIND`, `TOKEN`, `CODE`, `OFF`, `CONT`, `EXC` |
+| `step` | string | `IDENT`, `START`, `AZURE`, `BIND`, `FIRST`, `LINK`, `REV`, `TOKEN`, `CODE`, `OFF`, `CONT`, `EXC` |
 | `detail` | string | Texto livre (UPN, source=session/azure-upn, mensagem de erro) |
 | `failed` | bool | `false` = I; `true` = F sem lockout |
 
@@ -189,7 +202,60 @@ Resposta decrypt:
 - Sucesso: `1 || NomeUsuario || NomeCurtoUsuario || NomeAutenticacao` (canônico)
 - Falha: `0 || mensagem` (ex.: sem cadastro local)
 
-Não emite ticket MFA.
+Não emite ticket MFA. Só é chamado depois de `BindPortalSsoVinculo` com sucesso.
+
+### 4.2b Vínculo Azure ↔ Linx (`TCS_USUARIO_SSO_VINCULO`)
+
+Todos GET, JSON (`PortalSsoVinculoResult`). Canal `PortalSSO`. Eventos em `TCS_LOG_ACESSO_AUTH` (`I` sucesso de processo, `F` sem lockout).
+
+| API | Uso | Código de log |
+|-----|-----|----------------|
+| `CheckPortalSsoVinculo` | `userName` ou `uidUsuario` — tem vínculo? último OID/UPN/`DATA_ULTIMO_LOGIN` | leitura; sem log de falha se o usuário não existe |
+| `BindPortalSsoVinculo` | `userName`, `azureOid`, `azureUpn` — 1º SSO insere; match atualiza último login; OID diferente recusa | `SSOI-FIRST`, `SSOI-LINK`, `SSOF-LINK`, `SSOF-BIND` |
+| `RevokePortalSsoVinculo` | `userName` ou `uidUsuario` — apaga só o vínculo (não mexe em MFA/senha) | `SSOI-REV`, `SSOF-REV` |
+
+`DESCRICAO` inclui login local, Azure OID/UPN e último login quando conhecido. Cadastro **Revogar SSO** (ao lado de Revogar MFA) chama `RevokePortalSsoVinculo`. `CheckPortalSsoVinculo` é só leitura: **não** grava linha.
+
+### 4.2c Processo SSO completo e Revogar SSO em `TCS_LOG_ACESSO_AUTH`
+
+Canal: **`PortalSSO`**. `TIPO_EVENTO`: `I` = passo de processo, `F` = falha de processo (sem lockout), `S` = login SSO aceito. `INDICA_CONTA_TENTATIVA` = 0 em todos os códigos `SSOI-*` / `SSOF-*`. MFA TOTP **não** escreve nesta tabela.
+
+Ordem típica de um SSO bem-sucedido no Portal:
+
+| # | Quem grava | Código | Tipo | Quando |
+|---|------------|--------|------|--------|
+| 1 | Portal → `LogPortalSsoProcess` | `SSOI-IDENT` | I | CONTINUAR com `Utiliza SSO` (e-mail usado no `login_hint`) |
+| 2 | Portal → `LogPortalSsoProcess` | `SSOI-START` | I | redirect para `login.microsoftonline.com` |
+| 3 | Portal → `LogPortalSsoProcess` | `SSOI-AZURE` | I | callback com UPN após trocar o `code` |
+| 4 | Portal → `LogPortalSsoProcess` | `SSOI-BIND` | I | login local da sessão + UPN Azure (source=session/azure-upn) |
+| 5 | Service `BindPortalSsoVinculo` | `SSOI-FIRST` | I | 1º vínculo: INSERT OID+UPN |
+| 5b | Service `BindPortalSsoVinculo` | `SSOI-LINK` | I | mesmo OID: atualiza `DATA_ULTIMO_LOGIN` |
+| 6 | Portal → `LogPortalSsoProcess` | `SSOI-FIRST` ou `SSOI-LINK` | I | eco do bind aceito no callback |
+| 7 | Service `AuthenticatePortalSso` | *(vazio)* | S | `DESCRICAO` = `Login SSO efetuado` |
+
+Falhas do processo SSO (Portal, sem lockout):
+
+| Código | Tipo | Quando |
+|--------|------|--------|
+| `SSOF-OFF` | F | SSO desligado no Portal (`SSO_HABILITA_AUTENTICACAO`) |
+| `SSOF-CONT` | F | modo contingência (Microsoft indisponível; senha Linx liberada se `SSO_PERMITE_OFFLINE`) |
+| `SSOF-START` | F | MSAL falhou ao montar o authorize |
+| `SSOF-AZURE` | F | Azure devolveu `error` / `error_description` no callback |
+| `SSOF-CODE` | F | callback sem `code` |
+| `SSOF-TOKEN` | F | troca `code` → token/UPN falhou |
+| `SSOF-BIND` | F | login local vazio após Azure, ou bind HTTP/SQL falhou |
+| `SSOF-FIRST` | F | eco Portal do bind recusado (exceto mismatch) |
+| `SSOF-LINK` | F | OID diferente do vínculo gravado **ou** OID já de outro usuário Linx |
+| `SSOF-EXC` | F | exceção MSAL no callback |
+
+Processo **Revogar SSO** (Application → `RevokePortalSsoVinculo`; não passa pelo Portal):
+
+| Código | Tipo | Quando |
+|--------|------|--------|
+| `SSOI-REV` | I | DELETE do vínculo. `DESCRICAO` = `REV: local=… azure_oid=… azure_upn=… by=<operador>` |
+| `SSOF-REV` | F | usuário não encontrado, sem vínculo, SQL não abre, ou DELETE falhou (`by=<operador>`) |
+
+Depois de `SSOI-REV` o próximo SSO bem-sucedido volta a gravar `SSOI-FIRST` (vínculo novo). Senha, MFA e `Utiliza SSO` não mudam.
 
 ### 4.3 `POST LinxFrameworkUsuarioAutorizacao/PortalUserAccess`
 

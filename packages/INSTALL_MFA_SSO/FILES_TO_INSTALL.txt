@@ -1,0 +1,158 @@
+FILES_TO_INSTALL.TXT
+Pacote: INSTALL_MFA_SSO
+Gerado (UTC): 2026-09-30 18:41:03
+Somente MFA e SSO. Nao copia Web.config.
+
+BASE DA INSTALACAO IIS (ajuste se necessario):
+    C:\Linx Program Files\Linx Framework 6.0.0
+
+Regra de copia:
+    {arquivo neste pacote}  ->  {BASE}\{mesmo caminho}
+Exemplo: Portal\bin\Linx.Portal.dll  ->  C:\Linx Program Files\Linx Framework 6.0.0\Portal\bin\Linx.Portal.dll
+
+================================================================================
+DLLs — por que entram neste pacote e o que fazem em MFA / SSO
+================================================================================
+
+ARQUIVO NO PACOTE : Application\bin\Linx.Framework.BV.SPA.dll
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\bin\Linx.Framework.BV.SPA.dll
+TAMANHO (bytes)   : 17346560
+SHA256            : ae3166dc1611d2fc7f0861e6f3a5131a08aac2ef62c852765956361096f9f6f6
+POR QUE FOI INCLUIDA
+    SPA embutida (pkg_linx-framework-bv-spa). As telas Cadastro e Manutencao de Usuarios, Cadastro Usuario Local e Cadastro Usuario Autenticacao leem HTML/JS DESTA DLL, nao da pasta App solta. Contem Utiliza MFA, Utiliza SSO, Revoga MFA (habilitado so com Utiliza MFA) e Revoga SSO (habilitado so com Utiliza SSO), inclusive na toolbar. Sem esta DLL o Revoga SSO nao aparece nessas rotas.
+
+ARQUIVO NO PACOTE : Application\bin\Linx.Internet.Application.dll
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\bin\Linx.Internet.Application.dll
+TAMANHO (bytes)   : 51745280
+SHA256            : 35051711e8bcbfb0eece0050018d4ddb98c76918326ed5e336cf258faf077f14
+POR QUE FOI INCLUIDA
+    DLL do site Application. No login (LIAController.Authentication) exige mfaTicket valido (ValidateMfaTicket no Service) ou confirma que MFA nao e exigido (GetMfaStatus). Impede entrar na Application pulando o desafio TOTP do Portal. Sem esta DLL o gate MFA na Application nao existe.
+
+ARQUIVO NO PACOTE : Portal\bin\Linx.Portal.dll
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Portal\bin\Linx.Portal.dll
+TAMANHO (bytes)   : 75264
+SHA256            : 8b998166f66de5964325de9c26c33fc0d3e454b0a8557bd74555fc46b1da7d2f
+POR QUE FOI INCLUIDA
+    DLL principal do site Portal. Contem o fluxo identifier-first (usuario -> Continuar), SsoLogin/SsoCallback (MSAL, prompt=login, login_hint com e-mail), vinculo Azure OID/UPN, tela MFA TOTP e o reset de SSO: em qualquer erro de SSO volta para a primeira tela, limpa sessao/cookies SSO e o cache MSAL local, e mostra so a mensagem de erro. Na segunda tela, se o usuario tem Utiliza SSO, oculta senha e deixa so o botao Microsoft.
+
+ARQUIVO NO PACOTE : Portal\bin\Microsoft.Identity.Client.dll
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Portal\bin\Microsoft.Identity.Client.dll
+TAMANHO (bytes)   : 1644504
+SHA256            : 0e66c8c129e84e4536e2dd2a0d6516c0a33fcf2f65ba201d339e23ef9d7b9cc8
+POR QUE FOI INCLUIDA
+    Biblioteca MSAL (Microsoft.Identity.Client 4.54.1). Obrigatoria para o Portal falar com o Azure AD / Entra: montar a URL de autorizacao, trocar o code por token e identificar o UPN. Sem esta DLL o /Account/SsoLogin falha com FileNotFoundException.
+
+ARQUIVO NO PACOTE : Portal\bin\Microsoft.IdentityModel.Abstractions.dll
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Portal\bin\Microsoft.IdentityModel.Abstractions.dll
+TAMANHO (bytes)   : 18832
+SHA256            : 732b74ec9e11ccd9fb8eff0ee87b65e583177fefe64408f18c9b9f9bcfcd84b1
+POR QUE FOI INCLUIDA
+    Dependencia do MSAL (Microsoft.IdentityModel.Abstractions 6.22.0). Precisa ficar ao lado de Microsoft.Identity.Client.dll no bin do Portal. Nao tem tela propria; so suporta o SSO.
+
+ARQUIVO NO PACOTE : Service\bin\Linx.Framework.BV.WebAPI.DS.dll
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Service\bin\Linx.Framework.BV.WebAPI.DS.dll
+TAMANHO (bytes)   : 1005568
+SHA256            : ba910d662f350dde873b5d9d443964dfd94b26288ae430fd30052970b9a58851
+POR QUE FOI INCLUIDA
+    Controller HTTP LinxFrameworkAutorizacao. Expoe as rotas MFA/SSO usadas pelo Portal e pela Application: AuthenticatePortalSso, GetPortalLoginOptions, GetMfaStatus, BeginMfaEnrollment, ConfirmMfaEnrollment, ValidateMfaCode, ValidateMfaTicket, IssueMfaSkipTicket, RevokeMfaSecret, Check/Bind/RevokePortalSsoVinculo, LogPortalSsoProcess, SetUserMfaFlags. E a fachada Web API sobre Linx.Framework.BV.dll.
+
+ARQUIVO NO PACOTE : Service\bin\Linx.Framework.BV.dll
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Service\bin\Linx.Framework.BV.dll
+TAMANHO (bytes)   : 5590016
+SHA256            : b7e15ebb072793360e85769d01ab1c466637c0098f50e85366c6deecee04f9c4
+POR QUE FOI INCLUIDA
+    Camada de negocio do Service. Implementa MFA TOTP (segredo, politica da empresa, dispositivo confiavel, ticket, bloqueio, Revoga MFA) e SSO de retaguarda: GetPortalLoginOptions (Utiliza SSO/MFA, e-mail, usuario de servico), AuthenticatePortalSso (login sem senha apos prova Azure), Check/Bind/RevokePortalSsoVinculo (vinculo OID+UPN e Revogar SSO) e LogPortalSsoProcess (TCS_LOG_ACESSO_AUTH, codigos SSOI-/SSOF-). Sem esta DLL as APIs MFA/SSO nao executam.
+
+================================================================================
+Demais arquivos (views / SPA) — mesmos caminhos relativos a BASE
+================================================================================
+
+ARQUIVO NO PACOTE : Application\App\resources\CadastroUsuarioAutenticacao_pt-br.js
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\App\resources\CadastroUsuarioAutenticacao_pt-br.js
+TAMANHO (bytes)   : 9464
+SHA256            : f506e37352bdcda62968d0175167f6c0dd96095c5b4cac3c97e4df60d1ff07e3
+FUNCAO            : Textos pt-BR do cadastro autenticacao.
+
+ARQUIVO NO PACOTE : Application\App\resources\CadastroUsuarioLocal_pt-br.js
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\App\resources\CadastroUsuarioLocal_pt-br.js
+TAMANHO (bytes)   : 7660
+SHA256            : 98be86206eb46a859b7be71041a277e2248f53810c7fdbe996de2ee9af5f8a1b
+FUNCAO            : Textos pt-BR do cadastro local.
+
+ARQUIVO NO PACOTE : Application\App\resources\CadastroUsuario_pt-br.js
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\App\resources\CadastroUsuario_pt-br.js
+TAMANHO (bytes)   : 9156
+SHA256            : 0d5468b89b49cd9e19df7728874a5ca68cd5ec5b667f8ee9d1aa35d39eaa84bc
+FUNCAO            : Textos pt-BR (Utiliza MFA/SSO, Revoga MFA, Revoga SSO).
+
+ARQUIVO NO PACOTE : Application\App\viewmodels\CadastroUsuario.js
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\App\viewmodels\CadastroUsuario.js
+TAMANHO (bytes)   : 137479
+SHA256            : b67786c7916ecfef65f3f81425e600b673a90c3ce083b059a796b6754fa8ac22
+FUNCAO            : ViewModel: persistir Utiliza SSO/MFA e chamar Revoga MFA / Revoga SSO.
+
+ARQUIVO NO PACOTE : Application\App\viewmodels\CadastroUsuarioAutenticacao.js
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\App\viewmodels\CadastroUsuarioAutenticacao.js
+TAMANHO (bytes)   : 157556
+SHA256            : 6f3f5d92ec3dc7b2b931e4a8a994d037c46f2bbcfb518313db09c143dff11ede
+FUNCAO            : ViewModel Autenticacao: persistir flags e revogacoes MFA/SSO.
+
+ARQUIVO NO PACOTE : Application\App\viewmodels\CadastroUsuarioLocal.js
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\App\viewmodels\CadastroUsuarioLocal.js
+TAMANHO (bytes)   : 150441
+SHA256            : 971b5c3a2d7c317f11f38927e927dd5a2e0d8f70b78f9634533d99aa8ba20c7a
+FUNCAO            : ViewModel Local: persistir flags e revogacoes MFA/SSO.
+
+ARQUIVO NO PACOTE : Application\App\views\CadastroUsuario.html
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\App\views\CadastroUsuario.html
+TAMANHO (bytes)   : 127808
+SHA256            : f2e1d287f6d5941249b842ab0c1f05b1e267e148999beac3bd253d2e6c8ce749
+FUNCAO            : Formulario Cadastro de Usuario: flags Utiliza MFA/SSO e botoes Revoga MFA / Revoga SSO.
+
+ARQUIVO NO PACOTE : Application\App\views\CadastroUsuarioAutenticacao.html
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\App\views\CadastroUsuarioAutenticacao.html
+TAMANHO (bytes)   : 159935
+SHA256            : 734962b63b1d7b671ce60efdf0670a54d2ce19a82c00a593ca39d188c746b7c4
+FUNCAO            : Formulario Cadastro Usuario Autenticacao: mesmas flags e Revoga MFA / Revoga SSO.
+
+ARQUIVO NO PACOTE : Application\App\views\CadastroUsuarioLocal.html
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\App\views\CadastroUsuarioLocal.html
+TAMANHO (bytes)   : 153270
+SHA256            : 54c9f1fd4404924af0f2df7c6abb75947126a0a7bc229d88a585953881e3c63d
+FUNCAO            : Formulario Cadastro Usuario Local: mesmas flags e Revoga MFA / Revoga SSO.
+
+ARQUIVO NO PACOTE : Application\App\widgets\datatoolbar\view.html
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Application\App\widgets\datatoolbar\view.html
+TAMANHO (bytes)   : 14496
+SHA256            : 014658fadc950bb6dd5f10d2ed4325542605f18e30af6ffbba4bfa06714052da
+FUNCAO            : Toolbar com botoes Revogar MFA e Revoga SSO ao lado um do outro.
+
+ARQUIVO NO PACOTE : Portal\Views\Account\Login.cshtml
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Portal\Views\Account\Login.cshtml
+TAMANHO (bytes)   : 20574
+SHA256            : 91333dfe52915f85fdefa3180784c645ec2a6b36640a8bb4d284ef1a25140ea0
+FUNCAO            : View da tela de login do Portal. Primeira pagina: so usuario + Continuar. Segunda pagina: senha OU somente botao Microsoft quando Utiliza SSO. Exibe a mensagem de erro apos falha SSO.
+
+ARQUIVO NO PACOTE : Portal\Views\Mfa\Challenge.cshtml
+COPIAR PARA       : C:\Linx Program Files\Linx Framework 6.0.0\Portal\Views\Mfa\Challenge.cshtml
+TAMANHO (bytes)   : 4855
+SHA256            : 5f6db00cb2ac3804a189942e46c7c8cb48aed09fd702f33c13f14d71e86eddfa
+FUNCAO            : View do desafio MFA TOTP (6 digitos / QR de enrollment) depois do login com senha ou SSO.
+
+Total de arquivos a instalar: 19 (IIS) + 1 script SQL
+
+================================================================================
+Banco de dados — NAO copiar para o IIS
+================================================================================
+
+ARQUIVO NO PACOTE : DB\APPLY_SSO_MFA.sql
+EXECUTAR EM       : catalogo Portal / FrameworkAutorizacao (LX_TCS.TCS_USUARIO_AUTENTICACAO)
+TAMANHO (bytes)   : 12778
+SHA256            : ed9fa43c01487183b705408fd7a50d8fef2c33072b050faf4d8cca2de4ff0384
+FUNCAO            : Atualiza um banco ja existente para MFA e SSO. Idempotente.
+                    Colunas novas: TCS_USUARIO_AUTENTICACAO.INDICA_UTILIZA_SSO,
+                    INDICA_UTILIZA_MFA, INDICA_USUARIO_SERVICO; e em
+                    TCS_LOG_ACESSO_AUTH (se ja existir): INDICA_USUARIO_SERVICO, ID_LINX.
+                    Tabelas novas: TCS_LOG_ACESSO_AUTH, TCS_GPECON_MFA, TCS_USUARIO_MFA,
+                    TCS_USUARIO_MFA_DISPOSITIVO, TCS_USUARIO_SSO_VINCULO.
+

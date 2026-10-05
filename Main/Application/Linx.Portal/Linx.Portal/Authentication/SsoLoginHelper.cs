@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Security;
 using Microsoft.Identity.Client;
 
 namespace Linx.Portal.Authentication
@@ -87,6 +88,90 @@ namespace Linx.Portal.Authentication
                 return;
             session.Remove(PendingLocalUserSessionKey);
             session.Remove(LoginHintEmailSessionKey);
+        }
+
+        /// <summary>
+        /// Drop SSO session keys so the next attempt starts from the identifier-first page.
+        /// </summary>
+        public static void ClearSsoState(HttpSessionStateBase session)
+        {
+            ClearContingency(session);
+            ClearPendingLocalUser(session);
+            if (session != null)
+                session.Remove(OAuthStateSessionKey);
+        }
+
+        /// <summary>
+        /// Expire Portal SSO/MSAL/Forms cookies and the local MSAL cache file.
+        /// Azure AD cookies live on login.microsoftonline.com and cannot be cleared here;
+        /// BeginForceLoginAsync already uses prompt=login for a fresh credential prompt.
+        /// </summary>
+        public static void ClearSsoBrowserCookies(HttpRequestBase request, HttpResponseBase response)
+        {
+            if (response == null)
+                return;
+
+            var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (request != null && request.Cookies != null)
+            {
+                foreach (string name in request.Cookies.AllKeys)
+                {
+                    if (IsSsoRelatedCookie(name))
+                        names.Add(name);
+                }
+            }
+
+            try
+            {
+                if (!string.IsNullOrEmpty(FormsAuthentication.FormsCookieName))
+                    names.Add(FormsAuthentication.FormsCookieName);
+            }
+            catch
+            {
+            }
+
+            names.Add(".ASPXAUTH");
+            names.Add("FedAuth");
+
+            foreach (string name in names)
+                ExpireCookie(response, name);
+
+            try
+            {
+                new FileTokenCacheStore("msal.cache", "LinxPortal").Clear();
+            }
+            catch
+            {
+            }
+        }
+
+        private static bool IsSsoRelatedCookie(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return false;
+            string n = name.ToLowerInvariant();
+            return n.IndexOf("sso", StringComparison.Ordinal) >= 0
+                || n.IndexOf("msal", StringComparison.Ordinal) >= 0
+                || n.IndexOf("azure", StringComparison.Ordinal) >= 0
+                || n.IndexOf("openid", StringComparison.Ordinal) >= 0
+                || n.IndexOf("oidc", StringComparison.Ordinal) >= 0
+                || n.IndexOf("nonce", StringComparison.Ordinal) >= 0
+                || n.IndexOf("fedauth", StringComparison.Ordinal) >= 0
+                || string.Equals(n, ".aspxauth", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static void ExpireCookie(HttpResponseBase response, string name)
+        {
+            if (response == null || string.IsNullOrEmpty(name))
+                return;
+            var expired = new HttpCookie(name)
+            {
+                Expires = DateTime.UtcNow.AddDays(-1),
+                Value = string.Empty,
+                HttpOnly = true,
+                Path = "/"
+            };
+            response.Cookies.Set(expired);
         }
 
         public static MsalAuthenticationService CreateService()
