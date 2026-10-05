@@ -1470,6 +1470,29 @@ if (!isNull(parent)){
 
 return true;
        }
+       ownerReference.BeforeGetLookUpTcsAmbiente2Query = function (fieldToSearch, lookupInfo) {
+    if (!vm.dataToolbar.canUndo()){
+	return;
+}
+
+var condition = "";
+var data = vm.currentDataItem().TcsUsuarioAutenticacaoAcessoList();
+var currentId = getAbsoluteValue(ownerReference.IdTcsAmbiente);
+
+for (var i = 0; i < data.length; i++) {
+	var idAmbiente = getAbsoluteValue(data[i].IdTcsAmbiente);
+	if (isNullOrEmpty(idAmbiente) || idAmbiente === 0 || idAmbiente === currentId) {
+		continue;
+	}
+	condition = condition + (condition.length > 0 ? ";&&#" : "") + "IdTcsAmbiente#!=#I" + idAmbiente;
+};
+
+if (condition.length === 0) {
+	return;
+}
+
+return "LookUpTcsAmbiente2{" + condition + "}";
+       }
        ownerReference.BeforeGetLookUpTcsAmbiente2RelacionadoQuery = function (fieldToSearch, lookupInfo) {
     if (!vm.dataToolbar.canUndo()){
 	return;
