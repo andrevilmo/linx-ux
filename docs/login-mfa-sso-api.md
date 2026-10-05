@@ -2,7 +2,8 @@
 
 Versão em Word (Portal / usuário / parâmetros da empresa): [Linx-UX-MFA-SSO-Portal.docx](Linx-UX-MFA-SSO-Portal.docx).  
 Guia **só de SSO** (alto nível + requisitos): [Linx-UX-SSO-Portal.docx](Linx-UX-SSO-Portal.docx) e [login-sso-usuario.md](login-sso-usuario.md).  
-Versão em PDF (APIs, alto nível): [Linx-UX-Autenticacao-MFA-SSO-API.pdf](Linx-UX-Autenticacao-MFA-SSO-API.pdf).
+Versão em PDF (APIs, alto nível): [Linx-UX-Autenticacao-MFA-SSO-API.pdf](Linx-UX-Autenticacao-MFA-SSO-API.pdf).  
+Estória da **construção** do MFA (épico, aceite, linha do tempo): [estorias-construcao-mfa.md](estorias-construcao-mfa.md).
 
 Documento para integrar o fluxo de autenticação do Linx UX (Portal + Service + Application).
 

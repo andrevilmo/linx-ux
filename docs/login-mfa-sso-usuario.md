@@ -1,7 +1,8 @@
 # Login Linx UX — descrição para usuário
 
 Versão em Word (frontend, prints e parâmetros SSO da empresa): [Linx-UX-MFA-SSO-Portal.docx](Linx-UX-MFA-SSO-Portal.docx).  
-Guia **só de SSO** (usuário + requisitos): [Linx-UX-SSO-Portal.docx](Linx-UX-SSO-Portal.docx) e [login-sso-usuario.md](login-sso-usuario.md).
+Guia **só de SSO** (usuário + requisitos): [Linx-UX-SSO-Portal.docx](Linx-UX-SSO-Portal.docx) e [login-sso-usuario.md](login-sso-usuario.md).  
+Estória da **construção** do MFA (épico, aceite, linha do tempo): [estorias-construcao-mfa.md](estorias-construcao-mfa.md).
 
 O acesso ao Linx UX tem **duas etapas**. Elas não acontecem na mesma tela.
 
