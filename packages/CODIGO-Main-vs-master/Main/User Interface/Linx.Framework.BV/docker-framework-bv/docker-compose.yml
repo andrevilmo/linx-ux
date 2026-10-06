@@ -1,0 +1,45 @@
+# Builds and publishes Linx.Framework.BV.sln from the source repository path.
+# Requires Docker Desktop with Windows containers enabled.
+#
+# Usage (from this folder):
+#   docker compose run --rm build
+#
+# Build outputs are copied to the named volume at C:\build-output.
+
+services:
+  build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: windows/amd64
+    volumes:
+      - type: bind
+        source: C:\Linx Workspace\Framework\Linx Framework\Main\User Interface\Linx.Framework.BV
+        target: C:\src
+      - type: volume
+        source: Linx.Framework.BV-output
+        target: C:\build-output
+    working_dir: C:\src
+    command:
+      - powershell
+      - -NoProfile
+      - -ExecutionPolicy
+      - Bypass
+      - -Command
+      - >-
+        $$ErrorActionPreference = 'Stop';
+        nuget restore Linx.Framework.BV.sln -NonInteractive;
+        msbuild Linx.Framework.BV.sln /p:Configuration=Release /m /v:minimal /nologo;
+        New-Item -ItemType Directory -Force -Path 'C:\build-output\publish' | Out-Null;
+        foreach ($$projDir in Get-ChildItem 'C:\src' -Directory) {
+          $$binDir = Join-Path $$projDir.FullName 'bin\Release';
+          if (Test-Path $$binDir) {
+            $$target = Join-Path 'C:\build-output\publish' $$projDir.Name;
+            New-Item -ItemType Directory -Force -Path $$target | Out-Null;
+            Copy-Item (Join-Path $$binDir '*') $$target -Recurse -Force
+          }
+        }
+
+volumes:
+  Linx.Framework.BV-output:
+    name: Linx.Framework.BV-output
