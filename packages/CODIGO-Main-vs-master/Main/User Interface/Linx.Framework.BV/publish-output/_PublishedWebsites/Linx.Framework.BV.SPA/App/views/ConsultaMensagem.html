@@ -1,0 +1,526 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="ConsultaMensagem_formViewer" class="panelTransaition">
+            <figure id="ConsultaMensagem_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.ConsultaMensagem().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="ConsultaMensagem_gbTcsMensagemConsulta" data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_gbTcsMensagemConsulta'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_gbTcsMensagemConsulta')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_gbTcsMensagemConsulta')"><i class="icon-reorder"></i></div>
+                   </div>
+                   <div id="ConsultaMensagem_gbTcsMensagemConsulta_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="ConsultaMensagem_gbGroupBox_2c9a396924094ab391b7c2d3da3604bc" data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_gbGroupBox_2c9a396924094ab391b7c2d3da3604bc'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_gbGroupBox_2c9a396924094ab391b7c2d3da3604bc')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div id="ConsultaMensagem_gbGroupBox_2c9a396924094ab391b7c2d3da3604bc_body" class="portlet-body" >
+                           <div data-bind="with: $root.ConsultaMensagem().getWithBinding(currentDataItem, $root.ConsultaMensagem().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_tbTitulo'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_tbTitulo')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaMensagem_divTitulo" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaMensagem().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_tbTitulo')}, text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_tbTitulo')" id="ConsultaMensagem_lblTitulo" for="ConsultaMensagem_tbTitulo" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaMensagem_tbTitulo" class="form-control ellipsis" data-bind="attr: { title: Titulo }, validatedField: 'Titulo', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_tbTitulo') ? ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_tbTitulo') : (!isEmptyEntityFn($data) && $root.ConsultaMensagem().status() === 'C') }, igTextEditor: { maxLength: 100, value: Titulo, readOnly: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_tbTitulo') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_tbTitulo') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_cmbLxTipoMensagem'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_cmbLxTipoMensagem')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaMensagem_divLxTipoMensagem" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaMensagem().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_cmbLxTipoMensagem')}, text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_cmbLxTipoMensagem')" id="ConsultaMensagem_lblLxTipoMensagem" for="ConsultaMensagem_cmbLxTipoMensagem" class="control-label ellipsis">
+                                               </label>
+                                               <span id="ConsultaMensagem_cmbLxTipoMensagem" class="form-control " data-bind="validatedField: 'LxTipoMensagem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_cmbLxTipoMensagem') ? ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_cmbLxTipoMensagem') : (!isEmptyEntityFn($data) && $root.ConsultaMensagem().status() === 'C'), activeReadonly: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_cmbLxTipoMensagem') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_cmbLxTipoMensagem') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C') }, readOnly: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_cmbLxTipoMensagem') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_cmbLxTipoMensagem') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C'), igCombo: {
+                                                  selectedItems: LxTipoMensagem,
+                                                  dataSource:  $root.ConsultaMensagem().dataDomains.getItems('TipoMensagem', ''),
+                                                  textKey: 'name',
+                                                  valueKey: 'id',
+                                                  allowCustomValue : true,
+                                                  enableSelectionChangedUpdate: true,
+                                                  enableClearButton: false,
+                                                  dropDownOnFocus: true,
+                                                  disabled: (ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_cmbLxTipoMensagem') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_cmbLxTipoMensagem') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C')),
+                                                  mode: 'editable',
+                                                  width:'100%'
+                                               }"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_dtCriacao'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_dtCriacao')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaMensagem_divCriacao" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaMensagem().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_dtCriacao')}, text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_dtCriacao')" id="ConsultaMensagem_lblCriacao" for="ConsultaMensagem_dtCriacao" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group" >
+                                                   <span id="ConsultaMensagem_dtCriacao" class="date form-control dateFilterRange  "  data-bind="validatedField: 'Criacao', css: { vmEditing: $root.ConsultaMensagem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtCriacao') ? ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtCriacao') : (!isEmptyEntityFn($data) && $root.ConsultaMensagem().status() === 'C'), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtCriacao') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtCriacao') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C') },  igDatePicker: { value: Criacao, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy HH:mm', dateInputFormat: 'dd/MM/yyyy HH:mm', dropDownOnReadOnly: false, readOnly: $root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaCriacao()?true:ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtCriacao') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtCriacao') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C'), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="ConsultaMensagem_rgbtnCriacao"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaCriacao(), 'icon-ok': $root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaCriacao(), hide: $root.ConsultaMensagem().status() !== 'C' }, popoverWithBind: { template: '#ConsultaMensagem_rgCriacao', vm: $root.ConsultaMensagem().entitySearchRange, ctrlName: 'ConsultaMensagem_rgcCriacao', headerText:'Filtro de datas' }"  /></span>
+                                                      <script id="ConsultaMensagem_rgCriacao" type="text/html" tabindex="-1">
+                                                      <div class="range-radio-group">
+                                                          <input type="radio" data-bind="enable: !has_TcsMensagemConsultaCriacao(), checked:TcsMensagemConsultaCriacao_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="enable: !has_TcsMensagemConsultaCriacao(), checked:TcsMensagemConsultaCriacao_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      </div>
+                                                      <div class="range-input-group" id="ConsultaMensagem_divrgCriacao" >
+                                                          <div class="filterByRange" data-bind="visible: TcsMensagemConsultaCriacao_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="ConsultaMensagem_dtbCriacao" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsMensagemConsultaCriacao_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaMensagem_dtCriacao').igDatePicker('option', 'readOnly', (ui.value != null || $('#ConsultaMensagem_dteCriacao').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#ConsultaMensagem_dtbCriacao').igDatePicker('value'); var valorMax = $('#ConsultaMensagem_dteCriacao').igDatePicker('value');if (valorMax != null && valorMin > valorMax){TcsMensagemConsultaCriacao_begin(valorMax); $('#ConsultaMensagem_dtbCriacao').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="ConsultaMensagem_dteCriacao" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsMensagemConsultaCriacao_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaMensagem_dtCriacao').igDatePicker('option', 'readOnly', ($('#ConsultaMensagem_dtbCriacao').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#ConsultaMensagem_dtbCriacao').igDatePicker('value'); var valorMax = $('#ConsultaMensagem_dteCriacao').igDatePicker('value');if (valorMin != null && valorMax < valorMin){TcsMensagemConsultaCriacao_end(valorMin); $('#ConsultaMensagem_dteCriacao').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: TcsMensagemConsultaCriacao_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TcsMensagemConsultaCriacao_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <div class="row predefValue" data-bind="visible: TcsMensagemConsultaCriacao_predefFilter() != null && TcsMensagemConsultaCriacao_predefFilter()[0] && TcsMensagemConsultaCriacao_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TcsMensagemConsultaCriacao_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_dtEnvio'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_dtEnvio')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaMensagem_divEnvio" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaMensagem().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_dtEnvio')}, text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_dtEnvio')" id="ConsultaMensagem_lblEnvio" for="ConsultaMensagem_dtEnvio" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group" >
+                                                   <span id="ConsultaMensagem_dtEnvio" class="date form-control dateFilterRange  "  data-bind="validatedField: 'Envio', css: { vmEditing: $root.ConsultaMensagem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtEnvio') ? ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtEnvio') : (!isEmptyEntityFn($data) && $root.ConsultaMensagem().status() === 'C'), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtEnvio') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtEnvio') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C') },  igDatePicker: { value: Envio, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy HH:mm', dateInputFormat: 'dd/MM/yyyy HH:mm', dropDownOnReadOnly: false, readOnly: $root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaEnvio()?true:ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtEnvio') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtEnvio') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C'), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="ConsultaMensagem_rgbtnEnvio"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaEnvio(), 'icon-ok': $root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaEnvio(), hide: $root.ConsultaMensagem().status() !== 'C' }, popoverWithBind: { template: '#ConsultaMensagem_rgEnvio', vm: $root.ConsultaMensagem().entitySearchRange, ctrlName: 'ConsultaMensagem_rgcEnvio', headerText:'Filtro de datas' }"  /></span>
+                                                      <script id="ConsultaMensagem_rgEnvio" type="text/html" tabindex="-1">
+                                                      <div class="range-radio-group">
+                                                          <input type="radio" data-bind="enable: !has_TcsMensagemConsultaEnvio(), checked:TcsMensagemConsultaEnvio_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="enable: !has_TcsMensagemConsultaEnvio(), checked:TcsMensagemConsultaEnvio_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      </div>
+                                                      <div class="range-input-group" id="ConsultaMensagem_divrgEnvio" >
+                                                          <div class="filterByRange" data-bind="visible: TcsMensagemConsultaEnvio_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="ConsultaMensagem_dtbEnvio" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsMensagemConsultaEnvio_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaMensagem_dtEnvio').igDatePicker('option', 'readOnly', (ui.value != null || $('#ConsultaMensagem_dteEnvio').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#ConsultaMensagem_dtbEnvio').igDatePicker('value'); var valorMax = $('#ConsultaMensagem_dteEnvio').igDatePicker('value');if (valorMax != null && valorMin > valorMax){TcsMensagemConsultaEnvio_begin(valorMax); $('#ConsultaMensagem_dtbEnvio').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="ConsultaMensagem_dteEnvio" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsMensagemConsultaEnvio_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaMensagem_dtEnvio').igDatePicker('option', 'readOnly', ($('#ConsultaMensagem_dtbEnvio').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#ConsultaMensagem_dtbEnvio').igDatePicker('value'); var valorMax = $('#ConsultaMensagem_dteEnvio').igDatePicker('value');if (valorMin != null && valorMax < valorMin){TcsMensagemConsultaEnvio_end(valorMin); $('#ConsultaMensagem_dteEnvio').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: TcsMensagemConsultaEnvio_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TcsMensagemConsultaEnvio_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <div class="row predefValue" data-bind="visible: TcsMensagemConsultaEnvio_predefFilter() != null && TcsMensagemConsultaEnvio_predefFilter()[0] && TcsMensagemConsultaEnvio_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TcsMensagemConsultaEnvio_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_lUpNomeEmpresa'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_lUpNomeEmpresa')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaMensagem_divNomeEmpresa" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaMensagem().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_lUpNomeEmpresa')}, text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_lUpNomeEmpresa')" id="ConsultaMensagem_lblNomeEmpresa" for="ConsultaMensagem_lUpNomeEmpresa" class="control-label ellipsis">
+                                               </label>
+                                               <div id="ConsultaMensagem_lUpNomeEmpresa" class="form-control input-group " data-bind="validatedField: 'NomeEmpresa', css: { vmEditing: $root.ConsultaMensagem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpNomeEmpresa') ? ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpNomeEmpresa') : (!isEmptyEntityFn($data) && $root.ConsultaMensagem().status() === 'C') }, lookupControl: { vm: $root.ConsultaMensagem(), value: NomeEmpresa, maxLength: 250,lookupName: 'LookUpTcsEmpresaAutenticacaoC', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaMensagem().entitySearchRange.NomeEmpresa, fieldName: 'NomeEmpresa', disabled:ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpNomeEmpresa') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpNomeEmpresa') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_lUpNomeUsuario'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_lUpNomeUsuario')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaMensagem_divNomeUsuario" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaMensagem().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_lUpNomeUsuario')}, text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_lUpNomeUsuario')" id="ConsultaMensagem_lblNomeUsuario" for="ConsultaMensagem_lUpNomeUsuario" class="control-label ellipsis">
+                                               </label>
+                                               <div id="ConsultaMensagem_lUpNomeUsuario" class="form-control input-group " data-bind="validatedField: 'NomeUsuario', css: { vmEditing: $root.ConsultaMensagem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpNomeUsuario') ? ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpNomeUsuario') : (!isEmptyEntityFn($data) && $root.ConsultaMensagem().status() === 'C') }, lookupControl: { vm: $root.ConsultaMensagem(), value: NomeUsuario, maxLength: 250,lookupName: 'LookUpTcsUsuarioAutenticacaoC', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaMensagem().entitySearchRange.NomeUsuario, fieldName: 'NomeUsuario', disabled:ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpNomeUsuario') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpNomeUsuario') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="ConsultaMensagem_tcTabControl_eb3f696999dd454ba38a842c72390b0d"  data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_tcTabControl_eb3f696999dd454ba38a842c72390b0d'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_tcTabControl_eb3f696999dd454ba38a842c72390b0d')"  class="tabbable tabbable-custom box" >
+                  <div class="container-tab">
+                     <div id="ConsultaMensagem_tcTabControl_eb3f696999dd454ba38a842c72390b0d_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                     <div id="ConsultaMensagem_tcTabControl_eb3f696999dd454ba38a842c72390b0d_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                     <div id="ConsultaMensagem_tcTabControl_eb3f696999dd454ba38a842c72390b0d_wrapper" class="wrapper">
+                        <ul id="ConsultaMensagem_tcTabControl_eb3f696999dd454ba38a842c72390b0d_list" class="nav nav-tabs list">
+                           <li id="ConsultaMensagem_tiTabItem_2430f69f10e540d9bec00108a95052af" class="active"><a data-bind="text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_tiTabItem_2430f69f10e540d9bec00108a95052af'), attr: {title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_tiTabItem_2430f69f10e540d9bec00108a95052af')}" href="#ConsultaMensagem_tabTabItem_2430f69f10e540d9bec00108a95052af" data-toggle="tab"></a></li>
+                           <li id="ConsultaMensagem_tiTabItem_d6c33d4e05584d5ca00acdbc8261dfff" class=""><a data-bind="text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_tiTabItem_d6c33d4e05584d5ca00acdbc8261dfff'), attr: {title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_tiTabItem_d6c33d4e05584d5ca00acdbc8261dfff')}" href="#ConsultaMensagem_tabTabItem_d6c33d4e05584d5ca00acdbc8261dfff" data-toggle="tab"></a></li>
+                        </ul>
+                        </div>
+                     </div>
+                  <div class="tab-content">
+
+
+
+                   <div class="tab-pane fade active in" id="ConsultaMensagem_tabTabItem_2430f69f10e540d9bec00108a95052af">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div id="ConsultaMensagem_gbGroupBox_8584be30d85d4437a293c038494e42df" data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_gbGroupBox_8584be30d85d4437a293c038494e42df'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_gbGroupBox_8584be30d85d4437a293c038494e42df')"  class=" gbox position-element"  >
+                           <div class="portlet box dark-background" >
+                               <div id="ConsultaMensagem_gbGroupBox_8584be30d85d4437a293c038494e42df_body" class="portlet-body" >
+                                   <div class="row">
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                       <div data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_divCorpo'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_divCorpo')" class="">
+                                           <div class="form-group">
+                                               <div id="ConsultaMensagem_divdivCorpo" class="" >
+                                                   <label  id="ConsultaMensagem_lbldivCorpo" for="ConsultaMensagem_divCorpo" class="control-label ellipsis">
+                                                   &nbsp;
+                                                   </label>
+                                                   <div id="ConsultaMensagem_divCorpo" ">
+                                                   
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+                                   </div>
+
+                               </div>
+                           </div>
+                           </div>
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="ConsultaMensagem_tabTabItem_d6c33d4e05584d5ca00acdbc8261dfff">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div id="ConsultaMensagem_gbGroupBox_0e1ace88b6554234ad34aab931a0479f" data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_gbGroupBox_0e1ace88b6554234ad34aab931a0479f'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_gbGroupBox_0e1ace88b6554234ad34aab931a0479f')"  class=" gbox position-element"  >
+                           <div class="portlet box dark-background" >
+                               <div id="ConsultaMensagem_gbGroupBox_0e1ace88b6554234ad34aab931a0479f_body" class="portlet-body" >
+                                   <div class="row">
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_dGridTcsMensagemConsultaLog') " >
+                               <div id="ConsultaMensagem_dGridTcsMensagemConsultaLog_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.ConsultaMensagem().getWithBinding(currentDataItem, $root.ConsultaMensagem().rootDataTypeName)">
+                                   <button id="ConsultaMensagem_dGridTcsMensagemConsultaLog_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                                    data-bind="click:function () { 
+                                      $root.ConsultaMensagem().openEditor('#ConsultaMensagem_dGridTcsMensagemConsultaLog', 'TcsMensagemConsultaLog', 'vm.currentDataItem().currentTcsMensagemConsultaLog;vm.currentDataItem().TcsMensagemConsultaLogList', 'TcsMensagemConsultaLog;vm.currentDataItem()', 'TcsMensagemConsultaLog(vm.currentDataItem())', false)
+                                   }"><i class="fa fa-th"></i></button>
+                                   <button id="ConsultaMensagem_dGridTcsMensagemConsultaLog_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                                    data-bind="click:function () { 
+                                      $root.ConsultaMensagem().openEditor('#ConsultaMensagem_dGridTcsMensagemConsultaLog', 'TcsMensagemConsultaLog', 'vm.currentDataItem().currentTcsMensagemConsultaLog;vm.currentDataItem().TcsMensagemConsultaLogList', 'TcsMensagemConsultaLog;vm.currentDataItem()', 'TcsMensagemConsultaLog(vm.currentDataItem())', true)
+                                   }"><i class="fa fa-th-large"></i></button>
+                                   <button id="ConsultaMensagem_dGridTcsMensagemConsultaLog_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#ConsultaMensagem_dGridTcsMensagemConsultaLog_templateLayout', vm: function(){return $root.ConsultaMensagem().gridSaveStates['ConsultaMensagem_dGridTcsMensagemConsultaLog'];}, ctrlName: 'ConsultaMensagem_dGridTcsMensagemConsultaLog_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="ConsultaMensagem_dGridTcsMensagemConsultaLog_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="ConsultaMensagem_dGridTcsMensagemConsultaLog_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="ConsultaMensagem_dGridTcsMensagemConsultaLog_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.ConsultaMensagem().dataToolbar.canGridExport(), click: function () {$root.ConsultaMensagem().exportDataDetails($data, 'TcsMensagemConsultaLog', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="ConsultaMensagem_dGridTcsMensagemConsultaLog" data-bind="css: { IsEditableStyle: $root.ConsultaMensagem().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+
+                           <div id="dialogTcsMensagemConsultaLog"  class="toolbar-dialog-template" title='' style="display: none !important; overflow-y:auto;">
+                              <button class="btn btn-sm btn-default backReg " id="backRegTcsMensagemConsultaLog" onClick="$(this).backRegTcsMensagemConsultaLog();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                              <span class="caption"><label id="currentNumberTcsMensagemConsultaLog">0</label><label>/</label><label id="totalNumberTcsMensagemConsultaLog">0</label></span>
+                              <button class="btn btn-sm btn-default nextReg " id="nextRegTcsMensagemConsultaLog" onClick="$(this).nextRegTcsMensagemConsultaLog();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                              <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTcsMensagemConsultaLog" onClick="$(this).okRegTcsMensagemConsultaLog();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                           <div id="ConsultaMensagem_templateTcsMensagemConsultaLog" class="" style="width: 100%; height: 100%;" >
+                               <div data-bind="with: $root.ConsultaMensagem().getWithBinding(currentDataItem, $root.ConsultaMensagem().rootDataTypeName)"><div data-bind="with: $root.ConsultaMensagem().getWithBinding(currentTcsMensagemConsultaLog, 'TcsMensagemConsultaLog')">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_lUpTcsMensagemConsultaLog_NomeUsuario'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_lUpTcsMensagemConsultaLog_NomeUsuario')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaMensagem_divTcsMensagemConsultaLog_NomeUsuarioTemplate" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaMensagem().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_lUpTcsMensagemConsultaLog_NomeUsuario')}, text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_lUpTcsMensagemConsultaLog_NomeUsuario')" id="ConsultaMensagem_lblTcsMensagemConsultaLog_NomeUsuario" for="ConsultaMensagem_lUpTcsMensagemConsultaLog_NomeUsuario" class="control-label ellipsis">
+                                               </label>
+                                               <div id="ConsultaMensagem_lUpTcsMensagemConsultaLog_NomeUsuario" class="form-control input-group " data-bind="validatedField: 'NomeUsuario', css: { vmEditing: $root.ConsultaMensagem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpTcsMensagemConsultaLog_NomeUsuario') ? ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpTcsMensagemConsultaLog_NomeUsuario') : (!isEmptyEntityFn($data) && $root.ConsultaMensagem().status() === 'C') }, lookupControl: { vm: $root.ConsultaMensagem(), value: NomeUsuario, maxLength: 250,lookupName: 'LookUpTcsUsuarioAutenticacaoCL', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaMensagem().entitySearchRange.NomeUsuario, fieldName: 'NomeUsuario', disabled:ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpTcsMensagemConsultaLog_NomeUsuario') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_lUpTcsMensagemConsultaLog_NomeUsuario') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaMensagem_divTcsMensagemConsultaLog_EntregueTemplate" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue')}, text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue')" id="ConsultaMensagem_lblTcsMensagemConsultaLog_Entregue" for="ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group" >
+                                                   <span id="ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue" class="date form-control dateFilterRange  "  data-bind="validatedField: 'Entregue', css: { vmEditing: $root.ConsultaMensagem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue') ? ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue') : (!isEmptyEntityFn($data) && $root.ConsultaMensagem().status() === 'C'), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C') },  igDatePicker: { value: Entregue, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy HH:mm', dateInputFormat: 'dd/MM/yyyy HH:mm', dropDownOnReadOnly: false, readOnly: $root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaLogEntregue()?true:ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C'), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="ConsultaMensagem_rgbtnTcsMensagemConsultaLog_Entregue"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaLogEntregue(), 'icon-ok': $root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaLogEntregue(), hide: $root.ConsultaMensagem().status() !== 'C' }, popoverWithBind: { template: '#ConsultaMensagem_rgTcsMensagemConsultaLog_Entregue', vm: $root.ConsultaMensagem().entitySearchRange, ctrlName: 'ConsultaMensagem_rgcTcsMensagemConsultaLog_Entregue', headerText:'Filtro de datas' }"  /></span>
+                                                      <script id="ConsultaMensagem_rgTcsMensagemConsultaLog_Entregue" type="text/html" tabindex="-1">
+                                                      <div class="range-radio-group">
+                                                          <input type="radio" data-bind="enable: !has_TcsMensagemConsultaLogEntregue(), checked:TcsMensagemConsultaLogEntregue_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="enable: !has_TcsMensagemConsultaLogEntregue(), checked:TcsMensagemConsultaLogEntregue_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      </div>
+                                                      <div class="range-input-group" id="ConsultaMensagem_divrgTcsMensagemConsultaLog_Entregue" >
+                                                          <div class="filterByRange" data-bind="visible: TcsMensagemConsultaLogEntregue_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="ConsultaMensagem_dtbTcsMensagemConsultaLog_Entregue" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsMensagemConsultaLogEntregue_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue').igDatePicker('option', 'readOnly', (ui.value != null || $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Entregue').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Entregue').igDatePicker('value'); var valorMax = $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Entregue').igDatePicker('value');if (valorMax != null && valorMin > valorMax){TcsMensagemConsultaLogEntregue_begin(valorMax); $('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Entregue').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="ConsultaMensagem_dteTcsMensagemConsultaLog_Entregue" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsMensagemConsultaLogEntregue_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaMensagem_dtTcsMensagemConsultaLog_Entregue').igDatePicker('option', 'readOnly', ($('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Entregue').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Entregue').igDatePicker('value'); var valorMax = $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Entregue').igDatePicker('value');if (valorMin != null && valorMax < valorMin){TcsMensagemConsultaLogEntregue_end(valorMin); $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Entregue').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: TcsMensagemConsultaLogEntregue_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TcsMensagemConsultaLogEntregue_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <div class="row predefValue" data-bind="visible: TcsMensagemConsultaLogEntregue_predefFilter() != null && TcsMensagemConsultaLogEntregue_predefFilter()[0] && TcsMensagemConsultaLogEntregue_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TcsMensagemConsultaLogEntregue_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_dtTcsMensagemConsultaLog_Lida'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_dtTcsMensagemConsultaLog_Lida')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaMensagem_divTcsMensagemConsultaLog_LidaTemplate" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_dtTcsMensagemConsultaLog_Lida')}, text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_dtTcsMensagemConsultaLog_Lida')" id="ConsultaMensagem_lblTcsMensagemConsultaLog_Lida" for="ConsultaMensagem_dtTcsMensagemConsultaLog_Lida" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group" >
+                                                   <span id="ConsultaMensagem_dtTcsMensagemConsultaLog_Lida" class="date form-control dateFilterRange  "  data-bind="validatedField: 'Lida', css: { vmEditing: $root.ConsultaMensagem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Lida') ? ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Lida') : (!isEmptyEntityFn($data) && $root.ConsultaMensagem().status() === 'C'), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Lida') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Lida') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C') },  igDatePicker: { value: Lida, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy HH:mm', dateInputFormat: 'dd/MM/yyyy HH:mm', dropDownOnReadOnly: false, readOnly: $root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaLogLida()?true:ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Lida') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Lida') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C'), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="ConsultaMensagem_rgbtnTcsMensagemConsultaLog_Lida"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaLogLida(), 'icon-ok': $root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaLogLida(), hide: $root.ConsultaMensagem().status() !== 'C' }, popoverWithBind: { template: '#ConsultaMensagem_rgTcsMensagemConsultaLog_Lida', vm: $root.ConsultaMensagem().entitySearchRange, ctrlName: 'ConsultaMensagem_rgcTcsMensagemConsultaLog_Lida', headerText:'Filtro de datas' }"  /></span>
+                                                      <script id="ConsultaMensagem_rgTcsMensagemConsultaLog_Lida" type="text/html" tabindex="-1">
+                                                      <div class="range-radio-group">
+                                                          <input type="radio" data-bind="enable: !has_TcsMensagemConsultaLogLida(), checked:TcsMensagemConsultaLogLida_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="enable: !has_TcsMensagemConsultaLogLida(), checked:TcsMensagemConsultaLogLida_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      </div>
+                                                      <div class="range-input-group" id="ConsultaMensagem_divrgTcsMensagemConsultaLog_Lida" >
+                                                          <div class="filterByRange" data-bind="visible: TcsMensagemConsultaLogLida_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="ConsultaMensagem_dtbTcsMensagemConsultaLog_Lida" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsMensagemConsultaLogLida_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaMensagem_dtTcsMensagemConsultaLog_Lida').igDatePicker('option', 'readOnly', (ui.value != null || $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Lida').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Lida').igDatePicker('value'); var valorMax = $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Lida').igDatePicker('value');if (valorMax != null && valorMin > valorMax){TcsMensagemConsultaLogLida_begin(valorMax); $('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Lida').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="ConsultaMensagem_dteTcsMensagemConsultaLog_Lida" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsMensagemConsultaLogLida_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaMensagem_dtTcsMensagemConsultaLog_Lida').igDatePicker('option', 'readOnly', ($('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Lida').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Lida').igDatePicker('value'); var valorMax = $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Lida').igDatePicker('value');if (valorMin != null && valorMax < valorMin){TcsMensagemConsultaLogLida_end(valorMin); $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Lida').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: TcsMensagemConsultaLogLida_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TcsMensagemConsultaLogLida_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <div class="row predefValue" data-bind="visible: TcsMensagemConsultaLogLida_predefFilter() != null && TcsMensagemConsultaLogLida_predefFilter()[0] && TcsMensagemConsultaLogLida_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TcsMensagemConsultaLogLida_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaMensagem().getLayoutColumnSpan('ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada'), visible: $root.ConsultaMensagem().getLayoutVisible('ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaMensagem_divTcsMensagemConsultaLog_DispensadaTemplate" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada')}, text: $root.ConsultaMensagem().getLayoutDisplayName('ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada')" id="ConsultaMensagem_lblTcsMensagemConsultaLog_Dispensada" for="ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group" >
+                                                   <span id="ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada" class="date form-control dateFilterRange  "  data-bind="validatedField: 'Dispensada', css: { vmEditing: $root.ConsultaMensagem().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada') ? ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada') : (!isEmptyEntityFn($data) && $root.ConsultaMensagem().status() === 'C'), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C') },  igDatePicker: { value: Dispensada, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy HH:mm', dateInputFormat: 'dd/MM/yyyy HH:mm', dropDownOnReadOnly: false, readOnly: $root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaLogDispensada()?true:ctrl.hasCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada') ? !ctrl.getCustomEnable($root.ConsultaMensagem(), 'ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada') : (isEmptyEntityFn($data) || $root.ConsultaMensagem().status() !== 'C'), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="ConsultaMensagem_rgbtnTcsMensagemConsultaLog_Dispensada"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaLogDispensada(), 'icon-ok': $root.ConsultaMensagem().entitySearchRange.has_TcsMensagemConsultaLogDispensada(), hide: $root.ConsultaMensagem().status() !== 'C' }, popoverWithBind: { template: '#ConsultaMensagem_rgTcsMensagemConsultaLog_Dispensada', vm: $root.ConsultaMensagem().entitySearchRange, ctrlName: 'ConsultaMensagem_rgcTcsMensagemConsultaLog_Dispensada', headerText:'Filtro de datas' }"  /></span>
+                                                      <script id="ConsultaMensagem_rgTcsMensagemConsultaLog_Dispensada" type="text/html" tabindex="-1">
+                                                      <div class="range-radio-group">
+                                                          <input type="radio" data-bind="enable: !has_TcsMensagemConsultaLogDispensada(), checked:TcsMensagemConsultaLogDispensada_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="enable: !has_TcsMensagemConsultaLogDispensada(), checked:TcsMensagemConsultaLogDispensada_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      </div>
+                                                      <div class="range-input-group" id="ConsultaMensagem_divrgTcsMensagemConsultaLog_Dispensada" >
+                                                          <div class="filterByRange" data-bind="visible: TcsMensagemConsultaLogDispensada_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="ConsultaMensagem_dtbTcsMensagemConsultaLog_Dispensada" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsMensagemConsultaLogDispensada_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada').igDatePicker('option', 'readOnly', (ui.value != null || $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Dispensada').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Dispensada').igDatePicker('value'); var valorMax = $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Dispensada').igDatePicker('value');if (valorMax != null && valorMin > valorMax){TcsMensagemConsultaLogDispensada_begin(valorMax); $('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Dispensada').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="ConsultaMensagem_dteTcsMensagemConsultaLog_Dispensada" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsMensagemConsultaLogDispensada_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaMensagem_dtTcsMensagemConsultaLog_Dispensada').igDatePicker('option', 'readOnly', ($('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Dispensada').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#ConsultaMensagem_dtbTcsMensagemConsultaLog_Dispensada').igDatePicker('value'); var valorMax = $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Dispensada').igDatePicker('value');if (valorMin != null && valorMax < valorMin){TcsMensagemConsultaLogDispensada_end(valorMin); $('#ConsultaMensagem_dteTcsMensagemConsultaLog_Dispensada').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: TcsMensagemConsultaLogDispensada_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TcsMensagemConsultaLogDispensada_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: true, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <div class="row predefValue" data-bind="visible: TcsMensagemConsultaLogDispensada_predefFilter() != null && TcsMensagemConsultaLogDispensada_predefFilter()[0] && TcsMensagemConsultaLogDispensada_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TcsMensagemConsultaLogDispensada_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                           </div></div>
+                       </div>
+
+
+                                   </div>
+
+                               </div>
+                           </div>
+                           </div>
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+               </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="ConsultaMensagem_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.ConsultaMensagem().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyConsultaMensagem_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyConsultaMensagem_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyConsultaMensagem_dGrid_templateLayout', vm: function(){return $root.ConsultaMensagem().gridSaveStates['scyConsultaMensagem_dGrid'];}, ctrlName: 'scyConsultaMensagem_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyConsultaMensagem_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyConsultaMensagem_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyConsultaMensagem_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.ConsultaMensagem().dataToolbar.canExport(), click: function () {$root.ConsultaMensagem().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyConsultaMensagem_dGrid" data-bind="css: { IsEditableStyle: $root.ConsultaMensagem().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

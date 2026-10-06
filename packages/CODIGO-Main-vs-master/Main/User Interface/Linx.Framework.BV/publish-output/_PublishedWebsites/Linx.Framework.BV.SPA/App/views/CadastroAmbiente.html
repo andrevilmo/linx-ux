@@ -1,0 +1,700 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="CadastroAmbiente_formViewer" class="panelTransaition">
+            <figure id="CadastroAmbiente_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.CadastroAmbiente().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="CadastroAmbiente_gbTcsAmbiente" data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_gbTcsAmbiente'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_gbTcsAmbiente')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div id="CadastroAmbiente_gbTcsAmbiente_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="CadastroAmbiente_gbGroupBox_2cae6c2fce9240158ae3bfd908223023" data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_gbGroupBox_2cae6c2fce9240158ae3bfd908223023'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_gbGroupBox_2cae6c2fce9240158ae3bfd908223023')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_gbGroupBox_2cae6c2fce9240158ae3bfd908223023')"><i class="icon-reorder"></i></div>
+                       </div>
+                       <div id="CadastroAmbiente_gbGroupBox_2cae6c2fce9240158ae3bfd908223023_body" class="portlet-body" >
+                           <div data-bind="with: $root.CadastroAmbiente().getWithBinding(currentDataItem, $root.CadastroAmbiente().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_tbIdTcsAmbiente'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_tbIdTcsAmbiente')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroAmbiente_divIdTcsAmbiente" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbIdTcsAmbiente')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbIdTcsAmbiente')" id="CadastroAmbiente_lblIdTcsAmbiente" for="CadastroAmbiente_tbIdTcsAmbiente" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroAmbiente_tbIdTcsAmbiente" class="form-control ellipsis" data-bind="attr: { title: IdTcsAmbiente }, validatedField: 'IdTcsAmbiente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbIdTcsAmbiente') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbIdTcsAmbiente') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C') }, igTextEditor: { maxLength: 12, value: IdTcsAmbiente, readOnly: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbIdTcsAmbiente') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbIdTcsAmbiente') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_tbDescricaoAmbiente'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_tbDescricaoAmbiente')" class="connected-field">
+                                       <div class="form-group">
+                                           <div id="CadastroAmbiente_divDescricaoAmbiente" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }" id="CadastroAmbiente_lblDescricaoAmbiente" for="CadastroAmbiente_tbDescricaoAmbiente" class="control-label ellipsis">
+                                               &nbsp;
+                                               </label>
+                                               <input id="CadastroAmbiente_tbDescricaoAmbiente" class="form-control ellipsis" data-bind="attr: { title: DescricaoAmbiente }, validatedField: 'DescricaoAmbiente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbDescricaoAmbiente') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbDescricaoAmbiente') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().enabledForEditing()) }, igTextEditor: { maxLength: 250, value: DescricaoAmbiente, readOnly: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbDescricaoAmbiente') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbDescricaoAmbiente') : (isEmptyEntityFn($data) || !$root.CadastroAmbiente().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_lUpNomeEmpresa'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_lUpNomeEmpresa')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroAmbiente_divNomeEmpresa" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpNomeEmpresa')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpNomeEmpresa')" id="CadastroAmbiente_lblNomeEmpresa" for="CadastroAmbiente_lUpNomeEmpresa" class="control-label ellipsis">
+                                               </label>
+                                               <div id="CadastroAmbiente_lUpNomeEmpresa" class="form-control input-group " data-bind="validatedField: 'NomeEmpresa', css: { vmEditing: $root.CadastroAmbiente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpNomeEmpresa') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpNomeEmpresa') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C' || ($data.isAdded && $data.isAdded())) }, lookupControl: { vm: $root.CadastroAmbiente(), value: NomeEmpresa, maxLength: 250,lookupName: 'LookUpTcsEmpresaAutenticacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroAmbiente().entitySearchRange.NomeEmpresa, fieldName: 'NomeEmpresa', disabled:ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpNomeEmpresa') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpNomeEmpresa') : (isEmptyEntityFn($data) || !($root.CadastroAmbiente().status() === 'C' || ($data.isAdded && $data.isAdded()))), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_ckEmDesenvolvimento'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_ckEmDesenvolvimento')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroAmbiente_divEmDesenvolvimento" class="" >
+                                               <label class="">
+                                                 <input id="CadastroAmbiente_ckEmDesenvolvimento" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckEmDesenvolvimento') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckEmDesenvolvimento') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C')}, disable: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckEmDesenvolvimento') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckEmDesenvolvimento') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C'), nullableChecked: EmDesenvolvimento" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lblCadastroAmbiente_ckEmDesenvolvimento" data-bind="text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_ckEmDesenvolvimento'), attr: {title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_ckEmDesenvolvimento')}, css: { 'content-required-checkbox': $root.CadastroAmbiente().status() === 'E'}" class="align-label-checkbox"></span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_lUpDescricaoAplicacao'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_lUpDescricaoAplicacao')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroAmbiente_divDescricaoAplicacao" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpDescricaoAplicacao')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpDescricaoAplicacao')" id="CadastroAmbiente_lblDescricaoAplicacao" for="CadastroAmbiente_lUpDescricaoAplicacao" class="control-label ellipsis">
+                                               </label>
+                                               <div id="CadastroAmbiente_lUpDescricaoAplicacao" class="form-control input-group " data-bind="validatedField: 'DescricaoAplicacao', css: { vmEditing: $root.CadastroAmbiente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpDescricaoAplicacao') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpDescricaoAplicacao') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C' || ($data.isAdded && $data.isAdded())) }, lookupControl: { vm: $root.CadastroAmbiente(), value: DescricaoAplicacao, maxLength: 60,lookupName: 'LookUpTcsAplicacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroAmbiente().entitySearchRange.DescricaoAplicacao, fieldName: 'DescricaoAplicacao', disabled:ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpDescricaoAplicacao') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpDescricaoAplicacao') : (isEmptyEntityFn($data) || !($root.CadastroAmbiente().status() === 'C' || ($data.isAdded && $data.isAdded()))), isNullable:false, allowMultiSelectionInSearch:false, validateOnClearState:false, maxValue:null, maxLength: 60, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_lUpDescricaoAplicativo'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_lUpDescricaoAplicativo')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroAmbiente_divDescricaoAplicativo" class="" >
+                                               <label data-bind="attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpDescricaoAplicativo')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpDescricaoAplicativo')" id="CadastroAmbiente_lblDescricaoAplicativo" for="CadastroAmbiente_lUpDescricaoAplicativo" class="control-label ellipsis">
+                                               </label>
+                                               <div id="CadastroAmbiente_lUpDescricaoAplicativo" class="form-control input-group " data-bind="validatedField: 'DescricaoAplicativo', css: { vmEditing: $root.CadastroAmbiente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpDescricaoAplicativo') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpDescricaoAplicativo') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C') }, lookupControl: { vm: $root.CadastroAmbiente(), value: DescricaoAplicativo, maxLength: 250,lookupName: 'LookUpTcsAplicacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroAmbiente().entitySearchRange.DescricaoAplicativo, fieldName: 'DescricaoAplicativo', disabled:ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpDescricaoAplicativo') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpDescricaoAplicativo') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:false, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_tbUrlWorkArea'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_tbUrlWorkArea')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroAmbiente_divUrlWorkArea" class="" >
+                                               <label data-bind="attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbUrlWorkArea')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbUrlWorkArea')" id="CadastroAmbiente_lblUrlWorkArea" for="CadastroAmbiente_tbUrlWorkArea" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroAmbiente_tbUrlWorkArea" class="form-control ellipsis" data-bind="attr: { title: UrlWorkArea }, validatedField: 'UrlWorkArea', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbUrlWorkArea') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbUrlWorkArea') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C') }, igTextEditor: { maxLength: 250, value: UrlWorkArea, readOnly: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbUrlWorkArea') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbUrlWorkArea') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="CadastroAmbiente_tcTcsAmbienteTabControl"  data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_tcTcsAmbienteTabControl'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_tcTcsAmbienteTabControl')"  class="tabbable tabbable-custom box" >
+                  <div class="container-tab">
+                     <div id="CadastroAmbiente_tcTcsAmbienteTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                     <div id="CadastroAmbiente_tcTcsAmbienteTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                     <div id="CadastroAmbiente_tcTcsAmbienteTabControl_wrapper" class="wrapper">
+                        <ul id="CadastroAmbiente_tcTcsAmbienteTabControl_list" class="nav nav-tabs list">
+                           <li id="CadastroAmbiente_tiTcsAmbienteConexaoTabItem" class="active"><a data-bind="text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tiTcsAmbienteConexaoTabItem'), attr: {title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tiTcsAmbienteConexaoTabItem')}" href="#CadastroAmbiente_tabTcsAmbienteConexaoTabItem" data-toggle="tab"></a></li>
+                           <li id="CadastroAmbiente_tiTcsAmbienteUsuarioAcessoTabItem" class=""><a data-bind="text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tiTcsAmbienteUsuarioAcessoTabItem'), attr: {title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tiTcsAmbienteUsuarioAcessoTabItem')}" href="#CadastroAmbiente_tabTcsAmbienteUsuarioAcessoTabItem" data-toggle="tab"></a></li>
+                           <li id="CadastroAmbiente_tiTcsAmbienteServicoExcecaoTabItem" class=""><a data-bind="text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tiTcsAmbienteServicoExcecaoTabItem'), attr: {title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tiTcsAmbienteServicoExcecaoTabItem')}" href="#CadastroAmbiente_tabTcsAmbienteServicoExcecaoTabItem" data-toggle="tab"></a></li>
+                        </ul>
+                        </div>
+                     </div>
+                  <div class="tab-content">
+
+
+
+                   <div class="tab-pane fade active in" id="CadastroAmbiente_tabTcsAmbienteConexaoTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_dGridTcsAmbienteConexao') " >
+                           <div id="CadastroAmbiente_dGridTcsAmbienteConexao_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroAmbiente().getWithBinding(currentDataItem, $root.CadastroAmbiente().rootDataTypeName)">
+                               <button id="CadastroAmbiente_dGridTcsAmbienteConexao_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroAmbiente().createAndNotifyTcsAmbienteConexao($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteConexao_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.CadastroAmbiente().status() === 'E', 
+                               click: function () {
+                                  $root.CadastroAmbiente().deleteGrid('#CadastroAmbiente_dGridTcsAmbienteConexao', 'TcsAmbienteConexao', 'vm.currentDataItem().currentTcsAmbienteConexao;vm.currentDataItem().TcsAmbienteConexaoList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteConexao_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                                data-bind="click:function () { 
+                                  $root.CadastroAmbiente().openEditor('#CadastroAmbiente_dGridTcsAmbienteConexao', 'TcsAmbienteConexao', 'vm.currentDataItem().currentTcsAmbienteConexao;vm.currentDataItem().TcsAmbienteConexaoList', 'TcsAmbienteConexao;vm.currentDataItem()', 'TcsAmbienteConexao(vm.currentDataItem())', false)
+                               }"><i class="fa fa-th"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteConexao_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                                data-bind="click:function () { 
+                                  $root.CadastroAmbiente().openEditor('#CadastroAmbiente_dGridTcsAmbienteConexao', 'TcsAmbienteConexao', 'vm.currentDataItem().currentTcsAmbienteConexao;vm.currentDataItem().TcsAmbienteConexaoList', 'TcsAmbienteConexao;vm.currentDataItem()', 'TcsAmbienteConexao(vm.currentDataItem())', true)
+                               }"><i class="fa fa-th-large"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteConexao_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroAmbiente_dGridTcsAmbienteConexao_templateLayout', vm: function(){return $root.CadastroAmbiente().gridSaveStates['CadastroAmbiente_dGridTcsAmbienteConexao'];}, ctrlName: 'CadastroAmbiente_dGridTcsAmbienteConexao_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroAmbiente_dGridTcsAmbienteConexao_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroAmbiente_dGridTcsAmbienteConexao_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteConexao_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroAmbiente().dataToolbar.canGridExport(), click: function () {$root.CadastroAmbiente().exportDataDetails($data, 'TcsAmbienteConexao', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroAmbiente_dGridTcsAmbienteConexao" data-bind="css: { IsEditableStyle: $root.CadastroAmbiente().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+
+                       <div id="dialogTcsAmbienteConexao"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                          <button class="btn btn-sm btn-default backReg " id="backRegTcsAmbienteConexao" onClick="$(this).backRegTcsAmbienteConexao();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                          <span class="caption"><label id="currentNumberTcsAmbienteConexao">0</label><label>/</label><label id="totalNumberTcsAmbienteConexao">0</label></span>
+                          <button class="btn btn-sm btn-default nextReg " id="nextRegTcsAmbienteConexao" onClick="$(this).nextRegTcsAmbienteConexao();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                          <button class="btn btn-sm btn-default addReg " id="addRegTcsAmbienteConexao" onClick="$(this).addRegTcsAmbienteConexao();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                          <button class="btn btn-sm btn-default delReg " id="delRegTcsAmbienteConexao" onClick="$(this).delRegTcsAmbienteConexao();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                          <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTcsAmbienteConexao" onClick="$(this).okRegTcsAmbienteConexao();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                       <div id="CadastroAmbiente_templateTcsAmbienteConexao" class="" style="width: 100%; height: 100%;" >
+                           <div data-bind="with: $root.CadastroAmbiente().getWithBinding(currentDataItem, $root.CadastroAmbiente().rootDataTypeName)"><div data-bind="with: $root.CadastroAmbiente().getWithBinding(currentTcsAmbienteConexao, 'TcsAmbienteConexao')">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_lUpTcsAmbienteConexao_NomeConexao'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_lUpTcsAmbienteConexao_NomeConexao')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteConexao_NomeConexaoTemplate" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteConexao_NomeConexao')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteConexao_NomeConexao')" id="CadastroAmbiente_lblTcsAmbienteConexao_NomeConexao" for="CadastroAmbiente_lUpTcsAmbienteConexao_NomeConexao" class="control-label ellipsis">
+                                           </label>
+                                           <div id="CadastroAmbiente_lUpTcsAmbienteConexao_NomeConexao" class="form-control input-group " data-bind="validatedField: 'NomeConexao', css: { vmEditing: $root.CadastroAmbiente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteConexao_NomeConexao') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteConexao_NomeConexao') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C' || ($data.isAdded && $data.isAdded())) }, lookupControl: { vm: $root.CadastroAmbiente(), value: NomeConexao, maxLength: 250,lookupName: 'LookUpTcsAplicativoConexao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: true, multiSelectionValue: $root.CadastroAmbiente().entitySearchRange.NomeConexao, fieldName: 'NomeConexao', disabled:ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteConexao_NomeConexao') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteConexao_NomeConexao') : (isEmptyEntityFn($data) || !($root.CadastroAmbiente().status() === 'C' || ($data.isAdded && $data.isAdded()))), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_lUpTcsAmbienteConexao_DescricaoBancoServidor'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_lUpTcsAmbienteConexao_DescricaoBancoServidor')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteConexao_DescricaoBancoServidorTemplate" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteConexao_DescricaoBancoServidor')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteConexao_DescricaoBancoServidor')" id="CadastroAmbiente_lblTcsAmbienteConexao_DescricaoBancoServidor" for="CadastroAmbiente_lUpTcsAmbienteConexao_DescricaoBancoServidor" class="control-label ellipsis">
+                                           </label>
+                                           <div id="CadastroAmbiente_lUpTcsAmbienteConexao_DescricaoBancoServidor" class="form-control input-group " data-bind="validatedField: 'DescricaoBancoServidor', css: { vmEditing: $root.CadastroAmbiente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteConexao_DescricaoBancoServidor') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteConexao_DescricaoBancoServidor') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().enabledForEditing()) }, lookupControl: { vm: $root.CadastroAmbiente(), value: DescricaoBancoServidor, maxLength: 80,lookupName: 'LookUpTcsBancoServidor', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroAmbiente().entitySearchRange.DescricaoBancoServidor, fieldName: 'DescricaoBancoServidor', disabled:ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteConexao_DescricaoBancoServidor') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteConexao_DescricaoBancoServidor') : (isEmptyEntityFn($data) || !$root.CadastroAmbiente().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 80, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteConexao_LxTipoServidorTemplate" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor')" id="CadastroAmbiente_lblTcsAmbienteConexao_LxTipoServidor" for="CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor" class="control-label ellipsis">
+                                           </label>
+                                           <span id="CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor" class="form-control " data-bind="validatedField: 'LxTipoServidor', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C'), activeReadonly: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C') }, readOnly: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C'), igCombo: {
+                                              selectedItems: LxTipoServidor,
+                                              dataSource:  $root.CadastroAmbiente().dataDomains.getItems('TipoServidor', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_cmbTcsAmbienteConexao_LxTipoServidor') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C')),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_tbTcsAmbienteConexao_NomeServidor'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_tbTcsAmbienteConexao_NomeServidor')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteConexao_NomeServidorTemplate" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbTcsAmbienteConexao_NomeServidor')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbTcsAmbienteConexao_NomeServidor')" id="CadastroAmbiente_lblTcsAmbienteConexao_NomeServidor" for="CadastroAmbiente_tbTcsAmbienteConexao_NomeServidor" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroAmbiente_tbTcsAmbienteConexao_NomeServidor" class="form-control ellipsis" data-bind="attr: { title: NomeServidor }, validatedField: 'NomeServidor', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteConexao_NomeServidor') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteConexao_NomeServidor') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C') }, igTextEditor: { maxLength: 250, value: NomeServidor, readOnly: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteConexao_NomeServidor') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteConexao_NomeServidor') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_tbTcsAmbienteConexao_NomeBanco'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_tbTcsAmbienteConexao_NomeBanco')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteConexao_NomeBancoTemplate" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbTcsAmbienteConexao_NomeBanco')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbTcsAmbienteConexao_NomeBanco')" id="CadastroAmbiente_lblTcsAmbienteConexao_NomeBanco" for="CadastroAmbiente_tbTcsAmbienteConexao_NomeBanco" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroAmbiente_tbTcsAmbienteConexao_NomeBanco" class="form-control ellipsis" data-bind="attr: { title: NomeBanco }, validatedField: 'NomeBanco', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteConexao_NomeBanco') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteConexao_NomeBanco') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C') }, igTextEditor: { maxLength: 250, value: NomeBanco, readOnly: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteConexao_NomeBanco') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteConexao_NomeBanco') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div></div>
+                   </div>
+
+
+
+                       <div id="dialogTcsAmbienteUsuarioAcesso"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                          <button class="btn btn-sm btn-default backReg " id="backRegTcsAmbienteUsuarioAcesso" onClick="$(this).backRegTcsAmbienteUsuarioAcesso();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                          <span class="caption"><label id="currentNumberTcsAmbienteUsuarioAcesso">0</label><label>/</label><label id="totalNumberTcsAmbienteUsuarioAcesso">0</label></span>
+                          <button class="btn btn-sm btn-default nextReg " id="nextRegTcsAmbienteUsuarioAcesso" onClick="$(this).nextRegTcsAmbienteUsuarioAcesso();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                          <button class="btn btn-sm btn-default addReg " id="addRegTcsAmbienteUsuarioAcesso" onClick="$(this).addRegTcsAmbienteUsuarioAcesso();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                          <button class="btn btn-sm btn-default delReg " id="delRegTcsAmbienteUsuarioAcesso" onClick="$(this).delRegTcsAmbienteUsuarioAcesso();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                          <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTcsAmbienteUsuarioAcesso" onClick="$(this).okRegTcsAmbienteUsuarioAcesso();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                       <div id="CadastroAmbiente_templateTcsAmbienteUsuarioAcesso" class="" style="width: 100%; height: 100%;" >
+                           <div data-bind="with: $root.CadastroAmbiente().getWithBinding(currentDataItem, $root.CadastroAmbiente().rootDataTypeName)"><div data-bind="with: $root.CadastroAmbiente().getWithBinding(currentTcsAmbienteUsuarioAcesso, 'TcsAmbienteUsuarioAcesso')">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeUsuario'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeUsuario')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteUsuarioAcesso_NomeUsuarioTemplate" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeUsuario')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeUsuario')" id="CadastroAmbiente_lblTcsAmbienteUsuarioAcesso_NomeUsuario" for="CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeUsuario" class="control-label ellipsis">
+                                           </label>
+                                           <div id="CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeUsuario" class="form-control input-group " data-bind="validatedField: 'NomeUsuario', css: { vmEditing: $root.CadastroAmbiente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeUsuario') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeUsuario') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C' || ($data.isAdded && $data.isAdded())) }, lookupControl: { vm: $root.CadastroAmbiente(), value: NomeUsuario, maxLength: 250,lookupName: 'LookUpTcsUsuarioAutenticacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: true, multiSelectionValue: $root.CadastroAmbiente().entitySearchRange.NomeUsuario, fieldName: 'NomeUsuario', disabled:ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeUsuario') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeUsuario') : (isEmptyEntityFn($data) || !($root.CadastroAmbiente().status() === 'C' || ($data.isAdded && $data.isAdded()))), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeEmpresa'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeEmpresa')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteUsuarioAcesso_NomeEmpresaTemplate" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeEmpresa')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeEmpresa')" id="CadastroAmbiente_lblTcsAmbienteUsuarioAcesso_NomeEmpresa" for="CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeEmpresa" class="control-label ellipsis">
+                                           </label>
+                                           <div id="CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeEmpresa" class="form-control input-group " data-bind="validatedField: 'NomeEmpresa', css: { vmEditing: $root.CadastroAmbiente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeEmpresa') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeEmpresa') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C') }, lookupControl: { vm: $root.CadastroAmbiente(), value: NomeEmpresa, maxLength: 250,lookupName: 'LookUpTcsUsuarioAutenticacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: true, multiSelectionValue: $root.CadastroAmbiente().entitySearchRange.NomeEmpresa, fieldName: 'NomeEmpresa', disabled:ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeEmpresa') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_NomeEmpresa') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaAdministrador'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaAdministrador')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteUsuarioAcesso_IndicaAdministradorTemplate" class="" >
+                                           <label class="">
+                                             <input id="CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaAdministrador" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaAdministrador') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaAdministrador') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaAdministrador') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaAdministrador') : (isEmptyEntityFn($data) || !$root.CadastroAmbiente().enabledForEditing()), nullableChecked: IndicaAdministrador" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblCadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaAdministrador" data-bind="text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaAdministrador'), attr: {title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaAdministrador')}, css: { 'content-required-checkbox': $root.CadastroAmbiente().status() === 'E'}" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaMultiGpecon'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaMultiGpecon')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteUsuarioAcesso_IndicaMultiGpeconTemplate" class="" >
+                                           <label class="">
+                                             <input id="CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaMultiGpecon" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaMultiGpecon') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaMultiGpecon') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaMultiGpecon') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaMultiGpecon') : (isEmptyEntityFn($data) || !$root.CadastroAmbiente().enabledForEditing()), nullableChecked: IndicaMultiGpecon" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblCadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaMultiGpecon" data-bind="text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaMultiGpecon'), attr: {title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_ckTcsAmbienteUsuarioAcesso_IndicaMultiGpecon')}, css: { 'content-required-checkbox': $root.CadastroAmbiente().status() === 'E'}" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionado'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionado')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionadoTemplate" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionado')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionado')" id="CadastroAmbiente_lblTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionado" for="CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionado" class="control-label ellipsis">
+                                           </label>
+                                           <div id="CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionado" class="form-control input-group " data-bind="validatedField: 'DescricaoAmbienteRelacionado', css: { vmEditing: $root.CadastroAmbiente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionado') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionado') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().enabledForEditing()) }, lookupControl: { vm: $root.CadastroAmbiente(), value: DescricaoAmbienteRelacionado, maxLength: 250,lookupName: 'LookUpTcsAmbienteAdministrativo', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroAmbiente().entitySearchRange.DescricaoAmbienteRelacionado, fieldName: 'DescricaoAmbienteRelacionado', disabled:ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionado') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteUsuarioAcesso_DescricaoAmbienteRelacionado') : (isEmptyEntityFn($data) || !$root.CadastroAmbiente().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionado'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionado')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionadoTemplate" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionado')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionado')" id="CadastroAmbiente_lblTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionado" for="CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionado" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionado" class="form-control ellipsis" data-bind="attr: { title: NomeEmpresaAmbienteRelacionado }, validatedField: 'NomeEmpresaAmbienteRelacionado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionado') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionado') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C') }, igTextEditor: { maxLength: 250, value: NomeEmpresaAmbienteRelacionado, readOnly: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionado') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_NomeEmpresaAmbienteRelacionado') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionado'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionado')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionadoTemplate" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionado')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionado')" id="CadastroAmbiente_lblTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionado" for="CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionado" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionado" class="form-control ellipsis" data-bind="attr: { title: DescricaoAplicacaoAmbienteRelacionado }, validatedField: 'DescricaoAplicacaoAmbienteRelacionado', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionado') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionado') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C') }, igTextEditor: { maxLength: 60, value: DescricaoAplicacaoAmbienteRelacionado, readOnly: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionado') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteUsuarioAcesso_DescricaoAplicacaoAmbienteRelacionado') : (isEmptyEntityFn($data) || $root.CadastroAmbiente().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div></div>
+                   </div>
+
+
+
+                       <div id="dialogTcsAmbienteServicoExcecao"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                          <button class="btn btn-sm btn-default backReg " id="backRegTcsAmbienteServicoExcecao" onClick="$(this).backRegTcsAmbienteServicoExcecao();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                          <span class="caption"><label id="currentNumberTcsAmbienteServicoExcecao">0</label><label>/</label><label id="totalNumberTcsAmbienteServicoExcecao">0</label></span>
+                          <button class="btn btn-sm btn-default nextReg " id="nextRegTcsAmbienteServicoExcecao" onClick="$(this).nextRegTcsAmbienteServicoExcecao();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                          <button class="btn btn-sm btn-default addReg " id="addRegTcsAmbienteServicoExcecao" onClick="$(this).addRegTcsAmbienteServicoExcecao();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                          <button class="btn btn-sm btn-default delReg " id="delRegTcsAmbienteServicoExcecao" onClick="$(this).delRegTcsAmbienteServicoExcecao();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                          <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTcsAmbienteServicoExcecao" onClick="$(this).okRegTcsAmbienteServicoExcecao();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                       <div id="CadastroAmbiente_templateTcsAmbienteServicoExcecao" class="" style="width: 100%; height: 100%;" >
+                           <div data-bind="with: $root.CadastroAmbiente().getWithBinding(currentDataItem, $root.CadastroAmbiente().rootDataTypeName)"><div data-bind="with: $root.CadastroAmbiente().getWithBinding(currentTcsAmbienteServicoExcecao, 'TcsAmbienteServicoExcecao')">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_lUpTcsAmbienteServicoExcecao_NomeServico'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_lUpTcsAmbienteServicoExcecao_NomeServico')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteServicoExcecao_NomeServicoTemplate" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteServicoExcecao_NomeServico')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_lUpTcsAmbienteServicoExcecao_NomeServico')" id="CadastroAmbiente_lblTcsAmbienteServicoExcecao_NomeServico" for="CadastroAmbiente_lUpTcsAmbienteServicoExcecao_NomeServico" class="control-label ellipsis">
+                                           </label>
+                                           <div id="CadastroAmbiente_lUpTcsAmbienteServicoExcecao_NomeServico" class="form-control input-group " data-bind="validatedField: 'NomeServico', css: { vmEditing: $root.CadastroAmbiente().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteServicoExcecao_NomeServico') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteServicoExcecao_NomeServico') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().status() === 'C' || ($data.isAdded && $data.isAdded())) }, lookupControl: { vm: $root.CadastroAmbiente(), value: NomeServico, maxLength: 250,lookupName: 'LookUpTcsServico', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: true, multiSelectionValue: $root.CadastroAmbiente().entitySearchRange.NomeServico, fieldName: 'NomeServico', disabled:ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteServicoExcecao_NomeServico') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_lUpTcsAmbienteServicoExcecao_NomeServico') : (isEmptyEntityFn($data) || !($root.CadastroAmbiente().status() === 'C' || ($data.isAdded && $data.isAdded()))), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAmbiente().getLayoutColumnSpan('CadastroAmbiente_tbTcsAmbienteServicoExcecao_Url'), visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_tbTcsAmbienteServicoExcecao_Url')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAmbiente_divTcsAmbienteServicoExcecao_UrlTemplate" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbTcsAmbienteServicoExcecao_Url')}, text: $root.CadastroAmbiente().getLayoutDisplayName('CadastroAmbiente_tbTcsAmbienteServicoExcecao_Url')" id="CadastroAmbiente_lblTcsAmbienteServicoExcecao_Url" for="CadastroAmbiente_tbTcsAmbienteServicoExcecao_Url" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroAmbiente_tbTcsAmbienteServicoExcecao_Url" class="form-control ellipsis" data-bind="attr: { title: Url }, validatedField: 'Url', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteServicoExcecao_Url') ? ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteServicoExcecao_Url') : (!isEmptyEntityFn($data) && $root.CadastroAmbiente().enabledForEditing()) }, igTextEditor: { maxLength: 250, value: Url, readOnly: ctrl.hasCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteServicoExcecao_Url') ? !ctrl.getCustomEnable($root.CadastroAmbiente(), 'CadastroAmbiente_tbTcsAmbienteServicoExcecao_Url') : (isEmptyEntityFn($data) || !$root.CadastroAmbiente().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div></div>
+                   </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="CadastroAmbiente_tabTcsAmbienteUsuarioAcessoTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso') " >
+                           <div id="CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroAmbiente().getWithBinding(currentDataItem, $root.CadastroAmbiente().rootDataTypeName)">
+                               <button id="CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroAmbiente().createAndNotifyTcsAmbienteUsuarioAcesso($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.CadastroAmbiente().status() === 'E', 
+                               click: function () {
+                                  $root.CadastroAmbiente().deleteGrid('#CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso', 'TcsAmbienteUsuarioAcesso', 'vm.currentDataItem().currentTcsAmbienteUsuarioAcesso;vm.currentDataItem().TcsAmbienteUsuarioAcessoList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                                data-bind="click:function () { 
+                                  $root.CadastroAmbiente().openEditor('#CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso', 'TcsAmbienteUsuarioAcesso', 'vm.currentDataItem().currentTcsAmbienteUsuarioAcesso;vm.currentDataItem().TcsAmbienteUsuarioAcessoList', 'TcsAmbienteUsuarioAcesso;vm.currentDataItem()', 'TcsAmbienteUsuarioAcesso(vm.currentDataItem())', false)
+                               }"><i class="fa fa-th"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                                data-bind="click:function () { 
+                                  $root.CadastroAmbiente().openEditor('#CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso', 'TcsAmbienteUsuarioAcesso', 'vm.currentDataItem().currentTcsAmbienteUsuarioAcesso;vm.currentDataItem().TcsAmbienteUsuarioAcessoList', 'TcsAmbienteUsuarioAcesso;vm.currentDataItem()', 'TcsAmbienteUsuarioAcesso(vm.currentDataItem())', true)
+                               }"><i class="fa fa-th-large"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso_templateLayout', vm: function(){return $root.CadastroAmbiente().gridSaveStates['CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso'];}, ctrlName: 'CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroAmbiente().dataToolbar.canGridExport(), click: function () {$root.CadastroAmbiente().exportDataDetails($data, 'TcsAmbienteUsuarioAcesso', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroAmbiente_dGridTcsAmbienteUsuarioAcesso" data-bind="css: { IsEditableStyle: $root.CadastroAmbiente().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="CadastroAmbiente_tabTcsAmbienteServicoExcecaoTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroAmbiente().getLayoutVisible('CadastroAmbiente_dGridTcsAmbienteServicoExcecao') " >
+                           <div id="CadastroAmbiente_dGridTcsAmbienteServicoExcecao_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroAmbiente().getWithBinding(currentDataItem, $root.CadastroAmbiente().rootDataTypeName)">
+                               <button id="CadastroAmbiente_dGridTcsAmbienteServicoExcecao_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroAmbiente().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroAmbiente().createAndNotifyTcsAmbienteServicoExcecao($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteServicoExcecao_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.CadastroAmbiente().status() === 'E', 
+                               click: function () {
+                                  $root.CadastroAmbiente().deleteGrid('#CadastroAmbiente_dGridTcsAmbienteServicoExcecao', 'TcsAmbienteServicoExcecao', 'vm.currentDataItem().currentTcsAmbienteServicoExcecao;vm.currentDataItem().TcsAmbienteServicoExcecaoList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteServicoExcecao_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                                data-bind="click:function () { 
+                                  $root.CadastroAmbiente().openEditor('#CadastroAmbiente_dGridTcsAmbienteServicoExcecao', 'TcsAmbienteServicoExcecao', 'vm.currentDataItem().currentTcsAmbienteServicoExcecao;vm.currentDataItem().TcsAmbienteServicoExcecaoList', 'TcsAmbienteServicoExcecao;vm.currentDataItem()', 'TcsAmbienteServicoExcecao(vm.currentDataItem())', false)
+                               }"><i class="fa fa-th"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteServicoExcecao_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                                data-bind="click:function () { 
+                                  $root.CadastroAmbiente().openEditor('#CadastroAmbiente_dGridTcsAmbienteServicoExcecao', 'TcsAmbienteServicoExcecao', 'vm.currentDataItem().currentTcsAmbienteServicoExcecao;vm.currentDataItem().TcsAmbienteServicoExcecaoList', 'TcsAmbienteServicoExcecao;vm.currentDataItem()', 'TcsAmbienteServicoExcecao(vm.currentDataItem())', true)
+                               }"><i class="fa fa-th-large"></i></button>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteServicoExcecao_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroAmbiente_dGridTcsAmbienteServicoExcecao_templateLayout', vm: function(){return $root.CadastroAmbiente().gridSaveStates['CadastroAmbiente_dGridTcsAmbienteServicoExcecao'];}, ctrlName: 'CadastroAmbiente_dGridTcsAmbienteServicoExcecao_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroAmbiente_dGridTcsAmbienteServicoExcecao_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroAmbiente_dGridTcsAmbienteServicoExcecao_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroAmbiente_dGridTcsAmbienteServicoExcecao_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroAmbiente().dataToolbar.canGridExport(), click: function () {$root.CadastroAmbiente().exportDataDetails($data, 'TcsAmbienteServicoExcecao', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroAmbiente_dGridTcsAmbienteServicoExcecao" data-bind="css: { IsEditableStyle: $root.CadastroAmbiente().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+               </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="CadastroAmbiente_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.CadastroAmbiente().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyCadastroAmbiente_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyCadastroAmbiente_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyCadastroAmbiente_dGrid_templateLayout', vm: function(){return $root.CadastroAmbiente().gridSaveStates['scyCadastroAmbiente_dGrid'];}, ctrlName: 'scyCadastroAmbiente_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyCadastroAmbiente_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyCadastroAmbiente_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyCadastroAmbiente_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroAmbiente().dataToolbar.canExport(), click: function () {$root.CadastroAmbiente().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyCadastroAmbiente_dGrid" data-bind="css: { IsEditableStyle: $root.CadastroAmbiente().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

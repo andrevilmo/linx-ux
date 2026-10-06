@@ -1,0 +1,96 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+        <div class="col-md-12 remove-pl remove-pr">
+            <section>
+                <div class="screen-view">
+                               <div id="CadastroMultimidiaConfig_gbCustomContainer_d3069a3cdca647179344a8ac037fb446" data-bind="css: $root.CadastroMultimidiaConfig().getLayoutColumnSpan('CadastroMultimidiaConfig_gbCustomContainer_d3069a3cdca647179344a8ac037fb446'), visible: $root.CadastroMultimidiaConfig().getLayoutVisible('CadastroMultimidiaConfig_gbCustomContainer_d3069a3cdca647179344a8ac037fb446')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div id="CadastroMultimidiaConfig_gbCustomContainer_d3069a3cdca647179344a8ac037fb446_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroMultimidiaConfig().getLayoutVisible('CadastroMultimidiaConfig_dGridDocMultimidiaConfig') " >
+                   <div id="CadastroMultimidiaConfig_dGridDocMultimidiaConfig_ContentDLG" style="position:relative;"></div>
+                   <div class="linx-table-button position-icon">
+                       <div class="botoes-tabela" >
+                       <button id="CadastroMultimidiaConfig_dGridDocMultimidiaConfig_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroMultimidiaConfig().hideToolbar() && $root.CadastroMultimidiaConfig().status() === 'E', click: function () { $root.CadastroMultimidiaConfig().dataToolbar.addNew(); }"><i class="fa fa-plus"></i></button>
+                       <button id="CadastroMultimidiaConfig_dGridDocMultimidiaConfig_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                       data-bind="visible: $root.CadastroMultimidiaConfig().status() === 'E', 
+                       click: function () { 
+                          $root.CadastroMultimidiaConfig().deleteGrid('#CadastroMultimidiaConfig_dGridDocMultimidiaConfig', 'DocMultimidiaConfig', 'vm.currentDataItem;vm.dataView', false);
+                       }"> 
+                       <i class="fa fa-trash-o"></i></button>
+                       <button id="CadastroMultimidiaConfig_dGridDocMultimidiaConfig_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroMultimidiaConfig_dGridDocMultimidiaConfig_templateLayout', vm: function(){return $root.CadastroMultimidiaConfig().gridSaveStates['CadastroMultimidiaConfig_dGridDocMultimidiaConfig'];}, ctrlName: 'CadastroMultimidiaConfig_dGridDocMultimidiaConfig_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                       <script id="CadastroMultimidiaConfig_dGridDocMultimidiaConfig_templateLayout" type="text/html" tabindex="-1">
+                           <div id="CadastroMultimidiaConfig_dGridDocMultimidiaConfig_gb" class="layout-popover">
+                               <div class="row">
+                                   <div class="col-md-12">
+                                       <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                       <div class="col-md-10">
+                                           <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                       </div>
+                                       <div  class="col-md-2">
+                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12">
+                                       <div class="col-md-10">
+                                           <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                       </div>
+                                       <div class="col-md-2">
+                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </script>
+                       <button id="CadastroMultimidiaConfig_dGridDocMultimidiaConfig_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroMultimidiaConfig().dataToolbar.canExport(), click: function () {$root.CadastroMultimidiaConfig().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                       </div>
+                   </div>
+                   <div class="linx-table-grid position-table-grid">
+                          <table id="CadastroMultimidiaConfig_dGridDocMultimidiaConfig" data-bind="css: { IsEditableStyle: $root.CadastroMultimidiaConfig().enabledForEditing }" />
+                   </div>
+
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                </div>
+            </section>
+        </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

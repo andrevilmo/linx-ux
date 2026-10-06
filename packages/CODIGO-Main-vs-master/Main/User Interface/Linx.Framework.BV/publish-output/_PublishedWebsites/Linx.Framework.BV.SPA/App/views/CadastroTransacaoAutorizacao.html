@@ -1,0 +1,732 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="CadastroTransacaoAutorizacao_formViewer" class="panelTransaition">
+            <figure id="CadastroTransacaoAutorizacao_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.CadastroTransacaoAutorizacao().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="CadastroTransacaoAutorizacao_gbTcsTransacaoAutorizacao" data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_gbTcsTransacaoAutorizacao'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_gbTcsTransacaoAutorizacao')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div id="CadastroTransacaoAutorizacao_gbTcsTransacaoAutorizacao_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="CadastroTransacaoAutorizacao_gbGroupBox_2301039ed57d4632a47a218a8b7a6154" data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_gbGroupBox_2301039ed57d4632a47a218a8b7a6154'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_gbGroupBox_2301039ed57d4632a47a218a8b7a6154')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div id="CadastroTransacaoAutorizacao_gbGroupBox_2301039ed57d4632a47a218a8b7a6154_body" class="portlet-body" >
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div id="CadastroTransacaoAutorizacao_gbGroupBox_18825af1a21c44f796f6417ba7f6b489" data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_gbGroupBox_18825af1a21c44f796f6417ba7f6b489'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_gbGroupBox_18825af1a21c44f796f6417ba7f6b489')"  class=" gbox position-element"  >
+                       <div class="portlet box " >
+                           <div class="portlet-title">
+                               <div class="caption" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_gbGroupBox_18825af1a21c44f796f6417ba7f6b489')"><i class="icon-reorder"></i></div>
+                           </div>
+                           <div id="CadastroTransacaoAutorizacao_gbGroupBox_18825af1a21c44f796f6417ba7f6b489_body" class="portlet-body" >
+                               <div data-bind="with: $root.CadastroTransacaoAutorizacao().getWithBinding(currentDataItem, $root.CadastroTransacaoAutorizacao().rootDataTypeName)">
+                                   <div class="row">
+
+                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                       <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_tbCodTransacao'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_tbCodTransacao')" class="">
+                                           <div class="form-group">
+                                               <div id="CadastroTransacaoAutorizacao_divCodTransacao" class="" >
+                                                   <label data-bind="css: { 'content-required': $root.CadastroTransacaoAutorizacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tbCodTransacao')}, text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tbCodTransacao')" id="CadastroTransacaoAutorizacao_lblCodTransacao" for="CadastroTransacaoAutorizacao_tbCodTransacao" class="control-label ellipsis">
+                                                   </label>
+                                                   <input id="CadastroTransacaoAutorizacao_tbCodTransacao" class="form-control ellipsis" data-bind="attr: { title: CodTransacao }, validatedField: 'CodTransacao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbCodTransacao') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbCodTransacao') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: CodTransacao, readOnly: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbCodTransacao') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbCodTransacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+
+                                       <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_lblCustomControl1221833015'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_lblCustomControl1221833015')" class="">
+                                           <div class="form-group">
+                                               <div id="CadastroTransacaoAutorizacao_divCustomControl1221833015" class="" >
+                                                   <span id="CadastroTransacaoAutorizacao_lblCustomControl1221833015" class="text  bold "  data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_lblCustomControl1221833015') "></span>
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+
+                                       <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_tbNomeCurto'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_tbNomeCurto')" class="">
+                                           <div class="form-group">
+                                               <div id="CadastroTransacaoAutorizacao_divNomeCurto" class="" >
+                                                   <label data-bind="css: { 'content-required': $root.CadastroTransacaoAutorizacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tbNomeCurto')}, text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tbNomeCurto')" id="CadastroTransacaoAutorizacao_lblNomeCurto" for="CadastroTransacaoAutorizacao_tbNomeCurto" class="control-label ellipsis">
+                                                   </label>
+                                                   <input id="CadastroTransacaoAutorizacao_tbNomeCurto" class="form-control ellipsis" data-bind="attr: { title: NomeCurto }, validatedField: 'NomeCurto', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbNomeCurto') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbNomeCurto') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing()) }, igTextEditor: { maxLength: 40, value: NomeCurto, readOnly: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbNomeCurto') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbNomeCurto') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+
+                                       <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_tbDescTransacao'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_tbDescTransacao')" class="">
+                                           <div class="form-group">
+                                               <div id="CadastroTransacaoAutorizacao_divDescTransacao" class="" >
+                                                   <label data-bind="css: { 'content-required': $root.CadastroTransacaoAutorizacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tbDescTransacao')}, text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tbDescTransacao')" id="CadastroTransacaoAutorizacao_lblDescTransacao" for="CadastroTransacaoAutorizacao_tbDescTransacao" class="control-label ellipsis">
+                                                   </label>
+                                                   <input id="CadastroTransacaoAutorizacao_tbDescTransacao" class="form-control ellipsis" data-bind="attr: { title: DescTransacao }, validatedField: 'DescTransacao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbDescTransacao') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbDescTransacao') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing()) }, igTextEditor: { maxLength: 60, value: DescTransacao, readOnly: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbDescTransacao') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbDescTransacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+
+                                       <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_tbClasseNome'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_tbClasseNome')" class="">
+                                           <div class="form-group">
+                                               <div id="CadastroTransacaoAutorizacao_divClasseNome" class="" >
+                                                   <label data-bind="css: { 'content-required': $root.CadastroTransacaoAutorizacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tbClasseNome')}, text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tbClasseNome')" id="CadastroTransacaoAutorizacao_lblClasseNome" for="CadastroTransacaoAutorizacao_tbClasseNome" class="control-label ellipsis">
+                                                   </label>
+                                                   <input id="CadastroTransacaoAutorizacao_tbClasseNome" class="form-control ellipsis" data-bind="attr: { title: ClasseNome }, validatedField: 'ClasseNome', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbClasseNome') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbClasseNome') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing()) }, igTextEditor: { maxLength: 400, value: ClasseNome, readOnly: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbClasseNome') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbClasseNome') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+                                   </div>
+
+                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                       <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckInativo'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckInativo')" class="">
+                                           <div class="form-group">
+                                               <div id="CadastroTransacaoAutorizacao_divInativo" class="" >
+                                                   <label class="">
+                                                     <input id="CadastroTransacaoAutorizacao_ckInativo" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckInativo') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckInativo') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckInativo') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckInativo') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: Inativo" title="Clique para marcar/desmarcar"/> 
+                                                     <span id="lblCadastroTransacaoAutorizacao_ckInativo" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckInativo'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckInativo')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                   </label>
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+
+                                       <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_lUpDescObjeto'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_lUpDescObjeto')" class="">
+                                           <div class="form-group">
+                                               <div id="CadastroTransacaoAutorizacao_divDescObjeto" class="" >
+                                                   <label data-bind="css: { 'content-required': $root.CadastroTransacaoAutorizacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_lUpDescObjeto')}, text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_lUpDescObjeto')" id="CadastroTransacaoAutorizacao_lblDescObjeto" for="CadastroTransacaoAutorizacao_lUpDescObjeto" class="control-label ellipsis">
+                                                   </label>
+                                                   <div id="CadastroTransacaoAutorizacao_lUpDescObjeto" class="form-control input-group " data-bind="validatedField: 'DescObjeto', css: { vmEditing: $root.CadastroTransacaoAutorizacao().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_lUpDescObjeto') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_lUpDescObjeto') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing()) }, lookupControl: { vm: $root.CadastroTransacaoAutorizacao(), value: DescObjeto, maxLength: 400,lookupName: 'LookUpTcsObjetoAutorizacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroTransacaoAutorizacao().entitySearchRange.DescObjeto, fieldName: 'DescObjeto', disabled:ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_lUpDescObjeto') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_lUpDescObjeto') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 400, defaultValue: ''}" />
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+
+                                       <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_cmbLxTipoTransacao'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_cmbLxTipoTransacao')" class="">
+                                           <div class="form-group">
+                                               <div id="CadastroTransacaoAutorizacao_divLxTipoTransacao" class="" >
+                                                   <label data-bind="css: { 'content-required': $root.CadastroTransacaoAutorizacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_cmbLxTipoTransacao')}, text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_cmbLxTipoTransacao')" id="CadastroTransacaoAutorizacao_lblLxTipoTransacao" for="CadastroTransacaoAutorizacao_cmbLxTipoTransacao" class="control-label ellipsis">
+                                                   </label>
+                                                   <span id="CadastroTransacaoAutorizacao_cmbLxTipoTransacao" class="form-control " data-bind="validatedField: 'LxTipoTransacao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_cmbLxTipoTransacao') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_cmbLxTipoTransacao') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_cmbLxTipoTransacao') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_cmbLxTipoTransacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_cmbLxTipoTransacao') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_cmbLxTipoTransacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), igCombo: {
+                                                      selectedItems: LxTipoTransacao,
+                                                      dataSource:  $root.CadastroTransacaoAutorizacao().dataDomains.getItems('TipoTransacao', ''),
+                                                      textKey: 'name',
+                                                      valueKey: 'id',
+                                                      allowCustomValue : true,
+                                                      enableSelectionChangedUpdate: true,
+                                                      enableClearButton: false,
+                                                      dropDownOnFocus: true,
+                                                      disabled: (ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_cmbLxTipoTransacao') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_cmbLxTipoTransacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing())),
+                                                      mode: 'editable',
+                                                      width:'100%'
+                                                   }"></span>
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+
+                                       <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_lUpDescModulo'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_lUpDescModulo')" class="">
+                                           <div class="form-group">
+                                               <div id="CadastroTransacaoAutorizacao_divDescModulo" class="" >
+                                                   <label data-bind="attr: { title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_lUpDescModulo')}, text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_lUpDescModulo')" id="CadastroTransacaoAutorizacao_lblDescModulo" for="CadastroTransacaoAutorizacao_lUpDescModulo" class="control-label ellipsis">
+                                                   </label>
+                                                   <div id="CadastroTransacaoAutorizacao_lUpDescModulo" class="form-control input-group " data-bind="validatedField: 'DescModulo', css: { vmEditing: $root.CadastroTransacaoAutorizacao().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_lUpDescModulo') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_lUpDescModulo') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing()) }, lookupControl: { vm: $root.CadastroTransacaoAutorizacao(), value: DescModulo, maxLength: 60,lookupName: 'LookUpTcsModuloAutorizacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroTransacaoAutorizacao().entitySearchRange.DescModulo, fieldName: 'DescModulo', disabled:ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_lUpDescModulo') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_lUpDescModulo') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 60, defaultValue: ''}" />
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+                                   </div>
+
+                               </div>
+                           </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                   <div id="CadastroTransacaoAutorizacao_gbGroupBox_098d5baf71d14700908a226c75d1538d" data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_gbGroupBox_098d5baf71d14700908a226c75d1538d'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_gbGroupBox_098d5baf71d14700908a226c75d1538d')"  class=" gbox position-element"  >
+                       <div class="portlet box " >
+                           <div class="portlet-title">
+                               <div class="caption" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_gbGroupBox_098d5baf71d14700908a226c75d1538d')"><i class="icon-reorder"></i></div>
+                           </div>
+                           <div id="CadastroTransacaoAutorizacao_gbGroupBox_098d5baf71d14700908a226c75d1538d_body" class="portlet-body" >
+                               <div class="row">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div id="CadastroTransacaoAutorizacao_gbGroupBox_048a2d66f0634d4481cf766ca74f3c5d" data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_gbGroupBox_048a2d66f0634d4481cf766ca74f3c5d'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_gbGroupBox_048a2d66f0634d4481cf766ca74f3c5d')"  class=" gbox position-element"  >
+                           <div class="portlet box " >
+                               <div id="CadastroTransacaoAutorizacao_gbGroupBox_048a2d66f0634d4481cf766ca74f3c5d_body" class="portlet-body" >
+                                   <div data-bind="with: $root.CadastroTransacaoAutorizacao().getWithBinding(currentDataItem, $root.CadastroTransacaoAutorizacao().rootDataTypeName)">
+                                       <div class="row">
+
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                           <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_tbIcone'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_tbIcone')" class="">
+                                               <div class="form-group">
+                                                   <div id="CadastroTransacaoAutorizacao_divIcone" class="" >
+                                                       <label data-bind="attr: { title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tbIcone')}, text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tbIcone')" id="CadastroTransacaoAutorizacao_lblIcone" for="CadastroTransacaoAutorizacao_tbIcone" class="control-label ellipsis">
+                                                       </label>
+                                                       <input id="CadastroTransacaoAutorizacao_tbIcone" class="form-control ellipsis" data-bind="attr: { title: Icone }, validatedField: 'Icone', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbIcone') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbIcone') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing()) }, igTextEditor: { maxLength: 40, value: Icone, readOnly: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbIcone') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_tbIcone') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                                   </div>
+                                               </div>
+                                           </div>
+
+
+                                       </div>
+
+                                   </div>
+                               </div>
+                               </div>
+                           </div>
+                       </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+
+
+
+                   <div id="CadastroTransacaoAutorizacao_gbGroupBox_a4f0c309e4514843bea82038f093d714" data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_gbGroupBox_a4f0c309e4514843bea82038f093d714'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_gbGroupBox_a4f0c309e4514843bea82038f093d714')"  class=" gbox position-element"  >
+                       <div class="portlet box " >
+                           <div class="portlet-title">
+                               <div class="caption" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_gbGroupBox_a4f0c309e4514843bea82038f093d714')"><i class="icon-reorder"></i></div>
+                           </div>
+                           <div id="CadastroTransacaoAutorizacao_gbGroupBox_a4f0c309e4514843bea82038f093d714_body" class="portlet-body" >
+                               <div class="row">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_CustomControl443185546'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_CustomControl443185546')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroTransacaoAutorizacao_divCustomControl443185546" class="" >
+                                               <label  id="CadastroTransacaoAutorizacao_lblCustomControl443185546" for="CadastroTransacaoAutorizacao_CustomControl443185546" class="control-label ellipsis">
+                                               &nbsp;
+                                               </label>
+                                               <div id="CadastroTransacaoAutorizacao_CustomControl443185546" ">
+                                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+	<div class="form-group">
+		<div id="CadastroTransacaoAutorizacao_divTagInput" class="" >
+			<input data-role="tagsinput"  id="CadastroTransacaoAutorizacao_tbTagInput" class="form-control ellipsis" igTextEditor: { maxLength: 4000, value: TagInput"/>
+		</div>
+	</div>
+</div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+
+
+
+               <div id="CadastroTransacaoAutorizacao_gbGroupBox_b8bc554c82bb4e958f1a2ca53f1afde1" data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_gbGroupBox_b8bc554c82bb4e958f1a2ca53f1afde1'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_gbGroupBox_b8bc554c82bb4e958f1a2ca53f1afde1')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div id="CadastroTransacaoAutorizacao_gbGroupBox_b8bc554c82bb4e958f1a2ca53f1afde1_body" class="portlet-body" >
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div id="CadastroTransacaoAutorizacao_tcTcsTransacaoAutorizacaoTabControl"  data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_tcTcsTransacaoAutorizacaoTabControl'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_tcTcsTransacaoAutorizacaoTabControl')"  class="tabbable tabbable-custom box" >
+                      <div class="container-tab">
+                         <div id="CadastroTransacaoAutorizacao_tcTcsTransacaoAutorizacaoTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                         <div id="CadastroTransacaoAutorizacao_tcTcsTransacaoAutorizacaoTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                         <div id="CadastroTransacaoAutorizacao_tcTcsTransacaoAutorizacaoTabControl_wrapper" class="wrapper">
+                            <ul id="CadastroTransacaoAutorizacao_tcTcsTransacaoAutorizacaoTabControl_list" class="nav nav-tabs list">
+                               <li id="CadastroTransacaoAutorizacao_tiTcsTransacaoMenuAutorizacaoTabItem" class="active"><a data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tiTcsTransacaoMenuAutorizacaoTabItem'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tiTcsTransacaoMenuAutorizacaoTabItem')}" href="#CadastroTransacaoAutorizacao_tabTcsTransacaoMenuAutorizacaoTabItem" data-toggle="tab"></a></li>
+                               <li id="CadastroTransacaoAutorizacao_tiTcsTransacaoDependenteAutorizacaoTabItem" class="" style="display: none;"><a data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tiTcsTransacaoDependenteAutorizacaoTabItem'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_tiTcsTransacaoDependenteAutorizacaoTabItem')}" href="#CadastroTransacaoAutorizacao_tabTcsTransacaoDependenteAutorizacaoTabItem" data-toggle="tab"></a></li>
+                            </ul>
+                            </div>
+                         </div>
+                      <div class="tab-content">
+
+
+
+                       <div class="tab-pane fade active in" id="CadastroTransacaoAutorizacao_tabTcsTransacaoMenuAutorizacaoTabItem">
+                           <div class="ui-helper-clearfix">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao') " >
+                               <div id="CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.CadastroTransacaoAutorizacao().getWithBinding(currentDataItem, $root.CadastroTransacaoAutorizacao().rootDataTypeName)">
+                                   <button id="CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroTransacaoAutorizacao().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroTransacaoAutorizacao().createAndNotifyTcsTransacaoMenuAutorizacao($data); }"><i class="fa fa-plus"></i></button>
+                                   <button id="CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                   data-bind="visible: $root.CadastroTransacaoAutorizacao().status() === 'E', 
+                                   click: function () {
+                                      $root.CadastroTransacaoAutorizacao().deleteGrid('#CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao', 'TcsTransacaoMenuAutorizacao', 'vm.currentDataItem().currentTcsTransacaoMenuAutorizacao;vm.currentDataItem().TcsTransacaoMenuAutorizacaoList', false);
+                                   }"> 
+                                   <i class="fa fa-trash-o"></i></button>
+                                   <button id="CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao_templateLayout', vm: function(){return $root.CadastroTransacaoAutorizacao().gridSaveStates['CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao'];}, ctrlName: 'CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroTransacaoAutorizacao().dataToolbar.canGridExport(), click: function () {$root.CadastroTransacaoAutorizacao().exportDataDetails($data, 'TcsTransacaoMenuAutorizacao', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="CadastroTransacaoAutorizacao_dGridTcsTransacaoMenuAutorizacao" data-bind="css: { IsEditableStyle: $root.CadastroTransacaoAutorizacao().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+
+
+                       <div class="tab-pane fade" id="CadastroTransacaoAutorizacao_tabTcsTransacaoDependenteAutorizacaoTabItem">
+                           <div class="ui-helper-clearfix">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div id="CadastroTransacaoAutorizacao_gbGroupBox_e96cc98e8b8b4be5a56aac00176e580c" data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_gbGroupBox_e96cc98e8b8b4be5a56aac00176e580c'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_gbGroupBox_e96cc98e8b8b4be5a56aac00176e580c')"  class=" gbox position-element"  >
+                               <div class="portlet box dark-background" >
+                                   <div class="portlet-title">
+                                       <div class="caption" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_gbGroupBox_e96cc98e8b8b4be5a56aac00176e580c')"><i class="icon-reorder"></i></div>
+                                   </div>
+                                   <div id="CadastroTransacaoAutorizacao_gbGroupBox_e96cc98e8b8b4be5a56aac00176e580c_body" class="portlet-body" >
+                                       <div data-bind="with: $root.CadastroTransacaoAutorizacao().getWithBinding(currentDataItem, $root.CadastroTransacaoAutorizacao().rootDataTypeName)"><div data-bind="with: $root.CadastroTransacaoAutorizacao().getWithBinding(currentTcsTransacaoDependenteAutorizacao, 'TcsTransacaoDependenteAutorizacao')">
+                                           <div class="row">
+
+                                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                               <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiToolbar'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiToolbar')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacaoAutorizacao_divTcsTransacaoDependenteAutorizacao_PossuiToolbar" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiToolbar" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiToolbar') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiToolbar') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiToolbar') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiToolbar') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: PossuiToolbar" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiToolbar" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiToolbar'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiToolbar')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+                                           </div>
+
+                                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                               <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiVisaoTabular'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiVisaoTabular')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacaoAutorizacao_divTcsTransacaoDependenteAutorizacao_PossuiVisaoTabular" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiVisaoTabular" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiVisaoTabular') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiVisaoTabular') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiVisaoTabular') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiVisaoTabular') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: PossuiVisaoTabular" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiVisaoTabular" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiVisaoTabular'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_PossuiVisaoTabular')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+                                           </div>
+
+                                       </div>
+                                   </div>
+                                   </div></div>
+                               </div>
+                           </div>
+
+
+
+                           <div id="CadastroTransacaoAutorizacao_gbGroupBox_ffb11f8b31a44161b9750bc760b26f31" data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_gbGroupBox_ffb11f8b31a44161b9750bc760b26f31'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_gbGroupBox_ffb11f8b31a44161b9750bc760b26f31')"  class=" gbox position-element"  >
+                               <div class="portlet box dark-background" >
+                                   <div class="portlet-title">
+                                       <div class="caption" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_gbGroupBox_ffb11f8b31a44161b9750bc760b26f31')"><i class="icon-reorder"></i></div>
+                                   </div>
+                                   <div id="CadastroTransacaoAutorizacao_gbGroupBox_ffb11f8b31a44161b9750bc760b26f31_body" class="portlet-body" >
+                                       <div data-bind="with: $root.CadastroTransacaoAutorizacao().getWithBinding(currentDataItem, $root.CadastroTransacaoAutorizacao().rootDataTypeName)"><div data-bind="with: $root.CadastroTransacaoAutorizacao().getWithBinding(currentTcsTransacaoDependenteAutorizacao, 'TcsTransacaoDependenteAutorizacao')">
+                                           <div class="row">
+
+                                           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                               <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoAdicao'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoAdicao')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacaoAutorizacao_divTcsTransacaoDependenteAutorizacao_MostraBotaoAdicao" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoAdicao" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoAdicao') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoAdicao') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoAdicao') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoAdicao') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: MostraBotaoAdicao" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoAdicao" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoAdicao'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoAdicao')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoEdicao'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoEdicao')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacaoAutorizacao_divTcsTransacaoDependenteAutorizacao_MostraBotaoEdicao" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoEdicao" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoEdicao') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoEdicao') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoEdicao') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoEdicao') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: MostraBotaoEdicao" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoEdicao" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoEdicao'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoEdicao')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoExclusao'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoExclusao')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacaoAutorizacao_divTcsTransacaoDependenteAutorizacao_MostraBotaoExclusao" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoExclusao" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoExclusao') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoExclusao') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoExclusao') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoExclusao') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: MostraBotaoExclusao" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoExclusao" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoExclusao'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoExclusao')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+                                           </div>
+
+                                           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                               <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoImpressao'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoImpressao')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacaoAutorizacao_divTcsTransacaoDependenteAutorizacao_MostraBotaoImpressao" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoImpressao" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoImpressao') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoImpressao') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoImpressao') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoImpressao') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: MostraBotaoImpressao" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoImpressao" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoImpressao'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoImpressao')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLayout'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLayout')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacaoAutorizacao_divTcsTransacaoDependenteAutorizacao_MostraBotaoLayout" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLayout" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLayout') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLayout') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLayout') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLayout') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: MostraBotaoLayout" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLayout" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLayout'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLayout')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLimpa'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLimpa')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacaoAutorizacao_divTcsTransacaoDependenteAutorizacao_MostraBotaoLimpa" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLimpa" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLimpa') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLimpa') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLimpa') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLimpa') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: MostraBotaoLimpa" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLimpa" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLimpa'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoLimpa')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+                                           </div>
+
+                                           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                               <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoNavegacao'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoNavegacao')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacaoAutorizacao_divTcsTransacaoDependenteAutorizacao_MostraBotaoNavegacao" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoNavegacao" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoNavegacao') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoNavegacao') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoNavegacao') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoNavegacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: MostraBotaoNavegacao" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoNavegacao" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoNavegacao'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoNavegacao')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisa'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisa')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacaoAutorizacao_divTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisa" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisa" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisa') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisa') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisa') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisa') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: MostraBotaoPesquisa" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisa" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisa'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisa')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisaEsp'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisaEsp')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacaoAutorizacao_divTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisaEsp" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisaEsp" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisaEsp') ? ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisaEsp') : (!isEmptyEntityFn($data) && $root.CadastroTransacaoAutorizacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisaEsp') ? !ctrl.getCustomEnable($root.CadastroTransacaoAutorizacao(), 'CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisaEsp') : (isEmptyEntityFn($data) || !$root.CadastroTransacaoAutorizacao().enabledForEditing()), nullableChecked: MostraBotaoPesquisaEsp" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisaEsp" data-bind="text: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisaEsp'), attr: {title: $root.CadastroTransacaoAutorizacao().getLayoutDisplayName('CadastroTransacaoAutorizacao_ckTcsTransacaoDependenteAutorizacao_MostraBotaoPesquisaEsp')}, css: { 'content-required-checkbox': $root.CadastroTransacaoAutorizacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+                                           </div>
+
+                                       </div>
+                                   </div>
+                                   </div></div>
+                               </div>
+                           </div>
+
+
+
+                           <div id="CadastroTransacaoAutorizacao_cntCustomContainer_498cb77f8407462ca6e6acb29e7b8790" data-bind="css: $root.CadastroTransacaoAutorizacao().getLayoutColumnSpan('CadastroTransacaoAutorizacao_cntCustomContainer_498cb77f8407462ca6e6acb29e7b8790'), visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_cntCustomContainer_498cb77f8407462ca6e6acb29e7b8790')" class="cnt  remove-pl remove-pr" >
+                           <div>
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroTransacaoAutorizacao().getLayoutVisible('CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao') " >
+                                   <div id="CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao_ContentDLG" style="position:relative;"></div>
+                                   <div class="linx-table-button position-icon">
+                                       <div class="botoes-tabela">
+                                       <div data-bind="with: $root.CadastroTransacaoAutorizacao().getWithBinding(currentDataItem, $root.CadastroTransacaoAutorizacao().rootDataTypeName)">
+                                       <button id="CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroTransacaoAutorizacao().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroTransacaoAutorizacao().createAndNotifyTcsTransacaoDependenteAutorizacao($data); }"><i class="fa fa-plus"></i></button>
+                                       <button id="CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                       data-bind="visible: $root.CadastroTransacaoAutorizacao().status() === 'E', 
+                                       click: function () {
+                                          $root.CadastroTransacaoAutorizacao().deleteGrid('#CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao', 'TcsTransacaoDependenteAutorizacao', 'vm.currentDataItem().currentTcsTransacaoDependenteAutorizacao;vm.currentDataItem().TcsTransacaoDependenteAutorizacaoList', false);
+                                       }"> 
+                                       <i class="fa fa-trash-o"></i></button>
+                                       <button id="CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao_templateLayout', vm: function(){return $root.CadastroTransacaoAutorizacao().gridSaveStates['CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao'];}, ctrlName: 'CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                       <script id="CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao_templateLayout" type="text/html" tabindex="-1">
+                                           <div id="CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao_gb" class="layout-popover">
+                                               <div class="row">
+                                                   <div class="col-md-12">
+                                                       <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                       <div class="col-md-10">
+                                                           <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                       </div>
+                                                       <div  class="col-md-2">
+                                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                               <div class="row">
+                                                   <div class="col-md-12">
+                                                       <div class="col-md-10">
+                                                           <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                       </div>
+                                                       <div class="col-md-2">
+                                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </script>
+                                       <button id="CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroTransacaoAutorizacao().dataToolbar.canGridExport(), click: function () {$root.CadastroTransacaoAutorizacao().exportDataDetails($data, 'TcsTransacaoDependenteAutorizacao', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                       </div>
+                                       </div>
+                                   </div>
+                                   <div class="linx-table-grid position-table-grid">
+                                          <table id="CadastroTransacaoAutorizacao_dGridTcsTransacaoDependenteAutorizacao" data-bind="css: { IsEditableStyle: $root.CadastroTransacaoAutorizacao().enabledForEditing }" />
+                                   </div>
+
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+                   </div>
+                   </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="CadastroTransacaoAutorizacao_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.CadastroTransacaoAutorizacao().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyCadastroTransacaoAutorizacao_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyCadastroTransacaoAutorizacao_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyCadastroTransacaoAutorizacao_dGrid_templateLayout', vm: function(){return $root.CadastroTransacaoAutorizacao().gridSaveStates['scyCadastroTransacaoAutorizacao_dGrid'];}, ctrlName: 'scyCadastroTransacaoAutorizacao_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyCadastroTransacaoAutorizacao_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyCadastroTransacaoAutorizacao_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyCadastroTransacaoAutorizacao_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroTransacaoAutorizacao().dataToolbar.canExport(), click: function () {$root.CadastroTransacaoAutorizacao().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyCadastroTransacaoAutorizacao_dGrid" data-bind="css: { IsEditableStyle: $root.CadastroTransacaoAutorizacao().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

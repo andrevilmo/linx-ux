@@ -1,0 +1,742 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="CadastroTransacao_formViewer" class="panelTransaition">
+            <figure id="CadastroTransacao_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.CadastroTransacao().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="CadastroTransacao_gbTcsTransacao" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_gbTcsTransacao'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_gbTcsTransacao')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div id="CadastroTransacao_gbTcsTransacao_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="CadastroTransacao_gbGroupBox_3cbeac23d550457dbd5b063aa0455a10" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_gbGroupBox_3cbeac23d550457dbd5b063aa0455a10'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_gbGroupBox_3cbeac23d550457dbd5b063aa0455a10')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div id="CadastroTransacao_gbGroupBox_3cbeac23d550457dbd5b063aa0455a10_body" class="portlet-body" >
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div id="CadastroTransacao_gbGroupBox_c496c3e1c5ac481a81f2eeb7f94c3287" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_gbGroupBox_c496c3e1c5ac481a81f2eeb7f94c3287'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_gbGroupBox_c496c3e1c5ac481a81f2eeb7f94c3287')"  class=" gbox position-element"  >
+                       <div class="portlet box " >
+                           <div class="portlet-title">
+                               <div class="caption" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_gbGroupBox_c496c3e1c5ac481a81f2eeb7f94c3287')"><i class="icon-reorder"></i></div>
+                           </div>
+                           <div id="CadastroTransacao_gbGroupBox_c496c3e1c5ac481a81f2eeb7f94c3287_body" class="portlet-body" >
+                               <div class="row">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div id="CadastroTransacao_cntCustomContainer_e3b628a0df9649129445f515066be89e" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_cntCustomContainer_e3b628a0df9649129445f515066be89e'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_cntCustomContainer_e3b628a0df9649129445f515066be89e')" class="cnt  remove-pl remove-pr" >
+                       <div>
+                           <div data-bind="with: $root.CadastroTransacao().getWithBinding(currentDataItem, $root.CadastroTransacao().rootDataTypeName)">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_tbCodTransacao'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_tbCodTransacao')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroTransacao_divCodTransacao" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroTransacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tbCodTransacao')}, text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tbCodTransacao')" id="CadastroTransacao_lblCodTransacao" for="CadastroTransacao_tbCodTransacao" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroTransacao_tbCodTransacao" class="form-control ellipsis" data-bind="attr: { title: CodTransacao }, validatedField: 'CodTransacao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbCodTransacao') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbCodTransacao') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing()) }, igTextEditor: { maxLength: 10, value: CodTransacao, readOnly: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbCodTransacao') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbCodTransacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_lblCustomControl1223134453'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_lblCustomControl1223134453')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroTransacao_divCustomControl1223134453" class="" >
+                                           <span id="CadastroTransacao_lblCustomControl1223134453" class="text  bold "  data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_lblCustomControl1223134453') "></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_tbNomeCurto'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_tbNomeCurto')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroTransacao_divNomeCurto" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroTransacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tbNomeCurto')}, text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tbNomeCurto')" id="CadastroTransacao_lblNomeCurto" for="CadastroTransacao_tbNomeCurto" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroTransacao_tbNomeCurto" class="form-control ellipsis" data-bind="attr: { title: NomeCurto }, validatedField: 'NomeCurto', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbNomeCurto') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbNomeCurto') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing()) }, igTextEditor: { maxLength: 40, value: NomeCurto, readOnly: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbNomeCurto') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbNomeCurto') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_tbDescTransacao'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_tbDescTransacao')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroTransacao_divDescTransacao" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroTransacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tbDescTransacao')}, text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tbDescTransacao')" id="CadastroTransacao_lblDescTransacao" for="CadastroTransacao_tbDescTransacao" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroTransacao_tbDescTransacao" class="form-control ellipsis" data-bind="attr: { title: DescTransacao }, validatedField: 'DescTransacao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbDescTransacao') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbDescTransacao') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing()) }, igTextEditor: { maxLength: 60, value: DescTransacao, readOnly: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbDescTransacao') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbDescTransacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_tbClasseNome'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_tbClasseNome')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroTransacao_divClasseNome" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroTransacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tbClasseNome')}, text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tbClasseNome')" id="CadastroTransacao_lblClasseNome" for="CadastroTransacao_tbClasseNome" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroTransacao_tbClasseNome" class="form-control ellipsis" data-bind="attr: { title: ClasseNome }, validatedField: 'ClasseNome', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbClasseNome') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbClasseNome') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing()) }, igTextEditor: { maxLength: 400, value: ClasseNome, readOnly: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbClasseNome') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbClasseNome') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+                       <div id="CadastroTransacao_cntCustomContainer_53ce9647ebdd4410875d5d3a80ea06e4" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_cntCustomContainer_53ce9647ebdd4410875d5d3a80ea06e4'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_cntCustomContainer_53ce9647ebdd4410875d5d3a80ea06e4')" class="cnt  remove-pl remove-pr" >
+                       <div>
+                           <div data-bind="with: $root.CadastroTransacao().getWithBinding(currentDataItem, $root.CadastroTransacao().rootDataTypeName)">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckInativo'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckInativo')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroTransacao_divInativo" class="" >
+                                           <label class="">
+                                             <input id="CadastroTransacao_ckInativo" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckInativo') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckInativo') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckInativo') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckInativo') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: Inativo" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblCadastroTransacao_ckInativo" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckInativo'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckInativo')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_lUpDescObjeto'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_lUpDescObjeto')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroTransacao_divDescObjeto" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroTransacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_lUpDescObjeto')}, text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_lUpDescObjeto')" id="CadastroTransacao_lblDescObjeto" for="CadastroTransacao_lUpDescObjeto" class="control-label ellipsis">
+                                           </label>
+                                           <div id="CadastroTransacao_lUpDescObjeto" class="form-control input-group " data-bind="validatedField: 'DescObjeto', css: { vmEditing: $root.CadastroTransacao().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_lUpDescObjeto') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_lUpDescObjeto') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing()) }, lookupControl: { vm: $root.CadastroTransacao(), value: DescObjeto, maxLength: 400,lookupName: 'LookUpTcsObjetoTransacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroTransacao().entitySearchRange.DescObjeto, fieldName: 'DescObjeto', disabled:ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_lUpDescObjeto') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_lUpDescObjeto') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 400, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_cmbLxTipoTransacao'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_cmbLxTipoTransacao')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroTransacao_divLxTipoTransacao" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroTransacao().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_cmbLxTipoTransacao')}, text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_cmbLxTipoTransacao')" id="CadastroTransacao_lblLxTipoTransacao" for="CadastroTransacao_cmbLxTipoTransacao" class="control-label ellipsis">
+                                           </label>
+                                           <span id="CadastroTransacao_cmbLxTipoTransacao" class="form-control " data-bind="validatedField: 'LxTipoTransacao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_cmbLxTipoTransacao') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_cmbLxTipoTransacao') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_cmbLxTipoTransacao') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_cmbLxTipoTransacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_cmbLxTipoTransacao') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_cmbLxTipoTransacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), igCombo: {
+                                              selectedItems: LxTipoTransacao,
+                                              dataSource:  $root.CadastroTransacao().dataDomains.getItems('TipoTransacao', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: false,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_cmbLxTipoTransacao') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_cmbLxTipoTransacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing())),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+
+
+
+                   <div id="CadastroTransacao_gbGroupBox_5d42782ba34a492c9cb9394afce249a9" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_gbGroupBox_5d42782ba34a492c9cb9394afce249a9'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_gbGroupBox_5d42782ba34a492c9cb9394afce249a9')"  class=" gbox position-element"  >
+                       <div class="portlet box " >
+                           <div class="portlet-title">
+                               <div class="caption" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_gbGroupBox_5d42782ba34a492c9cb9394afce249a9')"><i class="icon-reorder"></i></div>
+                           </div>
+                           <div id="CadastroTransacao_gbGroupBox_5d42782ba34a492c9cb9394afce249a9_body" class="portlet-body" >
+                               <div class="row">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div id="CadastroTransacao_gbGroupBox_e06161cd891944f2bf4b00112f84d8d3" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_gbGroupBox_e06161cd891944f2bf4b00112f84d8d3'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_gbGroupBox_e06161cd891944f2bf4b00112f84d8d3')"  class=" gbox position-element"  >
+                           <div class="portlet box " >
+                               <div id="CadastroTransacao_gbGroupBox_e06161cd891944f2bf4b00112f84d8d3_body" class="portlet-body" >
+                                   <div data-bind="with: $root.CadastroTransacao().getWithBinding(currentDataItem, $root.CadastroTransacao().rootDataTypeName)">
+                                       <div class="row">
+
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                           <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_tbIcone'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_tbIcone')" class="">
+                                               <div class="form-group">
+                                                   <div id="CadastroTransacao_divIcone" class="" >
+                                                       <label data-bind="attr: { title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tbIcone')}, text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tbIcone')" id="CadastroTransacao_lblIcone" for="CadastroTransacao_tbIcone" class="control-label ellipsis">
+                                                       </label>
+                                                       <input id="CadastroTransacao_tbIcone" class="form-control ellipsis" data-bind="attr: { title: Icone }, validatedField: 'Icone', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbIcone') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbIcone') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing()) }, igTextEditor: { maxLength: 40, value: Icone, readOnly: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbIcone') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_tbIcone') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                                   </div>
+                                               </div>
+                                           </div>
+
+
+                                       </div>
+
+                                   </div>
+                               </div>
+                               </div>
+                           </div>
+                       </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+
+
+
+                   <div id="CadastroTransacao_gbGroupBox_7ed24c23064546c8a999a32dcbee949e" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_gbGroupBox_7ed24c23064546c8a999a32dcbee949e'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_gbGroupBox_7ed24c23064546c8a999a32dcbee949e')"  class=" gbox position-element"  >
+                       <div class="portlet box " >
+                           <div class="portlet-title">
+                               <div class="caption" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_gbGroupBox_7ed24c23064546c8a999a32dcbee949e')"><i class="icon-reorder"></i></div>
+                           </div>
+                           <div id="CadastroTransacao_gbGroupBox_7ed24c23064546c8a999a32dcbee949e_body" class="portlet-body" >
+                               <div class="row">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_CustomControl455346109'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_CustomControl455346109')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroTransacao_divCustomControl455346109" class="" >
+                                               <label  id="CadastroTransacao_lblCustomControl455346109" for="CadastroTransacao_CustomControl455346109" class="control-label ellipsis">
+                                               &nbsp;
+                                               </label>
+                                               <div id="CadastroTransacao_CustomControl455346109" ">
+                                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+	<div class="form-group">
+		<div id="CadastroTransacao_divTagInput" class="" >
+			<input data-role="tagsinput"  id="CadastroTransacao_tbTagInput" class="form-control ellipsis" igTextEditor: { maxLength: 4000, value: TagInput"/>
+		</div>
+	</div>
+</div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+
+
+
+               <div id="CadastroTransacao_gbTransacaoMenu" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_gbTransacaoMenu'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_gbTransacaoMenu')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div id="CadastroTransacao_gbTransacaoMenu_body" class="portlet-body" >
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div id="CadastroTransacao_tcTcsTransacaoTabControl"  data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_tcTcsTransacaoTabControl'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_tcTcsTransacaoTabControl')"  class="tabbable tabbable-custom box" >
+                      <div class="container-tab">
+                         <div id="CadastroTransacao_tcTcsTransacaoTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                         <div id="CadastroTransacao_tcTcsTransacaoTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                         <div id="CadastroTransacao_tcTcsTransacaoTabControl_wrapper" class="wrapper">
+                            <ul id="CadastroTransacao_tcTcsTransacaoTabControl_list" class="nav nav-tabs list">
+                               <li id="CadastroTransacao_tiTcsTransacaoMenuChildTabItem" class="active"><a data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tiTcsTransacaoMenuChildTabItem'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tiTcsTransacaoMenuChildTabItem')}" href="#CadastroTransacao_tabTcsTransacaoMenuChildTabItem" data-toggle="tab"></a></li>
+                               <li id="CadastroTransacao_tiTcsTransacaoDependenteTabItem" class="" style="display: none;"><a data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tiTcsTransacaoDependenteTabItem'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_tiTcsTransacaoDependenteTabItem')}" href="#CadastroTransacao_tabTcsTransacaoDependenteTabItem" data-toggle="tab"></a></li>
+                            </ul>
+                            </div>
+                         </div>
+                      <div class="tab-content">
+
+
+
+                       <div class="tab-pane fade active in" id="CadastroTransacao_tabTcsTransacaoMenuChildTabItem">
+                           <div class="ui-helper-clearfix">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_dGridTcsTransacaoMenuChild') " >
+                               <div id="CadastroTransacao_dGridTcsTransacaoMenuChild_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.CadastroTransacao().getWithBinding(currentDataItem, $root.CadastroTransacao().rootDataTypeName)">
+                                   <button id="CadastroTransacao_dGridTcsTransacaoMenuChild_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroTransacao().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroTransacao().createAndNotifyTcsTransacaoMenuChild($data); }"><i class="fa fa-plus"></i></button>
+                                   <button id="CadastroTransacao_dGridTcsTransacaoMenuChild_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                   data-bind="visible: $root.CadastroTransacao().status() === 'E', 
+                                   click: function () {
+                                      $root.CadastroTransacao().deleteGrid('#CadastroTransacao_dGridTcsTransacaoMenuChild', 'TcsTransacaoMenuChild', 'vm.currentDataItem().currentTcsTransacaoMenuChild;vm.currentDataItem().TcsTransacaoMenuChildList', false);
+                                   }"> 
+                                   <i class="fa fa-trash-o"></i></button>
+                                   <button id="CadastroTransacao_dGridTcsTransacaoMenuChild_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroTransacao_dGridTcsTransacaoMenuChild_templateLayout', vm: function(){return $root.CadastroTransacao().gridSaveStates['CadastroTransacao_dGridTcsTransacaoMenuChild'];}, ctrlName: 'CadastroTransacao_dGridTcsTransacaoMenuChild_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="CadastroTransacao_dGridTcsTransacaoMenuChild_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="CadastroTransacao_dGridTcsTransacaoMenuChild_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="CadastroTransacao_dGridTcsTransacaoMenuChild_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroTransacao().dataToolbar.canGridExport(), click: function () {$root.CadastroTransacao().exportDataDetails($data, 'TcsTransacaoMenuChild', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="CadastroTransacao_dGridTcsTransacaoMenuChild" data-bind="css: { IsEditableStyle: $root.CadastroTransacao().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+
+
+                       <div class="tab-pane fade" id="CadastroTransacao_tabTcsTransacaoDependenteTabItem">
+                           <div class="ui-helper-clearfix">
+                           <div class="">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div id="CadastroTransacao_gbGroupBox_8eb748db382040858b5e16a2e14859ca" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_gbGroupBox_8eb748db382040858b5e16a2e14859ca'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_gbGroupBox_8eb748db382040858b5e16a2e14859ca')"  class=" gbox position-element"  >
+                               <div class="portlet box dark-background" >
+                                   <div class="portlet-title">
+                                       <div class="caption" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_gbGroupBox_8eb748db382040858b5e16a2e14859ca')"><i class="icon-reorder"></i></div>
+                                   </div>
+                                   <div id="CadastroTransacao_gbGroupBox_8eb748db382040858b5e16a2e14859ca_body" class="portlet-body" >
+                                       <div data-bind="with: $root.CadastroTransacao().getWithBinding(currentDataItem, $root.CadastroTransacao().rootDataTypeName)"><div data-bind="with: $root.CadastroTransacao().getWithBinding(currentTcsTransacaoDependente, 'TcsTransacaoDependente')">
+                                           <div class="row">
+
+                                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckTcsTransacaoDependente_PossuiToolbar'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckTcsTransacaoDependente_PossuiToolbar')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacao_divTcsTransacaoDependente_PossuiToolbar" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacao_ckTcsTransacaoDependente_PossuiToolbar" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_PossuiToolbar') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_PossuiToolbar') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_PossuiToolbar') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_PossuiToolbar') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: PossuiToolbar" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacao_ckTcsTransacaoDependente_PossuiToolbar" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_PossuiToolbar'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_PossuiToolbar')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+                                           </div>
+
+                                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckTcsTransacaoDependente_PossuiVisaoTabular'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckTcsTransacaoDependente_PossuiVisaoTabular')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacao_divTcsTransacaoDependente_PossuiVisaoTabular" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacao_ckTcsTransacaoDependente_PossuiVisaoTabular" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_PossuiVisaoTabular') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_PossuiVisaoTabular') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_PossuiVisaoTabular') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_PossuiVisaoTabular') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: PossuiVisaoTabular" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacao_ckTcsTransacaoDependente_PossuiVisaoTabular" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_PossuiVisaoTabular'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_PossuiVisaoTabular')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+                                           </div>
+
+                                       </div>
+                                   </div>
+                                   </div></div>
+                               </div>
+                           </div>
+
+
+
+                           <div id="CadastroTransacao_gbGroupBox_1dcc817cb1874474886dfd09446420b4" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_gbGroupBox_1dcc817cb1874474886dfd09446420b4'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_gbGroupBox_1dcc817cb1874474886dfd09446420b4')"  class=" gbox position-element"  >
+                               <div class="portlet box dark-background" >
+                                   <div class="portlet-title">
+                                       <div class="caption" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_gbGroupBox_1dcc817cb1874474886dfd09446420b4')"><i class="icon-reorder"></i></div>
+                                   </div>
+                                   <div id="CadastroTransacao_gbGroupBox_1dcc817cb1874474886dfd09446420b4_body" class="portlet-body" >
+                                       <div data-bind="with: $root.CadastroTransacao().getWithBinding(currentDataItem, $root.CadastroTransacao().rootDataTypeName)"><div data-bind="with: $root.CadastroTransacao().getWithBinding(currentTcsTransacaoDependente, 'TcsTransacaoDependente')">
+                                           <div class="row">
+
+                                           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoAdicao'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoAdicao')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacao_divTcsTransacaoDependente_MostraBotaoAdicao" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoAdicao" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoAdicao') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoAdicao') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoAdicao') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoAdicao') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: MostraBotaoAdicao" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacao_ckTcsTransacaoDependente_MostraBotaoAdicao" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoAdicao'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoAdicao')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoEdicao'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoEdicao')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacao_divTcsTransacaoDependente_MostraBotaoEdicao" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoEdicao" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoEdicao') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoEdicao') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoEdicao') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoEdicao') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: MostraBotaoEdicao" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacao_ckTcsTransacaoDependente_MostraBotaoEdicao" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoEdicao'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoEdicao')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoExclusao'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoExclusao')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacao_divTcsTransacaoDependente_MostraBotaoExclusao" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoExclusao" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoExclusao') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoExclusao') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoExclusao') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoExclusao') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: MostraBotaoExclusao" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacao_ckTcsTransacaoDependente_MostraBotaoExclusao" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoExclusao'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoExclusao')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+                                           </div>
+
+                                           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoImpressao'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoImpressao')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacao_divTcsTransacaoDependente_MostraBotaoImpressao" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoImpressao" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoImpressao') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoImpressao') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoImpressao') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoImpressao') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: MostraBotaoImpressao" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacao_ckTcsTransacaoDependente_MostraBotaoImpressao" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoImpressao'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoImpressao')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLayout'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLayout')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacao_divTcsTransacaoDependente_MostraBotaoLayout" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLayout" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLayout') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLayout') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLayout') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLayout') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: MostraBotaoLayout" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLayout" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLayout'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLayout')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLimpa'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLimpa')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacao_divTcsTransacaoDependente_MostraBotaoLimpa" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLimpa" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLimpa') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLimpa') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLimpa') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLimpa') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: MostraBotaoLimpa" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLimpa" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLimpa'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoLimpa')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+                                           </div>
+
+                                           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoNavegacao'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoNavegacao')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacao_divTcsTransacaoDependente_MostraBotaoNavegacao" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoNavegacao" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoNavegacao') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoNavegacao') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoNavegacao') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoNavegacao') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: MostraBotaoNavegacao" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacao_ckTcsTransacaoDependente_MostraBotaoNavegacao" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoNavegacao'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoNavegacao')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisa'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisa')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacao_divTcsTransacaoDependente_MostraBotaoPesquisa" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisa" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisa') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisa') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisa') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisa') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: MostraBotaoPesquisa" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisa" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisa'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisa')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+
+                                               <div data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisaEsp'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisaEsp')" class="">
+                                                   <div class="form-group">
+                                                       <div id="CadastroTransacao_divTcsTransacaoDependente_MostraBotaoPesquisaEsp" class="" >
+                                                           <label class="">
+                                                             <input id="CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisaEsp" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisaEsp') ? ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisaEsp') : (!isEmptyEntityFn($data) && $root.CadastroTransacao().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisaEsp') ? !ctrl.getCustomEnable($root.CadastroTransacao(), 'CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisaEsp') : (isEmptyEntityFn($data) || !$root.CadastroTransacao().enabledForEditing()), nullableChecked: MostraBotaoPesquisaEsp" title="Clique para marcar/desmarcar"/> 
+                                                             <span id="lblCadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisaEsp" data-bind="text: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisaEsp'), attr: {title: $root.CadastroTransacao().getLayoutDisplayName('CadastroTransacao_ckTcsTransacaoDependente_MostraBotaoPesquisaEsp')}, css: { 'content-required-checkbox': $root.CadastroTransacao().status() === 'E'}" class="align-label-checkbox"></span>
+                                                           </label>
+                                                       </div>
+                                                   </div>
+                                               </div>
+
+
+                                           </div>
+
+                                       </div>
+                                   </div>
+                                   </div></div>
+                               </div>
+                           </div>
+
+
+
+                           <div id="CadastroTransacao_cntCustomContainer_eab2f1ce66c244fd8e85cd1577b14471" data-bind="css: $root.CadastroTransacao().getLayoutColumnSpan('CadastroTransacao_cntCustomContainer_eab2f1ce66c244fd8e85cd1577b14471'), visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_cntCustomContainer_eab2f1ce66c244fd8e85cd1577b14471')" class="cnt  remove-pl remove-pr" >
+                           <div>
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroTransacao().getLayoutVisible('CadastroTransacao_dGridTcsTransacaoDependente') " >
+                                   <div id="CadastroTransacao_dGridTcsTransacaoDependente_ContentDLG" style="position:relative;"></div>
+                                   <div class="linx-table-button position-icon">
+                                       <div class="botoes-tabela">
+                                       <div data-bind="with: $root.CadastroTransacao().getWithBinding(currentDataItem, $root.CadastroTransacao().rootDataTypeName)">
+                                       <button id="CadastroTransacao_dGridTcsTransacaoDependente_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroTransacao().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroTransacao().createAndNotifyTcsTransacaoDependente($data); }"><i class="fa fa-plus"></i></button>
+                                       <button id="CadastroTransacao_dGridTcsTransacaoDependente_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                       data-bind="visible: $root.CadastroTransacao().status() === 'E', 
+                                       click: function () {
+                                          $root.CadastroTransacao().deleteGrid('#CadastroTransacao_dGridTcsTransacaoDependente', 'TcsTransacaoDependente', 'vm.currentDataItem().currentTcsTransacaoDependente;vm.currentDataItem().TcsTransacaoDependenteList', false);
+                                       }"> 
+                                       <i class="fa fa-trash-o"></i></button>
+                                       <button id="CadastroTransacao_dGridTcsTransacaoDependente_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroTransacao_dGridTcsTransacaoDependente_templateLayout', vm: function(){return $root.CadastroTransacao().gridSaveStates['CadastroTransacao_dGridTcsTransacaoDependente'];}, ctrlName: 'CadastroTransacao_dGridTcsTransacaoDependente_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                       <script id="CadastroTransacao_dGridTcsTransacaoDependente_templateLayout" type="text/html" tabindex="-1">
+                                           <div id="CadastroTransacao_dGridTcsTransacaoDependente_gb" class="layout-popover">
+                                               <div class="row">
+                                                   <div class="col-md-12">
+                                                       <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                       <div class="col-md-10">
+                                                           <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                       </div>
+                                                       <div  class="col-md-2">
+                                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                               <div class="row">
+                                                   <div class="col-md-12">
+                                                       <div class="col-md-10">
+                                                           <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                       </div>
+                                                       <div class="col-md-2">
+                                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </script>
+                                       <button id="CadastroTransacao_dGridTcsTransacaoDependente_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroTransacao().dataToolbar.canGridExport(), click: function () {$root.CadastroTransacao().exportDataDetails($data, 'TcsTransacaoDependente', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                       </div>
+                                       </div>
+                                   </div>
+                                   <div class="linx-table-grid position-table-grid">
+                                          <table id="CadastroTransacao_dGridTcsTransacaoDependente" data-bind="css: { IsEditableStyle: $root.CadastroTransacao().enabledForEditing }" />
+                                   </div>
+
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+
+
+                           </div>
+
+                       </div>
+                       </div>
+                   </div>
+
+
+
+                   </div>
+                   </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="CadastroTransacao_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.CadastroTransacao().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyCadastroTransacao_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyCadastroTransacao_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyCadastroTransacao_dGrid_templateLayout', vm: function(){return $root.CadastroTransacao().gridSaveStates['scyCadastroTransacao_dGrid'];}, ctrlName: 'scyCadastroTransacao_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyCadastroTransacao_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyCadastroTransacao_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyCadastroTransacao_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroTransacao().dataToolbar.canExport(), click: function () {$root.CadastroTransacao().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyCadastroTransacao_dGrid" data-bind="css: { IsEditableStyle: $root.CadastroTransacao().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

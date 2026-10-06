@@ -1,60 +1,46 @@
-# Pacote de código — Main/ vs master
+# Pacote de atualização — delta completo vs master
 
-Atualização de **fonte** (não é overlay IIS de DLLs).  
-Use `packages/INSTALL_MFA_SSO` quando o destino for só copiar binários no IIS.
+Todos os arquivos **alterados ou novos** das branches:
+
+- `SI-PDR-CICD-AWS` (`6d58d3d01ecd`)
+- `feature/implementacao-completa-ss-mfa-5-10-2026` (`8be30b711cab`)
+
+em relação a `master` (`b8832b9e093c`).
+
+A feature **já contém** a SI-PDR (ancestral). O pacote é o union = diff `master...feature`.
 
 | | |
 |--|--|
-| Branch origem | `feature/implementacao-completa-ss-mfa-5-10-2026` |
-| Commit origem | `8be30b711cab1962a8889100842bce7fad4e2b70` |
-| Base | `master` `b8832b9e093ce55804aecc0fbfda6d6071e48cda` |
-| Gerado | 2026-10-06 18:24:38 UTC |
-| Arquivos copiados | 137 |
-| Deletados em relação ao master | 4 |
-| Omitidos (build/vendor/binários) | 770 |
+| Gerado | 2026-10-06 18:42:48 UTC |
+| Arquivos copiados | 1006 |
+| Removidos / renomeados (origem) | 4 |
+| Falhas ao extrair | 0 |
 
-Estrutura: os caminhos em `Main\...` são os mesmos do repositório. Cole a pasta `Main\` deste pacote **em cima** de um checkout `master`.
+**Não é** um checkout inteiro das branches. Só o que mudou vs `master`.  
+**Não filtra** DLL, `obj`, `publish-output`, PDB, `node_modules` rastreados, docs, infra, `packages/INSTALL_MFA_SSO`.
 
-## O que este pacote traz
+O zip `packages/CODIGO-Main-vs-master.zip` (~106 MB) **não entra no Git** (limite 100 MB do GitHub). Use esta pasta expandida, ou regenere o zip com `python3 packages/build-codigo-main-vs-master.py`.
 
-Implementações em `Main/` da branch `feature/implementacao-completa-ss-mfa-5-10-2026` que não estão em `master`:
+## Como aplicar sobre um checkout master
 
-- MFA TOTP (Service, Portal `/Mfa/Challenge`, ticket no Application)
-- SSO Azure / MSAL (identifier-first, vínculo OID/UPN, Revoga SSO)
-- Cadastros UX: Utiliza MFA/SSO, Revoga MFA, Revoga SSO
-- Lookup de Ambientes (usuário editado + IdLinx) em `Events.cs` + SPA
-- Schema SQL `APPLY_SSO_MFA.sql` e scripts por objeto
-- Pacotes NuGet MSAL (`Microsoft.Identity.Client` 4.54.1)
+1. Extraia o zip (ou use esta pasta).
+2. Copie cada caminho relativo (ex. `Main\...`, `docs\...`, `packages\INSTALL_MFA_SSO\...`) para a mesma pasta no destino.
+3. Apague os caminhos de `DELETED.txt`.
+4. **Web.config:** mescle MFA/SSO; não sobrescreva connection string / SMTP / secrets de produção.
+5. SQL: `DB\APPLY_SSO_MFA.sql` no catálogo **Portal** (não no da Application).
+6. Recicle os pools IIS se for publicar binários; ou recompile a partir do fonte.
 
-## O que não entra
-
-Ver `OMITIDOS.txt`. Resumo: `obj/`, `node_modules`, `publish-output`, `.pdb`, DLLs compiladas do produto (exceto MSAL), imagens vendor SelfHost/Mobile.
-
-Para publicar IIS **sem rebuild**, use `packages/INSTALL_MFA_SSO` e depois aplique o fonte do lookup (`UsuarioAutorizacao.TcsUsuarioAutenticacaoAcessoP.Events.cs`) via rebuild ou patch Cecil.
-
-## Como aplicar
-
-1. Checkout `master` (ou árvore equivalente).
-2. Copie `Main\` deste pacote sobre `Main\` do destino (substituir arquivos).
-3. Apague os arquivos de `DELETED.txt` se ainda existirem.
-4. **Não** sobrescreva `Web.config` de produção: mescle só as seções MFA/SSO (`azureAd`, flags). Ajuste SMTP, connection strings e secrets do ambiente.
-5. No SSMS, catálogo **Portal / FrameworkAutorizacao**, rode `DB\APPLY_SSO_MFA.sql` (idempotente). Não rode no catálogo Application.
-6. Restaure NuGet do Portal (MSAL já está em `Main\Application\Linx.Portal\packages\`).
-7. Compile Portal, Service (`Linx.Framework.BV` + `Linx.Framework.BV.WebAPI.DS`) e Application / SPA.
-8. Recicle os pools IIS.
-
-## SQL (atalho)
-
-Os scripts também estão em `DB\` na raiz do pacote:
+## SQL (atalho na raiz do pacote)
 
 - `DB\\APPLY_SSO_MFA.sql`
 - `DB\\APPLY_SSO_MFA_OPTIONAL_DATA.sql`
+- `DB\\Disable_Update_aspnet_Membership_Trigger.sql`
 - `DB\\INDICA_USUARIO_SERVICO.sql`
 - `DB\\TCS_LOG_ACESSO_AUTH.sql`
 - `DB\\TCS_MFA.sql`
 - `DB\\TCS_USUARIO_SSO_VINCULO.sql`
 
-## Arquivos por área
+## Por área (amostra)
 
 ### Portal
 - `M` `Main/Application/Linx.Portal/.vscode/msbuild-build.ps1` (1161 bytes)
@@ -79,77 +65,119 @@ Os scripts também estão em `DB\` na raiz do pacote:
 - `A` `Main/Application/Linx.Portal/Linx.Portal/Views/Mfa/Challenge.cshtml` (4855 bytes)
 - `M` `Main/Application/Linx.Portal/Linx.Portal/Web.config` (9410 bytes)
 - `M` `Main/Application/Linx.Portal/Linx.Portal/assets/css/portal.css` (29965 bytes)
+- `M` `Main/Application/Linx.Portal/Linx.Portal/bin/Linx.Portal.dll` (27136 bytes)
+- `M` `Main/Application/Linx.Portal/Linx.Portal/bin/Linx.Portal.pdb` (48640 bytes)
+- `M` `Main/Application/Linx.Portal/Linx.Portal/bin/Linx.Tools.dll` (431104 bytes)
+- `M` `Main/Application/Linx.Portal/Linx.Portal/obj/Release/CoreCompileInputs.cache` (41 bytes)
+- `M` `Main/Application/Linx.Portal/Linx.Portal/obj/Release/Linx.Portal.csproj.FileListAbsolute.txt` (10188 bytes)
+- `M` `Main/Application/Linx.Portal/Linx.Portal/obj/Release/Linx.Portal.csprojResolveAssemblyReference.cache` (335441 bytes)
+- `M` `Main/Application/Linx.Portal/Linx.Portal/obj/Release/Linx.Portal.dll` (27136 bytes)
+- `M` `Main/Application/Linx.Portal/Linx.Portal/obj/Release/Linx.Portal.pdb` (48640 bytes)
 - `M` `Main/Application/Linx.Portal/Linx.Portal/packages.config` (2369 bytes)
-- `A` `Main/Application/Linx.Portal/packages/Microsoft.Identity.Client.4.54.1/Microsoft.Identity.Client.nuspec` (9257 bytes)
-- `A` `Main/Application/Linx.Portal/packages/Microsoft.Identity.Client.4.54.1/lib/net461/Microsoft.Identity.Client.dll` (1644504 bytes)
-- `A` `Main/Application/Linx.Portal/packages/Microsoft.Identity.Client.4.54.1/lib/net461/Microsoft.Identity.Client.xml` (1570753 bytes)
-- `A` `Main/Application/Linx.Portal/packages/Microsoft.IdentityModel.Abstractions.6.22.0/Microsoft.IdentityModel.Abstractions.nuspec` (1243 bytes)
-- `A` `Main/Application/Linx.Portal/packages/Microsoft.IdentityModel.Abstractions.6.22.0/lib/net461/Microsoft.IdentityModel.Abstractions.dll` (18832 bytes)
-- `A` `Main/Application/Linx.Portal/packages/Microsoft.IdentityModel.Abstractions.6.22.0/lib/net461/Microsoft.IdentityModel.Abstractions.xml` (16405 bytes)
+- `A` `Main/Application/Linx.Portal/packages/Bundler.1.1.29/content/bundler/node_modules/node-sass/node_modules/mocha/node_modules/glob/node_modules/graceful-fs/test/open.js` (891 bytes)
+- `A` `Main/Application/Linx.Portal/packages/Bundler.1.1.29/content/bundler/node_modules/node-sass/node_modules/mocha/node_modules/glob/node_modules/minimatch/node_modules/lru-cache/AUTHORS` (310 bytes)
+- `A` `Main/Application/Linx.Portal/packages/Bundler.1.1.29/content/bundler/node_modules/node-sass/node_modules/mocha/node_modules/glob/node_modules/minimatch/node_modules/lru-cache/LICENSE` (1092 bytes)
+- `A` `Main/Application/Linx.Portal/packages/Bundler.1.1.29/content/bundler/node_modules/node-sass/node_modules/mocha/node_modules/glob/node_modules/minimatch/node_modules/lru-cache/README.md` (3209 bytes)
+- `A` `Main/Application/Linx.Portal/packages/Bundler.1.1.29/content/bundler/node_modules/node-sass/node_modules/mocha/node_modules/glob/node_modules/minimatch/node_modules/lru-cache/bench.js` (460 bytes)
+- `A` `Main/Application/Linx.Portal/packages/Bundler.1.1.29/content/bundler/node_modules/node-sass/node_modules/mocha/node_modules/glob/node_modules/minimatch/node_modules/lru-cache/lib/lru-cache.js` (5935 bytes)
+- `A` `Main/Application/Linx.Portal/packages/Bundler.1.1.29/content/bundler/node_modules/node-sass/node_modules/mocha/node_modules/glob/node_modules/minimatch/node_modules/lru-cache/package.json` (4573 bytes)
+- `A` `Main/Application/Linx.Portal/packages/Bundler.1.1.29/content/bundler/node_modules/node-sass/node_modules/mocha/node_modules/glob/node_modules/minimatch/node_modules/lru-cache/test/basic.js` (7105 bytes)
+- `A` `Main/Application/Linx.Portal/packages/Bundler.1.1.29/content/bundler/node_modules/node-sass/node_modules/mocha/node_modules/glob/node_modules/minimatch/node_modules/lru-cache/test/foreach.js` (1064 bytes)
+- … +13 arquivos (ver FILE-LIST.txt)
 
 ### Application
 - `M` `Main/Application/Linx.Internet.Application/.vscode/msbuild-build.ps1` (1679 bytes)
 - `M` `Main/Application/Linx.Internet.Application/Linx.Framework.BV.SPA/App_Start/ModuleConfig.cs` (78 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/App/viewmodels/shared/modalChangePassword.js` (9535 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/App/viewmodels/shell/_footer.js` (6287 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/App/views/shell.html` (665 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/App/views/shell/_footer.html` (599 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/App/widgets/datatoolbar/view.html` (14496 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/App_Start/BundleConfig.cs` (18843 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/Controllers/AppCacheController.cs` (3205 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/Controllers/LIAController.cs` (32469 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/Views/LIA/ForgotPassword.cshtml` (3794 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/Views/LIA/ResetPassword.cshtml` (5250 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/Views/Shared/Authentication.cshtml` (243 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/Views/Shared/Unauthorized.cshtml` (2756 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/Views/Shared/_Footer.cshtml` (1810 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/Views/Shared/_FooterClean.cshtml` (509 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/Views/Shared/_Layout.cshtml` (4199 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/Views/Shared/_LayoutClean.cshtml` (2082 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/Web.config` (22950 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/bin/Linx.Internet.Application.dll.config` (22825 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/lib/linx/css/linx-common.less` (161126 bytes)
-- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application/lib/linx/css/linx-theme-default.less` (17688 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Framework.BV.SPA/bin/Linx.Framework.BV.SPA.dll` (591872 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Framework.BV.SPA/bin/Linx.Framework.BV.SPA.pdb` (7680 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Framework.BV.SPA/obj/Release/CoreCompileInputs.cache` (41 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Framework.BV.SPA/obj/Release/Linx.Framework.BV.SPA.csproj.FileListAbsolute.txt` (4082 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Framework.BV.SPA/obj/Release/Linx.Framework.BV.SPA.csprojResolveAssemblyReference.cache` (30374 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Framework.BV.SPA/obj/Release/Linx.Framework.BV.SPA.dll` (591872 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Framework.BV.SPA/obj/Release/Linx.Framework.BV.SPA.pdb` (7680 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Common/bin/Release/Linx.Internet.Application.Common.dll` (18432 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Common/bin/Release/Linx.Internet.Application.Common.pdb` (44544 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Common/obj/Release/CoreCompileInputs.cache` (41 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Common/obj/Release/Linx.Internet.Application.Common.csproj.FileListAbsolute.txt` (10240 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Common/obj/Release/Linx.Internet.Application.Common.csprojResolveAssemblyReference.cache` (146570 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Common/obj/Release/Linx.Internet.Application.Common.dll` (18432 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Common/obj/Release/Linx.Internet.Application.Common.pdb` (44544 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Extension/bin/Release/Linx.Internet.Application.Extension.dll` (20992 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Extension/bin/Release/Linx.Internet.Application.Extension.pdb` (65024 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Extension/obj/Release/CoreCompileInputs.cache` (41 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Extension/obj/Release/Linx.Internet.Application.Extension.csproj.FileListAbsolute.txt` (9505 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Extension/obj/Release/Linx.Internet.Application.Extension.csproj.GenerateResource.Cache` (1022 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Extension/obj/Release/Linx.Internet.Application.Extension.csprojResolveAssemblyReference.cache` (60841 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Extension/obj/Release/Linx.Internet.Application.Extension.dll` (20992 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Extension/obj/Release/Linx.Internet.Application.Extension.pdb` (65024 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework.Contracts/bin/Release/Linx.Internet.Application.Extension.dll` (20992 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework.Contracts/bin/Release/Linx.Internet.Application.Extension.pdb` (65024 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework.Contracts/bin/Release/Linx.Internet.Application.Framework.Contracts.dll` (10240 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework.Contracts/bin/Release/Linx.Internet.Application.Framework.Contracts.pdb` (24064 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework.Contracts/obj/Release/CoreCompileInputs.cache` (41 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework.Contracts/obj/Release/Linx.Internet.Application.Framework.Contracts.csproj.FileListAbsolute.txt` (6350 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework.Contracts/obj/Release/Linx.Internet.Application.Framework.Contracts.csprojResolveAssemblyReference.cache` (61565 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework.Contracts/obj/Release/Linx.Internet.Application.Framework.Contracts.dll` (10240 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework.Contracts/obj/Release/Linx.Internet.Application.Framework.Contracts.pdb` (24064 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework/bin/Release/Linx.Internet.Application.Common.dll` (18432 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework/bin/Release/Linx.Internet.Application.Common.pdb` (44544 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework/bin/Release/Linx.Internet.Application.Extension.dll` (20992 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework/bin/Release/Linx.Internet.Application.Extension.pdb` (65024 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework/bin/Release/Linx.Internet.Application.Framework.Contracts.dll` (10240 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework/bin/Release/Linx.Internet.Application.Framework.Contracts.pdb` (24064 bytes)
+- `M` `Main/Application/Linx.Internet.Application/Linx.Internet.Application.Framework/bin/Release/Linx.Internet.Application.Framework.dll` (59904 bytes)
+- … +166 arquivos (ver FILE-LIST.txt)
 
 ### Service
 - `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/AutorizacaoDomainService.UserExtension.cs` (3689 bytes)
 - `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/Linx.Framework.BV.AuthenticateUserExtension.csproj` (3981 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/bin/Release/Linx.Framework.BV.AuthenticateUserExtension.dll` (9728 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/bin/Release/Linx.Framework.BV.AuthenticateUserExtension.pdb` (13824 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/bin/Release/Linx.Framework.BV.dll` (5518336 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/bin/Release/Linx.Tools.dll` (431104 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/obj/Debug/Linx.Framework.BV.AuthenticateUserExtension.csproj.CoreCompileInputs.cache` (41 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/obj/Debug/Linx.Framework.BV.AuthenticateUserExtension.csprojAssemblyReference.cache` (94997 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/obj/Release/CoreCompileInputs.cache` (41 bytes)
+- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/obj/Release/Linx.Fra.BE46A60C.Up2Date` (0 bytes)
+- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/obj/Release/Linx.Framework.BV.AuthenticateUserExtension.csproj.AssemblyReference.cache` (18761 bytes)
+- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/obj/Release/Linx.Framework.BV.AuthenticateUserExtension.csproj.CoreCompileInputs.cache` (65 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/obj/Release/Linx.Framework.BV.AuthenticateUserExtension.csproj.FileListAbsolute.txt` (4613 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/obj/Release/Linx.Framework.BV.AuthenticateUserExtension.csprojResolveAssemblyReference.cache` (168347 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/obj/Release/Linx.Framework.BV.AuthenticateUserExtension.dll` (9728 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.AuthenticateUserExtension/obj/Release/Linx.Framework.BV.AuthenticateUserExtension.pdb` (13824 bytes)
 - `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/Linx.Framework.BV.Implementations.csproj` (4109 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/bin/Release/Linx.Framework.BV.Implementations.dll` (7168 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/bin/Release/Linx.Framework.BV.Implementations.pdb` (11776 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/bin/Release/Linx.Tools.dll` (431104 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/obj/Debug/Linx.Framework.BV.Implementations.csproj.CoreCompileInputs.cache` (41 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/obj/Debug/Linx.Framework.BV.Implementations.csprojAssemblyReference.cache` (63650 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/obj/Release/CoreCompileInputs.cache` (41 bytes)
+- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/obj/Release/Linx.Fra.03D87416.Up2Date` (0 bytes)
+- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/obj/Release/Linx.Framework.BV.Implementations.csproj.AssemblyReference.cache` (27367 bytes)
+- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/obj/Release/Linx.Framework.BV.Implementations.csproj.CoreCompileInputs.cache` (65 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/obj/Release/Linx.Framework.BV.Implementations.csproj.FileListAbsolute.txt` (2824 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/obj/Release/Linx.Framework.BV.Implementations.csprojResolveAssemblyReference.cache` (275892 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/obj/Release/Linx.Framework.BV.Implementations.dll` (7168 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Implementations/obj/Release/Linx.Framework.BV.Implementations.pdb` (11776 bytes)
 - `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Reports/Linx.Framework.BV.Reports.csproj` (9387 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/.vscode/msbuild-build.ps1` (1191 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Controllers/LinxFrameworkAutorizacao.cs` (27063 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Controllers/LinxFrameworkAutorizacaoAutoGen.cs` (79114 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Controllers/LinxFrameworkEmpresaAutoGen.cs` (115231 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Controllers/LinxFrameworkModulo.cs` (28136 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Controllers/LinxFrameworkObjeto.cs` (8307 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Controllers/LinxFrameworkParametro.cs` (7351 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Controllers/LinxFrameworkPerfilAutoGen.cs` (153433 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Controllers/LinxFrameworkUsuarioAutorizacao.cs` (10868 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Controllers/LinxFrameworkUsuarioAutorizacaoAutoGen.cs` (135014 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Controllers/LinxFrameworkUsuarioFranquiaAutoGen.cs` (58685 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Controllers/LinxFrameworkUtilitariosAutoGen.cs` (18139 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI.DS/Linx.Framework.BV.WebAPI.DS.csproj` (18269 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.WebAPI/Linx.Framework.BV.WebAPI.csproj` (8910 bytes)
-- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/Autorizacao.AuthAccessAudit.Operations.cs` (25940 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/Autorizacao.AuthorizationServices.Operations.cs` (58588 bytes)
-- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/Autorizacao.Mfa.Operations.cs` (41987 bytes)
-- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/Autorizacao.SsoVinculo.Operations.cs` (21343 bytes)
-- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/Help For Accessing/README.txt` (68 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/Linx.Framework.BV.csproj` (141674 bytes)
-- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/Modulo.TcsVersao.Operations.cs` (3868 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/TcsAutorizacao.AuthorizationServices.Operations.cs` (18703 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/UsuarioAutorizacao.DomainService.cs` (823334 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/UsuarioAutorizacao.TcsUsuarioAutenticacaoAcessoP.Events.cs` (9287 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/UsuarioAutorizacao.UsuarioAutorizacaoDomainService.Operations.cs` (6550 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/UsuarioFranquia.DomainService.cs` (289067 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/UsuarioFranquia.TcsUsuarioAutenticacao.Events.cs` (2487 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/UsuarioFranquia.ead` (556256 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/Web.config` (987 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/bin/Debug/Linx.Framework.Autorizacao.BM.dll.config` (1243 bytes)
-- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV/bin/Release/Linx.Framework.Autorizacao.BM.dll.config` (1243 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Reports/bin/Debug/Linx.Framework.BV.Reports.dll` (474112 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Reports/bin/Debug/Linx.Framework.BV.Reports.pdb` (775680 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Reports/obj/Debug/Linx.Framework.BV.Reports.csproj.CoreCompileInputs.cache` (41 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Reports/obj/Debug/Linx.Framework.BV.Reports.csprojAssemblyReference.cache` (192935 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Reports/obj/Release/CoreCompileInputs.cache` (41 bytes)
+- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Reports/obj/Release/Linx.Framework.BV.Reports.csproj.AssemblyReference.cache` (46386 bytes)
+- `A` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Reports/obj/Release/Linx.Framework.BV.Reports.csproj.CoreCompileInputs.cache` (65 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Reports/obj/Release/Linx.Framework.BV.Reports.csproj.FileListAbsolute.txt` (2577 bytes)
+- `M` `Main/Business/Linx.Framework.BV/Linx.Framework.BV.Reports/obj/Release/Linx.Framework.BV.Reports.csprojResolveAssemblyReference.cache` (472314 bytes)
+- … +91 arquivos (ver FILE-LIST.txt)
 
-### SPA (User Interface)
+### SPA
 - `M` `Main/User Interface/.vscode/msbuild-build.ps1` (1038 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/.vs/Linx.Framework.BV/v15/.suo` (479744 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/.vs/Linx.Framework.BV/v15/Server/sqlite3/storage.ide` (5353472 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/.vs/Linx.Framework.BV/v15/Server/sqlite3/storage.ide-shm` (32768 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/.vs/Linx.Framework.BV/v15/Server/sqlite3/storage.ide-wal` (4152992 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/.vs/config/applicationhost.config` (76107 bytes)
 - `M` `Main/User Interface/Linx.Framework.BV/.vscode/msbuild-build.ps1` (1610 bytes)
 - `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/App/resources/CadastroUsuarioAutenticacao_pt-br.js` (9464 bytes)
 - `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/App/resources/CadastroUsuarioLocal_pt-br.js` (7660 bytes)
@@ -163,17 +191,50 @@ Os scripts também estão em `DB\` na raiz do pacote:
 - `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/App/views/CadastroUsuario.html` (127808 bytes)
 - `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/App/views/CadastroUsuarioAutenticacao.html` (159935 bytes)
 - `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/App/views/CadastroUsuarioLocal.html` (153270 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/bin/Linx.Framework.BV.SPA.dll` (17536000 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/bin/Linx.Framework.BV.SPA.pdb` (11776 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/obj/Debug/Linx.Framework.BV.SPA.csproj.CoreCompileInputs.cache` (41 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/obj/Debug/Linx.Framework.BV.SPA.csproj.FileListAbsolute.txt` (850 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/obj/Debug/Linx.Framework.BV.SPA.dll` (17422848 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/obj/Debug/Linx.Framework.BV.SPA.pdb` (11776 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/obj/Release/CoreCompileInputs.cache` (41 bytes)
+- `A` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/obj/Release/Linx.Framework.BV.SPA.csproj.AssemblyReference.cache` (19027 bytes)
+- `A` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/obj/Release/Linx.Framework.BV.SPA.csproj.CoreCompileInputs.cache` (65 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/obj/Release/Linx.Framework.BV.SPA.csproj.FileListAbsolute.txt` (1928 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/obj/Release/Linx.Framework.BV.SPA.csprojResolveAssemblyReference.cache` (173764 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/obj/Release/Linx.Framework.BV.SPA.dll` (17536000 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/Linx.Framework.BV.SPA/obj/Release/Linx.Framework.BV.SPA.pdb` (11776 bytes)
 - `A` `Main/User Interface/Linx.Framework.BV/docker-framework-bv/Dockerfile` (170 bytes)
 - `A` `Main/User Interface/Linx.Framework.BV/docker-framework-bv/docker-compose.yml` (1526 bytes)
+- `M` `Main/User Interface/Linx.Framework.BV/publish-output/App/services/UsuarioFranquiaContext.js` (258102 bytes)
+- `A` `Main/User Interface/Linx.Framework.BV/publish-output/ImageResizer.dll` (209920 bytes)
+- `A` `Main/User Interface/Linx.Framework.BV/publish-output/Ionic.Zip.dll` (462336 bytes)
+- `A` `Main/User Interface/Linx.Framework.BV/publish-output/Linx.Data.dll` (67584 bytes)
+- `A` `Main/User Interface/Linx.Framework.BV/publish-output/Linx.Framework.Autorizacao.BM.dll` (183296 bytes)
+- `A` `Main/User Interface/Linx.Framework.BV/publish-output/Linx.Framework.Autorizacao.BM.dll.config` (1243 bytes)
+- … +262 arquivos (ver FILE-LIST.txt)
 
-### BM / SQL
+### BM
 - `M` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/Autorizacao.bmd` (63073 bytes)
 - `M` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/Migrations/Configuration.cs` (37376 bytes)
 - `M` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/Model/BusinessDataModel.cs` (151746 bytes)
 - `M` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/Model/BusinessDataModel.tt` (36046 bytes)
 - `A` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/Scripts/APPLY_SSO_MFA.md` (1703 bytes)
+- `A` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/Scripts/APPLY_SSO_MFA.sql` (11621 bytes)
+- `A` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/Scripts/APPLY_SSO_MFA_OPTIONAL_DATA.sql` (3930 bytes)
+- `A` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/Scripts/INDICA_USUARIO_SERVICO.sql` (390 bytes)
+- `A` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/Scripts/TCS_LOG_ACESSO_AUTH.sql` (2076 bytes)
+- `A` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/Scripts/TCS_MFA.sql` (3515 bytes)
+- `A` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/Scripts/TCS_USUARIO_SSO_VINCULO.sql` (1870 bytes)
+- `M` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/bin/Release/Linx.Framework.Autorizacao.BM.dll` (176640 bytes)
+- `M` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/bin/Release/Linx.Framework.Autorizacao.BM.pdb` (325120 bytes)
+- `M` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/obj/Release/CoreCompileInputs.cache` (41 bytes)
+- `M` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/obj/Release/Linx.Framework.Autorizacao.BM.csproj.FileListAbsolute.txt` (5940 bytes)
+- `M` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/obj/Release/Linx.Framework.Autorizacao.BM.csprojResolveAssemblyReference.cache` (169928 bytes)
+- `M` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/obj/Release/Linx.Framework.Autorizacao.BM.dll` (176640 bytes)
+- `M` `Main/BM/Linx.Framework.Autorizacao.BM/Linx.Framework.Autorizacao.BM/obj/Release/Linx.Framework.Autorizacao.BM.pdb` (325120 bytes)
 
-### Binary (views/config publicados)
+### Binary
 - `A` `Main/Binary/Application/Views/LIA/ForgotPassword.cshtml` (3794 bytes)
 - `A` `Main/Binary/Application/Views/LIA/ResetPassword.cshtml` (5250 bytes)
 - `M` `Main/Binary/Application/Views/Shared/Authentication.cshtml` (332 bytes)
@@ -183,29 +244,126 @@ Os scripts também estão em `DB\` na raiz do pacote:
 - `M` `Main/Binary/Application/Views/Shared/_Layout.cshtml` (4199 bytes)
 - `M` `Main/Binary/Application/Views/Shared/_LayoutClean.cshtml` (2082 bytes)
 - `M` `Main/Binary/Application/Web.config` (23176 bytes)
+- `A` `Main/Binary/Application/bin/Linx.Framework.BV.SPA.dll` (17536000 bytes)
+- `A` `Main/Binary/Application/bin/Linx.Framework.Custom.BV.SPA.dll` (935936 bytes)
+- `M` `Main/Binary/Application/bin/Linx.Internet.Application.Common.dll` (18432 bytes)
+- `M` `Main/Binary/Application/bin/Linx.Internet.Application.Common.pdb` (44544 bytes)
+- `M` `Main/Binary/Application/bin/Linx.Internet.Application.Extension.dll` (20992 bytes)
+- `M` `Main/Binary/Application/bin/Linx.Internet.Application.Extension.pdb` (65024 bytes)
+- `M` `Main/Binary/Application/bin/Linx.Internet.Application.Framework.Contracts.dll` (10240 bytes)
+- `M` `Main/Binary/Application/bin/Linx.Internet.Application.Framework.Contracts.pdb` (24064 bytes)
+- `M` `Main/Binary/Application/bin/Linx.Internet.Application.Framework.dll` (59904 bytes)
+- `M` `Main/Binary/Application/bin/Linx.Internet.Application.Framework.pdb` (144896 bytes)
+- `M` `Main/Binary/Application/bin/Linx.Internet.Application.dll` (52320768 bytes)
+- `M` `Main/Binary/Application/bin/Linx.Internet.Application.pdb` (181760 bytes)
+- `M` `Main/Binary/Library/Business Model/Linx.Framework.Autorizacao.BM.dll` (176640 bytes)
 - `M` `Main/Binary/Library/Business Model/Linx.Framework.Autorizacao.BM.dll.config` (1256 bytes)
 - `M` `Main/Binary/Library/Business Model/Linx.Framework.ControleSistema.BM.dll.config` (1262 bytes)
+- `M` `Main/Binary/Library/Business View/Linx.Framework.BV.dll` (5518336 bytes)
+- `A` `Main/Binary/Library/Business View/Linx.Framework.BV.pdb` (5684736 bytes)
+- `M` `Main/Binary/Library/Common/Linx/Desktop/GAC/Linx.Tools.dll` (431104 bytes)
+- `A` `Main/Binary/Library/Common/Linx/WebBundleResources/assets/plugins/bootstrap-fileupload/bootstrap-editable-1.4.4/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css` (2334 bytes)
+- `A` `Main/Binary/Library/Common/Linx/WebBundleResources/assets/plugins/bootstrap-fileupload/bootstrap-editable-1.4.4/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.js` (21892 bytes)
+- `A` `Main/Binary/Library/Common/Linx/WebBundleResources/assets/plugins/bootstrap-fileupload/bootstrap-editable-1.4.4/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.min.js` (14015 bytes)
+- `A` `Main/Binary/Library/Common/Linx/WebBundleResources/assets/plugins/bootstrap-fileupload/bootstrap-editable-1.4.4/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.js` (332115 bytes)
+- `A` `Main/Binary/Library/Common/Linx/WebBundleResources/assets/plugins/bootstrap-fileupload/bootstrap-editable-1.4.4/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js` (112524 bytes)
+- `A` `Main/Binary/Library/Common/Linx/WebBundleResources/assets/plugins/bootstrap-fileupload/bootstrap-editable-1.4.4/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css` (710 bytes)
 - `A` `Main/Binary/Library/Common/Microsoft/Identity/Microsoft.Identity.Client.dll` (1644504 bytes)
 - `A` `Main/Binary/Library/Common/Microsoft/Identity/Microsoft.IdentityModel.Abstractions.dll` (18832 bytes)
-- `M` `Main/Binary/Portal/Views/Account/Login.cshtml` (20574 bytes)
-- `M` `Main/Binary/Portal/Web.config` (9414 bytes)
-- `M` `Main/Binary/Portal/assets/css/portal.css` (29896 bytes)
-- `A` `Main/Binary/Portal/bin/Microsoft.Identity.Client.dll` (1644504 bytes)
-- `A` `Main/Binary/Portal/bin/Microsoft.IdentityModel.Abstractions.dll` (18832 bytes)
-- `A` `Main/Binary/Service/SqlScripts/Disable_Update_aspnet_Membership_Trigger.sql` (841 bytes)
-- `M` `Main/Binary/Service/Web.config` (68639 bytes)
+- `M` `Main/Binary/Library/User Interface/Linx.Framework.BV.SPA.dll` (17536000 bytes)
+- `M` `Main/Binary/Library/Web API Client/Linx.Framework.BV.WebAPI.Client.dll` (57856 bytes)
+- `M` `Main/Binary/Library/Web API/Linx.Framework.BV.WebAPI.DS.dll` (996864 bytes)
+- `M` `Main/Binary/Library/Web API/Linx.Framework.BV.WebAPI.dll` (19456 bytes)
+- `A` `Main/Binary/Library/node/node_modules/fs-extra/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/.npmignore` (23 bytes)
+- … +31 arquivos (ver FILE-LIST.txt)
 
-### Common
-- `A` `Main/Common/Linx.Tools.Library/Desktop/Linx.Desktop.Tools/.vscode/msbuild-build.ps1` (1364 bytes)
-- `M` `Main/Common/Linx.Tools.Library/Desktop/Linx.Desktop.Tools/LinxErrorConstants.cs` (9399 bytes)
-- `M` `Main/Common/Linx.Tools.Library/Desktop/Linx.Desktop.Tools/LinxMail.cs` (3647 bytes)
-- `M` `Main/Common/Linx.Tools.Library/Desktop/Linx.Tools.Core/LinxErrorConstants.cs` (9399 bytes)
+### packages (INSTALL_MFA_SSO etc.)
+- `A` `packages/INSTALL_MFA_SSO.zip` (17010301 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Aplicar-IIS.bat` (2422 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Application/App/resources/CadastroUsuarioAutenticacao_pt-br.js` (9464 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Application/App/resources/CadastroUsuarioLocal_pt-br.js` (7660 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Application/App/resources/CadastroUsuario_pt-br.js` (9156 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Application/App/viewmodels/CadastroUsuario.js` (137479 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Application/App/viewmodels/CadastroUsuarioAutenticacao.js` (157556 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Application/App/viewmodels/CadastroUsuarioLocal.js` (150441 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Application/App/views/CadastroUsuario.html` (127808 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Application/App/views/CadastroUsuarioAutenticacao.html` (159935 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Application/App/views/CadastroUsuarioLocal.html` (153270 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Application/App/widgets/datatoolbar/view.html` (14496 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Atualizar-Pacote.bat` (2728 bytes)
+- `A` `packages/INSTALL_MFA_SSO/DB/APPLY_SSO_MFA.sql` (12778 bytes)
+- `A` `packages/INSTALL_MFA_SSO/FILES_TO_INSTALL.txt` (11017 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Portal/Views/Account/Login.cshtml` (20574 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Portal/Views/Mfa/Challenge.cshtml` (4855 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Portal/bin/Linx.Portal.dll` (75264 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Portal/bin/Microsoft.Identity.Client.dll` (1644504 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Portal/bin/Microsoft.IdentityModel.Abstractions.dll` (18832 bytes)
+- `A` `packages/INSTALL_MFA_SSO/README_INSTALL.TXT` (7839 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Service/bin/Linx.Framework.BV.WebAPI.DS.dll` (1005568 bytes)
+- `A` `packages/INSTALL_MFA_SSO/Service/bin/Linx.Framework.BV.dll` (5590016 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/App/resources/CadastroUsuarioAutenticacao_pt-br.js` (9464 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/App/resources/CadastroUsuarioLocal_pt-br.js` (7660 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/App/resources/CadastroUsuario_pt-br.js` (9156 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/App/viewmodels/CadastroUsuario.js` (137479 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/App/viewmodels/CadastroUsuarioAutenticacao.js` (157556 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/App/viewmodels/CadastroUsuarioLocal.js` (150441 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/App/views/CadastroUsuario.html` (127808 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/App/views/CadastroUsuarioAutenticacao.html` (159935 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/App/views/CadastroUsuarioLocal.html` (153270 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/App/widgets/datatoolbar/view.html` (14496 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/bin/README-DLL.txt` (315 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Application/bin/README-SPA-DLL.txt` (478 bytes)
+- `A` `packages/MFA-SSO-UPDATE/COPY-MAP.txt` (2117 bytes)
+- `A` `packages/MFA-SSO-UPDATE/Copy-ToIis.ps1` (2306 bytes)
+- `A` `packages/MFA-SSO-UPDATE/DB/00-README.md` (631 bytes)
+- `A` `packages/MFA-SSO-UPDATE/DB/APPLY_SSO_MFA.md` (1703 bytes)
+- `A` `packages/MFA-SSO-UPDATE/DB/APPLY_SSO_MFA.sql` (11621 bytes)
+- … +15 arquivos (ver FILE-LIST.txt)
 
-### Outros
-_nenhum_
+### docs / infra / raiz
+- `A` `docs/Linx-UX-Autenticacao-MFA-SSO-API.pdf` (540923 bytes)
+- `A` `docs/Linx-UX-Estoria-Construcao-MFA.docx` (44859 bytes)
+- `A` `docs/Linx-UX-MFA-SSO-Portal.docx` (381050 bytes)
+- `A` `docs/Linx-UX-SSO-Portal.docx` (219623 bytes)
+- `A` `docs/build_estorias_mfa_docx.py` (7007 bytes)
+- `A` `docs/build_mfa_sso_docx.py` (38409 bytes)
+- `A` `docs/build_sso_docx.py` (25346 bytes)
+- `A` `docs/estorias-construcao-mfa.md` (13762 bytes)
+- `A` `docs/login-mfa-sso-api.md` (20914 bytes)
+- `A` `docs/login-mfa-sso-desktop-dotnet.md` (19870 bytes)
+- `A` `docs/login-mfa-sso-usuario.md` (4596 bytes)
+- `A` `docs/login-sso-usuario.md` (6576 bytes)
+- `A` `docs/si-pdr-aws-iis.md` (6889 bytes)
+- `A` `docs/si-pdr-portal-sso.md` (991 bytes)
+- `A` `docs/sso-azure-ad-msal-guide.md` (15668 bytes)
+- `A` `infra/si-pdr-cicd/README.md` (712 bytes)
+- `A` `infra/si-pdr-cicd/scripts/Clear-BuildWorkspace.ps1` (3767 bytes)
+- `A` `infra/si-pdr-cicd/scripts/Diagnose-SiPdrRuntime.ps1` (8390 bytes)
+- `A` `infra/si-pdr-cicd/scripts/Ensure-BuildTools.ps1` (7889 bytes)
+- `A` `infra/si-pdr-cicd/scripts/Ensure-IisSiPdr.ps1` (11704 bytes)
+- `A` `infra/si-pdr-cicd/scripts/Invoke-SiPdrAwsPipeline.ps1` (23150 bytes)
+- `A` `infra/si-pdr-cicd/scripts/Publish-SampleSsoMfa.ps1` (10926 bytes)
+- `A` `infra/si-pdr-cicd/scripts/Set-SiPdrSqlConnectionStrings.ps1` (13283 bytes)
+- `A` `infra/si-pdr-cicd/scripts/Sync-SiPdrWorkspace.ps1` (1669 bytes)
+- `A` `.cursor/rules/mfa-totp-framework-ux.mdc` (7868 bytes)
+- `A` `.github/workflows/si-pdr-aws-iis.yml` (26539 bytes)
+- `M` `.gitignore` (1849 bytes)
+- `A` `.vscode/TASKS.README.md` (13044 bytes)
+- `R` `.vscode/copy-to-out.ps1` (1557 bytes)
+- `A` `.vscode/deploy-to-linx-framework.ps1` (27564 bytes)
+- `A` `.vscode/pack-si-pdr-INVENTORY.template.md` (3215 bytes)
+- `A` `.vscode/pack-si-pdr-LEIA-ME.template.md` (1994 bytes)
+- `A` `.vscode/pack-si-pdr.ps1` (13982 bytes)
+- `A` `.vscode/settings.json` (113 bytes)
+- `R` `.vscode/stack-to-deploy.ps1` (15676 bytes)
+- `R` `.vscode/stack-to-publish.ps1` (12359 bytes)
+- `R` `.vscode/tasks.json` (14377 bytes)
+- `A` `AGENTS.md` (848 bytes)
+- `A` `samples/LinxUxAuthDesktopPoc/LinxDesktopSso.cs` (1125 bytes)
+- `A` `samples/LinxUxAuthDesktopPoc/LinxUxAuthClient.cs` (16123 bytes)
+- `A` `samples/LinxUxAuthDesktopPoc/LinxUxAuthDesktopPoc.csproj` (1065 bytes)
+- `A` `samples/LinxUxAuthDesktopPoc/Models.cs` (2605 bytes)
+- `A` `samples/LinxUxAuthDesktopPoc/Program.cs` (11739 bytes)
+- `A` `samples/LinxUxAuthDesktopPoc/README.md` (1718 bytes)
 
-## Arquivos deletados vs master
-
-Ver `DELETED.txt`.
-
-Inventário com SHA256: `FILE-LIST.txt`.
+Inventário SHA256: `FILE-LIST.txt`.

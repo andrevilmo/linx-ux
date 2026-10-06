@@ -1,0 +1,717 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="ConsultaLogErros_formViewer" class="panelTransaition">
+            <figure id="ConsultaLogErros_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.ConsultaLogErros().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="ConsultaLogErros_gbTcsLogErrosDash" data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_gbTcsLogErrosDash'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_gbTcsLogErrosDash')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div id="ConsultaLogErros_gbTcsLogErrosDash_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="ConsultaLogErros_gbGroupBox_b8f266f849874696af6b2b21705c72a5" data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_gbGroupBox_b8f266f849874696af6b2b21705c72a5'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_gbGroupBox_b8f266f849874696af6b2b21705c72a5')"  class="gb-expander position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_gbGroupBox_b8f266f849874696af6b2b21705c72a5')"><i class="icon-reorder"></i></div>
+                           <div class="tools">
+                               <a id="ConsultaLogErros_gbGroupBox_b8f266f849874696af6b2b21705c72a5_anchor" href="#ConsultaLogErros_gbGroupBox_b8f266f849874696af6b2b21705c72a5_body" role="button" data-toggle="collapse" data-parent="#ConsultaLogErros_gbGroupBox_b8f266f849874696af6b2b21705c72a5" aria-controls="#ConsultaLogErros_gbGroupBox_b8f266f849874696af6b2b21705c72a5_body" class="" title="Clique para expandir ou colapsar"></a>
+                           </div>
+                       </div>
+                       <div id="ConsultaLogErros_gbGroupBox_b8f266f849874696af6b2b21705c72a5_body" class="portlet-body collapse in" >
+                           <div data-bind="with: $root.ConsultaLogErros().getWithBinding(currentDataItem, $root.ConsultaLogErros().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_dtDataErro'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_dtDataErro')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divDataErro" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_dtDataErro')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_dtDataErro')" id="ConsultaLogErros_lblDataErro" for="ConsultaLogErros_dtDataErro" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group" >
+                                                   <span id="ConsultaLogErros_dtDataErro" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DataErro', css: { vmEditing: $root.ConsultaLogErros().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtDataErro') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtDataErro') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtDataErro') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtDataErro') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing()) },  igDatePicker: { value: DataErro, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.ConsultaLogErros().entitySearchRange.has_TcsLogErrosDashDataErro()?true:ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtDataErro') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtDataErro') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="ConsultaLogErros_rgbtnDataErro"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ConsultaLogErros().entitySearchRange.has_TcsLogErrosDashDataErro(), 'icon-ok': $root.ConsultaLogErros().entitySearchRange.has_TcsLogErrosDashDataErro(), hide: $root.ConsultaLogErros().status() !== 'C' }, popoverWithBind: { template: '#ConsultaLogErros_rgDataErro', vm: $root.ConsultaLogErros().entitySearchRange, ctrlName: 'ConsultaLogErros_rgcDataErro', headerText:'Filtro de datas' }"  /></span>
+                                                      <script id="ConsultaLogErros_rgDataErro" type="text/html" tabindex="-1">
+                                                      <div class="range-radio-group">
+                                                          <input type="radio" data-bind="enable: !has_TcsLogErrosDashDataErro(), checked:TcsLogErrosDashDataErro_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="enable: !has_TcsLogErrosDashDataErro(), checked:TcsLogErrosDashDataErro_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      </div>
+                                                      <div class="range-input-group" id="ConsultaLogErros_divrgDataErro" >
+                                                          <div class="filterByRange" data-bind="visible: TcsLogErrosDashDataErro_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="ConsultaLogErros_dtbDataErro" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsLogErrosDashDataErro_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaLogErros_dtDataErro').igDatePicker('option', 'readOnly', (ui.value != null || $('#ConsultaLogErros_dteDataErro').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#ConsultaLogErros_dtbDataErro').igDatePicker('value'); var valorMax = $('#ConsultaLogErros_dteDataErro').igDatePicker('value');if (valorMax != null && valorMin > valorMax){TcsLogErrosDashDataErro_begin(valorMax); $('#ConsultaLogErros_dtbDataErro').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="ConsultaLogErros_dteDataErro" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsLogErrosDashDataErro_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaLogErros_dtDataErro').igDatePicker('option', 'readOnly', ($('#ConsultaLogErros_dtbDataErro').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#ConsultaLogErros_dtbDataErro').igDatePicker('value'); var valorMax = $('#ConsultaLogErros_dteDataErro').igDatePicker('value');if (valorMin != null && valorMax < valorMin){TcsLogErrosDashDataErro_end(valorMin); $('#ConsultaLogErros_dteDataErro').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: TcsLogErrosDashDataErro_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TcsLogErrosDashDataErro_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <div class="row predefValue" data-bind="visible: TcsLogErrosDashDataErro_predefFilter() != null && TcsLogErrosDashDataErro_predefFilter()[0] && TcsLogErrosDashDataErro_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TcsLogErrosDashDataErro_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbNomeAcao'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbNomeAcao')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divNomeAcao" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbNomeAcao')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbNomeAcao')" id="ConsultaLogErros_lblNomeAcao" for="ConsultaLogErros_tbNomeAcao" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbNomeAcao" class="form-control ellipsis" data-bind="attr: { title: NomeAcao }, validatedField: 'NomeAcao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeAcao') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeAcao') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing()) }, igTextEditor: { maxLength: 256, value: NomeAcao, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeAcao') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeAcao') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbNomeControlador'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbNomeControlador')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divNomeControlador" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbNomeControlador')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbNomeControlador')" id="ConsultaLogErros_lblNomeControlador" for="ConsultaLogErros_tbNomeControlador" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbNomeControlador" class="form-control ellipsis" data-bind="attr: { title: NomeControlador }, validatedField: 'NomeControlador', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeControlador') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeControlador') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing()) }, igTextEditor: { maxLength: 200, value: NomeControlador, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeControlador') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeControlador') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbMetodoHttp'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbMetodoHttp')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divMetodoHttp" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbMetodoHttp')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbMetodoHttp')" id="ConsultaLogErros_lblMetodoHttp" for="ConsultaLogErros_tbMetodoHttp" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbMetodoHttp" class="form-control ellipsis" data-bind="attr: { title: MetodoHttp }, validatedField: 'MetodoHttp', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbMetodoHttp') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbMetodoHttp') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing()) }, igTextEditor: { maxLength: 6, value: MetodoHttp, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbMetodoHttp') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbMetodoHttp') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_lUpNomeUsuario'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_lUpNomeUsuario')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divNomeUsuario" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpNomeUsuario')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpNomeUsuario')" id="ConsultaLogErros_lblNomeUsuario" for="ConsultaLogErros_lUpNomeUsuario" class="control-label ellipsis">
+                                               </label>
+                                               <div id="ConsultaLogErros_lUpNomeUsuario" class="form-control input-group " data-bind="validatedField: 'NomeUsuario', css: { vmEditing: $root.ConsultaLogErros().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeUsuario') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeUsuario') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, lookupControl: { vm: $root.ConsultaLogErros(), value: NomeUsuario, maxLength: 250,lookupName: 'LookUpTcsUsuarioAutenticacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaLogErros().entitySearchRange.NomeUsuario, fieldName: 'NomeUsuario', disabled:ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeUsuario') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeUsuario') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_lUpNomeAutenticacao'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_lUpNomeAutenticacao')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divNomeAutenticacao" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpNomeAutenticacao')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpNomeAutenticacao')" id="ConsultaLogErros_lblNomeAutenticacao" for="ConsultaLogErros_lUpNomeAutenticacao" class="control-label ellipsis">
+                                               </label>
+                                               <div id="ConsultaLogErros_lUpNomeAutenticacao" class="form-control input-group " data-bind="validatedField: 'NomeAutenticacao', css: { vmEditing: $root.ConsultaLogErros().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeAutenticacao') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeAutenticacao') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, lookupControl: { vm: $root.ConsultaLogErros(), value: NomeAutenticacao, maxLength: 250,lookupName: 'LookUpTcsUsuarioAutenticacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaLogErros().entitySearchRange.NomeAutenticacao, fieldName: 'NomeAutenticacao', disabled:ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeAutenticacao') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeAutenticacao') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_lUpDescricaoAmbiente'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_lUpDescricaoAmbiente')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divDescricaoAmbiente" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpDescricaoAmbiente')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpDescricaoAmbiente')" id="ConsultaLogErros_lblDescricaoAmbiente" for="ConsultaLogErros_lUpDescricaoAmbiente" class="control-label ellipsis">
+                                               </label>
+                                               <div id="ConsultaLogErros_lUpDescricaoAmbiente" class="form-control input-group " data-bind="validatedField: 'DescricaoAmbiente', css: { vmEditing: $root.ConsultaLogErros().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpDescricaoAmbiente') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpDescricaoAmbiente') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, lookupControl: { vm: $root.ConsultaLogErros(), value: DescricaoAmbiente, maxLength: 250,lookupName: 'LookUpTcsAmbiente', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaLogErros().entitySearchRange.DescricaoAmbiente, fieldName: 'DescricaoAmbiente', disabled:ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpDescricaoAmbiente') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpDescricaoAmbiente') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_lUpDescricaoAplicacao'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_lUpDescricaoAplicacao')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divDescricaoAplicacao" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpDescricaoAplicacao')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpDescricaoAplicacao')" id="ConsultaLogErros_lblDescricaoAplicacao" for="ConsultaLogErros_lUpDescricaoAplicacao" class="control-label ellipsis">
+                                               </label>
+                                               <div id="ConsultaLogErros_lUpDescricaoAplicacao" class="form-control input-group " data-bind="validatedField: 'DescricaoAplicacao', css: { vmEditing: $root.ConsultaLogErros().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpDescricaoAplicacao') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpDescricaoAplicacao') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, lookupControl: { vm: $root.ConsultaLogErros(), value: DescricaoAplicacao, maxLength: 60,lookupName: 'LookUpTcsAplicacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaLogErros().entitySearchRange.DescricaoAplicacao, fieldName: 'DescricaoAplicacao', disabled:ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpDescricaoAplicacao') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpDescricaoAplicacao') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 60, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_lUpNomeEmpresa'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_lUpNomeEmpresa')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divNomeEmpresa" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpNomeEmpresa')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpNomeEmpresa')" id="ConsultaLogErros_lblNomeEmpresa" for="ConsultaLogErros_lUpNomeEmpresa" class="control-label ellipsis">
+                                               </label>
+                                               <div id="ConsultaLogErros_lUpNomeEmpresa" class="form-control input-group " data-bind="validatedField: 'NomeEmpresa', css: { vmEditing: $root.ConsultaLogErros().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeEmpresa') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeEmpresa') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, lookupControl: { vm: $root.ConsultaLogErros(), value: NomeEmpresa, maxLength: 250,lookupName: 'LookUpTcsEmpresaAutenticacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaLogErros().entitySearchRange.NomeEmpresa, fieldName: 'NomeEmpresa', disabled:ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeEmpresa') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpNomeEmpresa') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_lUpGpecon'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_lUpGpecon')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divGpecon" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpGpecon')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_lUpGpecon')" id="ConsultaLogErros_lblGpecon" for="ConsultaLogErros_lUpGpecon" class="control-label ellipsis">
+                                               </label>
+                                               <div id="ConsultaLogErros_lUpGpecon" class="form-control input-group " data-bind="validatedField: 'Gpecon', css: { vmEditing: $root.ConsultaLogErros().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpGpecon') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpGpecon') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, lookupControl: { vm: $root.ConsultaLogErros(), value: Gpecon, maxLength: 250,lookupName: 'LookUpGpecon', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaLogErros().entitySearchRange.Gpecon, fieldName: 'Gpecon', disabled:ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpGpecon') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_lUpGpecon') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbNomeServidor'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbNomeServidor')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divNomeServidor" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbNomeServidor')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbNomeServidor')" id="ConsultaLogErros_lblNomeServidor" for="ConsultaLogErros_tbNomeServidor" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbNomeServidor" class="form-control ellipsis" data-bind="attr: { title: NomeServidor }, validatedField: 'NomeServidor', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeServidor') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeServidor') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing()) }, igTextEditor: { maxLength: 256, value: NomeServidor, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeServidor') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbNomeServidor') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbUsuarioWindows'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbUsuarioWindows')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divUsuarioWindows" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbUsuarioWindows')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbUsuarioWindows')" id="ConsultaLogErros_lblUsuarioWindows" for="ConsultaLogErros_tbUsuarioWindows" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbUsuarioWindows" class="form-control ellipsis" data-bind="attr: { title: UsuarioWindows }, validatedField: 'UsuarioWindows', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbUsuarioWindows') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbUsuarioWindows') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing()) }, igTextEditor: { maxLength: 256, value: UsuarioWindows, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbUsuarioWindows') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbUsuarioWindows') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="ConsultaLogErros_tcTcsLogErrosDashTabControl"  data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tcTcsLogErrosDashTabControl'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tcTcsLogErrosDashTabControl')"  class="tabbable tabbable-custom box" >
+                  <div class="container-tab">
+                     <div id="ConsultaLogErros_tcTcsLogErrosDashTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                     <div id="ConsultaLogErros_tcTcsLogErrosDashTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                     <div id="ConsultaLogErros_tcTcsLogErrosDashTabControl_wrapper" class="wrapper">
+                        <ul id="ConsultaLogErros_tcTcsLogErrosDashTabControl_list" class="nav nav-tabs list">
+                           <li id="ConsultaLogErros_tiTcsLogErrosTabItem" class="active"><a data-bind="text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tiTcsLogErrosTabItem'), attr: {title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tiTcsLogErrosTabItem')}" href="#ConsultaLogErros_tabTcsLogErrosTabItem" data-toggle="tab"></a></li>
+                           <li id="ConsultaLogErros_tiLogFileTabItem" class=""><a data-bind="text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tiLogFileTabItem'), attr: {title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tiLogFileTabItem')}" href="#ConsultaLogErros_tabLogFileTabItem" data-toggle="tab"></a></li>
+                        </ul>
+                        </div>
+                     </div>
+                  <div class="tab-content">
+
+
+
+                   <div class="tab-pane fade active in" id="ConsultaLogErros_tabTcsLogErrosTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div id="ConsultaLogErros_gbGroupBox_5bceff6b3fb54366baaa622bbb556baa" data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_gbGroupBox_5bceff6b3fb54366baaa622bbb556baa'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_gbGroupBox_5bceff6b3fb54366baaa622bbb556baa')"  class=" gbox position-element"  >
+                           <div class="portlet box dark-background" >
+                               <div id="ConsultaLogErros_gbGroupBox_5bceff6b3fb54366baaa622bbb556baa_body" class="portlet-body" >
+                                   <div class="row">
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_dGridTcsLogErros') " >
+                               <div id="ConsultaLogErros_dGridTcsLogErros_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.ConsultaLogErros().getWithBinding(currentDataItem, $root.ConsultaLogErros().rootDataTypeName)">
+                                   <button id="ConsultaLogErros_dGridTcsLogErros_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                                    data-bind="click:function () { 
+                                      $root.ConsultaLogErros().openEditor('#ConsultaLogErros_dGridTcsLogErros', 'TcsLogErros', 'vm.currentDataItem().currentTcsLogErros;vm.currentDataItem().TcsLogErrosList', 'TcsLogErros;vm.currentDataItem()', 'TcsLogErros(vm.currentDataItem())', false)
+                                   }"><i class="fa fa-th"></i></button>
+                                   <button id="ConsultaLogErros_dGridTcsLogErros_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                                    data-bind="click:function () { 
+                                      $root.ConsultaLogErros().openEditor('#ConsultaLogErros_dGridTcsLogErros', 'TcsLogErros', 'vm.currentDataItem().currentTcsLogErros;vm.currentDataItem().TcsLogErrosList', 'TcsLogErros;vm.currentDataItem()', 'TcsLogErros(vm.currentDataItem())', true)
+                                   }"><i class="fa fa-th-large"></i></button>
+                                   <button id="ConsultaLogErros_dGridTcsLogErros_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#ConsultaLogErros_dGridTcsLogErros_templateLayout', vm: function(){return $root.ConsultaLogErros().gridSaveStates['ConsultaLogErros_dGridTcsLogErros'];}, ctrlName: 'ConsultaLogErros_dGridTcsLogErros_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="ConsultaLogErros_dGridTcsLogErros_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="ConsultaLogErros_dGridTcsLogErros_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="ConsultaLogErros_dGridTcsLogErros_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.ConsultaLogErros().dataToolbar.canGridExport(), click: function () {$root.ConsultaLogErros().exportDataDetails($data, 'TcsLogErros', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="ConsultaLogErros_dGridTcsLogErros" data-bind="css: { IsEditableStyle: $root.ConsultaLogErros().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+
+                           <div id="dialogTcsLogErros"  class="toolbar-dialog-template" title='' style="display: none !important; overflow-y:auto;">
+                              <button class="btn btn-sm btn-default backReg " id="backRegTcsLogErros" onClick="$(this).backRegTcsLogErros();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                              <span class="caption"><label id="currentNumberTcsLogErros">0</label><label>/</label><label id="totalNumberTcsLogErros">0</label></span>
+                              <button class="btn btn-sm btn-default nextReg " id="nextRegTcsLogErros" onClick="$(this).nextRegTcsLogErros();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                              <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTcsLogErros" onClick="$(this).okRegTcsLogErros();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                           <div id="ConsultaLogErros_templateTcsLogErros" class="" style="width: 100%; height: 100%;" >
+                               <div data-bind="with: $root.ConsultaLogErros().getWithBinding(currentDataItem, $root.ConsultaLogErros().rootDataTypeName)"><div data-bind="with: $root.ConsultaLogErros().getWithBinding(currentTcsLogErros, 'TcsLogErros')">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_dtTcsLogErros_DataErro'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_dtTcsLogErros_DataErro')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divTcsLogErros_DataErroTemplate" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_dtTcsLogErros_DataErro')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_dtTcsLogErros_DataErro')" id="ConsultaLogErros_lblTcsLogErros_DataErro" for="ConsultaLogErros_dtTcsLogErros_DataErro" class="control-label ellipsis">
+                                               </label>
+                                               <div class="input-group" >
+                                                   <span id="ConsultaLogErros_dtTcsLogErros_DataErro" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DataErro', css: { vmEditing: $root.ConsultaLogErros().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtTcsLogErros_DataErro') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtTcsLogErros_DataErro') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtTcsLogErros_DataErro') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtTcsLogErros_DataErro') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing()) },  igDatePicker: { value: DataErro, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy HH:mm:ss', dateInputFormat: 'dd/MM/yyyy HH:mm:ss', dropDownOnReadOnly: false, readOnly: $root.ConsultaLogErros().entitySearchRange.has_TcsLogErrosDataErro()?true:ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtTcsLogErros_DataErro') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_dtTcsLogErros_DataErro') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                                   <span class="input-group-btn" title="Filtro de datas">
+                                                      <button id="ConsultaLogErros_rgbtnTcsLogErros_DataErro"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ConsultaLogErros().entitySearchRange.has_TcsLogErrosDataErro(), 'icon-ok': $root.ConsultaLogErros().entitySearchRange.has_TcsLogErrosDataErro(), hide: $root.ConsultaLogErros().status() !== 'C' }, popoverWithBind: { template: '#ConsultaLogErros_rgTcsLogErros_DataErro', vm: $root.ConsultaLogErros().entitySearchRange, ctrlName: 'ConsultaLogErros_rgcTcsLogErros_DataErro', headerText:'Filtro de datas' }"  /></span>
+                                                      <script id="ConsultaLogErros_rgTcsLogErros_DataErro" type="text/html" tabindex="-1">
+                                                      <div class="range-radio-group">
+                                                          <input type="radio" data-bind="enable: !has_TcsLogErrosDataErro(), checked:TcsLogErrosDataErro_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                          <input type="radio" data-bind="enable: !has_TcsLogErrosDataErro(), checked:TcsLogErrosDataErro_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                      </div>
+                                                      <div class="range-input-group" id="ConsultaLogErros_divrgTcsLogErros_DataErro" >
+                                                          <div class="filterByRange" data-bind="visible: TcsLogErrosDataErro_typeRange() == 'R'">
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="ConsultaLogErros_dtbTcsLogErros_DataErro" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsLogErrosDataErro_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaLogErros_dtTcsLogErros_DataErro').igDatePicker('option', 'readOnly', (ui.value != null || $('#ConsultaLogErros_dteTcsLogErros_DataErro').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#ConsultaLogErros_dtbTcsLogErros_DataErro').igDatePicker('value'); var valorMax = $('#ConsultaLogErros_dteTcsLogErros_DataErro').igDatePicker('value');if (valorMax != null && valorMin > valorMax){TcsLogErrosDataErro_begin(valorMax); $('#ConsultaLogErros_dtbTcsLogErros_DataErro').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                              <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="ConsultaLogErros_dteTcsLogErros_DataErro" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsLogErrosDataErro_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaLogErros_dtTcsLogErros_DataErro').igDatePicker('option', 'readOnly', ($('#ConsultaLogErros_dtbTcsLogErros_DataErro').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#ConsultaLogErros_dtbTcsLogErros_DataErro').igDatePicker('value'); var valorMax = $('#ConsultaLogErros_dteTcsLogErros_DataErro').igDatePicker('value');if (valorMin != null && valorMax < valorMin){TcsLogErrosDataErro_end(valorMin); $('#ConsultaLogErros_dteTcsLogErros_DataErro').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                          </div>
+                                                          <div class="filterByPredefined " data-bind="visible: TcsLogErrosDataErro_typeRange() == 'P'">
+                                                              <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TcsLogErrosDataErro_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                              <div class="row predefValue" data-bind="visible: TcsLogErrosDataErro_predefFilter() != null && TcsLogErrosDataErro_predefFilter()[0] && TcsLogErrosDataErro_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TcsLogErrosDataErro_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                          </div>
+                                                      </div>
+                                                   </script>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbTcsLogErros_NomeAcao'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbTcsLogErros_NomeAcao')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divTcsLogErros_NomeAcaoTemplate" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_NomeAcao')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_NomeAcao')" id="ConsultaLogErros_lblTcsLogErros_NomeAcao" for="ConsultaLogErros_tbTcsLogErros_NomeAcao" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbTcsLogErros_NomeAcao" class="form-control ellipsis" data-bind="attr: { title: NomeAcao }, validatedField: 'NomeAcao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeAcao') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeAcao') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, igTextEditor: { maxLength: 256, value: NomeAcao, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeAcao') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeAcao') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbTcsLogErros_NomeControlador'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbTcsLogErros_NomeControlador')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divTcsLogErros_NomeControladorTemplate" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_NomeControlador')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_NomeControlador')" id="ConsultaLogErros_lblTcsLogErros_NomeControlador" for="ConsultaLogErros_tbTcsLogErros_NomeControlador" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbTcsLogErros_NomeControlador" class="form-control ellipsis" data-bind="attr: { title: NomeControlador }, validatedField: 'NomeControlador', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeControlador') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeControlador') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, igTextEditor: { maxLength: 200, value: NomeControlador, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeControlador') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeControlador') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbTcsLogErros_EnderecoWeb'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbTcsLogErros_EnderecoWeb')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divTcsLogErros_EnderecoWebTemplate" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_EnderecoWeb')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_EnderecoWeb')" id="ConsultaLogErros_lblTcsLogErros_EnderecoWeb" for="ConsultaLogErros_tbTcsLogErros_EnderecoWeb" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbTcsLogErros_EnderecoWeb" class="form-control ellipsis" data-bind="attr: { title: EnderecoWeb }, validatedField: 'EnderecoWeb', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_EnderecoWeb') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_EnderecoWeb') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing()) }, igTextEditor: { maxLength: 8000, value: EnderecoWeb, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_EnderecoWeb') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_EnderecoWeb') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbTcsLogErros_MetodoHttp'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbTcsLogErros_MetodoHttp')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divTcsLogErros_MetodoHttpTemplate" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_MetodoHttp')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_MetodoHttp')" id="ConsultaLogErros_lblTcsLogErros_MetodoHttp" for="ConsultaLogErros_tbTcsLogErros_MetodoHttp" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbTcsLogErros_MetodoHttp" class="form-control ellipsis" data-bind="attr: { title: MetodoHttp }, validatedField: 'MetodoHttp', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_MetodoHttp') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_MetodoHttp') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing()) }, igTextEditor: { maxLength: 6, value: MetodoHttp, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_MetodoHttp') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_MetodoHttp') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbTcsLogErros_NomeUsuario'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbTcsLogErros_NomeUsuario')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divTcsLogErros_NomeUsuarioTemplate" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_NomeUsuario')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_NomeUsuario')" id="ConsultaLogErros_lblTcsLogErros_NomeUsuario" for="ConsultaLogErros_tbTcsLogErros_NomeUsuario" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbTcsLogErros_NomeUsuario" class="form-control ellipsis" data-bind="attr: { title: NomeUsuario }, validatedField: 'NomeUsuario', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeUsuario') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeUsuario') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, igTextEditor: { maxLength: 250, value: NomeUsuario, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeUsuario') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeUsuario') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbTcsLogErros_NomeAutenticacao'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbTcsLogErros_NomeAutenticacao')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divTcsLogErros_NomeAutenticacaoTemplate" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_NomeAutenticacao')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_NomeAutenticacao')" id="ConsultaLogErros_lblTcsLogErros_NomeAutenticacao" for="ConsultaLogErros_tbTcsLogErros_NomeAutenticacao" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbTcsLogErros_NomeAutenticacao" class="form-control ellipsis" data-bind="attr: { title: NomeAutenticacao }, validatedField: 'NomeAutenticacao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeAutenticacao') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeAutenticacao') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, igTextEditor: { maxLength: 250, value: NomeAutenticacao, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeAutenticacao') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_NomeAutenticacao') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbTcsLogErros_DescricaoAmbiente'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbTcsLogErros_DescricaoAmbiente')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divTcsLogErros_DescricaoAmbienteTemplate" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_DescricaoAmbiente')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_DescricaoAmbiente')" id="ConsultaLogErros_lblTcsLogErros_DescricaoAmbiente" for="ConsultaLogErros_tbTcsLogErros_DescricaoAmbiente" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbTcsLogErros_DescricaoAmbiente" class="form-control ellipsis" data-bind="attr: { title: DescricaoAmbiente }, validatedField: 'DescricaoAmbiente', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_DescricaoAmbiente') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_DescricaoAmbiente') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, igTextEditor: { maxLength: 250, value: DescricaoAmbiente, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_DescricaoAmbiente') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_DescricaoAmbiente') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbAplicação'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbAplicação')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divAplicaçãoTemplate" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbAplicação')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbAplicação')" id="ConsultaLogErros_lblAplicação" for="ConsultaLogErros_tbAplicação" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbAplicação" class="form-control ellipsis" data-bind="attr: { title: DescricaoAplicacao }, validatedField: 'DescricaoAplicacao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbAplicação') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbAplicação') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, igTextEditor: { maxLength: 60, value: DescricaoAplicacao, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbAplicação') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbAplicação') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbTcsLogErros_Empresa'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbTcsLogErros_Empresa')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divTcsLogErros_EmpresaTemplate" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_Empresa')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_Empresa')" id="ConsultaLogErros_lblTcsLogErros_Empresa" for="ConsultaLogErros_tbTcsLogErros_Empresa" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbTcsLogErros_Empresa" class="form-control ellipsis" data-bind="attr: { title: Empresa }, validatedField: 'Empresa', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_Empresa') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_Empresa') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, igTextEditor: { maxLength: 250, value: Empresa, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_Empresa') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_Empresa') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbTcsLogErros_Gpecon'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbTcsLogErros_Gpecon')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divTcsLogErros_GpeconTemplate" class="" >
+                                               <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_Gpecon')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbTcsLogErros_Gpecon')" id="ConsultaLogErros_lblTcsLogErros_Gpecon" for="ConsultaLogErros_tbTcsLogErros_Gpecon" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbTcsLogErros_Gpecon" class="form-control ellipsis" data-bind="attr: { title: Gpecon }, validatedField: 'Gpecon', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_Gpecon') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_Gpecon') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, igTextEditor: { maxLength: 250, value: Gpecon, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_Gpecon') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbTcsLogErros_Gpecon') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbServidor'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbServidor')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divServidorTemplate" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbServidor')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbServidor')" id="ConsultaLogErros_lblServidor" for="ConsultaLogErros_tbServidor" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbServidor" class="form-control ellipsis" data-bind="attr: { title: NomeServidor }, validatedField: 'NomeServidor', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbServidor') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbServidor') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, igTextEditor: { maxLength: 256, value: NomeServidor, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbServidor') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbServidor') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_tbUsuário Servidor'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_tbUsuário Servidor')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divUsuário ServidorTemplate" class="" >
+                                               <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbUsuário Servidor')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_tbUsuário Servidor')" id="ConsultaLogErros_lblUsuário Servidor" for="ConsultaLogErros_tbUsuário Servidor" class="control-label ellipsis">
+                                               </label>
+                                               <input id="ConsultaLogErros_tbUsuário Servidor" class="form-control ellipsis" data-bind="attr: { title: UsuarioWindows }, validatedField: 'UsuarioWindows', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbUsuário Servidor') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbUsuário Servidor') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().status() === 'C') }, igTextEditor: { maxLength: 256, value: UsuarioWindows, readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbUsuário Servidor') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_tbUsuário Servidor') : (isEmptyEntityFn($data) || $root.ConsultaLogErros().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                           </div></div>
+                       </div>
+
+
+                                   </div>
+
+                               </div>
+                           </div>
+                           </div>
+                       </div>
+
+
+
+                       <div id="ConsultaLogErros_gbGroupBox_2277086a561642039f356d5f963ee022" data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_gbGroupBox_2277086a561642039f356d5f963ee022'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_gbGroupBox_2277086a561642039f356d5f963ee022')"  class=" gbox position-element"  >
+                           <div class="portlet box dark-background" >
+                               <div id="ConsultaLogErros_gbGroupBox_2277086a561642039f356d5f963ee022_body" class="portlet-body" >
+                                   <div data-bind="with: $root.ConsultaLogErros().getWithBinding(currentDataItem, $root.ConsultaLogErros().rootDataTypeName)"><div data-bind="with: $root.ConsultaLogErros().getWithBinding(currentTcsLogErros, 'TcsLogErros')">
+                                       <div class="row">
+
+                                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                           <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_edTcsLogErros_MensagemExcecao'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_edTcsLogErros_MensagemExcecao')" class="">
+                                               <div class="form-group">
+                                                   <div id="ConsultaLogErros_divTcsLogErros_MensagemExcecao" class="" >
+                                                       <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_edTcsLogErros_MensagemExcecao')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_edTcsLogErros_MensagemExcecao')" id="ConsultaLogErros_lblTcsLogErros_MensagemExcecao" for="ConsultaLogErros_edTcsLogErros_MensagemExcecao" class="control-label ellipsis">
+                                                       </label>
+                                                       <textarea id="ConsultaLogErros_edTcsLogErros_MensagemExcecao" class="form-control "  maxLength="1000" data-bind="validatedField: 'MensagemExcecao', attr:{ readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_MensagemExcecao') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_MensagemExcecao') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing())}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_MensagemExcecao') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_MensagemExcecao') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing())},  value: MensagemExcecao" rows="4"/>
+                                                   </div>
+                                               </div>
+                                           </div>
+
+
+
+                                           <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_edTcsLogErros_MensagemExcecaoInterna'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_edTcsLogErros_MensagemExcecaoInterna')" class="">
+                                               <div class="form-group">
+                                                   <div id="ConsultaLogErros_divTcsLogErros_MensagemExcecaoInterna" class="" >
+                                                       <label data-bind="attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_edTcsLogErros_MensagemExcecaoInterna')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_edTcsLogErros_MensagemExcecaoInterna')" id="ConsultaLogErros_lblTcsLogErros_MensagemExcecaoInterna" for="ConsultaLogErros_edTcsLogErros_MensagemExcecaoInterna" class="control-label ellipsis">
+                                                       </label>
+                                                       <textarea id="ConsultaLogErros_edTcsLogErros_MensagemExcecaoInterna" class="form-control "  maxLength="1000" data-bind="validatedField: 'MensagemExcecaoInterna', attr:{ readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_MensagemExcecaoInterna') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_MensagemExcecaoInterna') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing())}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_MensagemExcecaoInterna') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_MensagemExcecaoInterna') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing())},  value: MensagemExcecaoInterna" rows="4"/>
+                                                   </div>
+                                               </div>
+                                           </div>
+
+
+                                       </div>
+
+                                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                           <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_edTcsLogErros_PilhaExcecao'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_edTcsLogErros_PilhaExcecao')" class="">
+                                               <div class="form-group">
+                                                   <div id="ConsultaLogErros_divTcsLogErros_PilhaExcecao" class="" >
+                                                       <label data-bind="css: { 'content-required': $root.ConsultaLogErros().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_edTcsLogErros_PilhaExcecao')}, text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_edTcsLogErros_PilhaExcecao')" id="ConsultaLogErros_lblTcsLogErros_PilhaExcecao" for="ConsultaLogErros_edTcsLogErros_PilhaExcecao" class="control-label ellipsis">
+                                                       </label>
+                                                       <textarea id="ConsultaLogErros_edTcsLogErros_PilhaExcecao" class="form-control "  data-bind="validatedField: 'PilhaExcecao', attr:{ readOnly: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_PilhaExcecao') ? !ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_PilhaExcecao') : (isEmptyEntityFn($data) || !$root.ConsultaLogErros().enabledForEditing())}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_PilhaExcecao') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_edTcsLogErros_PilhaExcecao') : (!isEmptyEntityFn($data) && $root.ConsultaLogErros().enabledForEditing())},  value: PilhaExcecao" rows="10"/>
+                                                   </div>
+                                               </div>
+                                           </div>
+
+
+                                       </div>
+
+                                   </div>
+                               </div>
+                               </div></div>
+                           </div>
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="ConsultaLogErros_tabLogFileTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div id="ConsultaLogErros_gbGroupBox_1004712e8c124aff85dfa2ca1b8cef33" data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_gbGroupBox_1004712e8c124aff85dfa2ca1b8cef33'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_gbGroupBox_1004712e8c124aff85dfa2ca1b8cef33')"  class=" gbox position-element"  >
+                           <div class="portlet box dark-background" >
+                               <div id="ConsultaLogErros_gbGroupBox_1004712e8c124aff85dfa2ca1b8cef33_body" class="portlet-body" >
+                                   <div class="row">
+
+
+
+                                   <div data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_btnDeleteAll'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_btnDeleteAll')" class="">
+                                       <div class="form-group">
+                                           <div id="ConsultaLogErros_divDeleteAll" class="" >
+                                               <button id="ConsultaLogErros_btnDeleteAll" class="form-control btn-block btn-press ellipsis " data-bind="text: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_btnDeleteAll'), attr: {title: $root.ConsultaLogErros().getLayoutDisplayName('ConsultaLogErros_btnDeleteAll')}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_btnDeleteAll') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_btnDeleteAll') : (!isEmptyEntityFn($data) && true) }, enable: ctrl.hasCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_btnDeleteAll') ? ctrl.getCustomEnable($root.ConsultaLogErros(), 'ConsultaLogErros_btnDeleteAll') : (!isEmptyEntityFn($data) && true), click:function(){ if (typeof $root.ConsultaLogErros().DeleteAll_Click == 'function') $root.ConsultaLogErros().DeleteAll_Click(); if ($root.ConsultaLogErros().custom) $root.ConsultaLogErros().custom.DeleteAll_Click({viewModel: $root.ConsultaLogErros()}); }"></button>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                               </div>
+                           </div>
+                           </div>
+                       </div>
+
+
+
+                       <div id="ConsultaLogErros_gbGroupBox_eb6a453795344884a4a31d11b8c1e4de" data-bind="css: $root.ConsultaLogErros().getLayoutColumnSpan('ConsultaLogErros_gbGroupBox_eb6a453795344884a4a31d11b8c1e4de'), visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_gbGroupBox_eb6a453795344884a4a31d11b8c1e4de')"  class=" gbox position-element"  >
+                           <div class="portlet box dark-background" >
+                               <div id="ConsultaLogErros_gbGroupBox_eb6a453795344884a4a31d11b8c1e4de_body" class="portlet-body" >
+                                   <div class="row">
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.ConsultaLogErros().getLayoutVisible('ConsultaLogErros_dGridLogFile') " >
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="ConsultaLogErros_dGridLogFile" data-bind="css: { IsEditableStyle: $root.ConsultaLogErros().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                                   </div>
+
+                               </div>
+                           </div>
+                           </div>
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+               </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="ConsultaLogErros_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.ConsultaLogErros().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyConsultaLogErros_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyConsultaLogErros_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyConsultaLogErros_dGrid_templateLayout', vm: function(){return $root.ConsultaLogErros().gridSaveStates['scyConsultaLogErros_dGrid'];}, ctrlName: 'scyConsultaLogErros_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyConsultaLogErros_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyConsultaLogErros_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyConsultaLogErros_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.ConsultaLogErros().dataToolbar.canExport(), click: function () {$root.ConsultaLogErros().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyConsultaLogErros_dGrid" data-bind="css: { IsEditableStyle: $root.ConsultaLogErros().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

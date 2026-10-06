@@ -1,0 +1,403 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="ConsultaAuditoria_formViewer" class="panelTransaition">
+            <figure id="ConsultaAuditoria_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.ConsultaAuditoria().viewType() === 'Main' ? '' : 'none' }">
+                                       <div id="ConsultaAuditoria_gbAdtAuditoria" data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_gbAdtAuditoria'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_gbAdtAuditoria')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_gbAdtAuditoria')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="ConsultaAuditoria_gbAdtAuditoria_anchor" href="#ConsultaAuditoria_gbAdtAuditoria_body" role="button" data-toggle="collapse" data-parent="#ConsultaAuditoria_gbAdtAuditoria" aria-controls="#ConsultaAuditoria_gbAdtAuditoria_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="ConsultaAuditoria_gbAdtAuditoria_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.ConsultaAuditoria().getWithBinding(currentDataItem, $root.ConsultaAuditoria().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_tbIdAdtAuditoria'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_tbIdAdtAuditoria')" class="">
+                                   <div class="form-group">
+                                       <div id="ConsultaAuditoria_divIdAdtAuditoria" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ConsultaAuditoria().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_tbIdAdtAuditoria')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_tbIdAdtAuditoria')" id="ConsultaAuditoria_lblIdAdtAuditoria" for="ConsultaAuditoria_tbIdAdtAuditoria" class="control-label ellipsis">
+                                           </label>
+                                           <input id="ConsultaAuditoria_tbIdAdtAuditoria" class="form-control ellipsis" data-bind="attr: { title: IdAdtAuditoria }, validatedField: 'IdAdtAuditoria', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbIdAdtAuditoria') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbIdAdtAuditoria') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igTextEditor: { value: IdAdtAuditoria, readOnly: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbIdAdtAuditoria') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbIdAdtAuditoria') : (isEmptyEntityFn($data) || !($root.ConsultaAuditoria().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_dtDataHora'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_dtDataHora')" class="">
+                                   <div class="form-group">
+                                       <div id="ConsultaAuditoria_divDataHora" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ConsultaAuditoria().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_dtDataHora')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_dtDataHora')" id="ConsultaAuditoria_lblDataHora" for="ConsultaAuditoria_dtDataHora" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="ConsultaAuditoria_dtDataHora" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DataHora', css: { vmEditing: $root.ConsultaAuditoria().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_dtDataHora') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_dtDataHora') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().enabledForEditing()), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_dtDataHora') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_dtDataHora') : (isEmptyEntityFn($data) || !$root.ConsultaAuditoria().enabledForEditing()) },  igDatePicker: { value: DataHora, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.ConsultaAuditoria().entitySearchRange.has_AdtAuditoriaDataHora()?true:ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_dtDataHora') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_dtDataHora') : (isEmptyEntityFn($data) || !$root.ConsultaAuditoria().enabledForEditing()), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="ConsultaAuditoria_rgbtnDataHora"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.ConsultaAuditoria().entitySearchRange.has_AdtAuditoriaDataHora(), 'icon-ok': $root.ConsultaAuditoria().entitySearchRange.has_AdtAuditoriaDataHora(), hide: $root.ConsultaAuditoria().status() !== 'C' }, popoverWithBind: { template: '#ConsultaAuditoria_rgDataHora', vm: $root.ConsultaAuditoria().entitySearchRange, ctrlName: 'ConsultaAuditoria_rgcDataHora', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="ConsultaAuditoria_rgDataHora" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="enable: !has_AdtAuditoriaDataHora(), checked:AdtAuditoriaDataHora_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="enable: !has_AdtAuditoriaDataHora(), checked:AdtAuditoriaDataHora_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="ConsultaAuditoria_divrgDataHora" >
+                                                      <div class="filterByRange" data-bind="visible: AdtAuditoriaDataHora_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="ConsultaAuditoria_dtbDataHora" class="IsEditableStyle date" data-bind="igDatePicker: { value: AdtAuditoriaDataHora_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaAuditoria_dtDataHora').igDatePicker('option', 'readOnly', (ui.value != null || $('#ConsultaAuditoria_dteDataHora').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#ConsultaAuditoria_dtbDataHora').igDatePicker('value'); var valorMax = $('#ConsultaAuditoria_dteDataHora').igDatePicker('value');if (valorMax != null && valorMin > valorMax){AdtAuditoriaDataHora_begin(valorMax); $('#ConsultaAuditoria_dtbDataHora').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="ConsultaAuditoria_dteDataHora" class="IsEditableStyle date" data-bind="igDatePicker: { value: AdtAuditoriaDataHora_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#ConsultaAuditoria_dtDataHora').igDatePicker('option', 'readOnly', ($('#ConsultaAuditoria_dtbDataHora').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#ConsultaAuditoria_dtbDataHora').igDatePicker('value'); var valorMax = $('#ConsultaAuditoria_dteDataHora').igDatePicker('value');if (valorMin != null && valorMax < valorMin){AdtAuditoriaDataHora_end(valorMin); $('#ConsultaAuditoria_dteDataHora').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: AdtAuditoriaDataHora_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: AdtAuditoriaDataHora_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: AdtAuditoriaDataHora_predefFilter() != null && AdtAuditoriaDataHora_predefFilter()[0] && AdtAuditoriaDataHora_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: AdtAuditoriaDataHora_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_edAssemblyName'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_edAssemblyName')" class="">
+                                   <div class="form-group">
+                                       <div id="ConsultaAuditoria_divAssemblyName" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ConsultaAuditoria().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_edAssemblyName')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_edAssemblyName')" id="ConsultaAuditoria_lblAssemblyName" for="ConsultaAuditoria_edAssemblyName" class="control-label ellipsis">
+                                           </label>
+                                           <textarea id="ConsultaAuditoria_edAssemblyName" class="form-control "  maxLength="500" data-bind="validatedField: 'AssemblyName', attr:{ readOnly: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_edAssemblyName') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_edAssemblyName') : (isEmptyEntityFn($data) || !$root.ConsultaAuditoria().enabledForEditing())}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_edAssemblyName') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_edAssemblyName') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().enabledForEditing())},  value: AssemblyName" rows="2"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_edConnectionString'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_edConnectionString')" class="">
+                                   <div class="form-group">
+                                       <div id="ConsultaAuditoria_divConnectionString" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ConsultaAuditoria().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_edConnectionString')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_edConnectionString')" id="ConsultaAuditoria_lblConnectionString" for="ConsultaAuditoria_edConnectionString" class="control-label ellipsis">
+                                           </label>
+                                           <textarea id="ConsultaAuditoria_edConnectionString" class="form-control "  maxLength="500" data-bind="validatedField: 'ConnectionString', attr:{ readOnly: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_edConnectionString') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_edConnectionString') : (isEmptyEntityFn($data) || !$root.ConsultaAuditoria().enabledForEditing())}, css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_edConnectionString') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_edConnectionString') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().enabledForEditing())},  value: ConnectionString" rows="2"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_lUpIdUsuario'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_lUpIdUsuario')" class="">
+                                   <div class="form-group">
+                                       <div id="ConsultaAuditoria_divIdUsuario" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ConsultaAuditoria().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_lUpIdUsuario')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_lUpIdUsuario')" id="ConsultaAuditoria_lblIdUsuario" for="ConsultaAuditoria_lUpIdUsuario" class="control-label ellipsis">
+                                           </label>
+                                           <div id="ConsultaAuditoria_lUpIdUsuario" class="form-control input-group " data-bind="validatedField: 'IdUsuario', css: { vmEditing: $root.ConsultaAuditoria().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpIdUsuario') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpIdUsuario') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().enabledForEditing()) }, lookupControl: { vm: $root.ConsultaAuditoria(), value: IdUsuario,lookupName: 'LookUpTcsUsuario', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaAuditoria().entitySearchRange.IdUsuario, fieldName: 'IdUsuario', disabled:ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpIdUsuario') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpIdUsuario') : (isEmptyEntityFn($data) || !$root.ConsultaAuditoria().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:9007199254740992, maxLength: 0, defaultValue: 0}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_lUpEmail'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_lUpEmail')" class="">
+                                   <div class="form-group">
+                                       <div id="ConsultaAuditoria_divEmail" class="" >
+                                           <label data-bind="attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_lUpEmail')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_lUpEmail')" id="ConsultaAuditoria_lblEmail" for="ConsultaAuditoria_lUpEmail" class="control-label ellipsis">
+                                           </label>
+                                           <div id="ConsultaAuditoria_lUpEmail" class="form-control input-group " data-bind="validatedField: 'Email', css: { vmEditing: $root.ConsultaAuditoria().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpEmail') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpEmail') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().status() === 'C') }, lookupControl: { vm: $root.ConsultaAuditoria(), value: Email, maxLength: 250,lookupName: 'LookUpTcsUsuario', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaAuditoria().entitySearchRange.Email, fieldName: 'Email', disabled:ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpEmail') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpEmail') : (isEmptyEntityFn($data) || $root.ConsultaAuditoria().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_lUpNomeUsuario'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_lUpNomeUsuario')" class="">
+                                   <div class="form-group">
+                                       <div id="ConsultaAuditoria_divNomeUsuario" class="" >
+                                           <label data-bind="css: { 'content-required': $root.ConsultaAuditoria().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_lUpNomeUsuario')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_lUpNomeUsuario')" id="ConsultaAuditoria_lblNomeUsuario" for="ConsultaAuditoria_lUpNomeUsuario" class="control-label ellipsis">
+                                           </label>
+                                           <div id="ConsultaAuditoria_lUpNomeUsuario" class="form-control input-group " data-bind="validatedField: 'NomeUsuario', css: { vmEditing: $root.ConsultaAuditoria().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpNomeUsuario') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpNomeUsuario') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().status() === 'C') }, lookupControl: { vm: $root.ConsultaAuditoria(), value: NomeUsuario, maxLength: 250,lookupName: 'LookUpTcsUsuario', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaAuditoria().entitySearchRange.NomeUsuario, fieldName: 'NomeUsuario', disabled:ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpNomeUsuario') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpNomeUsuario') : (isEmptyEntityFn($data) || $root.ConsultaAuditoria().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+           <div id="ConsultaAuditoria_gbExpander_8e2773cc416f400cbcc3ebd4b2206627" data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_gbExpander_8e2773cc416f400cbcc3ebd4b2206627'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_gbExpander_8e2773cc416f400cbcc3ebd4b2206627')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_gbExpander_8e2773cc416f400cbcc3ebd4b2206627')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="ConsultaAuditoria_gbExpander_8e2773cc416f400cbcc3ebd4b2206627_anchor" href="#ConsultaAuditoria_gbExpander_8e2773cc416f400cbcc3ebd4b2206627_body" role="button" data-toggle="collapse" data-parent="#ConsultaAuditoria_gbExpander_8e2773cc416f400cbcc3ebd4b2206627" aria-controls="#ConsultaAuditoria_gbExpander_8e2773cc416f400cbcc3ebd4b2206627_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="ConsultaAuditoria_gbExpander_8e2773cc416f400cbcc3ebd4b2206627_body" class="portlet-body collapse in" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_dGridAdtAuditoriaItem') " >
+                   <div id="ConsultaAuditoria_dGridAdtAuditoriaItem_ContentDLG" style="position:relative;"></div>
+                   <div class="linx-table-button position-icon">
+                       <div class="botoes-tabela">
+                       <div data-bind="with: $root.ConsultaAuditoria().getWithBinding(currentDataItem, $root.ConsultaAuditoria().rootDataTypeName)">
+                       <button id="ConsultaAuditoria_dGridAdtAuditoriaItem_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                        data-bind="click:function () { 
+                          $root.ConsultaAuditoria().openEditor('#ConsultaAuditoria_dGridAdtAuditoriaItem', 'AdtAuditoriaItem', 'vm.currentDataItem().currentAdtAuditoriaItem;vm.currentDataItem().AdtAuditoriaItemList', 'AdtAuditoriaItem;vm.currentDataItem()', 'AdtAuditoriaItem(vm.currentDataItem())', false)
+                       }"><i class="fa fa-th"></i></button>
+                       <button id="ConsultaAuditoria_dGridAdtAuditoriaItem_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                        data-bind="click:function () { 
+                          $root.ConsultaAuditoria().openEditor('#ConsultaAuditoria_dGridAdtAuditoriaItem', 'AdtAuditoriaItem', 'vm.currentDataItem().currentAdtAuditoriaItem;vm.currentDataItem().AdtAuditoriaItemList', 'AdtAuditoriaItem;vm.currentDataItem()', 'AdtAuditoriaItem(vm.currentDataItem())', true)
+                       }"><i class="fa fa-th-large"></i></button>
+                       <button id="ConsultaAuditoria_dGridAdtAuditoriaItem_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#ConsultaAuditoria_dGridAdtAuditoriaItem_templateLayout', vm: function(){return $root.ConsultaAuditoria().gridSaveStates['ConsultaAuditoria_dGridAdtAuditoriaItem'];}, ctrlName: 'ConsultaAuditoria_dGridAdtAuditoriaItem_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                       <script id="ConsultaAuditoria_dGridAdtAuditoriaItem_templateLayout" type="text/html" tabindex="-1">
+                           <div id="ConsultaAuditoria_dGridAdtAuditoriaItem_gb" class="layout-popover">
+                               <div class="row">
+                                   <div class="col-md-12">
+                                       <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                       <div class="col-md-10">
+                                           <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                       </div>
+                                       <div  class="col-md-2">
+                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12">
+                                       <div class="col-md-10">
+                                           <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                       </div>
+                                       <div class="col-md-2">
+                                           <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </script>
+                       <button id="ConsultaAuditoria_dGridAdtAuditoriaItem_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.ConsultaAuditoria().dataToolbar.canGridExport(), click: function () {$root.ConsultaAuditoria().exportDataDetails($data, 'AdtAuditoriaItem', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                       </div>
+                       </div>
+                   </div>
+                   <div class="linx-table-grid position-table-grid">
+                          <table id="ConsultaAuditoria_dGridAdtAuditoriaItem" data-bind="css: { IsEditableStyle: $root.ConsultaAuditoria().enabledForEditing }" />
+                   </div>
+
+               </div>
+
+
+
+               <div id="dialogAdtAuditoriaItem"  class="toolbar-dialog-template" title='' style="display: none !important; overflow-y:auto;">
+                  <button class="btn btn-sm btn-default backReg " id="backRegAdtAuditoriaItem" onClick="$(this).backRegAdtAuditoriaItem();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                  <span class="caption"><label id="currentNumberAdtAuditoriaItem">0</label><label>/</label><label id="totalNumberAdtAuditoriaItem">0</label></span>
+                  <button class="btn btn-sm btn-default nextReg " id="nextRegAdtAuditoriaItem" onClick="$(this).nextRegAdtAuditoriaItem();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                  <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegAdtAuditoriaItem" onClick="$(this).okRegAdtAuditoriaItem();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+               <div id="ConsultaAuditoria_templateAdtAuditoriaItem" class="" style="width: 100%; height: 100%;" >
+                   <div data-bind="with: $root.ConsultaAuditoria().getWithBinding(currentDataItem, $root.ConsultaAuditoria().rootDataTypeName)"><div data-bind="with: $root.ConsultaAuditoria().getWithBinding(currentAdtAuditoriaItem, 'AdtAuditoriaItem')">
+
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_tbAdtAuditoriaItem_IdAdtAuditoriaItem'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_tbAdtAuditoriaItem_IdAdtAuditoriaItem')" class="">
+                           <div class="form-group">
+                               <div id="ConsultaAuditoria_divAdtAuditoriaItem_IdAdtAuditoriaItemTemplate" class="" >
+                                   <label data-bind="css: { 'content-required': $root.ConsultaAuditoria().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_tbAdtAuditoriaItem_IdAdtAuditoriaItem')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_tbAdtAuditoriaItem_IdAdtAuditoriaItem')" id="ConsultaAuditoria_lblAdtAuditoriaItem_IdAdtAuditoriaItem" for="ConsultaAuditoria_tbAdtAuditoriaItem_IdAdtAuditoriaItem" class="control-label ellipsis">
+                                   </label>
+                                   <input id="ConsultaAuditoria_tbAdtAuditoriaItem_IdAdtAuditoriaItem" class="form-control ellipsis" data-bind="attr: { title: IdAdtAuditoriaItem }, validatedField: 'IdAdtAuditoriaItem', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_IdAdtAuditoriaItem') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_IdAdtAuditoriaItem') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igTextEditor: { value: IdAdtAuditoriaItem, readOnly: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_IdAdtAuditoriaItem') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_IdAdtAuditoriaItem') : (isEmptyEntityFn($data) || !($root.ConsultaAuditoria().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }"/>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao')" class="">
+                           <div class="form-group">
+                               <div id="ConsultaAuditoria_divAdtAuditoriaItem_TipoOperacaoTemplate" class="" >
+                                   <label data-bind="css: { 'content-required': $root.ConsultaAuditoria().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao')" id="ConsultaAuditoria_lblAdtAuditoriaItem_TipoOperacao" for="ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao" class="control-label ellipsis">
+                                   </label>
+                                   <span id="ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao" class="form-control " data-bind="validatedField: 'TipoOperacao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().enabledForEditing()), activeReadonly: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao') : (isEmptyEntityFn($data) || !$root.ConsultaAuditoria().enabledForEditing()) }, readOnly: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao') : (isEmptyEntityFn($data) || !$root.ConsultaAuditoria().enabledForEditing()), igCombo: {
+                                      selectedItems: TipoOperacao,
+                                      dataSource:  $root.ConsultaAuditoria().dataDomains.getItems('TIPO_OPERACAO', ''),
+                                      textKey: 'name',
+                                      valueKey: 'id',
+                                      allowCustomValue : true,
+                                      enableSelectionChangedUpdate: true,
+                                      enableClearButton: false,
+                                      dropDownOnFocus: true,
+                                      disabled: (ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_cmbAdtAuditoriaItem_TipoOperacao') : (isEmptyEntityFn($data) || !$root.ConsultaAuditoria().enabledForEditing())),
+                                      mode: 'editable',
+                                      width:'100%'
+                                   }"></span>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_tbAdtAuditoriaItem_SchemaTabela'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_tbAdtAuditoriaItem_SchemaTabela')" class="">
+                           <div class="form-group">
+                               <div id="ConsultaAuditoria_divAdtAuditoriaItem_SchemaTabelaTemplate" class="" >
+                                   <label data-bind="css: { 'content-required': $root.ConsultaAuditoria().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_tbAdtAuditoriaItem_SchemaTabela')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_tbAdtAuditoriaItem_SchemaTabela')" id="ConsultaAuditoria_lblAdtAuditoriaItem_SchemaTabela" for="ConsultaAuditoria_tbAdtAuditoriaItem_SchemaTabela" class="control-label ellipsis">
+                                   </label>
+                                   <input id="ConsultaAuditoria_tbAdtAuditoriaItem_SchemaTabela" class="form-control ellipsis" data-bind="attr: { title: SchemaTabela }, validatedField: 'SchemaTabela', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_SchemaTabela') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_SchemaTabela') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().enabledForEditing()) }, igTextEditor: { maxLength: 20, value: SchemaTabela, readOnly: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_SchemaTabela') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_SchemaTabela') : (isEmptyEntityFn($data) || !$root.ConsultaAuditoria().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_tbAdtAuditoriaItem_NomeTabela'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_tbAdtAuditoriaItem_NomeTabela')" class="">
+                           <div class="form-group">
+                               <div id="ConsultaAuditoria_divAdtAuditoriaItem_NomeTabelaTemplate" class="" >
+                                   <label data-bind="css: { 'content-required': $root.ConsultaAuditoria().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_tbAdtAuditoriaItem_NomeTabela')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_tbAdtAuditoriaItem_NomeTabela')" id="ConsultaAuditoria_lblAdtAuditoriaItem_NomeTabela" for="ConsultaAuditoria_tbAdtAuditoriaItem_NomeTabela" class="control-label ellipsis">
+                                   </label>
+                                   <input id="ConsultaAuditoria_tbAdtAuditoriaItem_NomeTabela" class="form-control ellipsis" data-bind="attr: { title: NomeTabela }, validatedField: 'NomeTabela', css: { IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_NomeTabela') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_NomeTabela') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().enabledForEditing()) }, igTextEditor: { maxLength: 100, value: NomeTabela, readOnly: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_NomeTabela') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_tbAdtAuditoriaItem_NomeTabela') : (isEmptyEntityFn($data) || !$root.ConsultaAuditoria().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+                       <div data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_lUpAdtAuditoriaItem_IdAdtAuditoria'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_lUpAdtAuditoriaItem_IdAdtAuditoria')" class="">
+                           <div class="form-group">
+                               <div id="ConsultaAuditoria_divAdtAuditoriaItem_IdAdtAuditoriaTemplate" class="" >
+                                   <label data-bind="css: { 'content-required': $root.ConsultaAuditoria().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_lUpAdtAuditoriaItem_IdAdtAuditoria')}, text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_lUpAdtAuditoriaItem_IdAdtAuditoria')" id="ConsultaAuditoria_lblAdtAuditoriaItem_IdAdtAuditoria" for="ConsultaAuditoria_lUpAdtAuditoriaItem_IdAdtAuditoria" class="control-label ellipsis">
+                                   </label>
+                                   <div id="ConsultaAuditoria_lUpAdtAuditoriaItem_IdAdtAuditoria" class="form-control input-group " data-bind="validatedField: 'IdAdtAuditoria', css: { vmEditing: $root.ConsultaAuditoria().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpAdtAuditoriaItem_IdAdtAuditoria') ? ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpAdtAuditoriaItem_IdAdtAuditoria') : (!isEmptyEntityFn($data) && $root.ConsultaAuditoria().enabledForEditing()) }, lookupControl: { vm: $root.ConsultaAuditoria(), value: IdAdtAuditoria,lookupName: '', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.ConsultaAuditoria().entitySearchRange.IdAdtAuditoria, fieldName: 'IdAdtAuditoria', disabled:ctrl.hasCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpAdtAuditoriaItem_IdAdtAuditoria') ? !ctrl.getCustomEnable($root.ConsultaAuditoria(), 'ConsultaAuditoria_lUpAdtAuditoriaItem_IdAdtAuditoria') : (isEmptyEntityFn($data) || !$root.ConsultaAuditoria().enabledForEditing()), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:9007199254740992, maxLength: 0, defaultValue: 0}" />
+                               </div>
+                           </div>
+                       </div>
+
+
+                   </div>
+
+               </div>
+               </div></div>
+           </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+           <div id="ConsultaAuditoria_gbExpander_471ab544826341a0a9f839429b5ede95" data-bind="css: $root.ConsultaAuditoria().getLayoutColumnSpan('ConsultaAuditoria_gbExpander_471ab544826341a0a9f839429b5ede95'), visible: $root.ConsultaAuditoria().getLayoutVisible('ConsultaAuditoria_gbExpander_471ab544826341a0a9f839429b5ede95')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.ConsultaAuditoria().getLayoutDisplayName('ConsultaAuditoria_gbExpander_471ab544826341a0a9f839429b5ede95')"><i class="icon-reorder"></i></div>
+                   </div>
+                   <div id="ConsultaAuditoria_gbExpander_471ab544826341a0a9f839429b5ede95_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div style="height:auto;">
+                   <div id="ConsultaAuditoria_euiExternalUI_854ebd27fdec4195bbdddbc25ed4aca8" class="extenalUI" 
+                   data-bind="widget: { kind: 'pkg_linx-framework-bv-spa/viewmodels/ConsultaAuditoriaDetalhe', parentVM: $root, uiSettings: { removeDataToolbar: false, shareParentBO: false, useFilterFromParent: false, parentSelectorDataName: 'AdtAuditoriaItem', displayName: '', canClear: true, canSearch: true, canExport: true, canAddNew: true, canEdit: true, canDelete: true, canCustomSearch: true, canPrint: true, canLayout: true, canNavigate: true, canNavigate: true, applyFilterToParent: true, noSearch: false, noBusyLoading: false, parentFieldsRelation: ['IdAdtAuditoriaItem'], detailFieldsRelation: ['IdAdtAuditoriaItem'] } }" />
+
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="ConsultaAuditoria_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.ConsultaAuditoria().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyConsultaAuditoria_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyConsultaAuditoria_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyConsultaAuditoria_dGrid_templateLayout', vm: function(){return $root.ConsultaAuditoria().gridSaveStates['scyConsultaAuditoria_dGrid'];}, ctrlName: 'scyConsultaAuditoria_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyConsultaAuditoria_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyConsultaAuditoria_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyConsultaAuditoria_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.ConsultaAuditoria().dataToolbar.canExport(), click: function () {$root.ConsultaAuditoria().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyConsultaAuditoria_dGrid" data-bind="css: { IsEditableStyle: $root.ConsultaAuditoria().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

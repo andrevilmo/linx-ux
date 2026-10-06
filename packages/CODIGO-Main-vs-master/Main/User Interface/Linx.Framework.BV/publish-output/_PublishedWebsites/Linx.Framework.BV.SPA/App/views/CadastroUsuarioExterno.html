@@ -1,0 +1,259 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="CadastroUsuarioExterno_formViewer" class="panelTransaition">
+            <figure id="CadastroUsuarioExterno_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.CadastroUsuarioExterno().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="CadastroUsuarioExterno_gbTcsUsuarioExterno" data-bind="css: $root.CadastroUsuarioExterno().getLayoutColumnSpan('CadastroUsuarioExterno_gbTcsUsuarioExterno'), visible: $root.CadastroUsuarioExterno().getLayoutVisible('CadastroUsuarioExterno_gbTcsUsuarioExterno')"  class="gb-expander position-element"  >
+               <div class="portlet box row" >
+                   <div class="portlet-title">
+                       <div class="caption" data-bind="text: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_gbTcsUsuarioExterno')"><i class="icon-reorder"></i></div>
+                       <div class="tools">
+                           <a id="CadastroUsuarioExterno_gbTcsUsuarioExterno_anchor" href="#CadastroUsuarioExterno_gbTcsUsuarioExterno_body" role="button" data-toggle="collapse" data-parent="#CadastroUsuarioExterno_gbTcsUsuarioExterno" aria-controls="#CadastroUsuarioExterno_gbTcsUsuarioExterno_body" class="" title="Clique para expandir ou colapsar"></a>
+                       </div>
+                   </div>
+                   <div id="CadastroUsuarioExterno_gbTcsUsuarioExterno_body" class="portlet-body collapse in" >
+                       <div data-bind="with: $root.CadastroUsuarioExterno().getWithBinding(currentDataItem, $root.CadastroUsuarioExterno().rootDataTypeName)">
+                           <div class="row">
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.CadastroUsuarioExterno().getLayoutColumnSpan('CadastroUsuarioExterno_tbNomeUsuario'), visible: $root.CadastroUsuarioExterno().getLayoutVisible('CadastroUsuarioExterno_tbNomeUsuario')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroUsuarioExterno_divNomeUsuario" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroUsuarioExterno().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbNomeUsuario')}, text: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbNomeUsuario')" id="CadastroUsuarioExterno_lblNomeUsuario" for="CadastroUsuarioExterno_tbNomeUsuario" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroUsuarioExterno_tbNomeUsuario" class="form-control ellipsis" data-bind="attr: { title: NomeUsuario }, validatedField: 'NomeUsuario', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbNomeUsuario') ? ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbNomeUsuario') : (!isEmptyEntityFn($data) && $root.CadastroUsuarioExterno().enabledForEditing()) }, igTextEditor: { maxLength: 250, value: NomeUsuario, readOnly: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbNomeUsuario') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbNomeUsuario') : (isEmptyEntityFn($data) || !$root.CadastroUsuarioExterno().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroUsuarioExterno().getLayoutColumnSpan('CadastroUsuarioExterno_tbCnpjCpf'), visible: $root.CadastroUsuarioExterno().getLayoutVisible('CadastroUsuarioExterno_tbCnpjCpf')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroUsuarioExterno_divCnpjCpf" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbCnpjCpf')}, text: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbCnpjCpf')" id="CadastroUsuarioExterno_lblCnpjCpf" for="CadastroUsuarioExterno_tbCnpjCpf" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroUsuarioExterno_tbCnpjCpf" class="form-control ellipsis" data-bind="attr: { title: CnpjCpf }, validatedField: 'CnpjCpf', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbCnpjCpf') ? ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbCnpjCpf') : (!isEmptyEntityFn($data) && $root.CadastroUsuarioExterno().status() === 'C') }, igTextEditor: { maxLength: 20, value: CnpjCpf, readOnly: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbCnpjCpf') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbCnpjCpf') : (isEmptyEntityFn($data) || $root.CadastroUsuarioExterno().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroUsuarioExterno().getLayoutColumnSpan('CadastroUsuarioExterno_tbEmail'), visible: $root.CadastroUsuarioExterno().getLayoutVisible('CadastroUsuarioExterno_tbEmail')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroUsuarioExterno_divEmail" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroUsuarioExterno().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbEmail')}, text: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbEmail')" id="CadastroUsuarioExterno_lblEmail" for="CadastroUsuarioExterno_tbEmail" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroUsuarioExterno_tbEmail" class="form-control ellipsis" data-bind="attr: { title: Email }, validatedField: 'Email', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbEmail') ? ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbEmail') : (!isEmptyEntityFn($data) && $root.CadastroUsuarioExterno().enabledForEditing()) }, igTextEditor: { maxLength: 250, value: Email, readOnly: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbEmail') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbEmail') : (isEmptyEntityFn($data) || !$root.CadastroUsuarioExterno().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroUsuarioExterno().getLayoutColumnSpan('CadastroUsuarioExterno_tbFoneCelular'), visible: $root.CadastroUsuarioExterno().getLayoutVisible('CadastroUsuarioExterno_tbFoneCelular')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroUsuarioExterno_divFoneCelular" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbFoneCelular')}, text: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbFoneCelular')" id="CadastroUsuarioExterno_lblFoneCelular" for="CadastroUsuarioExterno_tbFoneCelular" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroUsuarioExterno_tbFoneCelular" class="form-control ellipsis" data-bind="attr: { title: FoneCelular }, validatedField: 'FoneCelular', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbFoneCelular') ? ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbFoneCelular') : (!isEmptyEntityFn($data) && $root.CadastroUsuarioExterno().status() === 'C') }, igTextEditor: { maxLength: 20, value: FoneCelular, readOnly: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbFoneCelular') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbFoneCelular') : (isEmptyEntityFn($data) || $root.CadastroUsuarioExterno().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroUsuarioExterno().getLayoutColumnSpan('CadastroUsuarioExterno_dtDataCadastro'), visible: $root.CadastroUsuarioExterno().getLayoutVisible('CadastroUsuarioExterno_dtDataCadastro')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroUsuarioExterno_divDataCadastro" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroUsuarioExterno().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_dtDataCadastro')}, text: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_dtDataCadastro')" id="CadastroUsuarioExterno_lblDataCadastro" for="CadastroUsuarioExterno_dtDataCadastro" class="control-label ellipsis">
+                                           </label>
+                                           <div class="input-group" >
+                                               <span id="CadastroUsuarioExterno_dtDataCadastro" class="date form-control dateFilterRange  "  data-bind="validatedField: 'DataCadastro', css: { vmEditing: $root.CadastroUsuarioExterno().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_dtDataCadastro') ? ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_dtDataCadastro') : (!isEmptyEntityFn($data) && $root.CadastroUsuarioExterno().status() === 'C'), igDatePickerReadOnlyStyle: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_dtDataCadastro') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_dtDataCadastro') : (isEmptyEntityFn($data) || $root.CadastroUsuarioExterno().status() !== 'C') },  igDatePicker: { value: DataCadastro, minValue: new Date(1900, 0, 1) , width: '100%',dateDisplayFormat: 'dd/MM/yyyy', dateInputFormat: 'dd/MM/yyyy', dropDownOnReadOnly: false, readOnly: $root.CadastroUsuarioExterno().entitySearchRange.has_TcsUsuarioExternoDataCadastro()?true:ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_dtDataCadastro') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_dtDataCadastro') : (isEmptyEntityFn($data) || $root.CadastroUsuarioExterno().status() !== 'C'), display:'block', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }  }" />
+                                               <span class="input-group-btn" title="Filtro de datas">
+                                                  <button id="CadastroUsuarioExterno_rgbtnDataCadastro"type="button" class="filterRange btn-linx btn-ok" data-bind="css: { 'icon-filter': !$root.CadastroUsuarioExterno().entitySearchRange.has_TcsUsuarioExternoDataCadastro(), 'icon-ok': $root.CadastroUsuarioExterno().entitySearchRange.has_TcsUsuarioExternoDataCadastro(), hide: $root.CadastroUsuarioExterno().status() !== 'C' }, popoverWithBind: { template: '#CadastroUsuarioExterno_rgDataCadastro', vm: $root.CadastroUsuarioExterno().entitySearchRange, ctrlName: 'CadastroUsuarioExterno_rgcDataCadastro', headerText:'Filtro de datas' }"  /></span>
+                                                  <script id="CadastroUsuarioExterno_rgDataCadastro" type="text/html" tabindex="-1">
+                                                  <div class="range-radio-group">
+                                                      <input type="radio" data-bind="enable: !has_TcsUsuarioExternoDataCadastro(), checked:TcsUsuarioExternoDataCadastro_typeRange" value="R" ><span class="align-label-checkbox">Faixa de datas</span>
+                                                      <input type="radio" data-bind="enable: !has_TcsUsuarioExternoDataCadastro(), checked:TcsUsuarioExternoDataCadastro_typeRange" value="P" ><span class="align-label-checkbox">Predefinidos</span>
+                                                  </div>
+                                                  <div class="range-input-group" id="CadastroUsuarioExterno_divrgDataCadastro" >
+                                                      <div class="filterByRange" data-bind="visible: TcsUsuarioExternoDataCadastro_typeRange() == 'R'">
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data inicial">De:</span><div class="col-md-9"><span id="CadastroUsuarioExterno_dtbDataCadastro" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsUsuarioExternoDataCadastro_begin,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#CadastroUsuarioExterno_dtDataCadastro').igDatePicker('option', 'readOnly', (ui.value != null || $('#CadastroUsuarioExterno_dteDataCadastro').igDatePicker('option', 'value') != null ? true : false)); var valorMin = $('#CadastroUsuarioExterno_dtbDataCadastro').igDatePicker('value'); var valorMax = $('#CadastroUsuarioExterno_dteDataCadastro').igDatePicker('value');if (valorMax != null && valorMin > valorMax){TcsUsuarioExternoDataCadastro_begin(valorMax); $('#CadastroUsuarioExterno_dtbDataCadastro').igDatePicker('option', 'value', valorMax);}} }" /></div></div>
+                                                          <div class="row"><span class="col-md-3 text-right" title="Data final">Até:</span><div class="col-md-9"><span id="CadastroUsuarioExterno_dteDataCadastro" class="IsEditableStyle date" data-bind="igDatePicker: { value: TcsUsuarioExternoDataCadastro_end,  dateDisplayFormat: 'date', width: '100%', dateInputFormat: 'date', enableUTCDates: true, datepickerOptions: { changeMonth: true, changeYear: true }, valueChanged: function (evt, ui) {$('#CadastroUsuarioExterno_dtDataCadastro').igDatePicker('option', 'readOnly', ($('#CadastroUsuarioExterno_dtbDataCadastro').igDatePicker('option', 'value') != null || ui.value != null? true : false)); var valorMin = $('#CadastroUsuarioExterno_dtbDataCadastro').igDatePicker('value'); var valorMax = $('#CadastroUsuarioExterno_dteDataCadastro').igDatePicker('value');if (valorMin != null && valorMax < valorMin){TcsUsuarioExternoDataCadastro_end(valorMin); $('#CadastroUsuarioExterno_dteDataCadastro').igDatePicker('option', 'value', valorMin);}} }" /></div></div>
+                                                      </div>
+                                                      <div class="filterByPredefined " data-bind="visible: TcsUsuarioExternoDataCadastro_typeRange() == 'P'">
+                                                          <span class="cboPredefinedFilters IsEditableStyle"  data-bind="igCombo: { selectedItems: TcsUsuarioExternoDataCadastro_predefFilter, textKey: 'text', valueKey: 'id', enableSelectionChangedUpdate: true, enableClearButton: false, dropDownOnFocus: true, mode: 'dropdown', dataSource: $root.predefinedFilters,   width:'100%' }"></span>
+                                                          <div class="row predefValue" data-bind="visible: TcsUsuarioExternoDataCadastro_predefFilter() != null && TcsUsuarioExternoDataCadastro_predefFilter()[0] && TcsUsuarioExternoDataCadastro_predefFilter()[0][0] == 'X'"><span style="margin-bottom: 4px;margin-left: 15px;margin-top: 5px" class="col-md-12" title="Valor do Parâmetro">Valor:</span><div class="col-md-12"><input class="predefValueControl IsEditableStyle ellipsis input-medium" data-bind="igNumericEditor: { value: TcsUsuarioExternoDataCadastro_predefValue, minValue: 0, maxValue:1000, dataMode: 'short'}" /> </div></div>
+                                                      </div>
+                                                  </div>
+                                               </script>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.CadastroUsuarioExterno().getLayoutColumnSpan('CadastroUsuarioExterno_tbIdentidadeExterna'), visible: $root.CadastroUsuarioExterno().getLayoutVisible('CadastroUsuarioExterno_tbIdentidadeExterna')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroUsuarioExterno_divIdentidadeExterna" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbIdentidadeExterna')}, text: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbIdentidadeExterna')" id="CadastroUsuarioExterno_lblIdentidadeExterna" for="CadastroUsuarioExterno_tbIdentidadeExterna" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroUsuarioExterno_tbIdentidadeExterna" class="form-control ellipsis" data-bind="attr: { title: IdentidadeExterna }, validatedField: 'IdentidadeExterna', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbIdentidadeExterna') ? ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbIdentidadeExterna') : (!isEmptyEntityFn($data) && $root.CadastroUsuarioExterno().status() === 'C') }, igTextEditor: { maxLength: 250, value: IdentidadeExterna, readOnly: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbIdentidadeExterna') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbIdentidadeExterna') : (isEmptyEntityFn($data) || $root.CadastroUsuarioExterno().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroUsuarioExterno().getLayoutColumnSpan('CadastroUsuarioExterno_cmbLxTipoAutenticador'), visible: $root.CadastroUsuarioExterno().getLayoutVisible('CadastroUsuarioExterno_cmbLxTipoAutenticador')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroUsuarioExterno_divLxTipoAutenticador" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_cmbLxTipoAutenticador')}, text: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_cmbLxTipoAutenticador')" id="CadastroUsuarioExterno_lblLxTipoAutenticador" for="CadastroUsuarioExterno_cmbLxTipoAutenticador" class="control-label ellipsis">
+                                           </label>
+                                           <span id="CadastroUsuarioExterno_cmbLxTipoAutenticador" class="form-control " data-bind="validatedField: 'LxTipoAutenticador', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_cmbLxTipoAutenticador') ? ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_cmbLxTipoAutenticador') : (!isEmptyEntityFn($data) && $root.CadastroUsuarioExterno().status() === 'C'), activeReadonly: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_cmbLxTipoAutenticador') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_cmbLxTipoAutenticador') : (isEmptyEntityFn($data) || $root.CadastroUsuarioExterno().status() !== 'C') }, readOnly: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_cmbLxTipoAutenticador') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_cmbLxTipoAutenticador') : (isEmptyEntityFn($data) || $root.CadastroUsuarioExterno().status() !== 'C'), igCombo: {
+                                              selectedItems: LxTipoAutenticador,
+                                              dataSource:  $root.CadastroUsuarioExterno().dataDomains.getItems('TipoAutenticador', ''),
+                                              textKey: 'name',
+                                              valueKey: 'id',
+                                              allowCustomValue : true,
+                                              enableSelectionChangedUpdate: true,
+                                              enableClearButton: true,
+                                              dropDownOnFocus: true,
+                                              disabled: (ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_cmbLxTipoAutenticador') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_cmbLxTipoAutenticador') : (isEmptyEntityFn($data) || $root.CadastroUsuarioExterno().status() !== 'C')),
+                                              mode: 'editable',
+                                              width:'100%'
+                                           }"></span>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroUsuarioExterno().getLayoutColumnSpan('CadastroUsuarioExterno_tbIdDispositivo'), visible: $root.CadastroUsuarioExterno().getLayoutVisible('CadastroUsuarioExterno_tbIdDispositivo')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroUsuarioExterno_divIdDispositivo" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroUsuarioExterno().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbIdDispositivo')}, text: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_tbIdDispositivo')" id="CadastroUsuarioExterno_lblIdDispositivo" for="CadastroUsuarioExterno_tbIdDispositivo" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroUsuarioExterno_tbIdDispositivo" class="form-control ellipsis" data-bind="attr: { title: IdDispositivo }, validatedField: 'IdDispositivo', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbIdDispositivo') ? ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbIdDispositivo') : (!isEmptyEntityFn($data) && $root.CadastroUsuarioExterno().status() === 'C') }, igTextEditor: { maxLength: 256, value: IdDispositivo, readOnly: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbIdDispositivo') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_tbIdDispositivo') : (isEmptyEntityFn($data) || $root.CadastroUsuarioExterno().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroUsuarioExterno().getLayoutColumnSpan('CadastroUsuarioExterno_ckInativo'), visible: $root.CadastroUsuarioExterno().getLayoutVisible('CadastroUsuarioExterno_ckInativo')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroUsuarioExterno_divInativo" class="" >
+                                           <label class="">
+                                             <input id="CadastroUsuarioExterno_ckInativo" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_ckInativo') ? ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_ckInativo') : (!isEmptyEntityFn($data) && $root.CadastroUsuarioExterno().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_ckInativo') ? !ctrl.getCustomEnable($root.CadastroUsuarioExterno(), 'CadastroUsuarioExterno_ckInativo') : (isEmptyEntityFn($data) || !$root.CadastroUsuarioExterno().enabledForEditing()), nullableChecked: Inativo" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblCadastroUsuarioExterno_ckInativo" data-bind="text: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_ckInativo'), attr: {title: $root.CadastroUsuarioExterno().getLayoutDisplayName('CadastroUsuarioExterno_ckInativo')}, css: { 'content-required-checkbox': $root.CadastroUsuarioExterno().status() === 'E'}" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="CadastroUsuarioExterno_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.CadastroUsuarioExterno().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyCadastroUsuarioExterno_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyCadastroUsuarioExterno_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyCadastroUsuarioExterno_dGrid_templateLayout', vm: function(){return $root.CadastroUsuarioExterno().gridSaveStates['scyCadastroUsuarioExterno_dGrid'];}, ctrlName: 'scyCadastroUsuarioExterno_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyCadastroUsuarioExterno_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyCadastroUsuarioExterno_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyCadastroUsuarioExterno_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroUsuarioExterno().dataToolbar.canExport(), click: function () {$root.CadastroUsuarioExterno().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyCadastroUsuarioExterno_dGrid" data-bind="css: { IsEditableStyle: $root.CadastroUsuarioExterno().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

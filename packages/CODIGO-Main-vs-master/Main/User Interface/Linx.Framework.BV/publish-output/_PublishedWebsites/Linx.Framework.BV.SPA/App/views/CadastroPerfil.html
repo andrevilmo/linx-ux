@@ -1,0 +1,753 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="CadastroPerfil_formViewer" class="panelTransaition">
+            <figure id="CadastroPerfil_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.CadastroPerfil().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="CadastroPerfil_gbTcsPerfilb162e82f59c5469d81881a40a7b2b9f6" data-bind="css: $root.CadastroPerfil().getLayoutColumnSpan('CadastroPerfil_gbTcsPerfilb162e82f59c5469d81881a40a7b2b9f6'), visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_gbTcsPerfilb162e82f59c5469d81881a40a7b2b9f6')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div id="CadastroPerfil_gbTcsPerfilb162e82f59c5469d81881a40a7b2b9f6_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="CadastroPerfil_gbGroupBox_4fa922da0e014c4082a3acedb7f1640c" data-bind="css: $root.CadastroPerfil().getLayoutColumnSpan('CadastroPerfil_gbGroupBox_4fa922da0e014c4082a3acedb7f1640c'), visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_gbGroupBox_4fa922da0e014c4082a3acedb7f1640c')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_gbGroupBox_4fa922da0e014c4082a3acedb7f1640c')"><i class="icon-reorder"></i></div>
+                       </div>
+                       <div id="CadastroPerfil_gbGroupBox_4fa922da0e014c4082a3acedb7f1640c_body" class="portlet-body" >
+                           <div data-bind="with: $root.CadastroPerfil().getWithBinding(currentDataItem, $root.CadastroPerfil().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.CadastroPerfil().getLayoutColumnSpan('CadastroPerfil_tbIdPerfil'), visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_tbIdPerfil')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroPerfil_divIdPerfil" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroPerfil().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tbIdPerfil')}, text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tbIdPerfil')" id="CadastroPerfil_lblIdPerfil" for="CadastroPerfil_tbIdPerfil" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroPerfil_tbIdPerfil" class="form-control ellipsis" data-bind="attr: { title: IdPerfil }, validatedField: 'IdPerfil', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_tbIdPerfil') ? ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_tbIdPerfil') : (!isEmptyEntityFn($data) && $root.CadastroPerfil().status() === 'C') }, igTextEditor: { maxLength: 12, value: IdPerfil, readOnly: ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_tbIdPerfil') ? !ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_tbIdPerfil') : (isEmptyEntityFn($data) || $root.CadastroPerfil().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroPerfil().getLayoutColumnSpan('CadastroPerfil_tbDescPerfil'), visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_tbDescPerfil')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroPerfil_divDescPerfil" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroPerfil().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tbDescPerfil')}, text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tbDescPerfil')" id="CadastroPerfil_lblDescPerfil" for="CadastroPerfil_tbDescPerfil" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroPerfil_tbDescPerfil" class="form-control ellipsis" data-bind="attr: { title: DescPerfil }, validatedField: 'DescPerfil', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_tbDescPerfil') ? ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_tbDescPerfil') : (!isEmptyEntityFn($data) && $root.CadastroPerfil().enabledForEditing()) }, igTextEditor: { maxLength: 60, value: DescPerfil, readOnly: ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_tbDescPerfil') ? !ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_tbDescPerfil') : (isEmptyEntityFn($data) || !$root.CadastroPerfil().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroPerfil().getLayoutColumnSpan('CadastroPerfil_ckInativo'), visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_ckInativo')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroPerfil_divInativo" class="" >
+                                               <label class="">
+                                                 <input id="CadastroPerfil_ckInativo" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_ckInativo') ? ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_ckInativo') : (!isEmptyEntityFn($data) && $root.CadastroPerfil().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_ckInativo') ? !ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_ckInativo') : (isEmptyEntityFn($data) || !$root.CadastroPerfil().enabledForEditing()), nullableChecked: Inativo" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lblCadastroPerfil_ckInativo" data-bind="text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_ckInativo'), attr: {title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_ckInativo')}, css: { 'content-required-checkbox': $root.CadastroPerfil().status() === 'E'}" class="align-label-checkbox"></span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="CadastroPerfil_gbGroupBox_5b51d31fa84b461cb8171550e7a23300" data-bind="css: $root.CadastroPerfil().getLayoutColumnSpan('CadastroPerfil_gbGroupBox_5b51d31fa84b461cb8171550e7a23300'), visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_gbGroupBox_5b51d31fa84b461cb8171550e7a23300')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_gbGroupBox_5b51d31fa84b461cb8171550e7a23300')"><i class="icon-reorder"></i></div>
+                       </div>
+                       <div id="CadastroPerfil_gbGroupBox_5b51d31fa84b461cb8171550e7a23300_body" class="portlet-body" >
+                           <div data-bind="with: $root.CadastroPerfil().getWithBinding(currentDataItem, $root.CadastroPerfil().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.CadastroPerfil().getLayoutColumnSpan('CadastroPerfil_lUpIdGpeconP'), visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_lUpIdGpeconP')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroPerfil_divIdGpeconP" class="" >
+                                               <label data-bind="attr: { title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_lUpIdGpeconP')}, text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_lUpIdGpeconP')" id="CadastroPerfil_lblIdGpeconP" for="CadastroPerfil_lUpIdGpeconP" class="control-label ellipsis">
+                                               </label>
+                                               <div id="CadastroPerfil_lUpIdGpeconP" class="form-control input-group " data-bind="validatedField: 'IdGpeconP', css: { vmEditing: $root.CadastroPerfil().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpIdGpeconP') ? ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpIdGpeconP') : (!isEmptyEntityFn($data) && $root.CadastroPerfil().status() === 'C') }, lookupControl: { vm: $root.CadastroPerfil(), value: IdGpeconP, maxLength: 10,lookupName: 'LookUpTbcGrupoEconomico', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroPerfil().entitySearchRange.IdGpeconP, fieldName: 'IdGpeconP', disabled:ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpIdGpeconP') ? !ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpIdGpeconP') : (isEmptyEntityFn($data) || $root.CadastroPerfil().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:2147483647, maxLength: 10, defaultValue: null}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroPerfil().getLayoutColumnSpan('CadastroPerfil_lUpDescGrupoEconomico'), visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_lUpDescGrupoEconomico')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroPerfil_divDescGrupoEconomico" class="" >
+                                               <label data-bind="attr: { title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_lUpDescGrupoEconomico')}, text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_lUpDescGrupoEconomico')" id="CadastroPerfil_lblDescGrupoEconomico" for="CadastroPerfil_lUpDescGrupoEconomico" class="control-label ellipsis">
+                                               </label>
+                                               <div id="CadastroPerfil_lUpDescGrupoEconomico" class="form-control input-group " data-bind="validatedField: 'DescGrupoEconomico', css: { vmEditing: $root.CadastroPerfil().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpDescGrupoEconomico') ? ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpDescGrupoEconomico') : (!isEmptyEntityFn($data) && $root.CadastroPerfil().status() === 'C') }, lookupControl: { vm: $root.CadastroPerfil(), value: DescGrupoEconomico, maxLength: 60,lookupName: 'LookUpTbcGrupoEconomico', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroPerfil().entitySearchRange.DescGrupoEconomico, fieldName: 'DescGrupoEconomico', disabled:ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpDescGrupoEconomico') ? !ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpDescGrupoEconomico') : (isEmptyEntityFn($data) || $root.CadastroPerfil().status() !== 'C'), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 60, defaultValue: ''}" />
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="CadastroPerfil_tcTcsPerfilTabControl"  data-bind="css: $root.CadastroPerfil().getLayoutColumnSpan('CadastroPerfil_tcTcsPerfilTabControl'), visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_tcTcsPerfilTabControl')"  class="tabbable tabbable-custom box" >
+                  <div class="container-tab">
+                     <div id="CadastroPerfil_tcTcsPerfilTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                     <div id="CadastroPerfil_tcTcsPerfilTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                     <div id="CadastroPerfil_tcTcsPerfilTabControl_wrapper" class="wrapper">
+                        <ul id="CadastroPerfil_tcTcsPerfilTabControl_list" class="nav nav-tabs list">
+                           <li id="CadastroPerfil_tiTcsUsuarioPerfilTabItem" class="active"><a data-bind="text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsUsuarioPerfilTabItem'), attr: {title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsUsuarioPerfilTabItem')}" href="#CadastroPerfil_tabTcsUsuarioPerfilTabItem" data-toggle="tab"></a></li>
+                           <li id="CadastroPerfil_tiTcsPerfilRegraModuloTabItem" class=""><a data-bind="text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilRegraModuloTabItem'), attr: {title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilRegraModuloTabItem')}" href="#CadastroPerfil_tabTcsPerfilRegraModuloTabItem" data-toggle="tab"></a></li>
+                           <li id="CadastroPerfil_tiTcsPerfilRegraTransacaoTabItem" class=""><a data-bind="text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilRegraTransacaoTabItem'), attr: {title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilRegraTransacaoTabItem')}" href="#CadastroPerfil_tabTcsPerfilRegraTransacaoTabItem" data-toggle="tab"></a></li>
+                           <li id="CadastroPerfil_tiTcsPerfilRegraColunaTabItem" class="" style="display: none;"><a data-bind="text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilRegraColunaTabItem'), attr: {title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilRegraColunaTabItem')}" href="#CadastroPerfil_tabTcsPerfilRegraColunaTabItem" data-toggle="tab"></a></li>
+                           <li id="CadastroPerfil_tiTcsPerfilBandeiraRedeTabItem" class=""><a data-bind="text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilBandeiraRedeTabItem'), attr: {title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilBandeiraRedeTabItem')}" href="#CadastroPerfil_tabTcsPerfilBandeiraRedeTabItem" data-toggle="tab"></a></li>
+                           <li id="CadastroPerfil_tiTcsPerfilLayoutTabItem" class="" style="display: none;"><a data-bind="text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilLayoutTabItem'), attr: {title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilLayoutTabItem')}" href="#CadastroPerfil_tabTcsPerfilLayoutTabItem" data-toggle="tab"></a></li>
+                           <li id="CadastroPerfil_tiTcsPerfilFilialTabItem" class=""><a data-bind="text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilFilialTabItem'), attr: {title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_tiTcsPerfilFilialTabItem')}" href="#CadastroPerfil_tabTcsPerfilFilialTabItem" data-toggle="tab"></a></li>
+                        </ul>
+                        </div>
+                     </div>
+                  <div class="tab-content">
+
+
+
+                   <div class="tab-pane fade active in" id="CadastroPerfil_tabTcsUsuarioPerfilTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_dGridTcsUsuarioPerfil') " >
+                           <div id="CadastroPerfil_dGridTcsUsuarioPerfil_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroPerfil().getWithBinding(currentDataItem, $root.CadastroPerfil().rootDataTypeName)">
+                               <button id="CadastroPerfil_dGridTcsUsuarioPerfil_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroPerfil().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroPerfil().createAndNotifyTcsUsuarioPerfil($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="CadastroPerfil_dGridTcsUsuarioPerfil_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.CadastroPerfil().status() === 'E', 
+                               click: function () {
+                                  $root.CadastroPerfil().deleteGrid('#CadastroPerfil_dGridTcsUsuarioPerfil', 'TcsUsuarioPerfil', 'vm.currentDataItem().currentTcsUsuarioPerfil;vm.currentDataItem().TcsUsuarioPerfilList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="CadastroPerfil_dGridTcsUsuarioPerfil_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroPerfil_dGridTcsUsuarioPerfil_templateLayout', vm: function(){return $root.CadastroPerfil().gridSaveStates['CadastroPerfil_dGridTcsUsuarioPerfil'];}, ctrlName: 'CadastroPerfil_dGridTcsUsuarioPerfil_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroPerfil_dGridTcsUsuarioPerfil_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroPerfil_dGridTcsUsuarioPerfil_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroPerfil_dGridTcsUsuarioPerfil_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroPerfil().dataToolbar.canGridExport(), click: function () {$root.CadastroPerfil().exportDataDetails($data, 'TcsUsuarioPerfil', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroPerfil_dGridTcsUsuarioPerfil" data-bind="css: { IsEditableStyle: $root.CadastroPerfil().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+
+                       <div id="dialogTcsPerfilFilial"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                          <button class="btn btn-sm btn-default backReg " id="backRegTcsPerfilFilial" onClick="$(this).backRegTcsPerfilFilial();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                          <span class="caption"><label id="currentNumberTcsPerfilFilial">0</label><label>/</label><label id="totalNumberTcsPerfilFilial">0</label></span>
+                          <button class="btn btn-sm btn-default nextReg " id="nextRegTcsPerfilFilial" onClick="$(this).nextRegTcsPerfilFilial();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                          <button class="btn btn-sm btn-default addReg " id="addRegTcsPerfilFilial" onClick="$(this).addRegTcsPerfilFilial();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                          <button class="btn btn-sm btn-default delReg " id="delRegTcsPerfilFilial" onClick="$(this).delRegTcsPerfilFilial();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                          <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTcsPerfilFilial" onClick="$(this).okRegTcsPerfilFilial();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                       <div id="CadastroPerfil_templateTcsPerfilFilial" class="" style="width: 100%; height: 100%;" >
+                           <div data-bind="with: $root.CadastroPerfil().getWithBinding(currentDataItem, $root.CadastroPerfil().rootDataTypeName)"><div data-bind="with: $root.CadastroPerfil().getWithBinding(currentTcsPerfilFilial, 'TcsPerfilFilial')">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.CadastroPerfil().getLayoutColumnSpan('CadastroPerfil_lUpTcsPerfilFilial_CodigoFilial'), visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_lUpTcsPerfilFilial_CodigoFilial')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroPerfil_divTcsPerfilFilial_CodigoFilialTemplate" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_lUpTcsPerfilFilial_CodigoFilial')}, text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_lUpTcsPerfilFilial_CodigoFilial')" id="CadastroPerfil_lblTcsPerfilFilial_CodigoFilial" for="CadastroPerfil_lUpTcsPerfilFilial_CodigoFilial" class="control-label ellipsis">
+                                           </label>
+                                           <div id="CadastroPerfil_lUpTcsPerfilFilial_CodigoFilial" class="form-control input-group " data-bind="validatedField: 'CodigoFilial', css: { vmEditing: $root.CadastroPerfil().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpTcsPerfilFilial_CodigoFilial') ? ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpTcsPerfilFilial_CodigoFilial') : (!isEmptyEntityFn($data) && $root.CadastroPerfil().status() === 'C' || ($data.isAdded && $data.isAdded())) }, lookupControl: { vm: $root.CadastroPerfil(), value: CodigoFilial, maxLength: 18,lookupName: 'LookUpTbcFilial', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: true, multiSelectionValue: $root.CadastroPerfil().entitySearchRange.CodigoFilial, fieldName: 'CodigoFilial', disabled:ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpTcsPerfilFilial_CodigoFilial') ? !ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpTcsPerfilFilial_CodigoFilial') : (isEmptyEntityFn($data) || !($root.CadastroPerfil().status() === 'C' || ($data.isAdded && $data.isAdded()))), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 18, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroPerfil().getLayoutColumnSpan('CadastroPerfil_lUpTcsPerfilFilial_NomeFilial'), visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_lUpTcsPerfilFilial_NomeFilial')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroPerfil_divTcsPerfilFilial_NomeFilialTemplate" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_lUpTcsPerfilFilial_NomeFilial')}, text: $root.CadastroPerfil().getLayoutDisplayName('CadastroPerfil_lUpTcsPerfilFilial_NomeFilial')" id="CadastroPerfil_lblTcsPerfilFilial_NomeFilial" for="CadastroPerfil_lUpTcsPerfilFilial_NomeFilial" class="control-label ellipsis">
+                                           </label>
+                                           <div id="CadastroPerfil_lUpTcsPerfilFilial_NomeFilial" class="form-control input-group " data-bind="validatedField: 'NomeFilial', css: { vmEditing: $root.CadastroPerfil().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpTcsPerfilFilial_NomeFilial') ? ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpTcsPerfilFilial_NomeFilial') : (!isEmptyEntityFn($data) && $root.CadastroPerfil().status() === 'C' || ($data.isAdded && $data.isAdded())) }, lookupControl: { vm: $root.CadastroPerfil(), value: NomeFilial, maxLength: 60,lookupName: 'LookUpTbcFilial', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: true, multiSelectionValue: $root.CadastroPerfil().entitySearchRange.NomeFilial, fieldName: 'NomeFilial', disabled:ctrl.hasCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpTcsPerfilFilial_NomeFilial') ? !ctrl.getCustomEnable($root.CadastroPerfil(), 'CadastroPerfil_lUpTcsPerfilFilial_NomeFilial') : (isEmptyEntityFn($data) || !($root.CadastroPerfil().status() === 'C' || ($data.isAdded && $data.isAdded()))), isNullable:true, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 60, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div></div>
+                   </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="CadastroPerfil_tabTcsPerfilRegraModuloTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_dGridTcsPerfilRegraModulo') " >
+                           <div id="CadastroPerfil_dGridTcsPerfilRegraModulo_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroPerfil().getWithBinding(currentDataItem, $root.CadastroPerfil().rootDataTypeName)">
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraModulo_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroPerfil().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroPerfil().createAndNotifyTcsPerfilRegraModulo($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraModulo_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.CadastroPerfil().status() === 'E', 
+                               click: function () {
+                                  $root.CadastroPerfil().deleteGrid('#CadastroPerfil_dGridTcsPerfilRegraModulo', 'TcsPerfilRegraModulo', 'vm.currentDataItem().currentTcsPerfilRegraModulo;vm.currentDataItem().TcsPerfilRegraModuloList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraModulo_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroPerfil_dGridTcsPerfilRegraModulo_templateLayout', vm: function(){return $root.CadastroPerfil().gridSaveStates['CadastroPerfil_dGridTcsPerfilRegraModulo'];}, ctrlName: 'CadastroPerfil_dGridTcsPerfilRegraModulo_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroPerfil_dGridTcsPerfilRegraModulo_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroPerfil_dGridTcsPerfilRegraModulo_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraModulo_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroPerfil().dataToolbar.canGridExport(), click: function () {$root.CadastroPerfil().exportDataDetails($data, 'TcsPerfilRegraModulo', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroPerfil_dGridTcsPerfilRegraModulo" data-bind="css: { IsEditableStyle: $root.CadastroPerfil().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="CadastroPerfil_tabTcsPerfilRegraTransacaoTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_dGridTcsPerfilRegraTransacao') " >
+                           <div id="CadastroPerfil_dGridTcsPerfilRegraTransacao_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroPerfil().getWithBinding(currentDataItem, $root.CadastroPerfil().rootDataTypeName)">
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraTransacao_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroPerfil().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroPerfil().createAndNotifyTcsPerfilRegraTransacao($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraTransacao_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.CadastroPerfil().status() === 'E', 
+                               click: function () {
+                                  $root.CadastroPerfil().deleteGrid('#CadastroPerfil_dGridTcsPerfilRegraTransacao', 'TcsPerfilRegraTransacao', 'vm.currentDataItem().currentTcsPerfilRegraTransacao;vm.currentDataItem().TcsPerfilRegraTransacaoList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraTransacao_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroPerfil_dGridTcsPerfilRegraTransacao_templateLayout', vm: function(){return $root.CadastroPerfil().gridSaveStates['CadastroPerfil_dGridTcsPerfilRegraTransacao'];}, ctrlName: 'CadastroPerfil_dGridTcsPerfilRegraTransacao_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroPerfil_dGridTcsPerfilRegraTransacao_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroPerfil_dGridTcsPerfilRegraTransacao_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraTransacao_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroPerfil().dataToolbar.canGridExport(), click: function () {$root.CadastroPerfil().exportDataDetails($data, 'TcsPerfilRegraTransacao', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroPerfil_dGridTcsPerfilRegraTransacao" data-bind="css: { IsEditableStyle: $root.CadastroPerfil().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="CadastroPerfil_tabTcsPerfilRegraColunaTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_dGridTcsPerfilRegraColuna') " >
+                           <div id="CadastroPerfil_dGridTcsPerfilRegraColuna_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroPerfil().getWithBinding(currentDataItem, $root.CadastroPerfil().rootDataTypeName)">
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraColuna_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroPerfil().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroPerfil().createAndNotifyTcsPerfilRegraColuna($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraColuna_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.CadastroPerfil().status() === 'E', 
+                               click: function () {
+                                  $root.CadastroPerfil().deleteGrid('#CadastroPerfil_dGridTcsPerfilRegraColuna', 'TcsPerfilRegraColuna', 'vm.currentDataItem().currentTcsPerfilRegraColuna;vm.currentDataItem().TcsPerfilRegraColunaList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraColuna_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroPerfil_dGridTcsPerfilRegraColuna_templateLayout', vm: function(){return $root.CadastroPerfil().gridSaveStates['CadastroPerfil_dGridTcsPerfilRegraColuna'];}, ctrlName: 'CadastroPerfil_dGridTcsPerfilRegraColuna_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroPerfil_dGridTcsPerfilRegraColuna_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroPerfil_dGridTcsPerfilRegraColuna_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroPerfil_dGridTcsPerfilRegraColuna_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroPerfil().dataToolbar.canGridExport(), click: function () {$root.CadastroPerfil().exportDataDetails($data, 'TcsPerfilRegraColuna', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroPerfil_dGridTcsPerfilRegraColuna" data-bind="css: { IsEditableStyle: $root.CadastroPerfil().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="CadastroPerfil_tabTcsPerfilBandeiraRedeTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_dGridTcsPerfilBandeiraRede') " >
+                           <div id="CadastroPerfil_dGridTcsPerfilBandeiraRede_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroPerfil().getWithBinding(currentDataItem, $root.CadastroPerfil().rootDataTypeName)">
+                               <button id="CadastroPerfil_dGridTcsPerfilBandeiraRede_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroPerfil().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroPerfil().createAndNotifyTcsPerfilBandeiraRede($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilBandeiraRede_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.CadastroPerfil().status() === 'E', 
+                               click: function () {
+                                  $root.CadastroPerfil().deleteGrid('#CadastroPerfil_dGridTcsPerfilBandeiraRede', 'TcsPerfilBandeiraRede', 'vm.currentDataItem().currentTcsPerfilBandeiraRede;vm.currentDataItem().TcsPerfilBandeiraRedeList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilBandeiraRede_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroPerfil_dGridTcsPerfilBandeiraRede_templateLayout', vm: function(){return $root.CadastroPerfil().gridSaveStates['CadastroPerfil_dGridTcsPerfilBandeiraRede'];}, ctrlName: 'CadastroPerfil_dGridTcsPerfilBandeiraRede_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroPerfil_dGridTcsPerfilBandeiraRede_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroPerfil_dGridTcsPerfilBandeiraRede_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroPerfil_dGridTcsPerfilBandeiraRede_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroPerfil().dataToolbar.canGridExport(), click: function () {$root.CadastroPerfil().exportDataDetails($data, 'TcsPerfilBandeiraRede', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroPerfil_dGridTcsPerfilBandeiraRede" data-bind="css: { IsEditableStyle: $root.CadastroPerfil().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="CadastroPerfil_tabTcsPerfilLayoutTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_dGridTcsPerfilLayout') " >
+                           <div id="CadastroPerfil_dGridTcsPerfilLayout_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroPerfil().getWithBinding(currentDataItem, $root.CadastroPerfil().rootDataTypeName)">
+                               <button id="CadastroPerfil_dGridTcsPerfilLayout_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroPerfil().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroPerfil().createAndNotifyTcsPerfilLayout($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilLayout_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.CadastroPerfil().status() === 'E', 
+                               click: function () {
+                                  $root.CadastroPerfil().deleteGrid('#CadastroPerfil_dGridTcsPerfilLayout', 'TcsPerfilLayout', 'vm.currentDataItem().currentTcsPerfilLayout;vm.currentDataItem().TcsPerfilLayoutList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilLayout_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroPerfil_dGridTcsPerfilLayout_templateLayout', vm: function(){return $root.CadastroPerfil().gridSaveStates['CadastroPerfil_dGridTcsPerfilLayout'];}, ctrlName: 'CadastroPerfil_dGridTcsPerfilLayout_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroPerfil_dGridTcsPerfilLayout_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroPerfil_dGridTcsPerfilLayout_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroPerfil_dGridTcsPerfilLayout_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroPerfil().dataToolbar.canGridExport(), click: function () {$root.CadastroPerfil().exportDataDetails($data, 'TcsPerfilLayout', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroPerfil_dGridTcsPerfilLayout" data-bind="css: { IsEditableStyle: $root.CadastroPerfil().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="CadastroPerfil_tabTcsPerfilFilialTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroPerfil().getLayoutVisible('CadastroPerfil_dGridTcsPerfilFilial') " >
+                           <div id="CadastroPerfil_dGridTcsPerfilFilial_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroPerfil().getWithBinding(currentDataItem, $root.CadastroPerfil().rootDataTypeName)">
+                               <button id="CadastroPerfil_dGridTcsPerfilFilial_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroPerfil().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroPerfil().createAndNotifyTcsPerfilFilial($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilFilial_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.CadastroPerfil().status() === 'E', 
+                               click: function () {
+                                  $root.CadastroPerfil().deleteGrid('#CadastroPerfil_dGridTcsPerfilFilial', 'TcsPerfilFilial', 'vm.currentDataItem().currentTcsPerfilFilial;vm.currentDataItem().TcsPerfilFilialList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilFilial_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                                data-bind="click:function () { 
+                                  $root.CadastroPerfil().openEditor('#CadastroPerfil_dGridTcsPerfilFilial', 'TcsPerfilFilial', 'vm.currentDataItem().currentTcsPerfilFilial;vm.currentDataItem().TcsPerfilFilialList', 'TcsPerfilFilial;vm.currentDataItem()', 'TcsPerfilFilial(vm.currentDataItem())', false)
+                               }"><i class="fa fa-th"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilFilial_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                                data-bind="click:function () { 
+                                  $root.CadastroPerfil().openEditor('#CadastroPerfil_dGridTcsPerfilFilial', 'TcsPerfilFilial', 'vm.currentDataItem().currentTcsPerfilFilial;vm.currentDataItem().TcsPerfilFilialList', 'TcsPerfilFilial;vm.currentDataItem()', 'TcsPerfilFilial(vm.currentDataItem())', true)
+                               }"><i class="fa fa-th-large"></i></button>
+                               <button id="CadastroPerfil_dGridTcsPerfilFilial_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroPerfil_dGridTcsPerfilFilial_templateLayout', vm: function(){return $root.CadastroPerfil().gridSaveStates['CadastroPerfil_dGridTcsPerfilFilial'];}, ctrlName: 'CadastroPerfil_dGridTcsPerfilFilial_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroPerfil_dGridTcsPerfilFilial_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroPerfil_dGridTcsPerfilFilial_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroPerfil_dGridTcsPerfilFilial_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroPerfil().dataToolbar.canGridExport(), click: function () {$root.CadastroPerfil().exportDataDetails($data, 'TcsPerfilFilial', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroPerfil_dGridTcsPerfilFilial" data-bind="css: { IsEditableStyle: $root.CadastroPerfil().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+               </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="CadastroPerfil_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.CadastroPerfil().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyCadastroPerfil_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyCadastroPerfil_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyCadastroPerfil_dGrid_templateLayout', vm: function(){return $root.CadastroPerfil().gridSaveStates['scyCadastroPerfil_dGrid'];}, ctrlName: 'scyCadastroPerfil_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyCadastroPerfil_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyCadastroPerfil_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyCadastroPerfil_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroPerfil().dataToolbar.canExport(), click: function () {$root.CadastroPerfil().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyCadastroPerfil_dGrid" data-bind="css: { IsEditableStyle: $root.CadastroPerfil().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

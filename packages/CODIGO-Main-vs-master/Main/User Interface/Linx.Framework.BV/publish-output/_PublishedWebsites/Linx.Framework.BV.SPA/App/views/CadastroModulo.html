@@ -1,0 +1,487 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="CadastroModulo_formViewer" class="panelTransaition">
+            <figure id="CadastroModulo_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.CadastroModulo().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="CadastroModulo_gbExpander_36a3b66ca1ad446aa386c381b712fd76" data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_gbExpander_36a3b66ca1ad446aa386c381b712fd76'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_gbExpander_36a3b66ca1ad446aa386c381b712fd76')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div id="CadastroModulo_gbExpander_36a3b66ca1ad446aa386c381b712fd76_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="CadastroModulo_gbGroupBox_f6354350d9694ea3927acfea9bac6f30" data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_gbGroupBox_f6354350d9694ea3927acfea9bac6f30'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_gbGroupBox_f6354350d9694ea3927acfea9bac6f30')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_gbGroupBox_f6354350d9694ea3927acfea9bac6f30')"><i class="icon-reorder"></i></div>
+                       </div>
+                       <div id="CadastroModulo_gbGroupBox_f6354350d9694ea3927acfea9bac6f30_body" class="portlet-body" >
+                           <div data-bind="with: $root.CadastroModulo().getWithBinding(currentDataItem, $root.CadastroModulo().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_tbNomeCurto'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_tbNomeCurto')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroModulo_divNomeCurto" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroModulo().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tbNomeCurto')}, text: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tbNomeCurto')" id="CadastroModulo_lblNomeCurto" for="CadastroModulo_tbNomeCurto" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroModulo_tbNomeCurto" class="form-control ellipsis" data-bind="attr: { title: NomeCurto }, validatedField: 'NomeCurto', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbNomeCurto') ? ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbNomeCurto') : (!isEmptyEntityFn($data) && $root.CadastroModulo().enabledForEditing()) }, igTextEditor: { maxLength: 40, value: NomeCurto, readOnly: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbNomeCurto') ? !ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbNomeCurto') : (isEmptyEntityFn($data) || !$root.CadastroModulo().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_tbDescModulo'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_tbDescModulo')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroModulo_divDescModulo" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroModulo().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tbDescModulo')}, text: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tbDescModulo')" id="CadastroModulo_lblDescModulo" for="CadastroModulo_tbDescModulo" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroModulo_tbDescModulo" class="form-control ellipsis" data-bind="attr: { title: DescModulo }, validatedField: 'DescModulo', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbDescModulo') ? ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbDescModulo') : (!isEmptyEntityFn($data) && $root.CadastroModulo().enabledForEditing()) }, igTextEditor: { maxLength: 60, value: DescModulo, readOnly: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbDescModulo') ? !ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbDescModulo') : (isEmptyEntityFn($data) || !$root.CadastroModulo().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_tbDescricaoAplicativo'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_tbDescricaoAplicativo')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroModulo_divDescricaoAplicativo" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroModulo().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tbDescricaoAplicativo')}, text: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tbDescricaoAplicativo')" id="CadastroModulo_lblDescricaoAplicativo" for="CadastroModulo_tbDescricaoAplicativo" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroModulo_tbDescricaoAplicativo" class="form-control ellipsis" data-bind="attr: { title: DescricaoAplicativo }, validatedField: 'DescricaoAplicativo', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbDescricaoAplicativo') ? ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbDescricaoAplicativo') : (!isEmptyEntityFn($data) && $root.CadastroModulo().status() === 'C') }, igTextEditor: { maxLength: 250, value: DescricaoAplicativo, readOnly: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbDescricaoAplicativo') ? !ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbDescricaoAplicativo') : (isEmptyEntityFn($data) || $root.CadastroModulo().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_tbOrdemNavegacao'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_tbOrdemNavegacao')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroModulo_divOrdemNavegacao" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroModulo().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tbOrdemNavegacao')}, text: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tbOrdemNavegacao')" id="CadastroModulo_lblOrdemNavegacao" for="CadastroModulo_tbOrdemNavegacao" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroModulo_tbOrdemNavegacao" class="form-control ellipsis" data-bind="attr: { title: OrdemNavegacao }, validatedField: 'OrdemNavegacao', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbOrdemNavegacao') ? ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbOrdemNavegacao') : (!isEmptyEntityFn($data) && $root.CadastroModulo().enabledForEditing()) }, igTextEditor: { maxLength: 3, value: OrdemNavegacao, readOnly: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbOrdemNavegacao') ? !ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbOrdemNavegacao') : (isEmptyEntityFn($data) || !$root.CadastroModulo().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_ckInativo'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_ckInativo')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroModulo_divInativo" class="" >
+                                               <label class="">
+                                                 <input id="CadastroModulo_ckInativo" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_ckInativo') ? ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_ckInativo') : (!isEmptyEntityFn($data) && $root.CadastroModulo().enabledForEditing())}, disable: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_ckInativo') ? !ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_ckInativo') : (isEmptyEntityFn($data) || !$root.CadastroModulo().enabledForEditing()), nullableChecked: Inativo" title="Clique para marcar/desmarcar"/> 
+                                                 <span id="lblCadastroModulo_ckInativo" data-bind="text: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_ckInativo'), attr: {title: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_ckInativo')}, css: { 'content-required-checkbox': $root.CadastroModulo().status() === 'E'}" class="align-label-checkbox"></span>
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="CadastroModulo_gbTcsModulo" data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_gbTcsModulo'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_gbTcsModulo')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_gbTcsModulo')"><i class="icon-reorder"></i></div>
+                       </div>
+                       <div id="CadastroModulo_gbTcsModulo_body" class="portlet-body" >
+                           <div class="row">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                   <div id="CadastroModulo_gbGroupBox_7c5905d8803e461fb260084ab18fb1d3" data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_gbGroupBox_7c5905d8803e461fb260084ab18fb1d3'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_gbGroupBox_7c5905d8803e461fb260084ab18fb1d3')"  class=" gbox position-element"  >
+                       <div class="portlet box " >
+                           <div id="CadastroModulo_gbGroupBox_7c5905d8803e461fb260084ab18fb1d3_body" class="portlet-body" >
+                               <div data-bind="with: $root.CadastroModulo().getWithBinding(currentDataItem, $root.CadastroModulo().rootDataTypeName)">
+                                   <div class="row">
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                       <div data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_tbIcone'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_tbIcone')" class="">
+                                           <div class="form-group">
+                                               <div id="CadastroModulo_divIcone" class="" >
+                                                   <label data-bind="attr: { title: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tbIcone')}, text: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tbIcone')" id="CadastroModulo_lblIcone" for="CadastroModulo_tbIcone" class="control-label ellipsis">
+                                                   </label>
+                                                   <input id="CadastroModulo_tbIcone" class="form-control ellipsis" data-bind="attr: { title: Icone }, validatedField: 'Icone', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbIcone') ? ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbIcone') : (!isEmptyEntityFn($data) && $root.CadastroModulo().enabledForEditing()) }, igTextEditor: { maxLength: 40, value: Icone, readOnly: ctrl.hasCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbIcone') ? !ctrl.getCustomEnable($root.CadastroModulo(), 'CadastroModulo_tbIcone') : (isEmptyEntityFn($data) || !$root.CadastroModulo().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+                                   </div>
+
+                               </div>
+                           </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+                           </div>
+
+                       </div>
+                   </div>
+                   </div>
+               </div>
+
+
+
+               <div id="CadastroModulo_tcTcsModuloTabControl"  data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_tcTcsModuloTabControl'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_tcTcsModuloTabControl')"  class="tabbable tabbable-custom box" >
+                  <div class="container-tab">
+                     <div id="CadastroModulo_tcTcsModuloTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                     <div id="CadastroModulo_tcTcsModuloTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                     <div id="CadastroModulo_tcTcsModuloTabControl_wrapper" class="wrapper">
+                        <ul id="CadastroModulo_tcTcsModuloTabControl_list" class="nav nav-tabs list">
+                           <li id="CadastroModulo_tiTcsModuloMenuTabItem" class="active"><a data-bind="text: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tiTcsModuloMenuTabItem'), attr: {title: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tiTcsModuloMenuTabItem')}" href="#CadastroModulo_tabTcsModuloMenuTabItem" data-toggle="tab"></a></li>
+                           <li id="CadastroModulo_tiTcsModuloDoGrupoTabItem" class=""><a data-bind="text: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tiTcsModuloDoGrupoTabItem'), attr: {title: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_tiTcsModuloDoGrupoTabItem')}" href="#CadastroModulo_tabTcsModuloDoGrupoTabItem" data-toggle="tab"></a></li>
+                        </ul>
+                        </div>
+                     </div>
+                  <div class="tab-content">
+
+
+
+                   <div class="tab-pane fade active in" id="CadastroModulo_tabTcsModuloMenuTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div id="CadastroModulo_cntCustomContainer_3d3cb14ee7ac48c1b2fecc5d09415426" data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_cntCustomContainer_3d3cb14ee7ac48c1b2fecc5d09415426'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_cntCustomContainer_3d3cb14ee7ac48c1b2fecc5d09415426')" class="cnt  remove-pl remove-pr" >
+                       <div>
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_dGridTcsModuloMenu') " >
+                               <div id="CadastroModulo_dGridTcsModuloMenu_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.CadastroModulo().getWithBinding(currentDataItem, $root.CadastroModulo().rootDataTypeName)">
+                                   <button id="CadastroModulo_dGridTcsModuloMenu_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroModulo().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroModulo().createAndNotifyTcsModuloMenu($data); }"><i class="fa fa-plus"></i></button>
+                                   <button id="CadastroModulo_dGridTcsModuloMenu_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                   data-bind="visible: $root.CadastroModulo().status() === 'E', 
+                                   click: function () {
+                                      $root.CadastroModulo().deleteGrid('#CadastroModulo_dGridTcsModuloMenu', 'TcsModuloMenu', 'vm.currentDataItem().currentTcsModuloMenu;vm.currentDataItem().TcsModuloMenuList', false);
+                                   }"> 
+                                   <i class="fa fa-trash-o"></i></button>
+                                   <button id="CadastroModulo_dGridTcsModuloMenu_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroModulo_dGridTcsModuloMenu_templateLayout', vm: function(){return $root.CadastroModulo().gridSaveStates['CadastroModulo_dGridTcsModuloMenu'];}, ctrlName: 'CadastroModulo_dGridTcsModuloMenu_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="CadastroModulo_dGridTcsModuloMenu_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="CadastroModulo_dGridTcsModuloMenu_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="CadastroModulo_dGridTcsModuloMenu_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroModulo().dataToolbar.canGridExport(), click: function () {$root.CadastroModulo().exportDataDetails($data, 'TcsModuloMenu', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="CadastroModulo_dGridTcsModuloMenu" data-bind="css: { IsEditableStyle: $root.CadastroModulo().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+
+
+
+                       <div id="CadastroModulo_gbTransacoes" data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_gbTransacoes'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_gbTransacoes')"  class=" gbox position-element"  >
+                           <div class="portlet box dark-background" >
+                               <div class="portlet-title">
+                                   <div class="caption" data-bind="text: $root.CadastroModulo().getLayoutDisplayName('CadastroModulo_gbTransacoes')"><i class="icon-reorder"></i></div>
+                               </div>
+                               <div id="CadastroModulo_gbTransacoes_body" class="portlet-body" >
+                                   <div class="row">
+
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_dGridTcsTransacaoMenu') " >
+                               <div id="CadastroModulo_dGridTcsTransacaoMenu_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.CadastroModulo().getWithBinding(currentDataItem, $root.CadastroModulo().rootDataTypeName)"><div data-bind="with: $root.CadastroModulo().getWithBinding(currentTcsModuloMenu, 'TcsModuloMenu')">
+                                   <button id="CadastroModulo_dGridTcsTransacaoMenu_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroModulo().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroModulo().createAndNotifyTcsTransacaoMenu($data); }"><i class="fa fa-plus"></i></button>
+                                   <button id="CadastroModulo_dGridTcsTransacaoMenu_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                   data-bind="visible: $root.CadastroModulo().status() === 'E', 
+                                   click: function () {
+                                      $root.CadastroModulo().deleteGrid('#CadastroModulo_dGridTcsTransacaoMenu', 'TcsTransacaoMenu', 'vm.currentDataItem().currentTcsModuloMenu().currentTcsTransacaoMenu;vm.currentDataItem().currentTcsModuloMenu().TcsTransacaoMenuList', false);
+                                   }"> 
+                                   <i class="fa fa-trash-o"></i></button>
+                                   <button id="CadastroModulo_dGridTcsTransacaoMenu_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroModulo_dGridTcsTransacaoMenu_templateLayout', vm: function(){return $root.CadastroModulo().gridSaveStates['CadastroModulo_dGridTcsTransacaoMenu'];}, ctrlName: 'CadastroModulo_dGridTcsTransacaoMenu_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="CadastroModulo_dGridTcsTransacaoMenu_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="CadastroModulo_dGridTcsTransacaoMenu_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="CadastroModulo_dGridTcsTransacaoMenu_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroModulo().dataToolbar.canGridExport(), click: function () {$root.CadastroModulo().exportDataDetails($data, 'TcsTransacaoMenu', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div></div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="CadastroModulo_dGridTcsTransacaoMenu" data-bind="css: { IsEditableStyle: $root.CadastroModulo().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                                   </div>
+
+                               </div>
+                           </div>
+                           </div>
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="CadastroModulo_tabTcsModuloDoGrupoTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div id="CadastroModulo_cntCustomContainer_9b718b170b8b445887d8e4b6b12cb09e" data-bind="css: $root.CadastroModulo().getLayoutColumnSpan('CadastroModulo_cntCustomContainer_9b718b170b8b445887d8e4b6b12cb09e'), visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_cntCustomContainer_9b718b170b8b445887d8e4b6b12cb09e')" class="cnt  remove-pl remove-pr" >
+                       <div>
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroModulo().getLayoutVisible('CadastroModulo_dGridTcsModuloDoGrupo') " >
+                               <div id="CadastroModulo_dGridTcsModuloDoGrupo_ContentDLG" style="position:relative;"></div>
+                               <div class="linx-table-button position-icon">
+                                   <div class="botoes-tabela">
+                                   <div data-bind="with: $root.CadastroModulo().getWithBinding(currentDataItem, $root.CadastroModulo().rootDataTypeName)">
+                                   <button id="CadastroModulo_dGridTcsModuloDoGrupo_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroModulo().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroModulo().createAndNotifyTcsModuloDoGrupo($data); }"><i class="fa fa-plus"></i></button>
+                                   <button id="CadastroModulo_dGridTcsModuloDoGrupo_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                                   data-bind="visible: $root.CadastroModulo().status() === 'E', 
+                                   click: function () {
+                                      $root.CadastroModulo().deleteGrid('#CadastroModulo_dGridTcsModuloDoGrupo', 'TcsModuloDoGrupo', 'vm.currentDataItem().currentTcsModuloDoGrupo;vm.currentDataItem().TcsModuloDoGrupoList', false);
+                                   }"> 
+                                   <i class="fa fa-trash-o"></i></button>
+                                   <button id="CadastroModulo_dGridTcsModuloDoGrupo_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroModulo_dGridTcsModuloDoGrupo_templateLayout', vm: function(){return $root.CadastroModulo().gridSaveStates['CadastroModulo_dGridTcsModuloDoGrupo'];}, ctrlName: 'CadastroModulo_dGridTcsModuloDoGrupo_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                                   <script id="CadastroModulo_dGridTcsModuloDoGrupo_templateLayout" type="text/html" tabindex="-1">
+                                       <div id="CadastroModulo_dGridTcsModuloDoGrupo_gb" class="layout-popover">
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                                   <div class="col-md-10">
+                                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                                   </div>
+                                                   <div  class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-12">
+                                                   <div class="col-md-10">
+                                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   <button id="CadastroModulo_dGridTcsModuloDoGrupo_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroModulo().dataToolbar.canGridExport(), click: function () {$root.CadastroModulo().exportDataDetails($data, 'TcsModuloDoGrupo', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                                   </div>
+                                   </div>
+                               </div>
+                               <div class="linx-table-grid position-table-grid">
+                                      <table id="CadastroModulo_dGridTcsModuloDoGrupo" data-bind="css: { IsEditableStyle: $root.CadastroModulo().enabledForEditing }" />
+                               </div>
+
+                           </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+               </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="CadastroModulo_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.CadastroModulo().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyCadastroModulo_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyCadastroModulo_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyCadastroModulo_dGrid_templateLayout', vm: function(){return $root.CadastroModulo().gridSaveStates['scyCadastroModulo_dGrid'];}, ctrlName: 'scyCadastroModulo_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyCadastroModulo_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyCadastroModulo_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyCadastroModulo_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroModulo().dataToolbar.canExport(), click: function () {$root.CadastroModulo().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyCadastroModulo_dGrid" data-bind="css: { IsEditableStyle: $root.CadastroModulo().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->

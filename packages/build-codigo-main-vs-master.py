@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Export Main/ source delta: feature/implementacao-completa-ss-mfa-5-10-2026 vs master."""
+"""Pacote com TODOS os arquivos alterados: master → SI-PDR-CICD-AWS ∪ feature MFA.
+
+A feature contém a SI-PDR (ancestral). O conjunto é o diff
+origin/master...feature/implementacao-completa-ss-mfa-5-10-2026, sem filtros
+de dll/obj/publish-output. Não inclui este próprio pacote.
+"""
 
 from __future__ import annotations
 
@@ -9,56 +14,28 @@ import os
 import shutil
 import subprocess
 import zipfile
+from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path("/workspace")
 BASE = "origin/master"
-HEAD = "HEAD"
+# Tip of feature implementations (before this pack folder existed).
+SOURCE_REF = "8be30b711cab1962a8889100842bce7fad4e2b70"
 PKG_NAME = "CODIGO-Main-vs-master"
 PKG = REPO / "packages" / PKG_NAME
 ART = Path("/opt/cursor/artifacts")
 ZIP_NAME = f"{PKG_NAME}.zip"
 
+SELF_PREFIXES = (
+    "packages/CODIGO-Main-vs-master/",
+    "packages/CODIGO-Main-vs-master.zip",
+    "packages/build-codigo-main-vs-master.py",
+)
+
 
 def git(*args: str) -> str:
     return subprocess.check_output(["git", *args], cwd=REPO, text=True)
-
-
-def skip_reason(path: str) -> str | None:
-    p = path.replace("\\", "/").lower()
-    parts = p.split("/")
-    if "node_modules" in parts or "obj" in parts or ".vs" in parts:
-        return "build"
-    if "/publish-output/" in p:
-        return "publish-output"
-    if p.endswith(
-        (
-            ".pdb",
-            ".cache",
-            ".suo",
-            ".rej",
-            ".orig",
-            ".up2date",
-            ".ide",
-            ".ide-shm",
-            ".ide-wal",
-            ".log",
-            ".zip",
-            ".application",
-            ".manifest",
-        )
-    ):
-        return "build"
-    if p.endswith((".dll", ".exe")) and "microsoft.identity" not in p:
-        return "binaries"
-    if "linx.framework.selfhost" in p:
-        return "vendor-selfhost"
-    if "/common/mobile/" in p:
-        return "vendor-mobile"
-    if "bootstrap-wysihtml5" in p or "wysihtml5-0.3.0" in p:
-        return "vendor-web"
-    return None
 
 
 def sha256_file(path: Path) -> str:
@@ -69,163 +46,194 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def is_self(path: str) -> bool:
+    p = path.replace("\\", "/")
+    return any(p == s.rstrip("/") or p.startswith(s) for s in SELF_PREFIXES)
+
+
+def parse_name_status(ref: str) -> tuple[list[tuple[str, str]], list[str]]:
+    """Return (copied status+path, deleted old paths)."""
+    copied: list[tuple[str, str]] = []
+    deleted: list[str] = []
+    raw = git("diff", "--name-status", f"{BASE}...{ref}")
+    for line in raw.splitlines():
+        parts = line.split("\t")
+        status = parts[0]
+        if status.startswith("R") or status.startswith("C"):
+            old, new = parts[1].replace("\\", "/"), parts[2].replace("\\", "/")
+            deleted.append(old)
+            if not is_self(new):
+                copied.append(("R" if status.startswith("R") else "C", new))
+        elif status == "D":
+            path = parts[1].replace("\\", "/")
+            if not is_self(path):
+                deleted.append(path)
+        else:
+            path = parts[1].replace("\\", "/")
+            if not is_self(path):
+                copied.append((status[0], path))
+    return copied, deleted
+
+
 def classify(path: str) -> str:
     p = path.replace("\\", "/")
-    if "/Scripts/" in p and p.endswith(".sql"):
-        return "DB"
     if p.startswith("Main/Application/Linx.Portal/"):
         return "Portal"
-    if p.startswith("Main/Application/Linx.Internet.Application/"):
+    if p.startswith("Main/Application/"):
         return "Application"
-    if p.startswith("Main/User Interface/"):
-        return "SPA"
     if p.startswith("Main/Business/"):
         return "Service"
+    if p.startswith("Main/User Interface/"):
+        return "SPA"
     if p.startswith("Main/BM/"):
         return "BM"
     if p.startswith("Main/Binary/"):
         return "Binary"
-    if p.startswith("Main/Common/"):
-        return "Common"
-    return "Outros"
+    if p.startswith("Main/"):
+        return "Main-outros"
+    if p.startswith("packages/"):
+        return "packages"
+    if p.startswith("docs/"):
+        return "docs"
+    if p.startswith("infra/"):
+        return "infra"
+    return "repo-raiz"
+
+
+def extract_from_worktree(src_root: Path, repo_path: str, dest: Path) -> None:
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src_root / repo_path, dest)
+
+
+def prepare_worktree(ref: str) -> Path:
+    wt = Path("/tmp/codigo-src-" + ref[:12])
+    subprocess.run(
+        ["git", "worktree", "remove", "--force", str(wt)],
+        cwd=REPO,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+    if wt.exists():
+        shutil.rmtree(wt)
+    git("worktree", "add", "--detach", str(wt), ref)
+    return wt
 
 
 def main() -> None:
-    branch = git("rev-parse", "--abbrev-ref", "HEAD").strip()
-    head_sha = git("rev-parse", "HEAD").strip()
-    master_sha = git("rev-parse", BASE).strip()
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    master_sha = git("rev-parse", BASE).strip()
+    sipdr_sha = git("rev-parse", "origin/SI-PDR-CICD-AWS").strip()
+    source_sha = git("rev-parse", SOURCE_REF).strip()
 
-    rows = []
-    for line in git("diff", "--name-status", f"{BASE}...{HEAD}", "--", "Main/").splitlines():
-        status, path = line[0], line.split("\t", 1)[1]
-        rows.append((status, path.replace("\\", "/")))
-
-    kept, deleted, omitted = [], [], []
-    for status, path in rows:
-        if status == "D":
-            deleted.append(path)
-            continue
-        reason = skip_reason(path)
-        if reason:
-            omitted.append((reason, path))
-            continue
-        kept.append((status, path))
+    copied_spec, deleted = parse_name_status(SOURCE_REF)
 
     if PKG.exists():
         shutil.rmtree(PKG)
     PKG.mkdir(parents=True)
 
-    copied = []
-    for status, path in kept:
-        src = REPO / path
-        dest = PKG / path
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src, dest)
-        copied.append((status, path, dest.stat().st_size, sha256_file(dest)))
+    wt = prepare_worktree(SOURCE_REF)
+    copied_meta: list[tuple[str, str, int, str]] = []
+    missing: list[str] = []
+    try:
+        for status, path in copied_spec:
+            dest = PKG / path
+            src = wt / path
+            if not src.is_file():
+                missing.append(path)
+                continue
+            extract_from_worktree(wt, path, dest)
+            copied_meta.append((status, path, dest.stat().st_size, sha256_file(dest)))
+    finally:
+        subprocess.run(
+            ["git", "worktree", "remove", "--force", str(wt)],
+            cwd=REPO,
+            check=False,
+        )
 
     db_dir = PKG / "DB"
     db_dir.mkdir(exist_ok=True)
-    sql_copied = []
-    for status, path, size, digest in copied:
-        if path.endswith(".sql") and "/Scripts/" in path.replace("\\", "/"):
-            dest = db_dir / Path(path).name
-            shutil.copy2(PKG / path, dest)
-            sql_copied.append(Path(path).name)
+    sql_names = []
+    for status, path, size, digest in copied_meta:
+        if path.endswith(".sql"):
+            name = Path(path).name
+            shutil.copy2(PKG / path, db_dir / name)
+            sql_names.append(name)
 
-    file_list_lines = [
-        f"{PKG_NAME} — arquivos de código",
+    lines = [
+        f"{PKG_NAME} — delta completo vs master",
         f"UTC {stamp}",
-        f"from {BASE} ({master_sha[:12]})",
-        f"to   {branch} ({head_sha[:12]})",
+        f"master            {master_sha}",
+        f"SI-PDR-CICD-AWS   {sipdr_sha}  (ancestral da feature; 0 commits fora)",
+        f"feature MFA       {source_sha}",
         "",
-        f"{'ST':<2} {'SIZE':>10}  {'SHA256':<64}  PATH",
+        f"{'ST':<2} {'SIZE':>12}  {'SHA256':<64}  PATH",
     ]
-    for status, path, size, digest in copied:
-        file_list_lines.append(f"{status:<2} {size:10d}  {digest}  {path}")
-    (PKG / "FILE-LIST.txt").write_text("\n".join(file_list_lines) + "\n", encoding="utf-8")
+    for status, path, size, digest in copied_meta:
+        lines.append(f"{status:<2} {size:12d}  {digest}  {path}")
+    (PKG / "FILE-LIST.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    deleted_txt = "Arquivos presentes em master e ausentes nesta branch (não copiar; remover no destino se existirem):\n\n"
-    deleted_txt += "\n".join(deleted) + "\n"
-    (PKG / "DELETED.txt").write_text(deleted_txt, encoding="utf-8")
+    (PKG / "DELETED.txt").write_text(
+        "Caminhos em master que saíram (rename ou delete). Remova no destino se existirem:\n\n"
+        + "\n".join(deleted)
+        + "\n",
+        encoding="utf-8",
+    )
+    (PKG / "OMITIDOS.txt").write_text(
+        "Nenhum arquivo do diff master...feature foi omitido por tipo (dll/obj/publish-output).\n"
+        "Só fica de fora este próprio pacote (packages/CODIGO-Main-vs-master*).\n",
+        encoding="utf-8",
+    )
 
-    omitted_lines = [
-        "Arquivos do diff Main/ que NÃO entram neste pacote de código.",
-        "Motivo: artefato de build, binário compilado (rebuild), vendor ou publish-output.",
-        "",
-    ]
-    by_reason = {}
-    for reason, path in omitted:
-        by_reason.setdefault(reason, []).append(path)
-    for reason in sorted(by_reason):
-        omitted_lines.append(f"## {reason} ({len(by_reason[reason])})")
-        for path in by_reason[reason]:
-            omitted_lines.append(path)
-        omitted_lines.append("")
-    (PKG / "OMITIDOS.txt").write_text("\n".join(omitted_lines), encoding="utf-8")
+    groups: dict[str, list[tuple[str, str, int]]] = defaultdict(list)
+    for status, path, size, digest in copied_meta:
+        groups[classify(path)].append((status, path, size))
 
-    groups = {}
-    for status, path, size, digest in copied:
-        groups.setdefault(classify(path), []).append((status, path, size))
-
-    def bullets(key: str) -> str:
+    def bullets(key: str, limit: int = 40) -> str:
         items = groups.get(key, [])
         if not items:
             return "_nenhum_"
-        return "\n".join(f"- `{status}` `{path}` ({size} bytes)" for status, path, size in items)
+        shown = items[:limit]
+        text = "\n".join(f"- `{st}` `{p}` ({sz} bytes)" for st, p, sz in shown)
+        if len(items) > limit:
+            text += f"\n- … +{len(items) - limit} arquivos (ver FILE-LIST.txt)"
+        return text
 
-    leia = f"""# Pacote de código — Main/ vs master
+    leia = f"""# Pacote de atualização — delta completo vs master
 
-Atualização de **fonte** (não é overlay IIS de DLLs).  
-Use `packages/INSTALL_MFA_SSO` quando o destino for só copiar binários no IIS.
+Todos os arquivos **alterados ou novos** das branches:
+
+- `SI-PDR-CICD-AWS` (`{sipdr_sha[:12]}`)
+- `feature/implementacao-completa-ss-mfa-5-10-2026` (`{source_sha[:12]}`)
+
+em relação a `master` (`{master_sha[:12]}`).
+
+A feature **já contém** a SI-PDR (ancestral). O pacote é o union = diff `master...feature`.
 
 | | |
 |--|--|
-| Branch origem | `{branch}` |
-| Commit origem | `{head_sha}` |
-| Base | `master` `{master_sha}` |
 | Gerado | {stamp} |
-| Arquivos copiados | {len(copied)} |
-| Deletados em relação ao master | {len(deleted)} |
-| Omitidos (build/vendor/binários) | {len(omitted)} |
+| Arquivos copiados | {len(copied_meta)} |
+| Removidos / renomeados (origem) | {len(deleted)} |
+| Falhas ao extrair | {len(missing)} |
 
-Estrutura: os caminhos em `Main\\...` são os mesmos do repositório. Cole a pasta `Main\\` deste pacote **em cima** de um checkout `master`.
+**Não é** um checkout inteiro das branches. Só o que mudou vs `master`.  
+**Não filtra** DLL, `obj`, `publish-output`, PDB, `node_modules` rastreados, docs, infra, `packages/INSTALL_MFA_SSO`.
 
-## O que este pacote traz
+## Como aplicar sobre um checkout master
 
-Implementações em `Main/` da branch `feature/implementacao-completa-ss-mfa-5-10-2026` que não estão em `master`:
+1. Extraia o zip (ou use esta pasta).
+2. Copie cada caminho relativo (ex. `Main\\...`, `docs\\...`, `packages\\INSTALL_MFA_SSO\\...`) para a mesma pasta no destino.
+3. Apague os caminhos de `DELETED.txt`.
+4. **Web.config:** mescle MFA/SSO; não sobrescreva connection string / SMTP / secrets de produção.
+5. SQL: `DB\\APPLY_SSO_MFA.sql` no catálogo **Portal** (não no da Application).
+6. Recicle os pools IIS se for publicar binários; ou recompile a partir do fonte.
 
-- MFA TOTP (Service, Portal `/Mfa/Challenge`, ticket no Application)
-- SSO Azure / MSAL (identifier-first, vínculo OID/UPN, Revoga SSO)
-- Cadastros UX: Utiliza MFA/SSO, Revoga MFA, Revoga SSO
-- Lookup de Ambientes (usuário editado + IdLinx) em `Events.cs` + SPA
-- Schema SQL `APPLY_SSO_MFA.sql` e scripts por objeto
-- Pacotes NuGet MSAL (`Microsoft.Identity.Client` 4.54.1)
+## SQL (atalho na raiz do pacote)
 
-## O que não entra
+{chr(10).join(f"- `DB\\\\{n}`" for n in sorted(set(sql_names))) or "- (nenhum)"}
 
-Ver `OMITIDOS.txt`. Resumo: `obj/`, `node_modules`, `publish-output`, `.pdb`, DLLs compiladas do produto (exceto MSAL), imagens vendor SelfHost/Mobile.
-
-Para publicar IIS **sem rebuild**, use `packages/INSTALL_MFA_SSO` e depois aplique o fonte do lookup (`UsuarioAutorizacao.TcsUsuarioAutenticacaoAcessoP.Events.cs`) via rebuild ou patch Cecil.
-
-## Como aplicar
-
-1. Checkout `master` (ou árvore equivalente).
-2. Copie `Main\\` deste pacote sobre `Main\\` do destino (substituir arquivos).
-3. Apague os arquivos de `DELETED.txt` se ainda existirem.
-4. **Não** sobrescreva `Web.config` de produção: mescle só as seções MFA/SSO (`azureAd`, flags). Ajuste SMTP, connection strings e secrets do ambiente.
-5. No SSMS, catálogo **Portal / FrameworkAutorizacao**, rode `DB\\APPLY_SSO_MFA.sql` (idempotente). Não rode no catálogo Application.
-6. Restaure NuGet do Portal (MSAL já está em `Main\\Application\\Linx.Portal\\packages\\`).
-7. Compile Portal, Service (`Linx.Framework.BV` + `Linx.Framework.BV.WebAPI.DS`) e Application / SPA.
-8. Recicle os pools IIS.
-
-## SQL (atalho)
-
-Os scripts também estão em `DB\\` na raiz do pacote:
-
-{chr(10).join(f"- `DB\\\\{name}`" for name in sql_copied) or "- (nenhum)"}
-
-## Arquivos por área
+## Por área (amostra)
 
 ### Portal
 {bullets("Portal")}
@@ -236,42 +244,47 @@ Os scripts também estão em `DB\\` na raiz do pacote:
 ### Service
 {bullets("Service")}
 
-### SPA (User Interface)
+### SPA
 {bullets("SPA")}
 
-### BM / SQL
+### BM
 {bullets("BM")}
 
-### Binary (views/config publicados)
+### Binary
 {bullets("Binary")}
 
-### Common
-{bullets("Common")}
+### packages (INSTALL_MFA_SSO etc.)
+{bullets("packages")}
 
-### Outros
-{bullets("Outros")}
+### docs / infra / raiz
+{bullets("docs")}
+{bullets("infra")}
+{bullets("repo-raiz")}
 
-## Arquivos deletados vs master
-
-Ver `DELETED.txt`.
-
-Inventário com SHA256: `FILE-LIST.txt`.
+Inventário SHA256: `FILE-LIST.txt`.
 """
     (PKG / "LEIA-ME.md").write_text(leia, encoding="utf-8")
+    (PKG / "VERSIONS.txt").write_text(
+        "\n".join(
+            [
+                f"PKG={PKG_NAME}",
+                "FROM_BRANCH=master",
+                f"FROM_COMMIT={master_sha}",
+                f"SI_PDR_BRANCH=SI-PDR-CICD-AWS",
+                f"SI_PDR_COMMIT={sipdr_sha}",
+                "TO_BRANCH=feature/implementacao-completa-ss-mfa-5-10-2026",
+                f"TO_COMMIT={source_sha}",
+                f"UTC={stamp}",
+                f"COPIED={len(copied_meta)}",
+                f"DELETED={len(deleted)}",
+                f"MISSING={len(missing)}",
+                "OMITTED=0",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
 
-    versions = f"""PKG={PKG_NAME}
-FROM_BRANCH=master
-FROM_COMMIT={master_sha}
-TO_BRANCH={branch}
-TO_COMMIT={head_sha}
-UTC={stamp}
-COPIED={len(copied)}
-DELETED={len(deleted)}
-OMITTED={len(omitted)}
-"""
-    (PKG / "VERSIONS.txt").write_text(versions, encoding="utf-8")
-
-    ART.mkdir(parents=True, exist_ok=True)
     tmp_zip = Path("/tmp") / ZIP_NAME
     if tmp_zip.exists():
         tmp_zip.unlink()
@@ -283,16 +296,17 @@ OMITTED={len(omitted)}
                 zf.write(full, arc.as_posix())
     pkg_zip = REPO / "packages" / ZIP_NAME
     shutil.copy2(tmp_zip, pkg_zip)
-    print("zip", pkg_zip, pkg_zip.stat().st_size)
-    art_zip = ART / ZIP_NAME
+    zip_size = pkg_zip.stat().st_size
+    print("copied", len(copied_meta), "deleted", len(deleted), "missing", missing)
+    print("zip", pkg_zip, zip_size)
+    if zip_size >= 100 * 1024 * 1024:
+        print("WARNING: zip >= 100MB; do not git add the zip (GitHub limit). Use exploded folder.")
     try:
-        shutil.copy2(tmp_zip, art_zip)
-        print("zip", art_zip, art_zip.stat().st_size)
+        ART.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(tmp_zip, ART / ZIP_NAME)
+        print("artifacts zip ok")
     except OSError as exc:
         print("artifacts zip skipped:", exc)
-
-    print("copied", len(copied), "deleted", len(deleted), "omitted", len(omitted))
-    print("pkg", PKG)
 
 
 if __name__ == "__main__":

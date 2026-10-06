@@ -1,0 +1,411 @@
+﻿<div data-bind="attr: { transactionNumberControl: transactionNumberControl }"></div>
+<div class="topo-container" data-bind="if: !isDependentVM()">
+   <div id="mainHeader">
+        <!--ko compose: { model:'viewmodels/shell/_header', view:'views/shell/_header', activationData: { parentVM: $root }, preserveContext: false }-->
+       <!--/ko-->
+   </div>
+</div>
+<div data-bind="if: !isDependentVM()">
+   <div id="breadcrumb" class="style-breadcrumb" data-bind="widget: { kind: 'breadcrumb' }"></div>
+</div>
+<div class="clearfix" data-bind="if: !isDependentVM()">
+</div>
+<!-- BEGIN CONTAINER -->
+<div data-bind="css: { 'page-container fullbtn': !isDependentVM() }">
+       <!-- ko if: isDependentVM() && !hideToolbar() -->
+       <!-- BEGIN SIDEBAR -->
+       <div data-bind="css: { hide: (!hasBrand) }, widget: { kind: 'branditem', vm: $root }" ></div>
+       <div class="pull-right redebar" data-bind="css: { hide: (!hasBrand || status() !== 'C') }, widget: { kind: 'brand', vm: $root }"></div>
+       <div data-bind="css: { hide: (!hideToolbar) }, widget: { kind: 'datatoolbar', vm: $data }" ></div>
+       <div class="clearfix"></div>
+       <!-- END SIDEBAR -->
+       <!--/ko-->
+    <!-- BEGIN PAGE -->
+    <section>
+        <div id="CadastroAplicativo_formViewer" class="panelTransaition">
+            <figure id="CadastroAplicativo_formViewer_front" class="front">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div class="screen-view">
+                            <div data-bind="style: { display: $root.CadastroAplicativo().viewType() === 'Main' ? '' : 'none' }">
+                                           <div id="CadastroAplicativo_gbTcsAplicativo" data-bind="css: $root.CadastroAplicativo().getLayoutColumnSpan('CadastroAplicativo_gbTcsAplicativo'), visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_gbTcsAplicativo')"  class=" gbox position-element"  >
+               <div class="portlet box row" >
+                   <div id="CadastroAplicativo_gbTcsAplicativo_body" class="portlet-body" >
+                       <div class="row">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+               <div id="CadastroAplicativo_gbGroupBox_c25fbe2e13704a0cb100f720c19c2acb" data-bind="css: $root.CadastroAplicativo().getLayoutColumnSpan('CadastroAplicativo_gbGroupBox_c25fbe2e13704a0cb100f720c19c2acb'), visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_gbGroupBox_c25fbe2e13704a0cb100f720c19c2acb')"  class=" gbox position-element"  >
+                   <div class="portlet box " >
+                       <div class="portlet-title">
+                           <div class="caption" data-bind="text: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_gbGroupBox_c25fbe2e13704a0cb100f720c19c2acb')"><i class="icon-reorder"></i></div>
+                       </div>
+                       <div id="CadastroAplicativo_gbGroupBox_c25fbe2e13704a0cb100f720c19c2acb_body" class="portlet-body" >
+                           <div data-bind="with: $root.CadastroAplicativo().getWithBinding(currentDataItem, $root.CadastroAplicativo().rootDataTypeName)">
+                               <div class="row">
+
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                                   <div data-bind="css: $root.CadastroAplicativo().getLayoutColumnSpan('CadastroAplicativo_tbIdTcsAplicativo'), visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_tbIdTcsAplicativo')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroAplicativo_divIdTcsAplicativo" class="" >
+                                               <label data-bind="css: { 'content-required': $root.CadastroAplicativo().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tbIdTcsAplicativo')}, text: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tbIdTcsAplicativo')" id="CadastroAplicativo_lblIdTcsAplicativo" for="CadastroAplicativo_tbIdTcsAplicativo" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroAplicativo_tbIdTcsAplicativo" class="form-control ellipsis" data-bind="attr: { title: IdTcsAplicativo }, validatedField: 'IdTcsAplicativo', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbIdTcsAplicativo') ? ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbIdTcsAplicativo') : (!isEmptyEntityFn($data) && $root.CadastroAplicativo().status() === 'C' || ($data.isAdded && $data.isAdded())) }, igTextEditor: { maxLength: 12, value: IdTcsAplicativo, readOnly: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbIdTcsAplicativo') ? !ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbIdTcsAplicativo') : (isEmptyEntityFn($data) || !($root.CadastroAplicativo().status() === 'C' || ($data.isAdded && $data.isAdded()))), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+
+                                   <div data-bind="css: $root.CadastroAplicativo().getLayoutColumnSpan('CadastroAplicativo_tbDescricaoAplicativo'), visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_tbDescricaoAplicativo')" class="">
+                                       <div class="form-group">
+                                           <div id="CadastroAplicativo_divDescricaoAplicativo" class="" >
+                                               <label data-bind="attr: { title: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tbDescricaoAplicativo')}, text: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tbDescricaoAplicativo')" id="CadastroAplicativo_lblDescricaoAplicativo" for="CadastroAplicativo_tbDescricaoAplicativo" class="control-label ellipsis">
+                                               </label>
+                                               <input id="CadastroAplicativo_tbDescricaoAplicativo" class="form-control ellipsis" data-bind="attr: { title: DescricaoAplicativo }, validatedField: 'DescricaoAplicativo', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbDescricaoAplicativo') ? ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbDescricaoAplicativo') : (!isEmptyEntityFn($data) && $root.CadastroAplicativo().enabledForEditing()) }, igTextEditor: { maxLength: 250, value: DescricaoAplicativo, readOnly: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbDescricaoAplicativo') ? !ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbDescricaoAplicativo') : (isEmptyEntityFn($data) || !$root.CadastroAplicativo().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                           </div>
+                                       </div>
+                                   </div>
+
+
+                               </div>
+
+                           </div>
+                       </div>
+                       </div>
+                   </div>
+               </div>
+
+
+
+               <div id="CadastroAplicativo_tcTcsAplicativoTabControl"  data-bind="css: $root.CadastroAplicativo().getLayoutColumnSpan('CadastroAplicativo_tcTcsAplicativoTabControl'), visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_tcTcsAplicativoTabControl')"  class="tabbable tabbable-custom box" >
+                  <div class="container-tab">
+                     <div id="CadastroAplicativo_tcTcsAplicativoTabControl_scroller_left" class="scroller-c scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                     <div id="CadastroAplicativo_tcTcsAplicativoTabControl_scroller_right" class="scroller-c scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                     <div id="CadastroAplicativo_tcTcsAplicativoTabControl_wrapper" class="wrapper">
+                        <ul id="CadastroAplicativo_tcTcsAplicativoTabControl_list" class="nav nav-tabs list">
+                           <li id="CadastroAplicativo_tiTcsAplicativoConexaoTabItem" class="active"><a data-bind="text: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tiTcsAplicativoConexaoTabItem'), attr: {title: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tiTcsAplicativoConexaoTabItem')}" href="#CadastroAplicativo_tabTcsAplicativoConexaoTabItem" data-toggle="tab"></a></li>
+                           <li id="CadastroAplicativo_tiTcsAplicacaoTabItem" class=""><a data-bind="text: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tiTcsAplicacaoTabItem'), attr: {title: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tiTcsAplicacaoTabItem')}" href="#CadastroAplicativo_tabTcsAplicacaoTabItem" data-toggle="tab"></a></li>
+                        </ul>
+                        </div>
+                     </div>
+                  <div class="tab-content">
+
+
+
+                   <div class="tab-pane fade active in" id="CadastroAplicativo_tabTcsAplicativoConexaoTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_dGridTcsAplicativoConexao') " >
+                           <div id="CadastroAplicativo_dGridTcsAplicativoConexao_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroAplicativo().getWithBinding(currentDataItem, $root.CadastroAplicativo().rootDataTypeName)">
+                               <button id="CadastroAplicativo_dGridTcsAplicativoConexao_AddBtn" class="btn default background-color-theme" data-placement="top" title="Novo Registro" data-bind="visible: $root.CadastroAplicativo().status() === 'E' && !isEmptyEntityFn($data), click: function () { $root.CadastroAplicativo().createAndNotifyTcsAplicativoConexao($data); }"><i class="fa fa-plus"></i></button>
+                               <button id="CadastroAplicativo_dGridTcsAplicativoConexao_DelBtn" class="btn default background-color-theme" data-placement="top" title="Excluir Registro" 
+                               data-bind="visible: $root.CadastroAplicativo().status() === 'E', 
+                               click: function () {
+                                  $root.CadastroAplicativo().deleteGrid('#CadastroAplicativo_dGridTcsAplicativoConexao', 'TcsAplicativoConexao', 'vm.currentDataItem().currentTcsAplicativoConexao;vm.currentDataItem().TcsAplicativoConexaoList', false);
+                               }"> 
+                               <i class="fa fa-trash-o"></i></button>
+                               <button id="CadastroAplicativo_dGridTcsAplicativoConexao_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                                data-bind="click:function () { 
+                                  $root.CadastroAplicativo().openEditor('#CadastroAplicativo_dGridTcsAplicativoConexao', 'TcsAplicativoConexao', 'vm.currentDataItem().currentTcsAplicativoConexao;vm.currentDataItem().TcsAplicativoConexaoList', 'TcsAplicativoConexao;vm.currentDataItem()', 'TcsAplicativoConexao(vm.currentDataItem())', false)
+                               }"><i class="fa fa-th"></i></button>
+                               <button id="CadastroAplicativo_dGridTcsAplicativoConexao_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                                data-bind="click:function () { 
+                                  $root.CadastroAplicativo().openEditor('#CadastroAplicativo_dGridTcsAplicativoConexao', 'TcsAplicativoConexao', 'vm.currentDataItem().currentTcsAplicativoConexao;vm.currentDataItem().TcsAplicativoConexaoList', 'TcsAplicativoConexao;vm.currentDataItem()', 'TcsAplicativoConexao(vm.currentDataItem())', true)
+                               }"><i class="fa fa-th-large"></i></button>
+                               <button id="CadastroAplicativo_dGridTcsAplicativoConexao_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroAplicativo_dGridTcsAplicativoConexao_templateLayout', vm: function(){return $root.CadastroAplicativo().gridSaveStates['CadastroAplicativo_dGridTcsAplicativoConexao'];}, ctrlName: 'CadastroAplicativo_dGridTcsAplicativoConexao_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroAplicativo_dGridTcsAplicativoConexao_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroAplicativo_dGridTcsAplicativoConexao_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroAplicativo_dGridTcsAplicativoConexao_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroAplicativo().dataToolbar.canGridExport(), click: function () {$root.CadastroAplicativo().exportDataDetails($data, 'TcsAplicativoConexao', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroAplicativo_dGridTcsAplicativoConexao" data-bind="css: { IsEditableStyle: $root.CadastroAplicativo().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+
+                       <div id="dialogTcsAplicativoConexao"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                          <button class="btn btn-sm btn-default backReg " id="backRegTcsAplicativoConexao" onClick="$(this).backRegTcsAplicativoConexao();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                          <span class="caption"><label id="currentNumberTcsAplicativoConexao">0</label><label>/</label><label id="totalNumberTcsAplicativoConexao">0</label></span>
+                          <button class="btn btn-sm btn-default nextReg " id="nextRegTcsAplicativoConexao" onClick="$(this).nextRegTcsAplicativoConexao();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                          <button class="btn btn-sm btn-default addReg " id="addRegTcsAplicativoConexao" onClick="$(this).addRegTcsAplicativoConexao();" data-placement="bottom" title="Adicionar Registro"><i class="fa fa-plus"></i></button>
+                          <button class="btn btn-sm btn-default delReg " id="delRegTcsAplicativoConexao" onClick="$(this).delRegTcsAplicativoConexao();" data-placement="bottom" title="Deletar Registro"><i class="fa fa-trash-o"></i></button>
+                          <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTcsAplicativoConexao" onClick="$(this).okRegTcsAplicativoConexao();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                       <div id="CadastroAplicativo_templateTcsAplicativoConexao" class="" style="width: 100%; height: 100%;" >
+                           <div data-bind="with: $root.CadastroAplicativo().getWithBinding(currentDataItem, $root.CadastroAplicativo().rootDataTypeName)"><div data-bind="with: $root.CadastroAplicativo().getWithBinding(currentTcsAplicativoConexao, 'TcsAplicativoConexao')">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.CadastroAplicativo().getLayoutColumnSpan('CadastroAplicativo_lUpTcsAplicativoConexao_NomeConexao'), visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_lUpTcsAplicativoConexao_NomeConexao')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAplicativo_divTcsAplicativoConexao_NomeConexaoTemplate" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroAplicativo().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_lUpTcsAplicativoConexao_NomeConexao')}, text: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_lUpTcsAplicativoConexao_NomeConexao')" id="CadastroAplicativo_lblTcsAplicativoConexao_NomeConexao" for="CadastroAplicativo_lUpTcsAplicativoConexao_NomeConexao" class="control-label ellipsis">
+                                           </label>
+                                           <div id="CadastroAplicativo_lUpTcsAplicativoConexao_NomeConexao" class="form-control input-group " data-bind="validatedField: 'NomeConexao', css: { vmEditing: $root.CadastroAplicativo().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_lUpTcsAplicativoConexao_NomeConexao') ? ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_lUpTcsAplicativoConexao_NomeConexao') : (!isEmptyEntityFn($data) && $root.CadastroAplicativo().status() === 'C' || ($data.isAdded && $data.isAdded())) }, lookupControl: { vm: $root.CadastroAplicativo(), value: NomeConexao, maxLength: 250,lookupName: 'LookUpTcsConexaoDb', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: true, multiSelectionValue: $root.CadastroAplicativo().entitySearchRange.NomeConexao, fieldName: 'NomeConexao', disabled:ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_lUpTcsAplicativoConexao_NomeConexao') ? !ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_lUpTcsAplicativoConexao_NomeConexao') : (isEmptyEntityFn($data) || !($root.CadastroAplicativo().status() === 'C' || ($data.isAdded && $data.isAdded()))), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 250, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div></div>
+                   </div>
+
+
+
+                       <div id="dialogTcsAplicacao"  class="toolbar-dialog-template" title='DataGrid' style="display: none !important; overflow-y:auto;">
+                          <button class="btn btn-sm btn-default backReg " id="backRegTcsAplicacao" onClick="$(this).backRegTcsAplicacao();" data-placement="bottom" title="Registro Anterior"><i class="fa fa-backward"></i></button>
+                          <span class="caption"><label id="currentNumberTcsAplicacao">0</label><label>/</label><label id="totalNumberTcsAplicacao">0</label></span>
+                          <button class="btn btn-sm btn-default nextReg " id="nextRegTcsAplicacao" onClick="$(this).nextRegTcsAplicacao();" data-placement="bottom" title="Próximo Registro"><i class="fa fa-forward"></i></button>
+                          <button style="float: right;" class="btn btn-sm btn-default okReg" id="okRegTcsAplicacao" onClick="$(this).okRegTcsAplicacao();" data-placement="bottom" title="Concluir"><i class="fa fa fa-times"></i></button>
+                       <div id="CadastroAplicativo_templateTcsAplicacao" class="" style="width: 100%; height: 100%;" >
+                           <div data-bind="with: $root.CadastroAplicativo().getWithBinding(currentDataItem, $root.CadastroAplicativo().rootDataTypeName)"><div data-bind="with: $root.CadastroAplicativo().getWithBinding(currentTcsAplicacao, 'TcsAplicacao')">
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                               <div data-bind="css: $root.CadastroAplicativo().getLayoutColumnSpan('CadastroAplicativo_lUpTcsAplicacao_DescricaoAplicacao'), visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_lUpTcsAplicacao_DescricaoAplicacao')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAplicativo_divTcsAplicacao_DescricaoAplicacaoTemplate" class="" >
+                                           <label data-bind="css: { 'content-required': $root.CadastroAplicativo().status() === 'E' && !isEmptyEntityFn($data) }, attr: { title: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_lUpTcsAplicacao_DescricaoAplicacao')}, text: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_lUpTcsAplicacao_DescricaoAplicacao')" id="CadastroAplicativo_lblTcsAplicacao_DescricaoAplicacao" for="CadastroAplicativo_lUpTcsAplicacao_DescricaoAplicacao" class="control-label ellipsis">
+                                           </label>
+                                           <div id="CadastroAplicativo_lUpTcsAplicacao_DescricaoAplicacao" class="form-control input-group " data-bind="validatedField: 'DescricaoAplicacao', css: { vmEditing: $root.CadastroAplicativo().status() === 'E', IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_lUpTcsAplicacao_DescricaoAplicacao') ? ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_lUpTcsAplicacao_DescricaoAplicacao') : (!isEmptyEntityFn($data) && $root.CadastroAplicativo().status() === 'C') }, lookupControl: { vm: $root.CadastroAplicativo(), value: DescricaoAplicacao, maxLength: 60,lookupName: 'LookUpTcsAplicacao', enableAutoComplete:false, autoCompleteMaxResults: 7, isMultiSelection: false, multiSelectionValue: $root.CadastroAplicativo().entitySearchRange.DescricaoAplicacao, fieldName: 'DescricaoAplicacao', disabled:ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_lUpTcsAplicacao_DescricaoAplicacao') ? !ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_lUpTcsAplicacao_DescricaoAplicacao') : (isEmptyEntityFn($data) || $root.CadastroAplicativo().status() !== 'C'), isNullable:false, allowMultiSelectionInSearch:true, validateOnClearState:false, maxValue:null, maxLength: 60, defaultValue: ''}" />
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAplicativo().getLayoutColumnSpan('CadastroAplicativo_ckTcsAplicacao_EmDesenvolvimento'), visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_ckTcsAplicacao_EmDesenvolvimento')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAplicativo_divTcsAplicacao_EmDesenvolvimentoTemplate" class="" >
+                                           <label class="">
+                                             <input id="CadastroAplicativo_ckTcsAplicacao_EmDesenvolvimento" type="checkbox" data-bind="css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_ckTcsAplicacao_EmDesenvolvimento') ? ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_ckTcsAplicacao_EmDesenvolvimento') : (!isEmptyEntityFn($data) && $root.CadastroAplicativo().status() === 'C')}, disable: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_ckTcsAplicacao_EmDesenvolvimento') ? !ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_ckTcsAplicacao_EmDesenvolvimento') : (isEmptyEntityFn($data) || $root.CadastroAplicativo().status() !== 'C'), nullableChecked: EmDesenvolvimento" title="Clique para marcar/desmarcar"/> 
+                                             <span id="lblCadastroAplicativo_ckTcsAplicacao_EmDesenvolvimento" data-bind="text: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_ckTcsAplicacao_EmDesenvolvimento'), attr: {title: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_ckTcsAplicacao_EmDesenvolvimento')}, css: { 'content-required-checkbox': $root.CadastroAplicativo().status() === 'E'}" class="align-label-checkbox"></span>
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAplicativo().getLayoutColumnSpan('CadastroAplicativo_tbTcsAplicacao_Url'), visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_tbTcsAplicacao_Url')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAplicativo_divTcsAplicacao_UrlTemplate" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tbTcsAplicacao_Url')}, text: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tbTcsAplicacao_Url')" id="CadastroAplicativo_lblTcsAplicacao_Url" for="CadastroAplicativo_tbTcsAplicacao_Url" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroAplicativo_tbTcsAplicacao_Url" class="form-control ellipsis" data-bind="attr: { title: Url }, validatedField: 'Url', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbTcsAplicacao_Url') ? ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbTcsAplicacao_Url') : (!isEmptyEntityFn($data) && $root.CadastroAplicativo().status() === 'C') }, igTextEditor: { maxLength: 250, value: Url, readOnly: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbTcsAplicacao_Url') ? !ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbTcsAplicacao_Url') : (isEmptyEntityFn($data) || $root.CadastroAplicativo().status() !== 'C'), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+
+                               <div data-bind="css: $root.CadastroAplicativo().getLayoutColumnSpan('CadastroAplicativo_tbTcsAplicacao_UrlWorkArea'), visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_tbTcsAplicacao_UrlWorkArea')" class="">
+                                   <div class="form-group">
+                                       <div id="CadastroAplicativo_divTcsAplicacao_UrlWorkAreaTemplate" class="" >
+                                           <label data-bind="attr: { title: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tbTcsAplicacao_UrlWorkArea')}, text: $root.CadastroAplicativo().getLayoutDisplayName('CadastroAplicativo_tbTcsAplicacao_UrlWorkArea')" id="CadastroAplicativo_lblTcsAplicacao_UrlWorkArea" for="CadastroAplicativo_tbTcsAplicacao_UrlWorkArea" class="control-label ellipsis">
+                                           </label>
+                                           <input id="CadastroAplicativo_tbTcsAplicacao_UrlWorkArea" class="form-control ellipsis" data-bind="attr: { title: UrlWorkArea }, validatedField: 'UrlWorkArea', css: { IsEditableStyle: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbTcsAplicacao_UrlWorkArea') ? ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbTcsAplicacao_UrlWorkArea') : (!isEmptyEntityFn($data) && $root.CadastroAplicativo().enabledForEditing()) }, igTextEditor: { maxLength: 250, value: UrlWorkArea, readOnly: ctrl.hasCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbTcsAplicacao_UrlWorkArea') ? !ctrl.getCustomEnable($root.CadastroAplicativo(), 'CadastroAplicativo_tbTcsAplicacao_UrlWorkArea') : (isEmptyEntityFn($data) || !$root.CadastroAplicativo().enabledForEditing()), selectionOnFocus: 'atEnd' }"/>
+                                       </div>
+                                   </div>
+                               </div>
+
+
+                           </div>
+
+                       </div>
+                       </div></div>
+                   </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+
+
+                   <div class="tab-pane fade" id="CadastroAplicativo_tabTcsAplicacaoTabItem">
+                       <div class="ui-helper-clearfix">
+                       <div class="">
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-pl remove-pr">
+
+
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " data-bind="visible: $root.CadastroAplicativo().getLayoutVisible('CadastroAplicativo_dGridTcsAplicacao') " >
+                           <div id="CadastroAplicativo_dGridTcsAplicacao_ContentDLG" style="position:relative;"></div>
+                           <div class="linx-table-button position-icon">
+                               <div class="botoes-tabela">
+                               <div data-bind="with: $root.CadastroAplicativo().getWithBinding(currentDataItem, $root.CadastroAplicativo().rootDataTypeName)">
+                               <button id="CadastroAplicativo_dGridTcsAplicacao_EditorBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Template" 
+                                data-bind="click:function () { 
+                                  $root.CadastroAplicativo().openEditor('#CadastroAplicativo_dGridTcsAplicacao', 'TcsAplicacao', 'vm.currentDataItem().currentTcsAplicacao;vm.currentDataItem().TcsAplicacaoList', 'TcsAplicacao;vm.currentDataItem()', 'TcsAplicacao(vm.currentDataItem())', false)
+                               }"><i class="fa fa-th"></i></button>
+                               <button id="CadastroAplicativo_dGridTcsAplicacao_FormBtn" class="btn default background-color-theme" data-placement="top" title="Alterar edição para modo Formulário" 
+                                data-bind="click:function () { 
+                                  $root.CadastroAplicativo().openEditor('#CadastroAplicativo_dGridTcsAplicacao', 'TcsAplicacao', 'vm.currentDataItem().currentTcsAplicacao;vm.currentDataItem().TcsAplicacaoList', 'TcsAplicacao;vm.currentDataItem()', 'TcsAplicacao(vm.currentDataItem())', true)
+                               }"><i class="fa fa-th-large"></i></button>
+                               <button id="CadastroAplicativo_dGridTcsAplicacao_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#CadastroAplicativo_dGridTcsAplicacao_templateLayout', vm: function(){return $root.CadastroAplicativo().gridSaveStates['CadastroAplicativo_dGridTcsAplicacao'];}, ctrlName: 'CadastroAplicativo_dGridTcsAplicacao_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                               <script id="CadastroAplicativo_dGridTcsAplicacao_templateLayout" type="text/html" tabindex="-1">
+                                   <div id="CadastroAplicativo_dGridTcsAplicacao_gb" class="layout-popover">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                               <div class="col-md-10">
+                                                   <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                               </div>
+                                               <div  class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="col-md-10">
+                                                   <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                               </div>
+                                               <div class="col-md-2">
+                                                   <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </script>
+                               <button id="CadastroAplicativo_dGridTcsAplicacao_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroAplicativo().dataToolbar.canGridExport(), click: function () {$root.CadastroAplicativo().exportDataDetails($data, 'TcsAplicacao', true);  }"><i class="fa fa-file-excel-o"></i></button>
+                               </div>
+                               </div>
+                           </div>
+                           <div class="linx-table-grid position-table-grid">
+                                  <table id="CadastroAplicativo_dGridTcsAplicacao" data-bind="css: { IsEditableStyle: $root.CadastroAplicativo().enabledForEditing }" />
+                           </div>
+
+                       </div>
+
+
+                       </div>
+
+                   </div>
+                   </div>
+               </div>
+
+
+
+               </div>
+               </div>
+
+
+                       </div>
+
+                   </div>
+               </div>
+               </div>
+           </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </figure>
+            <figure id="CadastroAplicativo_formViewer_back" class="back">
+                <div class="col-md-12 remove-pl remove-pr">
+                    <section>
+                        <div data-bind="style: { display: $root.CadastroAplicativo().viewType() === 'Main' ? 'none' : '' }">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-height-size " >
+               <div id="scyCadastroAplicativo_dGrid_ContentDLG" style="position:relative;"></div>
+               <div class="linx-table-button position-icon">
+                   <div class="botoes-tabela" >
+                   <button id="scyCadastroAplicativo_dGrid_LayoutBtn" class="btn default background-color-theme" data-placement="top" title="Editar o Layout da Grid" data-bind="popoverWithBind: { template: '#scyCadastroAplicativo_dGrid_templateLayout', vm: function(){return $root.CadastroAplicativo().gridSaveStates['scyCadastroAplicativo_dGrid'];}, ctrlName: 'scyCadastroAplicativo_dGrid_gb', headerText:'Layout da grid' }"><i class="fa fa-gears" aria-hidden="true" data-placement="top" title="Editar o Layout da Grid"></i></button>
+                   <script id="scyCadastroAplicativo_dGrid_templateLayout" type="text/html" tabindex="-1">
+                       <div id="scyCadastroAplicativo_dGrid_gb" class="layout-popover">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <span title="Layout salvos" style="padding-left: 10px;">Layout salvos:</span>
+                                   <div class="col-md-10">
+                                       <span class="form-control box-layout-grid" data-bind="igCombo: {selectedItems: currentLayoutId, dataSource: savedLayouts, textKey: 'NomeLayout', valueKey: 'Id', itemTemplate: &quot;<span class='ellipsis' style='display:block' title='${NomeLayout}'>${NomeLayout}</span>&quot;, allowCustomValue : false, enableSelectionChangedUpdate: true, enableClearButton: true, mode: 'editable', width:'100%'}"></span>
+                                   </div>
+                                   <div  class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() < 0 || currentLayoutId() > 0), click: function(){ applyLayout(); }" style="border:0; margin-bottom:0;margin-top:5px;padding:5px 10px;height:26px;width:33px;"><i class="fa fa-check" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <button class="btn-press ellipsis" data-bind="click: function(){openLayoutCustomize(false);}"  style="border:0;">Configurar...</button>
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: function(){openLayoutCustomize(true);}"  style="border:0;">Salvar como</button>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <button class="btn-press ellipsis" data-bind="enable: (currentLayoutId() > 0), click: deleteLayout"  style="border:0;"><i class="fa fa-trash-o" aria-hidden="true" /></button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </script>
+                   <button id="scyCadastroAplicativo_dGrid_ExpExcelBtn" class="btn default background-color-theme" data-placement="top" title="Exportar para Excel" data-bind="visible: $root.CadastroAplicativo().dataToolbar.canExport(), click: function () {$root.CadastroAplicativo().dataToolbar.exportData(false, true);  }"><i class="fa fa-file-excel-o"></i></button>
+                   </div>
+               </div>
+               <div class="linx-table-grid position-table-grid" style="height: inherit;">
+                   <div class="screen-view">
+                      <table id="scyCadastroAplicativo_dGrid" data-bind="css: { IsEditableStyle: $root.CadastroAplicativo().enabledForEditing }" />
+                   </div>
+               </div>
+
+           </div>
+
+
+                        </div>
+                    </section>
+                </div>
+            </figure>
+        </div>
+    </section>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
