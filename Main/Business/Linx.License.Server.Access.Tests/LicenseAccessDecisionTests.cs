@@ -1,3 +1,4 @@
+using System;
 using Linx.Framework.BV.LicenseServer;
 using Xunit;
 
@@ -203,12 +204,57 @@ namespace Linx.License.Server.Access.Tests
             });
             Assert.Equal("CUSTOMER_FINANCIAL_BLOCK", financial.ReasonCode);
             Assert.Contains("Bloqueio financeiro.", financial.Message);
+            Assert.True(financial.CanUnblockByTrust);
 
             LicenseAccessResult contract = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
             {
                 Licenca = new LicenseInfo { LxStatusChave = 4, OrigemBloqueio = "C" }
             });
             Assert.Equal("CUSTOMER_LICENSE_DISCONTINUED", contract.ReasonCode);
+            Assert.False(contract.CanUnblockByTrust);
+        }
+
+        [Fact]
+        public void Omni_Validate_quota_wins_over_financial_origin()
+        {
+            LicenseAccessResult result = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo
+                {
+                    LxStatusChave = 4,
+                    OrigemBloqueio = "F",
+                    QuantidadeContratada = 5,
+                    QuantidadeEmUso = 5
+                }
+            });
+            Assert.Equal("USAGE_KEY_UNAUTHORIZED", result.ReasonCode);
+            Assert.False(result.CanUnblockByTrust);
+        }
+
+        [Fact]
+        public void Omni_Validate_active_key_cannot_unblock_by_trust()
+        {
+            LicenseAccessResult result = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo { LxStatusChave = 1 }
+            });
+            Assert.True(result.Allowed);
+            Assert.False(result.CanUnblockByTrust);
+        }
+
+        [Fact]
+        public void Builds_BillingRuler_unblock_url_with_digit_cnpj()
+        {
+            Assert.Equal(
+                "api/v1/BillingRuler/v2/desbloqueio/cnpj/00073196000144",
+                LicenseServerSettings.BuildUnblockByTrustRelativeUrl("00.073.196/0001-44"));
+        }
+
+        [Fact]
+        public void Rejects_empty_cnpj_for_unblock_url()
+        {
+            Assert.Throws<ArgumentException>(() => LicenseServerSettings.BuildUnblockByTrustRelativeUrl(""));
+            Assert.Throws<ArgumentException>(() => LicenseServerSettings.BuildUnblockByTrustRelativeUrl("...///---"));
         }
 
         [Fact]
@@ -219,6 +265,7 @@ namespace Linx.License.Server.Access.Tests
                 Licenca = new LicenseInfo { LxStatusChave = 3 }
             });
             Assert.Equal("USAGE_KEY_REVOKED", result.ReasonCode);
+            Assert.False(result.CanUnblockByTrust);
         }
 
         [Fact]

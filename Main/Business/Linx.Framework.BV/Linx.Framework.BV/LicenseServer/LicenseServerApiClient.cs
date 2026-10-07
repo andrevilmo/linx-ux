@@ -33,6 +33,39 @@ namespace Linx.Framework.BV.LicenseServer
             return Send<LicenseValidationRequest, LicenseInfo>("api/v1/Licensing/Revoke", request);
         }
 
+        /// <summary>
+        /// Omni desbloqueio em confiança: POST BillingRuler/v2/desbloqueio/cnpj/{digits}, empty body.
+        /// 200 Succeeded, 400 Denied, other Failed. Does not send user credentials.
+        /// </summary>
+        public TrustUnblockResult UnblockByTrust(string cnpj)
+        {
+            string relativeUrl = LicenseServerSettings.BuildUnblockByTrustRelativeUrl(cnpj);
+            var response = ExecuteAuthorizedEmpty(relativeUrl, false);
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                response = ExecuteAuthorizedEmpty(relativeUrl, true);
+
+            if (response.ErrorException != null)
+                return TrustUnblockResult.Create(TrustUnblockOutcome.Failed, "Falha ao chamar o License Server. " + response.ErrorException.Message);
+
+            int status = (int)response.StatusCode;
+            if (status >= 200 && status < 300)
+                return TrustUnblockResult.Create(TrustUnblockOutcome.Succeeded, null);
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                string denied = string.IsNullOrWhiteSpace(response.Content)
+                    ? "Desbloqueio em confiança recusado pelo servidor."
+                    : response.Content.Trim();
+                if (denied.Length > 400)
+                    denied = denied.Substring(0, 400);
+                return TrustUnblockResult.Create(TrustUnblockOutcome.Denied, denied);
+            }
+
+            return TrustUnblockResult.Create(
+                TrustUnblockOutcome.Failed,
+                "License Server retornou HTTP " + status + "." + FormatBody(response.Content));
+        }
+
         internal static void ResetTokenCacheForTests()
         {
             lock (TokenSync)
@@ -121,6 +154,15 @@ namespace Linx.Framework.BV.LicenseServer
             var restRequest = new RestRequest(relativeUrl, Method.POST);
             restRequest.AddHeader("Authorization", "Bearer " + token);
             AddJsonBody(restRequest, payload);
+            return client.Execute(restRequest);
+        }
+
+        private IRestResponse ExecuteAuthorizedEmpty(string relativeUrl, bool forceRefresh)
+        {
+            var token = GetToken(forceRefresh);
+            var client = new RestClient(_settings.BaseUrl);
+            var restRequest = new RestRequest(relativeUrl, Method.POST);
+            restRequest.AddHeader("Authorization", "Bearer " + token);
             return client.Execute(restRequest);
         }
 

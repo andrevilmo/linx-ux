@@ -17,7 +17,7 @@ namespace Linx.Framework.BV.LicenseServer
         {
             LicenseAccessResult decision = LicenseAccessDecision.EvaluateValidation(result);
             if (!decision.Allowed)
-                throw new LicenseException(decision.Message);
+                throw new LicenseException(decision.Message, decision.CanUnblockByTrust, decision.ReasonCode);
         }
 
         public static void EnsureUsageKeyAccess(LicenseUsageSnapshot snapshot)

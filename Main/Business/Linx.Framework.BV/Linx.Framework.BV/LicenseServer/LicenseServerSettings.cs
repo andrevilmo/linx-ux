@@ -77,6 +77,18 @@ namespace Linx.Framework.BV.LicenseServer
             return true;
         }
 
+        public static string BuildUnblockByTrustRelativeUrl(string cnpj)
+        {
+            if (string.IsNullOrWhiteSpace(cnpj))
+                throw new ArgumentException("CNPJ não pode ser vazio.", "cnpj");
+
+            var sanitized = SanitizeCnpj(cnpj);
+            if (string.IsNullOrEmpty(sanitized))
+                throw new ArgumentException("CNPJ não contém dígitos válidos.", "cnpj");
+
+            return "api/v1/BillingRuler/v2/desbloqueio/cnpj/" + Uri.EscapeDataString(sanitized);
+        }
+
         public static string SanitizeCnpj(string cnpj)
         {
             if (string.IsNullOrEmpty(cnpj))
