@@ -967,7 +967,7 @@ namespace Linx.Framework.BV.Autorizacao
                 {
                     string trusted = ConfigurationManager.AppSettings["AuthAccess.UnblockByTrustUser"];
                     if (string.IsNullOrWhiteSpace(trusted))
-                        trusted = "ANDREVILMO";
+                        trusted = "ADMINCPFEMINA";
                     unlockedBy = trusted;
                 }
             }
