@@ -246,7 +246,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         [Route("UnlockMembershipUser"), System.Web.Http.HttpGet()]
         public bool UnlockMembershipUser(string userName)
         {
-            AutorizacaoDomainService context = new AutorizacaoDomainService();
+            AutorizacaoDomainService context = new AutorizacaoDomainService(ServiceHelper.GetHttpHeaders());
             return context.UnlockMembershipUser(userName);
         }
 

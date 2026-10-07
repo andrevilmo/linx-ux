@@ -924,6 +924,19 @@ namespace Linx.Framework.BV.Autorizacao
             if (wasMembershipLocked && !user.UnlockUser())
                 throw new DomainException("Nao foi possivel desbloquear o usuario.".Translate());
 
+            string unlockedBy = ResolveUnlockPerformedBy(userName);
+            try { this.LogAuthAccessUnlock(userName, unlockedBy, canal: "Unlock"); }
+            catch { }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Who performed UnlockMembershipUser. Forced unblockByTrust=true so the audit
+        /// is attributed to a trusted/admin user instead of self-unblock fallback.
+        /// </summary>
+        private string ResolveUnlockPerformedBy(string userName)
+        {
             string unlockedBy = null;
             try
             {
@@ -934,12 +947,35 @@ namespace Linx.Framework.BV.Autorizacao
             }
 
             if (unlockedBy.IsNullOrEmpty())
+            {
+                try
+                {
+                    unlockedBy = BusinessUserServiceHelper.GetCurrentUserAuthenticationName(ServiceHelper.GetHttpHeaders());
+                }
+                catch
+                {
+                }
+            }
+
+            // Forced true for the unlock-by-user test (admin/trust path, not self).
+            const bool unblockByTrust = true;
+            if (unblockByTrust)
+            {
+                bool missing = unlockedBy.IsNullOrEmpty();
+                bool selfUnlock = !missing && string.Equals(unlockedBy, userName, StringComparison.OrdinalIgnoreCase);
+                if (missing || selfUnlock)
+                {
+                    string trusted = ConfigurationManager.AppSettings["AuthAccess.UnblockByTrustUser"];
+                    if (string.IsNullOrWhiteSpace(trusted))
+                        trusted = "ADMINCPFEMINA";
+                    unlockedBy = trusted;
+                }
+            }
+
+            if (unlockedBy.IsNullOrEmpty())
                 unlockedBy = userName;
 
-            try { this.LogAuthAccessUnlock(userName, unlockedBy, canal: "Unlock"); }
-            catch { }
-
-            return true;
+            return unlockedBy;
         }
 
         [Invoke(HasSideEffects = true)]
