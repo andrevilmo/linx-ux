@@ -13,6 +13,7 @@ using System.Web.Http;
 
 
 using Linx.Framework.BV.Autorizacao;
+using Linx.Framework.BV.LicenseServer;
 using Linx.Data;
 using System.Web;
 using System.Web.Security;
@@ -248,6 +249,12 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         {
             AutorizacaoDomainService context = new AutorizacaoDomainService();
             return context.UnlockMembershipUser(userName);
+        }
+
+        [Route("UnblockLicenseByTrust"), System.Web.Http.HttpGet()]
+        public TrustUnblockResult UnblockLicenseByTrust(string userName, string password)
+        {
+            return new AutorizacaoDomainService().UnblockLicenseByTrust(userName, password);
         }
 
         [Route("GetMfaStatus"), System.Web.Http.HttpGet()]

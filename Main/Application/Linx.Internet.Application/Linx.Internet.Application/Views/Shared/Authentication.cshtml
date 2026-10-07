@@ -1,10 +1,64 @@
 ﻿@{
     ViewBag.Title = "Authentication";
-    Layout = "~/Views/Shared/_LayoutClean.cshtml";    
+    Layout = "~/Views/Shared/_LayoutClean.cshtml";
+    var canUnblockByTrust = ViewBag.CanUnblockByTrust as bool? ?? false;
+    var managerUserName = ViewBag.ManagerUserName as string ?? User.Identity.Name;
 }
 <div style="margin-left:20px">
     <h2>@Html.Raw(ViewBag.Mensagem)</h2>
 
+    @if (canUnblockByTrust)
+    {
+        <div id="licenseUnblock" style="max-width:420px; margin-top:24px; padding:20px; border:1px solid #ddd; background:#fff;">
+            <h3 style="margin-top:0; color:#5B2E90;">Desbloquear este terminal</h3>
+            <p>Confirme suas credenciais para liberar temporariamente o uso da aplicação. A liberação será válida somente para este terminal e ficará disponível por um período limitado.</p>
+            <p id="licenseUnblockError" style="color:#c0392b; display:none;"></p>
+            <label style="display:block; margin:8px 0;">usuário
+                <input type="text" id="unblockUserName" autocomplete="off" value="@managerUserName" style="width:100%;" />
+            </label>
+            <label style="display:block; margin:8px 0;">senha
+                <input type="password" id="unblockPassword" autocomplete="off" style="width:100%;" />
+            </label>
+            <div style="margin-top:12px;">
+                <button type="button" id="btnUnblockLicense" style="background:#5B2E90; color:#fff; border:0; padding:8px 16px; cursor:pointer;">desbloquear</button>
+            </div>
+        </div>
+        <script type="text/javascript">
+            (function () {
+                var btn = document.getElementById('btnUnblockLicense');
+                var err = document.getElementById('licenseUnblockError');
+                function showError(text) {
+                    err.textContent = text || '';
+                    err.style.display = text ? '' : 'none';
+                }
+                btn.addEventListener('click', function () {
+                    var user = (document.getElementById('unblockUserName').value || '').replace(/^\s+|\s+$/g, '');
+                    var password = document.getElementById('unblockPassword').value || '';
+                    if (!user || !password) {
+                        showError('Informe o usuário e a senha.');
+                        return;
+                    }
+                    btn.disabled = true;
+                    showError('Processando...');
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '@Url.Content("~/UnblockLicenseByTrust")', true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) return;
+                        var res = null;
+                        try { res = JSON.parse(xhr.responseText); } catch (e) { }
+                        if (xhr.status === 200 && res && res.success) {
+                            window.location.reload();
+                            return;
+                        }
+                        btn.disabled = false;
+                        showError((res && res.message) ? res.message : 'Não foi possível desbloquear a licença.');
+                    };
+                    xhr.send('userName=' + encodeURIComponent(user) + '&password=' + encodeURIComponent(password));
+                });
+            })();
+        </script>
+    }
+
     <a href="@this.ViewData["_loginUrl"]">Portal (Login)</a>
 </div>
-
