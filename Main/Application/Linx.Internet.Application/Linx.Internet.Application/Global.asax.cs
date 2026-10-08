@@ -1,4 +1,4 @@
-﻿﻿using StackExchange.Profiling;
+﻿using StackExchange.Profiling;
 using StackExchange.Profiling.EntityFramework6;
 using StackExchange.Profiling.Storage;
 using System;
@@ -13,6 +13,7 @@ namespace Linx.Internet.Application
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
+    // AWS IIS full publish of feature/implementacao-completa-ss-mfa-5-10-2026
 
     public class MvcApplication : System.Web.HttpApplication
     {
