@@ -194,6 +194,7 @@ namespace Linx.Internet.Application.Controllers
 
                 if (retorno.Length > 0)
                 {
+                    this.ViewData["_loginUrl"] = (this.Session["loginUrl"] == null ? ConfigurationManager.AppSettings.GetValue<string>("Portal", "http://localhost:8172/") : this.Session["loginUrl"].ToString());
                     ViewBag.Mensagem = retorno;
                     return View("Authentication");
                 }
@@ -596,7 +597,7 @@ namespace Linx.Internet.Application.Controllers
                 {
                     canUnblockByTrust = OffersUnblockByTrust(response.Content);
                     string licenseError = StripCanUnblockMarker(ExtractError(response.Content));
-                    retorno = string.Concat("<b>Falha na Validação do Controle de Licenças.<BR><BR>", licenseError, "</b>");
+                    retorno = "Falha na Validação do Controle de Licenças.<br /><br />" + HttpUtility.HtmlEncode(licenseError);
                 }
                 else
                     retorno = string.Concat("Retorno inválido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
