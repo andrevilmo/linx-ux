@@ -5,11 +5,17 @@
     var managerUserName = ViewBag.ManagerUserName as string ?? (User.Identity.IsAuthenticated ? User.Identity.Name : "");
     var portal = ViewData["_loginUrl"] as string;
     if (string.IsNullOrEmpty(portal) && Session != null)
+    {
         portal = Session["loginUrl"] as string;
+    }
     if (string.IsNullOrEmpty(portal))
+    {
         portal = "http://localhost:8172/";
+    }
     if (!portal.EndsWith("/"))
+    {
         portal = portal + "/";
+    }
     var portalLogin = portal + "Account/Login";
 }
 <!DOCTYPE html>
