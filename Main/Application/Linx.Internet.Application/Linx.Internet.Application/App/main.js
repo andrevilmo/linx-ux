@@ -142,6 +142,9 @@ define(['jquery', 'knockout', 'durandal/system', 'durandal/app', 'durandal/viewL
                 modalChangePassword.performLogoffForPasswordChange().then(function () {
                     managerAuth.passwordChangeOnlyMode = true;
                     app.setRoot('viewmodels/shell', 'entrance');
+                }).fail(function () {
+                    // Soft logoff failed: leave the blank shell and restart login.
+                    modalChangePassword.redirectToLogin();
                 });
             });
         }
