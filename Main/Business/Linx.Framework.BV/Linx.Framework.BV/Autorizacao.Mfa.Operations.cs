@@ -85,6 +85,9 @@ namespace Linx.Framework.BV.Autorizacao
         private const int MfaTotpMaxAttempts = 5;
         private const int MfaLockMinutes = 15;
         private const int MfaTicketMinutes = 10;
+        private const int MfaTotpWindowStepsDefault = 2;
+        private const int MfaTotpWindowStepsMin = 0;
+        private const int MfaTotpWindowStepsMax = 10;
         private static bool _mfaTablesEnsured;
         private static bool _mfaTablesEnsureAttempted;
 
@@ -570,7 +573,7 @@ WHERE TABLE_ORIGIN = @o AND ID_GPCON = @g AND ID_USER_MFA = @u";
                 return new MfaValidateResult { Success = false, Message = "Cadastre o autenticador (QR Code) antes de validar." };
 
             string secret = DecryptMfaSecret(encrypted);
-            bool ok = MfaTotp.Verify(secret, code, 2);
+            bool ok = MfaTotp.Verify(secret, code, ResolveMfaTotpWindowSteps());
             if (!ok)
             {
                 attempts++;
@@ -610,6 +613,23 @@ WHERE TABLE_ORIGIN = @o AND ID_GPCON = @g AND ID_USER_MFA = @u",
                 enrollConfirm ? "Confirmação de cadastro MFA" : "TOTP MFA válido",
                 canal, status.IdUserMfa, status.IdGpecon);
             return IssueTicket(status, enrollConfirm ? "ENROLL_OK" : "OK");
+        }
+
+        /// <summary>
+        /// TOTP skew window in 30s steps (±N). Service appSetting MfaTotpWindowSteps (default 2 ≈ 90s).
+        /// </summary>
+        private static int ResolveMfaTotpWindowSteps()
+        {
+            int value;
+            if (int.TryParse(ConfigurationManager.AppSettings["MfaTotpWindowSteps"], out value))
+            {
+                if (value < MfaTotpWindowStepsMin)
+                    return MfaTotpWindowStepsMin;
+                if (value > MfaTotpWindowStepsMax)
+                    return MfaTotpWindowStepsMax;
+                return value;
+            }
+            return MfaTotpWindowStepsDefault;
         }
 
         private MfaValidateResult IssueTicket(MfaStatusResult status, string reason)
