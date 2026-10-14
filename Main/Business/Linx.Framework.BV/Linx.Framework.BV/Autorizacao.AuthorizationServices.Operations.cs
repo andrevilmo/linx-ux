@@ -505,6 +505,79 @@ namespace Linx.Framework.BV.Autorizacao
             return true;
         }
 
+        /// <summary>
+        /// Generates a complexity-compliant random password, sets it on Membership,
+        /// expires it for next login, and emails it. Does not affect the reset-link flow.
+        /// </summary>
+        [Invoke(HasSideEffects = true)]
+        public bool SendRandomUserPassword(string userName, Guid? uidUsuario)
+        {
+            UsuarioAutorizacao.UsuarioAutorizacaoDomainService ds = new UsuarioAutorizacaoDomainService();
+            TcsUsuarioAutenticacao usuario = null;
+
+            if (!string.IsNullOrWhiteSpace(userName))
+            {
+                usuario = ds.GetTcsUsuarioAutenticacaoNoAssociations()
+                    .Where(i => i.NomeAutenticacao == userName)
+                    .FirstOrDefault();
+            }
+            else if (uidUsuario.HasValue && uidUsuario.Value != Guid.Empty)
+            {
+                usuario = ds.GetTcsUsuarioAutenticacaoNoAssociations()
+                    .Where(i => i.UidUsuario == uidUsuario.Value)
+                    .FirstOrDefault();
+            }
+
+            if (usuario.IsNullOrEmpty())
+            {
+                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+            }
+
+            if (usuario.AutenticacaoWindows)
+            {
+                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserHasWindowsAuthentication.Code, ErrorConstants._UserHasWindowsAuthentication.Message));
+            }
+
+            if (!ComplexPasswordGenerator.IsValidEmail(usuario.Email))
+            {
+                throw new DomainException("E-mail do usuario invalido ou nao informado.");
+            }
+
+            MembershipUser user = Membership.GetUser(usuario.NomeAutenticacao);
+            if (user.IsNullOrEmpty())
+            {
+                throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
+            }
+
+            string password = ComplexPasswordGenerator.Generate();
+
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                bool passwordChanged = user.ChangePassword(user.ResetPassword("Dog"), password);
+                if (!passwordChanged)
+                {
+                    throw new DomainException(String.Format("{0} - {1}", ErrorConstants._ChangePasswordError.Code, ErrorConstants._ChangePasswordError.Message));
+                }
+
+                TcsUsuarioAutenticacao usuarioOld = new TcsUsuarioAutenticacao();
+                usuarioOld.CopyInstanceFrom(usuario);
+
+                usuario.DataExpiracaoSenha = DateTime.Now.Date;
+                ds.AddCustomChanges(usuario, usuarioOld, ChangeOperation.Update);
+                ds.SaveCustomChanges();
+
+                Linx.Tools.LinxMail.Send(
+                    usuario.Email.Trim(),
+                    "Geracao automatica de senha de usuario.".Translate(),
+                    true,
+                    AutorizacaoDomainService.EmailBody(usuario.NomeUsuario, usuario.NomeAutenticacao, password));
+
+                transaction.Complete();
+            }
+
+            return true;
+        }
+
         [Invoke(HasSideEffects = false)]
         public bool RecoverUserPasswordJson(string userName)
         {
