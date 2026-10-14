@@ -61,7 +61,8 @@ var vmConstructor = function () {
 	 {Name: "CadastroUsuario_ckUtilizaSso", DisplayName: "Utiliza SSO", ColumnSpan: 3, Visible: true, Key: "IndicaUtilizaSso"},
 	 {Name: "CadastroUsuario_ckUtilizaMfa", DisplayName: "Utiliza MFA", ColumnSpan: 3, Visible: true, Key: "IndicaUtilizaMfa"},
 	 {Name: "CadastroUsuario_btnRevogaMfa", DisplayName: "Revoga MFA", ColumnSpan: 3, Visible: true, Key: ""},
-	 {Name: "CadastroUsuario_btnRevogaSso", DisplayName: "Revoga SSO", ColumnSpan: 3, Visible: true, Key: ""},]},
+	 {Name: "CadastroUsuario_btnRevogaSso", DisplayName: "Revoga SSO", ColumnSpan: 3, Visible: true, Key: ""},
+	 {Name: "CadastroUsuario_btnEnviarSenhaAleatoria", DisplayName: "Enviar senha aleatória", ColumnSpan: 3, Visible: true, Key: ""},]},
 	 {Name: "CadastroUsuario_gbgroupCopiaUsuario", DisplayName: "Cópia de usuário", ColumnSpan: 12, Visible: false, Items: [
 	 {Name: "CadastroUsuario_lUpNomeUsuarioCopia", DisplayName: "Usuário Cópia", ColumnSpan: 9, Visible: false, LookUpName: "LookUpTcsUsuario", Key: "NomeUsuarioCopia"},
 	 {Name: "CadastroUsuario_btnCustomControl4148737", DisplayName: "Cópia", ColumnSpan: 2, Visible: false, Key: ""},]},]},
@@ -2419,6 +2420,88 @@ if(control.length){
         }
     };
 
+
+    var isValidUserEmail = function (email) {
+        if (isNullOrEmpty(email))
+            return false;
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).trim());
+    };
+    var canSendRandomPassword = ko.computed(function () {
+        try {
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+                return false;
+            if (item.isAdded && item.isAdded())
+                return false;
+            if (typeof item.AutenticacaoWindows !== 'undefined' && getAbsoluteValue(item.AutenticacaoWindows))
+                return false;
+            return isValidUserEmail(getAbsoluteValue(item.Email));
+        }
+        catch (e) {
+            return false;
+        }
+    });
+    var sendRandomPassword = function () {
+        try {
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item)) {
+                app.showMessage('Selecione um usuário para enviar a senha aleatória.', 'Atenção', ['Ok']);
+                return;
+            }
+            if (!canSendRandomPassword()) {
+                app.showMessage('Informe um e-mail válido para enviar a senha aleatória.', 'Atenção', ['Ok']);
+                return;
+            }
+            var uid = getMfaUid(item);
+            var loginName = (typeof item.NomeAutenticacao !== 'undefined') ? getAbsoluteValue(item.NomeAutenticacao) : null;
+            if (isNullOrEmpty(uid) && isNullOrEmpty(loginName)) {
+                app.showMessage('Usuário sem identificador para envio de senha.', 'Atenção', ['Ok']);
+                return;
+            }
+            app.showMessage(
+                'Gerar e enviar uma senha aleatória por e-mail para este usuário? A senha atual será substituída e expirará no próximo acesso.',
+                'Enviar senha aleatória',
+                ['Yes', 'No']
+            ).then(function (answer) {
+                if (answer !== 'Yes')
+                    return;
+                dataToolbar.isBusy(true);
+                var data = {};
+                if (!isNullOrEmpty(loginName))
+                    data.userName = loginName;
+                if (!isNullOrEmpty(uid))
+                    data.uidUsuario = uid;
+                $.ajax({
+                    type: 'GET',
+                    messageUser: 'Envio de senha aleatória',
+                    headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                    url: mfaServiceUrl('SendRandomUserPassword'),
+                    data: data,
+                    dataType: 'json',
+                    async: true,
+                    cache: false,
+                    error: function (jqXHR) {
+                        dataToolbar.isBusy(false);
+                        var errorMessage = (jqXHR.responseJSON && (jqXHR.responseJSON.ExceptionMessage || jqXHR.responseJSON.Message)) || jqXHR.statusText || 'Erro ao enviar senha aleatória.';
+                        app.showMessage(errorMessage, 'Atenção', ['Ok']);
+                    },
+                    success: function (result) {
+                        dataToolbar.isBusy(false);
+                        if (result === false) {
+                            app.showMessage('Não foi possível enviar a senha aleatória.', 'Atenção', ['Ok']);
+                            return;
+                        }
+                        app.showMessage('Senha aleatória enviada para o e-mail do usuário.', 'Informação', ['Ok']);
+                    }
+                });
+            });
+        }
+        catch (e) {
+            dataToolbar.isBusy(false);
+            app.showMessage(e.message || e, 'Atenção', ['Ok']);
+        }
+    };
+
     var dataToolbar = {
             isBusy: isBusy,
             currentRecordInfo: currentRecordInfo,
@@ -2448,6 +2531,8 @@ if(control.length){
             revokeMfa: revokeMfa,
             canRevokeSso: canRevokeSso,
             revokeSso: revokeSso,
+            canSendRandomPassword: canSendRandomPassword,
+            sendRandomPassword: sendRandomPassword,
             goFirst: goFirst,
             goBack: goBack,
             goForward: goForward,
@@ -2522,6 +2607,8 @@ if(control.length){
             canRevokeMfa: canRevokeMfa,
             revokeSso: revokeSso,
             canRevokeSso: canRevokeSso,
+            sendRandomPassword: sendRandomPassword,
+            canSendRandomPassword: canSendRandomPassword,
             dataToolbar: dataToolbar,
             getDataContext: function() { return dataContext; },
             getParentSelectorDataName: getParentSelectorDataName,
