@@ -40,14 +40,16 @@ namespace Linx.TCS0101.BO.TcsAutorizacao
             {
                 //Asp Net Security
                 MembershipCreateStatus createStatus;
-                string password = this.CriaUsuario ? Membership.GeneratePassword(new Random().Next(10, 30), 5) : this.ConfirmacaoUsuario;
+                if (this.CriaUsuario && !Linx.Framework.BV.Autorizacao.ComplexPasswordGenerator.IsValidEmail(this.Email))
+                    throw new DomainException("E-mail do usuario invalido ou nao informado para envio da senha.");
+                string password = this.CriaUsuario ? Linx.Framework.BV.Autorizacao.ComplexPasswordGenerator.Generate() : this.ConfirmacaoUsuario;
                 MembershipUser newUser = Membership.CreateUser(this.NomeAutenticacao, password, this.Email, SecurityQuestions.PetNameQuestion, "Dog", true, out createStatus);
                 if (createStatus != MembershipCreateStatus.Success)
                     throw new DomainException(ErrorCodeToString(createStatus));
 
                 //E-mail
                 if (this.CriaUsuario)
-                    Linx.Tools.LinxMail.Send(this.Email, "Geração automática de senha de usuário.".Translate(), true,  TcsAutorizacaoDomainService.EmailBody(this.NomeUsuario, this.NomeAutenticacao, password));
+                    Linx.Tools.LinxMail.Send(this.Email.Trim(), "Geracao automatica de senha de usuario.".Translate(), true,  TcsAutorizacaoDomainService.EmailBody(this.NomeUsuario, this.NomeAutenticacao, password));
             }
             catch (Exception oException)
             {
