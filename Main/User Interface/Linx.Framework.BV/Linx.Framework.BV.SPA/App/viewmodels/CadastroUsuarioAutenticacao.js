@@ -65,6 +65,7 @@ var vmConstructor = function () {
 	 {Name: "CadastroUsuarioAutenticacao_lUpNomeEmpresa", DisplayName: "Empresa / Grupo Econômico", ColumnSpan: 12, Visible: true, LookUpName: "LookUpTcsUsuarioEmpresaAutenticacao", Key: "NomeEmpresa"},
 	 {Name: "CadastroUsuarioAutenticacao_ckAutenticacaoWindows", DisplayName: "Utiliza Autenticação Windows", ColumnSpan: 6, Visible: true, Key: "AutenticacaoWindows"},
 	 {Name: "CadastroUsuarioAutenticacao_ckIndicaAcessoSuporte", DisplayName: "Permite Acesso de Suporte", ColumnSpan: 6, Visible: true, Key: "IndicaAcessoSuporte"},
+	 // Horizontal flags (Usuario Local parity)
 	 {Name: "CadastroUsuarioAutenticacao_ckInativo", DisplayName: "Inativo", ColumnSpan: 4, Visible: true, Key: "Inativo"},
 	 {Name: "CadastroUsuarioAutenticacao_ckIndicaUsuarioServico", DisplayName: "Usuário de serviço", ColumnSpan: 4, Visible: true, Key: "IndicaUsuarioServico"},
 	 {Name: "CadastroUsuarioAutenticacao_ckBlocked", DisplayName: "Bloqueado", ColumnSpan: 4, Visible: true, Key: "Blocked"},
