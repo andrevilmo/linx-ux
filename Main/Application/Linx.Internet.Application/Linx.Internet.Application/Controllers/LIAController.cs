@@ -82,11 +82,14 @@ namespace Linx.Internet.Application.Controllers
                 else
                 {
                     string retorno;
-                    loginInfo = this.AuthenticateUser(_uidEmpresa, _uidUsuario, _uidAplicacao, _idAmbiente, _usuarioAutenticacao, out retorno);
+                    bool canUnblockByTrust;
+                    loginInfo = this.AuthenticateUser(_uidEmpresa, _uidUsuario, _uidAplicacao, _idAmbiente, _usuarioAutenticacao, out retorno, out canUnblockByTrust);
 
                     if (retorno.Length > 0)
                     {
                         ViewBag.Mensagem = retorno;
+                        ViewBag.CanUnblockByTrust = canUnblockByTrust;
+                        ViewBag.ManagerUserName = _usuarioAutenticacao ?? User.Identity.Name;
                         return View();
                     }
                 }
@@ -175,6 +178,7 @@ namespace Linx.Internet.Application.Controllers
 
                 if (retorno.Length > 0)
                 {
+                    this.ViewData["_loginUrl"] = (this.Session["loginUrl"] == null ? ConfigurationManager.AppSettings.GetValue<string>("Portal", "http://localhost:8172/") : this.Session["loginUrl"].ToString());
                     ViewBag.Mensagem = retorno;
                     return View("Authentication");
                 }
@@ -492,9 +496,56 @@ namespace Linx.Internet.Application.Controllers
             return Json(new { success = false, message = ExtractError(response.Content) });
         }
 
-        private LoginInfo AuthenticateUser(string uidEmpresa, string uidUsuario, string uidAplicacao, string idAmbiente, string usuarioAutenticacao, out string retorno)
+        [NoCache]
+        [POST("UnblockLicenseByTrust")]
+        public ActionResult UnblockLicenseByTrust(string userName)
+        {
+            if (string.IsNullOrEmpty(userName))
+                userName = User.Identity.IsAuthenticated ? User.Identity.Name : null;
+
+            if (string.IsNullOrEmpty(userName))
+                return Json(new { success = false, outcome = 1, message = "Informe o usuário." });
+
+            var _serviceBus = ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
+            var client = new RestClient(_serviceBus);
+            var request = new RestRequest("LinxFrameworkAutorizacao/UnblockLicenseByTrust");
+            request.AddParameter("userName", userName, ParameterType.QueryString);
+
+            var response = client.ExecuteAsGet(request, "GET");
+            if (response.ErrorException != null)
+                return Json(new { success = false, outcome = 2, message = response.ErrorException.Message });
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                return Json(new { success = false, outcome = 2, message = ExtractError(response.Content) });
+
+            var result = JsonConvert.DeserializeObject<TrustUnblockDto>(response.Content ?? string.Empty);
+            if (result == null)
+                return Json(new { success = false, outcome = 2, message = "Resposta inválida do desbloqueio em confiança." });
+
+            string details = StripCanUnblockMarker(result.Details);
+            if (result.Outcome == 0)
+                return Json(new { success = true, outcome = 0, message = "Desbloqueio em confiança aceito." });
+
+            if (string.IsNullOrWhiteSpace(details))
+            {
+                details = result.Outcome == 1
+                    ? "Desbloqueio em confiança recusado pelo servidor."
+                    : "Falha ao solicitar desbloqueio em confiança.";
+            }
+
+            return Json(new { success = false, outcome = result.Outcome, message = details });
+        }
+
+        private class TrustUnblockDto
+        {
+            public int Outcome { get; set; }
+            public string Details { get; set; }
+        }
+
+        private LoginInfo AuthenticateUser(string uidEmpresa, string uidUsuario, string uidAplicacao, string idAmbiente, string usuarioAutenticacao, out string retorno, out bool canUnblockByTrust)
         {
             retorno = string.Empty;
+            canUnblockByTrust = false;
             LoginInfo loginInfo = new LoginInfo();
 
             var _serviceBus = System.Configuration.ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
@@ -532,12 +583,27 @@ namespace Linx.Internet.Application.Controllers
             {
                 if (response.Content.Contains("Linx.Framework.BV.LicenseException"))
                 {
-                    retorno = string.Concat("<b>Falha na Valida��o do Controle de Licen�as.<BR><BR>", ExtractError(response.Content), "</b>");
+                    canUnblockByTrust = OffersUnblockByTrust(response.Content);
+                    string licenseError = StripCanUnblockMarker(ExtractError(response.Content));
+                    retorno = "Falha na Validação do Controle de Licenças.<br /><br />" + HttpUtility.HtmlEncode(licenseError);
                 }
                 else
-                    retorno = string.Concat("Retorno inv�lido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
+                    retorno = string.Concat("Retorno inválido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
             }
             return loginInfo;
+        }
+
+        private static bool OffersUnblockByTrust(string content)
+        {
+            return !string.IsNullOrEmpty(content)
+                && content.IndexOf("canUnblockByTrust=true", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private static string StripCanUnblockMarker(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+            return text.Replace("[canUnblockByTrust=true]", string.Empty).Trim();
         }
 
         private string ExtractError(string content)
