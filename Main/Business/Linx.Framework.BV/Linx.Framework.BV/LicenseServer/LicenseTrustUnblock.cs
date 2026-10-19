@@ -1,8 +1,9 @@
 namespace Linx.Framework.BV.LicenseServer
 {
     /// <summary>
-    /// Trust-unblock helpers. LS_CheckAllowUnblock and LS_GetCNP are dummy
-    /// implementations for now and will be replaced with profile/GPECON lookups.
+    /// Trust-unblock helpers used by Application/Service IIS publish.
+    /// LS_CheckAllowUnblock and LS_GetCNP are dummy implementations for now
+    /// and will be replaced with profile/GPECON lookups.
     /// </summary>
     public static class LicenseTrustUnblock
     {
