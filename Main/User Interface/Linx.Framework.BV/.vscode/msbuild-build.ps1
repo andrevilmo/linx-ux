@@ -15,6 +15,16 @@ if (-not $msbuild) {
     Write-Error 'MSBuild not found. Install the MSBuild workload (e.g. .NET desktop build tools).'
     exit 1
 }
+$bvProj = Join-Path (Get-Location) '..\..\Business\Linx.Framework.BV\Linx.Framework.BV\Linx.Framework.BV.csproj'
+if (Test-Path $bvProj) {
+    Write-Host 'Building Linx.Framework.BV first (Binary dependency for WebAPI.DS)...'
+    & $msbuild $bvProj /p:Configuration=Release /v:minimal /nologo
+    if ($LASTEXITCODE -ne 0) {
+        exit $LASTEXITCODE
+    }
+}
+
+# /m enables parallel project build (was /m:1 — serialized on the small CI host).
 & $msbuild $sln /p:Configuration=Release /m /v:minimal /nologo
 if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
