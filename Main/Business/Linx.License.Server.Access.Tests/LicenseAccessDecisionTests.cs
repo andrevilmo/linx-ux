@@ -1,4 +1,7 @@
+using System;
+using Linx.Framework.BV;
 using Linx.Framework.BV.LicenseServer;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Linx.License.Server.Access.Tests
@@ -203,12 +206,98 @@ namespace Linx.License.Server.Access.Tests
             });
             Assert.Equal("CUSTOMER_FINANCIAL_BLOCK", financial.ReasonCode);
             Assert.Contains("Bloqueio financeiro.", financial.Message);
+            Assert.True(financial.CanUnblockByTrust);
 
             LicenseAccessResult contract = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
             {
                 Licenca = new LicenseInfo { LxStatusChave = 4, OrigemBloqueio = "C" }
             });
             Assert.Equal("CUSTOMER_LICENSE_DISCONTINUED", contract.ReasonCode);
+            Assert.False(contract.CanUnblockByTrust);
+        }
+
+        [Fact]
+        public void Omni_Validate_quota_wins_over_financial_origin()
+        {
+            LicenseAccessResult result = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo
+                {
+                    LxStatusChave = 4,
+                    OrigemBloqueio = "F",
+                    QuantidadeContratada = 5,
+                    QuantidadeEmUso = 5
+                }
+            });
+            Assert.Equal("USAGE_KEY_UNAUTHORIZED", result.ReasonCode);
+            Assert.False(result.CanUnblockByTrust);
+        }
+
+        [Fact]
+        public void Omni_Validate_active_key_cannot_unblock_by_trust()
+        {
+            LicenseAccessResult result = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
+            {
+                Licenca = new LicenseInfo { LxStatusChave = 1 }
+            });
+            Assert.True(result.Allowed);
+            Assert.False(result.CanUnblockByTrust);
+        }
+
+        [Fact]
+        public void LS_CheckAllowUnblock_is_dummy_and_always_true()
+        {
+            Assert.True(LicenseTrustUnblock.LS_CheckAllowUnblock("admin.user"));
+            Assert.True(LicenseTrustUnblock.LS_CheckAllowUnblock(""));
+            Assert.True(LicenseTrustUnblock.LS_CheckAllowUnblock(null));
+        }
+
+        [Fact]
+        public void LS_GetCNP_returns_logged_gpecon_cnpj_from_settings()
+        {
+            var settings = new LicenseServerSettings { Cnpj = "00.073.196/0001-44" };
+            Assert.Equal("00073196000144", LicenseTrustUnblock.LS_GetCNP(settings));
+            Assert.Equal(string.Empty, LicenseTrustUnblock.LS_GetCNP((LicenseServerSettings)null));
+        }
+
+        [Fact]
+        public void Builds_unblock_payload_with_gpecon_cnpj_and_first_screen_user()
+        {
+            TrustUnblockRequest payload = LicenseTrustUnblock.BuildUnblockRequest(
+                LicenseTrustUnblock.LS_GetCNP(new LicenseServerSettings { Cnpj = "00.073.196/0001-44" }),
+                "  ANDREVILMO  ");
+
+            Assert.Equal("00073196000144", payload.Cnpj);
+            Assert.Equal("ANDREVILMO", payload.Usuario);
+
+            string json = JsonConvert.SerializeObject(payload);
+            Assert.Contains("\"cnpj\":\"00073196000144\"", json);
+            Assert.Contains("\"usuario\":\"ANDREVILMO\"", json);
+            Assert.DoesNotContain("password", json, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void Builds_BillingRuler_unblock_url_with_digit_cnpj()
+        {
+            Assert.Equal(
+                "api/v1/BillingRuler/v2/desbloqueio/cnpj/00073196000144",
+                LicenseServerSettings.BuildUnblockByTrustRelativeUrl("00.073.196/0001-44"));
+        }
+
+        [Fact]
+        public void Rejects_empty_cnpj_for_unblock_url()
+        {
+            Assert.Throws<ArgumentException>(() => LicenseServerSettings.BuildUnblockByTrustRelativeUrl(""));
+            Assert.Throws<ArgumentException>(() => LicenseServerSettings.BuildUnblockByTrustRelativeUrl("...///---"));
+        }
+
+        [Fact]
+        public void LicenseException_keeps_can_unblock_marker()
+        {
+            var ex = new LicenseException("Bloqueio financeiro.", true, "CUSTOMER_FINANCIAL_BLOCK");
+            Assert.True(ex.CanUnblockByTrust);
+            Assert.True(LicenseException.MessageOffersUnblockByTrust(ex.Message));
+            Assert.Equal("Bloqueio financeiro.", LicenseException.StripMarker(ex.Message));
         }
 
         [Fact]
@@ -219,6 +308,7 @@ namespace Linx.License.Server.Access.Tests
                 Licenca = new LicenseInfo { LxStatusChave = 3 }
             });
             Assert.Equal("USAGE_KEY_REVOKED", result.ReasonCode);
+            Assert.False(result.CanUnblockByTrust);
         }
 
         [Fact]

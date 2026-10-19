@@ -1,4 +1,5 @@
 using System;
+using Linx.Framework.BV;
 using Linx.Framework.BV.LicenseServer;
 
 namespace Linx.License.Server.Access.Tests
@@ -132,12 +133,25 @@ namespace Linx.License.Server.Access.Tests
             });
             AssertEqual("CUSTOMER_FINANCIAL_BLOCK", financial.ReasonCode, "Omni Validate blocks financial origin");
             AssertContains("Bloqueio financeiro.", financial.Message, "Omni Validate keeps server financial message");
+            AssertTrue(financial.CanUnblockByTrust, "Financial origin can unblock by trust");
 
             LicenseAccessResult contract = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
             {
                 Licenca = new LicenseInfo { LxStatusChave = 4, OrigemBloqueio = "C" }
             });
             AssertEqual("CUSTOMER_LICENSE_DISCONTINUED", contract.ReasonCode, "Omni Validate blocks contract origin");
+            AssertTrue(!contract.CanUnblockByTrust, "Contract origin cannot unblock by trust");
+
+            AssertTrue(LicenseTrustUnblock.LS_CheckAllowUnblock("admin.user"), "LS_CheckAllowUnblock always true");
+            AssertTrue(LicenseTrustUnblock.LS_CheckAllowUnblock(null), "LS_CheckAllowUnblock true for null user");
+            AssertEqual("00073196000144", LicenseTrustUnblock.LS_GetCNP(new LicenseServerSettings { Cnpj = "00.073.196/0001-44" }), "LS_GetCNP returns GPECON CNPJ digits");
+
+            TrustUnblockRequest unblockPayload = LicenseTrustUnblock.BuildUnblockRequest("00.073.196/0001-44", "ANDREVILMO");
+            string unblockJson = Newtonsoft.Json.JsonConvert.SerializeObject(unblockPayload);
+            AssertContains("\"cnpj\":\"00073196000144\"", unblockJson, "Unblock payload serializes CNPJ");
+            AssertContains("\"usuario\":\"ANDREVILMO\"", unblockJson, "Unblock payload serializes first-screen user");
+            AssertTrue(unblockJson.IndexOf("password", StringComparison.OrdinalIgnoreCase) < 0, "Unblock payload has no password");
+            AssertEqual("api/v1/BillingRuler/v2/desbloqueio/cnpj/00073196000144", LicenseServerSettings.BuildUnblockByTrustRelativeUrl("00.073.196/0001-44"), "Builds BillingRuler unblock URL");
 
             LicenseAccessResult revoked = LicenseAccessDecision.EvaluateValidation(new LicenseValidationResult
             {

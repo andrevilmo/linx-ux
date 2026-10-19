@@ -16,5 +16,10 @@ namespace Linx.Framework.BV
             if (LicenseServerBootstrap.IsEnabled)
                 LicenseServerBootstrap.Release(chave, usuario, uidEmpresa);
         }
+
+        public static TrustUnblockResult UnblockByTrust(string usuario)
+        {
+            return LicenseServerBootstrap.TryUnblockByTrust(usuario);
+        }
     }
 }

@@ -33,6 +33,41 @@ namespace Linx.Framework.BV.LicenseServer
             return Send<LicenseValidationRequest, LicenseInfo>("api/v1/Licensing/Revoke", request);
         }
 
+        /// <summary>
+        /// Omni desbloqueio em confiança: POST BillingRuler/v2/desbloqueio/cnpj/{digits}
+        /// with CNPJ of the selected environment GPECON and the first-screen user.
+        /// 200 Succeeded, 400 Denied, other Failed.
+        /// </summary>
+        public TrustUnblockResult UnblockByTrust(string cnpj, string usuario)
+        {
+            string relativeUrl = LicenseServerSettings.BuildUnblockByTrustRelativeUrl(cnpj);
+            TrustUnblockRequest payload = LicenseTrustUnblock.BuildUnblockRequest(cnpj, usuario);
+            var response = ExecuteAuthorized(relativeUrl, payload, false);
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                response = ExecuteAuthorized(relativeUrl, payload, true);
+
+            if (response.ErrorException != null)
+                return TrustUnblockResult.Create(TrustUnblockOutcome.Failed, "Falha ao chamar o License Server. " + response.ErrorException.Message);
+
+            int status = (int)response.StatusCode;
+            if (status >= 200 && status < 300)
+                return TrustUnblockResult.Create(TrustUnblockOutcome.Succeeded, null);
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                string denied = string.IsNullOrWhiteSpace(response.Content)
+                    ? "Desbloqueio em confiança recusado pelo servidor."
+                    : response.Content.Trim();
+                if (denied.Length > 400)
+                    denied = denied.Substring(0, 400);
+                return TrustUnblockResult.Create(TrustUnblockOutcome.Denied, denied);
+            }
+
+            return TrustUnblockResult.Create(
+                TrustUnblockOutcome.Failed,
+                "License Server retornou HTTP " + status + "." + FormatBody(response.Content));
+        }
+
         internal static void ResetTokenCacheForTests()
         {
             lock (TokenSync)

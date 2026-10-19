@@ -2,6 +2,15 @@ using Newtonsoft.Json;
 
 namespace Linx.Framework.BV.LicenseServer
 {
+    public sealed class TrustUnblockRequest
+    {
+        [JsonProperty("cnpj")]
+        public string Cnpj { get; set; }
+
+        [JsonProperty("usuario")]
+        public string Usuario { get; set; }
+    }
+
     public sealed class LicenseValidationRequest
     {
         [JsonProperty("idLicenca")]
