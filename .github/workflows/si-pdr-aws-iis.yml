@@ -443,7 +443,7 @@ jobs:
               $signal = @(
                 $runLines | Where-Object {{
                   $_ -and
-                  ($_ -match '(?i)(error CS|error MSB|: error |script failed|smoke failed|Exception:|failed exit|being used by another process|PIPELINE)') -and
+                  ($_ -match '(?i)(error CS|error MSB|: error |error :|MSBuild not found|Build script not found|script failed|smoke failed|Exception:|failed exit|being used by another process|PIPELINE)') -and
                   ($_ -notmatch '(?i)EventLog |warning CS')
                 }} | Select-Object -Last 40
               )

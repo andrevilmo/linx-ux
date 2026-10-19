@@ -205,12 +205,14 @@ function Invoke-WorkspaceBuild {
     try {
         foreach ($script in $buildScripts) {
             if (-not (Test-Path $script)) {
-                Write-Error "Build script not found: $script"
+                Write-Host "error : Build script not found: $script"
+                exit 1
             }
 
             Write-Host "Building via $script"
             & $script
             if ($LASTEXITCODE -ne 0) {
+                Write-Host ("error : build script failed exit={0}: {1}" -f $LASTEXITCODE, $script)
                 exit $LASTEXITCODE
             }
         }
