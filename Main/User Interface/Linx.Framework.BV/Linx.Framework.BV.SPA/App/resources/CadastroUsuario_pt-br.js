@@ -13,7 +13,8 @@ var objectLanguage = function () {
 	 {Name: 'CadastroUsuario_ckUtilizaSso', DisplayName: 'Utiliza SSO', ColumnSpan: 3, Visible: true},
 	 {Name: 'CadastroUsuario_ckUtilizaMfa', DisplayName: 'Utiliza MFA', ColumnSpan: 3, Visible: true},
 	 {Name: 'CadastroUsuario_btnRevogaMfa', DisplayName: 'Revoga MFA', ColumnSpan: 3, Visible: true},
-	 {Name: 'CadastroUsuario_btnRevogaSso', DisplayName: 'Revoga SSO', ColumnSpan: 3, Visible: true},]},
+	 {Name: 'CadastroUsuario_btnRevogaSso', DisplayName: 'Revoga SSO', ColumnSpan: 3, Visible: true},
+	 {Name: 'CadastroUsuario_btnEnviarSenhaAleatoria', DisplayName: 'Enviar senha aleatória', ColumnSpan: 3, Visible: true},]},
 	 {Name: 'CadastroUsuario_gbgroupCopiaUsuario', DisplayName: 'Cópia de usuário', ColumnSpan: 12, Visible: false, Items: [
 	 {Name: 'CadastroUsuario_lUpNomeUsuarioCopia', DisplayName: 'Usuário Cópia', ColumnSpan: 9, Visible: false},
 	 {Name: 'CadastroUsuario_btnCustomControl4148737', DisplayName: 'Cópia', ColumnSpan: 2, Visible: false},]},]},
