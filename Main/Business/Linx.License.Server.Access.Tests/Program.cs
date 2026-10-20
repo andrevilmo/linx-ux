@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using Linx.Framework.BV;
 using Linx.Framework.BV.LicenseServer;
 
@@ -189,6 +190,11 @@ namespace Linx.License.Server.Access.Tests
             };
             AssertTrue(!missingPassword.IsValid(out string missingPasswordMessage), "Rejects empty password in Web.config");
             AssertContains("Password", missingPasswordMessage, "Empty password mentions Password");
+
+            LicenseServerApiClient.EnsureSecureTls();
+            AssertTrue(
+                (ServicePointManager.SecurityProtocol & SecurityProtocolType.Tls12) == SecurityProtocolType.Tls12,
+                "Enables TLS 1.2 for License Server HTTPS");
 
             LicenseServerLiveTests.Run();
 
