@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Linx.Tools;
 using System.Threading;
-using System.Collections.Specialized;
 using Newtonsoft.Json;
 
 namespace Linx.Business.Common.Autenticacao
@@ -115,13 +114,6 @@ namespace Linx.Business.Common.Autenticacao
             webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
             webClient.Proxy = ConfiguraProxy(dadosAutorizacao);
 
-            NameValueCollection settingsAccess = new NameValueCollection();
-
-            settingsAccess.Add("userName", dadosAutorizacao.userName);
-            settingsAccess.Add("password", dadosAutorizacao.password);
-            settingsAccess.Add("applicationId", dadosAutorizacao.application);
-            webClient.QueryString = settingsAccess;
-
             Authentication re = new Authentication();
             re.AuthenticateJsonResult = new List<Dictionary<string, string>>();
 
@@ -134,10 +126,16 @@ namespace Linx.Business.Common.Autenticacao
                 //qualquer dúvida contatar ana.olivera
                 if (!dadosAutorizacao.url.IsNullOrEmpty())
                     dadosAutorizacao.url = dadosAutorizacao.url.TrimStart().TrimEnd();
-                if (dadosAutorizacao.autenticaTcsAutorizacaoDomainService)
-                    retornoAutenticacao = webClient.DownloadString(dadosAutorizacao.url + "Linx-TCS0101-BO-TcsAutorizacao-TcsAutorizacaoDomainService.svc/json/AuthenticateJson");
-                else
-                    retornoAutenticacao = webClient.DownloadString(dadosAutorizacao.url + "Linx-Framework-BV-Autorizacao-AutorizacaoDomainService.svc/json/AuthenticateJson");
+                string authenticateJsonUrl = dadosAutorizacao.autenticaTcsAutorizacaoDomainService
+                    ? dadosAutorizacao.url + "Linx-TCS0101-BO-TcsAutorizacao-TcsAutorizacaoDomainService.svc/json/AuthenticateJson"
+                    : dadosAutorizacao.url + "Linx-Framework-BV-Autorizacao-AutorizacaoDomainService.svc/json/AuthenticateJson";
+                string payload = JsonConvert.SerializeObject(new
+                {
+                    userName = dadosAutorizacao.userName,
+                    password = dadosAutorizacao.password,
+                    applicationId = dadosAutorizacao.application
+                });
+                retornoAutenticacao = webClient.UploadString(authenticateJsonUrl, "POST", payload);
 
                 re = (Authentication)JsonConvert.DeserializeObject(retornoAutenticacao, typeof(Authentication));
                 re.AuthenticateJsonResult.ForEach(r =>

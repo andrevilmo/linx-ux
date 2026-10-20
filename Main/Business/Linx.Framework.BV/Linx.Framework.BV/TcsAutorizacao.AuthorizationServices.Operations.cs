@@ -126,7 +126,7 @@ namespace Linx.TCS0101.BO.TcsAutorizacao
             return token;
         }
 
-        [Invoke(HasSideEffects = false)]
+        [Invoke(HasSideEffects = true)]
         public Dictionary<int, string> AuthenticateJson(string userName, string password, string applicationId)
         {
             return this.AuthenticatePos(userName, password, applicationId);

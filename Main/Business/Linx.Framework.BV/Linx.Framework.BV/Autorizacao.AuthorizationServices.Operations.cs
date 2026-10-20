@@ -359,7 +359,7 @@ namespace Linx.Framework.BV.Autorizacao
             return token;
         }
 
-        [Invoke(HasSideEffects = false)]
+        [Invoke(HasSideEffects = true)]
         public Dictionary<int, string> AuthenticateJson(string userName, string password, string applicationId)
         {
             return this.AuthenticatePos(userName, password, applicationId);
