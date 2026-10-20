@@ -599,7 +599,7 @@ namespace Linx.EntityAdapterDesigner
             body += "\r\n" + indent + indent + "Authentication:";
             body += "\r\n" + indent + "</h4>";
             body += "\r\n" + indent + "<div>";
-            body += "\r\n" + indent + indent + "<b>GET:</b> /Linx-Framework-BV-Autorizacao-AutorizacaoDomainService.svc/json/AuthenticateJson?userName=&password=&applicationId=";
+            body += "\r\n" + indent + indent + "<b>POST:</b> /Linx-Framework-BV-Autorizacao-AutorizacaoDomainService.svc/json/AuthenticateJson { userName, password, applicationId }";
             body += "\r\n" + indent + "</div>";
             body += "\r\n" + indent + "<div>";
             body += "\r\n" + indent + indent + "<b>The result means:</b> Key1 = CurrentCompany, Key2 = AuthorizationToken, Key3 = CurrentUser, Key4 = AccessGroup, Key5 = EconomicGroup, Key6 = Environment ";

@@ -215,6 +215,13 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return context.RecoverUserPassword(userName);
         }
 
+        [Route("SendRandomUserPassword"), System.Web.Http.HttpGet()]
+        public bool SendRandomUserPassword(string userName = null, Guid? uidUsuario = null)
+        {
+            AutorizacaoDomainService context = new AutorizacaoDomainService();
+            return context.SendRandomUserPassword(userName, uidUsuario);
+        }
+
         [Route("SendPasswordResetLink"), System.Web.Http.HttpGet()]
         public bool SendPasswordResetLink(string userName, string callbackUrl)
         {

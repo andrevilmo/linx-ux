@@ -98,17 +98,17 @@ namespace Linx.ServiceBus.Starter.Areas.HelpPage.Controllers
             #region Add Api Description
             auth.ApiDescription = new ApiDescription()
                {
-                   HttpMethod = HttpMethod.Get,
-                   RelativePath = "Linx-Framework-BV-Autorizacao-AutorizacaoDomainService.svc/json/AuthenticateJson?userName={userName}&password={password}&applicationId={applicationId}",
+                   HttpMethod = HttpMethod.Post,
+                   RelativePath = "Linx-Framework-BV-Autorizacao-AutorizacaoDomainService.svc/json/AuthenticateJson",
                    //RelativePath = "/Linx-TCS0101-BO-TcsAutorizacao-TcsAutorizacaoDomainService.svc/json/AuthenticateJson",
                    Documentation = "Documentation for authentication in LinxServiceBus"
                };
             #endregion
 
             #region Add Parameter Descriptions
-            auth.ApiDescription.ParameterDescriptions.Add(new ApiParameterDescription() { Name = "userName", Source = ApiParameterSource.FromUri, ParameterDescriptor = HttpParameterDescriptorFake.StringValue(), Documentation = "String that stores a user name" });
-            auth.ApiDescription.ParameterDescriptions.Add(new ApiParameterDescription() { Name = "password", Source = ApiParameterSource.FromUri, ParameterDescriptor = HttpParameterDescriptorFake.StringValue(), Documentation = "String that stores a user password" });
-            auth.ApiDescription.ParameterDescriptions.Add(new ApiParameterDescription() { Name = "applicationId", Source = ApiParameterSource.FromUri, ParameterDescriptor = HttpParameterDescriptorFake.GuidValue(new Guid("ABCDEFAB-9012-ABCD-7890-CDEFABCDEFAB")), Documentation = "Guid that represents a application id" });
+            auth.ApiDescription.ParameterDescriptions.Add(new ApiParameterDescription() { Name = "userName", Source = ApiParameterSource.FromBody, ParameterDescriptor = HttpParameterDescriptorFake.StringValue(), Documentation = "String that stores a user name" });
+            auth.ApiDescription.ParameterDescriptions.Add(new ApiParameterDescription() { Name = "password", Source = ApiParameterSource.FromBody, ParameterDescriptor = HttpParameterDescriptorFake.StringValue(), Documentation = "String that stores a user password" });
+            auth.ApiDescription.ParameterDescriptions.Add(new ApiParameterDescription() { Name = "applicationId", Source = ApiParameterSource.FromBody, ParameterDescriptor = HttpParameterDescriptorFake.GuidValue(new Guid("ABCDEFAB-9012-ABCD-7890-CDEFABCDEFAB")), Documentation = "Guid that represents a application id" });
             #endregion
 
             #region Add Sample Response

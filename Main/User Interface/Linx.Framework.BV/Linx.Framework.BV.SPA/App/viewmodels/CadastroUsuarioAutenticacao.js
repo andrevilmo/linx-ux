@@ -64,20 +64,22 @@ var vmConstructor = function () {
 	 {Name: "CadastroUsuarioAutenticacao_tbEmail", DisplayName: "Email", ColumnSpan: 12, Visible: true, Key: "Email"},
 	 {Name: "CadastroUsuarioAutenticacao_lUpNomeEmpresa", DisplayName: "Empresa / Grupo Econômico", ColumnSpan: 12, Visible: true, LookUpName: "LookUpTcsUsuarioEmpresaAutenticacao", Key: "NomeEmpresa"},
 	 {Name: "CadastroUsuarioAutenticacao_ckAutenticacaoWindows", DisplayName: "Utiliza Autenticação Windows", ColumnSpan: 6, Visible: true, Key: "AutenticacaoWindows"},
-	 {Name: "CadastroUsuarioAutenticacao_ckIndicaAcessoSuporte", DisplayName: "Permite Acesso de Suporte", ColumnSpan: 6, Visible: true, Key: "IndicaAcessoSuporte"},]},
+	 {Name: "CadastroUsuarioAutenticacao_ckIndicaAcessoSuporte", DisplayName: "Permite Acesso de Suporte", ColumnSpan: 6, Visible: true, Key: "IndicaAcessoSuporte"},
+	 // Horizontal flags (Usuario Local parity)
+	 {Name: "CadastroUsuarioAutenticacao_ckInativo", DisplayName: "Inativo", ColumnSpan: 4, Visible: true, Key: "Inativo"},
+	 {Name: "CadastroUsuarioAutenticacao_ckIndicaUsuarioServico", DisplayName: "Usuário de serviço", ColumnSpan: 4, Visible: true, Key: "IndicaUsuarioServico"},
+	 {Name: "CadastroUsuarioAutenticacao_ckBlocked", DisplayName: "Bloqueado", ColumnSpan: 4, Visible: true, Key: "Blocked"},
+	 {Name: "CadastroUsuarioAutenticacao_ckUtilizaSso", DisplayName: "Utiliza SSO", ColumnSpan: 4, Visible: true, Key: "IndicaUtilizaSso"},
+	 {Name: "CadastroUsuarioAutenticacao_ckUtilizaMfa", DisplayName: "Utiliza MFA", ColumnSpan: 4, Visible: true, Key: "IndicaUtilizaMfa"},
+	 {Name: "CadastroUsuarioAutenticacao_btnRevogaMfa", DisplayName: "Revoga MFA", ColumnSpan: 4, Visible: true, Key: ""},
+	 {Name: "CadastroUsuarioAutenticacao_btnRevogaSso", DisplayName: "Revoga SSO", ColumnSpan: 4, Visible: true, Key: ""},
+	 {Name: "CadastroUsuarioAutenticacao_btnEnviarSenhaAleatoria", DisplayName: "Enviar senha aleatória", ColumnSpan: 4, Visible: true, Key: ""},]},
 	 {Name: "CadastroUsuarioAutenticacao_gbGroupBox_294d36395b1f414997b597e9a47dd1b7", DisplayName: "", ColumnSpan: 2, Visible: true, Items: [
 	 {Name: "CadastroUsuarioAutenticacao_dtVigenciaInicial", DisplayName: "Vigência Inicial", ColumnSpan: 12, Visible: true, Key: "VigenciaInicial"},
 	 {Name: "CadastroUsuarioAutenticacao_dtVigenciaFinal", DisplayName: "Vigência Final", ColumnSpan: 12, Visible: true, Key: "VigenciaFinal"},
 	 {Name: "CadastroUsuarioAutenticacao_dtDataExpiracaoSenha", DisplayName: "Expiração Senha", ColumnSpan: 12, Visible: true, Key: "DataExpiracaoSenha"},
 	 {Name: "CadastroUsuarioAutenticacao_dtDataCadastro", DisplayName: "Cadastro", ColumnSpan: 12, Visible: true, Key: "DataCadastro"},
-	 {Name: "CadastroUsuarioAutenticacao_dtDataAlteracao", DisplayName: "Alteração", ColumnSpan: 12, Visible: true, Key: "DataAlteracao"},
-	 {Name: "CadastroUsuarioAutenticacao_ckInativo", DisplayName: "Inativo", ColumnSpan: 12, Visible: true, Key: "Inativo"},
-	 {Name: "CadastroUsuarioAutenticacao_ckIndicaUsuarioServico", DisplayName: "Usuário de serviço", ColumnSpan: 12, Visible: true, Key: "IndicaUsuarioServico"},
-	 {Name: "CadastroUsuarioAutenticacao_ckBlocked", DisplayName: "Bloqueado", ColumnSpan: 12, Visible: true, Key: "Blocked"},
-	 {Name: "CadastroUsuarioAutenticacao_ckUtilizaSso", DisplayName: "Utiliza SSO", ColumnSpan: 12, Visible: true, Key: "IndicaUtilizaSso"},
-	 {Name: "CadastroUsuarioAutenticacao_ckUtilizaMfa", DisplayName: "Utiliza MFA", ColumnSpan: 12, Visible: true, Key: "IndicaUtilizaMfa"},
-	 {Name: "CadastroUsuarioAutenticacao_btnRevogaMfa", DisplayName: "Revoga MFA", ColumnSpan: 12, Visible: true, Key: ""},
-	 {Name: "CadastroUsuarioAutenticacao_btnRevogaSso", DisplayName: "Revoga SSO", ColumnSpan: 12, Visible: true, Key: ""},]},]},
+	 {Name: "CadastroUsuarioAutenticacao_dtDataAlteracao", DisplayName: "Alteração", ColumnSpan: 12, Visible: true, Key: "DataAlteracao"},]},]},
 	 {Name: "CadastroUsuarioAutenticacao_gbUserPasswordGroupBox", DisplayName: "Senha Usuário", ColumnSpan: 12, Visible: false, Items: [
 	 {Name: "CadastroUsuarioAutenticacao_tbConfirmacaoUsuario", DisplayName: "Senha", ColumnSpan: 8, Visible: true, Key: "ConfirmacaoUsuario"},
 	 {Name: "CadastroUsuarioAutenticacao_tbConfirmacaoUsuario1", DisplayName: "Confirmação", ColumnSpan: 8, Visible: true, Key: "ConfirmacaoUsuario1"},]},]},
@@ -2882,6 +2884,88 @@ $.ajax({
        };
     
     
+
+    var isValidUserEmail = function (email) {
+        if (isNullOrEmpty(email))
+            return false;
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).trim());
+    };
+    var canSendRandomPassword = ko.computed(function () {
+        try {
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item))
+                return false;
+            if (item.isAdded && item.isAdded())
+                return false;
+            if (typeof item.AutenticacaoWindows !== 'undefined' && getAbsoluteValue(item.AutenticacaoWindows))
+                return false;
+            return isValidUserEmail(getAbsoluteValue(item.Email));
+        }
+        catch (e) {
+            return false;
+        }
+    });
+    var sendRandomPassword = function () {
+        try {
+            var item = currentDataItem();
+            if (isNullOrEmpty(item) || isEmptyEntityFn(item)) {
+                app.showMessage('Selecione um usuário para enviar a senha aleatória.', 'Atenção', ['Ok']);
+                return;
+            }
+            if (!canSendRandomPassword()) {
+                app.showMessage('Informe um e-mail válido para enviar a senha aleatória.', 'Atenção', ['Ok']);
+                return;
+            }
+            var uid = getMfaUid(item);
+            var loginName = (typeof item.NomeAutenticacao !== 'undefined') ? getAbsoluteValue(item.NomeAutenticacao) : null;
+            if (isNullOrEmpty(uid) && isNullOrEmpty(loginName)) {
+                app.showMessage('Usuário sem identificador para envio de senha.', 'Atenção', ['Ok']);
+                return;
+            }
+            app.showMessage(
+                'Gerar e enviar uma senha aleatória por e-mail para este usuário? A senha atual será substituída e expirará no próximo acesso.',
+                'Enviar senha aleatória',
+                ['Yes', 'No']
+            ).then(function (answer) {
+                if (answer !== 'Yes')
+                    return;
+                dataToolbar.isBusy(true);
+                var data = {};
+                if (!isNullOrEmpty(loginName))
+                    data.userName = loginName;
+                if (!isNullOrEmpty(uid))
+                    data.uidUsuario = uid;
+                $.ajax({
+                    type: 'GET',
+                    messageUser: 'Envio de senha aleatória',
+                    headers: managerAuth.getHeaders(managerAuth.loginInfo.IdTcsAmbienteDefault),
+                    url: mfaServiceUrl('SendRandomUserPassword'),
+                    data: data,
+                    dataType: 'json',
+                    async: true,
+                    cache: false,
+                    error: function (jqXHR) {
+                        dataToolbar.isBusy(false);
+                        var errorMessage = (jqXHR.responseJSON && (jqXHR.responseJSON.ExceptionMessage || jqXHR.responseJSON.Message)) || jqXHR.statusText || 'Erro ao enviar senha aleatória.';
+                        app.showMessage(errorMessage, 'Atenção', ['Ok']);
+                    },
+                    success: function (result) {
+                        dataToolbar.isBusy(false);
+                        if (result === false) {
+                            app.showMessage('Não foi possível enviar a senha aleatória.', 'Atenção', ['Ok']);
+                            return;
+                        }
+                        app.showMessage('Senha aleatória enviada para o e-mail do usuário.', 'Informação', ['Ok']);
+                    }
+                });
+            });
+        }
+        catch (e) {
+            dataToolbar.isBusy(false);
+            app.showMessage(e.message || e, 'Atenção', ['Ok']);
+        }
+    };
+
     var dataToolbar = {
             isBusy: isBusy,
             currentRecordInfo: currentRecordInfo,
@@ -2913,6 +2997,8 @@ $.ajax({
             revokeMfa: revokeMfa,
             canRevokeSso: canRevokeSso,
             revokeSso: revokeSso,
+            canSendRandomPassword: canSendRandomPassword,
+            sendRandomPassword: sendRandomPassword,
             goFirst: goFirst,
             goBack: goBack,
             goForward: goForward,
@@ -2987,6 +3073,8 @@ $.ajax({
             canRevokeMfa: canRevokeMfa,
             revokeSso: revokeSso,
             canRevokeSso: canRevokeSso,
+            sendRandomPassword: sendRandomPassword,
+            canSendRandomPassword: canSendRandomPassword,
             dataToolbar: dataToolbar,
             getDataContext: function() { return dataContext; },
             getParentSelectorDataName: getParentSelectorDataName,
