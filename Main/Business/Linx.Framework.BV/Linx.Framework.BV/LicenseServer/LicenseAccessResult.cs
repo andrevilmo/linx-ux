@@ -11,22 +11,29 @@ namespace Linx.Framework.BV.LicenseServer
         public bool Allowed { get; private set; }
         public string ReasonCode { get; private set; }
         public string Message { get; private set; }
+        public bool CanUnblockByTrust { get; private set; }
 
-        private LicenseAccessResult(bool allowed, string reasonCode, string message)
+        private LicenseAccessResult(bool allowed, string reasonCode, string message, bool canUnblockByTrust)
         {
             Allowed = allowed;
             ReasonCode = reasonCode;
             Message = message;
+            CanUnblockByTrust = canUnblockByTrust;
         }
 
         public static LicenseAccessResult Allow()
         {
-            return new LicenseAccessResult(true, "ALLOWED", "Licença Ativa.");
+            return new LicenseAccessResult(true, "ALLOWED", "Licença Ativa.", false);
         }
 
         public static LicenseAccessResult Deny(string reasonCode, string message)
         {
-            return new LicenseAccessResult(false, reasonCode, message);
+            return Deny(reasonCode, message, false);
+        }
+
+        public static LicenseAccessResult Deny(string reasonCode, string message, bool canUnblockByTrust)
+        {
+            return new LicenseAccessResult(false, reasonCode, message, canUnblockByTrust);
         }
     }
 }

@@ -118,11 +118,20 @@ namespace Linx.Framework.BV.LicenseServer
 
             if (info.LxStatusChave == StatusChaveNaoAutorizado)
             {
+                // Same precedence as Omni LicenseEvaluator: quota → régua ("F") → contrato.
+                if (info.QuantidadeContratada > 0 && info.QuantidadeEmUso >= info.QuantidadeContratada)
+                {
+                    return LicenseAccessResult.Deny(
+                        "USAGE_KEY_UNAUTHORIZED",
+                        FirstNonEmpty(info.Mensagem, GetBlockReasonMessage("UsageLimitReached")));
+                }
+
                 if (info.BlockOrigin == "F")
                 {
                     return LicenseAccessResult.Deny(
                         "CUSTOMER_FINANCIAL_BLOCK",
-                        FirstNonEmpty(info.Mensagem, GetBlockReasonMessage("BlockedByBillingRuler")));
+                        FirstNonEmpty(info.Mensagem, GetBlockReasonMessage("BlockedByBillingRuler")),
+                        true);
                 }
 
                 if (info.BlockOrigin == "C")

@@ -22,6 +22,7 @@ using System.Reflection;
 using System.ComponentModel.Composition;
 using Linx.Framework.BV.TransacaoAutorizacao;
 using Linx.Framework.BV.UsuarioAutorizacao;
+using Linx.Framework.BV.LicenseServer;
 using System.Configuration;
 
 namespace Linx.Framework.BV.Autorizacao
@@ -294,10 +295,15 @@ namespace Linx.Framework.BV.Autorizacao
             {
                 LicenseControl.Validate(userInfo.NomeAutenticacao, userInfo.NomeUsuario, companyUid);
             }
+            catch (LicenseException licenseError)
+            {
+                string errorMessage = string.Format("{0} Ambiente : {1} | Id Linx : {2} |  Usuário: {3}.", licenseError.Message, BusinessUserServiceHelper.GetEnvironmentName(environmentId), idLinxEnvironment, userInfo.NomeAutenticacao);
+                throw new LicenseException(errorMessage, licenseError.CanUnblockByTrust, licenseError.ReasonCode);
+            }
             catch (Exception oException)
             {
-                string errorMessage = string.Format("{0} Ambiente : {1} | Id Linx : {2} |  Usu�rio: {3}.", oException.Message, BusinessUserServiceHelper.GetEnvironmentName(environmentId), idLinxEnvironment, userInfo.NomeAutenticacao);
-                throw new Linx.Framework.BV.LicenseException(errorMessage);
+                string errorMessage = string.Format("{0} Ambiente : {1} | Id Linx : {2} |  Usuário: {3}.", oException.Message, BusinessUserServiceHelper.GetEnvironmentName(environmentId), idLinxEnvironment, userInfo.NomeAutenticacao);
+                throw new LicenseException(errorMessage);
             }
 
             List<Acesso> TokenList = WebCacheHelper.GetWebCache<List<Acesso>>(userUid.ToString());
@@ -929,6 +935,22 @@ namespace Linx.Framework.BV.Autorizacao
             {
                 throw new DomainException(oException.Message, oException.InnerException);
             }
+        }
+
+        /// <summary>
+        /// Desbloqueio em confiança: first-screen user + CNPJ from LS_GetCNP.
+        /// LS_CheckAllowUnblock currently always returns true.
+        /// </summary>
+        [Invoke(HasSideEffects = true)]
+        public TrustUnblockResult UnblockLicenseByTrust(string userName)
+        {
+            if (userName.IsNullOrEmpty())
+                return TrustUnblockResult.Create(TrustUnblockOutcome.Denied, "Informe o usuário.");
+
+            if (!LicenseTrustUnblock.LS_CheckAllowUnblock(userName))
+                return TrustUnblockResult.Create(TrustUnblockOutcome.Denied, "Usuário não está apto a desbloquear em confiança.");
+
+            return LicenseControl.UnblockByTrust(userName);
         }
 
     }

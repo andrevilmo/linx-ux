@@ -24,7 +24,9 @@ mcs -sdk:4.7 -out:"$OUT/Linx.License.Server.Access.Tests.exe" \
   "$SRC/LicenseServer/LicenseException.cs" \
   "$SRC/LicenseServer/LicenseServerApiClient.cs" \
   "$SRC/LicenseServer/LicenseServerModels.cs" \
-  "$SRC/LicenseServer/LicenseServerSettings.cs"
+  "$SRC/LicenseServer/LicenseServerSettings.cs" \
+  "$SRC/LicenseServer/LicenseTrustUnblock.cs" \
+  "$SRC/LicenseServer/TrustUnblockResult.cs"
 
 cp "$NEWTONSOFT" "$OUT/"
 cp "$RESTSHARP" "$OUT/"

@@ -16,11 +16,41 @@ namespace Linx.Framework.BV.LicenseServer
 
         private readonly LicenseServerSettings _settings;
 
+        static LicenseServerApiClient()
+        {
+            EnsureSecureTls();
+        }
+
         public LicenseServerApiClient(LicenseServerSettings settings)
         {
             if (settings == null)
                 throw new ArgumentNullException("settings");
             _settings = settings;
+            EnsureSecureTls();
+        }
+
+        /// <summary>
+        /// .NET 4.6.1 defaults to TLS 1.0. api-hml.linx.com.br requires TLS 1.2,
+        /// otherwise RestSharp fails with "Não foi possível criar um canal seguro para SSL/TLS".
+        /// </summary>
+        internal static void EnsureSecureTls()
+        {
+            try
+            {
+                ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+            }
+            catch (NotSupportedException)
+            {
+            }
+
+            const SecurityProtocolType tls13 = (SecurityProtocolType)12288;
+            try
+            {
+                ServicePointManager.SecurityProtocol |= tls13;
+            }
+            catch (NotSupportedException)
+            {
+            }
         }
 
         public LicenseValidationResult Validate(LicenseValidationRequest request)
@@ -31,6 +61,41 @@ namespace Linx.Framework.BV.LicenseServer
         public LicenseInfo Revoke(LicenseValidationRequest request)
         {
             return Send<LicenseValidationRequest, LicenseInfo>("api/v1/Licensing/Revoke", request);
+        }
+
+        /// <summary>
+        /// Omni desbloqueio em confiança: POST BillingRuler/v2/desbloqueio/cnpj/{digits}
+        /// with CNPJ of the selected environment GPECON and the first-screen user.
+        /// 200 Succeeded, 400 Denied, other Failed.
+        /// </summary>
+        public TrustUnblockResult UnblockByTrust(string cnpj, string usuario)
+        {
+            string relativeUrl = LicenseServerSettings.BuildUnblockByTrustRelativeUrl(cnpj);
+            TrustUnblockRequest payload = LicenseTrustUnblock.BuildUnblockRequest(cnpj, usuario);
+            var response = ExecuteAuthorized(relativeUrl, payload, false);
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                response = ExecuteAuthorized(relativeUrl, payload, true);
+
+            if (response.ErrorException != null)
+                return TrustUnblockResult.Create(TrustUnblockOutcome.Failed, "Falha ao chamar o License Server. " + response.ErrorException.Message);
+
+            int status = (int)response.StatusCode;
+            if (status >= 200 && status < 300)
+                return TrustUnblockResult.Create(TrustUnblockOutcome.Succeeded, null);
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                string denied = string.IsNullOrWhiteSpace(response.Content)
+                    ? "Desbloqueio em confiança recusado pelo servidor."
+                    : response.Content.Trim();
+                if (denied.Length > 400)
+                    denied = denied.Substring(0, 400);
+                return TrustUnblockResult.Create(TrustUnblockOutcome.Denied, denied);
+            }
+
+            return TrustUnblockResult.Create(
+                TrustUnblockOutcome.Failed,
+                "License Server retornou HTTP " + status + "." + FormatBody(response.Content));
         }
 
         internal static void ResetTokenCacheForTests()
@@ -49,6 +114,7 @@ namespace Linx.Framework.BV.LicenseServer
                 if (!forceRefresh && !string.IsNullOrEmpty(_cachedToken) && DateTime.UtcNow < _tokenExpiryUtc.AddMinutes(-5))
                     return _cachedToken;
 
+                EnsureSecureTls();
                 var client = new RestClient(_settings.BaseUrl);
                 var restRequest = new RestRequest("api/v1/Authentication", Method.POST);
                 AddJsonBody(restRequest, new { email = _settings.Email, password = _settings.Password });
@@ -117,6 +183,7 @@ namespace Linx.Framework.BV.LicenseServer
         private IRestResponse ExecuteAuthorized<TRequest>(string relativeUrl, TRequest payload, bool forceRefresh)
         {
             var token = GetToken(forceRefresh);
+            EnsureSecureTls();
             var client = new RestClient(_settings.BaseUrl);
             var restRequest = new RestRequest(relativeUrl, Method.POST);
             restRequest.AddHeader("Authorization", "Bearer " + token);
