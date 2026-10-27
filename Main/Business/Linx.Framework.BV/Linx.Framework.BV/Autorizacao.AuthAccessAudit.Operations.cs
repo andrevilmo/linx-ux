@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.ServiceModel.DomainServices.Server;
 using System.Web;
 using Linx;
 using Linx.Data;
@@ -132,6 +133,16 @@ BEGIN
         [OBSERVACAO] NVARCHAR(500) NULL,
         CONSTRAINT [XPK_TCS_CONTROLE_EXPURGO_AUDITORIA] PRIMARY KEY CLUSTERED ([PROCESSO] ASC)
     );
+END";
+
+        // Separate batch from CREATE TABLE so SQL Server does not fail compile when the table is new.
+        private const string AuthAccessPurgeControlSeedSql = @"
+IF NOT EXISTS (
+    SELECT 1 FROM [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA]
+    WHERE [PROCESSO] = N'AUDITORIA_LOGIN')
+BEGIN
+    INSERT INTO [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA] ([PROCESSO], [DATA_ULTIMO_EXPURGO], [OBSERVACAO])
+    VALUES (N'AUDITORIA_LOGIN', NULL, N'Controle inicial (ainda sem expurgo)');
 END";
 
         private const string AuthAccessPurgeProcessName = "AUDITORIA_LOGIN";
@@ -472,6 +483,7 @@ END CATCH";
 
             this.DbContext.Database.ExecuteSqlCommand(AuthAccessSchemaEnsureSql);
             this.DbContext.Database.ExecuteSqlCommand(AuthAccessPurgeControlEnsureSql);
+            this.DbContext.Database.ExecuteSqlCommand(AuthAccessPurgeControlSeedSql);
             _authAccessPurgeControlEnsured = true;
         }
 
@@ -583,15 +595,35 @@ END CATCH";
             }
         }
 
+        /// <summary>
+        /// Ensures login-audit, purge-control, and password-history tables exist.
+        /// Called on any auth-access path (success/failure/unlock), not only purge or password change,
+        /// so AWS/QA gets the new LX_TCS tables as soon as audit runs.
+        /// </summary>
         private void EnsureAuthAccessTable()
         {
-            if (_authAccessTableEnsured)
-                return;
+            if (!_authAccessTableEnsured)
+            {
+                this.DbContext.Database.ExecuteSqlCommand(AuthAccessSchemaEnsureSql);
+                this.DbContext.Database.ExecuteSqlCommand(AuthAccessTableEnsureSql);
+                this.DbContext.Database.ExecuteSqlCommand(AuthAccessColumnEnsureSql);
+                _authAccessTableEnsured = true;
+            }
 
-            this.DbContext.Database.ExecuteSqlCommand(AuthAccessSchemaEnsureSql);
-            this.DbContext.Database.ExecuteSqlCommand(AuthAccessTableEnsureSql);
-            this.DbContext.Database.ExecuteSqlCommand(AuthAccessColumnEnsureSql);
-            _authAccessTableEnsured = true;
+            // Related tables: create even when the audit log table was already ensured.
+            EnsureAuthAccessPurgeControlTable();
+            EnsurePasswordHistoryTable();
+        }
+
+        /// <summary>
+        /// Explicit schema bootstrap for purge-control + password-history (and audit log).
+        /// Useful after deploy so tables exist before the first password change / purge cycle.
+        /// </summary>
+        [Invoke(HasSideEffects = true)]
+        public bool EnsureAuthSupportingTables()
+        {
+            EnsureAuthAccessTable();
+            return true;
         }
 
         private static string NormalizeUserName(string userName)
