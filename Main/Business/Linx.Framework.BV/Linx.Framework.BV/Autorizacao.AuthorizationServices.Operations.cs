@@ -424,6 +424,9 @@ namespace Linx.Framework.BV.Autorizacao
                     throw new Exception(String.Format("{0} - {1}", ErrorConstants._PasswordSameAsCurrent.Code, ErrorConstants._PasswordSameAsCurrent.Message));
                 }
 
+                // Reject reuse of the last N Membership hashes; archive current hash before change.
+                this.ValidateAndArchivePasswordHistory(usuario.NomeAutenticacao, newPassword, enforceHistory: true);
+
                 using (TransactionScope transaction = new TransactionScope())
                 {
                     MembershipUser user = Membership.GetUser(usuario.NomeAutenticacao);
@@ -480,6 +483,9 @@ namespace Linx.Framework.BV.Autorizacao
             {
                 throw new DomainException(String.Format("{0} - {1}", ErrorConstants._UserNotFound.Code, ErrorConstants._UserNotFound.Message));
             }
+
+            // Archive current hash before Membership reset (system-generated password).
+            this.ValidateAndArchivePasswordHistory(userName, newPassword: null, enforceHistory: false);
 
             using (TransactionScope transaction = new TransactionScope())
             {
@@ -550,6 +556,9 @@ namespace Linx.Framework.BV.Autorizacao
             }
 
             string password = ComplexPasswordGenerator.Generate();
+
+            // Archive current hash; random password is not checked against history.
+            this.ValidateAndArchivePasswordHistory(usuario.NomeAutenticacao, password, enforceHistory: false);
 
             using (TransactionScope transaction = new TransactionScope())
             {
@@ -677,6 +686,9 @@ namespace Linx.Framework.BV.Autorizacao
 
                 if (wasMembershipLocked && !user.UnlockUser())
                     throw new DomainException(ErrorConstants.FormatUserLockedOutMessage());
+
+                // Reject reuse of recent passwords; archive current hash before Membership change.
+                this.ValidateAndArchivePasswordHistory(userName, newPassword, enforceHistory: true);
 
                 user = Membership.GetUser(userName);
                 bool passwordChanged = user.ChangePassword(user.ResetPassword("Dog"), newPassword);

@@ -119,7 +119,25 @@ BEGIN
         ADD [ID_LINX] INT NULL;
 END";
 
+        private const string AuthAccessPurgeControlEnsureSql = @"
+IF NOT EXISTS (
+    SELECT 1 FROM sys.tables t
+    INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE s.name = N'LX_TCS' AND t.name = N'TCS_CONTROLE_EXPURGO_AUDITORIA')
+BEGIN
+    CREATE TABLE [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA]
+    (
+        [PROCESSO] NVARCHAR(64) NOT NULL,
+        [DATA_ULTIMO_EXPURGO] DATETIME NULL,
+        [OBSERVACAO] NVARCHAR(500) NULL,
+        CONSTRAINT [XPK_TCS_CONTROLE_EXPURGO_AUDITORIA] PRIMARY KEY CLUSTERED ([PROCESSO] ASC)
+    );
+END";
+
+        private const string AuthAccessPurgeProcessName = "AUDITORIA_LOGIN";
+
         private static bool _authAccessTableEnsured;
+        private static bool _authAccessPurgeControlEnsured;
 
         private static int AuthMaxInvalidAttempts
         {
@@ -140,6 +158,17 @@ END";
                 if (int.TryParse(ConfigurationManager.AppSettings["AuthAccess.AttemptWindowMinutes"], out value) && value > 0)
                     return value;
                 return 15;
+            }
+        }
+
+        private static int AuthAccessPurgeDays
+        {
+            get
+            {
+                int value;
+                if (int.TryParse(ConfigurationManager.AppSettings["AuthAccess.PurgeDays"], out value) && value > 0)
+                    return value;
+                return 90;
             }
         }
 
@@ -340,11 +369,110 @@ END";
                     contaTentativa: false,
                     indicaBloqueio: false,
                     canal: canal);
+
+                // After a successful enter, purge login-audit rows when the retention window elapsed.
+                TryPurgeAuthAccessAuditIfDue();
             }
             catch
             {
                 // Best-effort audit.
             }
+        }
+
+        /// <summary>
+        /// Truncates TCS_LOG_ACESSO_AUTH when the last purge is older than AuthAccess.PurgeDays (default 90).
+        /// Uses an applock so concurrent logins do not race. Failures never block login.
+        /// </summary>
+        private void TryPurgeAuthAccessAuditIfDue()
+        {
+            try
+            {
+                EnsureAuthAccessTable();
+                EnsureAuthAccessPurgeControlTable();
+
+                string connectionString = null;
+                try
+                {
+                    connectionString = this.DbContext.Database.Connection.ConnectionString;
+                }
+                catch
+                {
+                    ConnectionStringSettings cs = ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"];
+                    if (cs != null)
+                        connectionString = cs.ConnectionString;
+                }
+
+                if (string.IsNullOrEmpty(connectionString))
+                    return;
+
+                const string sql = @"
+DECLARE @lockResult INT;
+EXEC @lockResult = sp_getapplock
+    @Resource = N'LX_TCS_AUTH_ACCESS_PURGE',
+    @LockMode = N'Exclusive',
+    @LockOwner = N'Session',
+    @LockTimeout = 0;
+IF @lockResult < 0
+    RETURN;
+
+BEGIN TRY
+    DECLARE @purgeDays INT = @PurgeDays;
+    DECLARE @lastPurge DATETIME = NULL;
+
+    SELECT @lastPurge = [DATA_ULTIMO_EXPURGO]
+    FROM [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA]
+    WHERE [PROCESSO] = @Processo;
+
+    IF @lastPurge IS NOT NULL AND DATEDIFF(DAY, @lastPurge, GETDATE()) < @purgeDays
+    BEGIN
+        EXEC sp_releaseapplock @Resource = N'LX_TCS_AUTH_ACCESS_PURGE', @LockOwner = N'Session';
+        RETURN;
+    END
+
+    TRUNCATE TABLE [LX_TCS].[TCS_LOG_ACESSO_AUTH];
+
+    IF EXISTS (SELECT 1 FROM [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA] WHERE [PROCESSO] = @Processo)
+        UPDATE [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA]
+            SET [DATA_ULTIMO_EXPURGO] = GETDATE(),
+                [OBSERVACAO] = N'TRUNCATE TCS_LOG_ACESSO_AUTH'
+            WHERE [PROCESSO] = @Processo;
+    ELSE
+        INSERT INTO [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA] ([PROCESSO], [DATA_ULTIMO_EXPURGO], [OBSERVACAO])
+        VALUES (@Processo, GETDATE(), N'TRUNCATE TCS_LOG_ACESSO_AUTH');
+
+    EXEC sp_releaseapplock @Resource = N'LX_TCS_AUTH_ACCESS_PURGE', @LockOwner = N'Session';
+END TRY
+BEGIN CATCH
+    BEGIN TRY
+        EXEC sp_releaseapplock @Resource = N'LX_TCS_AUTH_ACCESS_PURGE', @LockOwner = N'Session';
+    END TRY
+    BEGIN CATCH
+    END CATCH
+END CATCH";
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.Add("@PurgeDays", SqlDbType.Int).Value = AuthAccessPurgeDays;
+                    cmd.Parameters.Add("@Processo", SqlDbType.NVarChar, 64).Value = AuthAccessPurgeProcessName;
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch
+            {
+                // Best-effort purge.
+            }
+        }
+
+        private void EnsureAuthAccessPurgeControlTable()
+        {
+            if (_authAccessPurgeControlEnsured)
+                return;
+
+            this.DbContext.Database.ExecuteSqlCommand(AuthAccessSchemaEnsureSql);
+            this.DbContext.Database.ExecuteSqlCommand(AuthAccessPurgeControlEnsureSql);
+            _authAccessPurgeControlEnsured = true;
         }
 
         /// <summary>
