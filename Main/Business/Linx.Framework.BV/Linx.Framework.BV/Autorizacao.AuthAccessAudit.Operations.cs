@@ -391,30 +391,16 @@ END";
         }
 
         /// <summary>
-        /// Truncates TCS_LOG_ACESSO_AUTH when the last purge is older than AuthAccess.PurgeDays (default 90).
-        /// Uses an applock so concurrent logins do not race. Failures never block login.
+        /// Truncates (or deletes) TCS_LOG_ACESSO_AUTH when DATA_ULTIMO_EXPURGO is null
+        /// or older than AuthAccess.PurgeDays (default 90). Runs after successful login.
+        /// Uses DbContext (same connection as audit inserts) — a separate SqlConnection on the
+        /// EF connection string often lacks credentials and failed silently before.
         /// </summary>
         private void TryPurgeAuthAccessAuditIfDue()
         {
             try
             {
-                EnsureAuthAccessTable();
                 EnsureAuthAccessPurgeControlTable();
-
-                string connectionString = null;
-                try
-                {
-                    connectionString = this.DbContext.Database.Connection.ConnectionString;
-                }
-                catch
-                {
-                    ConnectionStringSettings cs = ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"];
-                    if (cs != null)
-                        connectionString = cs.ConnectionString;
-                }
-
-                if (string.IsNullOrEmpty(connectionString))
-                    return;
 
                 const string sql = @"
 DECLARE @lockResult INT;
@@ -422,34 +408,42 @@ EXEC @lockResult = sp_getapplock
     @Resource = N'LX_TCS_AUTH_ACCESS_PURGE',
     @LockMode = N'Exclusive',
     @LockOwner = N'Session',
-    @LockTimeout = 0;
+    @LockTimeout = 1000;
 IF @lockResult < 0
     RETURN;
 
 BEGIN TRY
-    DECLARE @purgeDays INT = @PurgeDays;
     DECLARE @lastPurge DATETIME = NULL;
+    DECLARE @obs NVARCHAR(500);
 
     SELECT @lastPurge = [DATA_ULTIMO_EXPURGO]
     FROM [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA]
-    WHERE [PROCESSO] = @Processo;
+    WHERE [PROCESSO] = @pProcesso;
 
-    IF @lastPurge IS NOT NULL AND DATEDIFF(DAY, @lastPurge, GETDATE()) < @purgeDays
+    -- Due when never purged OR last purge older than configured days.
+    IF @lastPurge IS NOT NULL AND DATEDIFF(DAY, @lastPurge, GETDATE()) < @pPurgeDays
     BEGIN
         EXEC sp_releaseapplock @Resource = N'LX_TCS_AUTH_ACCESS_PURGE', @LockOwner = N'Session';
         RETURN;
     END
 
-    TRUNCATE TABLE [LX_TCS].[TCS_LOG_ACESSO_AUTH];
+    BEGIN TRY
+        TRUNCATE TABLE [LX_TCS].[TCS_LOG_ACESSO_AUTH];
+        SET @obs = N'TRUNCATE TCS_LOG_ACESSO_AUTH';
+    END TRY
+    BEGIN CATCH
+        DELETE FROM [LX_TCS].[TCS_LOG_ACESSO_AUTH];
+        SET @obs = N'DELETE TCS_LOG_ACESSO_AUTH (TRUNCATE unavailable)';
+    END CATCH
 
-    IF EXISTS (SELECT 1 FROM [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA] WHERE [PROCESSO] = @Processo)
+    IF EXISTS (SELECT 1 FROM [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA] WHERE [PROCESSO] = @pProcesso)
         UPDATE [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA]
             SET [DATA_ULTIMO_EXPURGO] = GETDATE(),
-                [OBSERVACAO] = N'TRUNCATE TCS_LOG_ACESSO_AUTH'
-            WHERE [PROCESSO] = @Processo;
+                [OBSERVACAO] = @obs
+            WHERE [PROCESSO] = @pProcesso;
     ELSE
         INSERT INTO [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA] ([PROCESSO], [DATA_ULTIMO_EXPURGO], [OBSERVACAO])
-        VALUES (@Processo, GETDATE(), N'TRUNCATE TCS_LOG_ACESSO_AUTH');
+        VALUES (@pProcesso, GETDATE(), @obs);
 
     EXEC sp_releaseapplock @Resource = N'LX_TCS_AUTH_ACCESS_PURGE', @LockOwner = N'Session';
 END TRY
@@ -458,21 +452,19 @@ BEGIN CATCH
         EXEC sp_releaseapplock @Resource = N'LX_TCS_AUTH_ACCESS_PURGE', @LockOwner = N'Session';
     END TRY
     BEGIN CATCH
-    END CATCH
+    END CATCH;
+    THROW;
 END CATCH";
 
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.Add("@PurgeDays", SqlDbType.Int).Value = AuthAccessPurgeDays;
-                    cmd.Parameters.Add("@Processo", SqlDbType.NVarChar, 64).Value = AuthAccessPurgeProcessName;
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
+                // Same DbContext connection used for audit inserts / table ensure (reliable credentials).
+                this.DbContext.Database.ExecuteSqlCommand(
+                    sql,
+                    new SqlParameter("@pPurgeDays", AuthAccessPurgeDays),
+                    new SqlParameter("@pProcesso", AuthAccessPurgeProcessName));
             }
             catch
             {
-                // Best-effort purge.
+                // Best-effort purge — never block login.
             }
         }
 
@@ -616,13 +608,14 @@ END CATCH";
         }
 
         /// <summary>
-        /// Explicit schema bootstrap for purge-control + password-history (and audit log).
-        /// Useful after deploy so tables exist before the first password change / purge cycle.
+        /// Explicit schema bootstrap for purge-control + password-history (and audit log),
+        /// then runs purge if due (DATA_ULTIMO_EXPURGO null or older than AuthAccess.PurgeDays).
         /// </summary>
         [Invoke(HasSideEffects = true)]
         public bool EnsureAuthSupportingTables()
         {
             EnsureAuthAccessTable();
+            TryPurgeAuthAccessAuditIfDue();
             return true;
         }
 

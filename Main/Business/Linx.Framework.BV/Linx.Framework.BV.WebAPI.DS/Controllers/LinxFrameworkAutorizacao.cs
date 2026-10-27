@@ -291,6 +291,15 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return new AutorizacaoDomainService().RevokePortalSsoVinculo(userName, uidUsuario, revokedByUserName);
         }
 
+        /// <summary>
+        /// Ensures LX_TCS purge-control + password-history tables exist and runs audit purge if due.
+        /// </summary>
+        [Route("EnsureAuthSupportingTables"), System.Web.Http.HttpGet()]
+        public bool EnsureAuthSupportingTables()
+        {
+            return new AutorizacaoDomainService().EnsureAuthSupportingTables();
+        }
+
         [Route("LogPortalSsoProcess"), System.Web.Http.HttpGet()]
         public bool LogPortalSsoProcess(string userName, string step, string detail = null, bool failed = false)
         {
