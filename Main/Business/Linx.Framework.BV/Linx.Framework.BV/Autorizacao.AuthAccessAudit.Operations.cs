@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.Data;
-using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.ServiceModel.DomainServices.Server;
@@ -394,8 +393,9 @@ END";
         /// <summary>
         /// Clears TCS_LOG_ACESSO_AUTH when DATA_ULTIMO_EXPURGO is null (never purged)
         /// or older than AuthAccess.PurgeDays (default 90). Invoked on successful login
-        /// and from EnsureAuthSupportingTables. Uses simple EF SqlQuery/ExecuteSqlCommand
-        /// steps (the previous multi-batch sp_getapplock script failed silently under EF).
+        /// and from EnsureAuthSupportingTables.
+        /// Only stamps DATA_ULTIMO_EXPURGO after verifying COUNT(*) = 0 (previous path could
+        /// mark the control row as purged while rows remained).
         /// </summary>
         private void TryPurgeAuthAccessAuditIfDue()
         {
@@ -403,71 +403,148 @@ END";
             {
                 EnsureAuthAccessPurgeControlTable();
 
-                const string dueSql = @"
+                string connectionString = ResolveAuthAccessConnectionString();
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    WritePurgeControlObservation("PURGE_FAILED: no FrameworkAutorizacao connection string", updateDate: false);
+                    return;
+                }
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    int due;
+                    using (SqlCommand dueCmd = new SqlCommand(@"
 SELECT TOP (1) CASE
     WHEN [DATA_ULTIMO_EXPURGO] IS NULL THEN 1
     WHEN DATEDIFF(DAY, [DATA_ULTIMO_EXPURGO], GETDATE()) >= @pPurgeDays THEN 1
     ELSE 0
 END
 FROM [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA]
-WHERE [PROCESSO] = @pProcesso";
+WHERE [PROCESSO] = @pProcesso;", conn))
+                    {
+                        dueCmd.Parameters.Add("@pPurgeDays", SqlDbType.Int).Value = AuthAccessPurgeDays;
+                        dueCmd.Parameters.Add("@pProcesso", SqlDbType.NVarChar, 64).Value = AuthAccessPurgeProcessName;
+                        object dueObj = dueCmd.ExecuteScalar();
+                        due = (dueObj == null || dueObj == DBNull.Value) ? 0 : Convert.ToInt32(dueObj);
+                    }
 
-                int due = this.DbContext.Database.SqlQuery<int>(
-                    dueSql,
-                    new SqlParameter("@pPurgeDays", AuthAccessPurgeDays),
-                    new SqlParameter("@pProcesso", AuthAccessPurgeProcessName)).FirstOrDefault();
+                    if (due != 1)
+                        return;
 
-                if (due != 1)
-                    return;
+                    int beforeCount = ExecuteAuthAccessScalarInt(conn, "SELECT COUNT(1) FROM [LX_TCS].[TCS_LOG_ACESSO_AUTH];");
 
-                string obs;
+                    string method;
+                    int deleted;
+                    try
+                    {
+                        using (SqlCommand trunc = new SqlCommand("TRUNCATE TABLE [LX_TCS].[TCS_LOG_ACESSO_AUTH];", conn))
+                        {
+                            trunc.CommandTimeout = 120;
+                            trunc.ExecuteNonQuery();
+                        }
+                        method = "TRUNCATE";
+                        deleted = beforeCount;
+                    }
+                    catch (Exception truncEx)
+                    {
+                        using (SqlCommand del = new SqlCommand("DELETE FROM [LX_TCS].[TCS_LOG_ACESSO_AUTH];", conn))
+                        {
+                            del.CommandTimeout = 120;
+                            deleted = del.ExecuteNonQuery();
+                        }
+                        method = "DELETE (TRUNCATE failed: " + Truncate(truncEx.Message, 120) + ")";
+                    }
+
+                    int afterCount = ExecuteAuthAccessScalarInt(conn, "SELECT COUNT(1) FROM [LX_TCS].[TCS_LOG_ACESSO_AUTH];");
+
+                    if (afterCount != 0)
+                    {
+                        // Do NOT stamp DATA_ULTIMO_EXPURGO — leave due so next login retries.
+                        string incomplete = string.Format(
+                            "PURGE_INCOMPLETE: method={0}; before={1}; deleted={2}; after={3}",
+                            method, beforeCount, deleted, afterCount);
+                        WritePurgeControlObservation(incomplete, updateDate: false, conn);
+                        return;
+                    }
+
+                    string okObs = string.Format(
+                        "{0} TCS_LOG_ACESSO_AUTH ok; before={1}; deleted={2}; after=0",
+                        method, beforeCount, deleted);
+                    WritePurgeControlObservation(okObs, updateDate: true, conn);
+                }
+            }
+            catch (Exception ex)
+            {
                 try
                 {
-                    // Prefer TRUNCATE outside an EF-ensured transaction when the provider supports it.
-                    this.DbContext.Database.ExecuteSqlCommand(
-                        TransactionalBehavior.DoNotEnsureTransaction,
-                        "TRUNCATE TABLE [LX_TCS].[TCS_LOG_ACESSO_AUTH]");
-                    obs = "TRUNCATE TCS_LOG_ACESSO_AUTH";
+                    EnsureAuthAccessPurgeControlTable();
+                    WritePurgeControlObservation(
+                        "PURGE_FAILED: " + (ex.Message ?? string.Empty),
+                        updateDate: false);
                 }
                 catch
                 {
-                    this.DbContext.Database.ExecuteSqlCommand(
-                        "DELETE FROM [LX_TCS].[TCS_LOG_ACESSO_AUTH]");
-                    obs = "DELETE TCS_LOG_ACESSO_AUTH (TRUNCATE unavailable)";
                 }
+            }
+        }
 
-                this.DbContext.Database.ExecuteSqlCommand(
-                    @"
+        private static string ResolveAuthAccessConnectionString()
+        {
+            ConnectionStringSettings cs = ConfigurationManager.ConnectionStrings["FrameworkAutorizacao"];
+            if (cs == null || string.IsNullOrEmpty(cs.ConnectionString))
+                return null;
+
+            // Avoid ambient TransactionScope rolling back DELETE while control UPDATE appears committed
+            // on another enlistment path; LocalSqlServer already uses enlist=false in Binary config.
+            string value = cs.ConnectionString.Trim();
+            if (value.IndexOf("enlist=", StringComparison.OrdinalIgnoreCase) < 0)
+                value = value.TrimEnd(';') + ";Enlist=false;";
+            return value;
+        }
+
+        private static int ExecuteAuthAccessScalarInt(SqlConnection conn, string sql)
+        {
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                object value = cmd.ExecuteScalar();
+                if (value == null || value == DBNull.Value)
+                    return 0;
+                return Convert.ToInt32(value);
+            }
+        }
+
+        private void WritePurgeControlObservation(string observation, bool updateDate, SqlConnection existingConnection = null)
+        {
+            string obs = Truncate(observation ?? string.Empty, 500);
+            const string sql = @"
 IF EXISTS (SELECT 1 FROM [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA] WHERE [PROCESSO] = @pProcesso)
     UPDATE [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA]
-        SET [DATA_ULTIMO_EXPURGO] = GETDATE(),
+        SET [DATA_ULTIMO_EXPURGO] = CASE WHEN @pUpdateDate = 1 THEN GETDATE() ELSE [DATA_ULTIMO_EXPURGO] END,
             [OBSERVACAO] = @pObs
         WHERE [PROCESSO] = @pProcesso;
 ELSE
     INSERT INTO [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA] ([PROCESSO], [DATA_ULTIMO_EXPURGO], [OBSERVACAO])
-    VALUES (@pProcesso, GETDATE(), @pObs);",
-                    new SqlParameter("@pProcesso", AuthAccessPurgeProcessName),
-                    new SqlParameter("@pObs", Truncate(obs, 500)));
-            }
-            catch (Exception ex)
+    VALUES (@pProcesso, CASE WHEN @pUpdateDate = 1 THEN GETDATE() ELSE NULL END, @pObs);";
+
+            if (existingConnection != null)
             {
-                // Record failure on the control row when possible (still never block login).
-                try
+                using (SqlCommand cmd = new SqlCommand(sql, existingConnection))
                 {
-                    EnsureAuthAccessPurgeControlTable();
-                    string failObs = Truncate("PURGE_FAILED: " + (ex.Message ?? string.Empty), 500);
-                    this.DbContext.Database.ExecuteSqlCommand(
-                        @"
-UPDATE [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA]
-    SET [OBSERVACAO] = @pObs
-    WHERE [PROCESSO] = @pProcesso;",
-                        new SqlParameter("@pProcesso", AuthAccessPurgeProcessName),
-                        new SqlParameter("@pObs", failObs));
+                    cmd.Parameters.Add("@pProcesso", SqlDbType.NVarChar, 64).Value = AuthAccessPurgeProcessName;
+                    cmd.Parameters.Add("@pObs", SqlDbType.NVarChar, 500).Value = obs;
+                    cmd.Parameters.Add("@pUpdateDate", SqlDbType.Bit).Value = updateDate;
+                    cmd.ExecuteNonQuery();
                 }
-                catch
-                {
-                }
+                return;
             }
+
+            this.DbContext.Database.ExecuteSqlCommand(
+                sql,
+                new SqlParameter("@pProcesso", AuthAccessPurgeProcessName),
+                new SqlParameter("@pObs", obs),
+                new SqlParameter("@pUpdateDate", updateDate));
         }
 
         private void EnsureAuthAccessPurgeControlTable()
