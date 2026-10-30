@@ -5,7 +5,7 @@ using System.Text;
 using System.Net;
 using System.ServiceModel.DomainServices.Server;
 using System.IO;
-using System.Web;
+using Newtonsoft.Json;
 
 namespace Linx.Tools
 {
@@ -21,8 +21,10 @@ namespace Linx.Tools
             {
                 CreateInstance();
 
-                Uri uriAddress = new Uri(string.Format("{0}Linx-Framework-BV-Autorizacao-AutorizacaoDomainService.svc/json/AuthenticateJson?userName={1}&password={2}&applicationId={3}", serviceBusAddress + (serviceBusAddress.EndsWith("/") ? String.Empty : "/"), userName, HttpUtility.UrlEncode(password), applicationId), UriKind.RelativeOrAbsolute);
-                string result = clientHelper.DownloadString(uriAddress);
+                string baseAddress = serviceBusAddress + (serviceBusAddress.EndsWith("/") ? String.Empty : "/");
+                Uri uriAddress = new Uri(baseAddress + "Linx-Framework-BV-Autorizacao-AutorizacaoDomainService.svc/json/AuthenticateJson", UriKind.RelativeOrAbsolute);
+                string payload = JsonConvert.SerializeObject(new { userName, password, applicationId });
+                string result = WebClientHelper.Post(uriAddress, payload);
 
                 result = result.Replace("\"", string.Empty);
                 clientHelper.Headers["CurrentUser"] = result.Extract("Key:3,Value:", "}");

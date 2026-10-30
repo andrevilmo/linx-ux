@@ -276,11 +276,12 @@ namespace Linx.Tools
                 {
                     var client = new HttpClient();
                     client.BaseAddress = new Uri(_authenticationServer);
-                    string serviceCall = "Linx-Framework-BV-Autorizacao-AutorizacaoDomainService.svc/json/AuthenticateJson?userName=" + _user + "&password=" + _password + "&applicationId=" + _applicationId;
+                    string serviceCall = "Linx-Framework-BV-Autorizacao-AutorizacaoDomainService.svc/json/AuthenticateJson";
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    HttpResponseMessage response = client.GetAsync(serviceCall).Result;
+                    string payload = Newtonsoft.Json.JsonConvert.SerializeObject(new { userName = _user, password = _password, applicationId = _applicationId });
+                    HttpResponseMessage response = client.PostAsync(serviceCall, new StringContent(payload, Encoding.UTF8, "application/json")).Result;
                     if (response.IsSuccessStatusCode)
                     {
                         var headersResult = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<object, System.Collections.DictionaryEntry[]>>(response.Content.ReadAsStringAsync().Result);

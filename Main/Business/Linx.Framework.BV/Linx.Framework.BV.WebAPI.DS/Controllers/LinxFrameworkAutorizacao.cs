@@ -215,6 +215,13 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return context.RecoverUserPassword(userName);
         }
 
+        [Route("SendRandomUserPassword"), System.Web.Http.HttpGet()]
+        public bool SendRandomUserPassword(string userName = null, Guid? uidUsuario = null)
+        {
+            AutorizacaoDomainService context = new AutorizacaoDomainService();
+            return context.SendRandomUserPassword(userName, uidUsuario);
+        }
+
         [Route("SendPasswordResetLink"), System.Web.Http.HttpGet()]
         public bool SendPasswordResetLink(string userName, string callbackUrl)
         {
@@ -282,6 +289,15 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
         public PortalSsoVinculoResult RevokePortalSsoVinculo(string userName = null, Guid? uidUsuario = null, string revokedByUserName = null)
         {
             return new AutorizacaoDomainService().RevokePortalSsoVinculo(userName, uidUsuario, revokedByUserName);
+        }
+
+        /// <summary>
+        /// Ensures LX_TCS purge-control + password-history tables exist and runs audit purge if due.
+        /// </summary>
+        [Route("EnsureAuthSupportingTables"), System.Web.Http.HttpGet()]
+        public bool EnsureAuthSupportingTables()
+        {
+            return new AutorizacaoDomainService().EnsureAuthSupportingTables();
         }
 
         [Route("LogPortalSsoProcess"), System.Web.Http.HttpGet()]

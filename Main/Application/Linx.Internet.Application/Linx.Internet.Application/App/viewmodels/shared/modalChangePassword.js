@@ -4,11 +4,24 @@
         var modalChangePassword = function (canClose) {
             var _this = this;
 
-            this.canClose = ko.observable(canClose);
+            this.canClose = ko.observable(canClose === true);
+            this.mustReturnToLogin = ko.observable(requiresLogoffBeforePasswordChange(canClose));
+            this._shouldReturnToLogin = this.mustReturnToLogin();
+            this._redirectStarted = false;
+            this._leaveBound = false;
 
             //Durandal Methods
             this.compositionComplete = function () {
+                if (_this._shouldReturnToLogin) {
+                    bindLeaveGuards(_this);
+                }
+            };
 
+            this.detached = function () {
+                unbindLeaveGuards(_this);
+                if (_this._shouldReturnToLogin && !_this._redirectStarted) {
+                    goToLogin(_this);
+                }
             };
 
             this.activate = function () {
@@ -156,32 +169,69 @@
 
                     error: function (jqXHR, textStatus, errorThrown) {
                         common.closeProcess('.modal-body');
-                        var errorMessage = jqXHR.responseJSON.ExceptionMessage;
+                        var errorMessage = jqXHR.responseJSON && jqXHR.responseJSON.ExceptionMessage
+                            ? jqXHR.responseJSON.ExceptionMessage
+                            : 'Não foi possível alterar a senha.';
                         app.showMessage(errorMessage, 'Atenção', ['Ok']);
                     },
 
                     success: function (data) {
-
                         managerAuth.expiracao = false;
                         managerAuth.passwordChangeOnlyMode = false;
                         common.closeProcess('.modal-body');
-
-                        app.showMessage(
-                            'Senha alterada com sucesso. Faça login com a nova senha.',
-                            'Atenção',
-                            ['Ok']
-                        ).then(function () {
-                            _this.cancel();
-                            redirectToLoginAfterPasswordChange();
-                        });
+                        // Do not wait for the success dialog Ok — closing the host window
+                        // used to leave a blank shell with no click targets.
+                        goToLogin(_this);
                     }
                 });
             };
 
             this.cancel = function () {
-                dialog.close(this);
-            }
+                if (_this._shouldReturnToLogin) {
+                    goToLogin(_this);
+                    return;
+                }
+                dialog.close(_this);
+            };
+
+            this.voltarAoLogin = function () {
+                goToLogin(_this);
+            };
         };
+
+        function goToLogin(vm) {
+            if (goToLogin._started) {
+                return;
+            }
+            goToLogin._started = true;
+            if (vm) {
+                vm._redirectStarted = true;
+            }
+            redirectToLoginAfterPasswordChange();
+        }
+
+        function bindLeaveGuards(vm) {
+            if (vm._leaveBound) {
+                return;
+            }
+            vm._onPageHide = function () {
+                if (managerAuth.passwordChangeOnlyMode === true || managerAuth.expiracao === true) {
+                    goToLogin(vm);
+                }
+            };
+            window.addEventListener('pagehide', vm._onPageHide);
+            vm._leaveBound = true;
+        }
+
+        function unbindLeaveGuards(vm) {
+            if (!vm._leaveBound) {
+                return;
+            }
+            if (vm._onPageHide) {
+                window.removeEventListener('pagehide', vm._onPageHide);
+            }
+            vm._leaveBound = false;
+        }
 
         function redirectToLoginAfterPasswordChange() {
             if (managerAuth.isLoginPOSUXMode) {
@@ -190,7 +240,10 @@
                 return;
             }
 
-            $.sessionStorage.removeAll();
+            try {
+                $.sessionStorage.removeAll();
+            } catch (e) {
+            }
             window.location.href = managerAuth.buildRoot('logoff');
         }
 
@@ -204,7 +257,10 @@
                 return $.when();
             }
 
-            $.sessionStorage.removeAll();
+            try {
+                $.sessionStorage.removeAll();
+            } catch (e) {
+            }
 
             return $.ajax({
                 type: 'GET',
@@ -216,8 +272,14 @@
             });
         };
 
+        modalChangePassword.redirectToLogin = function () {
+            goToLogin._started = false;
+            redirectToLoginAfterPasswordChange();
+        };
+
         modalChangePassword.show = function (canClose) {
             var showDialog = function () {
+                goToLogin._started = false;
                 return dialog.show(new modalChangePassword(canClose));
             };
 
@@ -232,9 +294,11 @@
             return modalChangePassword.performLogoffForPasswordChange().then(function () {
                 managerAuth.passwordChangeOnlyMode = true;
                 return showDialog();
+            }).fail(function () {
+                // Avoid blank Durandal shell when the soft logoff call fails.
+                modalChangePassword.redirectToLogin();
             });
         };
 
         return modalChangePassword;
     });
-

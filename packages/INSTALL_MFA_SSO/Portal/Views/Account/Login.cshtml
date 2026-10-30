@@ -90,7 +90,7 @@
                 }
             </div>
 
-            <label>usuário  <input type="text" id="UserName" name="UserName" autofocus="autofocus" required="required" autocomplete="off" value="@userNameValue" @(identified ? "readonly=\"readonly\"" : null) />   </label>
+            <label>usuário  <input type="text" id="UserName" name="UserName" @(identified ? null : "autofocus=\"autofocus\"") required="required" autocomplete="off" value="@userNameValue" @(identified ? "readonly=\"readonly\"" : null) />   </label>
             @if (identified)
             {
                 <a class="login-alterar" href="@Url.Action("Login", "Account", new { alterar = 1 })">alterar usuário</a>
@@ -99,7 +99,7 @@
             @if (!ssoOnlyStep)
             {
             <div id="passwordStep" style="@(identified ? "" : "display:none;")">
-                <label>senha    <input type="password" id="Password" name="Password" autocomplete="off" @(identified ? "required=\"required\"" : null) />         </label>
+                <label>senha    <input type="password" id="Password" name="Password" autocomplete="off" @(identified ? "autofocus=\"autofocus\" required=\"required\"" : null) />         </label>
 
                 <div class="checkbox-row">
                     <input type="checkbox" checked="checked" name="RememberMe" id="RememberMe" value="true" />
@@ -219,6 +219,10 @@
         var showEnviroments = document.getElementById('ShowEnvironments');
         var password = document.getElementById('Password');
         var submitHidden = document.getElementById('submitHidden');
+        var loginIdentified = @(identified ? "true" : "false");
+        if (loginIdentified && password) {
+            try { password.focus(); } catch (e) { }
+        }
 
         var recoverSection = document.getElementById('recoverSection');
         var resetSection = document.getElementById('resetSection');

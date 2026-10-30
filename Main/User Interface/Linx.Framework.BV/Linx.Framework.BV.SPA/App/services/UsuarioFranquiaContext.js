@@ -913,9 +913,8 @@
                 };
                 //#region Client Events
                 ownerReference.OnAdded = function () {
-
-                    setVisibility(vm, 'gbUserPasswordGroupBox', !getAbsoluteValue(ownerReference.GeraSenhaUsuario));
-                    ;
+                    // Password fields removed on create: always hide Senha Usuário group.
+                    setVisibility(vm, 'gbUserPasswordGroupBox', false);
                 }
                 ownerReference.OnSaving = function () {
                     if (!vm.currentDataItem())
@@ -933,68 +932,8 @@
                     if (!entity.isAdded())
                         return true;
 
-                    var geraSenha = !getAbsoluteValue(entity.AutenticacaoWindows) && !getAbsoluteValue(entity.GeraSenhaUsuario);
-                    setAbsoluteValue(entity, 'CriaUsuario', (!getAbsoluteValue(entity.AutenticacaoWindows) && getAbsoluteValue(entity.GeraSenhaUsuario)));
-
-                    if (geraSenha) {
-                        var confirmacao = getAbsoluteValue(entity.ConfirmacaoUsuario);
-                        var confirmacao1 = getAbsoluteValue(entity.ConfirmacaoUsuario1);
-
-                        if (isNullOrEmpty(confirmacao) || isNullOrEmpty(confirmacao1)) {
-                            app.showMessage(('Campos senha e confirmação devem ser informados.').toString(), 'Alerta', ['Ok'])
-                            vm.showTab('tabUsuario');
-                            return false;
-                        }
-
-                        var sequentialNumbersMessage = "A senha não pode conter números em sequência (ex.: 123 ou 987)";
-                        var regexExpression = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[~!@#$%^&*+\-\/\.,\\{}\[\]();:?<>"'_])[A-Za-z\d~!@#$%^&*+\-\/\.,\\{}\[\]();:?<>"'_]{12,}$/;
-
-                        var hasSequentialNumbers = function (value, sequenceLength) {
-                            sequenceLength = sequenceLength || 3;
-                            if (!value || value.length < sequenceLength) {
-                                return false;
-                            }
-                            for (var i = 0; i <= value.length - sequenceLength; i++) {
-                                var slice = value.substring(i, i + sequenceLength);
-                                if (!/^\d+$/.test(slice)) {
-                                    continue;
-                                }
-                                var ascending = true;
-                                var descending = true;
-                                for (var j = 1; j < slice.length; j++) {
-                                    var diff = slice.charCodeAt(j) - slice.charCodeAt(j - 1);
-                                    if (diff !== 1) {
-                                        ascending = false;
-                                    }
-                                    if (diff !== -1) {
-                                        descending = false;
-                                    }
-                                }
-                                if (ascending || descending) {
-                                    return true;
-                                }
-                            }
-                            return false;
-                        };
-
-                        if (!regexExpression.test(confirmacao)) {
-                            app.showMessage(('A senha deve conter no mínimo 12 caracteres, incluindo letra maiúscula, letra minúscula, número e caractere especial.').toString(), 'Alerta', ['Ok'])
-                            vm.showTab('tabUsuario');
-                            return false;
-                        }
-
-                        if (hasSequentialNumbers(confirmacao)) {
-                            app.showMessage(sequentialNumbersMessage.toString(), 'Alerta', ['Ok'])
-                            vm.showTab('tabUsuario');
-                            return false;
-                        }
-
-                        if (confirmacao != confirmacao1) {
-                            app.showMessage(('Senha e confirmação inconsistentes.').toString(), 'Alerta', ['Ok'])
-                            vm.showTab('tabUsuario');
-                            return false;
-                        }
-                    }
+                    // Always auto-generate Membership password on create (no Senha/Confirmação fields).
+                    setAbsoluteValue(entity, 'CriaUsuario', !getAbsoluteValue(entity.AutenticacaoWindows));
                     return true;
                 }
                 ownerReference.OnPropertyChanged = function (propertyName, oldValue, newValue) {
