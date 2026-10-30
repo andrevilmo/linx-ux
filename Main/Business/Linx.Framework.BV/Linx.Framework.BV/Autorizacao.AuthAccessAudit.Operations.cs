@@ -406,7 +406,7 @@ END";
                 string connectionString = ResolveAuthAccessConnectionString();
                 if (string.IsNullOrEmpty(connectionString))
                 {
-                    WritePurgeControlObservation("PURGE_FAILED: no FrameworkAutorizacao connection string", updateDate: false);
+                    WritePurgeControlObservation("PURGE_FAILED: no FrameworkAutorizacao connection string", PurgeDateMode.Clear);
                     return;
                 }
 
@@ -414,11 +414,16 @@ END";
                 {
                     conn.Open();
 
+                    // Due when: never purged, failed/incomplete, older than N days, OR stamped by an
+                    // older build that wrote DATA_ULTIMO_EXPURGO without a verified "after=0" clear
+                    // (that left rows in place and caused later logins to skip forever).
                     int due;
                     using (SqlCommand dueCmd = new SqlCommand(@"
 SELECT TOP (1) CASE
     WHEN [DATA_ULTIMO_EXPURGO] IS NULL THEN 1
+    WHEN [OBSERVACAO] LIKE N'PURGE_INCOMPLETE%' OR [OBSERVACAO] LIKE N'PURGE_FAILED%' THEN 1
     WHEN DATEDIFF(DAY, [DATA_ULTIMO_EXPURGO], GETDATE()) >= @pPurgeDays THEN 1
+    WHEN [OBSERVACAO] IS NULL OR [OBSERVACAO] NOT LIKE N'%after=0%' THEN 1
     ELSE 0
 END
 FROM [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA]
@@ -427,11 +432,19 @@ WHERE [PROCESSO] = @pProcesso;", conn))
                         dueCmd.Parameters.Add("@pPurgeDays", SqlDbType.Int).Value = AuthAccessPurgeDays;
                         dueCmd.Parameters.Add("@pProcesso", SqlDbType.NVarChar, 64).Value = AuthAccessPurgeProcessName;
                         object dueObj = dueCmd.ExecuteScalar();
-                        due = (dueObj == null || dueObj == DBNull.Value) ? 0 : Convert.ToInt32(dueObj);
+                        // No control row yet → treat as due (ensure should have seeded).
+                        due = (dueObj == null || dueObj == DBNull.Value) ? 1 : Convert.ToInt32(dueObj);
                     }
 
                     if (due != 1)
+                    {
+                        int skipCount = ExecuteAuthAccessScalarInt(conn, "SELECT COUNT(1) FROM [LX_TCS].[TCS_LOG_ACESSO_AUTH];");
+                        WritePurgeControlObservation(
+                            string.Format("SKIPPED_NOT_DUE: PurgeDays={0}; auditRows={1}", AuthAccessPurgeDays, skipCount),
+                            PurgeDateMode.Keep,
+                            conn);
                         return;
+                    }
 
                     int beforeCount = ExecuteAuthAccessScalarInt(conn, "SELECT COUNT(1) FROM [LX_TCS].[TCS_LOG_ACESSO_AUTH];");
 
@@ -461,18 +474,18 @@ WHERE [PROCESSO] = @pProcesso;", conn))
 
                     if (afterCount != 0)
                     {
-                        // Do NOT stamp DATA_ULTIMO_EXPURGO — leave due so next login retries.
+                        // Clear the stamp so the next login retries (do not Keep a bad date).
                         string incomplete = string.Format(
                             "PURGE_INCOMPLETE: method={0}; before={1}; deleted={2}; after={3}",
                             method, beforeCount, deleted, afterCount);
-                        WritePurgeControlObservation(incomplete, updateDate: false, conn);
+                        WritePurgeControlObservation(incomplete, PurgeDateMode.Clear, conn);
                         return;
                     }
 
                     string okObs = string.Format(
                         "{0} TCS_LOG_ACESSO_AUTH ok; before={1}; deleted={2}; after=0",
                         method, beforeCount, deleted);
-                    WritePurgeControlObservation(okObs, updateDate: true, conn);
+                    WritePurgeControlObservation(okObs, PurgeDateMode.SetNow, conn);
                 }
             }
             catch (Exception ex)
@@ -482,12 +495,19 @@ WHERE [PROCESSO] = @pProcesso;", conn))
                     EnsureAuthAccessPurgeControlTable();
                     WritePurgeControlObservation(
                         "PURGE_FAILED: " + (ex.Message ?? string.Empty),
-                        updateDate: false);
+                        PurgeDateMode.Clear);
                 }
                 catch
                 {
                 }
             }
+        }
+
+        private enum PurgeDateMode
+        {
+            Keep = 0,
+            SetNow = 1,
+            Clear = 2
         }
 
         private static string ResolveAuthAccessConnectionString()
@@ -515,18 +535,26 @@ WHERE [PROCESSO] = @pProcesso;", conn))
             }
         }
 
-        private void WritePurgeControlObservation(string observation, bool updateDate, SqlConnection existingConnection = null)
+        private void WritePurgeControlObservation(string observation, PurgeDateMode dateMode, SqlConnection existingConnection = null)
         {
             string obs = Truncate(observation ?? string.Empty, 500);
+            // dateMode: 1=SET GETDATE(), 2=NULL, else keep existing column value.
             const string sql = @"
 IF EXISTS (SELECT 1 FROM [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA] WHERE [PROCESSO] = @pProcesso)
     UPDATE [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA]
-        SET [DATA_ULTIMO_EXPURGO] = CASE WHEN @pUpdateDate = 1 THEN GETDATE() ELSE [DATA_ULTIMO_EXPURGO] END,
+        SET [DATA_ULTIMO_EXPURGO] = CASE
+                WHEN @pDateMode = 1 THEN GETDATE()
+                WHEN @pDateMode = 2 THEN NULL
+                ELSE [DATA_ULTIMO_EXPURGO]
+            END,
             [OBSERVACAO] = @pObs
         WHERE [PROCESSO] = @pProcesso;
 ELSE
     INSERT INTO [LX_TCS].[TCS_CONTROLE_EXPURGO_AUDITORIA] ([PROCESSO], [DATA_ULTIMO_EXPURGO], [OBSERVACAO])
-    VALUES (@pProcesso, CASE WHEN @pUpdateDate = 1 THEN GETDATE() ELSE NULL END, @pObs);";
+    VALUES (
+        @pProcesso,
+        CASE WHEN @pDateMode = 1 THEN GETDATE() WHEN @pDateMode = 2 THEN NULL ELSE NULL END,
+        @pObs);";
 
             if (existingConnection != null)
             {
@@ -534,7 +562,7 @@ ELSE
                 {
                     cmd.Parameters.Add("@pProcesso", SqlDbType.NVarChar, 64).Value = AuthAccessPurgeProcessName;
                     cmd.Parameters.Add("@pObs", SqlDbType.NVarChar, 500).Value = obs;
-                    cmd.Parameters.Add("@pUpdateDate", SqlDbType.Bit).Value = updateDate;
+                    cmd.Parameters.Add("@pDateMode", SqlDbType.Int).Value = (int)dateMode;
                     cmd.ExecuteNonQuery();
                 }
                 return;
@@ -544,7 +572,7 @@ ELSE
                 sql,
                 new SqlParameter("@pProcesso", AuthAccessPurgeProcessName),
                 new SqlParameter("@pObs", obs),
-                new SqlParameter("@pUpdateDate", updateDate));
+                new SqlParameter("@pDateMode", (int)dateMode));
         }
 
         private void EnsureAuthAccessPurgeControlTable()
