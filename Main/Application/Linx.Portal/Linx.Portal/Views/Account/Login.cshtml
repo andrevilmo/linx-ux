@@ -34,6 +34,10 @@
         text-align: center;
         opacity: 0.7;
     }
+    #login .hcaptcha-row {
+        margin: 12px 0 4px 0;
+        min-height: 78px;
+    }
 </style>
 <article id="login">
     <section id="info-product" >
@@ -68,6 +72,8 @@
             var identified = string.Equals(loginStep, "password", StringComparison.OrdinalIgnoreCase);
             var showSsoButton = ViewBag.ShowSsoButton as bool? ?? false;
             var ssoOnlyStep = identified && showSsoButton;
+            var showHCaptcha = Linx.Portal.Utils.ShouldShowHCaptcha(identified, ssoOnlyStep);
+            var hCaptchaSiteKey = showHCaptcha ? Linx.Portal.Utils.GetHCaptchaSiteKey() : null;
             var userNameValue = Model != null && !string.IsNullOrEmpty(Model.UserName)
                 ? Model.UserName
                 : (ViewBag.IdentifiedUserName as string ?? "");
@@ -105,6 +111,13 @@
                     <input type="checkbox" checked="checked" name="RememberMe" id="RememberMe" value="true" />
                     <label for="RememberMe">mantenha-me conectado</label>
                 </div>
+
+                @if (showHCaptcha)
+                {
+                    <div class="hcaptcha-row">
+                        <div class="h-captcha" data-sitekey="@hCaptchaSiteKey"></div>
+                    </div>
+                }
             </div>
             }
 
@@ -220,6 +233,7 @@
         var password = document.getElementById('Password');
         var submitHidden = document.getElementById('submitHidden');
         var loginIdentified = @(identified ? "true" : "false");
+        var hCaptchaRequired = @(showHCaptcha ? "true" : "false");
         if (loginIdentified && password) {
             try { password.focus(); } catch (e) { }
         }
@@ -245,11 +259,23 @@
             });
         }
 
+        function ensureHCaptchaBeforeSubmit() {
+            if (!hCaptchaRequired) return true;
+            var tokenField = form.querySelector('[name="h-captcha-response"]');
+            var token = tokenField ? (tokenField.value || '') : '';
+            if (!token) {
+                alert('Confirme o captcha antes de entrar.');
+                return false;
+            }
+            return true;
+        }
+
         if (btnSumit) {
             btnSumit.addEventListener('click', function () {
                 if (password) password.setAttribute('required', true);
                 if (identifyOnly) identifyOnly.value = 'false';
                 recoverPassword.value = false;
+                if (!ensureHCaptchaBeforeSubmit()) return;
                 submitHidden.click();
             });
         }
@@ -260,6 +286,7 @@
                 if (identifyOnly) identifyOnly.value = 'false';
                 recoverPassword.value = false;
                 showEnviroments.value = true;
+                if (!ensureHCaptchaBeforeSubmit()) return;
                 submitHidden.click();
             });
         }
@@ -447,3 +474,7 @@
         }
     });
 </script>
+@if (showHCaptcha)
+{
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+}

@@ -57,6 +57,18 @@ namespace Linx.Portal.Controllers
 
                 if (!model.UserName.IsNullOrEmpty() && !model.Password.IsNullOrEmpty())
                 {
+                    if (Utils.IsHCaptchaEnabled())
+                    {
+                        string captchaToken = Request != null ? Request.Form["h-captcha-response"] : null;
+                        string remoteIp = Request != null ? Request.UserHostAddress : null;
+                        string captchaError;
+                        if (!HCaptchaVerifier.TryVerify(captchaToken, remoteIp, out captchaError))
+                        {
+                            ModelState.AddModelError("", (captchaError ?? "Captcha inválido.").Translate());
+                            return LoginView(model);
+                        }
+                    }
+
                     if (AuthenticateUser(model.UserName, model.Password, model.RememberMe))
                     {
                         ClearIdentifiedLogin();
