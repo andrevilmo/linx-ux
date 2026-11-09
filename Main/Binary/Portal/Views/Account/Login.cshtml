@@ -34,26 +34,36 @@
         text-align: center;
         opacity: 0.7;
     }
-    /* Sibling of .button-row (not inside #passwordStep) so width matches the buttons strip.
-       padding-top (not margin) survives checkbox-row float:right collapse. */
-    #login form#FormLogIn > .hcaptcha-row {
+    /* Contain checkbox-row float:right so it cannot wrap following siblings left. */
+    #login #passwordStep {
+        overflow: hidden;
+    }
+    #login #passwordStep:after {
+        content: "";
+        display: table;
         clear: both;
-        display: block;
-        width: 100%;
+    }
+    /* Sibling of .button-row; full form width (350px) with widget centered in that strip. */
+    #login form#FormLogIn > .hcaptcha-row {
+        clear: both !important;
+        display: block !important;
+        width: 100% !important;
+        max-width: 100%;
         margin: 0;
         padding: 50px 0 0 0;
         min-height: 78px;
         box-sizing: border-box;
-        text-align: center;
-        overflow: hidden;
+        text-align: center !important;
     }
     #login form#FormLogIn > .hcaptcha-row .h-captcha {
         display: inline-block !important;
         width: auto !important;
         max-width: 100%;
-        margin-left: auto !important;
-        margin-right: auto !important;
         float: none !important;
+        position: relative;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
         text-align: left;
     }
     /* 50px between "Esqueci minha senha" and social icons */
