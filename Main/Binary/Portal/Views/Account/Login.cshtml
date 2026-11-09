@@ -34,9 +34,27 @@
         text-align: center;
         opacity: 0.7;
     }
+    /* Match button-row horizontal span (Listar ambientes → Entrar); 50px below remember-me */
     #login .hcaptcha-row {
-        margin: 12px 0 4px 0;
+        clear: both;
+        display: block;
+        width: 100%;
+        margin: 50px 0 0 0;
+        padding: 0;
         min-height: 78px;
+        box-sizing: border-box;
+    }
+    #login .hcaptcha-row .h-captcha,
+    #login .hcaptcha-row iframe {
+        display: block;
+        max-width: 100%;
+    }
+    /* 50px between "Esqueci minha senha" and social icons */
+    #login #authentication > .ul-redes {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        margin: 50px auto 24px;
     }
 </style>
 <article id="login">
@@ -476,5 +494,5 @@
 </script>
 @if (showHCaptcha)
 {
-    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+    <script src="https://js.hcaptcha.com/1/api.js?hl=pt" async defer></script>
 }
