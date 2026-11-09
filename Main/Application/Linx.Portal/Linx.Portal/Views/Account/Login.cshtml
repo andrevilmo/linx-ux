@@ -34,34 +34,27 @@
         text-align: center;
         opacity: 0.7;
     }
-    /* Full width above LISTAR AMBIENTES / ENTRAR; widget centered in that strip.
-       padding-top (not margin) so 50px survives checkbox-row float:right collapse. */
-    #login .hcaptcha-row {
+    /* Sibling of .button-row (not inside #passwordStep) so width matches the buttons strip.
+       padding-top (not margin) survives checkbox-row float:right collapse. */
+    #login form#FormLogIn > .hcaptcha-row {
         clear: both;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-align-items: center;
-        align-items: center;
+        display: block;
         width: 100%;
         margin: 0;
         padding: 50px 0 0 0;
         min-height: 78px;
         box-sizing: border-box;
         text-align: center;
+        overflow: hidden;
     }
-    #login .hcaptcha-row .h-captcha {
+    #login form#FormLogIn > .hcaptcha-row .h-captcha {
         display: inline-block !important;
         width: auto !important;
         max-width: 100%;
-        margin: 0 !important;
-        -webkit-flex: 0 0 auto;
-        flex: 0 0 auto;
-    }
-    #login .hcaptcha-row iframe {
-        display: block;
-        margin: 0 auto;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        float: none !important;
+        text-align: left;
     }
     /* 50px between "Esqueci minha senha" and social icons */
     #login #authentication > .forget-password {
@@ -146,14 +139,14 @@
                     <input type="checkbox" checked="checked" name="RememberMe" id="RememberMe" value="true" />
                     <label for="RememberMe">mantenha-me conectado</label>
                 </div>
-
-                @if (showHCaptcha)
-                {
-                    <div class="hcaptcha-row">
-                        <div class="h-captcha" data-sitekey="@hCaptchaSiteKey"></div>
-                    </div>
-                }
             </div>
+            }
+
+            @if (showHCaptcha)
+            {
+                <div class="hcaptcha-row">
+                    <div class="h-captcha" data-sitekey="@hCaptchaSiteKey"></div>
+                </div>
             }
 
             @if (!identified)
