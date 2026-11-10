@@ -1,0 +1,579 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Linx.LicenseServer.Client</name>
+    </assembly>
+    <members>
+        <member name="T:Linx.LicenseServer.Client.Authentication.ITokenProvider">
+            <summary>
+            Provedor de token Bearer para o License Server.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Authentication.ITokenProvider.GetTokenAsync(System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Obtém o token de autenticação válido, utilizando cache quando possível.
+            </summary>
+            <param name="forceRefresh">Quando <c>true</c>, ignora o cache e obtém um novo token.</param>
+            <param name="ct">Token de cancelamento.</param>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Configuration.LicenseServerEnvironment">
+            <summary>
+            Ambientes disponíveis para o License Server da Linx.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Configuration.LicenseServerEnvironment.Homologation">
+            <summary>
+            Ambiente de homologação.
+            URL base: <c>https://api-hml.linx.com.br/app-licensing/</c>
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Configuration.LicenseServerEnvironment.Production">
+            <summary>
+            Ambiente de produção.
+            URL base: <c>https://api.linx.com.br/app-licensing/</c>
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Configuration.LicenseServerOptions">
+            <summary>
+            Configurações para o cliente do License Server.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Configuration.LicenseServerOptions.Email">
+            <summary>
+            E-mail de autenticação na API do License Server.
+            Obrigatório.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Configuration.LicenseServerOptions.Password">
+            <summary>
+            Senha de autenticação na API do License Server.
+            Obrigatório.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Configuration.LicenseServerOptions.Environment">
+            <summary>
+            Ambiente alvo. Padrão: <see cref="F:Linx.LicenseServer.Client.Configuration.LicenseServerEnvironment.Homologation"/>.
+            Ignorado quando <see cref="P:Linx.LicenseServer.Client.Configuration.LicenseServerOptions.BaseUrl"/> é informado.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Configuration.LicenseServerOptions.BaseUrl">
+            <summary>
+            URL base customizada. Quando informado, sobrepõe o valor de <see cref="P:Linx.LicenseServer.Client.Configuration.LicenseServerOptions.Environment"/>.
+            Deve ser uma URL absoluta com barra final (ex.: <c>https://meu-servidor/app-licensing/</c>).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Configuration.LicenseServerOptions.Timeout">
+            <summary>
+            Timeout das requisições HTTP. Padrão: 30 segundos.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Configuration.LicenseServerOptions.TokenRefreshMargin">
+            <summary>
+            Margem de antecipação para renovação do token antes de expirar.
+            O token será renovado quando restar menos do que este tempo para o vencimento.
+            Padrão: 5 minutos.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Configuration.LicenseServerOptions.GetEffectiveBaseUrl">
+            <summary>
+            Resolve a URL base efetiva a partir das configurações.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.DependencyInjection.ServiceCollectionExtensions">
+            <summary>
+            Extensões de <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> para registrar o cliente do License Server.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.DependencyInjection.ServiceCollectionExtensions.AddLicenseServerClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Linx.LicenseServer.Client.Configuration.LicenseServerOptions})">
+            <summary>
+            Registra o <see cref="T:Linx.LicenseServer.Client.ILicenseServerClient"/> no contêiner de injeção de dependência
+            usando uma ação de configuração.
+            </summary>
+            <param name="services">O contêiner de serviços.</param>
+            <param name="configure">Ação para configurar as opções do cliente.</param>
+            <returns>O mesmo <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> para encadeamento.</returns>
+            <example>
+            <code>
+            services.AddLicenseServerClient(options =>
+            {
+                options.Email = "usuario@linx.com.br";
+                options.Password = "senha";
+                options.Environment = LicenseServerEnvironment.Production;
+            });
+            </code>
+            </example>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.DependencyInjection.ServiceCollectionExtensions.AddLicenseServerClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Registra o <see cref="T:Linx.LicenseServer.Client.ILicenseServerClient"/> no contêiner de injeção de dependência
+            lendo a configuração da seção <c>"LicenseServer"</c>.
+            </summary>
+            <param name="services">O contêiner de serviços.</param>
+            <param name="configuration">A configuração da aplicação.</param>
+            <returns>O mesmo <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> para encadeamento.</returns>
+            <example>
+            <code>
+            // appsettings.json:
+            // {
+            //   "LicenseServer": {
+            //     "Email": "usuario@linx.com.br",
+            //     "Password": "senha",
+            //     "Environment": "Production"
+            //   }
+            // }
+            services.AddLicenseServerClient(configuration);
+            </code>
+            </example>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Exceptions.LicenseServerApiException">
+            <summary>
+            Exceção lançada quando a API do License Server retorna um código HTTP de erro (não-2xx).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Exceptions.LicenseServerApiException.StatusCode">
+            <summary>Código HTTP retornado pela API.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Exceptions.LicenseServerApiException.ResponseBody">
+            <summary>Corpo bruto da resposta de erro.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseServerApiException.#ctor(System.Net.HttpStatusCode,System.String)">
+            <summary>Inicializa uma nova instância com o status e corpo da resposta.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException">
+            <summary>
+            Exceção lançada quando a autenticação no License Server falha.
+            Verifique as credenciais configuradas em <c>LicenseServerOptions</c>.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException.StatusCode">
+            <summary>Código HTTP retornado pela API de autenticação, quando disponível.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException.ResponseBody">
+            <summary>Corpo bruto da resposta de erro, quando disponível.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException.#ctor(System.String,System.Nullable{System.Net.HttpStatusCode},System.String)">
+            <summary>Inicializa uma nova instância com mensagem, status e corpo da resposta.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException.#ctor(System.String,System.Exception)">
+            <summary>Inicializa uma nova instância com mensagem e exceção original.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Exceptions.LicenseServerException">
+            <summary>
+            Exceção base para erros originados pelo cliente do License Server.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseServerException.#ctor(System.String)">
+            <summary>Inicializa uma nova instância com uma mensagem de erro.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseServerException.#ctor(System.String,System.Exception)">
+            <summary>Inicializa uma nova instância com uma mensagem de erro e a exceção original.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.ILicenseServerClient">
+            <summary>
+            Contrato principal do cliente do License Server da Linx.
+            Abstrai autenticação e expõe operações de validação e gerenciamento de licenças.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.ILicenseServerClient.ValidateAsync(Linx.LicenseServer.Client.Models.Requests.LicenseValidationRequest,System.Threading.CancellationToken)">
+             <summary>
+             Valida a licença de um único cliente junto ao License Server.
+             </summary>
+             <param name="request">Dados de identificação da licença a ser validada.</param>
+             <param name="ct">Token de cancelamento.</param>
+             <returns>Resultado da validação contendo status da licença, evento de cobrança e detalhes de contrato.</returns>
+             <exception cref="T:System.ArgumentNullException">Quando <paramref name="request"/> é nulo.</exception>
+             <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException">Quando a autenticação falha.</exception>
+             <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerApiException">Quando a API retorna um código HTTP de erro.</exception>
+             <example>
+             <code>
+             var resultado = await client.ValidateAsync(new LicenseValidationRequest
+             {
+                 IdLicenca = 12345,
+                 Cnpj = "00073196000144",
+                 Chave = "MAQUINA-01"
+             });
+            
+             if (resultado.IsActive)
+                 Console.WriteLine("Licença válida!");
+             else
+                 Console.WriteLine($"Bloqueada: {resultado.Licenca?.Mensagem}");
+             </code>
+             </example>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.ILicenseServerClient.ValidateBatchAsync(System.Collections.Generic.IEnumerable{Linx.LicenseServer.Client.Models.Requests.BatchValidationItem},System.Threading.CancellationToken)">
+             <summary>
+             Valida licenças em lote. Listas com mais de 100 itens são automaticamente
+             fragmentadas em múltiplas requisições de até 100 itens cada.
+             </summary>
+             <param name="items">Coleção de clientes a validar.</param>
+             <param name="ct">Token de cancelamento.</param>
+             <returns>Lista agregada de resultados de validação, na mesma ordem dos itens enviados.</returns>
+             <exception cref="T:System.ArgumentNullException">Quando <paramref name="items"/> é nulo.</exception>
+             <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException">Quando a autenticação falha.</exception>
+             <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerApiException">Quando a API retorna um código HTTP de erro.</exception>
+             <example>
+             <code>
+             var clientes = cnpjs.Select(c => new BatchValidationItem { Cnpj = c, DataUltimoAcesso = DateTime.UtcNow });
+             var resultados = await client.ValidateBatchAsync(clientes);
+            
+             var naoAutorizados = resultados.Where(r => r.Licenca?.Status == LicenseKeyStatus.NotAuthorized).ToList();
+             </code>
+             </example>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.ILicenseServerClient.UnblockByTrustAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Realiza desbloqueio em confiança para o CNPJ informado.
+            </summary>
+            <param name="cnpj">CNPJ do cliente (somente dígitos; a sanitização é feita internamente).</param>
+            <param name="ct">Token de cancelamento.</param>
+            <exception cref="T:System.ArgumentException">Quando <paramref name="cnpj"/> é nulo ou vazio.</exception>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException">Quando a autenticação falha.</exception>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerApiException">Quando a API retorna um código HTTP de erro.</exception>
+            <example>
+            <code>
+            await client.UnblockByTrustAsync("00.073.196/0001-44");
+            // O CNPJ é sanitizado automaticamente para "00073196000144"
+            </code>
+            </example>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.ILicenseServerClient.RevokeAsync(Linx.LicenseServer.Client.Models.Requests.LicenseRevocationRequest,System.Threading.CancellationToken)">
+             <summary>
+             Revoga a licença identificada pelos dados fornecidos.
+             Informe os mesmos campos utilizados na validação correspondente.
+             </summary>
+             <param name="request">Dados de identificação da licença a ser revogada.</param>
+             <param name="ct">Token de cancelamento.</param>
+             <returns>
+             Informações atualizadas da licença.
+             Sucesso quando <c>Status == LicenseKeyStatus.Revoked</c> e <c>Mensagem == "Licença Revogada."</c>.
+             </returns>
+             <exception cref="T:System.ArgumentNullException">Quando <paramref name="request"/> é nulo.</exception>
+             <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException">Quando a autenticação falha.</exception>
+             <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerApiException">Quando a API retorna um código HTTP de erro.</exception>
+             <example>
+             <code>
+             var info = await client.RevokeAsync(new LicenseRevocationRequest
+             {
+                 IdLicenca = 12345,
+                 Cnpj = "00073196000144",
+                 Chave = "MAQUINA-01"
+             });
+            
+             if (info.Status == LicenseKeyStatus.Revoked)
+                 Console.WriteLine("Revogada com sucesso.");
+             </code>
+             </example>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.BlockOrigin">
+            <summary>
+            Origem do bloqueio de licença, derivada do campo <c>origemBloqueio</c> da API.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Models.BlockOrigin.None">
+            <summary>Sem bloqueio ou origem desconhecida (campo vazio ou nulo).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Models.BlockOrigin.Contracts">
+            <summary>Bloqueio originado por Contratos (valor <c>"C"</c>).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Models.BlockOrigin.Financial">
+            <summary>Bloqueio originado por Financeiro (valor <c>"F"</c>).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.LicenseKeyStatus">
+            <summary>
+            Status da chave de licença retornado pelo License Server (<c>lxStatusChave</c>).
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Models.LicenseKeyStatus.Unknown">
+            <summary>Valor desconhecido ou não mapeado.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Models.LicenseKeyStatus.Active">
+            <summary>Licença ativa (valor 1).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Models.LicenseKeyStatus.Revoked">
+            <summary>Licença revogada (valor 3).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Models.LicenseKeyStatus.NotAuthorized">
+            <summary>Licença não autorizada (valor 4).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Requests.BatchValidationItem">
+            <summary>
+            Item de uma requisição de validação em lote (<c>RequestLicensing</c>).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.BatchValidationItem.Cnpj">
+            <summary>CNPJ do cliente.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.BatchValidationItem.DataUltimoAcesso">
+            <summary>Data e hora do último acesso registrado para este cliente.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Requests.LicenseRevocationRequest">
+            <summary>
+            Dados para revogação de uma licença (<c>RequestInfo</c>).
+            Informar os mesmos campos que foram usados na validação correspondente.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseRevocationRequest.IdLicenca">
+            <summary>Identificador único da licença.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseRevocationRequest.Cnpj">
+            <summary>CNPJ do cliente.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseRevocationRequest.Chave">
+            <summary>Chave de uso da licença (informar se foi usada na validação).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseRevocationRequest.Usuario">
+            <summary>Identificador do usuário (informar se foi usado na validação).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseRevocationRequest.Terminal">
+            <summary>Identificador do terminal/máquina (informar se foi usado na validação).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseRevocationRequest.Versao">
+            <summary>Versão do produto.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Requests.LicenseValidationRequest">
+            <summary>
+            Dados para validação de uma licença individual (<c>RequestInfo</c>).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseValidationRequest.IdLicenca">
+            <summary>Identificador único da licença.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseValidationRequest.Cnpj">
+            <summary>CNPJ do cliente (somente dígitos recomendado).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseValidationRequest.Chave">
+            <summary>
+            Chave de uso da licença. Obrigatória quando o produto controla quantidade
+            pela contagem de chaves distintas em uso simultâneo.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseValidationRequest.Usuario">
+            <summary>Identificador do usuário que está utilizando a licença.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseValidationRequest.Terminal">
+            <summary>Identificador do terminal/máquina que está utilizando a licença.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseValidationRequest.Versao">
+            <summary>Versão do produto que está solicitando a validação.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Responses.AuthenticationResult">
+            <summary>
+            Envelope da resposta de autenticação (<c>LoginResult</c>).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationResult.Data">
+            <summary>Dados do token de autenticação.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Responses.AuthenticationData">
+            <summary>
+            Dados internos do token retornado pelo endpoint de autenticação.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationData.Uid">
+            <summary>UID do usuário autenticado.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationData.Id">
+            <summary>ID numérico do usuário.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationData.Email">
+            <summary>E-mail do usuário autenticado.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationData.Provider">
+            <summary>Provedor de autenticação.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationData.Schema">
+            <summary>Schema associado ao usuário.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationData.ApiToken">
+            <summary>Token Bearer para uso nas demais chamadas da API.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationData.ExpiresInHours">
+            <summary>Validade do token em horas a partir da emissão.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent">
+            <summary>
+            Evento da Régua de Cobrança retornado junto à validação da licença (<c>BRAction</c>).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent.Uid">
+            <summary>Identificador único do evento.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent.Cnpj">
+            <summary>CNPJ associado ao evento.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent.Cpf">
+            <summary>CPF associado ao evento.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent.Filial">
+            <summary>Filial associada ao evento.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent.ProdutoRegua">
+            <summary>Produto configurado na Régua de Cobrança.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent.Produto">
+            <summary>Produto da licença.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent.Tipo">
+            <summary>Tipo do evento.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent.Consumido">
+            <summary>Indica se o evento foi consumido.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent.Msg">
+            <summary>Mensagem descritiva do evento.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent.Data">
+            <summary>Data e hora do evento.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerEvent.Meta">
+            <summary>Metadados adicionais do evento.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Responses.BillingRulerMetadata">
+            <summary>
+            Par chave/valor de metadado associado a um evento da Régua de Cobrança.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerMetadata.Chave">
+            <summary>Nome do metadado.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.BillingRulerMetadata.Valor">
+            <summary>Valor do metadado.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Responses.ContractDetail">
+            <summary>
+            Detalhes de um contrato associado à licença validada (<c>ContractsInfo</c>).
+            Os nomes das propriedades JSON estão em MAIÚSCULAS conforme retornado pela API.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.CodClifor">
+            <summary>Código do cliente/fornecedor.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.CnpjPagador">
+            <summary>CNPJ do pagador do contrato.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.RazaoSocialPagador">
+            <summary>Razão social do pagador.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.CnpjLoja">
+            <summary>CNPJ da loja.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.RazaoSocialLoja">
+            <summary>Razão social da loja.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.IdContrato">
+            <summary>Identificador do contrato.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.ItemContrato">
+            <summary>Item do contrato.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.CodigoItemFiscal">
+            <summary>Código do item fiscal.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.QtdeItem">
+            <summary>Quantidade de itens contratados.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.DataFimContrato">
+            <summary>Data de fim de vigência do contrato.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.StatusContrato">
+            <summary>Código do status do contrato.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.StatusContratoDesc">
+            <summary>Descrição do status do contrato.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.Faixa">
+            <summary>Faixa de cobrança.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.VolumeMaximo">
+            <summary>Volume máximo contratado.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.ItemDescricaoFatura">
+            <summary>Descrição do item na fatura.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.Combo">
+            <summary>Informação de combo.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.QtdeFinal">
+            <summary>Quantidade final (pode ser nula).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.ContractDetail.QtdeLoja">
+            <summary>Quantidade por loja.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Responses.LicenseInfo">
+            <summary>
+            Informações detalhadas sobre uma licença (<c>LicencaInfo</c>).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.IdLicencaUso">
+            <summary>Identificador único do uso da licença.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.LxStatusChave">
+            <summary>
+            Código numérico do status da chave retornado pela API (<c>lxStatusChave</c>).
+            Use a propriedade <see cref="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.Status"/> para acessar o valor tipado.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.Status">
+            <summary>Status tipado da licença, derivado de <see cref="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.LxStatusChave"/>.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.Periodicidade">
+            <summary>Periodicidade de validação configurada na licença.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.DiasOffline">
+            <summary>Quantidade de dias que a licença pode operar em modo offline.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.Mensagem">
+            <summary>Mensagem descritiva retornada pelo License Server.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.Cnpj">
+            <summary>CNPJ associado à licença.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.IdOperacao">
+            <summary>ID da operação associada.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.NomeOperacao">
+            <summary>Nome da operação associada.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.OrigemBloqueio">
+            <summary>
+            Origem do bloqueio em formato bruto (<c>"C"</c>, <c>"F"</c> ou vazio/nulo).
+            Use a propriedade <see cref="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.BlockOrigin"/> para acessar o valor tipado.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.BlockOrigin">
+            <summary>Origem tipada do bloqueio, derivada de <see cref="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.OrigemBloqueio"/>.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.QuantidadeContratada">
+            <summary>Quantidade de licenças contratadas.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.QuantidadeEmUso">
+            <summary>Quantidade de licenças em uso no momento da consulta.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseInfo.LxStatusChaveName">
+            <summary>Nome textual do status da chave.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Responses.LicenseValidationResult">
+            <summary>
+            Resultado completo de uma validação de licença (<c>LicenseValidator</c>).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseValidationResult.Licenca">
+            <summary>Informações da licença validada.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseValidationResult.EventoReguaDeCobranca">
+            <summary>
+            Evento da Régua de Cobrança associado a esta validação, se houver.
+            O License Server já registra o consumo — nenhuma confirmação adicional é necessária.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseValidationResult.DetalhesDoContrato">
+            <summary>Detalhes dos contratos associados ao cliente.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.LicenseValidationResult.IsActive">
+            <summary>
+            Indica se a licença está ativa.
+            Equivale a verificar <c>Licenca.Status == LicenseKeyStatus.Active</c>.
+            </summary>
+        </member>
+    </members>
+</doc>

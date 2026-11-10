@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Linx.Internet.Application.Common.Filters;
 using System.Web;
 using System.Web.Mvc;
@@ -28,7 +28,7 @@ namespace Linx.Internet.Application.Controllers
 
         [NoCache]
         [GET("Authentication")]
-        public ActionResult Authentication(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode, string urlWorkArea)
+        public ActionResult Authentication(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode, string urlWorkArea, string mfaTicket)
         {
             LoginInfo loginInfo = new LoginInfo();
 
@@ -62,7 +62,23 @@ namespace Linx.Internet.Application.Controllers
                 // consiste os parametros
                 if (string.IsNullOrEmpty(_uidEmpresa) || string.IsNullOrEmpty(_uidUsuario) || string.IsNullOrEmpty(_uidAplicacao) || string.IsNullOrEmpty(_idAmbiente) || string.IsNullOrEmpty(_uidGrupoEconomico) || string.IsNullOrEmpty(_nomeEmpresa) || string.IsNullOrEmpty(_grupoEconomico) || string.IsNullOrEmpty(_idGpecon))
                 {
-                    ViewBag.Mensagem = "Parametros inv�lidos!";
+                    ViewBag.Mensagem = "Parametros inválidos!";
+                    return View();
+                }
+
+                string mfaError;
+                if (!this.EnsureMfaTicket(_uidUsuario, _idGpecon, mfaTicket, out mfaError))
+                {
+                    string retryUrl = this.BuildPortalMfaRetryUrl(
+                        _loginUrl, uidEmpresa, uidUsuario, uidAplicacao, loginUrl, formulario,
+                        idAmbiente, uidGrupoEconomico, nomeEmpresa, grupoEconomico, idGpecon,
+                        usuarioAutenticacao, supportMode, urlWorkArea);
+                    if (!string.IsNullOrEmpty(retryUrl))
+                    {
+                        this.Session.Remove("MfaTicketOk");
+                        return Redirect(retryUrl);
+                    }
+                    ViewBag.Mensagem = mfaError;
                     return View();
                 }
 
@@ -82,11 +98,14 @@ namespace Linx.Internet.Application.Controllers
                 else
                 {
                     string retorno;
-                    loginInfo = this.AuthenticateUser(_uidEmpresa, _uidUsuario, _uidAplicacao, _idAmbiente, _usuarioAutenticacao, out retorno);
+                    bool canUnblockByTrust;
+                    loginInfo = this.AuthenticateUser(_uidEmpresa, _uidUsuario, _uidAplicacao, _idAmbiente, _usuarioAutenticacao, out retorno, out canUnblockByTrust);
 
                     if (retorno.Length > 0)
                     {
                         ViewBag.Mensagem = retorno;
+                        ViewBag.CanUnblockByTrust = canUnblockByTrust;
+                        ViewBag.ManagerUserName = _usuarioAutenticacao ?? User.Identity.Name;
                         return View();
                     }
                 }
@@ -145,7 +164,7 @@ namespace Linx.Internet.Application.Controllers
                     LoggedUser[] users = JsonConvert.DeserializeObject<LoggedUser[]>(response.Content);
 
                     if (users == null || users.Count() == 0)
-                        retorno = "Usu�rio n�o possui acesso padr�o !";
+                        retorno = "Usuário não possui acesso padrão !";
                     else
                     {
                         return RedirectToAction("Authentication", "LIA",
@@ -170,7 +189,7 @@ namespace Linx.Internet.Application.Controllers
                 }
                 else
                 {
-                    retorno = string.Concat("Retorno inv�lido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
+                    retorno = string.Concat("Retorno inválido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
                 }
 
                 if (retorno.Length > 0)
@@ -186,7 +205,7 @@ namespace Linx.Internet.Application.Controllers
         [NoCache]
         [PreserveQueryString]
         [GET("/")]
-        public ActionResult Loading(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode)
+        public ActionResult Loading(string uidEmpresa, string uidUsuario, string uidAplicacao, string loginUrl, string formulario, string idAmbiente, string uidGrupoEconomico, string nomeEmpresa, string grupoEconomico, string idGpecon, string usuarioAutenticacao, string supportMode, string mfaTicket)
         {
             using (profiler.Step("Loading"))
             {
@@ -242,7 +261,8 @@ namespace Linx.Internet.Application.Controllers
                                 grupoEconomico = grupoEconomico,
                                 idGpecon = idGpecon,
                                 usuarioAutenticacao = usuarioAutenticacao,
-                                supportMode = supportMode
+                                supportMode = supportMode,
+                                mfaTicket = mfaTicket
                             }
                         );
                     }
@@ -420,14 +440,13 @@ namespace Linx.Internet.Application.Controllers
         public ActionResult SendPasswordResetLink(string userName)
         {
             if (string.IsNullOrEmpty(userName))
-                return Json(new { success = false, message = "Informe o usu�rio." });
+                return Json(new { success = false, message = "Informe o usuário." });
 
             var _serviceBus = ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
             var client = new RestClient(_serviceBus);
             var request = new RestRequest("LinxFrameworkAutorizacao/SendPasswordResetLink");
             request.AddParameter("userName", userName, ParameterType.QueryString);
 
-            // URL base desta aplica��o, usada para montar o link da p�gina de redefini��o no e-mail.
             var callbackUrl = string.Concat(Request.Url.GetLeftPart(UriPartial.Authority), Url.Content("~/"), "ResetPassword");
             request.AddParameter("callbackUrl", callbackUrl, ParameterType.QueryString);
 
@@ -436,9 +455,8 @@ namespace Linx.Internet.Application.Controllers
             if (response.ErrorException != null)
                 return Json(new { success = false, message = response.ErrorException.Message });
 
-            // Mensagem gen�rica para n�o revelar se o usu�rio existe.
             if (response.StatusCode == HttpStatusCode.OK)
-                return Json(new { success = true, message = "Se o usu�rio estiver cadastrado, voc� receber� um e-mail com o link para redefinir a senha." });
+                return Json(new { success = true, message = "Se o usuário estiver cadastrado, você receberá um e-mail com o link para redefinir a senha." });
 
             return Json(new { success = false, message = ExtractError(response.Content) });
         }
@@ -473,7 +491,7 @@ namespace Linx.Internet.Application.Controllers
         public ActionResult ResetPasswordSubmit(string token, string newPassword)
         {
             if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(newPassword))
-                return Json(new { success = false, message = "Dados inv�lidos." });
+                return Json(new { success = false, message = "Dados inválidos." });
 
             var _serviceBus = ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
             var client = new RestClient(_serviceBus);
@@ -492,9 +510,56 @@ namespace Linx.Internet.Application.Controllers
             return Json(new { success = false, message = ExtractError(response.Content) });
         }
 
-        private LoginInfo AuthenticateUser(string uidEmpresa, string uidUsuario, string uidAplicacao, string idAmbiente, string usuarioAutenticacao, out string retorno)
+        [NoCache]
+        [POST("UnblockLicenseByTrust")]
+        public ActionResult UnblockLicenseByTrust(string userName)
+        {
+            if (string.IsNullOrEmpty(userName))
+                userName = User.Identity.IsAuthenticated ? User.Identity.Name : null;
+
+            if (string.IsNullOrEmpty(userName))
+                return Json(new { success = false, outcome = 1, message = "Informe o usuário." });
+
+            var _serviceBus = ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
+            var client = new RestClient(_serviceBus);
+            var request = new RestRequest("LinxFrameworkAutorizacao/UnblockLicenseByTrust");
+            request.AddParameter("userName", userName, ParameterType.QueryString);
+
+            var response = client.ExecuteAsGet(request, "GET");
+            if (response.ErrorException != null)
+                return Json(new { success = false, outcome = 2, message = response.ErrorException.Message });
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                return Json(new { success = false, outcome = 2, message = ExtractError(response.Content) });
+
+            var result = JsonConvert.DeserializeObject<TrustUnblockDto>(response.Content ?? string.Empty);
+            if (result == null)
+                return Json(new { success = false, outcome = 2, message = "Resposta inválida do desbloqueio em confiança." });
+
+            string details = StripCanUnblockMarker(result.Details);
+            if (result.Outcome == 0)
+                return Json(new { success = true, outcome = 0, message = "Desbloqueio em confiança aceito." });
+
+            if (string.IsNullOrWhiteSpace(details))
+            {
+                details = result.Outcome == 1
+                    ? "Desbloqueio em confiança recusado pelo servidor."
+                    : "Falha ao solicitar desbloqueio em confiança.";
+            }
+
+            return Json(new { success = false, outcome = result.Outcome, message = details });
+        }
+
+        private class TrustUnblockDto
+        {
+            public int Outcome { get; set; }
+            public string Details { get; set; }
+        }
+
+        private LoginInfo AuthenticateUser(string uidEmpresa, string uidUsuario, string uidAplicacao, string idAmbiente, string usuarioAutenticacao, out string retorno, out bool canUnblockByTrust)
         {
             retorno = string.Empty;
+            canUnblockByTrust = false;
             LoginInfo loginInfo = new LoginInfo();
 
             var _serviceBus = System.Configuration.ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
@@ -520,7 +585,7 @@ namespace Linx.Internet.Application.Controllers
                 loginInfo = JsonConvert.DeserializeObject<LoginInfo>(response.Content);
 
                 if (loginInfo == null)
-                    retorno = "Mensagem inv�lida!";
+                    retorno = "Mensagem inválida!";
                 else
                 {
                     this.Session["Expiracao"] = (!loginInfo.AutenticacaoWindows && DateTime.Now >= loginInfo.DataExpiracaoSenha);
@@ -532,12 +597,143 @@ namespace Linx.Internet.Application.Controllers
             {
                 if (response.Content.Contains("Linx.Framework.BV.LicenseException"))
                 {
-                    retorno = string.Concat("<b>Falha na Valida��o do Controle de Licen�as.<BR><BR>", ExtractError(response.Content), "</b>");
+                    canUnblockByTrust = OffersUnblockByTrust(response.Content);
+                    string licenseError = StripCanUnblockMarker(ExtractError(response.Content));
+                    retorno = "Falha na Validação do Controle de Licenças.<br /><br />" + HttpUtility.HtmlEncode(licenseError);
                 }
                 else
-                    retorno = string.Concat("Retorno inv�lido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
+                    retorno = string.Concat("Retorno inválido!<BR>", response.StatusCode, " : ", ExtractError(response.Content));
             }
             return loginInfo;
+        }
+
+        private static bool OffersUnblockByTrust(string content)
+        {
+            return !string.IsNullOrEmpty(content)
+                && content.IndexOf("canUnblockByTrust=true", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private static string StripCanUnblockMarker(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+            return text.Replace("[canUnblockByTrust=true]", string.Empty).Trim();
+        }
+
+        private string BuildPortalMfaRetryUrl(
+            string portalLoginUrl,
+            string uidEmpresa,
+            string uidUsuario,
+            string uidAplicacao,
+            string loginUrl,
+            string formulario,
+            string idAmbiente,
+            string uidGrupoEconomico,
+            string nomeEmpresa,
+            string grupoEconomico,
+            string idGpecon,
+            string usuarioAutenticacao,
+            string supportMode,
+            string urlWorkArea)
+        {
+            string portal = portalLoginUrl;
+            if (string.IsNullOrEmpty(portal))
+                portal = loginUrl;
+            if (string.IsNullOrEmpty(portal))
+                portal = ConfigurationManager.AppSettings.GetValue("Portal", "http://localhost:8172/");
+            if (string.IsNullOrEmpty(portal))
+                return null;
+            if (!portal.EndsWith("/"))
+                portal = portal + "/";
+
+            string appUrl = null;
+            if (this.Request != null && this.Request.Url != null)
+                appUrl = this.Request.Url.GetLeftPart(UriPartial.Path);
+            if (string.IsNullOrEmpty(appUrl))
+                appUrl = ConfigurationManager.AppSettings.GetValue("Application", "http://localhost:8174/");
+
+            return portal + "Home/Redirect?" +
+                "url=" + HttpUtility.UrlEncode(appUrl) +
+                "&uidEmpresa=" + HttpUtility.UrlEncode(uidEmpresa ?? "") +
+                "&uidUsuario=" + HttpUtility.UrlEncode(uidUsuario ?? "") +
+                "&uidAplicacao=" + HttpUtility.UrlEncode(uidAplicacao ?? "") +
+                "&formulario=" + HttpUtility.UrlEncode(formulario ?? "") +
+                "&idAmbiente=" + HttpUtility.UrlEncode(idAmbiente ?? "") +
+                "&uidGrupoEconomico=" + HttpUtility.UrlEncode(uidGrupoEconomico ?? "") +
+                "&nomeEmpresa=" + HttpUtility.UrlEncode(nomeEmpresa ?? "") +
+                "&grupoEconomico=" + HttpUtility.UrlEncode(grupoEconomico ?? "") +
+                "&idLinxGpecon=" + HttpUtility.UrlEncode(idGpecon ?? "") +
+                "&usuarioAutenticacao=" + HttpUtility.UrlEncode(usuarioAutenticacao ?? "") +
+                "&supportMode=" + HttpUtility.UrlEncode(string.IsNullOrEmpty(supportMode) ? "False" : supportMode) +
+                "&urlWorkArea=" + HttpUtility.UrlEncode(urlWorkArea ?? "") +
+                "&forceMfa=true";
+        }
+
+        private bool EnsureMfaTicket(string uidUsuario, string idGpecon, string mfaTicket, out string error)
+        {
+            error = string.Empty;
+            string key = string.Format("{0}|{1}", uidUsuario, idGpecon);
+            if (this.Session["MfaTicketOk"] as string == key)
+                return true;
+
+            if (string.IsNullOrWhiteSpace(mfaTicket))
+                mfaTicket = this.Request["mfaTicket"] ?? this.Request.Headers["MfaTicket"];
+
+            var _serviceBus = System.Configuration.ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
+            var client = new RestClient(_serviceBus);
+
+            if (!string.IsNullOrWhiteSpace(mfaTicket))
+            {
+                var ticketRequest = new RestRequest("LinxFrameworkAutorizacao/ValidateMfaTicket");
+                ticketRequest.AddParameter("ticket", mfaTicket, ParameterType.QueryString);
+                var ticketResponse = client.ExecuteAsGet(ticketRequest, "GET");
+                if (ticketResponse.ErrorException == null && ticketResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    var parsed = JsonConvert.DeserializeObject<MfaTicketCheck>(ticketResponse.Content);
+                    if (parsed != null && parsed.Success)
+                    {
+                        this.Session["MfaTicketOk"] = key;
+                        return true;
+                    }
+                    error = parsed != null && !string.IsNullOrEmpty(parsed.Message) ? parsed.Message : "Ticket MFA inválido.";
+                    return false;
+                }
+                error = ticketResponse.ErrorException != null ? ticketResponse.ErrorException.Message : "Falha ao validar ticket MFA.";
+                return false;
+            }
+
+            Guid uid;
+            int gpecon;
+            if (!Guid.TryParse(uidUsuario, out uid) || !int.TryParse(idGpecon, out gpecon))
+            {
+                error = "Validação MFA obrigatória. Acesse pelo Portal.";
+                return false;
+            }
+
+            var statusRequest = new RestRequest("LinxFrameworkAutorizacao/GetMfaStatus");
+            statusRequest.AddParameter("tableOrigin", "UX", ParameterType.QueryString);
+            statusRequest.AddParameter("idGpecon", gpecon, ParameterType.QueryString);
+            statusRequest.AddParameter("uidUsuario", uid, ParameterType.QueryString);
+            var statusResponse = client.ExecuteAsGet(statusRequest, "GET");
+            if (statusResponse.ErrorException == null && statusResponse.StatusCode == HttpStatusCode.OK)
+            {
+                var status = JsonConvert.DeserializeObject<MfaTicketCheck>(statusResponse.Content);
+                if (status != null && !status.RequiresMfa)
+                {
+                    this.Session["MfaTicketOk"] = key;
+                    return true;
+                }
+            }
+
+            error = "Validação MFA obrigatória. Acesse pelo Portal.";
+            return false;
+        }
+
+        private class MfaTicketCheck
+        {
+            public bool Success { get; set; }
+            public string Message { get; set; }
+            public bool RequiresMfa { get; set; }
         }
 
         private string ExtractError(string content)
