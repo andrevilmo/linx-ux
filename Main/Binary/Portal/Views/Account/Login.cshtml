@@ -157,7 +157,7 @@
             @if (showHCaptcha)
             {
                 <div class="hcaptcha-row">
-                    <div class="h-captcha" data-sitekey="@hCaptchaSiteKey"></div>
+                    <div class="h-captcha" data-sitekey="@hCaptchaSiteKey" data-callback="onHCaptchaSuccess"></div>
                 </div>
             }
 
@@ -299,14 +299,44 @@
             });
         }
 
+        function getLoginValidationBox() {
+            return form ? form.querySelector('.form-validation-response') : null;
+        }
+
+        function clearLoginCaptchaError() {
+            var box = getLoginValidationBox();
+            if (!box) return;
+            var nodes = box.querySelectorAll('label.error-message[data-hcaptcha-error="1"]');
+            for (var i = 0; i < nodes.length; i++) {
+                nodes[i].parentNode.removeChild(nodes[i]);
+            }
+        }
+
+        function showLoginCaptchaError(message) {
+            var box = getLoginValidationBox();
+            if (!box) return;
+            clearLoginCaptchaError();
+            var lbl = document.createElement('label');
+            lbl.className = 'error-message';
+            lbl.setAttribute('data-hcaptcha-error', '1');
+            lbl.textContent = message || 'Confirme o captcha antes de entrar.';
+            box.appendChild(lbl);
+        }
+
+        // Called by hCaptcha widget when the challenge is solved (data-callback).
+        window.onHCaptchaSuccess = function () {
+            clearLoginCaptchaError();
+        };
+
         function ensureHCaptchaBeforeSubmit() {
             if (!hCaptchaRequired) return true;
             var tokenField = form.querySelector('[name="h-captcha-response"]');
             var token = tokenField ? (tokenField.value || '') : '';
             if (!token) {
-                alert('Confirme o captcha antes de entrar.');
+                showLoginCaptchaError('Confirme o captcha antes de entrar.');
                 return false;
             }
+            clearLoginCaptchaError();
             return true;
         }
 
