@@ -34,6 +34,50 @@
         text-align: center;
         opacity: 0.7;
     }
+    /* Contain checkbox-row float:right so it cannot wrap following siblings left. */
+    #login #passwordStep {
+        overflow: hidden;
+    }
+    #login #passwordStep:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    /* Sibling of .button-row; full form width (350px) with widget centered in that strip. */
+    #login form#FormLogIn > .hcaptcha-row {
+        clear: both !important;
+        display: block !important;
+        width: 100% !important;
+        max-width: 100%;
+        margin: 0;
+        padding: 50px 0 0 0;
+        min-height: 78px;
+        box-sizing: border-box;
+        text-align: center !important;
+    }
+    /* Only text-align centering — do not also use left/transform (they stacked +24px). */
+    #login form#FormLogIn > .hcaptcha-row .h-captcha {
+        display: inline-block !important;
+        width: auto !important;
+        max-width: 100%;
+        float: none !important;
+        position: static !important;
+        left: auto !important;
+        -webkit-transform: none !important;
+        transform: none !important;
+        margin: 0 !important;
+        text-align: left;
+    }
+    /* 50px between "Esqueci minha senha" and social icons */
+    #login #authentication > .forget-password {
+        padding-bottom: 50px;
+    }
+    #login #authentication > .ul-redes {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        margin: 0 auto 24px;
+    }
 </style>
 <article id="login">
     <section id="info-product" >
@@ -68,6 +112,8 @@
             var identified = string.Equals(loginStep, "password", StringComparison.OrdinalIgnoreCase);
             var showSsoButton = ViewBag.ShowSsoButton as bool? ?? false;
             var ssoOnlyStep = identified && showSsoButton;
+            var showHCaptcha = Linx.Portal.Utils.ShouldShowHCaptcha(identified, ssoOnlyStep);
+            var hCaptchaSiteKey = showHCaptcha ? Linx.Portal.Utils.GetHCaptchaSiteKey() : null;
             var userNameValue = Model != null && !string.IsNullOrEmpty(Model.UserName)
                 ? Model.UserName
                 : (ViewBag.IdentifiedUserName as string ?? "");
@@ -106,6 +152,13 @@
                     <label for="RememberMe">mantenha-me conectado</label>
                 </div>
             </div>
+            }
+
+            @if (showHCaptcha)
+            {
+                <div class="hcaptcha-row">
+                    <div class="h-captcha" data-sitekey="@hCaptchaSiteKey" data-callback="onHCaptchaSuccess"></div>
+                </div>
             }
 
             @if (!identified)
@@ -220,6 +273,7 @@
         var password = document.getElementById('Password');
         var submitHidden = document.getElementById('submitHidden');
         var loginIdentified = @(identified ? "true" : "false");
+        var hCaptchaRequired = @(showHCaptcha ? "true" : "false");
         if (loginIdentified && password) {
             try { password.focus(); } catch (e) { }
         }
@@ -245,11 +299,53 @@
             });
         }
 
+        function getLoginValidationBox() {
+            return form ? form.querySelector('.form-validation-response') : null;
+        }
+
+        function clearLoginCaptchaError() {
+            var box = getLoginValidationBox();
+            if (!box) return;
+            var nodes = box.querySelectorAll('label.error-message[data-hcaptcha-error="1"]');
+            for (var i = 0; i < nodes.length; i++) {
+                nodes[i].parentNode.removeChild(nodes[i]);
+            }
+        }
+
+        function showLoginCaptchaError(message) {
+            var box = getLoginValidationBox();
+            if (!box) return;
+            clearLoginCaptchaError();
+            var lbl = document.createElement('label');
+            lbl.className = 'error-message';
+            lbl.setAttribute('data-hcaptcha-error', '1');
+            lbl.textContent = message || 'Confirme o captcha antes de entrar.';
+            box.appendChild(lbl);
+        }
+
+        // Called by hCaptcha widget when the challenge is solved (data-callback).
+        window.onHCaptchaSuccess = function () {
+            clearLoginCaptchaError();
+        };
+
+        function ensureHCaptchaBeforeSubmit() {
+            if (!hCaptchaRequired) return true;
+            var tokenField = form.querySelector('[name="h-captcha-response"]');
+            var token = tokenField ? (tokenField.value || '') : '';
+            if (!token) {
+                showLoginCaptchaError('Confirme o captcha antes de entrar.');
+                return false;
+            }
+            clearLoginCaptchaError();
+            return true;
+        }
+
         if (btnSumit) {
             btnSumit.addEventListener('click', function () {
                 if (password) password.setAttribute('required', true);
                 if (identifyOnly) identifyOnly.value = 'false';
                 recoverPassword.value = false;
+                if (!ensureHCaptchaBeforeSubmit()) return;
                 submitHidden.click();
             });
         }
@@ -260,6 +356,7 @@
                 if (identifyOnly) identifyOnly.value = 'false';
                 recoverPassword.value = false;
                 showEnviroments.value = true;
+                if (!ensureHCaptchaBeforeSubmit()) return;
                 submitHidden.click();
             });
         }
@@ -447,3 +544,7 @@
         }
     });
 </script>
+@if (showHCaptcha)
+{
+    <script src="https://js.hcaptcha.com/1/api.js?hl=pt" async defer></script>
+}

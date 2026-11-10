@@ -133,5 +133,36 @@ namespace Linx.Portal
 
             return options;
         }
+
+        /// <summary>hCaptcha on password step (default true when site key is present).</summary>
+        public static bool IsHCaptchaEnabled()
+        {
+            return GetBoolSetting("HCaptcha.Enabled", true);
+        }
+
+        public static string GetHCaptchaSiteKey()
+        {
+            return GetSetting("HCaptcha.SiteKey", null);
+        }
+
+        public static string GetHCaptchaSecretKey()
+        {
+            string secret = GetSetting("HCaptcha.SecretKey", null);
+            if (string.IsNullOrWhiteSpace(secret))
+            {
+                string fromEnv = Environment.GetEnvironmentVariable("SI_PDR_HCAPTCHA_SECRET_KEY");
+                if (!string.IsNullOrWhiteSpace(fromEnv))
+                    secret = fromEnv.Trim();
+            }
+            return secret;
+        }
+
+        public static bool ShouldShowHCaptcha(bool identified, bool ssoOnlyStep)
+        {
+            return IsHCaptchaEnabled()
+                && identified
+                && !ssoOnlyStep
+                && !string.IsNullOrWhiteSpace(GetHCaptchaSiteKey());
+        }
     }
 }

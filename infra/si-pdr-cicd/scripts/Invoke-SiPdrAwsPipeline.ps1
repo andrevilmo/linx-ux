@@ -227,12 +227,12 @@ if ($SkipBuild) { $deployArgs += '-KeepExistingIisDlls' }
 Invoke-Ps1File -FilePath $deploy -ArgumentList $deployArgs
 Write-Host ("Deploy done in {0:n1}s" -f $sw.Elapsed.TotalSeconds)
 
-function Get-PortalSsoSecret {
-    param([string] $ConfigPath)
+function Get-PortalSettingValue {
+    param([string] $ConfigPath, [string] $Key)
     if (-not (Test-Path -LiteralPath $ConfigPath)) { return $null }
     try {
         [xml]$xml = Get-Content -LiteralPath $ConfigPath -Raw
-        $node = $xml.SelectSingleNode("/configuration/PortalSettings/add[@key='SSO_CLIENT_SECRET']")
+        $node = $xml.SelectSingleNode("/configuration/PortalSettings/add[@key='$Key']")
         if ($node -and -not [string]::IsNullOrWhiteSpace($node.GetAttribute('value'))) {
             return $node.GetAttribute('value').Trim()
         }
@@ -240,32 +240,56 @@ function Get-PortalSsoSecret {
     return $null
 }
 
-function Set-PortalSsoSecret {
-    param([string] $ConfigPath, [string] $Secret)
+function Get-PortalSsoSecret {
+    param([string] $ConfigPath)
+    return Get-PortalSettingValue -ConfigPath $ConfigPath -Key 'SSO_CLIENT_SECRET'
+}
+
+function Get-PortalHCaptchaSecret {
+    param([string] $ConfigPath)
+    return Get-PortalSettingValue -ConfigPath $ConfigPath -Key 'HCaptcha.SecretKey'
+}
+
+function Set-PortalSettingValue {
+    param([string] $ConfigPath, [string] $Key, [string] $Secret)
     if ([string]::IsNullOrWhiteSpace($Secret) -or -not (Test-Path -LiteralPath $ConfigPath)) { return $false }
     try {
         [xml]$xml = Get-Content -LiteralPath $ConfigPath -Raw
         $section = $xml.SelectSingleNode('/configuration/PortalSettings')
         if (-not $section) { return $false }
-        $node = $section.SelectSingleNode("add[@key='SSO_CLIENT_SECRET']")
+        $node = $section.SelectSingleNode("add[@key='$Key']")
         if (-not $node) {
             $node = $xml.CreateElement('add')
-            $node.SetAttribute('key', 'SSO_CLIENT_SECRET')
+            $node.SetAttribute('key', $Key)
             [void]$section.AppendChild($node)
         }
         $node.SetAttribute('value', $Secret)
         $xml.Save($ConfigPath)
         return $true
     } catch {
-        Write-Warning ("Could not write SSO_CLIENT_SECRET to {0}: {1}" -f $ConfigPath, $_.Exception.Message)
+        Write-Warning ("Could not write {0} to {1}: {2}" -f $Key, $ConfigPath, $_.Exception.Message)
         return $false
     }
+}
+
+function Set-PortalSsoSecret {
+    param([string] $ConfigPath, [string] $Secret)
+    return Set-PortalSettingValue -ConfigPath $ConfigPath -Key 'SSO_CLIENT_SECRET' -Secret $Secret
+}
+
+function Set-PortalHCaptchaSecret {
+    param([string] $ConfigPath, [string] $Secret)
+    return Set-PortalSettingValue -ConfigPath $ConfigPath -Key 'HCaptcha.SecretKey' -Secret $Secret
 }
 
 $livePortalCfg = Join-Path $FrameworkRoot 'Portal\Web.config'
 $preservedSsoSecret = Get-PortalSsoSecret -ConfigPath $livePortalCfg
 if ($preservedSsoSecret) {
     Write-Host ("Preserved live Portal SSO_CLIENT_SECRET (len={0})" -f $preservedSsoSecret.Length)
+}
+$preservedHCaptchaSecret = Get-PortalHCaptchaSecret -ConfigPath $livePortalCfg
+if ($preservedHCaptchaSecret) {
+    Write-Host ("Preserved live Portal HCaptcha.SecretKey (len={0})" -f $preservedHCaptchaSecret.Length)
 }
 
 Write-Phase 'Restore Binary web.config onto IIS (QA SQL)'
@@ -323,6 +347,13 @@ $afterInject = Get-PortalSsoSecret -ConfigPath $livePortalCfg
 if (-not $afterInject -and $preservedSsoSecret) {
     if (Set-PortalSsoSecret -ConfigPath $livePortalCfg -Secret $preservedSsoSecret) {
         Write-Host ("Restored preserved Portal SSO_CLIENT_SECRET (len={0})" -f $preservedSsoSecret.Length)
+    }
+}
+
+$afterHCaptcha = Get-PortalHCaptchaSecret -ConfigPath $livePortalCfg
+if (-not $afterHCaptcha -and $preservedHCaptchaSecret) {
+    if (Set-PortalHCaptchaSecret -ConfigPath $livePortalCfg -Secret $preservedHCaptchaSecret) {
+        Write-Host ("Restored preserved Portal HCaptcha.SecretKey (len={0})" -f $preservedHCaptchaSecret.Length)
     }
 }
 

@@ -18,7 +18,7 @@ $ErrorActionPreference = 'Stop'
 function Test-BlockedName {
     param([string] $Name)
     $lower = $Name.ToLowerInvariant()
-    if ($lower -eq '.sso-client-secret') { return $true }
+    if ($lower -eq '.sso-client-secret' -or $lower -eq '.hcaptcha-secret') { return $true }
     if ($lower -eq '.env') { return $true }
     return $false
 }

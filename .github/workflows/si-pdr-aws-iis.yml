@@ -2,7 +2,7 @@ name: SI-PDR AWS IIS (Application / Service / Portal)
 
 on:
   push:
-    branches: [SI-PDR-CICD-AWS, footer-presente-colocando-filtro-codigo-gpecon-na-exportacao, main, feature/implementacao-completa-ss-mfa-5-10-2026, feature/implementacao-completa-ss-mfa-5-10-2026-mais-correcao-tela-senha-ficando-em-branco-antes-e-depois-n-janela-mfa, feature/implementacao-completa-ss-mfa-5-10-2026-mais-correcao-tela-senha-ficando-em-branco-antes-e-depois-n-janela-mfa-mudanca-envio-senhaget-post, feature/implementacao-completa-ss-mfa-5-10-2026-mais-correcao-tela-senha-ficando-em-branco-antes-e-depois-n-janela-mfa-mudanca-envio-senhaget-post-mais-ENTERMODA-44977]
+    branches: [SI-PDR-CICD-AWS, footer-presente-colocando-filtro-codigo-gpecon-na-exportacao, main, feature/implementacao-completa-ss-mfa-5-10-2026, feature/implementacao-completa-ss-mfa-5-10-2026-mais-correcao-tela-senha-ficando-em-branco-antes-e-depois-n-janela-mfa, feature/implementacao-completa-ss-mfa-5-10-2026-mais-correcao-tela-senha-ficando-em-branco-antes-e-depois-n-janela-mfa-mudanca-envio-senhaget-post, feature/implementacao-completa-ss-mfa-5-10-2026-mais-correcao-tela-senha-ficando-em-branco-antes-e-depois-n-janela-mfa-mudanca-envio-senhaget-post-mais-ENTERMODA-44977, cursor/hcaptcha-segunda-tela-login-345c]
     paths:
       - 'Main/**'
       - '.vscode/stack-to-publish.ps1'
@@ -174,6 +174,34 @@ jobs:
             echo "SSO client secret not in GitHub Actions secret or S3; IIS inject will skip unless the Windows host can read S3"
           fi
 
+      # hCaptcha siteverify secret — same pattern as SSO (never commit the value).
+      - name: Load Portal hCaptcha secret
+        env:
+          GITHUB_HCAPTCHA_SECRET: ${{ secrets.SI_PDR_HCAPTCHA_SECRET_KEY }}
+        run: |
+          set -euo pipefail
+          SECRET="${GITHUB_HCAPTCHA_SECRET:-}"
+          SOURCE="github"
+          if [ -z "$SECRET" ]; then
+            SOURCE="s3"
+            SECRET=$(aws s3 cp "s3://${SOURCE_BUCKET}/linx-ux/secrets/HCAPTCHA_SECRET_KEY" - --region "$AWS_REGION" 2>/dev/null || true)
+            SECRET="${SECRET%$'\r'}"
+            SECRET="${SECRET%$'\n'}"
+          fi
+          if [ -n "$SECRET" ]; then
+            echo "::add-mask::$SECRET"
+            {
+              echo "SI_PDR_HCAPTCHA_SECRET_KEY<<EOF"
+              echo "$SECRET"
+              echo "EOF"
+            } >> "$GITHUB_ENV"
+            echo "SI_PDR_HCAPTCHA_SECRET_SOURCE=$SOURCE" >> "$GITHUB_ENV"
+            echo "hCaptcha secret loaded from $SOURCE (len=${#SECRET})"
+          else
+            echo "SI_PDR_HCAPTCHA_SECRET_SOURCE=missing" >> "$GITHUB_ENV"
+            echo "hCaptcha secret not in GitHub Actions secret or S3; IIS inject will skip unless the Windows host can read S3"
+          fi
+
       - name: Setup .NET 8 (desktop sample win-x64)
         uses: actions/setup-dotnet@v4
         with:
@@ -255,6 +283,12 @@ jobs:
             printf '%s' "$SI_PDR_SSO_CLIENT_SECRET" > "$STAGE/repo/infra/si-pdr-cicd/scripts/.sso-client-secret"
             echo "Packed SSO client secret sidecar (len=${#SI_PDR_SSO_CLIENT_SECRET} source=${SI_PDR_SSO_SECRET_SOURCE:-unknown})"
           fi
+          if [ -n "${SI_PDR_HCAPTCHA_SECRET_KEY:-}" ]; then
+            mkdir -p "$STAGE/repo/infra/si-pdr-cicd/scripts"
+            umask 077
+            printf '%s' "$SI_PDR_HCAPTCHA_SECRET_KEY" > "$STAGE/repo/infra/si-pdr-cicd/scripts/.hcaptcha-secret"
+            echo "Packed hCaptcha secret sidecar (len=${#SI_PDR_HCAPTCHA_SECRET_KEY} source=${SI_PDR_HCAPTCHA_SECRET_SOURCE:-unknown})"
+          fi
           # tar.gz + Windows tar.exe extract is much faster than zip/Expand-Archive on t3.small
           KEY="linx-ux/runs/${GITHUB_RUN_ID}-${GITHUB_SHA}/source.tar.gz"
           echo "SOURCE_KEY=$KEY" >> "$GITHUB_ENV"
@@ -333,9 +367,11 @@ jobs:
           if ({env_ps("SI_PDR_SHELL_MODE")}) {{ $env:SI_PDR_SHELL_MODE = {env_ps("SI_PDR_SHELL_MODE")} }}
           if ({env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")}) {{ $env:SI_PDR_LOCAL_SERVICEBUS_MODE = {env_ps("SI_PDR_LOCAL_SERVICEBUS_MODE")} }}
           $env:SI_PDR_SSO_CLIENT_SECRET_S3 = {json.dumps("s3://" + os.environ.get("SOURCE_BUCKET", "omnipos-cicd-253957900820-sa-east-1") + "/linx-ux/secrets/SSO_CLIENT_SECRET")}
+          $env:SI_PDR_HCAPTCHA_SECRET_KEY_S3 = {json.dumps("s3://" + os.environ.get("SOURCE_BUCKET", "omnipos-cicd-253957900820-sa-east-1") + "/linx-ux/secrets/HCAPTCHA_SECRET_KEY")}
           $hasSql = [bool]($env:SI_PDR_SQL_PORTAL_CONNECTION -or ($env:SI_PDR_SQL_DATA_SOURCE -and $env:SI_PDR_SQL_USER -and $env:SI_PDR_SQL_PASSWORD))
           $ssoSource = {json.dumps(os.environ.get("SI_PDR_SSO_SECRET_SOURCE") or "missing")}
-          Write-CiLog ("SQL overrides present={{0}} SSO secret source={{1}} skipBuild={skip_ps} skipHeavySeed={seed_ps}" -f $hasSql, $ssoSource)
+          $hcaptchaSource = {json.dumps(os.environ.get("SI_PDR_HCAPTCHA_SECRET_SOURCE") or "missing")}
+          Write-CiLog ("SQL overrides present={{0}} SSO secret source={{1}} hCaptcha secret source={{2}} skipBuild={skip_ps} skipHeavySeed={seed_ps}" -f $hasSql, $ssoSource, $hcaptchaSource)
 
           # Host lock so OmniPOS CI and SI-PDR CI do not overlap on the same machine
           $deadline = (Get-Date).AddMinutes(90)

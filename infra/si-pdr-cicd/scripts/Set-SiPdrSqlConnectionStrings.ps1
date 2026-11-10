@@ -31,7 +31,8 @@ param(
     # Only override when SI_PDR_* env is set - Binary web.configs are authoritative.
     [string] $ShellMode = $env:SI_PDR_SHELL_MODE,
     [string] $LocalServiceBusMode = $env:SI_PDR_LOCAL_SERVICEBUS_MODE,
-    [string] $SsoClientSecret = $env:SI_PDR_SSO_CLIENT_SECRET
+    [string] $SsoClientSecret = $env:SI_PDR_SSO_CLIENT_SECRET,
+    [string] $HCaptchaSecretKey = $env:SI_PDR_HCAPTCHA_SECRET_KEY
 )
 
 $ErrorActionPreference = 'Stop'
@@ -253,6 +254,88 @@ if ($resolvedSso) {
 else {
     Write-Log 'SI_PDR_SSO_CLIENT_SECRET not set; Portal SSO_CLIENT_SECRET left as in Binary web.config.'
     Write-Output 'SSO_CLIENT_SECRET_SKIPPED'
+}
+
+# hCaptcha siteverify secret is not stored in git (GitHub push protection).
+# Resolve from (1) env SI_PDR_HCAPTCHA_SECRET_KEY, (2) sidecar, (3) S3.
+function Resolve-HCaptchaSecretKey {
+    param([string] $FromEnv)
+    if (-not [string]::IsNullOrWhiteSpace($FromEnv)) {
+        return @{ Value = $FromEnv.Trim(); Source = 'env' }
+    }
+    $sidecar = Join-Path $PSScriptRoot '.hcaptcha-secret'
+    if (Test-Path -LiteralPath $sidecar) {
+        $raw = (Get-Content -LiteralPath $sidecar -Raw -ErrorAction SilentlyContinue)
+        if (-not [string]::IsNullOrWhiteSpace($raw)) {
+            return @{ Value = $raw.Trim(); Source = 'sidecar' }
+        }
+    }
+    $s3Uri = if ($env:SI_PDR_HCAPTCHA_SECRET_KEY_S3) {
+        $env:SI_PDR_HCAPTCHA_SECRET_KEY_S3
+    } else {
+        's3://omnipos-cicd-253957900820-sa-east-1/linx-ux/secrets/HCAPTCHA_SECRET_KEY'
+    }
+    try {
+        $tmp = Join-Path $env:TEMP ('si-pdr-hcaptcha-' + [guid]::NewGuid().ToString('n') + '.txt')
+        $aws = Get-Command aws -ErrorAction SilentlyContinue
+        if ($aws) {
+            & aws s3 cp $s3Uri $tmp --region sa-east-1 --no-progress 2>$null | Out-Null
+            if ($LASTEXITCODE -eq 0 -and (Test-Path -LiteralPath $tmp)) {
+                $raw = (Get-Content -LiteralPath $tmp -Raw -ErrorAction SilentlyContinue)
+                Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+                if (-not [string]::IsNullOrWhiteSpace($raw)) {
+                    return @{ Value = $raw.Trim(); Source = 's3' }
+                }
+            }
+            Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+        }
+    } catch {
+        Write-Log 'hCaptcha secret S3 fallback failed (non-fatal)'
+    }
+    return $null
+}
+
+$resolvedHCaptcha = Resolve-HCaptchaSecretKey -FromEnv $HCaptchaSecretKey
+if ($resolvedHCaptcha) {
+    try {
+        $portalConfigs = @($portalPath)
+        try {
+            Import-Module WebAdministration -ErrorAction Stop
+            $portalSite = Get-Website -Name 'Portal' -ErrorAction Stop
+            if ($portalSite -and $portalSite.physicalPath) {
+                $iisPortalCfg = Join-Path $portalSite.physicalPath 'web.config'
+                if ($portalConfigs -notcontains $iisPortalCfg) {
+                    $portalConfigs += $iisPortalCfg
+                }
+            }
+        } catch {
+            Write-Log ("IIS Portal path lookup skipped (hCaptcha): {0}" -f $_.Exception.Message)
+        }
+        foreach ($cfg in $portalConfigs) {
+            Set-AppSetting -Path $cfg -SectionXPath '/configuration/PortalSettings' -Key 'HCaptcha.SecretKey' -Value $resolvedHCaptcha.Value
+            if (-not (Test-Path -LiteralPath $cfg)) {
+                Write-Log "hCaptcha inject skipped; missing $cfg"
+                continue
+            }
+            [xml]$check = Get-Content -LiteralPath $cfg -Raw
+            $node = $check.SelectSingleNode("/configuration/PortalSettings/add[@key='HCaptcha.SecretKey']")
+            $len = 0
+            if ($node -and $node.GetAttribute('value')) { $len = $node.GetAttribute('value').Length }
+            if ($len -le 0) {
+                Write-Log "HCaptcha.SecretKey empty after inject in $cfg (non-fatal)"
+                continue
+            }
+            Write-Log ("Verified {0} HCaptcha.SecretKey len={1} source={2}" -f $cfg, $len, $resolvedHCaptcha.Source)
+        }
+        Write-Output 'HCAPTCHA_SECRET_APPLIED'
+    } catch {
+        Write-Log ("hCaptcha inject warning (non-fatal): {0}" -f $_.Exception.Message)
+        Write-Output 'HCAPTCHA_SECRET_SKIPPED'
+    }
+}
+else {
+    Write-Log 'SI_PDR_HCAPTCHA_SECRET_KEY not set; Portal HCaptcha.SecretKey left as in Binary web.config.'
+    Write-Output 'HCAPTCHA_SECRET_SKIPPED'
 }
 
 if (-not $PortalConnection -and -not $AppConnection) {
