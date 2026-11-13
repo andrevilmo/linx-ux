@@ -10,7 +10,8 @@ Documento para integrar o fluxo de autenticação do Linx UX (Portal + Service +
 **Não existe um único endpoint** “login + SSO + MFA”. O consumidor chama APIs em sequência. Um app **desktop .NET** não usa o cookie do Portal: fala com o Service (`:1710`) e, no SSO, com o Entra ID via MSAL.
 
 Cookbook com código C# copiável: [login-mfa-sso-desktop-dotnet.md](login-mfa-sso-desktop-dotnet.md).  
-Texto para usuário: [login-mfa-sso-usuario.md](login-mfa-sso-usuario.md).
+Texto para usuário: [login-mfa-sso-usuario.md](login-mfa-sso-usuario.md).  
+**Revogar MFA** (alto nível + técnico + Postman): [revoke-mfa-secret.md](revoke-mfa-secret.md) · [postman/Linx-UX-RevokeMfaSecret.postman_collection.json](postman/Linx-UX-RevokeMfaSecret.postman_collection.json).
 
 | Peça | Papel |
 |------|--------|
@@ -366,7 +367,7 @@ Envelope interno (não logar o plaintext): `MFA||origin||idGpecon||idUserMfa||ex
 |-----|-----|
 | `GetMfaCompanyPolicy` / `SetMfaCompanyPolicy` | MFA da empresa (`idGpecon`, `indicaMfaHabilitado`, remember-device) |
 | `SetUserMfaFlags` | `uidUsuario`, `utilizaSso`, `utilizaMfa` |
-| `RevokeMfaSecret` | apaga secret; próximo acesso é enroll de novo |
+| `RevokeMfaSecret` | apaga secret; próximo acesso é enroll de novo — detalhe + Postman: [revoke-mfa-secret.md](revoke-mfa-secret.md) |
 | `LinkMfaDevice` / `CheckMfaDevice` | API pronta; **UI oculta** neste delivery |
 
 JSON de validação (`MfaValidateResult`): `Success`, `Message`, `Ticket`, `TicketExpiresUtc`, `MfaLocked`.

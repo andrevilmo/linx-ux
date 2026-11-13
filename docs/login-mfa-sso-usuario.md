@@ -55,6 +55,18 @@ O login Microsoft não é um clique único. Ele amarra o usuário digitado no CO
 
 A identidade no Linx continua sendo o **Nome de autenticação** digitado no CONTINUAR, não o prefixo do e-mail Microsoft.
 
+## Processo de Revogar MFA
+
+**Revoga MFA** fica no cadastro de usuário (Application), **sempre ao lado** de **Revoga SSO**.
+
+1. Abra o cadastro do usuário e selecione a pessoa.
+2. Clique em **Revogar MFA** e confirme.
+3. O sistema apaga o autenticador (QR/secret) e os dispositivos lembrados daquele MFA.
+4. No próximo acesso, se o MFA ainda for exigido, aparece um **QR novo** para cadastrar de novo.
+5. Senha Linx e vínculo Microsoft **não** mudam.
+
+Use quando a pessoa perdeu o celular/autenticador ou o QR ficou inválido. Guia completo (API + Postman): [revoke-mfa-secret.md](revoke-mfa-secret.md).
+
 ## Processo de Revogar SSO
 
 **Revoga SSO** fica no cadastro de usuário (Application), **sempre ao lado** de **Revoga MFA**. O ícone da barra de ferramentas também fica **sempre** visível nesses cadastros.
