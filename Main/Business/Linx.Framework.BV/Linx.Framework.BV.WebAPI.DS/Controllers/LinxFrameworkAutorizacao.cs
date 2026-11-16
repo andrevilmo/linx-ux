@@ -28,6 +28,9 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
     ////////////////////////////////////////////////////////////////////////////
     /////////////////////////// Business Api Controller ////////////////////////
     ////////////////////////////////////////////////////////////////////////////
+    // Explicit annotation (also registered globally in BlockDangerousInputFilterStart).
+    [Linx.Framework.BV.WebAPI.DS.Filters.BlockDangerousInput(
+        Mode = Linx.Framework.BV.WebAPI.DS.Filters.BlockDangerousInputAttribute.GuardMode.Soft)]
     public partial class LinxFrameworkAutorizacaoController
     {
         private Guid validateuser(string userName, string userPassword)
