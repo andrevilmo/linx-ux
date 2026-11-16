@@ -63,7 +63,7 @@ namespace Linx.Framework.BV.WebAPI.DS.Filters
         {
             Mode = GuardMode.Soft;
             MaxQueryValueLength = 32768;
-            Order = -100;
+            // Web API ActionFilterAttribute has no Order (MVC-only).
         }
 
         private const string RequestPropertyKey = "Linx.BlockDangerousInput.Validated";
