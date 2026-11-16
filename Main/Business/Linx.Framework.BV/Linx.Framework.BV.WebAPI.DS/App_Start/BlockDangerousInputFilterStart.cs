@@ -32,7 +32,8 @@ namespace Linx.Framework.BV.WebAPI.DS.App_Start
             config.Filters.Add(new BlockDangerousInputAttribute
             {
                 Mode = BlockDangerousInputAttribute.GuardMode.Soft,
-                MaxQueryValueLength = 32768
+                MaxQueryValueLength = 32768,
+                InspectSavePayload = true
             });
         }
     }

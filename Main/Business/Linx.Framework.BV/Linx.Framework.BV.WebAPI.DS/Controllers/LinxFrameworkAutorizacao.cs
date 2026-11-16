@@ -30,7 +30,8 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
     ////////////////////////////////////////////////////////////////////////////
     // Explicit annotation (also registered globally in BlockDangerousInputFilterStart).
     [Linx.Framework.BV.WebAPI.DS.Filters.BlockDangerousInput(
-        Mode = Linx.Framework.BV.WebAPI.DS.Filters.BlockDangerousInputAttribute.GuardMode.Soft)]
+        Mode = Linx.Framework.BV.WebAPI.DS.Filters.BlockDangerousInputAttribute.GuardMode.Soft,
+        InspectSavePayload = true)]
     public partial class LinxFrameworkAutorizacaoController
     {
         private Guid validateuser(string userName, string userPassword)
