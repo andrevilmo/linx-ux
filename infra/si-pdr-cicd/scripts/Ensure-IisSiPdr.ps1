@@ -196,9 +196,9 @@ foreach ($site in $sites) {
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <system.web>
-    <compilation targetFramework="4.6.1" />
-    <httpRuntime targetFramework="4.6.1" />
-    <customErrors mode="Off" />
+    <compilation debug="false" targetFramework="4.6.1" />
+    <httpRuntime targetFramework="4.6.1" enableVersionHeader="false" />
+    <customErrors mode="RemoteOnly" />
   </system.web>
   <runtime>
     <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
@@ -210,6 +210,14 @@ foreach ($site in $sites) {
   </runtime>
   <system.webServer>
     <directoryBrowse enabled="false" />
+    <httpProtocol>
+      <customHeaders>
+        <remove name="X-Powered-By" />
+      </customHeaders>
+    </httpProtocol>
+    <security>
+      <requestFiltering removeServerHeader="true" />
+    </security>
   </system.webServer>
 </configuration>
 "@ | Set-Content -Path $webConfig -Encoding UTF8

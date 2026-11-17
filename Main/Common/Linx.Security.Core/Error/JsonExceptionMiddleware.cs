@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Linx.Security.Core
@@ -21,8 +17,6 @@ namespace Linx.Security.Core
 
         public async Task GetError(HttpContext context)
         {
-            //context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
             context.Response.ContentType = "application/json";
 
             var ex = context.Features.Get<IExceptionHandlerFeature>()?.Error;
@@ -31,15 +25,37 @@ namespace Linx.Security.Core
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             }
+            else if (context.Response.StatusCode < 400)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
 
-            LinxError error = new LinxError() { StatusCode = context.Response.StatusCode, StatusDescription = ((System.Net.HttpStatusCode)context.Response.StatusCode).ToString() };
+            var correlationId = Guid.NewGuid().ToString("N");
 
+            // Full detail stays server-side only.
             if (ex != null)
             {
-                error.Message = ex.Message;
-                error.InnerException = ex.InnerException;
-                error.StackTrace = ex.StackTrace;
+                try
+                {
+                    Console.Error.WriteLine(
+                        "[{0}] CorrelationId={1} {2}: {3}{4}{5}",
+                        DateTime.UtcNow.ToString("o"),
+                        correlationId,
+                        ex.GetType().FullName,
+                        ex.Message,
+                        Environment.NewLine,
+                        ex);
+                }
+                catch { /* ignore */ }
             }
+
+            var error = new LinxError
+            {
+                StatusCode = context.Response.StatusCode,
+                StatusDescription = ((HttpStatusCode)context.Response.StatusCode).ToString(),
+                Message = "Ocorreu um erro interno.",
+                CorrelationId = correlationId
+            };
 
             using (var writer = new StreamWriter(context.Response.Body))
             {
@@ -54,8 +70,6 @@ namespace Linx.Security.Core
         public int StatusCode { get; set; }
         public string StatusDescription { get; set; }
         public string Message { get; set; }
-        public System.Exception InnerException { get; set; }
-        public string StackTrace { get; set; }
+        public string CorrelationId { get; set; }
     }
-
 }

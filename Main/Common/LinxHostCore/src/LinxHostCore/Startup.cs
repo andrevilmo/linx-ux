@@ -53,10 +53,36 @@ namespace LinxHostCore
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAllOrigins",
+                options.AddPolicy("AllowConfiguredOrigins",
                     builder =>
                     {
-                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                        var raw = Configuration["Cors:AllowedOrigins"]
+                                  ?? Configuration["Cors.AllowedOrigins"]
+                                  ?? string.Empty;
+                        var origins = raw
+                            .Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries)
+                            .Select(s => s.Trim())
+                            .Where(s => s.Length > 0)
+                            .ToArray();
+
+                        if (origins.Length == 0)
+                        {
+                            // Fail closed: no origins ⇒ policy matches nothing.
+                            builder.WithOrigins("https://cors-deny.invalid")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        }
+                        else if (origins.Length == 1 && origins[0] == "*")
+                        {
+                            builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                        }
+                        else
+                        {
+                            builder.WithOrigins(origins)
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials();
+                        }
                     });
             });
 
@@ -221,8 +247,8 @@ namespace LinxHostCore
                 c.PreSerializeFilters.Add((item, req) => item.Produces = new List<string> { "application/json" }));
 
 
-            // Shows UseCors with named policy.
-            app.UseCors("AllowAllOrigins");
+            // Shows UseCors with named policy (allowlist from Cors:AllowedOrigins).
+            app.UseCors("AllowConfiguredOrigins");
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
