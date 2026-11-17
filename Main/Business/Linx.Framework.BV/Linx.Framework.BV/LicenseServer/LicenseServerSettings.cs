@@ -13,6 +13,8 @@ namespace Linx.Framework.BV.LicenseServer
         public string ApiV1Root { get; set; }
         public int Environment { get; set; }
         public string ProductId { get; set; }
+        public string ProductName { get; set; }
+        public string ProductType { get; set; }
         public long LicenseId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
@@ -21,6 +23,8 @@ namespace Linx.Framework.BV.LicenseServer
         public string User { get; set; }
         public string Terminal { get; set; }
         public string Version { get; set; }
+        public int IdleTimeoutMinutes { get; set; }
+        public bool ActiveStoresEnabled { get; set; }
 
         public static LicenseServerSettings Load()
         {
@@ -30,7 +34,9 @@ namespace Linx.Framework.BV.LicenseServer
                 BaseUrl = NormalizeBaseUrl(Read("LicenseServer.BaseUrl", "https://api-hml.linx.com.br/app-licensing/")),
                 ApiV1Root = Read("LicenseServer.ApiV1Root", "https://api-hml.linx.com.br/app-licensing/api/v1/"),
                 Environment = ReadInt("LicenseServer.Environment", 0),
-                ProductId = Read("LicenseServer.ProductId", "LINX-POS"),
+                ProductId = Read("LicenseServer.ProductId", "LINX-UX"),
+                ProductName = Read("LicenseServer.ProductName", "Linx UX"),
+                ProductType = Read("LicenseServer.ProductType", "UX"),
                 LicenseId = ReadLong("LicenseServer.LicenseId", 4),
                 Email = Read("LicenseServer.Email", string.Empty),
                 Password = Read("LicenseServer.Password", string.Empty),
@@ -38,7 +44,9 @@ namespace Linx.Framework.BV.LicenseServer
                 Key = Read("LicenseServer.Key", string.Empty),
                 User = Read("LicenseServer.User", string.Empty),
                 Terminal = Read("LicenseServer.Terminal", System.Environment.MachineName),
-                Version = Read("LicenseServer.Version", "1.0")
+                Version = Read("LicenseServer.Version", "1.0"),
+                IdleTimeoutMinutes = ReadInt("LicenseServer.IdleTimeoutMinutes", 120),
+                ActiveStoresEnabled = ReadBool("LicenseServer.ActiveStoresEnabled", true)
             };
 
             if (string.IsNullOrWhiteSpace(settings.Terminal))
@@ -55,9 +63,9 @@ namespace Linx.Framework.BV.LicenseServer
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(Cnpj) || string.IsNullOrWhiteSpace(Key) || LicenseId <= 0)
+            if (string.IsNullOrWhiteSpace(Cnpj) || LicenseId <= 0)
             {
-                message = "LicenseServer.Cnpj, LicenseServer.Key e LicenseServer.LicenseId são obrigatórios no Web.config.";
+                message = "LicenseServer.Cnpj e LicenseServer.LicenseId são obrigatórios no Web.config.";
                 return false;
             }
 

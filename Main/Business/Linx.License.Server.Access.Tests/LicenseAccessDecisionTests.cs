@@ -328,14 +328,23 @@ namespace Linx.License.Server.Access.Tests
                 Email = "linxpos@linx.com.br",
                 Password = "",
                 Cnpj = "45510647000100",
-                Key = "MAQUINA-01",
                 LicenseId = 4,
-                ProductId = "LINX-POS",
+                ProductId = "LINX-UX",
                 BaseUrl = "https://api-hml.linx.com.br/app-licensing/"
             };
 
             Assert.False(settings.IsValid(out string message));
             Assert.Contains("Password", message);
+        }
+
+        [Fact]
+        public void Trust_unblock_audit_records_who_and_when()
+        {
+            LicenseTrustUnblockAudit.Record("alice", "45510647000100", TrustUnblockOutcome.Succeeded, "ok");
+            var snap = LicenseTrustUnblockAudit.GetRecentSnapshot();
+            Assert.Contains(snap, line => line.IndexOf("usuario=alice", StringComparison.Ordinal) >= 0
+                && line.IndexOf("cnpj=45510647000100", StringComparison.Ordinal) >= 0
+                && line.IndexOf("outcome=Succeeded", StringComparison.Ordinal) >= 0);
         }
     }
 }

@@ -1,25 +1,18 @@
 namespace Linx.Framework.BV.LicenseServer
 {
     /// <summary>
-    /// Trust-unblock helpers used by Application/Service IIS publish.
-    /// LS_CheckAllowUnblock and LS_GetCNP are dummy implementations for now
-    /// and will be replaced with profile/GPECON lookups.
+    /// Trust-unblock helpers. LS_CheckAllowUnblock remains a dummy (always true) until
+    /// the UX database distinguishes administrative profiles.
+    /// LS_GetCNP currently returns the configured GPECON/CNPJ and will later resolve
+    /// the CNPJ of the company being entered.
     /// </summary>
     public static class LicenseTrustUnblock
     {
-        /// <summary>
-        /// Dummy: receives the user identification, checks the user profile and
-        /// currently always reports that the user is allowed to unblock.
-        /// </summary>
         public static bool LS_CheckAllowUnblock(string usuario)
         {
             return true;
         }
 
-        /// <summary>
-        /// Dummy: always returns the CNPJ of the logged GPECON (currently from
-        /// License Server settings of the selected environment).
-        /// </summary>
         public static string LS_GetCNP()
         {
             return LS_GetCNP(LicenseServerSettings.Load());

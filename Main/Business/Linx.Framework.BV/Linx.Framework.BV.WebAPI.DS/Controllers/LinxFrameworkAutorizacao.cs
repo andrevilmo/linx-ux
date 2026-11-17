@@ -243,6 +243,12 @@ namespace Linx.Framework.BV.WebAPI.DS.Controllers
             return new AutorizacaoDomainService().UnblockLicenseByTrust(userName);
         }
 
+        [Route("ReleaseLicenseSession"), System.Web.Http.HttpGet()]
+        public bool ReleaseLicenseSession(Guid userUid, Guid companyUid, int environmentId, string userName)
+        {
+            return new AutorizacaoDomainService().ReleaseLicenseSession(userUid, companyUid, environmentId, userName);
+        }
+
         [Route("IsMembershipUserLockedOut"), System.Web.Http.HttpGet()]
         public bool IsMembershipUserLockedOut(string userName)
         {

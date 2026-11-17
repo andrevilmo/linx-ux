@@ -4,6 +4,28 @@
         <name>Linx.LicenseServer.Client</name>
     </assembly>
     <members>
+        <member name="T:Linx.LicenseServer.Client.Authentication.PersistedToken">
+            <summary>
+            Token persistido de forma segura (RD-30/D9). Imutável; produzido/consumido pelo
+            <see cref="T:Linx.LicenseServer.Client.Authentication.ITokenCache"/>.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Authentication.ITokenCache">
+            <summary>
+            Seam de persistência do token para o <see cref="T:Linx.LicenseServer.Client.Authentication.TokenProvider"/>. Quando ausente (nulo), o
+            provider mantém o comportamento atual (cache só em memória). A implementação segura vive
+            sobre o store (PersistedTokenCache).
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Authentication.ITokenCache.Load">
+            <summary>Carrega o token persistido, ou <c>null</c> se ausente/adulterado (fail-closed).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Authentication.ITokenCache.Save(Linx.LicenseServer.Client.Authentication.PersistedToken)">
+            <summary>Persiste o token renovado.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Authentication.ITokenCache.Clear">
+            <summary>Remove o token persistido.</summary>
+        </member>
         <member name="T:Linx.LicenseServer.Client.Authentication.ITokenProvider">
             <summary>
             Provedor de token Bearer para o License Server.
@@ -15,6 +37,25 @@
             </summary>
             <param name="forceRefresh">Quando <c>true</c>, ignora o cache e obtém um novo token.</param>
             <param name="ct">Token de cancelamento.</param>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Authentication.ITokenProvider.AuthenticateAsync(System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Garante uma autenticação válida e retorna os dados do token obtido.
+            </summary>
+            <param name="ct">Token de cancelamento.</param>
+            <param name="forceRefresh">Quando true, ignora o token em cache e vai à rede. É o que
+            diferencia "minha credencial é boa?" (cache basta) de "consigo autenticar AGORA?" (sonda de
+            conectividade — RD-31/D-03).</param>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Authentication.TokenProvider.#ctor(System.Net.Http.HttpClient,Linx.LicenseServer.Client.Configuration.LicenseServerOptions,Linx.LicenseServer.Client.Authentication.ITokenCache)">
+            <summary>
+            O <paramref name="httpClient"/> é dedicado à chamada de autenticação (sem o handler
+            de Bearer, para evitar recursão no login) e deve ter <c>BaseAddress</c>/<c>Timeout</c>
+            configurados pelo chamador. O provider passa a ser dono dele e o descarta em <see cref="M:Linx.LicenseServer.Client.Authentication.TokenProvider.Dispose"/>.
+            O <paramref name="tokenCache"/> é opcional (D9): quando presente, o token é carregado na
+            subida e persistido a cada renovação; quando nulo, o cache é só em memória (comportamento
+            original preservado).
+            </summary>
         </member>
         <member name="T:Linx.LicenseServer.Client.Configuration.LicenseServerEnvironment">
             <summary>
@@ -74,56 +115,127 @@
             Padrão: 5 minutos.
             </summary>
         </member>
+        <member name="P:Linx.LicenseServer.Client.Configuration.LicenseServerOptions.Diagnostics">
+            <summary>
+            Sink de diagnóstico HTTP (opt-in). Quando informado, o pipeline observa cada
+            requisição/resposta (com segredos redigidos). Nulo = sem observação.
+            </summary>
+        </member>
         <member name="M:Linx.LicenseServer.Client.Configuration.LicenseServerOptions.GetEffectiveBaseUrl">
             <summary>
             Resolve a URL base efetiva a partir das configurações.
             </summary>
         </member>
-        <member name="T:Linx.LicenseServer.Client.DependencyInjection.ServiceCollectionExtensions">
+        <member name="T:Linx.LicenseServer.Client.Configuration.LicenseServerOptionsValidator">
             <summary>
-            Extensões de <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> para registrar o cliente do License Server.
+            Validação das opções do cliente do License Server.
             </summary>
         </member>
-        <member name="M:Linx.LicenseServer.Client.DependencyInjection.ServiceCollectionExtensions.AddLicenseServerClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Linx.LicenseServer.Client.Configuration.LicenseServerOptions})">
+        <member name="M:Linx.LicenseServer.Client.Configuration.LicenseServerOptionsValidator.Validate(Linx.LicenseServer.Client.Configuration.LicenseServerOptions)">
             <summary>
-            Registra o <see cref="T:Linx.LicenseServer.Client.ILicenseServerClient"/> no contêiner de injeção de dependência
-            usando uma ação de configuração.
+            Valida as opções. Retorna a primeira mensagem de erro encontrada, ou <c>null</c>
+            quando as opções são válidas.
             </summary>
-            <param name="services">O contêiner de serviços.</param>
-            <param name="configure">Ação para configurar as opções do cliente.</param>
-            <returns>O mesmo <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> para encadeamento.</returns>
-            <example>
-            <code>
-            services.AddLicenseServerClient(options =>
-            {
-                options.Email = "usuario@linx.com.br";
-                options.Password = "senha";
-                options.Environment = LicenseServerEnvironment.Production;
-            });
-            </code>
-            </example>
         </member>
-        <member name="M:Linx.LicenseServer.Client.DependencyInjection.ServiceCollectionExtensions.AddLicenseServerClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="T:Linx.LicenseServer.Client.Diagnostics.DiagnosticsHttpHandler">
             <summary>
-            Registra o <see cref="T:Linx.LicenseServer.Client.ILicenseServerClient"/> no contêiner de injeção de dependência
-            lendo a configuração da seção <c>"LicenseServer"</c>.
+            <see cref="T:System.Net.Http.DelegatingHandler"/> de observação: emite para o <see cref="T:Linx.LicenseServer.Client.Diagnostics.DiagnosticsSink"/> um
+            evento de requisição (antes do envio) e um de resposta (após), com método, URL, cabeçalhos e
+            corpos — todos redigidos (RD-19). Bufferiza request e response para NÃO consumir os streams que
+            o cliente real precisa ler. É transparente: encaminha ao handler interno e não altera o
+            comportamento de rede; falha de transporte é emitida como resposta com <c>StatusCode = 0</c> e
+            a exceção é re-lançada intacta (fail-closed preservado).
             </summary>
-            <param name="services">O contêiner de serviços.</param>
-            <param name="configuration">A configuração da aplicação.</param>
-            <returns>O mesmo <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> para encadeamento.</returns>
-            <example>
-            <code>
-            // appsettings.json:
-            // {
-            //   "LicenseServer": {
-            //     "Email": "usuario@linx.com.br",
-            //     "Password": "senha",
-            //     "Environment": "Production"
-            //   }
-            // }
-            services.AddLicenseServerClient(configuration);
-            </code>
-            </example>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Diagnostics.DiagnosticsSink">
+            <summary>
+            Adaptador interno sobre o callback de diagnóstico informado pela aplicação
+            (<see cref="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.Diagnostics"/>). Isola toda exceção do assinante:
+            o diagnóstico é best-effort e NUNCA pode derrubar o licenciamento nem alterar o fail-closed.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Diagnostics.DiagnosticsSink.Create(System.Action{Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent})">
+            <summary>Cria o sink, ou <c>null</c> quando não há callback (recurso desligado — zero overhead).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Diagnostics.DiagnosticsSink.Emit(Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent)">
+            <summary>Entrega o evento ao assinante, engolindo qualquer exceção dele.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent">
+            <summary>
+            Evento imutável do canal de diagnóstico em tempo real (opt-in via
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.Diagnostics"/>) — destinado a DEBUG/observabilidade
+            da própria aplicação, não ao usuário final. Cobre as idas a serviços externos (request/response
+            HTTP completos) e os logs internos da DLL. Todo conteúdo textual (<see cref="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.Headers"/>,
+            <see cref="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.Body"/>, <see cref="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.Message"/>) já vem com segredos mascarados (RD-19): nunca token,
+            Bearer ou senha em claro.
+            </summary>
+            <remarks>
+            Best-effort: o canal pode ser invocado a partir de threads de background (agenda de
+            revalidação, pipeline HTTP). Uma exceção no assinante nunca afeta o licenciamento.
+            </remarks>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.Kind">
+            <summary>Natureza do evento (requisição/resposta HTTP ou log interno).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.TimestampUtc">
+            <summary>Instante do evento (UTC).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.CorrelationId">
+            <summary>Correlação que casa a requisição e a resposta de uma mesma troca HTTP. Nulo em logs.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.HttpMethod">
+            <summary>Verbo HTTP (ex.: <c>POST</c>). Preenchido em eventos HTTP.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.Url">
+            <summary>URL absoluta da chamada. Preenchida em eventos HTTP.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.StatusCode">
+            <summary>Código HTTP da resposta. <c>0</c> indica falha de transporte (rede/timeout).
+            Preenchido em <see cref="F:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticKind.HttpResponse"/>.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.DurationMs">
+            <summary>Duração da troca em milissegundos, medida no cliente. Preenchida na resposta.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.Headers">
+            <summary>Cabeçalhos redigidos (uma linha por header). Preenchidos em eventos HTTP.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.Body">
+            <summary>Corpo redigido (request ou response). Preenchido em eventos HTTP quando há corpo.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.Level">
+            <summary>Nível do log interno (ver convenção de níveis da DLL). Preenchido em logs.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.Category">
+            <summary>Categoria/origem do log interno. Preenchida em logs.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent.Message">
+            <summary>Mensagem do log interno, já redigida. Preenchida em logs.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticKind">
+            <summary>Natureza de um <see cref="T:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent"/> emitido pelo canal de diagnóstico.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticKind.HttpRequest">
+            <summary>Requisição HTTP a um serviço externo, no instante do envio.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticKind.HttpResponse">
+            <summary>Resposta HTTP de um serviço externo (ou falha de transporte).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticKind.Log">
+            <summary>Log interno da DLL (equivalente ao registro gravado no store).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Exceptions.LicenseRateLimitException">
+            <summary>
+            Erro de contenção anti-abuso (RD-16): sinaliza que a operação foi barrada por um piso de
+            espaçamento e informa exatamente quando poderá ser repetida.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseRateLimitException.#ctor(System.String,System.TimeSpan)">
+            <summary>Inicializa a exceção com a mensagem e o tempo remanescente até nova tentativa.</summary>
+            <param name="message">Descrição do motivo da contenção.</param>
+            <param name="retryAfter">Tempo remanescente até a operação poder ser repetida.</param>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Exceptions.LicenseRateLimitException.RetryAfter">
+            <summary>Tempo remanescente até a operação poder ser repetida.</summary>
         </member>
         <member name="T:Linx.LicenseServer.Client.Exceptions.LicenseServerApiException">
             <summary>
@@ -157,6 +269,15 @@
         <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException.#ctor(System.String,System.Exception)">
             <summary>Inicializa uma nova instância com mensagem e exceção original.</summary>
         </member>
+        <member name="T:Linx.LicenseServer.Client.Exceptions.LicenseServerConfigurationException">
+            <summary>
+            Exceção lançada quando as opções de configuração (<c>LicenseServerOptions</c>) são inválidas.
+            Substitui a antiga validação via <c>IValidateOptions</c>/<c>OptionsValidationException</c>.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseServerConfigurationException.#ctor(System.String)">
+            <summary>Inicializa uma nova instância com a mensagem de validação.</summary>
+        </member>
         <member name="T:Linx.LicenseServer.Client.Exceptions.LicenseServerException">
             <summary>
             Exceção base para erros originados pelo cliente do License Server.
@@ -168,11 +289,56 @@
         <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseServerException.#ctor(System.String,System.Exception)">
             <summary>Inicializa uma nova instância com uma mensagem de erro e a exceção original.</summary>
         </member>
+        <member name="T:Linx.LicenseServer.Client.Exceptions.LicenseStorageException">
+            <summary>
+            Falha de armazenamento local seguro (RD-18): I/O do store, proteção DPAPI, integridade
+            da chave-mestra ou de envelopes. Sinaliza que o dado local não é confiável — o chamador
+            trata fail-closed (descarta o dado e força revalidação online).
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseStorageException.#ctor(System.String)">
+            <summary>Inicializa uma nova instância com uma mensagem de erro.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseStorageException.#ctor(System.String,System.Exception)">
+            <summary>Inicializa uma nova instância com uma mensagem de erro e a exceção original.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Exceptions.LicenseStoreLockedException">
+            <summary>
+            Já existe uma instância ativa para a mesma identidade de produto (D16 — singleton por
+            identidade). Falha rápida, sem loop de retry: duas instâncias sobre o mesmo store
+            corromperiam o estado local.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseStoreLockedException.#ctor(System.String)">
+            <summary>Inicializa uma nova instância com uma mensagem de erro.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Exceptions.LicenseStoreLockedException.#ctor(System.String,System.Exception)">
+            <summary>Inicializa uma nova instância com uma mensagem de erro e a exceção original.</summary>
+        </member>
         <member name="T:Linx.LicenseServer.Client.ILicenseServerClient">
             <summary>
             Contrato principal do cliente do License Server da Linx.
             Abstrai autenticação e expõe operações de validação e gerenciamento de licenças.
+            Implementa <see cref="T:System.IDisposable"/>: descarte a instância obtida via
+            <see cref="T:Linx.LicenseServer.Client.LicenseServerClientFactory"/> quando não for mais necessária.
             </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.ILicenseServerClient.AuthenticateAsync(System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Autentica no License Server usando as credenciais configuradas e retorna os dados do token.
+            Útil para validar credenciais e confirmar a conectividade com o serviço.
+            </summary>
+            <param name="forceRefresh">Quando true, ignora o token em cache e vai à rede — é o que separa
+            "a credencial é boa?" de "consigo autenticar AGORA?" (sonda de conectividade).</param>
+            <param name="ct">Token de cancelamento.</param>
+            <returns>Dados da autenticação (UID, e-mail, provedor, expiração e token).</returns>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException">Quando as credenciais são inválidas ou a autenticação falha.</exception>
+            <example>
+            <code>
+            var auth = await client.AuthenticateAsync();
+            Console.WriteLine($"Autenticado como {auth.Email} (expira em {auth.ExpiresAtUtc:u})");
+            </code>
+            </example>
         </member>
         <member name="M:Linx.LicenseServer.Client.ILicenseServerClient.ValidateAsync(Linx.LicenseServer.Client.Models.Requests.LicenseValidationRequest,System.Threading.CancellationToken)">
              <summary>
@@ -264,6 +430,1557 @@
              </code>
              </example>
         </member>
+        <member name="M:Linx.LicenseServer.Client.ILicenseServerClient.SendActiveStoreAsync(Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel,System.Threading.CancellationToken)">
+            <summary>
+            Envia os metadados de uma loja ativa ao endpoint <b>Lojas Ativas</b>
+            (<c>POST /api/v1/ActiveStores</c>). A DLL apenas transmite o payload (RD-33).
+            </summary>
+            <param name="model">Corpo da requisição, montado pela aplicação.</param>
+            <param name="ct">Token de cancelamento.</param>
+            <exception cref="T:System.ArgumentNullException">Quando <paramref name="model"/> é nulo.</exception>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException">Quando a autenticação falha.</exception>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerApiException">Quando a API retorna um código HTTP de erro.</exception>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.ILicenseServerClient.SendActiveStoresBatchAsync(System.Collections.Generic.IReadOnlyList{Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel},System.Threading.CancellationToken)">
+            <summary>
+            Envia metadados de várias lojas ativas em lote ao endpoint <b>Lojas Ativas</b>
+            (<c>POST /api/v1/ActiveStores/Batch</c>). Listas com mais de 100 itens são
+            automaticamente fragmentadas em múltiplas requisições de até 100 itens cada.
+            </summary>
+            <param name="models">Corpos das requisições, montados pela aplicação.</param>
+            <param name="ct">Token de cancelamento.</param>
+            <exception cref="T:System.ArgumentNullException">Quando <paramref name="models"/> é nulo.</exception>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException">Quando a autenticação falha.</exception>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerApiException">Quando a API retorna um código HTTP de erro.</exception>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Clock.ClockIntegrityMonitor">
+            <summary>
+            Verificação anti-retrocesso de relógio (RD-29). Compara o "agora" de parede com o
+            high-water mark persistido e, quando disponível, com o NTP. Retrocesso além da tolerância
+            ⇒ <see cref="F:Linx.LicenseServer.Client.Internal.Clock.ClockVerdict.Tampered"/> <b>persistido</b> (sticky entre reinícios). A saída
+            do estado adulterado só ocorre por <see cref="M:Linx.LicenseServer.Client.Internal.Clock.ClockIntegrityMonitor.MarkServerSuccess"/> (sucesso confirmado no
+            servidor). O piso de retentativa no estado adulterado é medido pelo relógio monotônico —
+            avançar só o relógio de parede não o fura.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Clock.ClockIntegrityMonitor.Check">
+            <summary>
+            Executa a verificação. Em estado consistente, avança o high-water mark e devolve
+            <see cref="F:Linx.LicenseServer.Client.Internal.Clock.ClockVerdict.Ok"/>. Se já adulterado, permanece adulterado. Detecta
+            retrocesso além da tolerância (contra o HWM) e divergência de NTP (quando disponível).
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Clock.ClockIntegrityMonitor.MarkServerSuccess">
+            <summary>
+            Sucesso confirmado no servidor: âncora de confiança. Limpa a adulteração e reancora o
+            high-water mark no instante atual (o servidor validou este relógio).
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Clock.ClockIntegrityMonitor.CanRetryServer">
+            <summary>
+            Piso de retentativa medido pelo relógio monotônico: verdadeiro quando decorreu o
+            intervalo desde a última tentativa registrada, ignorando o relógio de parede.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Clock.ClockIntegrityMonitor.RecordServerAttempt">
+            <summary>Registra uma tentativa de contato com o servidor (marca monotônica).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Clock.ClockVerdict">
+            <summary>Veredito da verificação de integridade de relógio (RD-29).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Clock.ClockVerdict.Ok">
+            <summary>Relógio consistente com o high-water mark e (quando disponível) o NTP.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Clock.ClockVerdict.Tampered">
+            <summary>Retrocesso além da tolerância ou divergência de NTP — adulteração detectada.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.CnpjSanitizer">
+            <summary>
+            Sanitização de CNPJ compartilhada: mantém apenas os dígitos, descartando máscara
+            (pontos, barra, traço) e demais caracteres. Ponto único de verdade reusado tanto pelo
+            cliente de baixo nível quanto pela composição de chave da fachada (RD-02).
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.CnpjSanitizer.DigitsOnly(System.String)">
+            <summary>Retorna apenas os dígitos de <paramref name="cnpj"/> (nunca nulo).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Engine.IdleLeaseEvaluator">
+            <summary>
+            Regras puras da janela de inatividade (RD-26): quando ela está armada e quanto falta para
+            estourar. Não faz rede, não toca timers e não conhece o store — a orquestração é do
+            <c>LicenseManager</c> e do <c>LicenseScheduler</c>.
+            </summary>
+            <remarks>
+            Dentro da sessão a janela é medida pelo <b>relógio monotônico</b>, nunca pelo de parede: assim
+            empurrar a data do sistema não estende nem encurta a vaga de ninguém (RD-29). O relógio de
+            parede entra apenas na reconciliação de religamento (<see cref="M:Linx.LicenseServer.Client.Internal.Engine.IdleLeaseEvaluator.ResumeMonotonic(System.Nullable{System.DateTime},System.DateTime,System.Int64,System.TimeSpan)"/>), onde a
+            marca monotônica da sessão anterior perdeu o sentido.
+            </remarks>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.IdleLeaseEvaluator.IsArmed(Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState,Linx.LicenseServer.Client.Licensing.LicenseReleaseMode,System.Nullable{System.DateTime})">
+            <summary>
+            Verdadeiro quando a licença está sujeita à expiração por inatividade: o modo pede o
+            comportamento, existe vaga no servidor para liberar (já houve validação bem-sucedida) e o
+            estado é um em que a vaga continua consumida.
+            </summary>
+            <remarks>
+            <see cref="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.NotYetValidated"/> fica fora porque não há vaga a liberar.
+            <see cref="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.BlockedByServer"/>, <see cref="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.Revoked"/>,
+            <see cref="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.RevocationPending"/> e
+            <see cref="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.ClockTampered"/> também: os três primeiros já encerraram ou
+            suspenderam o fluxo automático por desenho (B06 #8/#13/#15) e o último exige novo sucesso no
+            servidor antes de qualquer iniciativa.
+            </remarks>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.IdleLeaseEvaluator.Remaining(System.Int64,System.Int64,System.TimeSpan)">
+            <summary>
+            Tempo que falta para a janela estourar, a partir das marcas monotônicas.
+            <see cref="F:System.TimeSpan.Zero"/> significa "já estourou". Nunca devolve negativo, para que o
+            chamador possa agendar o valor diretamente.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.IdleLeaseEvaluator.ResumeMonotonic(System.Nullable{System.DateTime},System.DateTime,System.Int64,System.TimeSpan)">
+            <summary>
+            Reconciliação de religamento: traduz a última leitura persistida (parede) na marca
+            monotônica equivalente nesta sessão, preservando o tempo de inatividade já decorrido. O
+            resultado alimenta <see cref="M:Linx.LicenseServer.Client.Internal.Engine.IdleLeaseEvaluator.Remaining(System.Int64,System.Int64,System.TimeSpan)"/> normalmente — inclusive devolvendo
+            <see cref="F:System.TimeSpan.Zero"/> quando a licença já ficou parada tempo demais e deve expirar
+            assim que a agenda subir.
+            </summary>
+            <remarks>
+            Ausência de marca (<c>null</c>, cache anterior a este campo ou licença nunca lida) concede
+            uma <b>janela nova</b>: revogar às cegas uma licença válida seria pior que esperar mais uma
+            janela — a vaga é liberada no ciclo seguinte se a inatividade for real. Marca no futuro
+            (relógio de parede recuado) também vira janela nova; retrocesso além da tolerância já é
+            tratado como adulteração pelo <c>ClockIntegrityMonitor</c> (RD-29).
+            </remarks>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Engine.LicenseEvaluation">
+            <summary>Resultado da avaliação fail-closed de uma resposta do servidor.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Engine.LicenseEvaluator">
+            <summary>
+            Mapeia a resposta bruta do servidor (<c>lxStatusChave</c> + origem + quantidades) para um
+            motivo estável (RD-06), sempre fail-closed: status ativo só com <c>lxStatusChave == 1</c>;
+            qualquer status desconhecido ou origem indocumentada resulta em bloqueio contratual estrito.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.LicenseEvaluator.Evaluate(Linx.LicenseServer.Client.Models.Responses.LicenseValidationResult,System.String)">
+            <summary>Avalia o resultado de validação. <paramref name="rawResponseJson"/> preserva o
+            retorno bruto (RD-21); se nulo, é reconstruído a partir do resultado.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.LicenseEvaluator.BuildServerData(Linx.LicenseServer.Client.Models.Responses.LicenseValidationResult,System.String)">
+            <summary>Agrega os dados brutos do servidor em <see cref="T:Linx.LicenseServer.Client.Licensing.LicenseServerData"/>.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.LicenseEvaluator.RebuildServerData(System.String)">
+            <summary>Reconstrói <see cref="T:Linx.LicenseServer.Client.Licensing.LicenseServerData"/> a partir do JSON bruto persistido.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense">
+            <summary>
+            Entidade de domínio de uma licença gerenciada: estado + dados persistentes e as transições
+            permitidas da máquina de estados (RD-08). Não faz rede nem toca timers — apenas aplica as
+            regras. A orquestração (quando validar, quando revogar) é do B08.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.AuthorizationSource">
+            <summary>Desfecho da última tentativa REAL de validação: <c>Server</c> enquanto ela tiver
+            dado sucesso, <c>OfflineBudget</c> depois de qualquer tentativa sem sucesso (rede ou erro
+            HTTP). Nasce <c>NotApplicable</c> — antes da primeira tentativa não há o que informar, e a
+            licença está bloqueada de qualquer forma. Só faz sentido com a licença ativa; quem garante
+            isso é o <c>StatusProjector</c>, que projeta <c>NotApplicable</c> em todo bloqueio. Aqui o
+            valor fica cru, para sobreviver a bloqueio temporário e a religamento.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.LastCheckUtc">
+            <summary>Âncora de agendamento (RD-08): relógio de parede (UTC) do último ciclo de
+            validação agendado — tentativa real (sucesso/falha) ou ciclo pulado por rate-limit. A
+            próxima revalidação é ancorada NESTE instante, não em "agora", para sobreviver a reinícios
+            e disparar imediatamente ao acordar atrasado.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.LastServerError">
+            <summary>Último erro HTTP do servidor (F1) — distingue rejeição/erro de servidor de falha
+            de rede. Nulo quando a última interação foi sucesso, bloqueio por veredito ou transporte.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.LastReadUtc">
+            <summary>Âncora da janela de inatividade (RD-26): relógio de parede (UTC) da última leitura
+            da licença PELA APLICAÇÃO. Persistido com debounce, para reconciliar a inatividade após um
+            religamento. Nulo enquanto a aplicação não tiver lido a licença nesta ou em outra sessão.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.LastReadMonotonic">
+            <summary>Marca monotônica da última leitura pela aplicação — é ELA que mede a janela dentro
+            da sessão, imune a alteração do relógio de parede (RD-29). Zero enquanto não houver leitura
+            nesta sessão; nunca é persistida (perde o sentido entre processos).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.LeaseFlushedUtc">
+            <summary>Valor de <see cref="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.LastReadUtc"/> que já foi gravado no store — controla o debounce
+            da gravação (RD-26). Só existe em memória.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.RevocationAttempts">
+            <summary>Requisições de revogação já feitas na sequência atual — a do comando conta como 1
+            (ADR 009). Persistido: reiniciar não zera a contagem, senão o teto nunca chegaria.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.LastRevocationAttemptUtc">
+            <summary>Âncora (UTC, relógio de parede) da próxima espera da revogação pendente: instante da
+            última requisição contada (ADR 009).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.RevocationCause">
+            <summary>Motivo com que a liberação em curso vai terminar: <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.Revoked"/>
+            (comando) ou <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.IdleTimeoutExpired"/> (inatividade).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.ApplyValidationSuccess(Linx.LicenseServer.Client.Licensing.LicenseServerData,System.DateTime,System.DateTime,System.Int64)">
+            <summary>#2/#6/#11/#12: validação bem-sucedida ⇒ Active, novo prazo.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.RecordCheck(System.DateTime)">
+            <summary>Marca o instante (UTC) de um ciclo de validação agendado — âncora do RD-08.
+            Chamado a cada tentativa (qualquer desfecho) e no ciclo pulado por rate-limit.
+            <para>NÃO toca o <see cref="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.AuthorizationSource"/> de propósito: um ciclo pulado por
+            rate-limit avança esta âncora sem ir à rede, e tratá-lo como tentativa marcaria
+            <c>OfflineBudget</c> numa licença que nunca perdeu contato com o servidor.</para></summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.ApplyServerBlock(Linx.LicenseServer.Client.Licensing.LicenseBlockReason,Linx.LicenseServer.Client.Licensing.LicenseServerData)">
+            <summary>#3/#4/#8: bloqueio imposto pelo servidor (para o fluxo automático).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.MarkNetworkFailure(System.Int64)">
+            <summary>#5/#10: falha de rede/transporte — mantém o estado; registra a marca monotônica.
+            Não é erro de servidor: limpa <see cref="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.LastServerError"/> (a última interação foi rede).
+            <para>É justamente por essa limpeza que o <see cref="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.AuthorizationSource"/> existe: sem ele,
+            uma licença ativa que perdeu a rede fica indistinguível de uma recém-revalidada.</para></summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.ApplyServerError(System.Int32,System.String,System.Int64)">
+            <summary>F1: o servidor respondeu com erro HTTP (não-2xx). Fail-closed: NÃO altera estado
+            nem veredito (Active dentro do prazo continua Active; bloqueado continua bloqueado) — apenas
+            registra o erro para diagnóstico e atualiza a marca monotônica.
+            <para>Conta como <c>OfflineBudget</c>: a licença segue ativa sem afrouxar nada, mas um erro
+            HTTP não é contato válido — o último contato bom continua sendo o anterior. O fluxo de
+            revogação também passa por aqui; ali o efeito é inócuo (<c>RevocationPending</c> projeta
+            <c>NotApplicable</c>) e fica correto se um Register cancelar a pendência depois.</para></summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.TryExpireDeadline(System.DateTime)">
+            <summary>#7: Active ⇒ OfflineExpired quando o prazo passou. Só age em Active.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.MarkClockTampered">
+            <summary>#9: relógio adulterado ⇒ bloqueio imediato, independe do prazo.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.RecordRead(System.DateTime,System.Int64)">
+            <summary>
+            Marca a leitura da licença pela aplicação — reinicia a janela de inatividade (RD-26).
+            Chamado na via quente (<c>GetLicenseStatus</c>): não persiste nada por conta própria; quem
+            decide gravar com debounce é o <c>LicenseManager</c>.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.ResumeLease(System.Int64)">
+            <summary>
+            Religamento (RD-26): reposiciona <b>apenas</b> a marca monotônica da janela de inatividade,
+            preservando o <see cref="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.LastReadUtc"/> persistido. O valor vem de
+            <see cref="M:Linx.LicenseServer.Client.Internal.Engine.IdleLeaseEvaluator.ResumeMonotonic(System.Nullable{System.DateTime},System.DateTime,System.Int64,System.TimeSpan)"/>, que traduz a idade da última leitura para
+            o relógio monotônico desta sessão.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.MarkLeaseFlushed">
+            <summary>Reancora o debounce de gravação: o <see cref="P:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.LastReadUtc"/> corrente acabou de ser
+            persistido (RD-26).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.MarkRevoked(Linx.LicenseServer.Client.Licensing.LicenseBlockReason,Linx.LicenseServer.Client.Licensing.LicenseServerError,Linx.LicenseServer.Client.Licensing.LicenseServerData)">
+            <summary>#15/#17/#19/#20: liberação encerrada ⇒ zera prazo/cache (RN-18). O motivo é
+            parametrizado para distinguir a revogação comandada pela aplicação
+            (<see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.Revoked"/>) da liberação automática por inatividade
+            (<see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.IdleTimeoutExpired"/>, RD-26) — o veredito é o mesmo
+            (bloqueada), só a causa informada à aplicação muda.
+            <para>Os diagnósticos são <b>atribuídos</b>, não preservados (ADR 009): na confirmação vêm
+            nulos; numa conclusão sem confirmação vêm os da ÚLTIMA tentativa, para que um erro de uma
+            tentativa anterior não apareça numa conclusão cuja última falha foi de rede.</para></summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.MarkRevocationPending">
+            <summary>#16: revogação falhou de forma transitória ⇒ bloqueada localmente, intenção
+            persistida.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.BeginRevocation(Linx.LicenseServer.Client.Licensing.LicenseBlockReason)">
+            <summary>Começa uma sequência de revogação (ADR 009): comando <c>ReleaseLicenseAsync</c> ou
+            expiração por inatividade. Zera o contador e grava o motivo com que a liberação vai terminar,
+            para que a repetição pela agenda — inclusive depois de religar — não o perca.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.RecordRevocationAttempt(System.DateTime)">
+            <summary>Conta uma requisição de revogação que de fato teve desfecho (ADR 009) e ancora a
+            próxima espera nela.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.CancelRevocationPending">
+            <summary>#18: Register da mesma chave cancela a pendência, voltando ao estado do cache, e
+            descarta a contagem de tentativas (ADR 009).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.ManagedLicense.UpdateBinding(Linx.LicenseServer.Client.Licensing.LicenseBinding,Linx.LicenseServer.Client.Licensing.LicenseReleaseMode)">
+            <summary>Atualiza o vínculo/modo (Register idempotente de licença já gerenciada).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState">
+            <summary>Estado interno da licença na máquina de estados (RD-08).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.NotYetValidated">
+            <summary>Registrada, sem validação bem-sucedida nem cache válido (fail-closed).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.Active">
+            <summary>Ativa, dentro do prazo offline.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.BlockedByServer">
+            <summary>Bloqueada pelo servidor (contrato/régua/limite). Sem auto-recuperação por tempo.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.OfflineExpired">
+            <summary>Prazo offline esgotado sem novo sucesso.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.ClockTampered">
+            <summary>Retrocesso de relógio detectado (RD-29).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.RevocationPending">
+            <summary>Liberação comandada ainda não confirmada pelo servidor; repetida com espera
+            crescente até o teto de tentativas (ADR 009).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Engine.ManagedLicenseState.Revoked">
+            <summary>Liberação encerrada: confirmada pelo servidor, recusada por resposta definitiva ou
+            concluída localmente no teto de tentativas (ADR 009).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Engine.OfflineDeadlineCalculator">
+            <summary>
+            Calcula o prazo offline (RD-07): <c>data local do sucesso + diasOffLine dias, às
+            23:59:59</c>. Usa a <b>data local</b> (não UTC); o componente 23:59:59 + a tolerância de
+            relógio (RD-29) absorvem bordas de fuso/horário de verão. Interno — nunca exposto (G3).
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.OfflineDeadlineCalculator.Calculate(System.DateTimeOffset,System.Int32)">
+            <summary>
+            Prazo local (preservando o offset de <paramref name="localSuccess"/>). Converta para
+            UTC (<see cref="P:System.DateTimeOffset.UtcDateTime"/>) para persistir/comparar.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Engine.RevocationAttemptOutcome">
+            <summary>Desfecho de uma tentativa de revogação (ADR 009).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Engine.RevocationAttemptOutcome.Confirmed">
+            <summary>Servidor confirmou: status 3 + "Licença Revogada." (RD-10).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Engine.RevocationAttemptOutcome.Definitive">
+            <summary>Servidor respondeu que não há o que revogar (4xx de conteúdo ou 200 sem sucesso).
+            A mesma requisição daria a mesma resposta: repetir não adianta.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Engine.RevocationAttemptOutcome.Transient">
+            <summary>A resposta não chegou ou o servidor falhou ao processar: repetir pode dar outro
+            resultado.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Engine.RevocationEvaluator">
+            <summary>
+            Critério de sucesso da revogação (RD-10) e classificação das respostas que não são sucesso
+            (ADR 009), locais ao fluxo de revogação — não alteram o fail-closed geral (RD-06). Sucesso ⇔
+            <c>Status == Revoked(3)</c> <b>e</b> mensagem exatamente "Licença Revogada.". A classificação
+            usa o status HTTP, nunca o texto do corpo, que é livre e sem contrato.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.RevocationEvaluator.Classify(Linx.LicenseServer.Client.Models.Responses.LicenseInfo)">
+            <summary>Resposta 200 desserializada: sucesso ou recusa definitiva (ex.: "Revogação não se
+            aplica.").</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.RevocationEvaluator.Classify(System.Net.HttpStatusCode)">
+            <summary>
+            Erro HTTP (<c>LicenseServerApiException</c>). 4xx de conteúdo é definitivo; 401/403
+            (credencial), 408/429 (temporários por definição) e 5xx repetem. 2xx também repete: o
+            cliente lança a mesma exceção com status 200 quando o corpo vem vazio ou não desserializa —
+            é resposta ilegível, não recusa.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Engine.StatusProjector">
+            <summary>
+            Projeta o estado interno da licença para o <see cref="T:Linx.LicenseServer.Client.Licensing.LicenseStatus"/> público. Nunca expõe
+            <c>lxStatusChave</c> (RD-06). O prazo (RD-07) é projetado em
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.AccessValidUntil"/> <b>somente</b> com a licença ativa — ver
+            <see cref="M:Linx.LicenseServer.Client.Internal.Engine.StatusProjector.ProjectAccessValidUntil(Linx.LicenseServer.Client.Internal.Engine.ManagedLicense,System.Boolean)"/>. Consome o veredito do relógio (RD-29/B05): adulteração ⇒
+            bloqueio por <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.ClockTamperingDetected"/>, independentemente do estado
+            persistido.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.StatusProjector.ProjectAccessValidUntil(Linx.LicenseServer.Client.Internal.Engine.ManagedLicense,System.Boolean)">
+            <summary>
+            Prazo só existe para licença ATIVA. A regra não é cosmética: <c>ApplyServerBlock</c> não
+            limpa o <c>OfflineDeadlineUtc</c>, então uma licença bloqueada por contrato mantém prazo
+            futuro no estado persistido — projetá-lo cru faria a superfície anunciar uma data de validade
+            para uma licença que já está negada agora, que é o pior convite possível à contagem
+            regressiva que a G3 quis evitar.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Engine.StatusProjector.ProjectAuthorizationSource(Linx.LicenseServer.Client.Internal.Engine.ManagedLicense,System.Boolean)">
+            <summary>
+            A origem da autorização só existe para licença ATIVA — mesma regra do prazo, e pela mesma
+            razão: o valor cru sobrevive a bloqueio (nem <c>ApplyServerBlock</c> nem
+            <c>TryExpireDeadline</c> o limpam, de propósito, para não perder a informação num bloqueio
+            temporário). Projetá-lo cru anunciaria "autorizada pelo servidor" numa licença que está
+            negada agora.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.JsonDefaults.Settings">
+            <summary>
+            Configurações de (de)serialização equivalentes ao contrato anterior de System.Text.Json:
+            <list type="bullet">
+            <item><c>NullValueHandling.Ignore</c> ≡ <c>DefaultIgnoreCondition = WhenWritingNull</c> (omite nulos ao escrever).</item>
+            <item>O Newtonsoft já faz o casamento de nomes de propriedade de forma case-insensitive
+            (≡ <c>PropertyNameCaseInsensitive = true</c>) e lê números a partir de strings
+            (≡ <c>NumberHandling.AllowReadingFromString</c>) por padrão.</item>
+            <item><c>IsoDateFormat</c> + <c>RoundtripKind</c> preservam o comportamento ISO 8601 anterior para datas.</item>
+            </list>
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.LicenseServerClient.Dispose">
+            <summary>
+            Libera o <see cref="T:System.Net.Http.HttpClient"/> da API (e sua cadeia de handlers) e o provedor de
+            token (que descarta o <see cref="T:System.Net.Http.HttpClient"/> de autenticação e o semáforo).
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Scheduling.IScheduler">
+            <summary>
+            Abstração de agendamento one-shot. Toda cadência do produto (agenda de revalidação,
+            pisos de retentativa) é expressa via esta interface — nunca com <c>Task.Delay</c> ou
+            <c>Thread.Sleep</c> — o que torna as esperas viráveis por um relógio virtual em teste.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Scheduling.IScheduler.Schedule(System.TimeSpan,System.Action)">
+            <summary>
+            Agenda a execução única de <paramref name="callback"/> após <paramref name="dueTime"/>.
+            </summary>
+            <param name="dueTime">Tempo até o disparo. Valores negativos ou zero disparam o quanto antes.</param>
+            <param name="callback">Ação a executar no vencimento.</param>
+            <returns>
+            Um <see cref="T:System.IDisposable"/> que cancela o agendamento se descartado antes do disparo.
+            </returns>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Scheduling.LicenseSchedulingState">
+            <summary>Estado relevante para agendar a próxima revalidação de uma licença.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Scheduling.LicenseSchedulingState.AnchorUtc">
+            <summary>Âncora absoluta (UTC) da agenda (RD-08): instante da última checagem. A próxima
+            revalidação é <c>âncora + intervalo</c>, não <c>agora + intervalo</c>. Nulo ⇒ usa agora.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Scheduling.LicenseSchedulingState.IdleRemaining">
+            <summary>Tempo que falta para a janela de inatividade estourar (RD-26), medido pelo relógio
+            monotônico. Nulo ⇒ a licença não está sujeita à expiração por inatividade e nenhum timer é
+            armado. <see cref="F:System.TimeSpan.Zero"/> ⇒ já estourou (dispara no próximo ciclo da agenda).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Scheduling.LicenseSchedulingState.RevocationAttempts">
+            <summary>Requisições de revogação já feitas na sequência pendente (ADR 009) — escolhe o
+            degrau da curva de espera. Só tem sentido em <c>RevocationPending</c>.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Scheduling.LicenseScheduler">
+            <summary>
+            Orquestra o agendamento por licença (RD-08) sobre o <see cref="T:Linx.LicenseServer.Client.Internal.Scheduling.IScheduler"/> injetado:
+            revalida em intervalos decrescentes, reverifica licença bloqueada em cadência fixa (ADR 008),
+            sinaliza a expiração no instante do deadline, sinaliza a expiração da janela de inatividade
+            (RD-26), retenta liberações pendentes no espaçamento configurado e garante um único voo de
+            validação por licença (coalescing). Determinístico: toda cadência passa pelo
+            <see cref="T:Linx.LicenseServer.Client.Internal.Scheduling.IScheduler"/>.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Scheduling.LicenseScheduler.Register(System.String,System.Func{Linx.LicenseServer.Client.Internal.Scheduling.LicenseSchedulingState},System.Func{System.Threading.Tasks.Task},System.Action,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Registra a licença e agenda a próxima revalidação. <paramref name="getState"/> é lido a
+            cada reagendamento; <paramref name="validateAsync"/> faz a tentativa de rede;
+            <paramref name="onDeadlineExpired"/> é chamado no instante do deadline sem sucesso;
+            <paramref name="onIdleExpired"/> é chamado quando a janela de inatividade estoura (RD-26) —
+            pode ser um alarme falso (houve leitura depois do armamento), e nesse caso o callback não faz
+            nada e o reagendamento seguinte re-arma pelo tempo restante.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Scheduling.LicenseScheduler.Trigger(System.String)">
+            <summary>Dispara uma revalidação imediata (coalescida se já houver voo em andamento).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Scheduling.LicenseScheduler.Cancel(System.String)">
+            <summary>Cancela o agendamento e remove a licença da gestão do scheduler.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Scheduling.LicenseScheduler.Pause">
+            <summary>Suspende todos os agendamentos (mantém o registro das licenças).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Scheduling.LicenseScheduler.Resume">
+            <summary>Retoma os agendamentos suspensos.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Scheduling.RateLimitRoute">
+            <summary>Rotas contidas por rate-limit (RD-16).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Scheduling.RateLimitRoute.ScheduledValidate">
+            <summary>Validação agendada — piso TMinV, por chave.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Scheduling.RateLimitRoute.ForcedValidate">
+            <summary>Revalidação forçada — piso menor (ForcedRevalidationFloor), por chave.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Scheduling.RateLimitRoute.TestConnection">
+            <summary>Sonda de conectividade/credencial (D-03). Vai à rede a cada chamada (ignora o token
+            em cache), então precisa de piso próprio: sem ele, um laço com credencial errada vira um laço
+            de rejeições contra o endpoint de autenticação. Escopo único — não é por licença.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Scheduling.RateLimitRoute.TrustUnblock">
+            <summary>Desbloqueio em confiança — piso 15min, por CNPJ.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Scheduling.RateLimitRoute.Revoke">
+            <summary>Revogação — piso 15min, por chave.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Scheduling.RateLimitRoute.BlockedRetryValidate">
+            <summary>Reverificação automática de licença bloqueada (ADR 008) — piso
+            <c>BlockedRetryIntervalFloor</c>, por chave. Rota própria porque responde a uma pergunta
+            distinta das demais: não é a cadência de licença ativa nem um comando da aplicação.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Scheduling.RateLimitDecision">
+            <summary>Decisão do rate-limiter: permitido, ou negado com o remanescente exato.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Scheduling.RateLimiter">
+            <summary>
+            Contenção anti-abuso por rota/escopo (RD-16). A régua é o relógio monotônico — imune a
+            retrocesso do relógio de parede. Uma chave/CNPJ nunca visto nunca é limitado (o piso só
+            impede repetir a MESMA operação antes do tempo).
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Scheduling.RateLimiter.TryAcquire(Linx.LicenseServer.Client.Internal.Scheduling.RateLimitRoute,System.String)">
+            <summary>Tenta adquirir a rota para o escopo. Registra o instante quando permitido.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Scheduling.TimerScheduler">
+            <summary>
+            Implementação de produção de <see cref="T:Linx.LicenseServer.Client.Internal.Scheduling.IScheduler"/> apoiada em
+            <see cref="T:System.Threading.Timer"/> (one-shot). A callback roda na thread-pool e é isolada contra
+            exceção: uma falha no callback nunca derruba o processo nem escapa para o timer.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Scheduling.TimerScheduler.Schedule(System.TimeSpan,System.Action)">
+            <inheritdoc />
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Scheduling.ValidationAgenda">
+            <summary>
+            Cálculo puro do intervalo da agenda de revalidação decrescente (RD-08):
+            <code>
+            base      = (deadline − âncora) / 2   (âncora = última checagem; ver LicenseScheduler)
+            intervalo = clamp(base, TMinV, TMaxV)
+            com jitter (G6, opcional): clamp(intervalo × (1 + U(−J, +J)), TMinV, TMaxV)
+            </code>
+            O jitter é reaplicado dentro do clamp para nunca violar o piso TMinV. Este cálculo recebe
+            apenas o <c>remaining</c> (deadline − âncora); a conversão para um alvo absoluto no tempo
+            (<c>âncora + intervalo</c>) é responsabilidade do <see cref="T:Linx.LicenseServer.Client.Internal.Scheduling.LicenseScheduler"/>.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Scheduling.ValidationAgenda.ComputeInterval(System.TimeSpan)">
+            <summary>Intervalo até a próxima revalidação, dado o tempo restante até o deadline.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Scheduling.ValidationAgenda.ComputeFixedInterval(System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Intervalo FIXO com jitter (ADR 008) — cadência da reverificação de licença bloqueada. Não
+            usa a fórmula decrescente nem o clamp TMinV/TMaxV desta agenda: uma licença bloqueada não
+            tem prazo para o qual convergir. Só a mesma variação aleatória do <see cref="M:Linx.LicenseServer.Client.Internal.Scheduling.ValidationAgenda.ComputeInterval(System.TimeSpan)"/>,
+            aplicada em torno de <paramref name="baseInterval"/> e reclampada ao piso próprio.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Scheduling.ValidationAgenda.ComputeRevocationRetryInterval(System.Int32)">
+            <summary>
+            Espera antes da próxima requisição de revogação pendente (ADR 009), dado quantas requisições
+            já foram feitas na sequência: as <see cref="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.RevocationFlatRetries"/>
+            primeiras repetições usam o intervalo base; daí em diante ele dobra. Mesmo jitter da cadência
+            fixa, com piso no espaçamento da rota <c>Revoke</c>.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Time.IMonotonicClock">
+            <summary>
+            Relógio monotônico: mede tempo decorrido de forma imune a ajustes do relógio de
+            parede (mudança de fuso, DST, correção manual, sincronização NTP). Usado como régua
+            para pisos de retentativa e para a verificação anti-retrocesso (RD-29), onde o
+            relógio de parede não é confiável.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Time.IMonotonicClock.Elapsed">
+            <summary>
+            Tempo decorrido desde uma origem fixa e arbitrária (tipicamente o início do
+            processo). Só o <em>delta</em> entre duas leituras tem significado; nunca diminui.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Time.INetworkTimeProvider">
+            <summary>
+            Fonte de tempo de rede (RD-29): âncora best-effort para confirmar o relógio local. A
+            indisponibilidade é sempre silenciosa e sem efeito (firewall pode bloquear UDP 123) — a
+            implementação retorna <c>null</c> em qualquer falha, nunca lança.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Time.INetworkTimeProvider.TryGetNetworkTimeUtc">
+            <summary>Instante UTC do servidor de tempo, ou <c>null</c> se indisponível.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Time.ITimeProvider">
+            <summary>
+            Abstração do relógio de parede ("agora"), injetável para tornar o comportamento
+            dependente de tempo determinístico em testes. Toda leitura de "agora" no código de
+            produto passa por esta abstração — nunca por <see cref="P:System.DateTimeOffset.UtcNow"/> direto.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Time.ITimeProvider.UtcNow">
+            <summary>
+            Instante atual em UTC.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Time.ITimeProvider.LocalNow">
+            <summary>
+            Instante atual no fuso local da máquina.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Time.NullNetworkTimeProvider">
+            <summary>
+            Provedor de tempo de rede inerte: sempre indisponível (<c>null</c>). Default quando o NTP
+            (B10) não está ligado — mantém a verificação de relógio dependendo apenas do high-water
+            mark persistido, sem qualquer efeito de rede.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Time.NullNetworkTimeProvider.TryGetNetworkTimeUtc">
+            <inheritdoc />
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Time.SntpMessage">
+            <summary>
+            Parsing mínimo de um pacote SNTP/NTP (RFC 4330), isolado como método puro e testável (sem
+            socket). Extrai o <em>transmit timestamp</em> (bytes 40–47) e o converte para UTC.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Internal.Time.SntpMessage.PacketSize">
+            <summary>Tamanho do pacote NTP (sem extensões).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Time.SntpMessage.CreateRequest">
+            <summary>Monta uma requisição de cliente SNTP (LI=0, VN=3, Mode=3).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Time.SntpMessage.TryParse(System.Byte[],System.DateTimeOffset@)">
+            <summary>
+            Tenta interpretar o pacote e devolver o instante UTC do servidor. Retorna <c>false</c>
+            para pacote truncado ou transmit timestamp zerado (kiss-o'-death/inválido).
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Time.SntpMessage.Parse(System.Byte[])">
+            <summary>Interpreta o pacote; lança <see cref="T:System.FormatException"/> se malformado.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Time.SntpNetworkTimeProvider">
+            <summary>
+            Âncora de tempo de rede best-effort via SNTP (RFC 4330 mínimo). NÃO bloqueia o chamador: a
+            consulta UDP roda em background e o resultado vira uma âncora que
+            <see cref="M:Linx.LicenseServer.Client.Internal.Time.SntpNetworkTimeProvider.TryGetNetworkTimeUtc"/> projeta pelo relógio monotônico (imune a ajustes do
+            relógio de parede). Enquanto não há âncora — ou o NTP está indisponível (firewall bloqueando
+            UDP 123) — retorna <c>null</c> silenciosamente e sem efeito. Sem dependência NuGet nova.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Internal.Time.SntpNetworkTimeProvider.TryGetNetworkTimeUtc">
+            <inheritdoc />
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Time.StopwatchMonotonicClock">
+            <summary>
+            Implementação de produção de <see cref="T:Linx.LicenseServer.Client.Internal.Time.IMonotonicClock"/> apoiada em
+            <see cref="T:System.Diagnostics.Stopwatch"/>, iniciada na construção. Enquanto o processo vive, é imune a
+            ajustes do relógio de parede.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Time.StopwatchMonotonicClock.Elapsed">
+            <inheritdoc />
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Internal.Time.SystemTimeProvider">
+            <summary>
+            Implementação de produção de <see cref="T:Linx.LicenseServer.Client.Internal.Time.ITimeProvider"/> apoiada no relógio do sistema.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Time.SystemTimeProvider.UtcNow">
+            <inheritdoc />
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Internal.Time.SystemTimeProvider.LocalNow">
+            <inheritdoc />
+        </member>
+        <member name="T:Linx.LicenseServer.Client.LicenseServerClientFactory">
+            <summary>
+            Fábrica para criar instâncias de <see cref="T:Linx.LicenseServer.Client.ILicenseServerClient"/> sem contêiner de
+            injeção de dependência. Monta manualmente o pipeline HTTP (autenticação + renovação
+            automática de token) a partir de <see cref="T:Linx.LicenseServer.Client.Configuration.LicenseServerOptions"/>.
+            </summary>
+            <remarks>
+            O cliente retornado é dono dos seus <see cref="T:System.Net.Http.HttpClient"/> internos: descarte-o
+            (<c>using</c>/<see cref="M:System.IDisposable.Dispose"/>) quando não for mais necessário.
+            Para uso intensivo, reaproveite a mesma instância em vez de criar uma por chamada.
+            </remarks>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.LicenseServerClientFactory.Create(Linx.LicenseServer.Client.Configuration.LicenseServerOptions)">
+            <summary>
+            Cria um cliente do License Server a partir das opções informadas.
+            </summary>
+            <param name="options">Opções de configuração (credenciais, ambiente, timeouts).</param>
+            <returns>Uma instância pronta para uso de <see cref="T:Linx.LicenseServer.Client.ILicenseServerClient"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">Quando <paramref name="options"/> é nulo.</exception>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerConfigurationException">Quando as opções são inválidas.</exception>
+            <example>
+            <code>
+            using var client = LicenseServerClientFactory.Create(new LicenseServerOptions
+            {
+                Email = "usuario@linx.com.br",
+                Password = "senha",
+                Environment = LicenseServerEnvironment.Production,
+            });
+            var info = await client.AuthenticateAsync();
+            </code>
+            </example>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.LicenseServerClientFactory.Create(Linx.LicenseServer.Client.Configuration.LicenseServerOptions,Linx.LicenseServer.Client.Authentication.ITokenCache)">
+            <summary>
+            Sobrecarga interna que injeta um <see cref="T:Linx.LicenseServer.Client.Authentication.ITokenCache"/> no provedor de token (D9) —
+            usada pela fachada para persistir o token de forma segura.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.ActiveStoreData">
+            <summary>
+            Dados de uma loja ativa a enviar ao endpoint <b>Lojas Ativas</b> (RD-33). A DLL é apenas a
+            ponte: <b>a aplicação preenche todos os campos</b> e a DLL os transmite como recebidos, sem
+            deduzir identidade do produto, derivar campos de licença ou interpretar a semântica de campo
+            algum. Onde/como colocar metadados "ricos" do produto (TEF, configuração, uso etc.) é decisão
+            da aplicação — um caminho comum é serializá-los em <see cref="P:Linx.LicenseServer.Client.Licensing.ActiveStoreData.Observacao"/>, mas o formato é
+            escolha sua.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreData.Cnpj">
+            <summary>CNPJ da loja. Obrigatório. Transmitido como recebido.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreData.RazaoSocial">
+            <summary>Razão social. Obrigatório.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreData.NomeProduto">
+            <summary>Nome do produto. Obrigatório. A DLL não deduz — a aplicação informa.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreData.TipoProduto">
+            <summary>Tipo do produto. Obrigatório. A DLL não deduz — a aplicação informa.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreData.DataUltimoMovimento">
+            <summary>Data do último movimento. Obrigatório. Transmitida como recebida.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreData.Versao">
+            <summary>Versão do produto. Opcional.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreData.Origem">
+            <summary>Origem. Opcional. Semântica definida pela aplicação.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreData.Observacao">
+            <summary>Observação / campo livre. Opcional. Conteúdo definido pela aplicação.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreData.CnpjPagador">
+            <summary>CNPJ do pagador. Opcional. Semântica definida pela aplicação.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.ActiveStoreSendOutcome">
+            <summary>Desfecho de um envio de Lojas Ativas (RD-33).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.ActiveStoreSendOutcome.Succeeded">
+            <summary>O servidor aceitou o envio (2xx).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.ActiveStoreSendOutcome.InvalidRequest">
+            <summary>O envio foi recusado localmente pela DLL, antes da rede, por faltar campo
+            obrigatório (fail-closed). Nenhuma chamada ao servidor foi feita.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.ActiveStoreSendOutcome.HttpError">
+            <summary>O servidor respondeu com um código HTTP de erro (não-2xx). Detalhe em
+            <see cref="P:Linx.LicenseServer.Client.Licensing.ActiveStoreSendResult.ServerError"/>.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.ActiveStoreSendOutcome.NetworkError">
+            <summary>Falha de rede/transporte (sem resposta HTTP): timeout, indisponibilidade ou
+            descarte do gerenciador. O envio é best-effort — a DLL não persiste nem retenta.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.ActiveStoreSendResult">
+            <summary>
+            Resultado tipado de <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.SendActiveStoreAsync(Linx.LicenseServer.Client.Licensing.ActiveStoreData)"/> /
+            <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.SendActiveStoresAsync(System.Collections.Generic.IEnumerable{Linx.LicenseServer.Client.Licensing.ActiveStoreData})"/>. O envio é <b>best-effort</b> (DL-3):
+            falha de rede não lança exceção — vira <see cref="F:Linx.LicenseServer.Client.Licensing.ActiveStoreSendOutcome.NetworkError"/> —,
+            a DLL não persiste nem retenta, e não aplica controle de frequência/abuso (isso é da
+            aplicação).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreSendResult.Outcome">
+            <summary>Desfecho do envio.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreSendResult.IsSuccess">
+            <summary><c>true</c> quando o servidor aceitou o envio.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreSendResult.Message">
+            <summary>Mensagem de diagnóstico (motivo da recusa local ou da falha). Nula em sucesso.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ActiveStoreSendResult.ServerError">
+            <summary>Erro HTTP do servidor (código + corpo) quando
+            <see cref="P:Linx.LicenseServer.Client.Licensing.ActiveStoreSendResult.Outcome"/> é <see cref="F:Linx.LicenseServer.Client.Licensing.ActiveStoreSendOutcome.HttpError"/>; nulo caso contrário.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.ILicenseManager">
+            <summary>
+            Superfície única de comunicação da DLL com a aplicação. Recomendação de uso: UMA
+            instância viva durante toda a vida da aplicação (singleton — RD-08/D16); religamento
+            periódico também é suportado.
+            </summary>
+            <remarks>
+            Os métodos assíncronos NÃO recebem <c>CancellationToken</c> (decisão v3): o token só
+            cancelaria a espera do chamador, nunca o efeito comandado — desfechos chegam sempre por
+            <see cref="E:Linx.LicenseServer.Client.Licensing.ILicenseManager.StatusChanged"/> e pendências viram
+            <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.RevocationPending"/>. Quem não quer aguardar descarta a
+            task ou usa <c>Task.WhenAny</c>.
+            </remarks>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.ILicenseManager.EnvironmentInfo">
+            <summary>Configuração efetiva: ambiente consumido (produção/homologação), URL efetiva
+            e se veio de parâmetro ou embarcada. Uso interno da aplicação — não destinado ao
+            usuário final.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.RegisterLicenseAsync(Linx.LicenseServer.Client.Licensing.LicenseBinding)">
+            <summary>Registra a licença sob gestão da DLL (local, idempotente, infalível) e
+            devolve o PRIMEIRO veredito disponível: se há cache persistido válido para a chave,
+            responde dele imediatamente, sem rede (religamento — G13); caso contrário, aguarda a
+            primeira tentativa de validação. Falha de rede NÃO lança exceção: retorna o status
+            fail-closed (<see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.NotYetValidated"/>) com a licença registrada
+            e agendada — a agenda (RD-08) segue tentando e o desfecho chega por
+            <see cref="E:Linx.LicenseServer.Client.Licensing.ILicenseManager.StatusChanged"/>. Em licença já gerenciada, responde do cache exatamente
+            como <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.GetLicenseStatus(Linx.LicenseServer.Client.Licensing.LicenseBinding)"/>. Um RegisterLicenseAsync de chave em
+            <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.RevocationPending"/> cancela a liberação pendente.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.RegisterLicensesAsync(System.Collections.Generic.IEnumerable{Linx.LicenseServer.Client.Licensing.LicenseBinding})">
+            <summary>Registra várias licenças (ex.: lista de módulos na subida — RD-13/RN-39),
+            agrupando as validações quando possível (RD-16/RN-34). Mesma semântica de
+            <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.RegisterLicenseAsync(Linx.LicenseServer.Client.Licensing.LicenseBinding)"/>, por item.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.ReleaseLicenseAsync(Linx.LicenseServer.Client.Licensing.LicenseBinding)">
+            <summary>Libera a licença: revoga no servidor (RD-10/RD-27) e, no sucesso
+            ("Licença Revogada."), zera prazo e cache (RN-18) e remove a licença da gestão. Resposta
+            definitiva de que não há o que revogar (HTTP 4xx, ou "Revogação não se aplica.") conclui
+            do mesmo jeito, com o porquê em <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.ServerError"/> ou
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.ServerData"/>. Falha transitória (rede, 5xx, credencial) deixa a
+            licença sob gestão em <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.RevocationPending"/> — bloqueada
+            localmente — e a DLL repete com espera crescente; se nenhuma de 13 requisições tiver
+            resposta, conclui a liberação localmente, sem confirmação do servidor. O desfecho chega
+            por <see cref="E:Linx.LicenseServer.Client.Licensing.ILicenseManager.StatusChanged"/>. Não existe remover sem revogar. Chamar de novo durante a
+            pendência recomeça a contagem.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.GetLicenseStatus(Linx.LicenseServer.Client.Licensing.LicenseBinding)">
+            <summary>Status atual de uma licença, respondido do cache local. Síncrono, sem rede,
+            nunca bloqueia (RN-10). Toda chamada executa a checagem de relógio contra o
+            high-water mark (RD-29).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.GetAllLicenseStatuses">
+            <summary>Status de TODAS as licenças gerenciadas (RD-17; cenário servidor de
+            aplicação — RD-12).</summary>
+        </member>
+        <member name="E:Linx.LicenseServer.Client.Licensing.ILicenseManager.StatusChanged">
+            <summary>Disparado a cada mudança de status de qualquer licença, qualquer que seja a
+            origem (servidor, expiração, relógio, revoke, desbloqueio) — padrão único e uniforme
+            (RD-17).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.ForceLicenseRevalidationAsync(Linx.LicenseServer.Client.Licensing.LicenseBinding)">
+            <summary>Revalidação imediata forçada (RD-08) — assíncrona, DESACONSELHADA salvo
+            estrita necessidade. Também é a via de retentativa manual a partir de estado
+            bloqueado. IGNORA o TMinV (força a ida à rede na hora), mas mantém um piso anti-abuso
+            próprio, menor que o TMinV: antes desse piso lança
+            <see cref="T:Linx.LicenseServer.Client.Exceptions.LicenseRateLimitException"/> com o tempo remanescente (RD-16).
+            Em licença já gerenciada, o <paramref name="license"/> recebido SUBSTITUI o binding
+            armazenado (Terminal/Usuario/Versao/Cnpj/ReleaseMode) antes de validar — diferente de
+            <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.RegisterLicenseAsync(Linx.LicenseServer.Client.Licensing.LicenseBinding)"/> apenas na urgência: aqui a atualização vale mesmo
+            dentro do piso, mas só é persistida se a chamada não for contida por ele. Se o binding
+            novo mudar o que compõe a chave (<see cref="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.Key"/>/
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.KeyParts"/>), o resultado é uma licença DIFERENTE (nova
+            gestão), não uma atualização da anterior — a chave, não o binding, é a identidade.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.UnblockByTrustAsync(System.String)">
+            <summary>Executa o desbloqueio em confiança sob comando (RD-15) — sem código, sem body
+            (G2). Em sucesso a DLL dispara internamente um novo Validate para obter o novo prazo.
+            Recusa (400) NÃO é veredito nem bloqueia novas tentativas; apenas o espaçamento
+            anti-abuso (~15 min) se aplica, via
+            <see cref="T:Linx.LicenseServer.Client.Exceptions.LicenseRateLimitException"/> (RD-16).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.TestConnectionAsync">
+            <summary>
+            Verifica credencial e alcance do ambiente configurado, <b>sem depender de licença
+            registrada</b> — para provisionamento e ferramenta de suporte. Sucesso é silencioso.
+            <para><b>Sempre vai à rede</b> (ignora o token em cache): metade do valor é justamente
+            detectar "servidor inalcançável". Protegida por piso anti-abuso próprio.</para>
+            <para><b>É diagnóstico</b>: não altera estado de licença nenhuma, não participa de veredito e
+            não é pré-requisito de nada. O caminho de licenciamento continua fail-closed e sem lançar em
+            falha de rede — este método é comando, e comandos lançam.</para>
+            </summary>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerAuthenticationException">
+            Credencial rejeitada (<c>StatusCode</c> preenchido) ou servidor inalcançável
+            (<c>StatusCode</c> nulo) — a mesma distinção do F1.</exception>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseRateLimitException">Chamada antes do piso anti-abuso.</exception>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.SendActiveStoreAsync(Linx.LicenseServer.Client.Licensing.ActiveStoreData)">
+            <summary>Envia os metadados de uma loja ativa (RD-33). A DLL é apenas a <b>ponte</b>: a
+            aplicação preenche todos os campos de <paramref name="data"/> e a DLL os transmite como
+            recebidos (não deduz nem interpreta nada). Envio <b>sob demanda</b> (a app decide quando/
+            frequência) e <b>best-effort</b> (DL-3): valida os obrigatórios ANTES da rede
+            (<see cref="F:Linx.LicenseServer.Client.Licensing.ActiveStoreSendOutcome.InvalidRequest"/>, sem chamar o servidor); falha de
+            rede/timeout NÃO lança exceção (vira <see cref="F:Linx.LicenseServer.Client.Licensing.ActiveStoreSendOutcome.NetworkError"/>); a
+            DLL não persiste nem retenta, e não aplica controle de abuso. Trate como telemetria — não
+            interrompa a operação do usuário se falhar.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.SendActiveStoresAsync(System.Collections.Generic.IEnumerable{Linx.LicenseServer.Client.Licensing.ActiveStoreData})">
+            <summary>Envia metadados de várias lojas ativas em lote (RD-33). Mesma semântica de
+            <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.SendActiveStoreAsync(Linx.LicenseServer.Client.Licensing.ActiveStoreData)"/>. A validação dos obrigatórios é fail-closed e
+            <b>tudo-ou-nada</b>: se qualquer item for inválido, retorna
+            <see cref="F:Linx.LicenseServer.Client.Licensing.ActiveStoreSendOutcome.InvalidRequest"/> sem enviar nenhum.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.GetLastServerResponse(Linx.LicenseServer.Client.Licensing.LicenseBinding)">
+            <summary>JSON bruto da última resposta do servidor para a licença — para necessidades
+            específicas de produto (ex.: Linx POS × LnSecurity, E-17). Conteúdo "como veio"; não
+            deve ser usado para reimplementar lógica de licenciamento.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.ShutdownAsync">
+            <summary>Encerramento ordenado: aplica a semântica de <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.ReleaseLicenseAsync(Linx.LicenseServer.Client.Licensing.LicenseBinding)"/>
+            a TODAS as licenças em modo <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseReleaseMode.Variable"/> (RN-17; Fixed
+            nunca é revogada — RN-16), persiste o estado, para a agenda e devolve o status final
+            de cada licença gerenciada. Licença já pendente continua a sequência de tentativas em vez
+            de recomeçá-la. <see cref="M:System.IDisposable.Dispose"/> sem ShutdownAsync apenas
+            para a agenda e persiste — nunca revoga (modo Fixed seguro por default em queda
+            abrupta).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.Internal.ApiHistoryRecordingClient">
+            <summary>
+            Decorator de <see cref="T:Linx.LicenseServer.Client.ILicenseServerClient"/> que grava o histórico de chamadas
+            (<c>api_history</c> — RD-19/B04) sem corpo com segredo: apenas endpoint, timestamp e o
+            resultado (sucesso/erro). Encaminha para o cliente subjacente.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.Internal.LicenseKeyBuilder">
+            <summary>
+            Composição determinística da chave de uso da licença (RD-02). Regra:
+            <list type="bullet">
+            <item>Se <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.Key"/> está presente, é usada verbatim.</item>
+            <item>Caso contrário, compõe o CNPJ sanitizado seguido de
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.KeyParts"/> na ordem recebida, cada segmento com escaping do
+            separador — de modo que <c>["a|b"]</c> e <c>["a","b"]</c> nunca colidam.</item>
+            </list>
+            A DLL não valida semanticamente os valores (§1.1).
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.Internal.LicenseKeyBuilder.Build(Linx.LicenseServer.Client.Licensing.LicenseBinding)">
+            <summary>Monta (ou obtém) a chave efetiva da licença.</summary>
+            <exception cref="T:System.ArgumentNullException"><paramref name="binding"/> nulo.</exception>
+            <exception cref="T:System.ArgumentException">Nem <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.Key"/> nem
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.KeyParts"/> foram fornecidos.</exception>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.Internal.LicenseManager">
+            <summary>
+            Implementação da fachada <see cref="T:Linx.LicenseServer.Client.Licensing.ILicenseManager"/>. Integra store (B04), relógio (B05),
+            motor/estados (B06), agenda/rate-limit (B07) e o cliente de baixo nível.
+            </summary>
+            <remarks>
+            Concorrência: um gate único (<c>lock (_gate)</c>) protege o dicionário em memória e as
+            mutações de estado + escrita no store. O gate NUNCA é mantido através de um await nem
+            durante o disparo de eventos. Ordem de aquisição: StoreLock (processo, no store) → gate em
+            memória → despacho de evento fora do gate. Todos os awaits usam <c>ConfigureAwait(false)</c>.
+            </remarks>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.Internal.LicenseManager.Initialize">
+            <summary>Reconcilia o estado persistido e retoma a agenda (G13); registra a InitialLicense.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicenseManager.RevocationStart.NewCommand">
+            <summary>ReleaseLicenseAsync: comando novo da aplicação, recomeça a contagem.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicenseManager.RevocationStart.IdleExpiration">
+            <summary>Expiração por inatividade (RD-26): começa a sequência com causa própria.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicenseManager.RevocationStart.Shutdown">
+            <summary>ShutdownAsync: começa a sequência só se ainda não houver uma pendente — zerar o
+            contador a cada encerramento faria uma aplicação que reinicia muito nunca chegar ao teto.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicenseManager.RevocationStart.Continue">
+            <summary>Repetição da agenda em RevocationPending: continua a sequência gravada.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.Internal.LicenseManager.RenewIdleLeaseLocked(Linx.LicenseServer.Client.Internal.Engine.ManagedLicense)">
+            <summary>
+            Renova a janela de inatividade. Chamado APENAS quando a APLICAÇÃO lê a licença — nunca na
+            revalidação interna nem em <see cref="M:Linx.LicenseServer.Client.Licensing.Internal.LicenseManager.GetAllLicenseStatuses"/>: se a própria DLL renovasse, a
+            licença nunca expiraria, e se a enumeração renovasse, um processo central que varre todas as
+            licenças manteria todas as vagas presas para sempre.
+            </summary>
+            <remarks>
+            Via quente (pode ser chamado por transação): renovar é escrever duas marcas em memória. A
+            gravação no store é debounced — só quando a marca avançou
+            <see cref="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.IdleLeasePersistFraction"/> da janela além do que já está
+            persistido —, o que limita a defasagem vista após um religamento sem transformar cada leitura
+            em I/O. Deve ser chamado sob <c>_gate</c>.
+            </remarks>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.Internal.LicenseManager.ExpireIdleLeaseAsync(System.String)">
+            <summary>
+            A janela de inatividade estourou (RD-26): confere a marca corrente e, se a inatividade for
+            real, libera a vaga no servidor pelo MESMO caminho da revogação comandada — com causa própria,
+            para a aplicação distinguir "eu liberei" de "a DLL liberou por inatividade". Falha de rede cai
+            em <c>RevocationPending</c> e é retentada pela agenda, como qualquer revogação.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.Internal.LicenseManager.EnsureManaged(Linx.LicenseServer.Client.Licensing.LicenseBinding,System.String,System.Boolean)">
+            <param name="binding">Binding recebido nesta chamada.</param>
+            <param name="key">Chave efetiva já calculada para <paramref name="binding"/>.</param>
+            <param name="refreshBinding">Quando true e a chave já é gerenciada, substitui o binding
+            armazenado pelo recebido (Force). Quando false, uma licença já gerenciada é deixada como
+            está (Release: revogar não deve mudar de quem está sendo revogado).</param>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.Internal.LicenseManagerOptionsValidator">
+            <summary>
+            Valida e normaliza <see cref="T:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions"/>: exige identidade e credenciais,
+            clampa o intervalo mínimo ao piso embarcado (escolha da DLL — §5.1/RN-23), garante TMinV ≤ TMaxV,
+            normaliza a URL efetiva (absoluta, com barra final) e exige timeout positivo. Falhas
+            duras lançam <see cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerConfigurationException"/>.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.Internal.LicenseManagerOptionsValidator.Validate(Linx.LicenseServer.Client.Licensing.LicenseManagerOptions)">
+            <summary>Valida as opções e devolve a versão resolvida/normalizada.</summary>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerConfigurationException">Opções inválidas.</exception>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults">
+            <summary>
+            Ponto único de verdade dos valores default de licenciamento (decisão DE-2 de
+            2026-07-17). Todos são embarcados e, quando a spec permite, configuráveis/clampáveis
+            via <c>LicenseManagerOptions</c>. Nenhum literal numérico de cadência/tolerância deve
+            existir fora desta classe.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.MinValidationInterval">
+            <summary>Piso default do intervalo de validação (TMinV).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.MaxValidationInterval">
+            <summary>Teto default do intervalo de validação (TMaxV).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.MinValidationIntervalFloor">
+            <summary>
+            Piso rígido a que o <c>MinValidationInterval</c> configurado é clampado — protege o
+            servidor de cadência abusiva. Escolha de engenharia da própria DLL: consultado em
+            2026-07-31, o time do License Server informou que <b>não publica piso nem valor padrão</b>
+            (cada time define o seu), encerrando a RN-23 e o §5.1 dos requisitos.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.IdleTimeout">
+            <summary>Janela default de inatividade antes da liberação automática (RD-26). Aplica-se
+            apenas ao modo <c>VariableWithIdleTimeout</c>.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.IdleTimeoutFloor">
+            <summary>
+            Piso rígido a que o <c>IdleTimeout</c> configurado é clampado. Revisto em 2026-08-06 de
+            30 min para 1 min: um piso alto barra casos de uso legítimos (terminal de autoatendimento,
+            balança, quiosque — cenários em que soltar a licença em poucos minutos é o comportamento
+            desejado) e ainda dificulta o teste do próprio RD-26. A aplicação conhece o seu contexto e
+            decide a janela; a DLL só impede o valor degenerado. Alinhado ao
+            <see cref="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.MinValidationIntervalFloor"/>, o que mantém a exigência do RD-26 de não conflitar
+            com o tempo mínimo entre chamadas à API (RD-16): a janela nunca fica abaixo do piso da
+            cadência de revalidação.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.IdleLeasePersistFraction">
+            <summary>
+            Fração do <c>IdleTimeout</c> que a marca de última leitura pode avançar em memória antes de
+            ser gravada no store. Renovar a janela é operação de via quente
+            (<c>GetLicenseStatus</c> pode ser chamado por transação) e não pode custar I/O a cada
+            leitura; a gravação com debounce limita a defasagem vista após um religamento a esta fração.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.ForcedRevalidationFloor">
+            <summary>Piso entre revalidações forçadas por comando (anti-abuso).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.TrustUnblockSpacing">
+            <summary>Espaçamento mínimo entre tentativas de desbloqueio em confiança.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.RevocationPendingRetry">
+            <summary>Intervalo base da curva de espera da liberação pendente (RevocationPending, ADR 009):
+            as primeiras <see cref="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.RevocationFlatRetries"/> repetições usam este valor; daí em diante
+            ele dobra a cada repetição.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.RevocationFlatRetries">
+            <summary>Quantas repetições da revogação usam o intervalo base sem crescer (ADR 009).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.RevocationMaxAttempts">
+            <summary>Teto de requisições de revogação por sequência, contando a do comando (ADR 009).
+            Atingido sem resposta definitiva, a DLL conclui a liberação localmente.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.RevokeSpacing">
+            <summary>Espaçamento mínimo entre revogações da mesma chave (rate-limit da rota Revoke).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.BlockedRetryInterval">
+            <summary>
+            Cadência da reverificação automática de licença em <c>BlockedByServer</c> (ADR 008). É um
+            intervalo FIXO, não a fórmula decrescente da RD-08: sem prazo para o qual convergir, não há
+            base para variar a cadência com o tempo. Calibrado acima da rotina de liberação do servidor,
+            que roda a cada 30 min — consultar com frequência muito maior não traz informação nova.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.BlockedRetryIntervalFloor">
+            <summary>
+            Piso rígido a que o <see cref="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.BlockedRetryInterval"/> configurado é clampado, e piso da
+            rota de rate-limit <c>BlockedRetryValidate</c>. Não é o valor recomendado — é só a barreira
+            anti-metralhamento contra uma configuração degenerada.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.ClockToleranceMin">
+            <summary>Tolerância mínima de retrocesso do relógio antes de sinalizar adulteração.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.ClockToleranceMax">
+            <summary>Tolerância máxima de retrocesso do relógio (absorve fuso/DST/suspensão).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.JitterEnabledByDefault">
+            <summary>Jitter aplicado à agenda ligado por default; pode ser desligado nas options.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.JitterFactor">
+            <summary>Fração de jitter aplicada ao intervalo agendado (±10%).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.ComEventQueueCapacity">
+            <summary>Capacidade máxima da fila de eventos COM (drop-oldest ao estourar).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.ComDiagnosticQueueCapacity">
+            <summary>Capacidade máxima da fila de diagnóstico COM (drop-oldest ao estourar). Maior que
+            a de eventos: cada ida à rede rende dois itens (request + response) e o canal é de DEBUG,
+            consumido em rajada.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.ApiHistoryMaxAge">
+            <summary>Idade máxima dos registros de histórico de API antes do expurgo.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.ApiHistoryMaxCount">
+            <summary>Teto de registros de histórico de API (expurgo dos mais antigos ao exceder).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.LogMaxAge">
+            <summary>Idade máxima dos registros de log interno antes do expurgo.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.Internal.LicensingDefaults.LogMaxCount">
+            <summary>Teto de registros de log interno (expurgo dos mais antigos ao exceder).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.Internal.ResolvedLicenseManagerOptions">
+            <summary>
+            Opções do gerenciador já validadas e normalizadas (URL efetiva com barra final,
+            intervalos clampados aos defaults/pisos embarcados). Produto de
+            <see cref="M:Linx.LicenseServer.Client.Licensing.Internal.LicenseManagerOptionsValidator.Validate(Linx.LicenseServer.Client.Licensing.LicenseManagerOptions)"/>, consumido pela factory/fachada.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.Internal.ResolvedLicenseManagerOptions.BlockedRetryInterval">
+            <summary>Cadência fixa da reverificação de licença bloqueada, já clampada ao piso (ADR 008).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.Internal.ResolvedLicenseManagerOptions.IdleTimeout">
+            <summary>Janela de inatividade já clampada ao piso embarcado (RD-26).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.Internal.ResolvedLicenseManagerOptions.ToEnvironmentInfo">
+            <summary>Projeta a informação de ambiente pública (RD-04).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.Internal.StatusChangeDispatcher">
+            <summary>
+            Despacha <see cref="E:Linx.LicenseServer.Client.Licensing.ILicenseManager.StatusChanged"/> de forma sequencial e ordenada, SEMPRE
+            fora de qualquer lock/gate do manager (evita deadlock quando um handler reentra no manager).
+            Exceção de handler é isolada e registrada — um handler que quebra não derruba o dispatcher
+            nem trava o manager.
+            </summary>
+        </member>
+        <member name="E:Linx.LicenseServer.Client.Licensing.Internal.StatusChangeDispatcher.StatusChanged">
+            <summary>Assinantes do evento público.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.Internal.StatusChangeDispatcher.Enqueue(Linx.LicenseServer.Client.Licensing.LicenseStatus,Linx.LicenseServer.Client.Licensing.LicenseStatus)">
+            <summary>Enfileira uma mudança e garante o dreno sequencial (um único drenador por vez).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.LicenseAuthorizationSource">
+            <summary>
+            De ONDE vem a autorização de uma licença ATIVA. Enum próprio, fechado e versionado pela DLL —
+            deliberadamente separado de <see cref="T:Linx.LicenseServer.Client.Licensing.LicenseBlockReason"/> para preservar a invariante
+            "<c>Reason != None</c> ⟺ bloqueada", que a projeção COM publica como contrato
+            (<c>EventReason</c>: "Bloqueada ⟺ &lt;&gt; 0").
+            </summary>
+            <remarks>
+            <para>Existe porque, sem ele, uma licença ativa cujo Validate falhou por rede é indistinguível de
+            uma recém-revalidada com sucesso: o caminho de rede é fail-closed e não lança, e
+            <c>MarkNetworkFailure</c> ainda limpa o erro de servidor — sobra
+            <c>IsBlocked = false</c>, <c>Reason = None</c>, <c>ServerError = null</c> nos dois casos. É a
+            metade da F1 que ficava aberta no estado ativo, e aparece sobretudo no retorno de
+            <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.ForceLicenseRevalidationAsync(Linx.LicenseServer.Client.Licensing.LicenseBinding)"/>, onde a aplicação pediu
+            explicitamente uma ida ao servidor e precisa saber se ela aconteceu.</para>
+            <para><b>É informativo, não veredito.</b> Quem decide se o sistema opera continua sendo
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.IsBlocked"/>. E é <b>qualitativo</b>: não expõe prazo, tempo decorrido
+            nem nada de que se derive contagem regressiva (decisão G3).</para>
+            </remarks>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseAuthorizationSource.NotApplicable">
+            <summary>Licença bloqueada — não há autorização a explicar.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseAuthorizationSource.Server">
+            <summary>A última tentativa real de validação falou com o servidor e teve sucesso.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseAuthorizationSource.OfflineBudget">
+            <summary>Vivendo do prazo offline (RD-07): houve tentativa real sem sucesso depois do último
+            sucesso — rede caída OU erro HTTP do servidor. O erro HTTP entra aqui porque mantém a licença
+            ativa sem afrouxar nada, mas não é contato válido: o último contato bom continua sendo o
+            anterior. Ciclo pulado por rate-limit <b>não</b> é tentativa e não muda este valor.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.LicenseBinding">
+            <summary>
+            Vínculo que identifica UMA licença (§1.1 da spec). Aplicação, módulo, terminal, sessão,
+            empresa e usuário são atributos — nunca entidades. Um módulo é apenas uma licença cujo
+            vínculo identifica um módulo (RD-13): o conjunto é aberto, sem tipo dedicado.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.LicenseId">
+            <summary>ID da licença no License Server (idLicenca). Obrigatório.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.Cnpj">
+            <summary>CNPJ do cliente. Obrigatório; sanitizado internamente.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.Key">
+            <summary>Chave única pronta, quando a aplicação já a possui.
+            Alternativa: <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.KeyParts"/>.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.KeyParts">
+            <summary>Insumos ordenados para a DLL MONTAR a chave (RD-02): filial, terminal,
+            domínio, hostname, session id, módulo… — o que o produto tiver. Composição
+            determinística; a DLL não valida semanticamente os valores (§1.1).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.Terminal">
+            <summary>Atributo opcional repassado ao Validate quando presente.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.User">
+            <summary>Atributo opcional repassado ao Validate quando presente.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.Version">
+            <summary>Atributo opcional repassado ao Validate quando presente.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.EnvironmentTag">
+            <summary>Identificação de ambiente lógico da aplicação
+            (Produção/Homologação/Treinamento do UX — RD-23), repassada ao servidor.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseBinding.ReleaseMode">
+            <summary>Modo de liberação desta licença; nulo = default das options (RD-11).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.LicenseBlockReason">
+            <summary>
+            Motivo estável de bloqueio (RD-09): enum interno da DLL que agrega as informações
+            brutas do servidor. Fechado e versionado pela DLL — valores brutos novos do servidor
+            caem nos existentes pela regra fail-closed, sem quebrar consumidores. Textos de UI são
+            100% responsabilidade da aplicação.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.None">
+            <summary>Não bloqueada.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.NotYetValidated">
+            <summary>Registrada, ainda sem validação bem-sucedida nem cache válido (fail-closed).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.BlockedByContract">
+            <summary>Bloqueio imposto pelo servidor — origem contratual ("C").</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.BlockedByBillingRuler">
+            <summary>Bloqueio imposto pelo servidor — origem financeira/Régua de Cobrança ("F"):
+            desbloqueio em confiança é factível (RD-14).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.UsageLimitReached">
+            <summary>Limite de licenças/sessões contratadas atingido
+            (RD-24; quantidadeContratada × quantidadeEmUso).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.OfflineBudgetExpired">
+            <summary>Prazo offline esgotado sem nova verificação bem-sucedida (RD-08).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.ClockTamperingDetected">
+            <summary>Retrocesso de relógio além da tolerância (RD-29) — motivo específico e
+            tratável; só sai com novo sucesso no servidor.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.Revoked">
+            <summary>Liberação comandada pela aplicação (RD-10) encerrada pela DLL. Normalmente o
+            servidor confirmou e a vaga está livre para outro terminal; mas também é o desfecho quando o
+            servidor respondeu que não havia o que revogar (o porquê vem em
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.ServerError"/> ou <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.ServerData"/>) e quando
+            nenhuma das tentativas teve resposta — nesse último caso, sem confirmação de que a vaga foi
+            liberada no servidor.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.RevocationPending">
+            <summary>Liberação comandada (ReleaseLicenseAsync/ShutdownAsync) ainda não confirmada
+            pelo servidor, por falha transitória (rede, 5xx, credencial): bloqueada localmente; a DLL
+            repete a revogação por iniciativa própria, com espera crescente, até confirmar, receber
+            resposta definitiva ou atingir o teto de tentativas — e então passa a
+            <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.Revoked"/> (ou <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.IdleTimeoutExpired"/>).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.IdleTimeoutExpired">
+            <summary>Expirada por inatividade (RD-26): a aplicação parou de ler a licença por mais que
+            o <c>IdleTimeout</c> e a DLL revogou a licença por iniciativa própria, liberando a vaga no
+            servidor. Só ocorre no modo
+            <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseReleaseMode.VariableWithIdleTimeout"/>; para voltar a operar, a aplicação
+            precisa registrar a licença novamente.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.LicenseManagerEnvironmentInfo">
+            <summary>
+            Configuração efetiva do gerenciador (RD-04): ambiente consumido, URL efetiva e se ela
+            veio de parâmetro ou embarcada. Uso interno da aplicação — não destinado ao usuário final.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerEnvironmentInfo.Environment">
+            <summary>Ambiente efetivamente consumido (produção/homologação).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerEnvironmentInfo.EffectiveBaseUrl">
+            <summary>URL base efetivamente utilizada.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerEnvironmentInfo.IsCustomBaseUrl">
+            <summary>Verdadeiro quando a URL efetiva veio de <c>BaseUrl</c> (parâmetro), falso
+            quando é a URL embarcada do ambiente.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.LicenseManagerFactory">
+            <summary>
+            Fábrica da fachada de licenciamento. Valida as opções, adquire o lock exclusivo da
+            identidade (D16 — falha rápida se outra instância ativa), abre o armazenamento seguro
+            (RD-18), reconcilia o estado persistido com o relógio (RD-08/RD-29) e RETOMA a agenda de
+            cada licença conhecida (comportamento "cron"): funciona como singleton de vida longa
+            (recomendado) ou recriado periodicamente.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Licensing.LicenseManagerFactory.Create(Linx.LicenseServer.Client.Licensing.LicenseManagerOptions)">
+            <summary>Cria o gerenciador de licenças a partir das opções informadas.</summary>
+            <exception cref="T:System.ArgumentNullException"><paramref name="options"/> nulo.</exception>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseServerConfigurationException">Opções inválidas.</exception>
+            <exception cref="T:Linx.LicenseServer.Client.Exceptions.LicenseStoreLockedException">Outra instância ativa da mesma identidade (D16).</exception>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions">
+            <summary>Configuração de inicialização do gerenciador de licenças.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.ProductId">
+            <summary>ID do sistema/módulo, fornecido pelo time do License Server. A DLL não deduz
+            identidade — recebe. Obrigatório.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.InstanceQualifier">
+            <summary>Qualificador determinístico opcional da instância (decisão D10 do
+            armazenamento aprovado).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.Email">
+            <summary>Credencial do produto, injetada na inicialização. Nunca persistida pela DLL;
+            usada só para obter/renovar token.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.Password">
+            <summary>Credencial do produto, injetada na inicialização. Nunca persistida pela DLL;
+            usada só para obter/renovar token.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.Environment">
+            <summary>Ambiente com URL embarcada (produção/homologação).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.BaseUrl">
+            <summary>URL customizada; quando informada, sobrepõe o ambiente embarcado
+            (decisão RD-03: "ambos").</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.Timeout">
+            <summary>Timeout de toda requisição HTTP. Padrão: 30 s.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.MinValidationInterval">
+            <summary>TMinV — piso entre verificações da MESMA licença. Nulo = default embarcado.
+            Valor abaixo do piso embarcado é clampado. O piso é definido pela própria DLL: o time do
+            License Server não publica piso nem valor padrão (§5.1 dos requisitos, RN-23 encerrada).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.MaxValidationInterval">
+            <summary>TMaxV — intervalo máximo sem tentar verificação. Nulo = default embarcado.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.BlockedRetryInterval">
+            <summary>Cadência da reverificação automática de licença bloqueada pelo servidor (ADR 008).
+            Intervalo FIXO — não segue a fórmula decrescente de TMinV/TMaxV, porque uma licença
+            bloqueada não tem prazo para o qual convergir. Nulo = default embarcado (6 h). Valor abaixo
+            do piso embarcado (15 min) é clampado.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.DefaultReleaseMode">
+            <summary>Modo aplicado às licenças que não declararem o próprio: Fixed nunca revoga
+            no encerramento; Variable sempre revoga; VariableWithIdleTimeout revoga também por
+            inatividade (RD-26).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.IdleTimeout">
+            <summary>
+            Janela de inatividade antes da liberação automática, para as licenças em modo
+            <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseReleaseMode.VariableWithIdleTimeout"/>. Nulo = default embarcado (120 min).
+            Valor abaixo do piso embarcado (1 min) é clampado, não recusado. O piso é apenas a guarda
+            contra o valor degenerado: quanto vale uma janela curta é decisão da aplicação, que conhece
+            o seu contexto de uso. Irrelevante para os modos <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseReleaseMode.Fixed"/> e
+            <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseReleaseMode.Variable"/>.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.InitialLicense">
+            <summary>Licença opcionalmente registrada já na criação do gerenciador.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseManagerOptions.Diagnostics">
+            <summary>Canal de diagnóstico em tempo real: quando informado, a DLL emite um
+            <see cref="T:Linx.LicenseServer.Client.Diagnostics.LicenseDiagnosticEvent"/> a cada ida a serviço externo (request/response HTTP,
+            com segredos mascarados) e a cada log interno. Nulo = desligado (sem overhead, sem mudança
+            de comportamento). Destina-se a DEBUG/observabilidade da aplicação. Best-effort: pode ser
+            invocado em thread de background e uma exceção do assinante nunca afeta o licenciamento.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.LicenseReleaseMode">
+            <summary>
+            Modo de liberação de uma licença no encerramento ordenado (RD-11). Governa apenas o
+            comportamento automático de <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.ShutdownAsync"/> — não é um
+            invariante: a aplicação permanece soberana para liberar qualquer licença quando decidir.
+            </summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseReleaseMode.Fixed">
+            <summary>Terminal fixo: nunca revoga no encerramento (RN-16).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseReleaseMode.Variable">
+            <summary>Terminal variável: revoga no encerramento ordenado (RN-17).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.LicenseReleaseMode.VariableWithIdleTimeout">
+            <summary>
+            Terminal variável com expiração automática por inatividade (RD-26): revoga no
+            encerramento ordenado, igual a <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseReleaseMode.Variable"/>, e TAMBÉM por conta própria quando a
+            aplicação para de ler a licença por mais que o <c>IdleTimeout</c> configurado. Destina-se a
+            terminais em rede que podem ficar inacessíveis sem encerrar de forma ordenada — sem isso a
+            vaga fica presa no servidor até intervenção do Suporte (RN-16).
+            </summary>
+            <remarks>
+            A janela é reiniciada a cada leitura da licença pela aplicação
+            (<see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.GetLicenseStatus(Linx.LicenseServer.Client.Licensing.LicenseBinding)"/>, <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.RegisterLicenseAsync(Linx.LicenseServer.Client.Licensing.LicenseBinding)"/>
+            ou <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.ForceLicenseRevalidationAsync(Linx.LicenseServer.Client.Licensing.LicenseBinding)"/>) — nunca pela revalidação
+            interna da DLL nem pela enumeração <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.GetAllLicenseStatuses"/>. Ao
+            expirar, a licença é revogada no servidor e removida da gestão: a aplicação é notificada por
+            <see cref="E:Linx.LicenseServer.Client.Licensing.ILicenseManager.StatusChanged"/> com
+            <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.IdleTimeoutExpired"/> e precisa registrar de novo para voltar
+            a operar.
+            </remarks>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.LicenseServerData">
+            <summary>
+            Dados brutos agregados da última resposta do servidor para uma licença (RD-09/RD-21).
+            A aplicação interpreta e decide como exibir. Possui propriedades próprias — não reexpõe
+            os models do cliente de baixo nível (viabiliza a internalização do B11 sem quebra e
+            resolve a tensão RD-21×G3: o prazo <em>calculado</em> nunca é exposto; apenas o que o
+            servidor devolveu "como veio").
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseServerData.Message">
+            <summary>Mensagem do servidor associada ao último veredito.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseServerData.ContractedQuantity">
+            <summary>Quantidade contratada (RD-24), quando informada pelo servidor.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseServerData.QuantityInUse">
+            <summary>Quantidade em uso (RD-24), quando informada pelo servidor.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseServerData.BillingRulerEventJson">
+            <summary>Evento da Régua de Cobrança, em JSON bruto, quando presente.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseServerData.ContractDetailsJson">
+            <summary>Detalhes do contrato, em JSON bruto, quando presentes.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseServerData.RawResponse">
+            <summary>JSON bruto completo da última resposta do servidor (RD-21). "Como veio";
+            não deve ser usado para reimplementar lógica de licenciamento.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.LicenseServerError">
+            <summary>
+            Diagnóstico da última interação com o servidor que retornou um <b>erro HTTP</b> (o servidor
+            respondeu, mas com status não-2xx) — distinto de uma falha de rede/transporte (F1). Permite
+            à aplicação diferenciar "o servidor rejeitou/errou" de "não consegui alcançar o servidor",
+            sem afrouxar o fail-closed: o veredito continua sendo <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.IsBlocked"/> /
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.Reason"/>.
+            </summary>
+            <remarks>
+            Presente em <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.ServerError"/> quando a <em>última</em> ida ao servidor
+            devolveu um erro HTTP; nulo quando a última interação foi sucesso, bloqueio por veredito
+            (200) ou falha de transporte (rede indisponível). Conteúdo "como veio" (RD-21) — não deve ser
+            usado para reimplementar lógica de licenciamento.
+            </remarks>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseServerError.StatusCode">
+            <summary>Código HTTP retornado pelo servidor (0 quando indisponível/desconhecido).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseServerError.Body">
+            <summary>Corpo da resposta de erro do servidor, quando disponível (RD-21), com segredos
+            mascarados (RD-19): token, senha e e-mail de credencial saem como <c>***</c>.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.LicenseStatus">
+            <summary>
+            Fotografia imutável do status de uma licença. Produzida SEMPRE a partir do cache local —
+            obter um status nunca gera rede nem bloqueia (RN-10). Expõe o veredito binário, o motivo
+            estável e, para licença ativa, até quando o acesso corrente vale
+            (<see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.AccessValidUntil"/>). Nunca <c>lxStatusChave</c> (RD-06).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.Key">
+            <summary>Chave efetiva da licença (montada pela DLL — RD-02).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.IsBlocked">
+            <summary>Veredito binário (RD-07(3)): a aplicação só precisa disto para decidir operar.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.Reason">
+            <summary>Motivo estável (RD-09). <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.None"/> quando ativa.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.CanUnblockByTrust">
+            <summary>Indica que o desbloqueio em confiança PODE ser usado (RD-14). Verdadeiro
+            quando <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.Reason"/> == <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.BlockedByBillingRuler"/>.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.ServerData">
+            <summary>Dados brutos agregados da última resposta do servidor (mensagem, evento da
+            Régua de Cobrança, detalhes do contrato, quantidades) — a aplicação interpreta e
+            decide como exibir (RD-09/RD-21).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.ServerError">
+            <summary>Erro HTTP da última ida ao servidor, quando houve (F1): distingue "servidor
+            rejeitou/errou" de "servidor inalcançável" (rede). Nulo quando a última interação foi
+            sucesso, bloqueio por veredito (200) ou falha de transporte. Não altera o veredito
+            (<see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.IsBlocked"/>/<see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.Reason"/>) — é apenas diagnóstico. Num status
+            <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.Revoked"/>/<see cref="F:Linx.LicenseServer.Client.Licensing.LicenseBlockReason.IdleTimeoutExpired"/>,
+            preenchido indica liberação concluída sem confirmação do servidor: ele recusou a
+            revogação (ex.: HTTP 400) ou a última de todas as tentativas falhou com esse erro.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.AccessValidUntil">
+            <summary>
+            Até quando o acesso corrente vale, em <b>hora local</b> (sempre <c>23:59:59</c> de alguma
+            data — RD-07). Preenchido <b>somente</b> com a licença ativa; <c>null</c> em qualquer
+            bloqueio, revogação, pendência de revogação ou adulteração de relógio.
+            </summary>
+            <remarks>
+            <para><b>Existe para alimentar guardião externo</b> — o caso do Linx POS, cuja
+            <c>LnSecurity</c> lê a validade gravada no Registro do Windows e é quem concede ou nega o
+            acesso (E-17). A DLL continua sendo a autoridade quando é ela que decide: o veredito é
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.IsBlocked"/> + <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.Reason"/>, e este campo não participa dele.</para>
+            <para><b>Não construa contagem regressiva nem alerta de proximidade com este valor</b>, e não
+            o exiba ao usuário final. Não é preferência de estilo — o número não serve para isso:</para>
+            <list type="number">
+            <item><b>Não é promessa.</b> Uma licença ativa com prazo daqui a dez dias pode bloquear hoje,
+            por decisão do servidor na próxima revalidação. Prazo no futuro não significa "vai funcionar
+            até lá".</item>
+            <item><b>Não é monotônico.</b> É recalculado a cada validação bem-sucedida a partir do
+            <c>diasOffline</c> da resposta; se o servidor reduzir esse número, o prazo <b>encolhe</b> — um
+            contador exibido ao operador andaria para trás.</item>
+            <item><b>Some sem aviso.</b> Vira <c>null</c> em revogação, adulteração de relógio e qualquer
+            bloqueio.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.AuthorizationSource">
+            <summary>
+            De onde vem a autorização quando a licença está ATIVA: do servidor agora
+            (<see cref="F:Linx.LicenseServer.Client.Licensing.LicenseAuthorizationSource.Server"/>) ou do prazo offline já concedido
+            (<see cref="F:Linx.LicenseServer.Client.Licensing.LicenseAuthorizationSource.OfflineBudget"/>).
+            <see cref="F:Linx.LicenseServer.Client.Licensing.LicenseAuthorizationSource.NotApplicable"/> em qualquer bloqueio.
+            </summary>
+            <remarks>
+            <para><b>Não participa do veredito</b> — quem decide se o sistema opera continua sendo
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.IsBlocked"/>. Serve para a aplicação saber se a comunicação com o servidor
+            funcionou: o caso central é o retorno de
+            <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.ForceLicenseRevalidationAsync(Linx.LicenseServer.Client.Licensing.LicenseBinding)"/>, que devolve
+            <c>IsBlocked = false</c> tanto quando revalidou de verdade quanto quando a rede caiu e a
+            licença seguiu ativa pelo prazo. Complementa <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.ServerError"/>, que só distingue
+            rejeição de rede no estado bloqueado.</para>
+            <para><b>Não gera evento.</b> A troca entre os dois valores com a licença ativa NÃO dispara
+            <see cref="E:Linx.LicenseServer.Client.Licensing.ILicenseManager.StatusChanged"/> — o evento continua reagindo só a mudança de
+            <see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.IsBlocked"/>/<see cref="P:Linx.LicenseServer.Client.Licensing.LicenseStatus.Reason"/>. Quem quiser refletir este campo na tela deve
+            lê-lo no retorno dos comandos ou em <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.GetLicenseStatus(Linx.LicenseServer.Client.Licensing.LicenseBinding)"/>.</para>
+            </remarks>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.LicenseStatusChangedEventArgs">
+            <summary>
+            Argumentos do evento <see cref="E:Linx.LicenseServer.Client.Licensing.ILicenseManager.StatusChanged"/>: status anterior e novo —
+            suficiente para a aplicação reagir sem consultar mais nada (RD-17).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseStatusChangedEventArgs.Previous">
+            <summary>Status imediatamente anterior à mudança.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.LicenseStatusChangedEventArgs.Current">
+            <summary>Status resultante da mudança.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.TrustUnblockOutcome">
+            <summary>Desfecho do desbloqueio em confiança (RD-15).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.TrustUnblockOutcome.Succeeded">
+            <summary>200 — desbloqueio aceito pelo servidor.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.TrustUnblockOutcome.Denied">
+            <summary>400 — recusado pelo servidor. NÃO é veredito nem bloqueia novas tentativas
+            (RD-16): é resposta de negócio que a aplicação apresenta ao usuário.</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Licensing.TrustUnblockOutcome.Failed">
+            <summary>Outro — falha real (transporte/servidor).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Licensing.TrustUnblockResult">
+            <summary>Resultado do comando <see cref="M:Linx.LicenseServer.Client.Licensing.ILicenseManager.UnblockByTrustAsync(System.String)"/> (RD-15).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.TrustUnblockResult.Outcome">
+            <summary>200 = <see cref="F:Linx.LicenseServer.Client.Licensing.TrustUnblockOutcome.Succeeded"/>;
+            400 = <see cref="F:Linx.LicenseServer.Client.Licensing.TrustUnblockOutcome.Denied"/>;
+            outro = <see cref="F:Linx.LicenseServer.Client.Licensing.TrustUnblockOutcome.Failed"/> (RD-15).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Licensing.TrustUnblockResult.Details">
+            <summary>Motivo/observação relacionando a origem e dados relevantes.</summary>
+        </member>
         <member name="T:Linx.LicenseServer.Client.Models.BlockOrigin">
             <summary>
             Origem do bloqueio de licença, derivada do campo <c>origemBloqueio</c> da API.
@@ -294,6 +2011,40 @@
         </member>
         <member name="F:Linx.LicenseServer.Client.Models.LicenseKeyStatus.NotAuthorized">
             <summary>Licença não autorizada (valor 4).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel">
+            <summary>
+            Corpo da requisição do endpoint <b>Lojas Ativas</b> (<c>ActiveStoreModel</c> do License
+            Server). A DLL é apenas a ponte (RD-33/DL-1): todos os campos são preenchidos pela aplicação
+            e transmitidos como recebidos, sem interpretação de semântica.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel.Cnpj">
+            <summary>CNPJ da loja (obrigatório).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel.RazaoSocial">
+            <summary>Razão social (obrigatório).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel.NomeProduto">
+            <summary>Nome do produto (obrigatório).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel.TipoProduto">
+            <summary>Tipo do produto (obrigatório).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel.Versao">
+            <summary>Versão do produto (opcional).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel.DataUltimoMovimento">
+            <summary>Data do último movimento (obrigatório). Repassada como recebida.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel.Origem">
+            <summary>Origem (opcional). Semântica definida pela aplicação.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel.Observacao">
+            <summary>Observação/campo livre (opcional). Conteúdo definido pela aplicação.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Requests.ActiveStoreModel.CnpjPagador">
+            <summary>CNPJ do pagador (opcional). Semântica definida pela aplicação.</summary>
         </member>
         <member name="T:Linx.LicenseServer.Client.Models.Requests.BatchValidationItem">
             <summary>
@@ -355,6 +2106,40 @@
         </member>
         <member name="P:Linx.LicenseServer.Client.Models.Requests.LicenseValidationRequest.Versao">
             <summary>Versão do produto que está solicitando a validação.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Models.Responses.AuthenticationInfo">
+            <summary>
+            Resultado público de uma autenticação no License Server.
+            Exposto por <see cref="M:Linx.LicenseServer.Client.ILicenseServerClient.AuthenticateAsync(System.Boolean,System.Threading.CancellationToken)"/> para permitir
+            que o consumidor confirme que as credenciais são válidas e inspecione os dados do token.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationInfo.Uid">
+            <summary>Identificador único (UID) do usuário autenticado.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationInfo.Email">
+            <summary>E-mail do usuário autenticado.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationInfo.Provider">
+            <summary>Provedor de autenticação retornado pela API.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationInfo.Schema">
+            <summary>Schema associado ao usuário.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationInfo.ExpiresInHours">
+            <summary>Validade do token em horas, conforme informado pela API no login.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationInfo.ExpiresAtUtc">
+            <summary>
+            Momento (UTC) em que o token expira, calculado a partir de <see cref="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationInfo.ExpiresInHours"/>
+            no instante da autenticação.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Models.Responses.AuthenticationInfo.Token">
+            <summary>
+            Token Bearer obtido. Trate como informação sensível: não registre em log
+            nem exiba integralmente.
+            </summary>
         </member>
         <member name="T:Linx.LicenseServer.Client.Models.Responses.AuthenticationResult">
             <summary>
@@ -573,6 +2358,566 @@
             <summary>
             Indica se a licença está ativa.
             Equivale a verificar <c>Licenca.Status == LicenseKeyStatus.Active</c>.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.DataProtectorFactory">
+            <summary>
+            Seleciona a estratégia <see cref="T:Linx.LicenseServer.Client.Storage.IDataProtector"/> conforme a plataforma (D15). No
+            Windows, DPAPI; em outros SO, retorna a implementação DPAPI mesmo assim — não suportada —
+            para que a falha seja clara (<see cref="T:System.PlatformNotSupportedException"/>) em vez de
+            silenciosa. A porta para Keychain/libsecret fica aberta aqui (fora deste plano).
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.DpapiDataProtector">
+            <summary>
+            Implementação DPAPI de <see cref="T:Linx.LicenseServer.Client.Storage.IDataProtector"/> com escopo
+            <see cref="F:System.Security.Cryptography.DataProtectionScope.LocalMachine"/> (D7 — vínculo à máquina). Windows-only por
+            design: em outros SO, <see cref="P:Linx.LicenseServer.Client.Storage.DpapiDataProtector.IsSupported"/> é <c>false</c> e as operações lançam
+            <see cref="T:System.PlatformNotSupportedException"/> com mensagem clara.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.DpapiDataProtector.IsSupported">
+            <inheritdoc />
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.DpapiDataProtector.Protect(System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.DpapiDataProtector.Unprotect(System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Entities.ApiHistoryRecord">
+            <summary>
+            Registro do histórico de chamadas à API (coleção <c>api_history</c>) — sem corpo com
+            segredo, apenas metadados auditáveis (RD-19).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.ApiHistoryRecord.Endpoint">
+            <summary>Endpoint chamado (rota relativa).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.ApiHistoryRecord.TimestampUtc">
+            <summary>Instante da chamada (UTC).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.ApiHistoryRecord.HttpStatus">
+            <summary>Código HTTP de resposta.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.ApiHistoryRecord.CorrelationId">
+            <summary>Identificador de correlação (opcional).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord">
+            <summary>
+            Estado persistido de uma licença gerenciada (coleção <c>license_cache</c>, N registros —
+            RD-12). Chaveado por <see cref="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.EffectiveKey"/> (único). Os campos de enum são gravados
+            como <c>int</c> (DTO de storage desacoplado do motor B06): <see cref="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.State"/> mapeia
+            <c>ManagedLicenseState</c>, <see cref="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.ReasonCode"/> mapeia <c>LicenseBlockReason</c> e
+            <see cref="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.ReleaseMode"/> mapeia <c>LicenseReleaseMode</c>.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.EffectiveKey">
+            <summary>Chave efetiva montada pela DLL (RD-02) — identidade única da licença.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.BindingJson">
+            <summary>Vínculo original serializado em JSON (para religamento/revogação).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.State">
+            <summary>Estado da máquina de estados (int → ManagedLicenseState, B06).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.ReasonCode">
+            <summary>Motivo estável (int → LicenseBlockReason, B02).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.OfflineDeadlineUtc">
+            <summary>Horário-limite offline (UTC) calculado; nulo quando não aplicável (RD-07, interno).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.ReleaseMode">
+            <summary>Modo de liberação (int → LicenseReleaseMode, B02).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.RevocationPending">
+            <summary>Indica liberação comandada ainda não confirmada pelo servidor (RevocationPending);
+            a sequência de tentativas está em <see cref="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.RevocationAttempts"/> (ADR 009).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.LastServerResponseJson">
+            <summary>JSON bruto da última resposta do servidor (RD-21).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.LastErrorStatus">
+            <summary>Código HTTP do último erro do servidor (F1); 0 quando não houve/indisponível.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.LastErrorBody">
+            <summary>Corpo bruto do último erro HTTP do servidor (F1); nulo quando não houve.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.LastSuccessUtc">
+            <summary>Último sucesso de validação no servidor (UTC); nulo se nunca validada.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.LastCheckUtc">
+            <summary>Âncora de agendamento (RD-08): relógio de parede (UTC) do último ciclo de validação
+            agendado. Nulo em caches antigos/nunca-checada — o scheduler cai para <see cref="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.LastSuccessUtc"/>.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.LastCheckMonotonic">
+            <summary>Leitura monotônica da última checagem — base do piso de retentativa (B05/B07).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.LastReadUtc">
+            <summary>
+            Última leitura da licença PELA APLICAÇÃO (UTC) — âncora da janela de inatividade (RD-26).
+            Gravado com debounce (ver <c>LicensingDefaults.IdleLeasePersistFraction</c>): dentro da
+            sessão a janela é medida pelo relógio monotônico, e este campo existe para reconciliar a
+            inatividade após um religamento. Nulo em caches antigos, em licenças nunca lidas e nos modos
+            sem expiração por inatividade.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.AuthorizationSource">
+            <summary>
+            Desfecho da última tentativa real de validação (int → <c>LicenseAuthorizationSource</c>):
+            <c>1</c> = falou com o servidor com sucesso, <c>2</c> = vivendo do prazo offline. Nulo em
+            caches antigos, gravados antes do campo existir — nesse caso vale <c>1</c> (ver
+            <c>ManagedLicense.FromRecord</c>): a ausência de registro é a ausência de tentativa falha.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.RevocationAttempts">
+            <summary>Requisições de revogação já feitas na sequência pendente (ADR 009). Zero em caches
+            antigos — a pendência recomeça a contagem.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.LastRevocationAttemptUtc">
+            <summary>Instante (UTC) da última requisição de revogação contada — âncora da próxima espera
+            (ADR 009). Nulo em caches antigos e fora de pendência.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord.RevocationCauseCode">
+            <summary>Motivo com que a liberação pendente vai terminar (int → LicenseBlockReason):
+            <c>7</c> = comando, <c>9</c> = inatividade. Nulo em caches antigos ⇒ vale <c>7</c>.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Entities.LogRecord">
+            <summary>
+            Registro de log interno (coleção <c>logs</c>) — RD-19. A mensagem é sempre redigida antes
+            de persistir (nunca token/senha em claro no store).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LogRecord.TimestampUtc">
+            <summary>Instante do evento (UTC).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LogRecord.Level">
+            <summary>Nível do log (int → LogLevel interno).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LogRecord.Category">
+            <summary>Categoria/origem do evento.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.LogRecord.Message">
+            <summary>Mensagem já redigida.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Entities.MetaRecord">
+            <summary>
+            Metadados do store (coleção <c>_meta</c>, sempre Id=1). Guarda a versão de schema, a marca
+            d'água de tempo anti-rollback (D13) e o identificador de entropy que sinaliza reset.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.MetaRecord.SchemaVersion">
+            <summary>Versão do schema do store.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.MetaRecord.HighWaterMarkUtc">
+            <summary>Marca d'água de tempo (UTC) — monotônico-crescente (D13/RN-11).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.MetaRecord.HighWaterMarkMonotonic">
+            <summary>Leitura do relógio monotônico associada à última marca d'água.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.MetaRecord.EntropyId">
+            <summary>Identificador da geração de entropy; muda a cada recriação/quarentena.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.MetaRecord.ClockTampered">
+            <summary>Adulteração de relógio detectada e persistida (RD-29). Sticky: só sai por
+            sucesso confirmado no servidor (B05). Ausente em stores antigos ⇒ default <c>false</c>.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Entities.TokenRecord">
+            <summary>
+            Token de acesso persistido de forma segura (coleção <c>token</c>, sempre Id=1) — RD-30/D9.
+            Consumido pelo cache de token do B05.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.TokenRecord.AccessToken">
+            <summary>Token Bearer.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.TokenRecord.ExpiresAtUtc">
+            <summary>Instante de expiração (UTC).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.TokenRecord.Uid">
+            <summary>UID do principal autenticado (opcional).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.TokenRecord.Schema">
+            <summary>Schema do principal autenticado (opcional).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.Entities.TokenRecord.Provider">
+            <summary>Provedor de autenticação (opcional).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.HmacEnvelope">
+            <summary>
+            Integridade autenticada fail-closed (D6). Formato do blob selado:
+            <code>
+            sealed := [ ver:1=0x01 ][ mac:32 ][ payload:N ]
+            mac    := HMAC-SHA256( key , ver ‖ payload )
+            </code>
+            Justificativa: <c>AesGcm</c> não existe em net48/netstandard2.0 e o LiteDB cifra em
+            AES-CBC sem MAC; este HMAC de aplicação é a camada de integridade. Qualquer
+            divergência/truncamento em <see cref="M:Linx.LicenseServer.Client.Storage.HmacEnvelope.TryOpen(System.Byte[],System.Byte[]@)"/> resulta em <c>false</c> — o chamador
+            descarta o dado e força revalidação online. Nunca lança por conteúdo adulterado.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.HmacEnvelope.Seal(System.Byte[])">
+            <summary>Sela <paramref name="payload"/> e devolve o blob autenticado.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.HmacEnvelope.TryOpen(System.Byte[],System.Byte[]@)">
+            <summary>
+            Verifica e desembrulha o blob. Retorna <c>false</c> (sem lançar) para qualquer
+            truncamento, versão inesperada ou MAC divergente.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.HmacEnvelope.FixedTimeEquals(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Comparação em tempo constante (netstandard2.0 não tem
+            <c>CryptographicOperations.FixedTimeEquals</c>). Compara <paramref name="length"/>
+            bytes de <paramref name="a"/> (a partir de <paramref name="offsetA"/>) com
+            <paramref name="b"/> (a partir de <paramref name="offsetB"/>).
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.IDataProtector">
+            <summary>
+            Estratégia de proteção de dados vinculada à máquina (D7/D15). A implementação de produção
+            é DPAPI (Windows); a abstração mantém a porta aberta para Keychain/libsecret em outros SO
+            (fora deste plano).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.IDataProtector.IsSupported">
+            <summary>Indica se a plataforma atual suporta a proteção (Windows para DPAPI).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.IDataProtector.Protect(System.Byte[],System.Byte[])">
+            <summary>Sela <paramref name="plaintext"/> com a <paramref name="entropy"/> informada.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.IDataProtector.Unprotect(System.Byte[],System.Byte[])">
+            <summary>Desela <paramref name="sealedData"/> com a mesma <paramref name="entropy"/>.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.ILicenseStore">
+            <summary>
+            Superfície única do armazenamento local seguro (RD-18). Nenhuma outra parte da DLL toca o
+            LiteDB diretamente. Descartar fecha o banco e libera o lock de singleton (D16).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.ILicenseStore.WasResetFailClosed">
+            <summary>
+            Verdadeiro quando o store foi recriado após quarentena (corrupção/adulteração): o
+            cache local foi perdido e o manager deve forçar revalidação online (fail-closed —
+            nunca presume "ativo").
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.ILicenseStore.Meta">
+            <summary>Metadados e marca d'água anti-rollback.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.ILicenseStore.Token">
+            <summary>Token de acesso persistido.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.ILicenseStore.LicenseCache">
+            <summary>Cache de estado das licenças gerenciadas.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.ILicenseStore.ApiHistory">
+            <summary>Histórico de chamadas à API.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.ILicenseStore.Log">
+            <summary>Log interno.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.LiteDbLicenseStore">
+            <summary>
+            Implementação de <see cref="T:Linx.LicenseServer.Client.Storage.ILicenseStore"/> sobre LiteDB cifrado. Abre na ordem normativa
+            (§6 do storage): lock de singleton → chave-mestra (DPAPI) → banco. Corrupção/adulteração
+            do arquivo ⇒ quarentena (renomeia o arquivo, recria vazio) e sinaliza reset fail-closed.
+            A mesma postura vale para a **chave-mestra que não desela** (máquina renomeada, cópia de
+            imagem, adulteração): revincula em vez de impedir a abertura — ver
+            <see cref="M:Linx.LicenseServer.Client.Storage.LiteDbLicenseStore.OpenMasterKey(Linx.LicenseServer.Client.Storage.StorePaths,Linx.LicenseServer.Client.Storage.IDataProtector,System.Byte[],System.Boolean@)"/>. Todo reset é registrado no log interno (RD-19).
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.LiteDbLicenseStore.Open(Linx.LicenseServer.Client.Storage.StorePaths,Linx.LicenseServer.Client.Storage.StoreIdentity,Linx.LicenseServer.Client.Storage.IDataProtector,System.Action{Linx.LicenseServer.Client.Storage.Entities.LogRecord})">
+            <summary>Abre (ou cria) o store para a identidade, adquirindo o lock de singleton.
+            <paramref name="onLogAppended"/> é um observador opcional (diagnóstico) chamado após cada
+            log gravado, já com a mensagem redigida; nulo = sem observação.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.LiteDbLicenseStore.OpenMasterKey(Linx.LicenseServer.Client.Storage.StorePaths,Linx.LicenseServer.Client.Storage.IDataProtector,System.Byte[],System.Boolean@)">
+            <summary>
+            Abre a chave-mestra. Quando ela existe mas **não desela** — vínculo de máquina/identidade
+            divergente (o nome da máquina entra na entropy, D5: renomear a máquina muda a entropy) ou
+            adulteração —, trata-se o caso como **máquina nova**: quarentena da chave e do banco,
+            recriação vazia e sinalização de reset fail-closed (<paramref name="rebound"/>).
+            </summary>
+            <remarks>
+            A alternativa — impedir a abertura — deixava a DLL <b>sem subir</b> e só saía desse estado
+            com remoção manual da pasta do store pelo Suporte. É a mesma postura já adotada para
+            corrupção do banco: sem cache, o estado é `NotYetValidated` e exige validação online, então
+            nada é presumido ativo e o prazo offline não é herdado (fail-closed).
+            </remarks>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.LiteDbLicenseStore.MoveAside(System.String,System.String)">
+            <summary>Renomeia o arquivo com sufixo de instante (perícia posterior); se não der, apaga.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.LogRedactor">
+            <summary>
+            Mascara segredos antes de persistir qualquer mensagem de log OU de emitir diagnóstico
+            (RD-19/redaction): tokens Bearer, senhas/tokens em pares chave=valor, segredos em campos JSON
+            (ex.: <c>"api_token"</c>, <c>"password"</c>) e e-mails de credencial. Nunca token/senha em
+            claro no store nem no canal de diagnóstico.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.LogRedactor.Redact(System.String)">
+            <summary>Devolve a mensagem com segredos mascarados.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.MasterKeyManager">
+            <summary>
+            Chave-mestra do store (D4). Na primeira execução gera 32 bytes aleatórios, sela por DPAPI
+            e persiste em <c>master.key</c>; nas aberturas seguintes desela. Deriva subchaves por
+            propósito (duas camadas): senha do LiteDB e chave do HMAC de registro.
+            </summary>
+            <remarks>
+            Nunca devolve chave inválida. Distingue dois desfechos de falha, porque o tratamento é
+            diferente: <b>não deselar</b> (adulteração, ou vínculo de máquina/identidade divergente —
+            ex.: máquina renomeada, já que o nome entra na entropy D5) devolve <c>null</c> em
+            <see cref="M:Linx.LicenseServer.Client.Storage.MasterKeyManager.TryLoad(Linx.LicenseServer.Client.Storage.StorePaths,Linx.LicenseServer.Client.Storage.IDataProtector,System.Byte[])"/>, e quem abre o store decide o que fazer (hoje: quarentena + recriação
+            fail-closed); <b>falha de I/O ou permissão</b> vira <see cref="T:Linx.LicenseServer.Client.Exceptions.LicenseStorageException"/>,
+            porque é condição transitória/ambiental que não deve destruir o estado local.
+            </remarks>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.MasterKeyManager.TryLoad(Linx.LicenseServer.Client.Storage.StorePaths,Linx.LicenseServer.Client.Storage.IDataProtector,System.Byte[])">
+            <summary>
+            Tenta carregar a chave-mestra persistida. Devolve <c>null</c> quando o arquivo **não
+            existe** (primeira execução) ou quando existe mas **não desela** — vínculo de
+            máquina/identidade divergente ou adulteração. Falha de I/O/permissão lança
+            <see cref="T:Linx.LicenseServer.Client.Exceptions.LicenseStorageException"/>; ausência de DPAPI lança
+            <see cref="T:System.PlatformNotSupportedException"/>.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.MasterKeyManager.Create(Linx.LicenseServer.Client.Storage.StorePaths,Linx.LicenseServer.Client.Storage.IDataProtector,System.Byte[])">
+            <summary>Gera uma chave-mestra nova, sela por DPAPI e persiste (sobrescreve a anterior).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.MasterKeyManager.GetLiteDbPassword">
+            <summary>Senha do LiteDB (B04): subchave por propósito, em Base64.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.MasterKeyManager.GetRecordHmacKey">
+            <summary>Chave do <see cref="T:Linx.LicenseServer.Client.Storage.HmacEnvelope"/>: subchave por propósito.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.PersistedTokenCache">
+            <summary>
+            Implementação de <see cref="T:Linx.LicenseServer.Client.Authentication.ITokenCache"/> sobre o <see cref="T:Linx.LicenseServer.Client.Storage.Repositories.ITokenRepository"/> (D9).
+            Carrega o token na subida e o salva a cada renovação. Um registro adulterado é ignorado
+            pelo repositório (HMAC inválido ⇒ <c>null</c>), levando o provider a reautenticar.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.RecordSealer">
+            <summary>
+            Serializa entidades para JSON (UTF-8) e as sela/desela via <see cref="T:Linx.LicenseServer.Client.Storage.HmacEnvelope"/>.
+            Ponte entre os repositórios e a camada de integridade — mantém a serialização canônica
+            coberta pelo MAC (D6).
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.RecordSealer.Seal``1(``0)">
+            <summary>Serializa e sela a entidade.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.RecordSealer.TryUnseal``1(System.Byte[],``0@)">
+            <summary>
+            Verifica e desserializa. Retorna <c>false</c> (sem lançar) para MAC inválido,
+            truncamento ou JSON irrecuperável — o chamador descarta o registro (fail-closed).
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Repositories.IApiHistoryRepository">
+            <summary>Histórico de chamadas à API, com retenção por idade/tamanho (RD-19/D14).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.IApiHistoryRepository.Append(Linx.LicenseServer.Client.Storage.Entities.ApiHistoryRecord)">
+            <summary>Registra uma chamada e aplica a retenção.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.IApiHistoryRepository.Count">
+            <summary>Contagem atual de registros.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Repositories.ApiHistoryRepository">
+            <inheritdoc />
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Repositories.ILicenseCacheRepository">
+            <summary>Estado persistido das licenças gerenciadas, chaveado pela chave efetiva (RD-12).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.ILicenseCacheRepository.Get(System.String)">
+            <summary>Registro da licença, ou <c>null</c> se ausente/adulterado (fail-closed).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.ILicenseCacheRepository.GetAll">
+            <summary>Todos os registros íntegros (adulterados são omitidos).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.ILicenseCacheRepository.Upsert(Linx.LicenseServer.Client.Storage.Entities.LicenseCacheRecord)">
+            <summary>Insere ou atualiza o registro pela chave efetiva.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.ILicenseCacheRepository.Delete(System.String)">
+            <summary>Remove o registro; retorna <c>true</c> se existia.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Repositories.LicenseCacheRepository">
+            <inheritdoc />
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Repositories.ILogRepository">
+            <summary>Log interno com redação de segredos e retenção por idade/tamanho (RD-19/D14).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.ILogRepository.Append(Linx.LicenseServer.Client.Storage.Entities.LogRecord)">
+            <summary>Registra um log (a mensagem é redigida antes de persistir) e aplica a retenção.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.ILogRepository.Count">
+            <summary>Contagem atual de registros.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.ILogRepository.GetRecent(System.Int32)">
+            <summary>Registros mais recentes (íntegros), do mais novo ao mais antigo — suporte/diagnóstico.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Repositories.LogRepository">
+            <inheritdoc />
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Repositories.IMetaRepository">
+            <summary>Leitura/escrita dos metadados do store e da marca d'água anti-rollback (D13).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.IMetaRepository.Get">
+            <summary>Metadados vigentes (cria default selado se ausente).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.IMetaRepository.Save(Linx.LicenseServer.Client.Storage.Entities.MetaRecord)">
+            <summary>Persiste os metadados.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.IMetaRepository.AdvanceHighWaterMark(System.DateTime,System.Int64)">
+            <summary>
+            Avança a marca d'água apenas se <paramref name="nowUtc"/> for maior que a vigente
+            (monotônico-crescente — RN-11). Retorna <c>true</c> se avançou; <c>false</c> se ignorado.
+            </summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Repositories.MetaRepository">
+            <inheritdoc />
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Repositories.ITokenRepository">
+            <summary>Persistência segura do token de acesso (RD-30/D9).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.ITokenRepository.Get">
+            <summary>Token persistido, ou <c>null</c> se ausente/adulterado (fail-closed).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.ITokenRepository.Save(Linx.LicenseServer.Client.Storage.Entities.TokenRecord)">
+            <summary>Persiste o token.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.Repositories.ITokenRepository.Clear">
+            <summary>Remove o token persistido.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.Repositories.TokenRepository">
+            <inheritdoc />
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.RetentionPolicy">
+            <summary>
+            Política de retenção (D14) aplicada a coleções de histórico/log: expurgo por idade (antes
+            de <c>now − MaxAge</c>) e por tamanho (mais antigos até voltar ao teto). Roda na escrita e
+            na abertura — o que vier primeiro. Opera sobre o campo de índice em claro
+            (<see cref="P:Linx.LicenseServer.Client.Storage.StoredDocument.TimestampTicksUtc"/>), sem precisar deselar o payload.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.RetentionPolicy.Apply(LiteDB.ILiteCollection{Linx.LicenseServer.Client.Storage.StoredDocument},System.DateTime)">
+            <summary>Aplica o expurgo por idade e por tamanho à coleção.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.StoreCollections">
+            <summary>Nomes das coleções do store (§5 do storage aprovado).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Storage.StoreCollections.SingletonId">
+            <summary>Id fixo dos documentos singleton (meta/token).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.StoredDocument">
+            <summary>
+            Documento físico persistido no LiteDB. Os campos de índice ficam em claro apenas para
+            consulta/retenção; o dado autoritativo é o <see cref="P:Linx.LicenseServer.Client.Storage.StoredDocument.Sealed"/> (payload da entidade
+            serializada e autenticada por HMAC — D6). Na leitura, o payload é reaberto e verificado;
+            divergência ⇒ registro descartado (fail-closed por registro).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.StoredDocument.Id">
+            <summary>Id do documento. Singletons (meta/token) usam Id=1; demais, auto-incremento.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.StoredDocument.IndexKey">
+            <summary>Chave de índice em claro (EffectiveKey no license_cache); nulo nas demais.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.StoredDocument.TimestampTicksUtc">
+            <summary>Timestamp (ticks UTC) em claro para índice/retenção (history/logs).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.StoredDocument.Sealed">
+            <summary>Blob selado por HMAC contendo a entidade serializada.</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.StoreIdentity">
+            <summary>
+            Identidade do store (D5/D10): <c>ProductId</c> + qualificador determinístico opcional.
+            Deriva o <see cref="P:Linx.LicenseServer.Client.Storage.StoreIdentity.IdentityHash"/> (nome da pasta) e a <see cref="M:Linx.LicenseServer.Client.Storage.StoreIdentity.ComputeEntropy"/> do
+            DPAPI, ambos determinísticos entre reinícios para a mesma identidade.
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.StoreIdentity.IdentityString">
+            <summary>String canônica da identidade (produto ‖ qualificador).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.StoreIdentity.IdentityHash">
+            <summary>Hash hex minúsculo que nomeia a pasta do store — determinístico.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.StoreIdentity.ComputeEntropy">
+            <summary>
+            Entropy do DPAPI (D5): <c>SHA256(identidade ‖ segredo embutido ‖ componente-da-máquina)</c>.
+            Copiar o store para outra identidade ou máquina muda a entropy e o unprotect falha.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.StoreIdentity.GetMachineComponent">
+            <summary>
+            Componente por máquina, defesa em profundidade sobre o vínculo já dado pelo DPAPI
+            LocalMachine. Usa <see cref="P:System.Environment.MachineName"/>, sem dependência de registro.
+            </summary>
+            <remarks>
+            <para><b>Decisão de 2026-07-31 (fecha a pendência da §8 do plano):</b> fica o
+            <c>MachineName</c>, e não o <c>MachineGuid</c> antes proposto. Motivo: este componente só
+            tem efeito no cenário de <b>clone de imagem</b> — copiar a pasta do store para outra
+            máquina já falha pelo DPAPI, cuja chave é diferente lá. E clone quase sempre é renomeado
+            (prática de provisionamento, obrigatório para domínio), enquanto o <c>MachineGuid</c>
+            sobrevive a um clone bruto sem <i>sysprep</i> — ou seja, o nome é o sinal mais sensível
+            justamente no único caso que importa.</para>
+            <para>O preço do <c>MachineName</c> — renomear a máquina invalida a entropy — deixou de
+            ser um impedimento operacional: a divergência agora é tratada como <b>máquina nova</b>
+            (quarentena + recriação fail-closed, ver <c>LiteDbLicenseStore.OpenMasterKey</c>), não como
+            falha de abertura. Custa uma validação online, não uma intervenção do Suporte.</para>
+            </remarks>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.StoreLock">
+            <summary>
+            Lock exclusivo de singleton por identidade (D16). Adquirido ANTES de abrir o banco — é a
+            nossa falha rápida, não a <c>LiteException</c> ambígua do LiteDB. Uma segunda instância da
+            mesma identidade falha de imediato com <see cref="T:Linx.LicenseServer.Client.Exceptions.LicenseStoreLockedException"/>, sem loop
+            de retry. Robusto a aborto: o SO libera o handle na queda do processo.
+            </summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.StoreLock.Acquire(Linx.LicenseServer.Client.Storage.StorePaths)">
+            <summary>Adquire o lock; lança se outra instância da mesma identidade já o detém.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.StoreLock.Dispose">
+            <summary>Libera o handle do lock (mantém o arquivo — apagá-lo poderia correr com outro processo).</summary>
+        </member>
+        <member name="T:Linx.LicenseServer.Client.Storage.StorePaths">
+            <summary>
+            Caminhos do store (D3). Raiz default sob <c>%ProgramData%\&lt;vendor&gt;</c>; a pasta de
+            cada identidade é nomeada pelo <see cref="P:Linx.LicenseServer.Client.Storage.StoreIdentity.IdentityHash"/>. A raiz é um seam:
+            os testes a substituem por <c>%TEMP%\&lt;Guid&gt;</c> (fixture <c>TempStoreDirectory</c>).
+            </summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.StorePaths.StoreDirectory">
+            <summary>Diretório do store para a identidade.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.StorePaths.StoreDbPath">
+            <summary>Arquivo do banco LiteDB (B04).</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.StorePaths.MasterKeyPath">
+            <summary>Arquivo da chave-mestra selada.</summary>
+        </member>
+        <member name="P:Linx.LicenseServer.Client.Storage.StorePaths.LockPath">
+            <summary>Arquivo do lock de singleton (D16).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.StorePaths.CreateDefault(Linx.LicenseServer.Client.Storage.StoreIdentity)">
+            <summary>Caminhos default: <c>%ProgramData%\&lt;vendor&gt;\&lt;IdentityHash&gt;\</c>.</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.StorePaths.CreateForRoot(System.String,Linx.LicenseServer.Client.Storage.StoreIdentity)">
+            <summary>Caminhos sob uma raiz arbitrária (seam de teste).</summary>
+        </member>
+        <member name="M:Linx.LicenseServer.Client.Storage.StorePaths.EnsureDirectory">
+            <summary>Cria o diretório do store (idempotente), herdando a ACL do pai (best-effort D3/§9).</summary>
+        </member>
+        <member name="F:Linx.LicenseServer.Client.Storage.StorePaths.SharedAccountHint">
+            <summary>
+            Explicação anexada a toda falha de **permissão** no store. A DLL não manipula ACL
+            (decisão de 2026-07-31): a pasta herda a do <c>%ProgramData%</c>, que dá controle total ao
+            <c>PROPRIETÁRIO CRIADOR</c> e apenas leitura às outras contas — então o store pertence, na
+            prática, à conta do Windows que o criou. Sem esta dica, a falha aparece como um
+            "sem permissão" sem causa nem saída, no pior momento possível (frente de loja).
             </summary>
         </member>
     </members>

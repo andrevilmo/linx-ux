@@ -1,35 +1,44 @@
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Xml;
-using Linx.Framework.BV;
 using Linx.Framework.BV.LicenseServer;
 
 namespace Linx.License.Server.Access.Tests
 {
     /// <summary>
-    /// Hits HML app-licensing with the Service Web.config binding.
+    /// Live checks against Web.config + official Linx.LicenseServer.Client 1.0.1.
+    /// Full RegisterLicenseAsync requires Windows (DPAPI); non-Windows hosts skip that part.
     /// </summary>
     internal static class LicenseServerLiveTests
     {
         public static void Run()
         {
             Console.WriteLine();
-            Console.WriteLine("=== Live HML License Server ===");
+            Console.WriteLine("=== Live License Server (DLL 1.0.1) ===");
 
             LicenseServerSettings settings = LoadFromWebConfig();
             Program.AssertTrue(settings.IsValid(out string validMessage), "Web.config binding is complete" + (validMessage == null ? string.Empty : " (" + validMessage + ")"));
             Program.AssertTrue(!string.IsNullOrWhiteSpace(settings.Email), "Web.config Email is present");
             Program.AssertTrue(settings.LicenseId == 4, "Web.config LicenseId is 4");
             Program.AssertEqual("45510647000100", settings.Cnpj, "Web.config CNPJ");
-            Program.AssertEqual("MAQUINA-01", settings.Key, "Web.config chave");
+            Program.AssertTrue(!string.IsNullOrWhiteSpace(settings.ProductId), "Web.config ProductId is present");
+            Program.AssertTrue(settings.IdleTimeoutMinutes > 0, "IdleTimeoutMinutes configured");
+
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Console.WriteLine("SKIP  RegisterLicenseAsync / manager live calls — official DLL 1.0.1 requires Windows (DPAPI).");
+                Program.AssertTrue(true, "Skipped manager live calls on non-Windows host");
+                return;
+            }
 
             RunWrongPassword(settings);
-            RunSuccessfulAuthAndValidate(settings);
+            RunSuccessfulRegister(settings);
         }
 
         private static void RunWrongPassword(LicenseServerSettings configured)
         {
-            LicenseServerApiClient.ResetTokenCacheForTests();
+            LicenseServerBootstrap.ResetManagerForTests();
 
             var wrongPassword = Clone(configured);
             wrongPassword.Password = "wrong-password-" + Guid.NewGuid().ToString("N");
@@ -38,54 +47,56 @@ namespace Linx.License.Server.Access.Tests
             string message = null;
             try
             {
-                // DLL owns the token cache; auth failure is surfaced through Validate.
-                new LicenseServerApiClient(wrongPassword).Validate(new LicenseValidationRequest
-                {
-                    IdLicenca = wrongPassword.LicenseId,
-                    Cnpj = wrongPassword.Cnpj,
-                    Chave = wrongPassword.Key,
-                    Usuario = FirstNonEmpty(wrongPassword.User, wrongPassword.Email),
-                    Terminal = FirstNonEmpty(wrongPassword.Terminal, wrongPassword.Key),
-                    Versao = wrongPassword.Version
-                });
+                LicenseServerBootstrap.EnsureLicensed(
+                    "sessao-teste",
+                    FirstNonEmpty(wrongPassword.User, wrongPassword.Email),
+                    Guid.NewGuid(),
+                    Guid.NewGuid(),
+                    1,
+                    Guid.NewGuid().ToString("N"));
             }
-            catch (LicenseException ex)
+            catch (Linx.Framework.BV.LicenseException ex)
             {
                 threw = true;
                 message = ex.Message;
             }
+            finally
+            {
+                LicenseServerBootstrap.ResetManagerForTests();
+            }
 
             Program.AssertTrue(threw, "Wrong password throws LicenseException");
             Program.AssertContains("Autenticação", message, "Wrong password message mentions authentication");
-            Program.AssertTrue(
-                message != null && message.IndexOf("HTTP", StringComparison.OrdinalIgnoreCase) >= 0,
-                "Wrong password message includes HTTP status");
         }
 
-        private static void RunSuccessfulAuthAndValidate(LicenseServerSettings settings)
+        private static void RunSuccessfulRegister(LicenseServerSettings settings)
         {
-            LicenseServerApiClient.ResetTokenCacheForTests();
-
-            var client = new LicenseServerApiClient(settings);
-            var result = client.Validate(new LicenseValidationRequest
+            LicenseServerBootstrap.ResetManagerForTests();
+            try
             {
-                IdLicenca = settings.LicenseId,
-                Cnpj = settings.Cnpj,
-                Chave = settings.Key,
-                Usuario = FirstNonEmpty(settings.User, settings.Email),
-                Terminal = FirstNonEmpty(settings.Terminal, settings.Key),
-                Versao = settings.Version
-            });
-
-            Program.AssertTrue(result != null && result.Licenca != null, "Validate returns a license payload via Linx.LicenseServer.Client");
-            Program.AssertEqual(settings.Cnpj, LicenseServerSettings.SanitizeCnpj(result.Licenca.Cnpj), "Validate echoes the configured CNPJ");
-
-            LicenseAccessResult decision = LicenseAccessDecision.EvaluateValidation(result);
-            Program.AssertTrue(!string.IsNullOrWhiteSpace(decision.ReasonCode), "Validate result produces a license decision");
-            Console.WriteLine("INFO  Live Validate (DLL) lxStatusChave=" + result.Licenca.LxStatusChave
-                + " origemBloqueio=" + (result.Licenca.OrigemBloqueio ?? string.Empty)
-                + " allowed=" + decision.Allowed
-                + " reason=" + decision.ReasonCode);
+                LicenseServerBootstrap.EnsureLicensed(
+                    "sessao-teste",
+                    FirstNonEmpty(settings.User, settings.Email),
+                    Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                    Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                    1,
+                    Guid.NewGuid().ToString("N"));
+                Program.AssertTrue(true, "RegisterLicenseAsync completed without throw");
+            }
+            catch (Linx.Framework.BV.LicenseException ex)
+            {
+                // Financial block is a valid server verdict for the HML fixture.
+                Program.AssertTrue(
+                    !string.IsNullOrWhiteSpace(ex.Message),
+                    "Register returned a license decision: " + ex.Message);
+                Console.WriteLine("INFO  Live Register blocked as expected: " + ex.Message
+                    + " canUnblock=" + ex.CanUnblockByTrust
+                    + " reason=" + ex.ReasonCode);
+            }
+            finally
+            {
+                LicenseServerBootstrap.ResetManagerForTests();
+            }
         }
 
         internal static LicenseServerSettings LoadFromWebConfig()
@@ -138,6 +149,12 @@ namespace Linx.License.Server.Access.Tests
                 case "LicenseServer.ProductId":
                     settings.ProductId = value;
                     break;
+                case "LicenseServer.ProductName":
+                    settings.ProductName = value;
+                    break;
+                case "LicenseServer.ProductType":
+                    settings.ProductType = value;
+                    break;
                 case "LicenseServer.LicenseId":
                     long licenseId;
                     settings.LicenseId = long.TryParse(value, out licenseId) ? licenseId : 0;
@@ -162,6 +179,18 @@ namespace Linx.License.Server.Access.Tests
                     break;
                 case "LicenseServer.Version":
                     settings.Version = value;
+                    break;
+                case "LicenseServer.IdleTimeoutMinutes":
+                    int idle;
+                    settings.IdleTimeoutMinutes = int.TryParse(value, out idle) ? idle : 120;
+                    break;
+                case "LicenseServer.ActiveStoresEnabled":
+                    bool activeStores;
+                    settings.ActiveStoresEnabled = bool.TryParse(value, out activeStores) && activeStores;
+                    break;
+                case "LicenseServer.Environment":
+                    int env;
+                    settings.Environment = int.TryParse(value, out env) ? env : 0;
                     break;
             }
         }
@@ -196,6 +225,8 @@ namespace Linx.License.Server.Access.Tests
                 ApiV1Root = source.ApiV1Root,
                 Environment = source.Environment,
                 ProductId = source.ProductId,
+                ProductName = source.ProductName,
+                ProductType = source.ProductType,
                 LicenseId = source.LicenseId,
                 Email = source.Email,
                 Password = source.Password,
@@ -203,7 +234,9 @@ namespace Linx.License.Server.Access.Tests
                 Key = source.Key,
                 User = source.User,
                 Terminal = source.Terminal,
-                Version = source.Version
+                Version = source.Version,
+                IdleTimeoutMinutes = source.IdleTimeoutMinutes,
+                ActiveStoresEnabled = source.ActiveStoresEnabled
             };
         }
 

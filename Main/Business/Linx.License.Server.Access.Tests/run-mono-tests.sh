@@ -1,6 +1,5 @@
 #!/bin/bash
-# Runs decision + live HML smoke against Linx.LicenseServer.Client via the sync adapter.
-# Kept the historic script name; execution is net8 (mcs + netstandard facades conflict on this host).
+# Decision suite + Web.config/live smoke for License Server (DLL 1.0.1).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"

@@ -183,15 +183,20 @@ namespace Linx.License.Server.Access.Tests
                 Email = "linxpos@linx.com.br",
                 Password = "",
                 Cnpj = "45510647000100",
-                Key = "MAQUINA-01",
                 LicenseId = 4,
-                ProductId = "LINX-POS",
+                ProductId = "LINX-UX",
                 BaseUrl = "https://api-hml.linx.com.br/app-licensing/"
             };
             AssertTrue(!missingPassword.IsValid(out string missingPasswordMessage), "Rejects empty password in Web.config");
             AssertContains("Password", missingPasswordMessage, "Empty password mentions Password");
 
-            LicenseServerApiClient.EnsureSecureTls();
+            try
+            {
+                ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+            }
+            catch (NotSupportedException)
+            {
+            }
             AssertTrue(
                 (ServicePointManager.SecurityProtocol & SecurityProtocolType.Tls12) == SecurityProtocolType.Tls12,
                 "Enables TLS 1.2 for License Server HTTPS");

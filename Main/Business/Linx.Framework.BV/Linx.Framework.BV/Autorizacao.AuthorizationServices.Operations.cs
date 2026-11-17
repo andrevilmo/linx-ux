@@ -319,7 +319,13 @@ namespace Linx.Framework.BV.Autorizacao
 
             try
             {
-                LicenseControl.Validate(userInfo.NomeAutenticacao, userInfo.NomeUsuario, companyUid);
+                LicenseControl.Validate(
+                    userInfo.NomeAutenticacao,
+                    userInfo.NomeUsuario,
+                    companyUid,
+                    userUid,
+                    environmentId,
+                    Guid.NewGuid().ToString("N"));
             }
             catch (LicenseException licenseError)
             {
@@ -1159,6 +1165,23 @@ namespace Linx.Framework.BV.Autorizacao
                 return TrustUnblockResult.Create(TrustUnblockOutcome.Denied, "Usuário não está apto a desbloquear em confiança.");
 
             return LicenseControl.UnblockByTrust(userName);
+        }
+
+        /// <summary>
+        /// Devolve a licença da sessão UX (logout). Best-effort — never fails the logoff UX.
+        /// </summary>
+        [Invoke(HasSideEffects = true)]
+        public bool ReleaseLicenseSession(Guid userUid, Guid companyUid, int environmentId, string userName)
+        {
+            try
+            {
+                LicenseControl.Remove(userName, userName, companyUid, userUid, environmentId);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
     }

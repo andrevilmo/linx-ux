@@ -295,6 +295,8 @@ namespace Linx.Internet.Application.Controllers
 
             var _loginUrl = (this.Session["loginUrl"] == null ? ConfigurationManager.AppSettings.GetValue<string>("Portal", "http://localhost:8172/") : this.Session["loginUrl"].ToString());
 
+            TryReleaseLicenseSession();
+
             // limpa a sessao
             Session.Clear();
             Session.RemoveAll();
@@ -554,6 +556,33 @@ namespace Linx.Internet.Application.Controllers
         {
             public int Outcome { get; set; }
             public string Details { get; set; }
+        }
+
+        private void TryReleaseLicenseSession()
+        {
+            try
+            {
+                var loginInfo = this.Session["loginInfo"] as LoginInfo;
+                if (loginInfo == null)
+                    return;
+
+                Guid companyUid = Guid.Empty;
+                if (loginInfo.Ambientes != null && loginInfo.Ambientes.Count > 0)
+                    companyUid = loginInfo.Ambientes[0].UidEmpresa;
+
+                var _serviceBus = ConfigurationManager.AppSettings.GetValue("ServiceBus", "http://localhost:1710");
+                var client = new RestClient(_serviceBus);
+                var request = new RestRequest("LinxFrameworkAutorizacao/ReleaseLicenseSession");
+                request.AddParameter("userUid", loginInfo.UidUsuario, ParameterType.QueryString);
+                request.AddParameter("companyUid", companyUid, ParameterType.QueryString);
+                request.AddParameter("environmentId", loginInfo.IdTcsAmbienteDefault, ParameterType.QueryString);
+                request.AddParameter("userName", User.Identity != null ? User.Identity.Name : string.Empty, ParameterType.QueryString);
+                client.ExecuteAsGet(request, "GET");
+            }
+            catch
+            {
+                // Never block logoff because license release failed.
+            }
         }
 
         private LoginInfo AuthenticateUser(string uidEmpresa, string uidUsuario, string uidAplicacao, string idAmbiente, string usuarioAutenticacao, out string retorno, out bool canUnblockByTrust)
