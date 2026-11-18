@@ -4,7 +4,8 @@ Documentação do endpoint de **revogação do secret MFA** (TOTP Linx UX).
 
 | Artefato | Caminho |
 |----------|---------|
-| Collection Postman | [postman/Linx-UX-RevokeMfaSecret.postman_collection.json](postman/Linx-UX-RevokeMfaSecret.postman_collection.json) |
+| Collection Postman (UX) | [postman/Linx-UX-RevokeMfaSecret.postman_collection.json](postman/Linx-UX-RevokeMfaSecret.postman_collection.json) |
+| Mesmo endpoint — fluxo PDV / vendedor | [revoke-mfa-secret-pdv.md](revoke-mfa-secret-pdv.md) |
 | Guia geral de APIs MFA/SSO | [login-mfa-sso-api.md](login-mfa-sso-api.md) |
 | Texto geral para usuário | [login-mfa-sso-usuario.md](login-mfa-sso-usuario.md) |
 
