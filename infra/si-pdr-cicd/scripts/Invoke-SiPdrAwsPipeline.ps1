@@ -399,6 +399,27 @@ foreach ($item in $urls) {
     try {
         $resp = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec $item.TimeoutSec
         Write-Host ("OK {0} status={1} len={2} in {3:n1}s" -f $url, [int]$resp.StatusCode, ($resp.RawContentLength), $swSmoke.Elapsed.TotalSeconds)
+        $fingerprintNames = @('Server', 'X-Powered-By', 'X-AspNet-Version', 'X-AspNetMvc-Version')
+        $fingerprintParts = @()
+        $fingerprintLeaks = @()
+        foreach ($headerName in $fingerprintNames) {
+            $headerValue = [string]$resp.Headers[$headerName]
+            if ([string]::IsNullOrEmpty($headerValue)) {
+                $fingerprintParts += ("{0}=(absent)" -f $headerName)
+            } else {
+                $fingerprintParts += ("{0}={1}" -f $headerName, $headerValue)
+                if ($headerName -eq 'Server') {
+                    if ($headerValue -match 'Microsoft-IIS|ASP\.NET') { $fingerprintLeaks += $headerName }
+                } else {
+                    $fingerprintLeaks += $headerName
+                }
+            }
+        }
+        Write-Host ("FINGERPRINT {0} {1}" -f $url, ($fingerprintParts -join '; '))
+        if ($fingerprintLeaks.Count -gt 0 -and $url -match '127\.0\.0\.1:(8172|8174|1710)/') {
+            Write-Warning ("Fingerprint headers still present on {0}: {1}" -f $url, ($fingerprintLeaks -join ', '))
+            $script:smokeFailed = $true
+        }
     } catch {
         $msg = $_.Exception.Message
         # Surface ASP.NET yellow-screen / JSON body for Service 500s (login AuthenticatePortal).

@@ -16,6 +16,8 @@ namespace Linx.Portal
     {
         protected void Application_Start()
         {
+            MvcHandler.DisableMvcResponseHeader = true;
+
             AreaRegistration.RegisterAllAreas();
 
             //WebApiConfig.Register(GlobalConfiguration.Configuration);
