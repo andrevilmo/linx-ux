@@ -10,9 +10,9 @@
     (o banco que tem LX_TCS.TCS_USUARIO_AUTENTICACAO e dbo.aspnet_Users).
 
     Antes de executar:
-      1. Ajuste @LoginAlvo e, se quiser, @LoginAdmin e @Senha.
-      2. Deixe @Confirmar = 0 para simular (mostra o plano e desfaz).
-      3. Mude @Confirmar = 1 para gravar.
+      Ajuste @LoginAlvo se o alvo nao for jacqueline.dmaques.
+      A senha do novo admin ja esta definida e o script grava ao executar.
+      Para apenas simular, mude @Confirmar para 0.
 */
 SET NOCOUNT ON;
 SET XACT_ABORT ON;
@@ -21,8 +21,8 @@ DECLARE @LoginAlvo   varchar(250) = 'jacqueline.dmaques';
 DECLARE @LoginAdmin  varchar(250) = 'admin.jacqueline.dmaques';
 DECLARE @NomeAdmin   varchar(250) = 'Admin Jacqueline DMAQUES';
 DECLARE @EmailAdmin  varchar(250) = 'admin.jacqueline.dmaques@local';
-DECLARE @Senha       nvarchar(128) = NULL; -- NULL gera uma senha e imprime no final
-DECLARE @Confirmar   bit = 0;
+DECLARE @Senha       nvarchar(128) = N'P@ssw0rd1920398';
+DECLARE @Confirmar   bit = 1;
 
 DECLARE @IdAlvo bigint;
 DECLARE @IdGpecon int;
