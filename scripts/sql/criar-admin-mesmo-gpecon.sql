@@ -522,7 +522,8 @@ PRINT 'Alvo: ' + @LoginAlvo + ' (ID_USUARIO=' + CAST(@IdAlvo AS varchar(20)) + '
 PRINT 'GPECON: ' + CAST(@IdGpecon AS varchar(20)) + ' - ' + ISNULL(@NomeGpecon, '') + ' (' + CONVERT(varchar(36), @UidGpecon) + ')';
 PRINT 'Novo admin: ' + @LoginAdmin + ' (ID_USUARIO=' + CAST(@IdNovo AS varchar(20)) + ', UID=' + CONVERT(varchar(36), @UidNovo) + ')';
 PRINT 'Modelo de acesso: ' + ISNULL(@ModeloNome, '(nenhum admin local; usados os acessos da usuaria alvo)');
-PRINT 'Acessos de administrador criados: ' + CAST((SELECT COUNT(*) FROM @Acesso) AS varchar(10));
+DECLARE @QtdAcesso int = (SELECT COUNT(*) FROM @Acesso);
+PRINT 'Acessos de administrador criados: ' + CAST(@QtdAcesso AS varchar(10));
 PRINT 'Senha' + CASE WHEN @SenhaGerada = 1 THEN ' gerada' ELSE '' END + ': ' + @Senha;
 
 IF @Confirmar = 1
