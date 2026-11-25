@@ -381,6 +381,26 @@ VALUES (
 );
 
 /*
+    Libera para a empresa do admin todos os modulos do catalogo.
+    A tela da empresa mostra isso em Modulos Permitidos.
+*/
+DECLARE @ModulosEmpresa int = 0;
+IF OBJECT_ID(N'LX_TCS.TCS_EMPRESA_MODULO', N'U') IS NOT NULL
+   AND OBJECT_ID(N'LX_TCS.TCS_MODULO_AUTORIZACAO', N'U') IS NOT NULL
+BEGIN
+    INSERT INTO LX_TCS.TCS_EMPRESA_MODULO (ID_MODULO, ID_LINX)
+    SELECT m.ID_MODULO, @IdGpecon
+    FROM LX_TCS.TCS_MODULO_AUTORIZACAO m
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM LX_TCS.TCS_EMPRESA_MODULO e
+        WHERE e.ID_MODULO = m.ID_MODULO
+          AND e.ID_LINX = @IdGpecon
+    );
+    SET @ModulosEmpresa = @@ROWCOUNT;
+END
+
+/*
     Replica o usuario nos bancos de aplicacao deste GPECON que estao nesta instancia
     e copia perfil e filial do admin modelo (ou da usuaria alvo, se nao houver modelo).
 */
@@ -466,15 +486,17 @@ BEGIN
                   );
 
             IF OBJECT_ID(N''' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO'', N''U'') IS NOT NULL
+               AND OBJECT_ID(N''' + QUOTENAME(@Db) + N'.LX_TCS.TCS_MODULO'', N''U'') IS NOT NULL
                 INSERT INTO ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO
                     (ID_USUARIO, LX_REGRA_ACESSO_MODULO, REGRA_TRANSACAO, ID_MODULO, ID_LINX)
-                SELECT @IdNovo, r.LX_REGRA_ACESSO_MODULO, r.REGRA_TRANSACAO, r.ID_MODULO, r.ID_LINX
-                FROM ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO r
-                WHERE r.ID_USUARIO = @IdOrigem
+                SELECT @IdNovo, 2, NULL, m.ID_MODULO, m.ID_LINX
+                FROM ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_MODULO m
+                WHERE m.ID_LINX = @IdGpecon
+                  AND m.INATIVO = 0
                   AND NOT EXISTS (
                         SELECT 1
                         FROM ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO x
-                        WHERE x.ID_USUARIO = @IdNovo AND x.ID_MODULO = r.ID_MODULO AND x.ID_LINX = r.ID_LINX
+                        WHERE x.ID_USUARIO = @IdNovo AND x.ID_MODULO = m.ID_MODULO AND x.ID_LINX = m.ID_LINX
                   );
 
             IF OBJECT_ID(N''' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_GPECON'', N''U'') IS NOT NULL
@@ -524,6 +546,7 @@ PRINT 'Novo admin: ' + @LoginAdmin + ' (ID_USUARIO=' + CAST(@IdNovo AS varchar(2
 PRINT 'Modelo de acesso: ' + ISNULL(@ModeloNome, '(nenhum admin local; usados os acessos da usuaria alvo)');
 DECLARE @QtdAcesso int = (SELECT COUNT(*) FROM @Acesso);
 PRINT 'Acessos de administrador criados: ' + CAST(@QtdAcesso AS varchar(10));
+PRINT 'Modulos novos liberados para a empresa: ' + CAST(@ModulosEmpresa AS varchar(10));
 PRINT 'Senha' + CASE WHEN @SenhaGerada = 1 THEN ' gerada' ELSE '' END + ': ' + @Senha;
 
 IF @Confirmar = 1
