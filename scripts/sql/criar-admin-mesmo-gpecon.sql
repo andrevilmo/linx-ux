@@ -6,8 +6,9 @@
     (ou quem esta ligado a esse grupo em TCS_USUARIO_AUTENTICACAO_GPECON).
     Por isso o novo admin nasce com o mesmo ID_LINX_GPECON da usuaria alvo.
 
-    Rodar no catalogo do Portal / FrameworkAutorizacao
-    (o banco que tem LX_TCS.TCS_USUARIO_AUTENTICACAO e dbo.aspnet_Users).
+    O script entra no catalogo qa-ux-portal-3-12-RT
+    (Portal / FrameworkAutorizacao: LX_TCS.TCS_USUARIO_AUTENTICACAO e dbo.aspnet_Users).
+    A conexao pode abrir em outro banco da mesma instancia; o USE abaixo troca para esse catalogo.
 
     Antes de executar:
       Ajuste @LoginAlvo se o alvo nao for jacqueline.dmaques.
@@ -16,6 +17,11 @@
 */
 SET NOCOUNT ON;
 SET XACT_ABORT ON;
+
+IF DB_ID(N'qa-ux-portal-3-12-RT') IS NULL
+    THROW 50001, 'Catalogo qa-ux-portal-3-12-RT nao existe nesta instancia.', 1;
+
+USE [qa-ux-portal-3-12-RT];
 
 DECLARE @LoginAlvo   varchar(250) = 'jacqueline.dmaques';
 DECLARE @LoginAdmin  varchar(250) = 'admin.jacqueline.dmaques';
@@ -38,7 +44,7 @@ DECLARE @Agora datetime = GETDATE();
 DECLARE @SenhaGerada bit = 0;
 
 IF OBJECT_ID(N'LX_TCS.TCS_USUARIO_AUTENTICACAO', N'U') IS NULL
-    THROW 50001, 'Tabela LX_TCS.TCS_USUARIO_AUTENTICACAO nao encontrada. Conecte no catalogo do Portal.', 1;
+    THROW 50001, 'Tabela LX_TCS.TCS_USUARIO_AUTENTICACAO nao encontrada em qa-ux-portal-3-12-RT.', 1;
 
 IF OBJECT_ID(N'dbo.aspnet_Users', N'U') IS NULL OR OBJECT_ID(N'dbo.aspnet_Membership', N'U') IS NULL
     THROW 50001, 'Tabelas dbo.aspnet_Users / aspnet_Membership nao encontradas neste banco.', 1;
