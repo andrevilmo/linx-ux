@@ -539,6 +539,26 @@ BEGIN
                         FROM ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO x
                         WHERE x.ID_USUARIO = @IdNovo AND x.ID_MODULO = e.ID_MODULO AND x.ID_LINX = e.ID_LINX
                   );
+
+                -- A tela filtra regra e grupo pela empresa do ambiente (ID_LINX da sessao),
+                -- que pode ser outra empresa que o GPECON do usuario.
+                INSERT INTO ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO
+                    (ID_USUARIO, LX_REGRA_ACESSO_MODULO, REGRA_TRANSACAO, ID_MODULO, ID_LINX)
+                SELECT DISTINCT @IdNovo, 2, NULL, e.ID_MODULO, e.ID_LINX
+                FROM ' + @Portal + N'.LX_TCS.TCS_USUARIO_ACESSO a
+                INNER JOIN ' + @Portal + N'.LX_TCS.TCS_AMBIENTE amb ON amb.ID_TCS_AMBIENTE = a.ID_TCS_AMBIENTE
+                INNER JOIN ' + @Portal + N'.LX_TCS.TCS_APLICACAO ap ON ap.ID_APLICACAO = amb.ID_APLICACAO
+                INNER JOIN ' + @Portal + N'.LX_TCS.TCS_EMPRESA_MODULO e ON e.ID_LINX = amb.ID_LINX
+                INNER JOIN ' + @Portal + N'.LX_TCS.TCS_MODULO_AUTORIZACAO m
+                    ON m.ID_MODULO = e.ID_MODULO
+                   AND m.ID_TCS_APLICATIVO = ap.ID_TCS_APLICATIVO
+                WHERE a.ID_USUARIO = @IdNovo
+                  AND m.INATIVO = 0
+                  AND NOT EXISTS (
+                        SELECT 1
+                        FROM ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO x
+                        WHERE x.ID_USUARIO = @IdNovo AND x.ID_MODULO = e.ID_MODULO AND x.ID_LINX = e.ID_LINX
+                  );
             END
 
             IF OBJECT_ID(N''' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_GPECON'', N''U'') IS NOT NULL
