@@ -3,7 +3,9 @@
 
     Sem -Confirmar o script so le e mostra o que gravaria.
     Com -Confirmar ele grava o login, os acessos de administrador, os modulos da
-    empresa e o acesso total aos modulos do aplicativo de cada ambiente.
+    empresa e o acesso total aos modulos que a tela de cada ambiente lista.
+    A regra sai com o ID_LINX da empresa do ambiente, e o cache de modulos do
+    Service e limpo no final. Sem isso a grade abre vazia.
 
     Exemplo:
       .\criar-admin-mesmo-gpecon.ps1 -LoginAlvo teste.franqueado
@@ -175,6 +177,115 @@ function New-Aspect {
     return $aspect
 }
 
+$script:CacheUidEmpresa = @{}
+$script:CacheIdsEmpresaModulo = @{}
+
+$script:CacheAplicativoAmbiente = @{}
+
+function Get-AplicativoAmbiente {
+    param([int]$IdTcsAmbiente)
+    if ($script:CacheAplicativoAmbiente.ContainsKey($IdTcsAmbiente)) {
+        return [int]$script:CacheAplicativoAmbiente[$IdTcsAmbiente]
+    }
+    $idAplicativo = 0
+    $linha = @(Invoke-LinxGet -Controller 'LinxFrameworkAplicacao' -Action 'GetTcsAmbienteByEntitySearchNoAssociations' -EntitySearch ("TcsAmbiente{IdTcsAmbiente#==#" + (Format-SearchInt $IdTcsAmbiente) + "}")) | Select-Object -First 1
+    $idAplicacao = 0
+    if ($linha) { [void][int]::TryParse("$($linha.IdAplicacao)", [ref]$idAplicacao) }
+    if ($idAplicacao -gt 0) {
+        $aplicacao = @(Invoke-LinxGet -Controller 'LinxFrameworkAplicacao' -Action 'GetTcsAplicacaoByEntitySearchNoAssociations' -EntitySearch ("TcsAplicacao{IdAplicacao#==#" + (Format-SearchInt $idAplicacao) + "}")) | Where-Object { [int]$_.IdAplicacao -eq $idAplicacao } | Select-Object -First 1
+        if ($aplicacao) { [void][int]::TryParse("$($aplicacao.IdTcsAplicativo)", [ref]$idAplicativo) }
+    }
+    $script:CacheAplicativoAmbiente[$IdTcsAmbiente] = $idAplicativo
+    return $idAplicativo
+}
+
+function Get-UidEmpresa {
+    param([int]$IdLinx)
+    if ($script:CacheUidEmpresa.ContainsKey($IdLinx)) {
+        return [string]$script:CacheUidEmpresa[$IdLinx]
+    }
+    $empresa = @(Invoke-LinxGet -Controller 'LinxFrameworkEmpresa' -Action 'GetTcsEmpresaAutenticacaoByEntitySearchNoAssociations' -EntitySearch ("TcsEmpresaAutenticacao{IdLinx#==#" + (Format-SearchInt $IdLinx) + "}")) | Where-Object { [int]$_.IdLinx -eq $IdLinx } | Select-Object -First 1
+    $uid = ''
+    if ($empresa) { $uid = [string]$empresa.UidEmpresa }
+    $script:CacheUidEmpresa[$IdLinx] = $uid
+    return $uid
+}
+
+function Get-IdsModuloEmpresa {
+    param([int]$IdLinx)
+    if ($script:CacheIdsEmpresaModulo.ContainsKey($IdLinx)) {
+        return @($script:CacheIdsEmpresaModulo[$IdLinx])
+    }
+    $linhas = @(Invoke-LinxGet -Controller 'LinxFrameworkEmpresa' -Action 'GetTcsEmpresaModuloByEntitySearchNoAssociations' -EntitySearch ("TcsEmpresaModulo{IdLinx#==#" + (Format-SearchInt $IdLinx) + "}"))
+    $ids = @($linhas | ForEach-Object { [int64]$_.IdModulo } | Select-Object -Unique)
+    $script:CacheIdsEmpresaModulo[$IdLinx] = $ids
+    return $ids
+}
+
+function Get-ModulosPortalAmbiente {
+    param([int]$IdLinx, [int]$IdAplicativo, [array]$Catalogo)
+    $permitidos = @{}
+    foreach ($id in @(Get-IdsModuloEmpresa -IdLinx $IdLinx)) {
+        $permitidos[$id] = $true
+    }
+    return @($Catalogo | Where-Object {
+        $idModulo = [int64]$_.IdModulo
+        $aplicativo = 0
+        [void][int]::TryParse("$($_.IdTcsAplicativo)", [ref]$aplicativo)
+        $permitidos.ContainsKey($idModulo) -and $_.Inativo -ne $true -and ($IdAplicativo -le 0 -or $aplicativo -eq $IdAplicativo)
+    })
+}
+
+function Save-RegrasModulo {
+    param($Ambiente, [int64]$IdUsuario, [string]$UidUsuario, [string]$Nome, [array]$Modulos, [hashtable]$Headers)
+    $pai = [ordered]@{
+        '$type' = 'Linx.Framework.BV.Usuario.TcsUsuario, Linx.Framework.BV'
+        IdUsuario = $IdUsuario
+        UidUsuario = $UidUsuario
+        NomeUsuario = $Nome
+        IdLinx = $idGpecon
+        entityAspect = New-Aspect -TypeName 'TcsUsuario:#Linx.Framework.BV.Usuario' -State 'Unchanged'
+    }
+    $tempRegra = -1
+    $lote = New-Object System.Collections.Generic.List[object]
+    foreach ($modulo in @($Modulos)) {
+        if ($lote.Count -eq 0) { [void]$lote.Add($pai) }
+        $regra = [ordered]@{
+            '$type' = 'Linx.Framework.BV.Usuario.TcsUsuarioRegraModulo, Linx.Framework.BV'
+            IdUsuarioRegraModulo = $tempRegra
+            IdUsuario = $IdUsuario
+            IdModulo = [int64]$modulo.IdModulo
+            LxRegraAcessoModulo = 2
+            entityAspect = New-Aspect -TypeName 'TcsUsuarioRegraModulo:#Linx.Framework.BV.Usuario' -State 'Added' -KeyProperty 'IdUsuarioRegraModulo'
+        }
+        [void]$lote.Add($regra)
+        $tempRegra--
+        if ($lote.Count -ge 41) {
+            [void](Invoke-LinxSave -Controller 'LinxFrameworkUsuario' -Entities $lote.ToArray() -Headers $Headers)
+            $lote.Clear()
+        }
+    }
+    if ($lote.Count -gt 1) {
+        [void](Invoke-LinxSave -Controller 'LinxFrameworkUsuario' -Entities $lote.ToArray() -Headers $Headers)
+    }
+}
+
+function Clear-UserModulesCache {
+    try {
+        $params = @{
+            Uri = "$ServiceUrl/LinxFrameworkModulo/CleanUserModulesCache"
+            Method = 'Get'
+            TimeoutSec = $TimeoutSec
+            UseBasicParsing = $true
+        }
+        [void](Invoke-WebRequest @params)
+        Write-Host 'Cache de modulos do Service limpo. Recarregue a tela para ver a grade.'
+    }
+    catch {
+        Write-Host "Nao foi possivel limpar o cache de modulos: $($_.Exception.Message)"
+    }
+}
+
 function New-AcessoAdmin {
     param($Ambiente, $IdUsuario, $TempId, $PadraoId, $AcessosDoAlvo)
     $acessoAlvo = @($AcessosDoAlvo) | Where-Object { [int]$_.IdTcsAmbiente -eq $Ambiente.IdTcsAmbiente } | Select-Object -First 1
@@ -240,6 +351,18 @@ foreach ($idEmpresa in $empresas) {
         }
     }
 }
+
+$acessosAlvo = @(Invoke-LinxGet -Controller 'LinxFrameworkUsuarioAutorizacao' -Action 'GetTcsUsuarioAcessoByEntitySearchNoAssociations' -EntitySearch ("TcsUsuarioAcesso{IdUsuario#==#" + (Format-SearchInt $alvo.IdUsuario) + "}"))
+foreach ($acesso in $acessosAlvo) {
+    $idAcesso = 0
+    [void][int]::TryParse("$($acesso.IdTcsAmbiente)", [ref]$idAcesso)
+    if ($idAcesso -le 0) { continue }
+    if ($ambientes | Where-Object { [int]$_.IdTcsAmbiente -eq $idAcesso }) { continue }
+    $extra = @(Invoke-LinxGet -Controller 'LinxFrameworkEmpresa' -Action 'GetTcsAmbienteByEntitySearchNoAssociations' -EntitySearch ("TcsAmbiente{IdTcsAmbiente#==#" + (Format-SearchInt $idAcesso) + "}")) | Select-Object -First 1
+    if ($extra -and $extra.EmDesenvolvimento -ne $true) {
+        [void]$ambientes.Add($extra)
+    }
+}
 if ($ambientes.Count -eq 0) {
     throw "Nenhum ambiente ativo encontrado para a empresa $idGpecon."
 }
@@ -259,22 +382,43 @@ foreach ($ambiente in ($ambientes | Sort-Object IdTcsAmbiente)) {
         $temString = -not [string]::IsNullOrWhiteSpace([string]$conexao.StringConexao)
         $analitico = $texto -match 'asazure'
     }
+    $idLinxAmbiente = 0
+    [void][int]::TryParse("$($ambiente.IdLinx)", [ref]$idLinxAmbiente)
+    if ($idLinxAmbiente -le 0) { $idLinxAmbiente = $idGpecon }
+    $idAplicativo = 0
+    $acessoDoAlvo = $acessosAlvo | Where-Object { [int]$_.IdTcsAmbiente -eq [int]$ambiente.IdTcsAmbiente } | Select-Object -First 1
+    if ($acessoDoAlvo) { [void][int]::TryParse("$($acessoDoAlvo.IdTcsAplicativo)", [ref]$idAplicativo) }
+    if ($idAplicativo -le 0) { $idAplicativo = Get-AplicativoAmbiente -IdTcsAmbiente ([int]$ambiente.IdTcsAmbiente) }
+    $uidAmbiente = [string]$ambiente.UidEmpresa
+    if ([string]::IsNullOrWhiteSpace($uidAmbiente)) {
+        if ($idLinxAmbiente -eq $idGpecon) { $uidAmbiente = $uidEmpresa }
+        else { $uidAmbiente = Get-UidEmpresa -IdLinx $idLinxAmbiente }
+    }
+    if ([string]::IsNullOrWhiteSpace($uidAmbiente)) { $uidAmbiente = $uidEmpresa }
     $item = [pscustomobject]@{
         IdTcsAmbiente = [int]$ambiente.IdTcsAmbiente
         Descricao = [string]$ambiente.DescricaoAmbiente
         Servidor = $servidor
         Banco = $banco
+        IdLinx = $idLinxAmbiente
+        IdTcsAplicativo = $idAplicativo
+        UidEmpresa = $uidAmbiente
         ReplicaAplicacao = ($conexao -and $temString -and -not $analitico)
     }
     $ambientesSql += $item
+    if ($item.IdLinx -ne $idGpecon -and $item.UidEmpresa -eq $uidEmpresa) {
+        Write-Host "Ambiente $($item.IdTcsAmbiente): empresa $($item.IdLinx) sem UID proprio. A regra pode sair no grupo economico."
+    }
+    if ($item.IdTcsAplicativo -le 0) {
+        Write-Host "Ambiente $($item.IdTcsAmbiente): aplicativo nao identificado. Os modulos do portal dessa empresa entram sem filtro de aplicativo."
+    }
     if ($item.ReplicaAplicacao) { $marca = 'aplicacao' }
     elseif (-not $conexao) { $marca = 'sem conexao de aplicacao' }
     elseif ($analitico) { $marca = 'banco analitico, sem regra de modulo' }
     else { $marca = 'conexao sem texto, somente portal' }
-    Write-Host ("Ambiente {0} {1} [{2}] banco={3}" -f $item.IdTcsAmbiente, $item.Descricao, $marca, $item.Banco)
+    Write-Host ("Ambiente {0} {1} [{2}] empresa={3} aplicativo={4} banco={5}" -f $item.IdTcsAmbiente, $item.Descricao, $marca, $item.IdLinx, $item.IdTcsAplicativo, $item.Banco)
 }
 
-$acessosAlvo = @(Invoke-LinxGet -Controller 'LinxFrameworkUsuarioAutorizacao' -Action 'GetTcsUsuarioAcessoByEntitySearchNoAssociations' -EntitySearch ("TcsUsuarioAcesso{IdUsuario#==#" + (Format-SearchInt $alvo.IdUsuario) + "}"))
 $padraoId = $null
 $comPadrao = $acessosAlvo | Where-Object { $_.IndicaAcessoPadrao -eq $true -and ($ambientesSql.IdTcsAmbiente -contains [int]$_.IdTcsAmbiente) } | Select-Object -First 1
 if ($comPadrao) { $padraoId = [int]$comPadrao.IdTcsAmbiente }
@@ -283,6 +427,7 @@ if (-not $padraoId) { $padraoId = [int]($ambientesSql | Select-Object -First 1).
 $modulosCatalogo = @(Invoke-LinxGet -Controller 'LinxFrameworkModuloAutorizacao' -Action 'GetTcsModuloAutorizacaoNoAssociations')
 $modulosEmpresa = @(Invoke-LinxGet -Controller 'LinxFrameworkEmpresa' -Action 'GetTcsEmpresaModuloByEntitySearchNoAssociations' -EntitySearch ("TcsEmpresaModulo{IdLinx#==#" + (Format-SearchInt $idGpecon) + "}"))
 $idsEmpresa = @($modulosEmpresa | ForEach-Object { [int64]$_.IdModulo })
+$script:CacheIdsEmpresaModulo[$idGpecon] = $idsEmpresa
 $modulosNovos = @($modulosCatalogo | Where-Object { $idsEmpresa -notcontains [int64]$_.IdModulo })
 Write-Host ("Modulos do catalogo: {0}. Vinculos atuais da empresa: {1}. A liberar: {2}." -f $modulosCatalogo.Count, $modulosEmpresa.Count, $modulosNovos.Count)
 Write-Host ("Acesso padrao: ambiente {0}. Acessos de administrador: {1}." -f $padraoId, $ambientesSql.Count)
@@ -290,14 +435,15 @@ Write-Host ("Acesso padrao: ambiente {0}. Acessos de administrador: {1}." -f $pa
 foreach ($ambiente in $ambientesSql) {
     if (-not $ambiente.ReplicaAplicacao) { continue }
     $headersApp = @{
-        CurrentCompany = $uidEmpresa
+        CurrentCompany = [string]$ambiente.UidEmpresa
         EconomicGroup = $uidEmpresa
         Environment = "$($ambiente.IdTcsAmbiente)"
     }
     try {
         $modulosApp = @(Invoke-LinxGet -Controller 'LinxFrameworkModulo' -Action 'GetTcsModuloNoAssociations' -Headers $headersApp)
         $ativos = @($modulosApp | Where-Object { $_.Inativo -ne $true })
-        Write-Host ("Ambiente {0}: {1} modulos ativos no banco {2}." -f $ambiente.IdTcsAmbiente, $ativos.Count, $ambiente.Banco)
+        $portal = @(Get-ModulosPortalAmbiente -IdLinx $ambiente.IdLinx -IdAplicativo $ambiente.IdTcsAplicativo -Catalogo $modulosCatalogo)
+        Write-Host ("Ambiente {0}: empresa {1}, aplicativo {2}, {3} modulos locais e {4} do portal." -f $ambiente.IdTcsAmbiente, $ambiente.IdLinx, $ambiente.IdTcsAplicativo, $ativos.Count, $portal.Count)
     }
     catch {
         Write-Host ("Ambiente {0}: leitura dos modulos do aplicativo falhou. {1}" -f $ambiente.IdTcsAmbiente, $_.Exception.Message)
@@ -311,7 +457,7 @@ if ($semReplica.Count -gt 0) {
 }
 
 if (-not $Confirmar) {
-    Write-Host 'SIMULACAO: nada foi gravado. Execute de novo com -Confirmar para gravar.'
+    Write-Host 'SIMULACAO: nada foi gravado. Com -Confirmar as regras saem na empresa de cada ambiente e o cache de modulos e limpo.'
     return
 }
 
@@ -419,55 +565,54 @@ foreach ($ambiente in $ambientesSql) {
         Write-Host "Ambiente $($ambiente.IdTcsAmbiente): sem banco de aplicacao SQL, regras de modulo nao enviadas."
         continue
     }
-    $headersApp = @{
+    $headersGrupo = @{
         CurrentUser = [string]$criado.UidUsuario
         CurrentCompany = $uidEmpresa
         EconomicGroup = $uidEmpresa
         Environment = "$($ambiente.IdTcsAmbiente)"
     }
+    $headersApp = @{
+        CurrentUser = [string]$criado.UidUsuario
+        CurrentCompany = [string]$ambiente.UidEmpresa
+        EconomicGroup = $uidEmpresa
+        Environment = "$($ambiente.IdTcsAmbiente)"
+    }
     try {
-        $usuarioApp = @(Invoke-LinxGet -Controller 'LinxFrameworkUsuario' -Action 'GetTcsUsuarioByEntitySearchNoAssociations' -EntitySearch ("TcsUsuario{IdUsuario#==#" + (Format-SearchInt $idNovo) + "}") -Headers $headersApp) | Where-Object { [int64]$_.IdUsuario -eq $idNovo } | Select-Object -First 1
+        $usuarioApp = @(Invoke-LinxGet -Controller 'LinxFrameworkUsuario' -Action 'GetTcsUsuarioByEntitySearchNoAssociations' -EntitySearch ("TcsUsuario{IdUsuario#==#" + (Format-SearchInt $idNovo) + "}") -Headers $headersGrupo) | Where-Object { [int64]$_.IdUsuario -eq $idNovo } | Select-Object -First 1
         if (-not $usuarioApp) {
             Write-Host "Ambiente $($ambiente.IdTcsAmbiente): usuario nao replicado no banco $($ambiente.Banco)."
             continue
         }
         $modulosApp = @(Invoke-LinxGet -Controller 'LinxFrameworkModulo' -Action 'GetTcsModuloNoAssociations' -Headers $headersApp)
+        $portal = @(Get-ModulosPortalAmbiente -IdLinx $ambiente.IdLinx -IdAplicativo $ambiente.IdTcsAplicativo -Catalogo $modulosCatalogo)
         $regras = @(Invoke-LinxGet -Controller 'LinxFrameworkUsuario' -Action 'GetTcsUsuarioRegraModuloByEntitySearchNoAssociations' -EntitySearch ("TcsUsuarioRegraModulo{IdUsuario#==#" + (Format-SearchInt $idNovo) + "}") -Headers $headersApp)
-        $idsRegra = @($regras | ForEach-Object { [int64]$_.IdModulo })
-        $faltantes = @($modulosApp | Where-Object { $_.Inativo -ne $true -and $idsRegra -notcontains [int64]$_.IdModulo })
+        $idsRegra = @{}
+        foreach ($regra in $regras) { $idsRegra[[int64]$regra.IdModulo] = $true }
+        $vistos = @{}
+        $faltantes = New-Object System.Collections.Generic.List[object]
+        foreach ($modulo in @($modulosApp | Where-Object { $_.Inativo -ne $true })) {
+            $idModulo = [int64]$modulo.IdModulo
+            if ($idsRegra.ContainsKey($idModulo) -or $vistos.ContainsKey($idModulo)) { continue }
+            $vistos[$idModulo] = $true
+            [void]$faltantes.Add($modulo)
+        }
+        foreach ($modulo in $portal) {
+            $idModulo = [int64]$modulo.IdModulo
+            if ($idsRegra.ContainsKey($idModulo) -or $vistos.ContainsKey($idModulo)) { continue }
+            $vistos[$idModulo] = $true
+            [void]$faltantes.Add($modulo)
+        }
         if ($faltantes.Count -eq 0) {
-            Write-Host "Ambiente $($ambiente.IdTcsAmbiente): acesso total ja coberto em $($modulosApp.Count) modulos."
+            Write-Host "Ambiente $($ambiente.IdTcsAmbiente): acesso total ja coberto na empresa $($ambiente.IdLinx)."
             continue
         }
-        $pai = [ordered]@{
-            '$type' = 'Linx.Framework.BV.Usuario.TcsUsuario, Linx.Framework.BV'
-            IdUsuario = $idNovo
-            UidUsuario = [string]$criado.UidUsuario
-            NomeUsuario = $NomeAdmin
-            IdLinx = $idGpecon
-            entityAspect = New-Aspect -TypeName 'TcsUsuario:#Linx.Framework.BV.Usuario' -State 'Unchanged'
-        }
-        $loteRegra = New-Object System.Collections.Generic.List[object]
-        [void]$loteRegra.Add($pai)
-        $tempRegra = -1
-        foreach ($modulo in $faltantes) {
-            $regra = [ordered]@{
-                '$type' = 'Linx.Framework.BV.Usuario.TcsUsuarioRegraModulo, Linx.Framework.BV'
-                IdUsuarioRegraModulo = $tempRegra
-                IdUsuario = $idNovo
-                IdModulo = [int64]$modulo.IdModulo
-                LxRegraAcessoModulo = 2
-                entityAspect = New-Aspect -TypeName 'TcsUsuarioRegraModulo:#Linx.Framework.BV.Usuario' -State 'Added' -KeyProperty 'IdUsuarioRegraModulo'
-            }
-            [void]$loteRegra.Add($regra)
-            $tempRegra--
-        }
-        Write-Host "Ambiente $($ambiente.IdTcsAmbiente): gravando acesso total em $($faltantes.Count) modulos..."
-        [void](Invoke-LinxSave -Controller 'LinxFrameworkUsuario' -Entities $loteRegra.ToArray() -Headers $headersApp)
+        Write-Host "Ambiente $($ambiente.IdTcsAmbiente): gravando acesso total em $($faltantes.Count) modulos da empresa $($ambiente.IdLinx)..."
+        Save-RegrasModulo -Ambiente $ambiente -IdUsuario $idNovo -UidUsuario ([string]$criado.UidUsuario) -Nome $NomeAdmin -Modulos $faltantes.ToArray() -Headers $headersApp
     }
     catch {
         Write-Host "Ambiente $($ambiente.IdTcsAmbiente): $($_.Exception.Message)"
     }
 }
 
+Clear-UserModulesCache
 Write-Host "Gravado. Entre com $LoginAdmin no ambiente $padraoId da empresa $nomeEmpresa."
