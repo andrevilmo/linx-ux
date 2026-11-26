@@ -4,6 +4,7 @@
     Sem -Confirmar o script so le e mostra o que gravaria.
     Com -Confirmar ele grava o login, os acessos de administrador, os modulos da
     empresa e o acesso total aos modulos que a tela de cada ambiente lista.
+    Se o login ja existe, o script nao cria outro: completa so as regras de modulo.
     A regra sai com o ID_LINX da empresa do ambiente, e o cache de modulos do
     Service e limpo no final. Sem isso a grade abre vazia.
 
@@ -55,6 +56,27 @@ function Format-SearchInt {
     return 'I' + ([int64]$Value)
 }
 
+function Get-WebErrorDetail {
+    param($ErrorRecord)
+    if (-not [string]::IsNullOrWhiteSpace($ErrorRecord.ErrorDetails.Message)) {
+        return [string]$ErrorRecord.ErrorDetails.Message
+    }
+    $response = $ErrorRecord.Exception.Response
+    try {
+        if ($response -and $response.PSObject.Methods['GetResponseStream']) {
+            $reader = New-Object System.IO.StreamReader($response.GetResponseStream())
+            $raw = $reader.ReadToEnd()
+            $reader.Dispose()
+            if ($raw) { return $raw }
+        }
+        if ($response -and $response.Content) {
+            return [string]$response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
+        }
+    }
+    catch { }
+    return [string]$ErrorRecord.Exception.Message
+}
+
 function Invoke-LinxGet {
     param(
         [string]$Controller,
@@ -72,14 +94,7 @@ function Invoke-LinxGet {
         $response = Invoke-WebRequest @params
     }
     catch {
-        $detail = $_.Exception.Message
-        if ($_.Exception.Response) {
-            $reader = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
-            $raw = $reader.ReadToEnd()
-            $reader.Dispose()
-            if ($raw) { $detail = $raw }
-        }
-        throw "Falha em ${Controller}/${Action}: $detail"
+        throw "Falha em ${Controller}/${Action}: $(Get-WebErrorDetail $_)"
     }
     $text = $response.Content
     if ([string]::IsNullOrWhiteSpace($text)) { return @() }
@@ -144,14 +159,7 @@ function Invoke-LinxSave {
         $response = Invoke-WebRequest @params
     }
     catch {
-        $detail = $_.Exception.Message
-        if ($_.Exception.Response) {
-            $reader = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
-            $raw = $reader.ReadToEnd()
-            $reader.Dispose()
-            if ($raw) { $detail = $raw }
-        }
-        $detail = $detail -replace '(?i)(ConfirmacaoUsuario1?"\s*:\s*")[^"]*', '$1[redigido]'
+        $detail = (Get-WebErrorDetail $_) -replace '(?i)(ConfirmacaoUsuario1?"\s*:\s*")[^"]*', '$1[redigido]'
         throw "Falha em $Controller/SaveChanges: $detail"
     }
     return ($response.Content | ConvertFrom-Json)
@@ -184,19 +192,18 @@ $script:CacheAplicativoAmbiente = @{}
 
 function Get-AplicativoAmbiente {
     param([int]$IdTcsAmbiente)
-    if ($script:CacheAplicativoAmbiente.ContainsKey($IdTcsAmbiente)) {
-        return [int]$script:CacheAplicativoAmbiente[$IdTcsAmbiente]
+    if (-not $script:CacheAplicativoAmbiente.ContainsKey($IdTcsAmbiente)) {
+        $idAplicativo = 0
+        $idAplicacao = 0
+        $linha = @(Invoke-LinxGet -Controller 'LinxFrameworkAplicacao' -Action 'GetTcsAmbienteByEntitySearchNoAssociations' -EntitySearch ("TcsAmbiente{IdTcsAmbiente#==#" + (Format-SearchInt $IdTcsAmbiente) + "}")) | Select-Object -First 1
+        if ($linha) { [void][int]::TryParse("$($linha.IdAplicacao)", [ref]$idAplicacao) }
+        if ($idAplicacao -gt 0) {
+            $aplicacao = @(Invoke-LinxGet -Controller 'LinxFrameworkAplicacao' -Action 'GetTcsAplicacaoByEntitySearchNoAssociations' -EntitySearch ("TcsAplicacao{IdAplicacao#==#" + (Format-SearchInt $idAplicacao) + "}")) | Where-Object { [int]$_.IdAplicacao -eq $idAplicacao } | Select-Object -First 1
+            if ($aplicacao) { [void][int]::TryParse("$($aplicacao.IdTcsAplicativo)", [ref]$idAplicativo) }
+        }
+        $script:CacheAplicativoAmbiente[$IdTcsAmbiente] = [pscustomobject]@{ IdTcsAplicativo = $idAplicativo; IdAplicacao = $idAplicacao }
     }
-    $idAplicativo = 0
-    $linha = @(Invoke-LinxGet -Controller 'LinxFrameworkAplicacao' -Action 'GetTcsAmbienteByEntitySearchNoAssociations' -EntitySearch ("TcsAmbiente{IdTcsAmbiente#==#" + (Format-SearchInt $IdTcsAmbiente) + "}")) | Select-Object -First 1
-    $idAplicacao = 0
-    if ($linha) { [void][int]::TryParse("$($linha.IdAplicacao)", [ref]$idAplicacao) }
-    if ($idAplicacao -gt 0) {
-        $aplicacao = @(Invoke-LinxGet -Controller 'LinxFrameworkAplicacao' -Action 'GetTcsAplicacaoByEntitySearchNoAssociations' -EntitySearch ("TcsAplicacao{IdAplicacao#==#" + (Format-SearchInt $idAplicacao) + "}")) | Where-Object { [int]$_.IdAplicacao -eq $idAplicacao } | Select-Object -First 1
-        if ($aplicacao) { [void][int]::TryParse("$($aplicacao.IdTcsAplicativo)", [ref]$idAplicativo) }
-    }
-    $script:CacheAplicativoAmbiente[$IdTcsAmbiente] = $idAplicativo
-    return $idAplicativo
+    return $script:CacheAplicativoAmbiente[$IdTcsAmbiente]
 }
 
 function Get-UidEmpresa {
@@ -237,15 +244,28 @@ function Get-ModulosPortalAmbiente {
 }
 
 function Save-RegrasModulo {
-    param($Ambiente, [int64]$IdUsuario, [string]$UidUsuario, [string]$Nome, [array]$Modulos, [hashtable]$Headers)
+    param($Ambiente, [int64]$IdUsuario, [string]$UidUsuario, [string]$Nome, [array]$Modulos, [hashtable]$Headers, $Usuario)
     $pai = [ordered]@{
         '$type' = 'Linx.Framework.BV.Usuario.TcsUsuario, Linx.Framework.BV'
         IdUsuario = $IdUsuario
         UidUsuario = $UidUsuario
         NomeUsuario = $Nome
         IdLinx = $idGpecon
-        entityAspect = New-Aspect -TypeName 'TcsUsuario:#Linx.Framework.BV.Usuario' -State 'Unchanged'
     }
+    if ($Usuario) {
+        foreach ($prop in @($Usuario.PSObject.Properties)) {
+            if ($prop.Name -in @('$id', '$type', 'entityAspect')) { continue }
+            $valor = $prop.Value
+            if ($null -eq $valor) { continue }
+            if ($valor -is [datetime]) {
+                $pai[$prop.Name] = $valor.ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ss.fffZ')
+                continue
+            }
+            $escalar = $valor -is [string] -or $valor -is [bool] -or $valor -is [byte] -or $valor -is [int] -or $valor -is [int64] -or $valor -is [double] -or $valor -is [decimal] -or $valor -is [single] -or $valor -is [guid]
+            if ($escalar) { $pai[$prop.Name] = $valor }
+        }
+    }
+    $pai['entityAspect'] = New-Aspect -TypeName 'TcsUsuario:#Linx.Framework.BV.Usuario' -State 'Modified'
     $tempRegra = -1
     $lote = New-Object System.Collections.Generic.List[object]
     foreach ($modulo in @($Modulos)) {
@@ -255,6 +275,11 @@ function Save-RegrasModulo {
             IdUsuarioRegraModulo = $tempRegra
             IdUsuario = $IdUsuario
             IdModulo = [int64]$modulo.IdModulo
+            DescModulo = $(
+                $desc = [string]$modulo.DescModulo
+                if ([string]::IsNullOrWhiteSpace($desc)) { $desc = [string]$modulo.IdModulo }
+                if ($desc.Length -gt 60) { $desc.Substring(0, 60) } else { $desc }
+            )
             LxRegraAcessoModulo = 2
             entityAspect = New-Aspect -TypeName 'TcsUsuarioRegraModulo:#Linx.Framework.BV.Usuario' -State 'Added' -KeyProperty 'IdUsuarioRegraModulo'
         }
@@ -296,6 +321,12 @@ function New-AcessoAdmin {
         IdTcsUsuarioAcesso = $TempId
         IdUsuario = $IdUsuario
         IdTcsAmbiente = $Ambiente.IdTcsAmbiente
+        IdLinxEmpresa = $Ambiente.IdLinx
+        IdTcsAplicativo = $Ambiente.IdTcsAplicativo
+        IdAplicacaoAmbiente = $Ambiente.IdAplicacao
+        DescricaoAmbiente = [string]$Ambiente.Descricao
+        DescricaoAplicacao = [string]$Ambiente.DescricaoAplicacao
+        EmDesenvolvimento = [bool]$Ambiente.EmDesenvolvimento
         IndicaAdministrador = $true
         IndicaMultiGpecon = $multi
         IndicaAcessoPadrao = ($Ambiente.IdTcsAmbiente -eq $PadraoId)
@@ -322,9 +353,7 @@ if ($Email -notmatch '^[^@\s]+@[^@\s]+\.[^@\s]+$') {
 }
 
 $jaExiste = Invoke-LinxGet -Controller 'LinxFrameworkUsuarioAutorizacao' -Action 'GetTcsUsuarioAutenticacaoByEntitySearchNoAssociations' -EntitySearch ("TcsUsuarioAutenticacao{NomeAutenticacao#==#" + (Format-SearchText $LoginAdmin) + "}")
-if ($jaExiste | Where-Object { $_.NomeAutenticacao -eq $LoginAdmin }) {
-    throw "O login $LoginAdmin ja existe."
-}
+$criado = $jaExiste | Where-Object { $_.NomeAutenticacao -eq $LoginAdmin } | Select-Object -First 1
 
 Write-Host "Empresa: $idGpecon - $nomeEmpresa"
 Write-Host "Novo admin: $LoginAdmin"
@@ -378,17 +407,38 @@ foreach ($ambiente in ($ambientes | Sort-Object IdTcsAmbiente)) {
     if ($conexao) {
         $servidor = [string]$conexao.NomeServidor
         $banco = [string]$conexao.NomeBanco
-        $texto = (([string]$conexao.StringConexao) + ' ' + $servidor + ' ' + $banco)
-        $temString = -not [string]::IsNullOrWhiteSpace([string]$conexao.StringConexao)
+        $stringConexao = [string]$conexao.StringConexao
+        if ([string]::IsNullOrWhiteSpace($stringConexao)) {
+            $idBanco = 0
+            [void][int]::TryParse("$($conexao.IdTcsBancoServidor)", [ref]$idBanco)
+            if ($idBanco -gt 0) {
+                $bancoSrv = @(Invoke-LinxGet -Controller 'LinxFrameworkConexao' -Action 'GetTcsBancoServidorByEntitySearchNoAssociations' -EntitySearch ("TcsBancoServidor{IdTcsBancoServidor#==#" + (Format-SearchInt $idBanco) + "}")) | Where-Object { [int]$_.IdTcsBancoServidor -eq $idBanco } | Select-Object -First 1
+                if ($bancoSrv) {
+                    if ([string]::IsNullOrWhiteSpace($servidor)) { $servidor = [string]$bancoSrv.NomeServidor }
+                    if ([string]::IsNullOrWhiteSpace($banco)) { $banco = [string]$bancoSrv.NomeBanco }
+                    $stringConexao = [string]$bancoSrv.StringConexao
+                }
+            }
+        }
+        $texto = ($stringConexao + ' ' + $servidor + ' ' + $banco)
+        $temString = -not [string]::IsNullOrWhiteSpace($stringConexao)
         $analitico = $texto -match 'asazure'
     }
     $idLinxAmbiente = 0
     [void][int]::TryParse("$($ambiente.IdLinx)", [ref]$idLinxAmbiente)
     if ($idLinxAmbiente -le 0) { $idLinxAmbiente = $idGpecon }
     $idAplicativo = 0
+    $idAplicacao = 0
     $acessoDoAlvo = $acessosAlvo | Where-Object { [int]$_.IdTcsAmbiente -eq [int]$ambiente.IdTcsAmbiente } | Select-Object -First 1
-    if ($acessoDoAlvo) { [void][int]::TryParse("$($acessoDoAlvo.IdTcsAplicativo)", [ref]$idAplicativo) }
-    if ($idAplicativo -le 0) { $idAplicativo = Get-AplicativoAmbiente -IdTcsAmbiente ([int]$ambiente.IdTcsAmbiente) }
+    if ($acessoDoAlvo) {
+        [void][int]::TryParse("$($acessoDoAlvo.IdTcsAplicativo)", [ref]$idAplicativo)
+        [void][int]::TryParse("$($acessoDoAlvo.IdAplicacaoAmbiente)", [ref]$idAplicacao)
+    }
+    if ($idAplicativo -le 0 -or $idAplicacao -le 0) {
+        $resolvido = Get-AplicativoAmbiente -IdTcsAmbiente ([int]$ambiente.IdTcsAmbiente)
+        if ($idAplicativo -le 0) { $idAplicativo = [int]$resolvido.IdTcsAplicativo }
+        if ($idAplicacao -le 0) { $idAplicacao = [int]$resolvido.IdAplicacao }
+    }
     $uidAmbiente = [string]$ambiente.UidEmpresa
     if ([string]::IsNullOrWhiteSpace($uidAmbiente)) {
         if ($idLinxAmbiente -eq $idGpecon) { $uidAmbiente = $uidEmpresa }
@@ -402,6 +452,9 @@ foreach ($ambiente in ($ambientes | Sort-Object IdTcsAmbiente)) {
         Banco = $banco
         IdLinx = $idLinxAmbiente
         IdTcsAplicativo = $idAplicativo
+        IdAplicacao = $idAplicacao
+        DescricaoAplicacao = [string]$ambiente.DescricaoAplicacao
+        EmDesenvolvimento = ($ambiente.EmDesenvolvimento -eq $true)
         UidEmpresa = $uidAmbiente
         ReplicaAplicacao = ($conexao -and $temString -and -not $analitico)
     }
@@ -461,6 +514,11 @@ if (-not $Confirmar) {
     return
 }
 
+if ($criado) {
+    $idNovo = [int64]$criado.IdUsuario
+    Write-Host "Login $LoginAdmin ja existe. ID_USUARIO=$idNovo. Somente as regras de modulo que faltam serao gravadas."
+}
+else {
 $tempUsuario = -1
 $agora = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ss.fffZ')
 $uidNovo = [guid]::NewGuid().ToString()
@@ -474,6 +532,8 @@ $usuarioNovo = [ordered]@{
     NomeAutenticacao = $LoginAdmin
     NomeCurtoUsuario = $LoginAdmin.Substring(0, [Math]::Min(60, $LoginAdmin.Length))
     NomeUsuario = $NomeAdmin
+    NomeEmpresa = $nomeEmpresa
+    UidEmpresa = $uidEmpresa
     Inativo = $false
     VigenciaInicial = '2000-01-01T00:00:00.000Z'
     VigenciaFinal = '2099-12-31T00:00:00.000Z'
@@ -559,6 +619,7 @@ if ($modulosNovos.Count -gt 0) {
     Write-Host "Liberando $($modulosNovos.Count) modulos para a empresa..."
     [void](Invoke-LinxSave -Controller 'LinxFrameworkEmpresa' -Entities $lote.ToArray() -Headers $headerSessao)
 }
+}
 
 foreach ($ambiente in $ambientesSql) {
     if (-not $ambiente.ReplicaAplicacao) {
@@ -607,10 +668,12 @@ foreach ($ambiente in $ambientesSql) {
             continue
         }
         Write-Host "Ambiente $($ambiente.IdTcsAmbiente): gravando acesso total em $($faltantes.Count) modulos da empresa $($ambiente.IdLinx)..."
-        Save-RegrasModulo -Ambiente $ambiente -IdUsuario $idNovo -UidUsuario ([string]$criado.UidUsuario) -Nome $NomeAdmin -Modulos $faltantes.ToArray() -Headers $headersApp
+        Save-RegrasModulo -Ambiente $ambiente -IdUsuario $idNovo -UidUsuario ([string]$criado.UidUsuario) -Nome $NomeAdmin -Modulos $faltantes.ToArray() -Headers $headersApp -Usuario $usuarioApp
     }
     catch {
-        Write-Host "Ambiente $($ambiente.IdTcsAmbiente): $($_.Exception.Message)"
+        $mensagem = [string]$_.Exception.Message
+        if ($mensagem.Length -gt 500) { $mensagem = $mensagem.Substring(0, 500) }
+        Write-Host "Ambiente $($ambiente.IdTcsAmbiente): $mensagem"
     }
 }
 
