@@ -407,12 +407,18 @@ END
 DECLARE @IdPerfilOrigem bigint = COALESCE(@IdModelo, @IdAlvo);
 DECLARE @Db varchar(250);
 DECLARE @Srv varchar(250);
+DECLARE @Conn nvarchar(max);
+DECLARE @CatalogoTexto varchar(250);
+DECLARE @Marca int;
+DECLARE @Resto nvarchar(300);
+DECLARE @Fim int;
+DECLARE @Portal nvarchar(300) = QUOTENAME(DB_NAME());
 DECLARE @Sql nvarchar(max);
 DECLARE @Perfis int;
 DECLARE @Filiais int;
 
 DECLARE db_cursor CURSOR LOCAL FAST_FORWARD FOR
-SELECT DISTINCT b.NOME_BANCO, b.NOME_SERVIDOR
+SELECT DISTINCT b.NOME_BANCO, b.NOME_SERVIDOR, b.STRING_CONEXAO
 FROM LX_TCS.TCS_USUARIO_ACESSO a
 INNER JOIN LX_TCS.TCS_AMBIENTE_CONEXAO c ON c.ID_TCS_AMBIENTE = a.ID_TCS_AMBIENTE
 INNER JOIN LX_TCS.TCS_BANCO_SERVIDOR b ON b.ID_TCS_BANCO_SERVIDOR = c.ID_TCS_BANCO_SERVIDOR
@@ -421,10 +427,32 @@ WHERE a.ID_USUARIO = @IdNovo
   AND LTRIM(RTRIM(b.NOME_BANCO)) <> '';
 
 OPEN db_cursor;
-FETCH NEXT FROM db_cursor INTO @Db, @Srv;
+FETCH NEXT FROM db_cursor INTO @Db, @Srv, @Conn;
 
 WHILE @@FETCH_STATUS = 0
 BEGIN
+    IF DB_ID(@Db) IS NULL AND @Conn IS NOT NULL
+    BEGIN
+        SET @CatalogoTexto = NULL;
+        SET @Marca = CHARINDEX(N'Initial Catalog=', @Conn);
+        IF @Marca = 0
+            SET @Marca = CHARINDEX(N'Database=', @Conn);
+        IF @Marca > 0
+        BEGIN
+            SET @Resto = LTRIM(SUBSTRING(@Conn, @Marca + CASE WHEN CHARINDEX(N'Initial Catalog=', @Conn) = @Marca THEN 16 ELSE 9 END, 250));
+            SET @Fim = CHARINDEX(N';', @Resto);
+            IF @Fim = 0
+                SET @Fim = LEN(@Resto) + 1;
+            SET @CatalogoTexto = LTRIM(RTRIM(SUBSTRING(@Resto, 1, @Fim - 1)));
+        END
+
+        IF @CatalogoTexto IS NOT NULL AND DB_ID(@CatalogoTexto) IS NOT NULL
+        BEGIN
+            PRINT 'Nome do banco ' + @Db + ' esta fora da instancia. Catalogo aberto pela conexao: ' + @CatalogoTexto;
+            SET @Db = @CatalogoTexto;
+        END
+    END
+
     IF DB_ID(@Db) IS NULL
     BEGIN
         PRINT 'Banco de aplicacao fora desta instancia, nao replicado: ' + @Db + ' @ ' + ISNULL(@Srv, '');
@@ -487,17 +515,31 @@ BEGIN
 
             IF OBJECT_ID(N''' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO'', N''U'') IS NOT NULL
                AND OBJECT_ID(N''' + QUOTENAME(@Db) + N'.LX_TCS.TCS_MODULO'', N''U'') IS NOT NULL
+            BEGIN
                 INSERT INTO ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO
                     (ID_USUARIO, LX_REGRA_ACESSO_MODULO, REGRA_TRANSACAO, ID_MODULO, ID_LINX)
                 SELECT @IdNovo, 2, NULL, m.ID_MODULO, m.ID_LINX
                 FROM ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_MODULO m
-                WHERE m.ID_LINX = @IdGpecon
-                  AND m.INATIVO = 0
+                WHERE m.INATIVO = 0
                   AND NOT EXISTS (
                         SELECT 1
                         FROM ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO x
                         WHERE x.ID_USUARIO = @IdNovo AND x.ID_MODULO = m.ID_MODULO AND x.ID_LINX = m.ID_LINX
                   );
+
+                INSERT INTO ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO
+                    (ID_USUARIO, LX_REGRA_ACESSO_MODULO, REGRA_TRANSACAO, ID_MODULO, ID_LINX)
+                SELECT @IdNovo, 2, NULL, e.ID_MODULO, e.ID_LINX
+                FROM ' + @Portal + N'.LX_TCS.TCS_EMPRESA_MODULO e
+                INNER JOIN ' + @Portal + N'.LX_TCS.TCS_MODULO_AUTORIZACAO m ON m.ID_MODULO = e.ID_MODULO
+                WHERE e.ID_LINX = @IdGpecon
+                  AND m.INATIVO = 0
+                  AND NOT EXISTS (
+                        SELECT 1
+                        FROM ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_REGRA_MODULO x
+                        WHERE x.ID_USUARIO = @IdNovo AND x.ID_MODULO = e.ID_MODULO AND x.ID_LINX = e.ID_LINX
+                  );
+            END
 
             IF OBJECT_ID(N''' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_GPECON'', N''U'') IS NOT NULL
                 INSERT INTO ' + QUOTENAME(@Db) + N'.LX_TCS.TCS_USUARIO_GPECON (ID_USUARIO, ID_GPECON, ID_LINX)
@@ -533,7 +575,7 @@ BEGIN
             + ', origem=' + ISNULL(@ModeloNome, @LoginAlvo);
     END
 
-    FETCH NEXT FROM db_cursor INTO @Db, @Srv;
+    FETCH NEXT FROM db_cursor INTO @Db, @Srv, @Conn;
 END
 
 CLOSE db_cursor;
